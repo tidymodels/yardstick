@@ -1,0 +1,1 @@
+`yardstick` has functions and methods for measuring performance for different types of models. The functions are compatible with piping and the results are easily made into tidy formats. 
