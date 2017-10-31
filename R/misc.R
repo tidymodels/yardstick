@@ -26,7 +26,7 @@ neg_val <- function(xtab, check = TRUE) {
   if (getOption("yardstick.event_first"))
     colnames(xtab)[2]
   else
-    colnames(xtab)[2]
+    colnames(xtab)[1]
 }
 
 check_call_vars <- function(x) {

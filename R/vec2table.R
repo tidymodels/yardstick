@@ -30,7 +30,7 @@ vec2table <-
     
     if (length(est_lev) != length(tru_lev))
       stop("The columns containing the predicted and true ",
-           "classes must have the same levels.", call. = FALE)
+           "classes must have the same levels.", call. = FALSE)
     
     if (!any(est_lev %in% tru_lev)) {
       stop("`estimate` must contain levels that overlap `truth`.",
