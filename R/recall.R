@@ -30,24 +30,14 @@
 #'
 #' See the references for discussions of the statistics.
 #'
+#' @inheritParams sens
 #' @aliases recall recall.default recall.table precision
 #'  precision.default precision.table precision.matrix F_meas
 #'  F_meas.default F_meas.table
-#' @param data For the default functions, a factor containing the
-#'  discrete measurements. For the `table` function, a table.
-#' @param truth A single character value containing the column
-#'  name of `data` that contains the true classes (in a factor).
-#' @param estimate A single character value containing the column
-#'  name of `data` that contains the predicted classes (in a factor).
 #' @param beta A numeric value used to weight precision and
 #'  recall. A value of 1 is traditionally used and corresponds to
 #'  the harmonic mean of the two values but other values weight
 #'  recall beta times more important than precision.
-#' @param na.rm A logical value indicating whether `NA` values
-#'  should be stripped before the computation proceeds.
-#' @param ... Not currently used.
-#' @return A number between 0 and 1 (or NA).
-#' @author Max Kuhn
 #' @seealso [conf_mat()]
 #' @references Buckland, M., & Gey, F. (1994). The relationship
 #'  between Recall and Precision. *Journal of the American Society
@@ -57,9 +47,6 @@
 #'  Factor to ROC, Informedness, Markedness and Correlation.
 #'  Technical Report SIE-07-001, Flinders University
 #' @keywords manip
-#' @examples
-#'
-#'
 #' @export recall
 recall <- function(data, ...)
   UseMethod("recall")
@@ -79,7 +66,6 @@ recall <- function(data, ...)
   }
 
 #' @rdname recall
-#' @importFrom stats complete.cases
 #' @export
 recall.data.frame <-
   function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
@@ -92,7 +78,7 @@ recall.data.frame <-
       dnn = c("Prediction", "Truth"),
       ...
     )
-    yardstick::recall.table(xtab)
+    recall.table(xtab)
   }
 
 #' @rdname recall
@@ -101,7 +87,6 @@ precision <- function(data, ...)
   UseMethod("precision")
 
 #' @rdname recall
-#' @importFrom stats complete.cases
 #' @export
 precision.data.frame <-
   function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
@@ -114,7 +99,7 @@ precision.data.frame <-
       dnn = c("Prediction", "Truth"),
       ...
     )
-    yardstick::precision.table(xtab)
+    precision.table(xtab)
   }
 
 #' @rdname recall
@@ -135,7 +120,6 @@ F_meas <- function(data, ...)
   UseMethod("F_meas")
 
 #' @rdname recall
-#' @importFrom stats complete.cases
 #' @export
 F_meas.default <-
   function(data, truth = NULL, estimate = NULL, beta = 1, na.rm = TRUE, ...) {
@@ -148,7 +132,7 @@ F_meas.default <-
       dnn = c("Prediction", "Truth"),
       ...
     )
-    yardstick::F_meas.table(xtab, beta = beta)
+    F_meas.table(xtab, beta = beta)
   }
 
 #' @rdname recall

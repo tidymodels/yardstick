@@ -2,10 +2,42 @@
 % Please edit documentation in R/two_class.R
 \name{mcc}
 \alias{mcc}
+\alias{mcc.data.frame}
+\alias{mcc.table}
 \title{Other Metrics for 2x2 Tables}
 \usage{
-mcc(data)
+mcc(data, ...)
+
+\method{mcc}{data.frame}(data, truth = NULL, estimate = NULL,
+  na.rm = TRUE, ...)
+
+\method{mcc}{table}(data, ...)
+}
+\arguments{
+\item{data}{For the default functions, a factor containing the
+discrete measurements. For the \code{table} or \code{matrix}
+functions, a table or matrix object, respectively, where the
+true class results should be in the columns of the table.}
+
+\item{...}{Not currently used.}
+
+\item{truth}{A single character value containing the column
+name of \code{data} that contains the true classes (in a factor).}
+
+\item{estimate}{A single character value containing the column
+name of \code{data} that contains the predicted classes (in a factor).}
+
+\item{na.rm}{A logical value indicating whether \code{NA}
+values should be stripped before the computation proceeds}
 }
 \description{
-Other Metrics for 2x2 Tables
+General metrics for two class problems that are not already
+in \code{\link[=sens]{sens()}} or \code{\link[=recall]{recall()}} are here, such as the Matthews
+correlation coefficient
+}
+\seealso{
+\code{\link[=conf_mat]{conf_mat()}}
+}
+\author{
+Max Kuhn
 }

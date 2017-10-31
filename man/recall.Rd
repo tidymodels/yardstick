@@ -44,7 +44,9 @@ F_meas(data, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the
-discrete measurements. For the \code{table} function, a table.}
+discrete measurements. For the \code{table} or \code{matrix}
+functions, a table or matrix object, respectively, where the
+true class results should be in the columns of the table.}
 
 \item{...}{Not currently used.}
 
@@ -54,16 +56,13 @@ name of \code{data} that contains the true classes (in a factor).}
 \item{estimate}{A single character value containing the column
 name of \code{data} that contains the predicted classes (in a factor).}
 
-\item{na.rm}{A logical value indicating whether \code{NA} values
-should be stripped before the computation proceeds.}
+\item{na.rm}{A logical value indicating whether \code{NA}
+values should be stripped before the computation proceeds}
 
 \item{beta}{A numeric value used to weight precision and
 recall. A value of 1 is traditionally used and corresponds to
 the harmonic mean of the two values but other values weight
 recall beta times more important than precision.}
-}
-\value{
-A number between 0 and 1 (or NA).
 }
 \description{
 These functions calculate the recall, precision or F values of
@@ -97,10 +96,6 @@ A/(A+B)} \deqn{F_i = (1+i^2)*prec*recall/((i^2 * precision)+recall)}
 
 See the references for discussions of the statistics.
 }
-\examples{
-
-
-}
 \references{
 Buckland, M., & Gey, F. (1994). The relationship
 between Recall and Precision. \emph{Journal of the American Society
@@ -112,8 +107,5 @@ Technical Report SIE-07-001, Flinders University
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}
-}
-\author{
-Max Kuhn
 }
 \keyword{manip}
