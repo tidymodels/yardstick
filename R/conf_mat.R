@@ -55,6 +55,8 @@ conf_mat.table <- function(data, ...) {
 
 
 #' @export
+#' @importFrom tibble tibble
+#' @importFrom dplyr bind_cols
 summary.conf_mat <- function(object, prevalence = NULL, ...) {
   xtab <- object$table
   stats <-
@@ -75,9 +77,9 @@ summary.conf_mat <- function(object, prevalence = NULL, ...) {
         ppv = ppv(xtab, prevalence = prevalence),
         npv = npv(xtab, prevalence = prevalence),
         mcc = mcc(xtab),
-        precision = yardstick:::precision(xtab),
-        recall = yardstick:::recall(xtab),
-        F1 = yardstick:::F_meas(xtab)
+        precision = precision(xtab),
+        recall = recall(xtab),
+        F1 = F_meas(xtab)
       )
     stats <- bind_cols(stats, stats_2class)
   }
