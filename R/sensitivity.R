@@ -40,7 +40,8 @@
 #'  ppv.matrix npv npv.default npv.table npv.matrix
 #' @param data For the default functions, a factor containing the
 #'  discrete measurements. For the `table` or `matrix`
-#'  functions, a table or matrix object, respectively.
+#'  functions, a table or matrix object, respectively, where the
+#'  true class results should be in the columns of the table. 
 #' @param truth A single character value containing the column
 #'  name of `data` that contains the true classes (in a factor).
 #' @param estimate A single character value containing the column
@@ -61,9 +62,6 @@
 #'  predictive values,'' *British Medical Journal*, vol 309,
 #'  102.
 #' @keywords manip
-#' @examples
-#'
-#'
 #' @export sens
 sens <- function(data, ...)
   UseMethod("sens")
@@ -131,7 +129,7 @@ spec.data.frame  <-
 
 #' @export
 "spec.table" <-
-  function(data, negative = rownames(data)[-1], ...) {
+  function(data, ...) {
     ## "truth" in columns, predictions in rows
     check_table(data)
     
@@ -144,7 +142,7 @@ spec.data.frame  <-
   }
 
 "spec.matrix" <-
-  function(data, negative = rownames(data)[-1], ...) {
+  function(data, ...) {
     data <- as.table(data)
     spec.table(data)
   }
@@ -188,8 +186,8 @@ ppv.data.frame  <-
     if (is.null(prevalence))
       prevalence <- sum(data[, positive]) / sum(data)
     
-    sens <- sensitivity(data, positive)
-    spec <- specificity(data, negative)
+    sens <- sens(data)
+    spec <- spec(data)
     (sens * prevalence) / ((sens * prevalence) + ((1 - spec) * (1 - prevalence)))
     
   }
@@ -241,8 +239,8 @@ npv.data.frame  <-
     if (is.null(prevalence))
       prevalence <- sum(data[, positive]) / sum(data)
     
-    sens <- sensitivity(data, positive)
-    spec <- specificity(data, negative)
+    sens <- sens(data)
+    spec <- spec(data)
     (spec * (1 - prevalence)) / (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
     
   }

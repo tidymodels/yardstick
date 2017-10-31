@@ -56,7 +56,8 @@ npv(data, ...)
 \arguments{
 \item{data}{For the default functions, a factor containing the
 discrete measurements. For the \code{table} or \code{matrix}
-functions, a table or matrix object, respectively.}
+functions, a table or matrix object, respectively, where the
+true class results should be in the columns of the table.}
 
 \item{...}{Not currently used.}
 
@@ -111,10 +112,6 @@ Prevalence)/((sensitivity*Prevalence) + ((1-specificity)*(1-Prevalence)))}
 ((specificity)*(1-Prevalence)))}
 
 See the references for discussions of the statistics.
-}
-\examples{
-
-
 }
 \references{
 Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
