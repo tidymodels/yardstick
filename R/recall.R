@@ -35,8 +35,10 @@
 #'  F_meas.default F_meas.table
 #' @param data For the default functions, a factor containing the
 #'  discrete measurements. For the `table` function, a table.
-#' @param truth A factor containing the reference values (i.e.
-#'  truth).
+#' @param truth A single character value containing the column
+#'  name of `data` that contains the true classes (in a factor).
+#' @param estimate A single character value containing the column
+#'  name of `data` that contains the predicted classes (in a factor).
 #' @param beta A numeric value used to weight precision and
 #'  recall. A value of 1 is traditionally used and corresponds to
 #'  the harmonic mean of the two values but other values weight

@@ -41,7 +41,10 @@
 #' @param data For the default functions, a factor containing the
 #'  discrete measurements. For the `table` or `matrix`
 #'  functions, a table or matrix object, respectively.
-#' @param truth A factor containing the reference values.
+#' @param truth A single character value containing the column
+#'  name of `data` that contains the true classes (in a factor).
+#' @param estimate A single character value containing the column
+#'  name of `data` that contains the predicted classes (in a factor).
 #' @param prevalence A numeric value for the rate of the
 #'  "positive" class of the data.
 #' @param na.rm A logical value indicating whether `NA`

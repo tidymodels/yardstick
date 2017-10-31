@@ -60,7 +60,11 @@ functions, a table or matrix object, respectively.}
 
 \item{...}{Not currently used.}
 
-\item{truth}{A factor containing the reference values.}
+\item{truth}{A single character value containing the column
+name of \code{data} that contains the true classes (in a factor).}
+
+\item{estimate}{A single character value containing the column
+name of \code{data} that contains the predicted classes (in a factor).}
 
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds}
