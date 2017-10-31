@@ -31,13 +31,15 @@
 \usage{
 sens(data, ...)
 
-\method{sens}{data.frame}(data, truth = NULL, estimate = NULL, ...)
+\method{sens}{data.frame}(data, truth = NULL, estimate = NULL,
+  na.rm = TRUE, ...)
 
 \method{sens}{table}(data, ...)
 
 \method{sens}{matrix}(data, ...)
 
-\method{spec}{data.frame}(data, truth = NULL, estimate = NULL, ...)
+\method{spec}{data.frame}(data, truth = NULL, estimate = NULL,
+  na.rm = TRUE, ...)
 
 ppv(data, ...)
 
@@ -60,11 +62,11 @@ functions, a table or matrix object, respectively.}
 
 \item{truth}{A factor containing the reference values.}
 
-\item{prevalence}{A numeric value for the rate of the
-"positive" class of the data.}
-
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds}
+
+\item{prevalence}{A numeric value for the rate of the
+"positive" class of the data.}
 }
 \value{
 A number between 0 and 1 (or NA).

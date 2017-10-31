@@ -85,6 +85,7 @@ recall.data.frame <-
     xtab <- vec2table(
       truth = get_col(data, truth),
       estimate = get_col(data, estimate),
+      na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
@@ -106,6 +107,7 @@ precision.data.frame <-
     xtab <- vec2table(
       truth = get_col(data, truth),
       estimate = get_col(data, estimate),
+      na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
@@ -139,6 +141,7 @@ F_meas.default <-
     xtab <- vec2table(
       truth = get_col(data, truth),
       estimate = get_col(data, estimate),
+      na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...

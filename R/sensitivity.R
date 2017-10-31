@@ -68,11 +68,12 @@ sens <- function(data, ...)
 #' @export
 #' @rdname sens
 sens.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, ...) {
+  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
     check_call_vars(match.call(expand.dots = TRUE))
     xtab <- vec2table(
       truth = get_col(data, truth),
       estimate = get_col(data, estimate),
+      na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
@@ -110,19 +111,17 @@ spec <-  function(data, ...)
 #' @export
 #' @rdname sens
 spec.data.frame  <-
-  function(data,
-           truth = NULL,
-           estimate = NULL,
-           ...) {
+  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
     check_call_vars(match.call(expand.dots = TRUE))
     xtab <- vec2table(
       truth = get_col(data, truth),
       estimate = get_col(data, estimate),
+      na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
-
+    
     spec.table(xtab, ...)
   }
 
@@ -154,15 +153,13 @@ ppv <- function(data, ...)
 
 #' @export
 ppv.data.frame  <-
-  function(data,
-           truth = NULL,
-           estimate = NULL,
-           prevalence = NULL,
-           ...) {
+  function(data, truth = NULL, estimate = NULL, 
+           na.rm = TRUE, prevalence = NULL, ...) {
     check_call_vars(match.call(expand.dots = TRUE))
     xtab <- vec2table(
       truth = get_col(data, truth),
       estimate = get_col(data, estimate),
+      na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
@@ -209,15 +206,13 @@ npv <- function(data, ...)
 
 #' @export
 npv.data.frame  <-
-  function(data,
-           truth = NULL,
-           estimate = NULL,
-           prevalence = NULL,
-           ...) {
+  function(data, truth = NULL, estimate = NULL, 
+           na.rm = TRUE, prevalence = NULL, ...) {
     check_call_vars(match.call(expand.dots = TRUE))
     xtab <- vec2table(
       truth = get_col(data, truth),
       estimate = get_col(data, estimate),
+      na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
@@ -239,7 +234,7 @@ npv.data.frame  <-
     
     positive <- pos_val(data)
     negative <- neg_val(data)
-
+    
     if (is.null(prevalence))
       prevalence <- sum(data[, positive]) / sum(data)
     
