@@ -4,6 +4,8 @@
 \alias{mcc}
 \alias{mcc.data.frame}
 \alias{mcc.table}
+\alias{som_j.data.frame}
+\alias{som_j.table}
 \title{Other Metrics for 2x2 Tables}
 \usage{
 mcc(data, ...)
@@ -12,6 +14,11 @@ mcc(data, ...)
   na.rm = TRUE, ...)
 
 \method{mcc}{table}(data, ...)
+
+\method{som_j}{data.frame}(data, truth = NULL, estimate = NULL,
+  na.rm = TRUE, ...)
+
+\method{som_j}{table}(data, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the
@@ -33,7 +40,7 @@ values should be stripped before the computation proceeds}
 \description{
 General metrics for two class problems that are not already
 in \code{\link[=sens]{sens()}} or \code{\link[=recall]{recall()}} are here, such as the Matthews
-correlation coefficient
+correlation coefficient, Youden's J
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}
