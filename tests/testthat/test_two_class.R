@@ -33,6 +33,23 @@ colnames(ab_tb) <- lev
 
 ###################################################################
 
+# Data in Table 2 of Powers (2007)
+
+pr_lvs <- c("Relevant", "Irrelevant")
+
+tbl_2_1_pred <- factor(rep(pr_lvs, times = c(42, 58)), levels = pr_lvs)
+tbl_2_1_pred2 <- tbl_2_1_pred
+tbl_2_1_pred2[c(1, 10, 20, 30, 40, 50)] <- NA
+tbl_2_1_truth <- factor(c(rep(pr_lvs, times = c(30, 12)),
+                          rep(pr_lvs, times = c(30, 28))),
+                        levels = pr_lvs)
+tbl_2_1 <- table(tbl_2_1_pred, tbl_2_1_truth)
+df_2_1 <- data.frame(truth  = tbl_2_1_truth, 
+                     prediction = tbl_2_1_pred,
+                     pred_na = tbl_2_1_pred2)
+
+###################################################################
+
 test_that('sensitivity', {
   expect_equal(
     sens(ab_df, truth = "pathology", estimate = "scan"),
@@ -110,6 +127,74 @@ test_that('npv', {
     tolerance = .001
   )  
 })
+
+
+test_that('recall', {
+  expect_equal(
+    recall(df_2_1, truth = "truth", estimate = "prediction"),
+    30/60
+  )
+  expect_equal(
+    recall(tbl_2_1),
+    30/60
+  )
+  expect_equal(
+    recall(df_2_1, truth = "truth", estimate = "pred_na"),
+    26/(26+29)
+  )
+})
+
+
+test_that('precision', {
+  expect_equal(
+    precision(df_2_1, truth = "truth", estimate = "prediction"),
+    30/42
+  )
+  expect_equal(
+    precision(tbl_2_1),
+    30/42
+  )
+  expect_equal(
+    precision(df_2_1, truth = "truth", estimate = "pred_na"),
+    26/37
+  )
+})
+
+
+test_that('F1', {
+  expect_equal(
+    F_meas(df_2_1, truth = "truth", estimate = "prediction"),
+    0.5882353,
+    tol = 0.0001
+  )
+  expect_equal(
+    F_meas(tbl_2_1),
+    0.5882353,
+    tol = 0.0001
+  )
+  expect_equal(
+    F_meas(df_2_1, truth = "truth", estimate = "pred_na"),
+    0.5652174,
+    tol = 0.0001
+  )
+})
+
+
+test_that('sensitivity', {
+  expect_equal(
+    som_j(ab_df, truth = "pathology", estimate = "scan"),
+    (231/258) + (54/86)  - 1
+  )
+  expect_equal(
+    som_j(ab_tb),
+    (231/258) + (54/86)  - 1
+  )
+  expect_equal(
+    som_j(ab_df, truth = "pathology", estimate = "scan_na"),
+    (230/256) + (53/85) - 1
+  )
+})
+
 
 ###################################################################
 
