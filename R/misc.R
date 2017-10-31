@@ -32,13 +32,13 @@ neg_val <- function(xtab, check = TRUE) {
 check_call_vars <- function(x) {
   truth <- x$truth
   estimate <- x$estimate
-  if (is.null(truth) || length(truth) > 1)
+  if (is.null(truth) || length(eval(truth)) > 1)
     stop(
       "Please specifiy a single variable name for the ",
       "column containing the true class in `truth`.",
       call. = FALSE
     )
-  if (is.null(estimate) || length(estimate) > 1)
+  if (is.null(estimate) || length(eval(estimate)) > 1)
     stop(
       "Please specifiy a single variable name for the ",
       "column containing the predicted class in `estimate`.",
