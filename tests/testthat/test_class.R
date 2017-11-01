@@ -40,6 +40,29 @@ test_that('flat tables', {
   expect_error(yardstick:::flatten(three_class_tb[, 1:2]))
 })
 
+test_that('confusion matrix statistics', {
+  sum_obj_3 <- summary(conf_mat(three_class, truth = "obs", estimate = "pred"))
+  sum_obj_2 <- summary(conf_mat(three_class_tb[1:2, 1:2]))
+  expect_equal(
+    names(sum_obj_3),
+    c("accuracy", "kappa")
+  )
+  expect_equal(
+    sum_obj_3$accuracy,
+    accuracy(three_class_tb)
+  )
+  expect_equal(
+    names(sum_obj_2),
+    c('accuracy', 'kappa', 'sens', 'spec', 'prevalence', 'ppv', 
+      'npv', 'mcc', 'precision', 'recall', 'F1')
+  )
+  expect_equal(
+    sum_obj_2$sens,
+    sens(three_class_tb[1:2, 1:2])
+  )  
+})
+
+
 ###################################################################
 
 
@@ -78,4 +101,13 @@ test_that('bad args', {
   expect_error(
     accuracy(three_class, truth = "pred_val", estimate = "obs")
   )  
+  expect_error(
+    conf_mat(three_class_tb[1,,drop = FALSE])
+  ) 
+  expect_error(
+    conf_mat(three_class_tb[2:3, ])
+  )  
+  expect_error(
+    conf_mat(three_class_tb[c(1, 3), 1:2])
+  )     
 })

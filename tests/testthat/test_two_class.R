@@ -73,6 +73,10 @@ test_that('sensitivity', {
     sens(ab_df, truth = "pathology", estimate = "scan_na"),
     230/256
   )
+  expect_equal(
+    sens(as.matrix(ab_tb)),
+    231/258
+  )  
 })
 
 
@@ -89,6 +93,10 @@ test_that('specificity', {
     spec(ab_df, truth = "pathology", estimate = "scan_na"),
     53/85
   )
+  expect_equal(
+    spec(as.matrix(ab_tb)),
+    54/86
+  )    
 })
 
 
