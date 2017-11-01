@@ -182,16 +182,16 @@ test_that('F1', {
 
 test_that('Matthews correlation coefficient', {
   expect_equal(
-    som_j(ab_df, truth = "pathology", estimate = "scan"),
-    (231/258) + (54/86)  - 1
+    mcc(ab_df, truth = "pathology", estimate = "scan"),
+    ((231 * 54) - (32 * 27)) / sqrt((231 + 32)*(231 + 27) * (54 + 32) * (54 + 27))
   )
   expect_equal(
-    som_j(ab_tb),
-    (231/258) + (54/86)  - 1
+    mcc(ab_tb),
+    ((231 * 54) - (32 * 27)) / sqrt((231 + 32)*(231 + 27) * (54 + 32) * (54 + 27))
   )
   expect_equal(
-    som_j(ab_df, truth = "pathology", estimate = "scan_na"),
-    (230/256) + (53/85) - 1
+    mcc(ab_df, truth = "pathology", estimate = "scan_na"),
+    ((230 * 53) - (32 * 26)) / sqrt((230 + 32)*(230 + 26) * (53 + 32) * (53 + 26))
   )
 })
 
@@ -206,8 +206,8 @@ test_that('Youden J', {
     (231/258) + (54/86)  - 1
   )
   expect_equal(
-    j_index(ab_df, truth = "pathology", estimate = "scan_na"),
-    (230/256) + (53/85) - 1
+    mcc(ab_df, truth = "pathology", estimate = "scan"),
+    ((231 * 54) - (32 * 27)) / sqrt((231 + 32)*(231 + 27) * (54 + 32) * (54 + 27))
   )
 })
 
@@ -232,6 +232,14 @@ test_that('switch event definition', {
     spec(ab_tb),
     231/258
   )  
+  expect_equal(
+    j_index(ab_df, truth = "pathology", estimate = "scan"),
+    (231/258) + (54/86)  - 1
+  )
+  expect_equal(
+    mcc(ab_df, truth = "pathology", estimate = "scan"),
+    (231/258) + (54/86)  - 1
+  )
 })
 
 
