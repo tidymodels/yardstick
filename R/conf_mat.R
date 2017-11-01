@@ -60,7 +60,7 @@ conf_mat.table <- function(data, ...) {
 summary.conf_mat <- function(object, prevalence = NULL, ...) {
   xtab <- object$table
   stats <-
-    tibble(accuracy = sum(diag(xtab)) / sum(xtab),
+    tibble(accuracy = accuracy(xtab),
            kappa = NA)
   
   if (nrow(xtab) == 2) {
