@@ -4,6 +4,7 @@
 \alias{mcc}
 \alias{mcc.data.frame}
 \alias{mcc.table}
+\alias{j_index}
 \alias{j_index.data.frame}
 \alias{j_index.table}
 \title{Other Metrics for 2x2 Tables}
@@ -14,6 +15,8 @@ mcc(data, ...)
   na.rm = TRUE, ...)
 
 \method{mcc}{table}(data, ...)
+
+j_index(data, ...)
 
 \method{j_index}{data.frame}(data, truth = NULL, estimate = NULL,
   na.rm = TRUE, ...)

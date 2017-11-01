@@ -52,6 +52,7 @@ mcc.data.frame  <-
   }
 
 #' @export 
+#' @rdname mcc
 j_index <- function(data, ...)
   UseMethod("j_index")
 
