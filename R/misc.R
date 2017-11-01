@@ -62,6 +62,6 @@ flatten <- function(xtab) {
   if(nrow(xtab) != p)
     stop("table must have equal dimensions")
   flat <- as.vector(xtab)
-  names(flat) <- paste("cell", rep(1:3, each = 3), rep(1:3, 3), sep = "_")
+  names(flat) <- paste("cell", rep(1:p, p), rep(1:p, each = p), sep = "_")
   flat
 }

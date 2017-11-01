@@ -8,11 +8,16 @@ vec2table <-
            dnn = c("Prediction", "Truth"),
            two_class  = FALSE,
            ...) {
-    if (!is.factor(truth))
+    if (!is.factor(truth)) {
       truth <- factor(truth)
-    
-    if (!is.factor(estimate))
+      warning("`truth` was converted to a factor", call. = TRUE)
+    }
+    if (!is.factor(estimate)) {
+      if (!isTRUE(all.equal(sort(unique(estimate)), sort(levels(truth)))))
+        stop("There are different possible values in `truth` and `estimate`")
       estimate <- factor(estimate, levels = levels(truth))
+      warning("`estimate` was converted to a factor", call. = TRUE)
+    }
     
     if (na.rm) {
       cc <- complete.cases(estimate) & complete.cases(truth)
