@@ -238,7 +238,7 @@ test_that('switch event definition', {
   )
   expect_equal(
     mcc(ab_df, truth = "pathology", estimate = "scan"),
-    (231/258) + (54/86)  - 1
+    ((231 * 54) - (32 * 27)) / sqrt((231 + 32)*(231 + 27) * (54 + 32) * (54 + 27))
   )
 })
 

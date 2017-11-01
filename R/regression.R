@@ -56,7 +56,7 @@ rsq.data.frame <-
     data <- data[, c(truth, estimate)]
     if (na.rm)
       data <- data[complete.cases(data), ]
-    cor(data)[1,2]
+    cor(data)[1,2]^2
   }
 
 
