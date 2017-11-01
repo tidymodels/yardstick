@@ -1,5 +1,7 @@
 ## Taken form https://github.com/tidyverse/dplyr/blob/d310ad1cef1c14d770c94e1a9a4c79c888f46af6/R/zzz.r#L2-L9
 
+# nocov start
+# tested abyway in test_two_class.R
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.yardstick <- list(
@@ -10,4 +12,4 @@
   
   invisible()
 }
-
+# nocov end

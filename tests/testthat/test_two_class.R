@@ -50,6 +50,16 @@ df_2_1 <- data.frame(truth  = tbl_2_1_truth,
 
 ###################################################################
 
+test_that('global var', {
+  expect_true("yardstick.event_first" %in% names(options()))
+  expect_true(getOption("yardstick.event_first"))
+  options(yardstick.event_first = FALSE)
+  expect_false(getOption("yardstick.event_first"))
+  options(yardstick.event_first = TRUE)
+})
+
+###################################################################
+
 test_that('sensitivity', {
   expect_equal(
     sens(ab_df, truth = "pathology", estimate = "scan"),
@@ -241,7 +251,6 @@ test_that('switch event definition', {
     ((231 * 54) - (32 * 27)) / sqrt((231 + 32)*(231 + 27) * (54 + 32) * (54 + 27))
   )
 })
-
 
 ###################################################################
 
