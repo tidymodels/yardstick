@@ -4,8 +4,8 @@
 \alias{mcc}
 \alias{mcc.data.frame}
 \alias{mcc.table}
-\alias{som_j.data.frame}
-\alias{som_j.table}
+\alias{j_index.data.frame}
+\alias{j_index.table}
 \title{Other Metrics for 2x2 Tables}
 \usage{
 mcc(data, ...)
@@ -15,10 +15,10 @@ mcc(data, ...)
 
 \method{mcc}{table}(data, ...)
 
-\method{som_j}{data.frame}(data, truth = NULL, estimate = NULL,
+\method{j_index}{data.frame}(data, truth = NULL, estimate = NULL,
   na.rm = TRUE, ...)
 
-\method{som_j}{table}(data, ...)
+\method{j_index}{table}(data, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the

@@ -180,7 +180,7 @@ test_that('F1', {
 })
 
 
-test_that('sensitivity', {
+test_that('Matthews correlation coefficient', {
   expect_equal(
     som_j(ab_df, truth = "pathology", estimate = "scan"),
     (231/258) + (54/86)  - 1
@@ -191,6 +191,22 @@ test_that('sensitivity', {
   )
   expect_equal(
     som_j(ab_df, truth = "pathology", estimate = "scan_na"),
+    (230/256) + (53/85) - 1
+  )
+})
+
+
+test_that('Youden J', {
+  expect_equal(
+    j_index(ab_df, truth = "pathology", estimate = "scan"),
+    (231/258) + (54/86)  - 1
+  )
+  expect_equal(
+    j_index(ab_tb),
+    (231/258) + (54/86)  - 1
+  )
+  expect_equal(
+    j_index(ab_df, truth = "pathology", estimate = "scan_na"),
     (230/256) + (53/85) - 1
   )
 })

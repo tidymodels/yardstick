@@ -52,12 +52,12 @@ mcc.data.frame  <-
   }
 
 #' @export 
-som_j <- function(data, ...)
-  UseMethod("som_j")
+j_index <- function(data, ...)
+  UseMethod("j_index")
 
 #' @export
 #' @rdname mcc
-som_j.data.frame  <-
+j_index.data.frame  <-
   function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
     check_call_vars(match.call(expand.dots = TRUE))
     xtab <- vec2table(
@@ -68,12 +68,12 @@ som_j.data.frame  <-
       dnn = c("Prediction", "Truth"),
       ...
     )
-    som_j.table(xtab, ...)
+    j_index.table(xtab, ...)
   }
 
 #' @rdname mcc
 #' @export
-"som_j.table" <-
+"j_index.table" <-
   function(data, ...) {
     ## "truth" in columns, predictions in rows
     check_table(data)
