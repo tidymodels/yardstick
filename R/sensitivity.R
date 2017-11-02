@@ -20,8 +20,14 @@
 #'  negative predictive value is defined as the percent of negative
 #'  positives that are actually negative.
 #'
-#' TODO mention prob interpretations
-#'
+#' There is no common convention on which factor level should
+#'  automatically be considered the "event" or "positive" results. 
+#'  In `yardstick`, the default is to use the _first_ level. To 
+#'  change this, a global option called `yardstick.event_first` is
+#'  set to `TRUE` when the package is loaded. This can be changed
+#'  to `FALSE` if the last level of the factor is considered the
+#'  level of interest. 
+#'  
 #' Suppose a 2x2 table with notation
 #'
 #' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Event \tab No Event
@@ -34,6 +40,11 @@
 #' ((specificity)*(1-Prevalence)))}
 #'
 #' See the references for discussions of the statistics.
+#' 
+#' If more than one statistic is required, it is more
+#'  computationally efficient to create the confusion matrix using
+#'  [conf_mat()] and applying the corresponding `summary` method
+#'  ([summary.conf_mat()]) to get the values at once.
 #'
 #' @aliases sens sens.default sens.table sens.matrix spec
 #'  spec.default spec.table spec.matrix ppv ppv.default ppv.table
@@ -52,8 +63,7 @@
 #'  values should be stripped before the computation proceeds
 #' @param ... Not currently used.
 #' @return A number between 0 and 1 (or NA).
-#' @author Max Kuhn
-#' @seealso [conf_mat()]
+#' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [mcc()]
 #' @references Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
 #'  sensitivity and specificity,'' *British Medical Journal*,
 #'  vol 308, 1552.

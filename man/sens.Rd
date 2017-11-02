@@ -98,7 +98,13 @@ predicted positives that are actually positive while the
 negative predictive value is defined as the percent of negative
 positives that are actually negative.
 
-TODO mention prob interpretations
+There is no common convention on which factor level should
+automatically be considered the "event" or "positive" results.
+In \code{yardstick}, the default is to use the \emph{first} level. To
+change this, a global option called \code{yardstick.event_first} is
+set to \code{TRUE} when the package is loaded. This can be changed
+to \code{FALSE} if the last level of the factor is considered the
+level of interest.
 
 Suppose a 2x2 table with notation
 
@@ -112,6 +118,11 @@ Prevalence)/((sensitivity*Prevalence) + ((1-specificity)*(1-Prevalence)))}
 ((specificity)*(1-Prevalence)))}
 
 See the references for discussions of the statistics.
+
+If more than one statistic is required, it is more
+computationally efficient to create the confusion matrix using
+\code{\link[=conf_mat]{conf_mat()}} and applying the corresponding \code{summary} method
+(\code{\link[=summary.conf_mat]{summary.conf_mat()}}) to get the values at once.
 }
 \examples{
 data("two_class_example")
@@ -138,9 +149,6 @@ predictive values,'' \emph{British Medical Journal}, vol 309,
 102.
 }
 \seealso{
-\code{\link[=conf_mat]{conf_mat()}}
-}
-\author{
-Max Kuhn
+\code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=mcc]{mcc()}}
 }
 \keyword{manip}

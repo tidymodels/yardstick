@@ -86,6 +86,14 @@ and Gey, 1994).
 The measure "F" is a combination of precision and recall (see
 below).
 
+There is no common convention on which factor level should
+automatically be considered the relevant result.
+In \code{yardstick}, the default is to use the \emph{first} level. To
+change this, a global option called \code{yardstick.event_first} is
+set to \code{TRUE} when the package is loaded. This can be changed
+to \code{FALSE} if the last level of the factor is considered the
+level of interest.
+
 Suppose a 2x2 table with notation
 
 \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab relevant \tab
@@ -95,6 +103,11 @@ The formulas used here are: \deqn{recall = A/(A+C)} \deqn{precision =
 A/(A+B)} \deqn{F_i = (1+i^2)*prec*recall/((i^2 * precision)+recall)}
 
 See the references for discussions of the statistics.
+
+If more than one statistic is required, it is more
+computationally efficient to create the confusion matrix using
+\code{\link[=conf_mat]{conf_mat()}} and applying the corresponding \code{summary} method
+(\code{\link[=summary.conf_mat]{summary.conf_mat()}}) to get the values at once.
 }
 \examples{
 data("two_class_example")
@@ -115,6 +128,6 @@ Factor to ROC, Informedness, Markedness and Correlation.
 Technical Report SIE-07-001, Flinders University
 }
 \seealso{
-\code{\link[=conf_mat]{conf_mat()}}
+\code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=sens]{sens()}}, \code{\link[=mcc]{mcc()}}
 }
 \keyword{manip}

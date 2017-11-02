@@ -43,7 +43,21 @@ values should be stripped before the computation proceeds}
 \description{
 General metrics for two class problems that are not already
 in \code{\link[=sens]{sens()}} or \code{\link[=recall]{recall()}} are here, such as the Matthews
-correlation coefficient, Youden's J
+correlation coefficient, Youden's J.
+
+There is no common convention on which factor level should
+automatically be considered the "event" or "positive" results.
+In \code{yardstick}, the default is to use the \emph{first} level. To
+change this, a global option called \code{yardstick.event_first} is
+set to \code{TRUE} when the package is loaded. This can be changed
+to \code{FALSE} if the last level of the factor is considered the
+level of interest.
+}
+\details{
+If more than one statistic is required, it is more
+computationally efficient to create the confusion matrix using
+\code{\link[=conf_mat]{conf_mat()}} and applying the corresponding \code{summary} method
+(\code{\link[=summary.conf_mat]{summary.conf_mat()}}) to get the values at once.
 }
 \examples{
 data("two_class_example")
@@ -53,7 +67,7 @@ mcc(two_class_example, truth = "truth", estimate = "predicted")
 j_index(two_class_example, truth = "truth", estimate = "predicted")
 }
 \seealso{
-\code{\link[=conf_mat]{conf_mat()}}
+\code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=sens]{sens()}}
 }
 \author{
 Max Kuhn

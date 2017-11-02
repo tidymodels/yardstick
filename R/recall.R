@@ -19,6 +19,14 @@
 #'
 #' The measure "F" is a combination of precision and recall (see
 #'  below).
+#'  
+#' There is no common convention on which factor level should
+#'  automatically be considered the relevant result. 
+#'  In `yardstick`, the default is to use the _first_ level. To 
+#'  change this, a global option called `yardstick.event_first` is
+#'  set to `TRUE` when the package is loaded. This can be changed
+#'  to `FALSE` if the last level of the factor is considered the
+#'  level of interest. 
 #'
 #' Suppose a 2x2 table with notation
 #'
@@ -30,6 +38,11 @@
 #'
 #' See the references for discussions of the statistics.
 #'
+#' If more than one statistic is required, it is more
+#'  computationally efficient to create the confusion matrix using
+#'  [conf_mat()] and applying the corresponding `summary` method
+#'  ([summary.conf_mat()]) to get the values at once.
+#'  
 #' @inheritParams sens
 #' @aliases recall recall.default recall.table precision
 #'  precision.default precision.table precision.matrix f_meas
@@ -38,7 +51,7 @@
 #'  recall. A value of 1 is traditionally used and corresponds to
 #'  the harmonic mean of the two values but other values weight
 #'  recall beta times more important than precision.
-#' @seealso [conf_mat()]
+#' @seealso [conf_mat()], [summary.conf_mat()], [sens()], [mcc()]
 #' @references Buckland, M., & Gey, F. (1994). The relationship
 #'  between Recall and Precision. *Journal of the American Society
 #'  for Information Science*, 45(1), 12-19.
