@@ -6,6 +6,7 @@
 \alias{conf_mat.default}
 \alias{conf_mat.data.frame}
 \alias{conf_mat.table}
+\alias{tidy.conf_mat}
 \title{Confusion Matrix for Categorical Data}
 \usage{
 conf_mat(data, ...)
@@ -14,22 +15,77 @@ conf_mat(data, ...)
   dnn = c("Prediction", "Truth"), ...)
 
 \method{conf_mat}{table}(data, ...)
+
+\method{tidy}{conf_mat}(x, ...)
 }
 \arguments{
 \item{data}{A data frame or a \code{\link[base:table]{base::table()}}.}
 
-\item{...}{Options to pass to \code{\link[base:table]{base::table()}} (not including \code{dnn})}
+\item{...}{Options to pass to \code{\link[base:table]{base::table()}} (not including
+\code{dnn}). This argument is not currently used for the \code{tidy}
+method.}
 
-\item{truth}{A string corresponding to the column in the data frame containig  the factor of classes to be used as the true results}
+\item{truth}{A string corresponding to the column in the data
+frame containing the factor of classes to be used as the true
+results}
 
-\item{estimate}{A string corresponding to the column in the data frame containig  the factor of predicted classes.}
+\item{estimate}{A string corresponding to the column in the
+data frame containing the factor of predicted classes.}
 
 \item{dnn}{a character vector of dimnames for the table}
+
+\item{x}{A object of class \code{\link[=conf_mat]{conf_mat()}}.}
+}
+\value{
+\code{conf_mat} produces a object with class \code{conf_mat}.
+This contains the table and other objects. \code{tidy.conf_mat}
+generates a tibble with columns \code{name} (the cell identifier) and
+\code{value} (the cell count).
 }
 \description{
-Calculates a cross-tabulation of observed and predicted classes with
-associated statistics.
+Calculates a cross-tabulation of observed and predicted
+classes.
+
+For \code{\link[=conf_mat]{conf_mat()}} objects, the \code{tidy} method collapses the cell
+counts by cell into a data frame for each manipulation.
 }
 \details{
-The functions requires that the factors have exactly the same levels.
+The function requires that the factors have exactly the same
+levels.
+}
+\examples{
+library(dplyr)
+data("hpc_cv")
+
+# The confusion matrix from a single assessment set (i.e. fold)
+hpc_cv \%>\%
+  filter(Resample == "Fold01") \%>\%
+  conf_mat(truth = "obs", estimate = "pred")
+
+# Now compute the average confusion matrix across all folds in
+# terms of the proportion of the data contained in each cell. 
+# First get the raw cell counts per fold using the `tidy` method
+cells_per_resample <- hpc_cv \%>\%
+  group_by(Resample) \%>\%
+  do(tidy(conf_mat(., truth = "obs", estimate = "pred")))
+
+# Get the totals per resample
+counts_per_resample <- hpc_cv \%>\%
+  group_by(Resample) \%>\%
+  summarize(total = n()) \%>\%
+  left_join(cells_per_resample, by = "Resample") \%>\%
+  # Compute the proportions
+  mutate(prop = value/total) \%>\%
+  group_by(name) \%>\%
+  # Average
+  summarize(prop = mean(prop)) 
+
+counts_per_resample
+
+# Now reshape these into a matrix
+mean_cmat <- matrix(counts_per_resample$prop, byrow = TRUE, ncol = 4)
+rownames(mean_cmat) <- levels(hpc_cv$obs)
+colnames(mean_cmat) <- levels(hpc_cv$obs)
+
+round(mean_cmat, 3)
 }
