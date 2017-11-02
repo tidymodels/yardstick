@@ -113,6 +113,21 @@ Prevalence)/((sensitivity*Prevalence) + ((1-specificity)*(1-Prevalence)))}
 
 See the references for discussions of the statistics.
 }
+\examples{
+data("two_class_example")
+
+# Given that a sample is Class 1, 
+#   what is the probability that is predicted as Class 1? 
+sens(two_class_example, truth = "truth", estimate = "predicted")
+
+# Given that a sample is predicted to be Class 1, 
+#  what is the probability that it truly is Class 1? 
+ppv(two_class_example, truth = "truth", estimate = "predicted")
+
+# But what if we think that Class 1 only occurs 40\% of the time?
+ppv(two_class_example, truth = "truth", estimate = "predicted",
+    prevalence = 0.40) 
+}
 \references{
 Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
 sensitivity and specificity,'' \emph{British Medical Journal},

@@ -62,6 +62,20 @@
 #'  predictive values,'' *British Medical Journal*, vol 309,
 #'  102.
 #' @keywords manip
+#' @examples 
+#' data("two_class_example")
+#' 
+#' # Given that a sample is Class 1, 
+#' #   what is the probability that is predicted as Class 1? 
+#' sens(two_class_example, truth = "truth", estimate = "predicted")
+#' 
+#' # Given that a sample is predicted to be Class 1, 
+#' #  what is the probability that it truly is Class 1? 
+#' ppv(two_class_example, truth = "truth", estimate = "predicted")
+#' 
+#' # But what if we think that Class 1 only occurs 40% of the time?
+#' ppv(two_class_example, truth = "truth", estimate = "predicted",
+#'     prevalence = 0.40) 
 #' @export sens
 sens <- function(data, ...)
   UseMethod("sens")
