@@ -165,17 +165,17 @@ test_that('precision', {
 
 test_that('F1', {
   expect_equal(
-    F_meas(df_2_1, truth = "truth", estimate = "prediction"),
+    f_meas(df_2_1, truth = "truth", estimate = "prediction"),
     0.5882353,
     tol = 0.0001
   )
   expect_equal(
-    F_meas(tbl_2_1),
+    f_meas(tbl_2_1),
     0.5882353,
     tol = 0.0001
   )
   expect_equal(
-    F_meas(df_2_1, truth = "truth", estimate = "pred_na"),
+    f_meas(df_2_1, truth = "truth", estimate = "pred_na"),
     0.5652174,
     tol = 0.0001
   )

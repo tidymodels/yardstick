@@ -79,7 +79,7 @@ summary.conf_mat <- function(object, prevalence = NULL, ...) {
         mcc = mcc(xtab),
         precision = precision(xtab),
         recall = recall(xtab),
-        F1 = F_meas(xtab)
+        F1 = f_meas(xtab)
       )
     stats <- bind_cols(stats, stats_2class)
   }

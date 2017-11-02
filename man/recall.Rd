@@ -8,17 +8,17 @@
 \alias{precision.default}
 \alias{precision.table}
 \alias{precision.matrix}
-\alias{F_meas}
-\alias{F_meas.default}
-\alias{F_meas.table}
+\alias{f_meas}
+\alias{f_meas.default}
+\alias{f_meas.table}
 \alias{recall.table}
 \alias{recall.data.frame}
 \alias{precision}
 \alias{precision.data.frame}
 \alias{precision.table}
-\alias{F_meas}
-\alias{F_meas.default}
-\alias{F_meas.table}
+\alias{f_meas}
+\alias{f_meas.default}
+\alias{f_meas.table}
 \title{Calculate recall, precision and F values}
 \usage{
 recall(data, ...)
@@ -35,12 +35,12 @@ precision(data, ...)
 
 \method{precision}{table}(data, ...)
 
-F_meas(data, ...)
+f_meas(data, ...)
 
-\method{F_meas}{default}(data, truth = NULL, estimate = NULL, beta = 1,
+\method{f_meas}{default}(data, truth = NULL, estimate = NULL, beta = 1,
   na.rm = TRUE, ...)
 
-\method{F_meas}{table}(data, beta = 1, ...)
+\method{f_meas}{table}(data, beta = 1, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the
@@ -95,6 +95,15 @@ The formulas used here are: \deqn{recall = A/(A+C)} \deqn{precision =
 A/(A+B)} \deqn{F_i = (1+i^2)*prec*recall/((i^2 * precision)+recall)}
 
 See the references for discussions of the statistics.
+}
+\examples{
+data("two_class_example")
+
+precision(two_class_example, truth = "truth", estimate = "predicted")
+
+recall(two_class_example, truth = "truth", estimate = "predicted")
+
+f_meas(two_class_example, truth = "truth", estimate = "predicted")
 }
 \references{
 Buckland, M., & Gey, F. (1994). The relationship

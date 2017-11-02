@@ -32,8 +32,8 @@
 #'
 #' @inheritParams sens
 #' @aliases recall recall.default recall.table precision
-#'  precision.default precision.table precision.matrix F_meas
-#'  F_meas.default F_meas.table
+#'  precision.default precision.table precision.matrix f_meas
+#'  f_meas.default f_meas.table
 #' @param beta A numeric value used to weight precision and
 #'  recall. A value of 1 is traditionally used and corresponds to
 #'  the harmonic mean of the two values but other values weight
@@ -47,6 +47,14 @@
 #'  Factor to ROC, Informedness, Markedness and Correlation.
 #'  Technical Report SIE-07-001, Flinders University
 #' @keywords manip
+#' @examples 
+#' data("two_class_example")
+#'
+#' precision(two_class_example, truth = "truth", estimate = "predicted")
+#' 
+#' recall(two_class_example, truth = "truth", estimate = "predicted")
+#' 
+#' f_meas(two_class_example, truth = "truth", estimate = "predicted")
 #' @export recall
 recall <- function(data, ...)
   UseMethod("recall")
@@ -116,12 +124,12 @@ precision.table <- function (data, ...) {
 
 #' @rdname recall
 #' @export
-F_meas <- function(data, ...)
-  UseMethod("F_meas")
+f_meas <- function(data, ...)
+  UseMethod("f_meas")
 
 #' @rdname recall
 #' @export
-F_meas.default <-
+f_meas.default <-
   function(data, truth = NULL, estimate = NULL, beta = 1, na.rm = TRUE, ...) {
     check_call_vars(match.call(expand.dots = TRUE))
     xtab <- vec2table(
@@ -132,12 +140,12 @@ F_meas.default <-
       dnn = c("Prediction", "Truth"),
       ...
     )
-    F_meas.table(xtab, beta = beta)
+    f_meas.table(xtab, beta = beta)
   }
 
 #' @rdname recall
 #' @export
-F_meas.table <-
+f_meas.table <-
   function (data, beta = 1, ...) {
     check_table(data)
     
