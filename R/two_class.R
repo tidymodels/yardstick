@@ -7,7 +7,12 @@
 #' @inheritParams sens
 #' @author Max Kuhn
 #' @seealso [conf_mat()]
-
+#' @examples 
+#' data("two_class_example")
+#'
+#' mcc(two_class_example, truth = "truth", estimate = "predicted")
+#' 
+#' j_index(two_class_example, truth = "truth", estimate = "predicted")
 #' @export 
 mcc <- function(data, ...)
   UseMethod("mcc")

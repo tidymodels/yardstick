@@ -45,6 +45,13 @@ General metrics for two class problems that are not already
 in \code{\link[=sens]{sens()}} or \code{\link[=recall]{recall()}} are here, such as the Matthews
 correlation coefficient, Youden's J
 }
+\examples{
+data("two_class_example")
+
+mcc(two_class_example, truth = "truth", estimate = "predicted")
+
+j_index(two_class_example, truth = "truth", estimate = "predicted")
+}
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}
 }
