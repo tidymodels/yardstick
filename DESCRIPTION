@@ -20,4 +20,6 @@ Suggests:
     covr
 Imports:
     dplyr,
-    tibble
+    tibble,
+    tidyr,
+    utils

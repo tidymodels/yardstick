@@ -41,8 +41,10 @@ test_that('flat tables', {
 })
 
 test_that('confusion matrix statistics', {
-  sum_obj_3 <- summary(conf_mat(three_class, truth = "obs", estimate = "pred"))
-  sum_obj_2 <- summary(conf_mat(three_class_tb[1:2, 1:2]))
+  sum_obj_3 <- summary(conf_mat(three_class, truth = "obs", estimate = "pred"),
+                       wide = TRUE)
+  sum_obj_2 <- summary(conf_mat(three_class_tb[1:2, 1:2]),
+                       wide = TRUE)
   expect_equal(
     names(sum_obj_3),
     c("accuracy", "kappa")
@@ -54,7 +56,7 @@ test_that('confusion matrix statistics', {
   expect_equal(
     names(sum_obj_2),
     c('accuracy', 'kappa', 'sens', 'spec', 'prevalence', 'ppv', 
-      'npv', 'mcc', 'precision', 'recall', 'F1')
+      'npv', 'mcc', 'j_index', 'precision', 'recall', 'F1')
   )
   expect_equal(
     sum_obj_2$sens,
