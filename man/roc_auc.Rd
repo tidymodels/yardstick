@@ -38,9 +38,9 @@ mnLogLoss(data, ...)
 \item{truth}{A single character value containing the column
 name of \code{data} that contains the true classes (in a factor).}
 
-\item{estimate}{A single character value containing the column
-name of \code{data} that contains the predicted class probabilities
-or some other score (in a numeric vector). These values are
+\item{estimate}{A character vector containing the columns
+name of \code{data} that contain the predicted class probabilities
+or some other score (in numeric vectors). These values are
 assumed to have larger values associated with the event,
 although this can be changed by passing the \code{direction} argument
 to \code{\link[=roc]{roc()}} via the \code{...} when computing the ROC curve.}
@@ -57,8 +57,8 @@ A number between 0 and 1 (or NA) for \code{roc_auc} or
 }
 \description{
 These functions compute the areas under the receiver operating
-characteristic (ROC) curve (\code{roc_auc}) or the precision-recall
-curve (\code{pr_auc}).
+characteristic (ROC) curve (\code{roc_auc}), the precision-recall
+curve (\code{pr_auc}), or the multinomial log loss (\code{mnLogLoss}).
 }
 \details{
 There is no common convention on which factor level should

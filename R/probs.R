@@ -1,8 +1,8 @@
 #' Metrics Based on Class Probabilities
 #'
 #' These functions compute the areas under the receiver operating
-#'  characteristic (ROC) curve (`roc_auc`) or the precision-recall
-#'  curve (`pr_auc`).
+#'  characteristic (ROC) curve (`roc_auc`), the precision-recall
+#'  curve (`pr_auc`), or the multinomial log loss (`mnLogLoss`).
 #' 
 #' There is no common convention on which factor level should
 #'  automatically be considered the "relevant" or "positive" results. 
@@ -17,9 +17,9 @@
 #' @param data A data frame with the relevant columns.  
 #' @param truth A single character value containing the column
 #'  name of `data` that contains the true classes (in a factor).
-#' @param estimate A single character value containing the column
-#'  name of `data` that contains the predicted class probabilities
-#'  or some other score (in a numeric vector). These values are
+#' @param estimate A character vector containing the columns
+#'  name of `data` that contain the predicted class probabilities
+#'  or some other score (in numeric vectors). These values are
 #'  assumed to have larger values associated with the event,
 #'  although this can be changed by passing the `direction` argument
 #'  to [roc()] via the `...` when computing the ROC curve. 
