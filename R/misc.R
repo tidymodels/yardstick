@@ -55,6 +55,33 @@ check_table <- function(x) {
   invisible(NULL)
 }
 
+check_factor <- function(x, two = FALSE) {
+  if (!is.factor(x))
+    stop("A factor is required", call. = FALSE)
+  if (two && length(levels(x)) != 2)
+    stop("A factor with two levels is required", call. = FALSE)
+  if (!two && length(levels(x)) == 1)
+    stop("A factor with at least two levels is required", call. = FALSE)
+  x
+}
+
+check_probs <- function(data, estimate) {
+  if (length(setdiff(estimate, names(data))) > 0)
+    stop("Some names in `estimate` are not in `data", call. = FALSE)
+  num_check <-
+    vapply(data[, estimate, drop = FALSE], is.numeric, logical(1))
+  if (length(num_check) == 1)
+    stop("`estimate` should be at least two columns",
+         call. = FALSE)
+  if (!all(num_check))
+    stop(
+      "In this function, `estimate` should be columns for numeric ",
+      "scores (such as a class probability).",
+      call. = FALSE
+    )
+  invisible(NULL)
+}
+
 # tmp <- as.table(matrix(c(11, 12, 13, 21, 22, 23, 31, 32, 33), byrow = FALSE, ncol = 3))
 # use in test
 flatten <- function(xtab) {

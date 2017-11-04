@@ -1,5 +1,8 @@
 library(testthat)
 library(yardstick)
+library(pROC)
+library(MLmetrics)
+
 
 ## data from: Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
 #'  sensitivity and specificity,'' *British Medical Journal*,
@@ -213,6 +216,55 @@ test_that('Youden J', {
   )
 })
 
+
+###################################################################
+
+roc_curv <- pROC::roc(two_class_example$truth,
+                      two_class_example$Class1,
+                      levels = levels(two_class_example$truth))
+roc_val <- as.numeric(roc_curv$auc)
+lvls <- levels(two_class_example$truth)
+
+test_that('ROC Curve', {
+  expect_equal(
+    roc_auc(two_class_example, truth = "truth", estimate = lvls),
+    roc_val
+  )
+  expect_equal(
+    roc_auc(two_class_example, truth = "truth", estimate = lvls,
+            direction = ">"),
+    1 - roc_val
+  )
+})
+
+pr_val <-
+  MLmetrics::PRAUC(two_class_example$Class1,
+                   ifelse(two_class_example$truth == lvls[1], 1, 0))
+
+test_that('PR Curve', {
+  expect_equal(
+    pr_auc(two_class_example, truth = "truth", estimate = lvls),
+    pr_val
+  )
+})
+
+ll_dat <- data.frame(
+  obs  = c("A", "A", "A", "B", "B", "C"),
+  A = c(1, .80, .51, .1, .2, .3),
+  B = c(0, .05, .29, .8, .6, .3),
+  C = c(0, .15, .20, .1, .2, .4)
+  )
+
+test_that('LogLoss', {
+  expect_equal(
+    mnLogLoss(ll_dat, truth = "obs", estimate = LETTERS[1:3]),
+    (log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4))/6
+  )
+  expect_equal(
+    mnLogLoss(ll_dat, truth = "obs", estimate = LETTERS[1:3], sum = TRUE),
+    log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4)
+  )  
+})
 
 ###################################################################
 

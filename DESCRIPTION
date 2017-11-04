@@ -22,4 +22,6 @@ Imports:
     dplyr,
     tibble,
     tidyr,
-    utils
+    utils,
+    pROC,
+    MLmetrics
