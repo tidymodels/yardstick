@@ -14,11 +14,18 @@ accuracy <- function(data, ...)
 #' @export
 #' @rdname accuracy
 accuracy.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+  function(data, truth, estimate, na.rm = TRUE, ...) {
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       dnn = c("Prediction", "Truth"),
       ...

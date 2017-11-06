@@ -11,8 +11,8 @@
 \usage{
 conf_mat(data, ...)
 
-\method{conf_mat}{data.frame}(data, truth = NULL, estimate = NULL,
-  dnn = c("Prediction", "Truth"), ...)
+\method{conf_mat}{data.frame}(data, truth, estimate, dnn = c("Prediction",
+  "Truth"), ...)
 
 \method{conf_mat}{table}(data, ...)
 
@@ -25,12 +25,16 @@ conf_mat(data, ...)
 \code{dnn}). This argument is not currently used for the \code{tidy}
 method.}
 
-\item{truth}{A string corresponding to the column in the data
-frame containing the factor of classes to be used as the true
-results}
+\item{truth}{The column identifier for the true class results
+(that is a factor). This should an unquoted column name although
+this argument is passed by expression and support
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
+names or column positions).}
 
-\item{estimate}{A string corresponding to the column in the
-data frame containing the factor of predicted classes.}
+\item{estimate}{The column identifier for the predicted class
+results (that is also factor). As with \code{truth} this can be
+specified different ways but the primary method is to use an
+unquoted variable name.}
 
 \item{dnn}{a character vector of dimnames for the table}
 
@@ -60,14 +64,14 @@ data("hpc_cv")
 # The confusion matrix from a single assessment set (i.e. fold)
 hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
-  conf_mat(truth = "obs", estimate = "pred")
+  conf_mat(obs, pred)
 
 # Now compute the average confusion matrix across all folds in
 # terms of the proportion of the data contained in each cell. 
 # First get the raw cell counts per fold using the `tidy` method
 cells_per_resample <- hpc_cv \%>\%
   group_by(Resample) \%>\%
-  do(tidy(conf_mat(., truth = "obs", estimate = "pred")))
+  do(tidy(conf_mat(., obs, pred)))
 
 # Get the totals per resample
 counts_per_resample <- hpc_cv \%>\%

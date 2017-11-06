@@ -22,10 +22,6 @@ test_that('confusion matrix', {
    conf_mat(three_class, truth = "obs", estimate = "pred")$table,
    three_class_tb
  )
-  expect_equivalent(
-    conf_mat(three_class, truth = "obs", estimate = "pred_ch")$table,
-    three_class_tb
-  )
 })
 
 test_that('flat tables', {
@@ -41,7 +37,7 @@ test_that('flat tables', {
 })
 
 test_that('confusion matrix statistics', {
-  sum_obj_3 <- summary(conf_mat(three_class, truth = "obs", estimate = "pred"),
+  sum_obj_3 <- summary(conf_mat(three_class, obs, pred),
                        wide = TRUE)
   sum_obj_2 <- summary(conf_mat(three_class_tb[1:2, 1:2]),
                        wide = TRUE)
@@ -82,13 +78,9 @@ test_that('accuracy', {
     (24 + 17 + 14)/150
   )    
   expect_equal(
-    accuracy(three_class, truth = "obs", estimate = "pred_na"),
+    accuracy(three_class, obs, pred_na),
     (11 + 10 + 11)/140
   )
-  expect_equal(
-    accuracy(three_class, truth = "obs", estimate = "pred_ch"),
-    (24 + 17 + 14)/150
-  )  
 })
 
 ###################################################################
@@ -101,7 +93,7 @@ test_that('bad args', {
     accuracy(three_class, truth = "obs", estimate = "pred_val")
   )  
   expect_error(
-    accuracy(three_class, truth = "pred_val", estimate = "obs")
+    accuracy(three_class, truth = pred_val, estimate = "obs")
   )  
   expect_error(
     conf_mat(three_class_tb[1,,drop = FALSE])

@@ -23,9 +23,9 @@
 #' @examples 
 #' data("two_class_example")
 #'
-#' mcc(two_class_example, truth = "truth", estimate = "predicted")
+#' mcc(two_class_example, truth, predicted)
 #' 
-#' j_index(two_class_example, truth = "truth", estimate = "predicted")
+#' j_index(two_class_example, truth, predicted)
 #' @export 
 mcc <- function(data, ...)
   UseMethod("mcc")
@@ -33,11 +33,18 @@ mcc <- function(data, ...)
 #' @export
 #' @rdname mcc
 mcc.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+  function(data, truth, estimate, na.rm = TRUE, ...) {
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
@@ -80,11 +87,18 @@ j_index <- function(data, ...)
 #' @export
 #' @rdname mcc
 j_index.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+  function(data, truth, estimate, na.rm = TRUE, ...) {
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),

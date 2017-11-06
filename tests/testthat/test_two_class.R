@@ -209,7 +209,7 @@ test_that('Matthews correlation coefficient', {
     ((231 * 54) - (32 * 27)) / sqrt((231 + 32)*(231 + 27) * (54 + 32) * (54 + 27))
   )
   expect_equal(
-    mcc(pathology, truth = "pathology", estimate = "scan_na"),
+    mcc(pathology, truth = pathology, estimate = scan_na),
     ((230 * 53) - (32 * 26)) / sqrt((230 + 32)*(230 + 26) * (53 + 32) * (53 + 26))
   )
 })
@@ -225,7 +225,7 @@ test_that('Youden J', {
     (231/258) + (54/86)  - 1
   )
   expect_equal(
-    mcc(pathology, truth = "pathology", estimate = "scan"),
+    mcc(pathology, pathology, scan),
     ((231 * 54) - (32 * 27)) / sqrt((231 + 32)*(231 + 27) * (54 + 32) * (54 + 27))
   )
 })

@@ -6,14 +6,9 @@
 #' The function requires that the factors have exactly the same
 #'  levels.
 
-#'
+#' @inheritParams sens
 #' @aliases conf_mat.table conf_mat.default conf_mat
 #' @param data A data frame or a [base::table()].
-#' @param truth A string corresponding to the column in the data
-#'  frame containing the factor of classes to be used as the true
-#'  results
-#' @param estimate A string corresponding to the column in the
-#'  data frame containing the factor of predicted classes.
 #' @param dnn a character vector of dimnames for the table
 #' @param ... Options to pass to [base::table()] (not including
 #'  `dnn`). This argument is not currently used for the `tidy`
@@ -29,14 +24,14 @@
 #' # The confusion matrix from a single assessment set (i.e. fold)
 #' hpc_cv %>%
 #'   filter(Resample == "Fold01") %>%
-#'   conf_mat(truth = "obs", estimate = "pred")
+#'   conf_mat(obs, pred)
 #' 
 #' # Now compute the average confusion matrix across all folds in
 #' # terms of the proportion of the data contained in each cell. 
 #' # First get the raw cell counts per fold using the `tidy` method
 #' cells_per_resample <- hpc_cv %>%
 #'   group_by(Resample) %>%
-#'   do(tidy(conf_mat(., truth = "obs", estimate = "pred")))
+#'   do(tidy(conf_mat(., obs, pred)))
 #' 
 #' # Get the totals per resample
 #' counts_per_resample <- hpc_cv %>%
@@ -65,14 +60,21 @@ conf_mat <- function(data, ...)
 #' @rdname conf_mat
 conf_mat.data.frame  <-
   function(data,
-           truth = NULL,
-           estimate = NULL,
+           truth,
+           estimate,
            dnn = c("Prediction", "Truth"),
            ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       dnn = dnn,
       ...
     )
