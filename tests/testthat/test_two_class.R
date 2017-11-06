@@ -231,6 +231,10 @@ test_that('ROC Curve', {
     roc_val
   )
   expect_equal(
+    roc_auc(two_class_example, truth = "truth"),
+    roc_val
+  )  
+  expect_equal(
     roc_auc(two_class_example, truth = "truth", estimate = lvls,
             direction = ">"),
     1 - roc_val

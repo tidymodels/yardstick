@@ -43,7 +43,8 @@ name of \code{data} that contain the predicted class probabilities
 or some other score (in numeric vectors). These values are
 assumed to have larger values associated with the event,
 although this can be changed by passing the \code{direction} argument
-to \code{\link[=roc]{roc()}} via the \code{...} when computing the ROC curve.}
+to \code{\link[=roc]{roc()}} via the \code{...} when computing the ROC curve. If
+left \code{NULL}, the levels of the \code{truth} column are used.}
 
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds}
