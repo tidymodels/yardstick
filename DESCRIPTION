@@ -24,4 +24,6 @@ Imports:
     tidyr,
     utils,
     pROC,
-    MLmetrics
+    MLmetrics,
+    rlang,
+    tidyselect
