@@ -25,20 +25,17 @@ recall(data, ...)
 
 \method{recall}{table}(data, ...)
 
-\method{recall}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{recall}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 precision(data, ...)
 
-\method{precision}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{precision}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 \method{precision}{table}(data, ...)
 
 f_meas(data, ...)
 
-\method{f_meas}{default}(data, truth = NULL, estimate = NULL, beta = 1,
-  na.rm = TRUE, ...)
+\method{f_meas}{default}(data, truth, estimate, beta = 1, na.rm = TRUE, ...)
 
 \method{f_meas}{table}(data, beta = 1, ...)
 }
@@ -50,11 +47,16 @@ true class results should be in the columns of the table.}
 
 \item{...}{Not currently used.}
 
-\item{truth}{A single character value containing the column
-name of \code{data} that contains the true classes (in a factor).}
+\item{truth}{The column identifier for the true class results
+(that is a factor). This should an unquoted column name although
+this argument is passed by expression and support
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
+names or column positions).}
 
-\item{estimate}{A single character value containing the column
-name of \code{data} that contains the predicted classes (in a factor).}
+\item{estimate}{The column identifier for the predicted class
+results (that is also factor). As with \code{truth} this can be
+specified different ways but the primary method is to use an
+unquoted variable name.}
 
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds}
@@ -112,11 +114,13 @@ computationally efficient to create the confusion matrix using
 \examples{
 data("two_class_example")
 
-precision(two_class_example, truth = "truth", estimate = "predicted")
+# Different methods for calling the functions:
+precision(two_class_example, truth = truth, estimate = predicted)
 
 recall(two_class_example, truth = "truth", estimate = "predicted")
 
-f_meas(two_class_example, truth = "truth", estimate = "predicted")
+truth_var <- quote(truth)
+f_meas(two_class_example, !! truth_var, predicted)
 }
 \references{
 Buckland, M., & Gey, F. (1994). The relationship

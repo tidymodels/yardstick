@@ -158,7 +158,7 @@ test_that('recall', {
     30/60
   )
   expect_equal(
-    recall(df_2_1, truth = "truth", estimate = "pred_na"),
+    recall(df_2_1, truth = truth, estimate = pred_na),
     26/(26+29)
   )
 })
@@ -174,7 +174,7 @@ test_that('precision', {
     30/42
   )
   expect_equal(
-    precision(df_2_1, truth = "truth", estimate = "pred_na"),
+    precision(df_2_1, truth = truth, estimate = pred_na),
     26/37
   )
 })
@@ -192,7 +192,7 @@ test_that('F1', {
     tol = 0.0001
   )
   expect_equal(
-    f_meas(df_2_1, truth = "truth", estimate = "pred_na"),
+    f_meas(df_2_1, truth = truth, estimate = pred_na),
     0.5652174,
     tol = 0.0001
   )

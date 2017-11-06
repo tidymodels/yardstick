@@ -63,11 +63,13 @@
 #' @examples 
 #' data("two_class_example")
 #'
-#' precision(two_class_example, truth = "truth", estimate = "predicted")
+#' # Different methods for calling the functions:
+#' precision(two_class_example, truth = truth, estimate = predicted)
 #' 
 #' recall(two_class_example, truth = "truth", estimate = "predicted")
 #' 
-#' f_meas(two_class_example, truth = "truth", estimate = "predicted")
+#' truth_var <- quote(truth)
+#' f_meas(two_class_example, !! truth_var, predicted)
 #' @export recall
 recall <- function(data, ...)
   UseMethod("recall")
@@ -89,11 +91,18 @@ recall <- function(data, ...)
 #' @rdname recall
 #' @export
 recall.data.frame <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+  function(data, truth, estimate, na.rm = TRUE, ...) {
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
@@ -110,11 +119,18 @@ precision <- function(data, ...)
 #' @rdname recall
 #' @export
 precision.data.frame <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+  function(data, truth, estimate, na.rm = TRUE, ...) {
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
@@ -143,11 +159,18 @@ f_meas <- function(data, ...)
 #' @rdname recall
 #' @export
 f_meas.default <-
-  function(data, truth = NULL, estimate = NULL, beta = 1, na.rm = TRUE, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+  function(data, truth, estimate, beta = 1, na.rm = TRUE, ...) {
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
