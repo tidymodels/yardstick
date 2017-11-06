@@ -2,7 +2,7 @@ library(testthat)
 library(yardstick)
 library(pROC)
 library(MLmetrics)
-
+library(tidyselect)
 
 ## data from: Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
 #'  sensitivity and specificity,'' *British Medical Journal*,
@@ -236,22 +236,30 @@ test_that('Youden J', {
 roc_curv <- pROC::roc(two_class_example$truth,
                       two_class_example$Class1,
                       levels = levels(two_class_example$truth))
-roc_val <- as.numeric(roc_curv$auc)
 lvls <- levels(two_class_example$truth)
+roc_val <- as.numeric(roc_curv$auc)
+smooth_curv <- pROC::roc(two_class_example$truth,
+                      two_class_example$Class1,
+                      levels = levels(two_class_example$truth),
+                      smooth = TRUE)
 
 test_that('ROC Curve', {
   expect_equal(
-    roc_auc(two_class_example, truth = "truth", estimate = lvls),
+    roc_auc(two_class_example, truth, Class1),
     roc_val
   )
   expect_equal(
-    roc_auc(two_class_example, truth = "truth"),
+    roc_auc(two_class_example, truth = "truth", starts_with("Class")),
     roc_val
   )  
   expect_equal(
-    roc_auc(two_class_example, truth = "truth", estimate = lvls,
-            direction = ">"),
-    1 - roc_val
+    roc_auc(two_class_example, truth = "truth", Class2),
+    roc_val
+  )  
+  expect_equal(
+    roc_auc(two_class_example, truth, Class1, options = list(smooth = TRUE)),
+    as.numeric(smooth_curv$auc),
+    tol = 0.001
   )
 })
 
@@ -261,9 +269,13 @@ pr_val <-
 
 test_that('PR Curve', {
   expect_equal(
-    pr_auc(two_class_example, truth = "truth", estimate = lvls),
+    pr_auc(two_class_example, truth = "truth", !! lvls),
     pr_val
   )
+  expect_equal(
+    pr_auc(two_class_example, truth,  Class1),
+    pr_val
+  )  
 })
 
 ll_dat <- data.frame(
@@ -275,11 +287,11 @@ ll_dat <- data.frame(
 
 test_that('LogLoss', {
   expect_equal(
-    mnLogLoss(ll_dat, truth = "obs", estimate = LETTERS[1:3]),
+    mnLogLoss(ll_dat, obs, LETTERS[1:3]),
     (log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4))/6
   )
   expect_equal(
-    mnLogLoss(ll_dat, truth = "obs", estimate = LETTERS[1:3], sum = TRUE),
+    mnLogLoss(ll_dat, truth = "obs", A, B, C, sum = TRUE),
     log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4)
   )  
 })

@@ -92,3 +92,21 @@ flatten <- function(xtab) {
   names(flat) <- paste("cell", rep(1:p, p), rep(1:p, each = p), sep = "_")
   flat
 }
+
+match_levels_to_cols <- function(nms, lvl) {
+  if(length(nms) == 1)
+    return(nms)
+  if(length(nms) > 2)
+    stop("These functions are for two-class problems and there ",
+         "were ", length(nms), "columns given in `...`",
+         call. = FALSE)
+  
+  common <- lvl[lvl %in% nms]
+  if(length(common) == 0)
+    stop("Multiple columns were specified for class probabilties ",
+         "but none match the levels of `truth`. Does not compute. ",
+         "Does not compuuuuu", call. = FALSE)
+  warning("Multiple columns were specified for class probabilties; ",
+          common[1], " will be used.", call. = FALSE)
+  common[1]
+}

@@ -12,39 +12,46 @@
 #'  to `FALSE` if the last level of the factor is considered the
 #'  level of interest. 
 
-#'
+#' @inheritParams sens
 #' @aliases roc_auc roc_auc.default pr_auc pr_auc.default 
 #' @param data A data frame with the relevant columns.  
-#' @param truth A single character value containing the column
-#'  name of `data` that contains the true classes (in a factor).
-#' @param estimate A character vector containing the columns
-#'  name of `data` that contain the predicted class probabilities
-#'  or some other score (in numeric vectors). These values are
-#'  assumed to have larger values associated with the event,
-#'  although this can be changed by passing the `direction` argument
-#'  to [roc()] via the `...` when computing the ROC curve. If
-#'  left `NULL`, the levels of the `truth` column are used. 
+#' @param ... A set of unquoted column names or one or more
+#'  `dplyr` selector functions to choose which variables contain the
+#'  class probabilities. See the examples below. For `roc_auc` and
+#'  `pr_auc`, only one value is required. If more are given, the 
+#'  functions will try to match the column name to the appropriate
+#'  factor level of `truth`. If this doesn't work, an error is
+#'  thrown. For `mnLogLoss`, there should be as many columns as
+#'  factor levels of `truth`. It is **assumed** that they are in the
+#'  same order as the factor levels. 
 #' @param na.rm A logical value indicating whether `NA`
 #'  values should be stripped before the computation proceeds
-#' @param ... Options to pass to [roc()] such as `direction` or 
+#' @param options Options to pass to [roc()] such as `direction` or 
 #'  `smooth`. These options should not include `response`, 
-#'  `predictor`, or `levels`. No options are available to pass to
-#'  [PRAUC()].
+#'  `predictor`, or `levels`. 
 #' @return A number between 0 and 1 (or NA) for `roc_auc` or
-#'  `pr_auc`. For `mnLogLoss` a number of `NA`.
+#'  `pr_auc`. For `mnLogLoss` a number or `NA`.
 #' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [mcc()]
 #' @keywords manip
 #' @examples 
+#' library(tidyselect)
+#' 
 #' data("two_class_example")
 #' prob_cols <- levels(two_class_example$truth)
 #' 
-#' roc_auc(two_class_example, truth = "truth", estimate = prob_cols)
-#' roc_auc(two_class_example, truth = "truth", estimate = prob_cols,
-#'         smooth = TRUE)
-#'         
-#' pr_auc(two_class_example, truth = "truth", estimate = prob_cols)    
+#' roc_auc(two_class_example, truth = truth, Class1)
+#' # warning is issued here because 2 columns are selected:
+#' roc_auc(two_class_example, truth, starts_with("Class"))
 #' 
-#' mnLogLoss(two_class_example, truth = "truth", estimate = prob_cols)            
+#' # passing options via a list and _not_ `...`
+#' roc_auc(two_class_example, truth = "truth", Class1,
+#'         options = list(smooth = TRUE))
+#'         
+#' pr_auc(two_class_example, truth, prob_cols)    
+#' 
+#' mnLogLoss(two_class_example, truth, starts_with("Class"))
+#' # or
+#' mnLogLoss(two_class_example, truth, !! prob_cols)            
 
 #' @export roc_auc
 roc_auc <- function(data, ...)
@@ -53,34 +60,35 @@ roc_auc <- function(data, ...)
 #' @export
 #' @rdname roc_auc
 #' @importFrom pROC roc auc
+#' @importFrom rlang invoke
 roc_auc.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
-    check_factor(data[[truth]])
+  function(data, truth, ..., options = list(), na.rm = TRUE) {
+    vars <-
+      prob_select(
+        data = data,
+        truth = !!enquo(truth),
+        ...
+      )
     
-    lvl_values <- levels(data[[truth]])
-    if(is.null(estimate))
-      estimate <- lvl_values
-    
-    check_probs(data, estimate)
-    
+    lvl_values <- levels(data[[vars$truth]])
+
     if (getOption("yardstick.event_first")) {
       lvl <- rev(lvl_values)
-      col <- lvl_values[1] 
     } else {
       lvl <- lvl_values
-      col <- lvl_values[2] 
     }
+    col <- match_levels_to_cols(vars$probs, rev(lvl))
     
-    data <- data[, c(truth, estimate)]
+    data <- data[, c(vars$truth, col)]
     if (na.rm)
       data <- data[complete.cases(data), ]
     
-    curv <- pROC::roc(
-      response = data[[truth]],
-      predictor = data[, col ],
-      levels = lvl, 
-      ...
-    )
+    # working on a better way of doing this
+    options$response <- data[[vars$truth]]
+    options$predictor <- data[[col]]
+    options$levels <- lvl
+    
+    curv <- invoke(pROC::roc, options)
     res <- unname(pROC::auc(curv))
     as.numeric(res)
   }
@@ -94,30 +102,32 @@ pr_auc <- function(data, ...)
 #' @rdname roc_auc
 #' @importFrom MLmetrics PRAUC
 pr_auc.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
-    check_factor(data[[truth]])
+  function(data, truth, ..., na.rm = TRUE) {
+    vars <-
+      prob_select(
+        data = data,
+        truth = !!enquo(truth),
+        ...
+      )
     
-    lvl_values <- levels(data[[truth]])
-    if(is.null(estimate))
-      estimate <- lvl_values
+    lvl_values <- levels(data[[vars$truth]])
     
-    check_probs(data, estimate)
+    if (getOption("yardstick.event_first")) {
+      lvl <- lvl_values
+    } else {
+      lvl <- rev(lvl_values)
+    }
+    col <- match_levels_to_cols(vars$probs, lvl)
     
-    data <- data[, c(truth, estimate)]
-    
+    data <- data[, c(vars$truth, col)]
     if (na.rm)
       data <- data[complete.cases(data), ]
-    
-    pos <- if (getOption("yardstick.event_first"))
-      lvl_values[1]
-    else
-      lvl_values[2]
-    
-    data[[truth]] <- ifelse(data[[truth]] == pos, 1, 0)
+
+    data[[vars$truth]] <- ifelse(data[[vars$truth]] == lvl[1], 1, 0)
     
     res <- MLmetrics::PRAUC(
-      y_true = data[[truth]],
-      y_pred = data[[pos]]
+      y_true = data[[vars$truth]],
+      y_pred = data[[col]]
     )
     res
   }
@@ -133,26 +143,28 @@ mnLogLoss <- function(data, ...)
 #' @param sum A logical. Should the sum of the likelihood
 #'  contrinbutions be returned (instead of the mean value)?
 mnLogLoss.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, sum = FALSE, ...) {
-    check_factor(data[[truth]])
+  function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
+    vars <-
+      prob_select(
+        data = data,
+        truth = !!enquo(truth),
+        ...
+      )
     
-    lvl_values <- levels(data[[truth]])
-    if(is.null(estimate))
-      estimate <- lvl_values
+    lvl <- levels(data[[vars$truth]])
     
-    check_probs(data, estimate)
+    if (length(vars$probs) != length(lvl))
+      stop("`...` should select exactly ",
+           length(lvl),
+           "columns of probabilities",
+           call. = FALSE)
     
-    lvl <- if (getOption("yardstick.event_first"))
-      rev(lvl_values)
-    else
-      lvl_values
-    
-    data <- data[, c(truth, estimate)]
+    data <- data[, c(vars$truth, vars$probs)]
     if (na.rm)
-      data <- data[complete.cases(data),]
-    
-    y <- model.matrix(~ data[[truth]] - 1)
-    res <- y * as.matrix(data[, estimate])
+      data <- data[complete.cases(data), ]
+
+    y <- model.matrix(~ data[[vars$truth]] - 1)
+    res <- y * as.matrix(data[, vars$probs])
     res[res <= .Machine$double.eps & res > 0] <- .Machine$double.eps
     pos_log <- function(x)
       log(x[x != 0])

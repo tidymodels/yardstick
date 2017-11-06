@@ -14,37 +14,39 @@
 \usage{
 roc_auc(data, ...)
 
-\method{roc_auc}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{roc_auc}{data.frame}(data, truth, ..., options = list(),
+  na.rm = TRUE)
 
 pr_auc(data, ...)
 
-\method{pr_auc}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{pr_auc}{data.frame}(data, truth, ..., na.rm = TRUE)
 
 mnLogLoss(data, ...)
 
-\method{mnLogLoss}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, sum = FALSE, ...)
+\method{mnLogLoss}{data.frame}(data, truth, ..., na.rm = TRUE, sum = FALSE)
 }
 \arguments{
 \item{data}{A data frame with the relevant columns.}
 
-\item{...}{Options to pass to \code{\link[=roc]{roc()}} such as \code{direction} or
+\item{...}{A set of unquoted column names or one or more
+\code{dplyr} selector functions to choose which variables contain the
+class probabilities. See the examples below. For \code{roc_auc} and
+\code{pr_auc}, only one value is required. If more are given, the
+functions will try to match the column name to the appropriate
+factor level of \code{truth}. If this doesn't work, an error is
+thrown. For \code{mnLogLoss}, there should be as many columns as
+factor levels of \code{truth}. It is \strong{assumed} that they are in the
+same order as the factor levels.}
+
+\item{truth}{The column identifier for the true class results
+(that is a factor). This should an unquoted column name although
+this argument is passed by expression and support
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
+names or column positions).}
+
+\item{options}{Options to pass to \code{\link[=roc]{roc()}} such as \code{direction} or
 \code{smooth}. These options should not include \code{response},
-\code{predictor}, or \code{levels}. No options are available to pass to
-\code{\link[=PRAUC]{PRAUC()}}.}
-
-\item{truth}{A single character value containing the column
-name of \code{data} that contains the true classes (in a factor).}
-
-\item{estimate}{A character vector containing the columns
-name of \code{data} that contain the predicted class probabilities
-or some other score (in numeric vectors). These values are
-assumed to have larger values associated with the event,
-although this can be changed by passing the \code{direction} argument
-to \code{\link[=roc]{roc()}} via the \code{...} when computing the ROC curve. If
-left \code{NULL}, the levels of the \code{truth} column are used.}
+\code{predictor}, or \code{levels}.}
 
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds}
@@ -54,7 +56,7 @@ contrinbutions be returned (instead of the mean value)?}
 }
 \value{
 A number between 0 and 1 (or NA) for \code{roc_auc} or
-\code{pr_auc}. For \code{mnLogLoss} a number of \code{NA}.
+\code{pr_auc}. For \code{mnLogLoss} a number or \code{NA}.
 }
 \description{
 These functions compute the areas under the receiver operating
@@ -71,16 +73,24 @@ to \code{FALSE} if the last level of the factor is considered the
 level of interest.
 }
 \examples{
+library(tidyselect)
+
 data("two_class_example")
 prob_cols <- levels(two_class_example$truth)
 
-roc_auc(two_class_example, truth = "truth", estimate = prob_cols)
-roc_auc(two_class_example, truth = "truth", estimate = prob_cols,
-        smooth = TRUE)
-        
-pr_auc(two_class_example, truth = "truth", estimate = prob_cols)    
+roc_auc(two_class_example, truth = truth, Class1)
+# warning is issued here because 2 columns are selected:
+roc_auc(two_class_example, truth, starts_with("Class"))
 
-mnLogLoss(two_class_example, truth = "truth", estimate = prob_cols)            
+# passing options via a list and _not_ `...`
+roc_auc(two_class_example, truth = "truth", Class1,
+        options = list(smooth = TRUE))
+        
+pr_auc(two_class_example, truth, prob_cols)    
+
+mnLogLoss(two_class_example, truth, starts_with("Class"))
+# or
+mnLogLoss(two_class_example, truth, !! prob_cols)            
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=mcc]{mcc()}}
