@@ -45,6 +45,8 @@ test_that('global var', {
   options(yardstick.event_first = TRUE)
 })
 
+pred_ch <- quote(scan)
+
 ###################################################################
 
 test_that('sensitivity', {
@@ -53,11 +55,23 @@ test_that('sensitivity', {
     231/258
   )
   expect_equal(
+    sens(pathology, estimate = scan, truth = pathology),
+    231/258
+  )  
+  expect_equal(
+    sens(pathology, pathology, !! pred_ch),
+    231/258
+  )    
+  expect_equal(
+    sens(pathology, pathology, scan),
+    231/258
+  )  
+  expect_equal(
     sens(path_tbl),
     231/258
   )
   expect_equal(
-    sens(pathology, truth = "pathology", estimate = "scan_na"),
+    sens(pathology, truth = pathology, estimate = "scan_na"),
     230/256
   )
   expect_equal(
@@ -77,7 +91,7 @@ test_that('specificity', {
     54/86
   )  
   expect_equal(
-    spec(pathology, truth = "pathology", estimate = "scan_na"),
+    spec(pathology, truth = pathology, estimate = "scan_na"),
     53/85
   )
   expect_equal(
@@ -99,12 +113,12 @@ test_that('ppv', {
     tolerance = .001
   )  
   expect_equal(
-    ppv(pathology, truth = "pathology", estimate = "scan_na"),
+    ppv(pathology, truth = pathology, estimate = "scan_na"),
     0.87744,
     tolerance = .001
   )
   expect_equal(
-    ppv(pathology, truth = "pathology", estimate = "scan", prevalence = .5),
+    ppv(pathology, truth = pathology, estimate = "scan", prevalence = .5),
     0.70642,
     tolerance = .001
   )  
@@ -122,12 +136,12 @@ test_that('npv', {
     tolerance = .001
   )  
   expect_equal(
-    npv(pathology, truth = "pathology", estimate = "scan_na"),
+    npv(pathology, truth = pathology, estimate = "scan_na"),
     0.67088,
     tolerance = .001
   )
   expect_equal(
-    npv(pathology, truth = "pathology", estimate = "scan", prevalence = .5),
+    npv(pathology, truth = pathology, estimate = "scan", prevalence = .5),
     0.85714,
     tolerance = .001
   )  

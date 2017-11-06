@@ -53,10 +53,15 @@
 #'  discrete measurements. For the `table` or `matrix`
 #'  functions, a table or matrix object, respectively, where the
 #'  true class results should be in the columns of the table. 
-#' @param truth A single character value containing the column
-#'  name of `data` that contains the true classes (in a factor).
-#' @param estimate A single character value containing the column
-#'  name of `data` that contains the predicted classes (in a factor).
+#' @param truth The column identifier for the true class results
+#'  (that is a factor). This should an unquoted column name although
+#'  this argument is passed by expression and support
+#'  [quasiquotation][rlang::quasiquotation] (you can unquote column
+#'  names or column positions).
+#' @param estimate The column identifier for the predicted class
+#'  results (that is also factor). As with `truth` this can be
+#'  specified different ways but the primary method is to use an
+#'  unquoted variable name.
 #' @param prevalence A numeric value for the rate of the
 #'  "positive" class of the data.
 #' @param na.rm A logical value indicating whether `NA`
@@ -77,15 +82,14 @@
 #' 
 #' # Given that a sample is Class 1, 
 #' #   what is the probability that is predicted as Class 1? 
-#' sens(two_class_example, truth = "truth", estimate = "predicted")
+#' sens(two_class_example, truth = truth, estimate = predicted)
 #' 
 #' # Given that a sample is predicted to be Class 1, 
 #' #  what is the probability that it truly is Class 1? 
-#' ppv(two_class_example, truth = "truth", estimate = "predicted")
+#' ppv(two_class_example, truth = truth, estimate = predicted)
 #' 
 #' # But what if we think that Class 1 only occurs 40% of the time?
-#' ppv(two_class_example, truth = "truth", estimate = "predicted",
-#'     prevalence = 0.40) 
+#' ppv(two_class_example, truth, predicted, prevalence = 0.40) 
 #' @export sens
 sens <- function(data, ...)
   UseMethod("sens")
@@ -93,11 +97,18 @@ sens <- function(data, ...)
 #' @export
 #' @rdname sens
 sens.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+  function(data, truth, estimate, na.rm = TRUE, ...) {
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+  
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
@@ -136,11 +147,18 @@ spec <-  function(data, ...)
 #' @export
 #' @rdname sens
 spec.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, na.rm = TRUE, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+  function(data, truth, estimate, na.rm = TRUE, ...) {
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
@@ -178,12 +196,19 @@ ppv <- function(data, ...)
 
 #' @export
 ppv.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, 
+  function(data, truth, estimate, 
            na.rm = TRUE, prevalence = NULL, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
@@ -231,12 +256,19 @@ npv <- function(data, ...)
 
 #' @export
 npv.data.frame  <-
-  function(data, truth = NULL, estimate = NULL, 
+  function(data, truth, estimate, 
            na.rm = TRUE, prevalence = NULL, ...) {
-    check_call_vars(match.call(expand.dots = TRUE))
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+    
     xtab <- vec2table(
-      truth = get_col(data, truth),
-      estimate = get_col(data, estimate),
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),

@@ -31,15 +31,13 @@
 \usage{
 sens(data, ...)
 
-\method{sens}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{sens}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 \method{sens}{table}(data, ...)
 
 \method{sens}{matrix}(data, ...)
 
-\method{spec}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{spec}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 ppv(data, ...)
 
@@ -61,11 +59,16 @@ true class results should be in the columns of the table.}
 
 \item{...}{Not currently used.}
 
-\item{truth}{A single character value containing the column
-name of \code{data} that contains the true classes (in a factor).}
+\item{truth}{The column identifier for the true class results
+(that is a factor). This should an unquoted column name although
+this argument is passed by expression and support
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
+names or column positions).}
 
-\item{estimate}{A single character value containing the column
-name of \code{data} that contains the predicted classes (in a factor).}
+\item{estimate}{The column identifier for the predicted class
+results (that is also factor). As with \code{truth} this can be
+specified different ways but the primary method is to use an
+unquoted variable name.}
 
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds}
@@ -129,15 +132,14 @@ data("two_class_example")
 
 # Given that a sample is Class 1, 
 #   what is the probability that is predicted as Class 1? 
-sens(two_class_example, truth = "truth", estimate = "predicted")
+sens(two_class_example, truth = truth, estimate = predicted)
 
 # Given that a sample is predicted to be Class 1, 
 #  what is the probability that it truly is Class 1? 
-ppv(two_class_example, truth = "truth", estimate = "predicted")
+ppv(two_class_example, truth = truth, estimate = predicted)
 
 # But what if we think that Class 1 only occurs 40\% of the time?
-ppv(two_class_example, truth = "truth", estimate = "predicted",
-    prevalence = 0.40) 
+ppv(two_class_example, truth, predicted, prevalence = 0.40) 
 }
 \references{
 Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
