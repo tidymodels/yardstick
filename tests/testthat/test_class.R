@@ -85,23 +85,48 @@ test_that('accuracy', {
 
 ###################################################################
 
-test_that('bad args', {
+test_that('name/col matching', {
   expect_error(
-    conf_mat(three_class, truth = "obs", estimate = "pred_val")
+    yardstick:::match_levels_to_cols(names(iris))
   )
-  expect_error(
-    accuracy(three_class, truth = "obs", estimate = "pred_val")
+  expect_equal(
+    yardstick:::match_levels_to_cols(
+      nms = c("Class1", "Class2"),
+      lvl = c("Class1", "Class2")
+    ),
+    "Class1"
   )  
-  expect_error(
-    accuracy(three_class, truth = pred_val, estimate = "obs")
-  )  
-  expect_error(
-    conf_mat(three_class_tb[1,,drop = FALSE])
+  expect_equal(
+    yardstick:::match_levels_to_cols(
+      nms = "Class1",
+      lvl = c("Class1", "Class2")
+    ),
+    "Class1"
   ) 
-  expect_error(
-    conf_mat(three_class_tb[2:3, ])
+  expect_equal(
+    yardstick:::match_levels_to_cols(
+      nms = "Class1",
+      lvl = c("Class2", "Class1")
+    ),
+    "Class1"
+  )   
+  expect_equal(
+    yardstick:::match_levels_to_cols(
+      nms = c("Class1", "Class2"),
+      lvl = c("Class2", "Class1")
+    ),
+    "Class2"
   )  
   expect_error(
-    conf_mat(three_class_tb[c(1, 3), 1:2])
-  )     
+    yardstick:::match_levels_to_cols(
+      nms = c("Class 1", "Class 2"),
+      lvl = c("Class2", "Class1")
+    )
+  ) 
 })
+
+
+
+
+
+

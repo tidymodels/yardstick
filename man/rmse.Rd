@@ -11,60 +11,93 @@
 \alias{mae.data.frame}
 \alias{ccc}
 \alias{ccc.data.frame}
-\title{Calculate Metrics for Numerical Data}
+\title{Calculate Metrics for Numeric Outcomes}
 \usage{
 rmse(data, ...)
 
-\method{rmse}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{rmse}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 rsq(data, ...)
 
-\method{rsq}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{rsq}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 rsq_trad(data, ...)
 
-\method{rsq_trad}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{rsq_trad}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 mae(data, ...)
 
-\method{mae}{data.frame}(data, truth = NULL, estimate = NULL,
-  na.rm = TRUE, ...)
+\method{mae}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 ccc(data, ...)
 
-\method{ccc}{data.frame}(data, truth = NULL, estimate = NULL,
-  bias = FALSE, na.rm = TRUE, ...)
+\method{ccc}{data.frame}(data, truth, estimate, bias = FALSE, na.rm = TRUE,
+  ...)
 }
 \arguments{
 \item{data}{A data frame}
 
 \item{...}{Not currently used.}
 
-\item{truth}{A single character value containing the column
-name of \code{data} that contains the true values.}
+\item{truth}{The column identifier for the true results
+(that is numeric). This should an unquoted column name although
+this argument is passed by expression and support
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
+names or column positions).}
 
-\item{estimate}{A single character value containing the column
-name of \code{data} that contains the predicted values.}
+\item{estimate}{The column identifier for the predicted
+results (that is also numeric). As with \code{truth} this can be
+specified different ways but the primary method is to use an
+unquoted variable name.}
 
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
 \item{bias}{A logical; should the biased estimate of variance
 be used for the concordance correlation coefficient (as is
-the original formula)?}
+Lin (1989))?}
 }
 \value{
-A number
+A number or \code{NA}
 }
 \description{
-rsq differences, equations
+These functions are appropriate for cases where the model
+outcome is a number. The root mean squared error (\code{rmse}) and
+mean absolute error (\code{mae}) are error measures that are in the
+same units as the original data. The two estimates for the
+coefficient of determination, \code{rsq} and \code{rsq_trad}, differ by
+their formula. The former guarantees a value on (0, 1) while the
+latter can generate inaccurate values when the model is
+non-informative (see the examples). Both are measures of
+consistency/correlation and not of accuracy. The concordance
+correlation coefficient (\code{ccc}) is a measure of both.
+}
+\examples{
+
+rmse(solubility_test, truth = solubility, estimate = prediction)
+mae(solubility_test, truth = solubility, estimate = prediction)
+
+rsq(solubility_test, solubility, prediction)
+
+set.seed(2291)
+solubility_test$randomized <- sample(solubility_test$prediction)
+rsq(solubility_test, solubility, randomized)
+rsq_trad(solubility_test, solubility, randomized)
+
+ccc(solubility_test, solubility, prediction)
+
 }
 \references{
 Kvalseth. Cautionary note about \eqn{R^2}.
-American Statistician (1985) vol. 39 (4) pp. 279-285
+American Statistician (1985) vol. 39 (4) pp. 279-285.
+
+Lin, L. (1989). A concordance correlation
+coefficient to evaluate reproducibility. \emph{Biometrics}, 45 (1),
+255–268.
+
+Nickerson, C. (1997). A note on" A concordance correlation
+coefficient to evaluate reproducibility". \emph{Biometrics}, 53(4),
+1503-1507.
 }
 \author{
 Max Kuhn

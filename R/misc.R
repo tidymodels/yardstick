@@ -29,23 +29,6 @@ neg_val <- function(xtab, check = TRUE) {
     colnames(xtab)[1]
 }
 
-check_call_vars <- function(x) {
-  truth <- x$truth
-  estimate <- x$estimate
-  if (is.null(truth) || length(eval(truth)) > 1)
-    stop(
-      "Please specifiy a single variable name for the ",
-      "column containing the true class in `truth`.",
-      call. = FALSE
-    )
-  if (is.null(estimate) || length(eval(estimate)) > 1)
-    stop(
-      "Please specifiy a single variable name for the ",
-      "column containing the predicted class in `estimate`.",
-      call. = FALSE
-    )
-  invisible(NULL)
-}
 
 check_table <- function(x) {
   if (!all.equal(nrow(x), ncol(x)))
@@ -55,32 +38,6 @@ check_table <- function(x) {
   invisible(NULL)
 }
 
-check_factor <- function(x, two = FALSE) {
-  if (!is.factor(x))
-    stop("A factor is required", call. = FALSE)
-  if (two && length(levels(x)) != 2)
-    stop("A factor with two levels is required", call. = FALSE)
-  if (!two && length(levels(x)) == 1)
-    stop("A factor with at least two levels is required", call. = FALSE)
-  x
-}
-
-check_probs <- function(data, estimate) {
-  if (length(setdiff(estimate, names(data))) > 0)
-    stop("Some names in `estimate` are not in `data", call. = FALSE)
-  num_check <-
-    vapply(data[, estimate, drop = FALSE], is.numeric, logical(1))
-  if (length(num_check) == 1)
-    stop("`estimate` should be at least two columns",
-         call. = FALSE)
-  if (!all(num_check))
-    stop(
-      "In this function, `estimate` should be columns for numeric ",
-      "scores (such as a class probability).",
-      call. = FALSE
-    )
-  invisible(NULL)
-}
 
 # tmp <- as.table(matrix(c(11, 12, 13, 21, 22, 23, 31, 32, 33), byrow = FALSE, ncol = 3))
 # use in test
@@ -98,15 +55,15 @@ match_levels_to_cols <- function(nms, lvl) {
     return(nms)
   if(length(nms) > 2)
     stop("These functions are for two-class problems and there ",
-         "were ", length(nms), "columns given in `...`",
+         "were ", length(nms), " columns given in `...`",
          call. = FALSE)
   
   common <- lvl[lvl %in% nms]
   if(length(common) == 0)
-    stop("Multiple columns were specified for class probabilties ",
+    stop("Multiple columns were specified for class probabilities ",
          "but none match the levels of `truth`. Does not compute. ",
          "Does not compuuuuu", call. = FALSE)
-  warning("Multiple columns were specified for class probabilties; ",
+  warning("Multiple columns were specified for class probabilities; ",
           common[1], " will be used.", call. = FALSE)
   common[1]
 }

@@ -67,3 +67,16 @@ factor_select <- function(data, truth, estimate, ...) {
   
   list(truth = truth_var, estimate = est_var)
 }
+
+
+num_select <- function(data, truth, estimate, ...) {
+  truth_var <- tidyselect::vars_pull(names(data), !! enquo(truth))
+  est_var <- tidyselect::vars_pull(names(data), !! enquo(estimate))
+  if(!is.numeric(data[[truth_var]]))
+    stop("`", truth_var, "` should be numeric", call. = FALSE)
+  if(!is.numeric(data[[est_var]]))
+    stop("`", est_var, "` should be numeric.", call. = FALSE)
+  
+  list(truth = truth_var, estimate = est_var)
+}
+

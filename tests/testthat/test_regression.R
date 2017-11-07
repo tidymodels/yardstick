@@ -19,7 +19,7 @@ test_that('rmse', {
     sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
   )
   expect_equal(  
-    rmse(ex_dat, truth = "obs", estimate = "pred_na"),
+    rmse(ex_dat, truth = obs, estimate = "pred_na"),
     sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2))
   )
 })
@@ -40,7 +40,7 @@ test_that('R^2', {
     cor(ex_dat[, c(1, 4)])[1,2]^2
   )
   expect_equal(  
-    rsq(ex_dat, truth = "obs", estimate = "rand_na"),
+    rsq(ex_dat, estimate = rand_na, truth = obs),
     cor(ex_dat[, c(1, 5)], use = "complete.obs")[1,2]^2
   )  
 })
@@ -65,7 +65,7 @@ test_that('Traditional R^2', {
       )
   )
   expect_equal(
-    rsq_trad(ex_dat, truth = "obs", estimate = "rand"),
+    rsq_trad(ex_dat, truth = "obs", estimate = rand),
     1 - 
       (
         sum((ex_dat$obs - ex_dat$rand)^2)/
@@ -73,7 +73,7 @@ test_that('Traditional R^2', {
       )
   )
   expect_equal(
-    rsq_trad(ex_dat, truth = "obs", estimate = "rand_na"),
+    rsq_trad(ex_dat, obs, rand_na),
     1 - 
       (
         sum((ex_dat$obs[-ind] - ex_dat$rand[-ind])^2)/
@@ -91,7 +91,7 @@ test_that('Mean Abs Deviation', {
     mean(abs(ex_dat$obs - ex_dat$pred))
   )
   expect_equal(
-    mae(ex_dat, truth = "obs", estimate = "pred_na"),
+    mae(ex_dat, obs, pred_na),
     mean(abs(ex_dat$obs[-ind] - ex_dat$pred[-ind]))
   )  
 })
@@ -107,7 +107,7 @@ test_that('Concordance Correlation Coefficient', {
     tol = 0.001
   )
   expect_equal(
-    ccc(ex_dat, truth = "obs", estimate = "pred_na", bias = TRUE),
+    ccc(ex_dat, truth = obs, estimate = "pred_na", bias = TRUE),
     # epiR::epi.ccc(x = ex_dat$obs[-ind], y = ex_dat$pred_na[-ind])
     0.8161879,
     tol = 0.001
