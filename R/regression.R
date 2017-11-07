@@ -74,8 +74,12 @@ rmse.data.frame <-
     data <- data[, c(vars$truth, vars$estimate)]
     if (na.rm)
       data <- data[complete.cases(data), ]
-    sqrt( mean( (data[[vars$estimate]] - data[[vars$truth]]) ^ 2) )
+    rmse_calc(data[[vars$truth]], data[[vars$estimate]])
   }
+
+rmse_calc <- function(obs, pred) 
+  sqrt( mean( (obs - pred) ^ 2) )
+
 
 #' @export 
 #' @rdname rmse
@@ -98,8 +102,11 @@ rsq.data.frame <-
     if (na.rm)
       data <- data[complete.cases(data), ]
     
-    cor(data)[1,2]^2
+    rsq_calc(data[[vars$truth]], data[[vars$estimate]])
   }
+
+rsq_calc <- function(obs, pred) 
+  cor(obs, pred)^2
 
 
 #' @export 
