@@ -2,3 +2,10 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^codecov\.yml$
+^docs$
+README.Rmd
+README.html
+^docs$
+^_pkgdown\.yml$
+contributors.md
+

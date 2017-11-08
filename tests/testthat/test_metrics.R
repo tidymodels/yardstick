@@ -54,16 +54,16 @@ test_that('bad args', {
 
 test_that('bad args', {
   expect_error(
-    metrics(two_class_example, truth, Class1),
+    metrics(two_class_example, truth, Class1)
   )
   expect_error(
-    metrics(two_class_example, Class1, truth),
+    metrics(two_class_example, Class1, truth)
   )  
   expect_error(
-    metrics(three_class, "obs", "pred", setosa, versicolor),
+    metrics(three_class, "obs", "pred", setosa, versicolor)
   ) 
   expect_error(
-    metrics(two_class_example, truth, predicted, Class1),
+    metrics(two_class_example, truth, predicted, Class1)
   )  
 })
 

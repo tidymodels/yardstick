@@ -1,0 +1,39 @@
+template:
+  params:
+    bootswatch: united
+
+reference:
+  - title: Classification Metrics
+    contents:
+    - metrics
+    - conf_mat
+    - sens
+    - spec
+    - recall
+    - precision
+    - mcc
+    - j_index
+    - f_meas
+    - accuracy
+    - ppv
+    - npv
+    - mnLogLoss
+    - roc_auc
+    - pr_auc
+  - title: Regression Metrics
+    contents:
+    - rmse
+    - rsq
+    - rsq_trad
+    - mae
+    - ccc
+  - title: Other Functions
+    contents:
+    - matches("tidy")  
+
+navbar:
+  left:
+  - text: Reference
+    href: reference/index.html
+  - text: News
+    href: news/index.html
