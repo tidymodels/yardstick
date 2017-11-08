@@ -156,7 +156,7 @@ mnLogLoss.data.frame  <-
     if (length(vars$probs) != length(lvl))
       stop("`...` should select exactly ",
            length(lvl),
-           "columns of probabilities",
+           " columns of probabilities",
            call. = FALSE)
     
     data <- data[, c(vars$truth, vars$probs)]

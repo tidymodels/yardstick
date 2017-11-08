@@ -79,52 +79,41 @@ test_that('just probs', {
 
 test_that('both', {
   expect_equal(
-    yardstick:::both_select(two_class_example,
-                            truth = truth,
-                            estimate = predicted,
-                            Class1), 
+    yardstick:::all_select(two_class_example,
+                           truth = truth,
+                           estimate = predicted,
+                           Class1), 
     list(truth = "truth", estimate = "predicted", probs = "Class1")
   )
   expect_equal(
-    yardstick:::both_select(two_class_example, truth, predicted, Class1, Class2), 
+    yardstick:::all_select(two_class_example, truth, predicted, Class1, Class2), 
     list(truth = "truth", estimate = "predicted", probs = c("Class1", "Class2"))
   )  
   expect_equal(
-    yardstick:::both_select(two_class_example,
-                              truth = truth,
-                              estimate = predicted,
-                              matches("Class")),
+    yardstick:::all_select(two_class_example,
+                           truth = truth,
+                           estimate = predicted,
+                           matches("Class")),
     list(truth = "truth", estimate = "predicted", probs = c("Class1", "Class2"))
   )
   expect_error(
-    yardstick:::both_select(two_class_example,
-                              truth = truth,
-                              estimate = Class1)
+    yardstick:::all_select(two_class_example,
+                           truth = truth,
+                           estimate = matches("Class"))
   )
   expect_error(
-    yardstick:::both_select(two_class_example,
-                              truth = truth,
-                              estimate = matches("Class"))
-  )
-  expect_error(
-    yardstick:::both_select(two_class_example, truth = tru)
+    yardstick:::all_select(two_class_example, truth = tru)
   )  
   expect_error(
-    yardstick:::both_select(two_class_example,
-                            truth = Class1,
-                            estimate = predicted,
-                            Class2)
-  )
-  expect_error(
-    yardstick:::both_select(two_class_example,
-                            truth = tru,
-                            estimate = predicted,
-                            Class2)
+    yardstick:::all_select(two_class_example,
+                           truth = tru,
+                           estimate = predicted,
+                           Class2)
   )  
   expect_error(
-    yardstick:::both_select(two_class_example,
-                            truth = truth,
-                            estimate = predicted,
-                            Class)
+    yardstick:::all_select(two_class_example,
+                           truth = truth,
+                           estimate = predicted,
+                           Class)
   )     
 })
