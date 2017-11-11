@@ -2,8 +2,7 @@
 
 [![Build Status](https://travis-ci.org/topepo/yardstick.svg?branch=master)](https://travis-ci.org/topepo/yardstick)
 [![Coverage Status](https://img.shields.io/codecov/c/github/topepo/yardstick/master.svg)](https://codecov.io/github/topepo/yardstick?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yardstick)](http://cran.r-project.org/web/packages/yardstick)
-[![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](http://cran.rstudio.com/package=yardstick)
+
 
 
 
@@ -73,6 +72,8 @@ To install the package:
 
 
 ```r
+install.packages("yardstick")
+
 ## for development version:
 require("devtools")
 install_github("topepo/yardstick")
