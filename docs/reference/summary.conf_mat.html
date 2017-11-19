@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  <link href="../extra.css" rel="stylesheet">
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -106,7 +107,7 @@ to derive this value.</p></td>
     <tr>
       <th>beta</th>
       <td><p>A numeric value used to weight precision and
-recall for <code><a href='recall.html'>f_meas()</a></code>.</p></td>
+recall for <code>f_meas()</code>.</p></td>
     </tr>
     <tr>
       <th>wide</th>
@@ -142,28 +143,30 @@ level of interest.</p>
 
 <span class='no'>cmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='conf_mat.html'>conf_mat</a></span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='st'>"predicted"</span>)
 <span class='fu'>summary</span>(<span class='no'>cmat</span>, <span class='kw'>wide</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 12
-#&gt;   accuracy kappa  sens  spec prevalence   ppv   npv   mcc j_index precision
-#&gt;      &lt;dbl&gt; &lt;lgl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
-#&gt; 1    0.838    NA  0.88 0.793      0.516 0.819 0.861 0.677   0.673     0.819
-#&gt; # ... with 2 more variables: recall &lt;dbl&gt;, F1 &lt;dbl&gt;</div><div class='input'><span class='fu'>summary</span>(<span class='no'>cmat</span>, <span class='kw'>wide</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='fl'>0.70</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 12
-#&gt;   accuracy kappa  sens  spec prevalence   ppv   npv   mcc j_index precision
-#&gt;      &lt;dbl&gt; &lt;lgl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
-#&gt; 1    0.838    NA  0.88 0.793        0.7 0.909 0.739 0.677   0.673     0.819
-#&gt; # ... with 2 more variables: recall &lt;dbl&gt;, F1 &lt;dbl&gt;</div><div class='input'>
+#&gt;   accuracy kappa     sens      spec prevalence       ppv       npv       mcc
+#&gt;      &lt;dbl&gt; &lt;lgl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1    0.838    NA 0.879845 0.7933884      0.516 0.8194946 0.8609865 0.6768476
+#&gt; # ... with 4 more variables: j_index &lt;dbl&gt;, precision &lt;dbl&gt;, recall &lt;dbl&gt;,
+#&gt; #   F1 &lt;dbl&gt;</div><div class='input'><span class='fu'>summary</span>(<span class='no'>cmat</span>, <span class='kw'>wide</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='fl'>0.70</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 12
+#&gt;   accuracy kappa     sens      spec prevalence       ppv       npv       mcc
+#&gt;      &lt;dbl&gt; &lt;lgl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1    0.838    NA 0.879845 0.7933884        0.7 0.9085621 0.7388948 0.6768476
+#&gt; # ... with 4 more variables: j_index &lt;dbl&gt;, precision &lt;dbl&gt;, recall &lt;dbl&gt;,
+#&gt; #   F1 &lt;dbl&gt;</div><div class='input'>
 <span class='fu'>library</span>(<span class='no'>dplyr</span>)
 <span class='fu'>data</span>(<span class='st'>"hpc_cv"</span>)
 
 <span class='co'># Compute statistics per resample then summarize</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_by</span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>do</span>(<span class='fu'>summary</span>(<span class='fu'><a href='conf_mat.html'>conf_mat</a></span>(<span class='no'>.</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"obs"</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='st'>"pred"</span>))) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_by</span>(<span class='no'>name</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarize</span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>value</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/do.html'>do</a></span>(<span class='fu'>summary</span>(<span class='fu'><a href='conf_mat.html'>conf_mat</a></span>(<span class='no'>.</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"obs"</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='st'>"pred"</span>))) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>name</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>value</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
             <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'>sd</span>(<span class='no'>value</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;       name  mean     sd
-#&gt;      &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1 accuracy 0.709 0.0247
-#&gt; 2    kappa   NaN    NaN</div><div class='input'>            
+#&gt;       name      mean        sd
+#&gt;      &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1 accuracy 0.7086462 0.0246927
+#&gt; 2    kappa       NaN       NaN</div><div class='input'>            
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

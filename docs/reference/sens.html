@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  <link href="../extra.css" rel="stylesheet">
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -185,16 +186,16 @@ to <code>FALSE</code> if the last level of the factor is considered the
 level of interest.</p>
 <p>Suppose a 2x2 table with notation</p><table><tr><td> </td>
 <td> Reference </td>
-</tr><tr><td> </td>
-<td> Predicted </td>
-</tr><tr><td> Event </td>
+<td> </td>
+</tr><tr><td> Predicted </td>
+<td> Event </td>
 <td> No Event
 </td>
 </tr><tr><td> Event </td>
 <td> A </td>
-</tr><tr><td> B </td>
-<td> No Event </td>
-</tr><tr><td> C </td>
+<td> B </td>
+</tr><tr><td> No Event </td>
+<td> C </td>
 <td> D </td>
 </tr></table>
     <p>The formulas used here are: $$Sensitivity = A/(A+C)$$ $$Specificity =
@@ -227,12 +228,12 @@ predictive values,'' <em>British Medical Journal</em>, vol 309,
 
 <span class='co'># Given that a sample is Class 1, </span>
 <span class='co'>#   what is the probability that is predicted as Class 1? </span>
-<span class='fu'>sens</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.88</div><div class='input'>
+<span class='fu'>sens</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.879845</div><div class='input'>
 <span class='co'># Given that a sample is predicted to be Class 1, </span>
 <span class='co'>#  what is the probability that it truly is Class 1? </span>
-<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.819</div><div class='input'>
+<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8194946</div><div class='input'>
 <span class='co'># But what if we think that Class 1 only occurs 40% of the time?</span>
-<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='fl'>0.40</span>)</div><div class='output co'>#&gt; [1] 0.74</div></pre>
+<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='fl'>0.40</span>)</div><div class='output co'>#&gt; [1] 0.7395132</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

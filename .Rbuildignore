@@ -5,7 +5,7 @@
 ^docs$
 README.Rmd
 README.html
-^docs$
 ^_pkgdown\.yml$
 contributors.md
 
+^pkgdown$

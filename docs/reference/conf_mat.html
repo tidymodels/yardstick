@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  <link href="../extra.css" rel="stylesheet">
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -150,12 +151,18 @@ levels.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>dplyr</span>)
-<span class='fu'>data</span>(<span class='st'>"hpc_cv"</span>)
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'>data</span>(<span class='st'>"hpc_cv"</span>)
 
 <span class='co'># The confusion matrix from a single assessment set (i.e. fold)</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>filter</span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>conf_mat</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt;           Truth
 #&gt; Prediction  VF   F   M   L
 #&gt;         VF 166  33   8   1
@@ -166,39 +173,39 @@ levels.</p>
 <span class='co'># terms of the proportion of the data contained in each cell. </span>
 <span class='co'># First get the raw cell counts per fold using the `tidy` method</span>
 <span class='no'>cells_per_resample</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_by</span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>do</span>(<span class='fu'>tidy</span>(<span class='fu'>conf_mat</span>(<span class='no'>.</span>, <span class='no'>obs</span>, <span class='no'>pred</span>)))
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/do.html'>do</a></span>(<span class='fu'>tidy</span>(<span class='fu'>conf_mat</span>(<span class='no'>.</span>, <span class='no'>obs</span>, <span class='no'>pred</span>)))
 
 <span class='co'># Get the totals per resample</span>
 <span class='no'>counts_per_resample</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_by</span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarize</span>(<span class='kw'>total</span> <span class='kw'>=</span> <span class='fu'>n</span>()) <span class='kw'>%&gt;%</span>
-  <span class='fu'>left_join</span>(<span class='no'>cells_per_resample</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"Resample"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>total</span> <span class='kw'>=</span> <span class='fu'><a href='http://dplyr.tidyverse.org/reference/n.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/join.html'>left_join</a></span>(<span class='no'>cells_per_resample</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"Resample"</span>) <span class='kw'>%&gt;%</span>
   <span class='co'># Compute the proportions</span>
-  <span class='fu'>mutate</span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='no'>value</span>/<span class='no'>total</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_by</span>(<span class='no'>name</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='no'>value</span>/<span class='no'>total</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>name</span>) <span class='kw'>%&gt;%</span>
   <span class='co'># Average</span>
-  <span class='fu'>summarize</span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>prop</span>))
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>prop</span>))
 
 <span class='no'>counts_per_resample</span></div><div class='output co'>#&gt; # A tibble: 16 x 2
-#&gt;        name     prop
-#&gt;       &lt;chr&gt;    &lt;dbl&gt;
-#&gt;  1 cell_1_1 0.467245
-#&gt;  2 cell_1_2 0.107013
-#&gt;  3 cell_1_3 0.018466
-#&gt;  4 cell_1_4 0.002595
-#&gt;  5 cell_2_1 0.040687
-#&gt;  6 cell_2_2 0.186605
-#&gt;  7 cell_2_3 0.063165
-#&gt;  8 cell_2_4 0.017309
-#&gt;  9 cell_3_1 0.001734
-#&gt; 10 cell_3_2 0.006921
-#&gt; 11 cell_3_3 0.022779
-#&gt; 12 cell_3_4 0.008073
-#&gt; 13 cell_4_1 0.000575
-#&gt; 14 cell_4_2 0.010393
-#&gt; 15 cell_4_3 0.014425
-#&gt; 16 cell_4_4 0.032017</div><div class='input'>
+#&gt;        name         prop
+#&gt;       &lt;chr&gt;        &lt;dbl&gt;
+#&gt;  1 cell_1_1 0.4672451291
+#&gt;  2 cell_1_2 0.1070125709
+#&gt;  3 cell_1_3 0.0184655413
+#&gt;  4 cell_1_4 0.0025945025
+#&gt;  5 cell_2_1 0.0406866182
+#&gt;  6 cell_2_2 0.1866050267
+#&gt;  7 cell_2_3 0.0631650619
+#&gt;  8 cell_2_4 0.0173094431
+#&gt;  9 cell_3_1 0.0017341137
+#&gt; 10 cell_3_2 0.0069206198
+#&gt; 11 cell_3_3 0.0227791313
+#&gt; 12 cell_3_4 0.0080725199
+#&gt; 13 cell_4_1 0.0005747126
+#&gt; 14 cell_4_2 0.0103930022
+#&gt; 15 cell_4_3 0.0144251000
+#&gt; 16 cell_4_4 0.0320169067</div><div class='input'>
 <span class='co'># Now reshape these into a matrix</span>
 <span class='no'>mean_cmat</span> <span class='kw'>&lt;-</span> <span class='fu'>matrix</span>(<span class='no'>counts_per_resample</span>$<span class='no'>prop</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 <span class='fu'>rownames</span>(<span class='no'>mean_cmat</span>) <span class='kw'>&lt;-</span> <span class='fu'>levels</span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)

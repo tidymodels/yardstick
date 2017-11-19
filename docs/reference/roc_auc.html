@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  <link href="../extra.css" rel="stylesheet">
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -167,19 +168,24 @@ level of interest.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>tidyselect</span>)
-
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>tidyselect</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘tidyselect’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:dplyr’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    contains, ends_with, everything, matches, num_range, one_of,</span>
+#&gt; <span class='message'>    starts_with</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    matches</span></div><div class='input'>
 <span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
 <span class='no'>prob_cols</span> <span class='kw'>&lt;-</span> <span class='fu'>levels</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>)
 
-<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; [1] 0.939</div><div class='input'><span class='co'># warning is issued here because 2 columns are selected:</span>
-<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'>starts_with</span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.939</div><div class='input'>
+<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; [1] 0.9393139</div><div class='input'><span class='co'># warning is issued here because 2 columns are selected:</span>
+<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.9393139</div><div class='input'>
 <span class='co'># passing options via a list and _not_ `...`</span>
 <span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='no'>Class1</span>,
-        <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] 0.942</div><div class='input'>
-<span class='fu'>pr_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.943</div><div class='input'>
-<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'>starts_with</span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; [1] -0.328</div><div class='input'><span class='co'># or</span>
-<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; [1] -0.328</div></pre>
+        <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] 0.9421511</div><div class='input'>
+<span class='fu'>pr_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.9425707</div><div class='input'>
+<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; [1] -0.3283096</div><div class='input'><span class='co'># or</span>
+<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; [1] -0.3283096</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
