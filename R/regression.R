@@ -17,7 +17,7 @@
 #'  this argument is passed by expression and support
 #'  [quasiquotation][rlang::quasiquotation] (you can unquote column
 #'  names or column positions).
-#' @param estimate The column identifier for the predicted 
+#' @param estimate The column identifier for the predicted
 #'  results (that is also numeric). As with `truth` this can be
 #'  specified different ways but the primary method is to use an
 #'  unquoted variable name.
@@ -29,39 +29,40 @@
 #' @param ... Not currently used.
 #' @return A number or `NA`
 #' @author Max Kuhn
-#' @references Kvalseth. Cautionary note about \eqn{R^2}. 
+#' @references Kvalseth. Cautionary note about \eqn{R^2}.
 #' American Statistician (1985) vol. 39 (4) pp. 279-285.
-#' 
+#'
 #' Lin, L. (1989). A concordance correlation
 #'  coefficient to evaluate reproducibility. _Biometrics_, 45 (1),
 #'  255–268.
-#' 
+#'
 #' Nickerson, C. (1997). A note on" A concordance correlation
 #'  coefficient to evaluate reproducibility". _Biometrics_, 53(4),
 #'  1503-1507.
+#'
 #' @keywords manip
-#' @examples 
-#' 
+#' @examples
+#'
 #' rmse(solubility_test, truth = solubility, estimate = prediction)
 #' mae(solubility_test, truth = solubility, estimate = prediction)
-#' 
+#'
 #' rsq(solubility_test, solubility, prediction)
-#' 
+#'
 #' set.seed(2291)
 #' solubility_test$randomized <- sample(solubility_test$prediction)
 #' rsq(solubility_test, solubility, randomized)
 #' rsq_trad(solubility_test, solubility, randomized)
-#' 
+#'
 #' ccc(solubility_test, solubility, prediction)
-#' 
-#' @export 
+#'
+#' @export
 #' @rdname rmse
 rmse <- function(data, ...)
   UseMethod("rmse")
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases 
+#' @importFrom stats complete.cases
 rmse.data.frame <-
   function(data, truth, estimate, na.rm = TRUE, ...) {
     vars <-
@@ -77,11 +78,11 @@ rmse.data.frame <-
     rmse_calc(data[[vars$truth]], data[[vars$estimate]])
   }
 
-rmse_calc <- function(obs, pred) 
+rmse_calc <- function(obs, pred)
   sqrt( mean( (obs - pred) ^ 2) )
 
 
-#' @export 
+#' @export
 #' @rdname rmse
 rsq <- function(data, ...)
   UseMethod("rsq")
@@ -101,15 +102,15 @@ rsq.data.frame <-
     data <- data[, c(vars$truth, vars$estimate)]
     if (na.rm)
       data <- data[complete.cases(data), ]
-    
+
     rsq_calc(data[[vars$truth]], data[[vars$estimate]])
   }
 
-rsq_calc <- function(obs, pred) 
+rsq_calc <- function(obs, pred)
   cor(obs, pred)^2
 
 
-#' @export 
+#' @export
 #' @rdname rmse
 rsq_trad <- function(data, ...)
   UseMethod("rsq_trad")
@@ -135,7 +136,7 @@ rsq_trad.data.frame <-
   }
 
 
-#' @export 
+#' @export
 #' @rdname rmse
 mae <- function(data, ...)
   UseMethod("mae")
@@ -159,7 +160,7 @@ mae.data.frame <-
   }
 
 
-#' @export 
+#' @export
 #' @rdname rmse
 ccc <- function(data, ...)
   UseMethod("ccc")
@@ -179,7 +180,7 @@ ccc.data.frame <-
     data <- data[, c(vars$truth, vars$estimate)]
     if (na.rm)
       data <- data[complete.cases(data), ]
-    
+
     m_e <- mean(data[[vars$estimate]])
     m_t <- mean(data[[vars$truth]])
     v_e <- var(data[[vars$estimate]])
@@ -187,12 +188,12 @@ ccc.data.frame <-
     cross <- scale(data[[vars$truth]], scale = FALSE) *
       scale(data[[vars$estimate]], scale = FALSE)
     cross <- mean(cross)
-    
+
     if (bias) {
       n <- nrow(data)
       v_e <- v_e * (n - 1) / n
       v_t <- v_t * (n - 1) / n
     }
-    
+
     2 * cross / (v_e + v_t + (m_e - m_t) ^ 2)
   }
