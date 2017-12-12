@@ -40,17 +40,6 @@
 #'  coefficient to evaluate reproducibility". _Biometrics_, 53(4),
 #'  1503-1507.
 #'
-#' Williams, P.C. (1987) Variables affecting near-infrared reflectance
-#'  spectroscopic analysis. In: Near Infrared Technology in the Agriculture
-#'  and Food Industries. 1st Ed. P.Williams and K.Norris, Eds. Am. Cereal
-#'  Assoc. Cereal Chem., St. Paul, MN.
-#'
-#' Bellon-Maurel, V., Fernandez-Ahumada, E., Palagos, B., Roger, J.M.
-#'  and McBratney, A., (2010). Critical review of chemometric indicators
-#'  commonly used for assessing the quality of the prediction of soil
-#'  attributes by NIR spectroscopy. TrAC Trends in Analytical Chemistry,
-#'  29(9), pp.1073-1081.
-#'
 #' @keywords manip
 #' @examples
 #'
@@ -207,59 +196,4 @@ ccc.data.frame <-
     }
 
     2 * cross / (v_e + v_t + (m_e - m_t) ^ 2)
-  }
-
-#' @export
-#' @rdname rmse
-rpd <- function(data, ...)
-  UseMethod("rpd")
-
-#' @rdname rmse
-#' @export
-#' @importFrom stats complete.cases sd
-rpd.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-
-    rmse <- rmse_calc(data[[vars$truth]], data[[vars$estimate]])
-    s_t <- sd(data[[vars$truth]])
-
-    s_t/rmse
-  }
-
-#' @export
-#' @rdname rmse
-rpiq <- function(data, ...)
-  UseMethod("rpiq")
-
-#' @rdname rmse
-#' @export
-#' @importFrom stats complete.cases quantile
-rpiq.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-
-    rmse <- rmse_calc(data[[vars$truth]], data[[vars$estimate]])
-    qs <- quantile(data[[vars$truth]], probs = seq(0, 1, 0.25), names = FALSE)
-    iq <- qs[4] - qs[2]
-
-    iq/rmse
   }
