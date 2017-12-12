@@ -7,5 +7,5 @@ README.Rmd
 README.html
 ^_pkgdown\.yml$
 contributors.md
-
+.github
 ^pkgdown$
