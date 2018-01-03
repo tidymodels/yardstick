@@ -11,14 +11,8 @@
 \alias{f_meas}
 \alias{f_meas.default}
 \alias{f_meas.table}
-\alias{recall.table}
 \alias{recall.data.frame}
-\alias{precision}
 \alias{precision.data.frame}
-\alias{precision.table}
-\alias{f_meas}
-\alias{f_meas.default}
-\alias{f_meas.table}
 \title{Calculate recall, precision and F values}
 \usage{
 recall(data, ...)

@@ -5,7 +5,6 @@
 \alias{conf_mat.table}
 \alias{conf_mat.default}
 \alias{conf_mat.data.frame}
-\alias{conf_mat.table}
 \alias{tidy.conf_mat}
 \title{Confusion Matrix for Categorical Data}
 \usage{

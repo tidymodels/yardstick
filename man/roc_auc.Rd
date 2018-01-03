@@ -6,7 +6,6 @@
 \alias{pr_auc}
 \alias{pr_auc.default}
 \alias{roc_auc.data.frame}
-\alias{pr_auc}
 \alias{pr_auc.data.frame}
 \alias{mnLogLoss}
 \alias{mnLogLoss.data.frame}
