@@ -1,13 +1,13 @@
 #' Classification Metrics on Predited Classes
-#' 
+#'
 #' General metrics for classification models
-#' 
+#'
 #' @inheritParams sens
 #' @author Max Kuhn
 #' @seealso [conf_mat()]
 
 #' @keywords manip
-#' @export 
+#' @export
 accuracy <- function(data, ...)
   UseMethod("accuracy")
 
@@ -22,12 +22,12 @@ accuracy.data.frame  <-
         estimate = !!enquo(estimate),
         ...
       )
-    
+
     xtab <- vec2table(
       truth = data[[vars$truth]],
       estimate = data[[vars$estimate]],
       na.rm = na.rm,
-      dnn = c("Prediction", "Truth"),
+      dnn = c("Truth", "Prediction"),
       ...
     )
     accuracy.table(xtab, ...)
@@ -39,7 +39,7 @@ accuracy.data.frame  <-
   function(data, ...) {
     ## "truth" in columns, predictions in rows
     check_table(data)
-    
+
     sum(diag(data))/sum(data)
   }
 

@@ -12,7 +12,7 @@ three_class$pred_lvl <- factor(as.character(three_class$pred),
 three_class$pred_val <- three_class$pred_ch
 three_class$pred_val[1] <- "wrong_value"
 
-three_class_tb <- table(three_class$pred, three_class$obs)
+three_class_tb <- table(three_class$obs, three_class$pred)
 
 
 ###################################################################
@@ -51,13 +51,13 @@ test_that('confusion matrix statistics', {
   )
   expect_equal(
     names(sum_obj_2),
-    c('accuracy', 'kappa', 'sens', 'spec', 'prevalence', 'ppv', 
+    c('accuracy', 'kappa', 'sens', 'spec', 'prevalence', 'ppv',
       'npv', 'mcc', 'j_index', 'precision', 'recall', 'F1')
   )
   expect_equal(
     sum_obj_2$sens,
     sens(three_class_tb[1:2, 1:2])
-  )  
+  )
 })
 
 
@@ -72,11 +72,11 @@ test_that('accuracy', {
   expect_equal(
     accuracy(three_class_tb),
     (24 + 17 + 14)/150
-  )  
+  )
   expect_equal(
     accuracy(as.matrix(three_class_tb)),
     (24 + 17 + 14)/150
-  )    
+  )
   expect_equal(
     accuracy(three_class, obs, pred_na),
     (11 + 10 + 11)/140
@@ -95,34 +95,34 @@ test_that('name/col matching', {
       lvl = c("Class1", "Class2")
     ),
     "Class1"
-  )  
+  )
   expect_equal(
     yardstick:::match_levels_to_cols(
       nms = "Class1",
       lvl = c("Class1", "Class2")
     ),
     "Class1"
-  ) 
+  )
   expect_equal(
     yardstick:::match_levels_to_cols(
       nms = "Class1",
       lvl = c("Class2", "Class1")
     ),
     "Class1"
-  )   
+  )
   expect_equal(
     yardstick:::match_levels_to_cols(
       nms = c("Class1", "Class2"),
       lvl = c("Class2", "Class1")
     ),
     "Class2"
-  )  
+  )
   expect_error(
     yardstick:::match_levels_to_cols(
       nms = c("Class 1", "Class 2"),
       lvl = c("Class2", "Class1")
     )
-  ) 
+  )
 })
 
 

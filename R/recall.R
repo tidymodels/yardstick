@@ -19,19 +19,19 @@
 #'
 #' The measure "F" is a combination of precision and recall (see
 #'  below).
-#'  
+#'
 #' There is no common convention on which factor level should
-#'  automatically be considered the relevant result. 
-#'  In `yardstick`, the default is to use the _first_ level. To 
+#'  automatically be considered the relevant result.
+#'  In `yardstick`, the default is to use the _first_ level. To
 #'  change this, a global option called `yardstick.event_first` is
 #'  set to `TRUE` when the package is loaded. This can be changed
 #'  to `FALSE` if the last level of the factor is considered the
-#'  level of interest. 
+#'  level of interest.
 #'
 #' Suppose a 2x2 table with notation
 #'
-#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab relevant \tab
-#' Irrelevant \cr relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+#' \tabular{rcc}{ \tab Predicted \tab \cr Reference \tab relevant \tab
+#' Irrelevant \cr relevant \tab A \tab C \cr Irrelevant \tab B \tab D \cr }
 #'
 #' The formulas used here are: \deqn{recall = A/(A+C)} \deqn{precision =
 #' A/(A+B)} \deqn{F_i = (1+i^2)*prec*recall/((i^2 * precision)+recall)}
@@ -42,7 +42,7 @@
 #'  computationally efficient to create the confusion matrix using
 #'  [conf_mat()] and applying the corresponding `summary` method
 #'  ([summary.conf_mat()]) to get the values at once.
-#'  
+#'
 #' @inheritParams sens
 #' @aliases recall recall.default recall.table precision
 #'  precision.default precision.table precision.matrix f_meas
@@ -60,14 +60,14 @@
 #'  Factor to ROC, Informedness, Markedness and Correlation.
 #'  Technical Report SIE-07-001, Flinders University
 #' @keywords manip
-#' @examples 
+#' @examples
 #' data("two_class_example")
 #'
 #' # Different methods for calling the functions:
 #' precision(two_class_example, truth = truth, estimate = predicted)
-#' 
+#'
 #' recall(two_class_example, truth = "truth", estimate = "predicted")
-#' 
+#'
 #' truth_var <- quote(truth)
 #' f_meas(two_class_example, !! truth_var, predicted)
 #' @export recall
@@ -79,11 +79,11 @@ recall <- function(data, ...)
 "recall.table" <-
   function(data, ...) {
     check_table(data)
-    
+
     relevant <- pos_val(data)
-    
+
     numer <- data[relevant, relevant]
-    denom <- sum(data[, relevant])
+    denom <- sum(data[relevant, ])
     rec <- ifelse(denom > 0, numer / denom, NA)
     rec
   }
@@ -99,13 +99,13 @@ recall.data.frame <-
         estimate = !!enquo(estimate),
         ...
       )
-    
+
     xtab <- vec2table(
       truth = data[[vars$truth]],
       estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
-      dnn = c("Prediction", "Truth"),
+      dnn = c("Truth", "Prediction"),
       ...
     )
     recall.table(xtab)
@@ -127,13 +127,13 @@ precision.data.frame <-
         estimate = !!enquo(estimate),
         ...
       )
-    
+
     xtab <- vec2table(
       truth = data[[vars$truth]],
       estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
-      dnn = c("Prediction", "Truth"),
+      dnn = c("Truth", "Prediction"),
       ...
     )
     precision.table(xtab)
@@ -143,10 +143,10 @@ precision.data.frame <-
 #' @export
 precision.table <- function (data, ...) {
   check_table(data)
-  
+
   relevant <- pos_val(data)
   numer <- data[relevant, relevant]
-  denom <- sum(data[relevant, ])
+  denom <- sum(data[, relevant])
   precision <- ifelse(denom > 0, numer / denom, NA)
   precision
 }
@@ -167,13 +167,13 @@ f_meas.default <-
         estimate = !!enquo(estimate),
         ...
       )
-    
+
     xtab <- vec2table(
       truth = data[[vars$truth]],
       estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
-      dnn = c("Prediction", "Truth"),
+      dnn = c("Truth", "Prediction"),
       ...
     )
     f_meas.table(xtab, beta = beta)
@@ -184,7 +184,7 @@ f_meas.default <-
 f_meas.table <-
   function (data, beta = 1, ...) {
     check_table(data)
-    
+
     relevant <- pos_val(data)
     precision <- precision.table(data, relevant = relevant)
     rec <- recall.table(data, relevant = relevant)

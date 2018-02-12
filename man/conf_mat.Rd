@@ -11,15 +11,16 @@
 \usage{
 conf_mat(data, ...)
 
-\method{conf_mat}{data.frame}(data, truth, estimate, dnn = c("Prediction",
-  "Truth"), ...)
+\method{conf_mat}{data.frame}(data, truth, estimate, dnn = c("Truth",
+  "Prediction"), ...)
 
 \method{conf_mat}{table}(data, ...)
 
 \method{tidy}{conf_mat}(x, ...)
 }
 \arguments{
-\item{data}{A data frame or a \code{\link[base:table]{base::table()}}.}
+\item{data}{A data frame or a \code{\link[base:table]{base::table()}}. The table should have the
+predicted values in columns and the true values in rows.}
 
 \item{...}{Options to pass to \code{\link[base:table]{base::table()}} (not including
 \code{dnn}). This argument is not currently used for the \code{tidy}
@@ -36,7 +37,9 @@ results (that is also factor). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name.}
 
-\item{dnn}{a character vector of dimnames for the table}
+\item{dnn}{A character vector of dimnames for the table. The first is the
+name for the reference value (i.e. the known results) and the second is
+the predicted value.}
 
 \item{x}{A object of class \code{\link[=conf_mat]{conf_mat()}}.}
 }
@@ -67,7 +70,7 @@ hpc_cv \%>\%
   conf_mat(obs, pred)
 
 # Now compute the average confusion matrix across all folds in
-# terms of the proportion of the data contained in each cell. 
+# terms of the proportion of the data contained in each cell.
 # First get the raw cell counts per fold using the `tidy` method
 cells_per_resample <- hpc_cv \%>\%
   group_by(Resample) \%>\%
@@ -82,7 +85,7 @@ counts_per_resample <- hpc_cv \%>\%
   mutate(prop = value/total) \%>\%
   group_by(name) \%>\%
   # Average
-  summarize(prop = mean(prop)) 
+  summarize(prop = mean(prop))
 
 counts_per_resample
 

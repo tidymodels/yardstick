@@ -19,7 +19,7 @@ accuracy(data, ...)
 \item{data}{For the default functions, a factor containing the
 discrete measurements. For the \code{table} or \code{matrix}
 functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.}
+true class results should be in the rows of the table.}
 
 \item{...}{Not currently used.}
 

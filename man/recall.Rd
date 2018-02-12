@@ -43,7 +43,7 @@ f_meas(data, ...)
 \item{data}{For the default functions, a factor containing the
 discrete measurements. For the \code{table} or \code{matrix}
 functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.}
+true class results should be in the rows of the table.}
 
 \item{...}{Not currently used.}
 
@@ -98,8 +98,8 @@ level of interest.
 
 Suppose a 2x2 table with notation
 
-\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab relevant \tab
-Irrelevant \cr relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+\tabular{rcc}{ \tab Predicted \tab \cr Reference \tab relevant \tab
+Irrelevant \cr relevant \tab A \tab C \cr Irrelevant \tab B \tab D \cr }
 
 The formulas used here are: \deqn{recall = A/(A+C)} \deqn{precision =
 A/(A+B)} \deqn{F_i = (1+i^2)*prec*recall/((i^2 * precision)+recall)}

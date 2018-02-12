@@ -11,22 +11,22 @@ pos_val <- function(xtab, check = TRUE) {
   if (check)
     if (!all(dim(xtab) == 2))
       stop("Only relavant for 2x2 tables", call. = TRUE)
-  
+
   if (getOption("yardstick.event_first"))
-    colnames(xtab)[1]
+    rownames(xtab)[1]
   else
-    colnames(xtab)[2]
+    rownames(xtab)[2]
 }
 
 neg_val <- function(xtab, check = TRUE) {
   if (check)
     if (!all(dim(xtab) == 2))
       stop("Only relavant for 2x2 tables", call. = TRUE)
-  
+
   if (getOption("yardstick.event_first"))
-    colnames(xtab)[2]
+    rownames(xtab)[2]
   else
-    colnames(xtab)[1]
+    rownames(xtab)[1]
 }
 
 
@@ -57,7 +57,7 @@ match_levels_to_cols <- function(nms, lvl) {
     stop("These functions are for two-class problems and there ",
          "were ", length(nms), " columns given in `...`",
          call. = FALSE)
-  
+
   common <- lvl[lvl %in% nms]
   if(length(common) == 0)
     stop("Multiple columns were specified for class probabilities ",
