@@ -67,7 +67,7 @@ hpc_cv \%>\%
   conf_mat(obs, pred)
 
 # Now compute the average confusion matrix across all folds in
-# terms of the proportion of the data contained in each cell. 
+# terms of the proportion of the data contained in each cell.
 # First get the raw cell counts per fold using the `tidy` method
 cells_per_resample <- hpc_cv \%>\%
   group_by(Resample) \%>\%
@@ -82,7 +82,7 @@ counts_per_resample <- hpc_cv \%>\%
   mutate(prop = value/total) \%>\%
   group_by(name) \%>\%
   # Average
-  summarize(prop = mean(prop)) 
+  summarize(prop = mean(prop))
 
 counts_per_resample
 

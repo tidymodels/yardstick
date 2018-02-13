@@ -60,5 +60,5 @@ hpc_cv \%>\%
   group_by(name) \%>\%
   summarize(mean = mean(value, na.rm = TRUE),
             sd = sd(value, na.rm = TRUE))
-            
+
 }

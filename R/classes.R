@@ -119,3 +119,5 @@ kap.data.frame  <-
     kap.table(data)
   }
 
+
+
