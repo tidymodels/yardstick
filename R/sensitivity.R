@@ -13,7 +13,7 @@
 #'  defined and a value of `NA` is returned. Similarly, when
 #'  there are no negative results, specificity is not defined and a
 #'  value of `NA` is returned. Similar statements are true for
-#'  predictive values.
+#'  predictive values. 
 #'
 #' The positive predictive value is defined as the percent of
 #'  predicted positives that are actually positive while the
@@ -21,17 +21,17 @@
 #'  positives that are actually negative.
 #'
 #' There is no common convention on which factor level should
-#'  automatically be considered the "event" or "positive" results.
-#'  In `yardstick`, the default is to use the _first_ level. To
+#'  automatically be considered the "event" or "positive" results. 
+#'  In `yardstick`, the default is to use the _first_ level. To 
 #'  change this, a global option called `yardstick.event_first` is
 #'  set to `TRUE` when the package is loaded. This can be changed
 #'  to `FALSE` if the last level of the factor is considered the
-#'  level of interest.
-#'
+#'  level of interest. 
+#'  
 #' Suppose a 2x2 table with notation
 #'
-#' \tabular{rcc}{ \tab Predicted \tab \cr Reference \tab Event \tab No Event
-#' \cr Event \tab A \tab C \cr No Event \tab B \tab D \cr }
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Event \tab No Event
+#' \cr Event \tab A \tab B \cr No Event \tab C \tab D \cr }
 #'
 #' The formulas used here are: \deqn{Sensitivity = A/(A+C)} \deqn{Specificity =
 #' D/(B+D)} \deqn{Prevalence = (A+C)/(A+B+C+D)} \deqn{PPV = (sensitivity *
@@ -40,7 +40,7 @@
 #' ((specificity)*(1-Prevalence)))}
 #'
 #' See the references for discussions of the statistics.
-#'
+#' 
 #' If more than one statistic is required, it is more
 #'  computationally efficient to create the confusion matrix using
 #'  [conf_mat()] and applying the corresponding `summary` method
@@ -52,7 +52,7 @@
 #' @param data For the default functions, a factor containing the
 #'  discrete measurements. For the `table` or `matrix`
 #'  functions, a table or matrix object, respectively, where the
-#'  true class results should be in the rows of the table.
+#'  true class results should be in the columns of the table. 
 #' @param truth The column identifier for the true class results
 #'  (that is a factor). This should an unquoted column name although
 #'  this argument is passed by expression and support
@@ -77,19 +77,19 @@
 #'  predictive values,'' *British Medical Journal*, vol 309,
 #'  102.
 #' @keywords manip
-#' @examples
+#' @examples 
 #' data("two_class_example")
-#'
-#' # Given that a sample is Class 1,
-#' #   what is the probability that is predicted as Class 1?
+#' 
+#' # Given that a sample is Class 1, 
+#' #   what is the probability that is predicted as Class 1? 
 #' sens(two_class_example, truth = truth, estimate = predicted)
-#'
-#' # Given that a sample is predicted to be Class 1,
-#' #  what is the probability that it truly is Class 1?
+#' 
+#' # Given that a sample is predicted to be Class 1, 
+#' #  what is the probability that it truly is Class 1? 
 #' ppv(two_class_example, truth = truth, estimate = predicted)
-#'
+#' 
 #' # But what if we think that Class 1 only occurs 40% of the time?
-#' ppv(two_class_example, truth, predicted, prevalence = 0.40)
+#' ppv(two_class_example, truth, predicted, prevalence = 0.40) 
 #' @export sens
 sens <- function(data, ...)
   UseMethod("sens")
@@ -105,13 +105,13 @@ sens.data.frame  <-
         estimate = !!enquo(estimate),
         ...
       )
-
+  
     xtab <- vec2table(
       truth = data[[vars$truth]],
       estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
-      dnn = c("Truth", "Prediction"),
+      dnn = c("Prediction", "Truth"),
       ...
     )
     sens.table(xtab, ...)
@@ -123,10 +123,10 @@ sens.data.frame  <-
   function(data, ...) {
     ## "truth" in columns, predictions in rows
     check_table(data)
-
+    
     positive <- pos_val(data)
     numer <- sum(data[positive, positive])
-    denom <- sum(data[positive, ])
+    denom <- sum(data[, positive])
     sens <- ifelse(denom > 0, numer / denom, NA)
     sens
   }
@@ -155,16 +155,16 @@ spec.data.frame  <-
         estimate = !!enquo(estimate),
         ...
       )
-
+    
     xtab <- vec2table(
       truth = data[[vars$truth]],
       estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
-      dnn = c("Truth", "Prediction"),
+      dnn = c("Prediction", "Truth"),
       ...
     )
-
+    
     spec.table(xtab, ...)
   }
 
@@ -174,11 +174,11 @@ spec.data.frame  <-
   function(data, ...) {
     ## "truth" in columns, predictions in rows
     check_table(data)
-
+    
     negative <- neg_val(data)
-
+    
     numer <- sum(data[negative, negative])
-    denom <- sum(data[negative, ])
+    denom <- sum(data[, negative])
     spec <- ifelse(denom > 0, numer / denom, NA)
     spec
   }
@@ -196,7 +196,7 @@ ppv <- function(data, ...)
 
 #' @export
 ppv.data.frame  <-
-  function(data, truth, estimate,
+  function(data, truth, estimate, 
            na.rm = TRUE, prevalence = NULL, ...) {
     vars <-
       factor_select(
@@ -205,16 +205,20 @@ ppv.data.frame  <-
         estimate = !!enquo(estimate),
         ...
       )
-
+    
     xtab <- vec2table(
       truth = data[[vars$truth]],
       estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
-      dnn = c("Truth", "Prediction"),
+      dnn = c("Prediction", "Truth"),
       ...
     )
-
+    lev <- if (getOption("yardstick.event_first"))
+      colnames(xtab)[1]
+    else
+      colnames(xtab)[2]
+    
     ppv.table(xtab, prevalence = prevalence, ...)
   }
 
@@ -224,17 +228,17 @@ ppv.data.frame  <-
   function(data, prevalence = NULL, ...) {
     ## "truth" in columns, predictions in rows
     check_table(data)
-
+    
     positive <- pos_val(data)
     negative <- neg_val(data)
-
+    
     if (is.null(prevalence))
-      prevalence <- sum(data[positive, ]) / sum(data)
-
+      prevalence <- sum(data[, positive]) / sum(data)
+    
     sens <- sens(data)
     spec <- spec(data)
     (sens * prevalence) / ((sens * prevalence) + ((1 - spec) * (1 - prevalence)))
-
+    
   }
 
 #' @rdname sens
@@ -252,7 +256,7 @@ npv <- function(data, ...)
 
 #' @export
 npv.data.frame  <-
-  function(data, truth, estimate,
+  function(data, truth, estimate, 
            na.rm = TRUE, prevalence = NULL, ...) {
     vars <-
       factor_select(
@@ -261,16 +265,20 @@ npv.data.frame  <-
         estimate = !!enquo(estimate),
         ...
       )
-
+    
     xtab <- vec2table(
       truth = data[[vars$truth]],
       estimate = data[[vars$estimate]],
       na.rm = na.rm,
       two_class = TRUE,
-      dnn = c("Truth", "Prediction"),
+      dnn = c("Prediction", "Truth"),
       ...
     )
-
+    lev <- if (getOption("yardstick.event_first"))
+      colnames(xtab)[2]
+    else
+      colnames(xtab)[1]
+    
     npv.table(xtab, prevalence = prevalence, ...)
   }
 
@@ -280,17 +288,17 @@ npv.data.frame  <-
   function(data, prevalence = NULL, ...) {
     ## "truth" in columns, predictions in rows
     check_table(data)
-
+    
     positive <- pos_val(data)
     negative <- neg_val(data)
-
+    
     if (is.null(prevalence))
-      prevalence <- sum(data[positive, ]) / sum(data)
-
+      prevalence <- sum(data[, positive]) / sum(data)
+    
     sens <- sens(data)
     spec <- spec(data)
     (spec * (1 - prevalence)) / (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
-
+    
   }
 
 #' @rdname sens

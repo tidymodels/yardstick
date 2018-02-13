@@ -25,7 +25,7 @@ j_index(data, ...)
 \item{data}{For the default functions, a factor containing the
 discrete measurements. For the \code{table} or \code{matrix}
 functions, a table or matrix object, respectively, where the
-true class results should be in the rows of the table.}
+true class results should be in the columns of the table.}
 
 \item{...}{Not currently used.}
 
@@ -43,17 +43,11 @@ unquoted variable name.}
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds}
 }
-\value{
-A single numeric value. For \code{mcc}, it is a correlation-like measure
-of performance based on the confusion matrix. The J index is
-\code{sens + spec - 1}.
-}
 \description{
 General metrics for two class problems that are not already
 in \code{\link[=sens]{sens()}} or \code{\link[=recall]{recall()}} are here, such as the Matthews
-correlation coefficient and Youden's J.
-}
-\details{
+correlation coefficient, Youden's J.
+
 There is no common convention on which factor level should
 automatically be considered the "event" or "positive" results.
 In \code{yardstick}, the default is to use the \emph{first} level. To
@@ -61,7 +55,8 @@ change this, a global option called \code{yardstick.event_first} is
 set to \code{TRUE} when the package is loaded. This can be changed
 to \code{FALSE} if the last level of the factor is considered the
 level of interest.
-
+}
+\details{
 If more than one statistic is required, it is more
 computationally efficient to create the confusion matrix using
 \code{\link[=conf_mat]{conf_mat()}} and applying the corresponding \code{summary} method
@@ -73,13 +68,6 @@ data("two_class_example")
 mcc(two_class_example, truth, predicted)
 
 j_index(two_class_example, truth, predicted)
-}
-\references{
-Matthews, B. W. (1975). "Comparison of the predicted and
-observed secondary structure of T4 phage lysozyme". \emph{Biochimica et
-Biophysica Acta (BBA) - Protein Structure}. 405 (2): 442–451.
-
-Youden, W.J. (1950). "Index for rating diagnostic tests". \emph{Cancer}. 3: 32–35
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=sens]{sens()}}

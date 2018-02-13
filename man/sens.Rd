@@ -55,7 +55,7 @@ npv(data, ...)
 \item{data}{For the default functions, a factor containing the
 discrete measurements. For the \code{table} or \code{matrix}
 functions, a table or matrix object, respectively, where the
-true class results should be in the rows of the table.}
+true class results should be in the columns of the table.}
 
 \item{...}{Not currently used.}
 
@@ -111,8 +111,8 @@ level of interest.
 
 Suppose a 2x2 table with notation
 
-\tabular{rcc}{ \tab Predicted \tab \cr Reference \tab Event \tab No Event
-\cr Event \tab A \tab C \cr No Event \tab B \tab D \cr }
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Event \tab No Event
+\cr Event \tab A \tab B \cr No Event \tab C \tab D \cr }
 
 The formulas used here are: \deqn{Sensitivity = A/(A+C)} \deqn{Specificity =
 D/(B+D)} \deqn{Prevalence = (A+C)/(A+B+C+D)} \deqn{PPV = (sensitivity *
@@ -130,16 +130,16 @@ computationally efficient to create the confusion matrix using
 \examples{
 data("two_class_example")
 
-# Given that a sample is Class 1,
-#   what is the probability that is predicted as Class 1?
+# Given that a sample is Class 1, 
+#   what is the probability that is predicted as Class 1? 
 sens(two_class_example, truth = truth, estimate = predicted)
 
-# Given that a sample is predicted to be Class 1,
-#  what is the probability that it truly is Class 1?
+# Given that a sample is predicted to be Class 1, 
+#  what is the probability that it truly is Class 1? 
 ppv(two_class_example, truth = truth, estimate = predicted)
 
 # But what if we think that Class 1 only occurs 40\% of the time?
-ppv(two_class_example, truth, predicted, prevalence = 0.40)
+ppv(two_class_example, truth, predicted, prevalence = 0.40) 
 }
 \references{
 Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
