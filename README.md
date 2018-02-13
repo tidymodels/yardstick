@@ -38,10 +38,10 @@ metrics(two_class_example, truth, predicted)
 ```
 
 ```
-## # A tibble: 1 x 1
-##   accuracy
-##      <dbl>
-## 1    0.838
+## # A tibble: 1 x 2
+##   accuracy kappa
+##      <dbl> <dbl>
+## 1    0.838 0.675
 ```
 
 ```r

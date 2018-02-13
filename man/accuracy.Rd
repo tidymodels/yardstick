@@ -5,6 +5,10 @@
 \alias{accuracy.data.frame}
 \alias{accuracy.table}
 \alias{accuracy.matrix}
+\alias{kap}
+\alias{kap.data.frame}
+\alias{kap.table}
+\alias{kap.matrix}
 \title{Classification Metrics on Predited Classes}
 \usage{
 accuracy(data, ...)
@@ -14,6 +18,14 @@ accuracy(data, ...)
 \method{accuracy}{table}(data, ...)
 
 \method{accuracy}{matrix}(data, ...)
+
+kap(data, ...)
+
+\method{kap}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+\method{kap}{table}(data, ...)
+
+\method{kap}{matrix}(data, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the
@@ -37,11 +49,38 @@ unquoted variable name.}
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds}
 }
+\value{
+A numeric value.
+}
 \description{
-General metrics for classification models
+Accuracy is the proportion of the data that are
+predicted correctly. Kappa is a similar measure but is normalized by
+the accuracy that would be expected by chance alone and is very useful
+when one or more classes have large frequency distributions.
+}
+\examples{
+library(dplyr)
+data("hpc_cv")
+
+# The observed and predicted classes from a single
+# assessment set (i.e. fold)
+fold_1 <- hpc_cv \%>\%
+  filter(Resample == "Fold01")
+
+fold_1 \%>\% conf_mat(truth = obs, estimate = pred)
+
+fold_1 \%>\% accuracy(truth = obs, estimate = pred)
+
+fold_1 \%>\% kap(truth = obs, estimate = pred)
+
+fold_1 \%>\% metrics(truth = obs, estimate = pred)
+}
+\references{
+Cohen, J. (1960). "A coefficient of agreement for nominal
+scales". \emph{Educational and Psychological Measurement}. 20 (1): 37–46.
 }
 \seealso{
-\code{\link[=conf_mat]{conf_mat()}}
+\code{\link[=conf_mat]{conf_mat()}}, \code{\link[=metrics]{metrics()}}
 }
 \author{
 Max Kuhn

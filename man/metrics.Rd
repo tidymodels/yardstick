@@ -42,12 +42,13 @@ unquoted variable name.}
 values should be stripped before the computation proceeds.}
 }
 \value{
-A single row tibble. When \code{truth} is a factor, there is
-an \code{\link[=accuracy]{accuracy()}} column. If a full set of class probability
-columns are passed to \code{...}, then there is also a column for
-\code{\link[=mnLogLoss]{mnLogLoss()}}. When \code{truth} has two levels and there are class
-probabilities, \code{\link[=roc_auc]{roc_auc()}} is appended. When \code{truth} is numeric,
-there are columns for \code{\link[=rmse]{rmse()}} and \code{\link[=rsq]{rsq()}},
+A single row tibble. When \code{truth} is a factor, there
+are columns for \code{\link[=accuracy]{accuracy()}} and the Kappa statistic (\code{\link[=kap]{kap()}}).
+If a full set of class probability columns are passed to \code{...},
+then there is also a column for \code{\link[=mnLogLoss]{mnLogLoss()}}. When \code{truth} has
+two levels and there are class probabilities, \code{\link[=roc_auc]{roc_auc()}} is
+appended. When \code{truth} is numeric, there are columns for
+\code{\link[=rmse]{rmse()}} and \code{\link[=rsq]{rsq()}},
 
 A number or \code{NA}
 }
