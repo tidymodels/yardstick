@@ -248,6 +248,22 @@ test_that('Balanced Accuracy', {
 })
 
 
+
+test_that('Detection Prevalence', {
+  expect_equal(
+    detection_prevalence(pathology, truth = "pathology", estimate = "scan"),
+    ( 231 + 32 ) / 344
+  )
+  expect_equal(
+    detection_prevalence(path_tbl),
+    ( 231 + 32 ) / 344
+  )
+  expect_equal(
+    detection_prevalence(pathology, pathology, scan),
+    ( 231 + 32 ) / 344
+  )
+})
+
 ###################################################################
 
 roc_curv <- pROC::roc(two_class_example$truth,

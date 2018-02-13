@@ -195,6 +195,7 @@ summary.conf_mat <- function(object, prevalence = NULL,
         mcc = mcc(xtab),
         j_index = j_index(xtab),
         balanced_accuracy = bal_accuracy(xtab),
+        detection_prevalence = bal_accuracy(xtab),
         precision = precision(xtab),
         recall = recall(xtab),
         F1 = f_meas(xtab, beta = beta)

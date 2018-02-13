@@ -52,8 +52,8 @@ test_that('confusion matrix statistics', {
   expect_equal(
     names(sum_obj_2),
     c('accuracy', 'kappa', 'sens', 'spec', 'prevalence', 'ppv',
-      'npv', 'mcc', 'j_index', 'balanced_accuracy', 'precision',
-      'recall', 'F1')
+      'npv', 'mcc', 'j_index', 'balanced_accuracy', 'detection_prevalence',
+      'precision', 'recall', 'F1')
   )
   expect_equal(
     sum_obj_2$sens,

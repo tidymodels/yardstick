@@ -2,8 +2,9 @@
 #'
 #' Other metrics for two class problems that are not already in
 #'  [sens()] or [recall()] are here, such as the Matthews
-#'  correlation coefficient, Youden's J, and balanced accuracy (the
-#'  average between sensitivity and specificity).
+#'  correlation coefficient, Youden's J, the balanced accuracy (the
+#'  average between sensitivity and specificity), and the detection
+#'  prevalence (the rate of _predicted_ events).
 #'
 #' There is no common convention on which factor level should
 #'  automatically be considered the "event" or "positive" results.
@@ -29,6 +30,8 @@
 #' j_index(two_class_example, truth, predicted)
 #'
 #' bal_accuracy(two_class_example, truth, predicted)
+#'
+#' detection_prevalence(two_class_example, truth, predicted)
 #' @export
 mcc <- function(data, ...)
   UseMethod("mcc")
@@ -120,12 +123,12 @@ j_index.data.frame  <-
   }
 
 #' @export
-#' @rdname accuracy
+#' @rdname mcc
 bal_accuracy <- function(data, ...)
   UseMethod("bal_accuracy")
 
 #' @export
-#' @rdname accuracy
+#' @rdname mcc
 bal_accuracy.data.frame  <-
   function(data, truth, estimate, na.rm = TRUE, ...) {
     vars <-
@@ -146,7 +149,7 @@ bal_accuracy.data.frame  <-
     bal_accuracy.table(xtab, ...)
   }
 
-#' @rdname accuracy
+#' @rdname mcc
 #' @export
 "bal_accuracy.table" <-
   function(data, ...) {
@@ -156,9 +159,55 @@ bal_accuracy.data.frame  <-
     ( sens(data) + spec(data) ) / 2
   }
 
-#' @rdname accuracy
+#' @rdname mcc
 "bal_accuracy.matrix" <-
   function(data, ...) {
     data <- as.table(data)
     bal_accuracy.table(data)
   }
+
+#' @export
+#' @rdname mcc
+detection_prevalence <- function(data, ...)
+  UseMethod("detection_prevalence")
+
+#' @export
+#' @rdname mcc
+detection_prevalence.data.frame  <-
+  function(data, truth, estimate, na.rm = TRUE, ...) {
+    vars <-
+      factor_select(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        ...
+      )
+
+    xtab <- vec2table(
+      truth = data[[vars$truth]],
+      estimate = data[[vars$estimate]],
+      na.rm = na.rm,
+      dnn = c("Prediction", "Truth"),
+      ...
+    )
+    detection_prevalence.table(xtab, ...)
+  }
+
+#' @rdname mcc
+#' @export
+"detection_prevalence.table" <-
+  function(data, ...) {
+    ## "truth" in columns, predictions in rows
+    check_table(data)
+
+    pos_level <- pos_val(data)
+    sum(data[pos_level, ])/sum(data)
+  }
+
+#' @rdname mcc
+"detection_prevalence.matrix" <-
+  function(data, ...) {
+    data <- as.table(data)
+    detection_prevalence.table(data)
+  }
+

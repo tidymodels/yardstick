@@ -7,6 +7,14 @@
 \alias{j_index}
 \alias{j_index.data.frame}
 \alias{j_index.table}
+\alias{bal_accuracy}
+\alias{bal_accuracy.data.frame}
+\alias{bal_accuracy.table}
+\alias{bal_accuracy.matrix}
+\alias{detection_prevalence}
+\alias{detection_prevalence.data.frame}
+\alias{detection_prevalence.table}
+\alias{detection_prevalence.matrix}
 \title{Other Metrics for 2x2 Tables}
 \usage{
 mcc(data, ...)
@@ -20,6 +28,23 @@ j_index(data, ...)
 \method{j_index}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 \method{j_index}{table}(data, ...)
+
+bal_accuracy(data, ...)
+
+\method{bal_accuracy}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+\method{bal_accuracy}{table}(data, ...)
+
+\method{bal_accuracy}{matrix}(data, ...)
+
+detection_prevalence(data, ...)
+
+\method{detection_prevalence}{data.frame}(data, truth, estimate, na.rm = TRUE,
+  ...)
+
+\method{detection_prevalence}{table}(data, ...)
+
+\method{detection_prevalence}{matrix}(data, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the
@@ -46,8 +71,9 @@ values should be stripped before the computation proceeds}
 \description{
 Other metrics for two class problems that are not already in
 \code{\link[=sens]{sens()}} or \code{\link[=recall]{recall()}} are here, such as the Matthews
-correlation coefficient, Youden's J, and balanced accuracy (the
-average between sensitivity and specificity).
+correlation coefficient, Youden's J, the balanced accuracy (the
+average between sensitivity and specificity), and the detection
+prevalence (the rate of \emph{predicted} events).
 }
 \details{
 There is no common convention on which factor level should
@@ -71,6 +97,8 @@ mcc(two_class_example, truth, predicted)
 j_index(two_class_example, truth, predicted)
 
 bal_accuracy(two_class_example, truth, predicted)
+
+detection_prevalence(two_class_example, truth, predicted)
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=sens]{sens()}}, \code{\link[=spec]{spec()}}
