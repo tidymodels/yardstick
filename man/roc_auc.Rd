@@ -5,11 +5,13 @@
 \alias{roc_auc.default}
 \alias{pr_auc}
 \alias{pr_auc.default}
+\alias{roc_curve}
 \alias{roc_auc.data.frame}
 \alias{pr_auc}
 \alias{pr_auc.data.frame}
 \alias{mnLogLoss}
 \alias{mnLogLoss.data.frame}
+\alias{roc_curve.data.frame}
 \title{Metrics Based on Class Probabilities}
 \usage{
 roc_auc(data, ...)
@@ -24,6 +26,9 @@ pr_auc(data, ...)
 mnLogLoss(data, ...)
 
 \method{mnLogLoss}{data.frame}(data, truth, ..., na.rm = TRUE, sum = FALSE)
+
+\method{roc_curve}{data.frame}(data, truth, ..., options = list(),
+  na.rm = TRUE)
 }
 \arguments{
 \item{data}{A data frame with the relevant columns.}
@@ -56,12 +61,15 @@ contrinbutions be returned (instead of the mean value)?}
 }
 \value{
 A number between 0 and 1 (or NA) for \code{roc_auc} or
-\code{pr_auc}. For \code{mnLogLoss} a number or \code{NA}.
+\code{pr_auc}. For \code{mnLogLoss} a number or \code{NA}. For \code{roc_curve}, a tibble with
+columns \code{sensitivity} and \code{specificity}. In an ordinary (i.e. non-smoothed)
+curve is used, there is also a column for \code{threshold}.
 }
 \description{
 These functions compute the areas under the receiver operating
 characteristic (ROC) curve (\code{roc_auc}), the precision-recall
-curve (\code{pr_auc}), or the multinomial log loss (\code{mnLogLoss}).
+curve (\code{pr_auc}), or the multinomial log loss (\code{mnLogLoss}). The actual ROC
+curve can be created using \code{roc_curve}.
 }
 \details{
 There is no common convention on which factor level should
@@ -71,6 +79,13 @@ change this, a global option called \code{yardstick.event_first} is
 set to \code{TRUE} when the package is loaded. This can be changed
 to \code{FALSE} if the last level of the factor is considered the
 level of interest.
+
+\code{roc_curve} computes the sensitivity at every unique
+value of the probability column (in addition to infinity and
+minus infinity). If a smooth ROC curve was produced, the unique
+observed values of the specificity are used to create the curve
+points. In either case, this may not be efficient for large data
+sets.
 }
 \examples{
 library(tidyselect)
@@ -79,18 +94,29 @@ data("two_class_example")
 prob_cols <- levels(two_class_example$truth)
 
 roc_auc(two_class_example, truth = truth, Class1)
-# warning is issued here because 2 columns are selected:
+
+# a warning is issued here because 2 columns are selected:
 roc_auc(two_class_example, truth, starts_with("Class"))
+
+library(ggplot2)
+library(dplyr)
+roc_curve(two_class_example, truth, Class1) \%>\%
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_path() +
+  geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw()
 
 # passing options via a list and _not_ `...`
 roc_auc(two_class_example, truth = "truth", Class1,
         options = list(smooth = TRUE))
-        
-pr_auc(two_class_example, truth, prob_cols)    
+
+
+pr_auc(two_class_example, truth, prob_cols)
 
 mnLogLoss(two_class_example, truth, starts_with("Class"))
 # or
-mnLogLoss(two_class_example, truth, !! prob_cols)            
+mnLogLoss(two_class_example, truth, !! prob_cols)
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=mcc]{mcc()}}

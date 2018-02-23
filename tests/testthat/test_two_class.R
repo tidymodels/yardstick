@@ -268,15 +268,15 @@ test_that('Detection Prevalence', {
 
 roc_curv <- pROC::roc(two_class_example$truth,
                       two_class_example$Class1,
-                      levels = levels(two_class_example$truth))
+                      levels = rev(levels(two_class_example$truth)))
 lvls <- levels(two_class_example$truth)
 roc_val <- as.numeric(roc_curv$auc)
 smooth_curv <- pROC::roc(two_class_example$truth,
                       two_class_example$Class1,
-                      levels = levels(two_class_example$truth),
+                      levels = rev(levels(two_class_example$truth)),
                       smooth = TRUE)
 
-test_that('ROC Curve', {
+test_that('ROC AUC', {
   expect_equal(
     roc_auc(two_class_example, truth, Class1),
     roc_val
@@ -293,6 +293,23 @@ test_that('ROC Curve', {
     roc_auc(two_class_example, truth, Class1, options = list(smooth = TRUE)),
     as.numeric(smooth_curv$auc),
     tol = 0.001
+  )
+})
+
+test_that('ROC Curve', {
+  library(pROC)
+  points <- coords(roc_curv, x = unique(c(-Inf, two_class_example$Class1, Inf)), input = "threshold")
+  points <- dplyr::as_tibble(t(points)) %>% dplyr::arrange(threshold)
+  s_points <- coords(smooth_curv, x = unique(c(0, smooth_curv$specificities, 1)), input = "specificity")
+  s_points <- dplyr::as_tibble(t(s_points)) %>% dplyr::arrange(specificity)
+
+  expect_equal(
+    as.data.frame(roc_curve(two_class_example, truth, Class1)),
+    as.data.frame(points)
+  )
+  expect_equal(
+    as.data.frame(roc_curve(two_class_example, truth, Class1, options = list(smooth = TRUE))),
+    as.data.frame(s_points)
   )
 })
 
