@@ -31,7 +31,7 @@ tbl_2_1_truth <- factor(c(rep(pr_lvs, times = c(30, 12)),
                           rep(pr_lvs, times = c(30, 28))),
                         levels = pr_lvs)
 tbl_2_1 <- table(tbl_2_1_pred, tbl_2_1_truth)
-df_2_1 <- data.frame(truth  = tbl_2_1_truth, 
+df_2_1 <- data.frame(truth  = tbl_2_1_truth,
                      prediction = tbl_2_1_pred,
                      pred_na = tbl_2_1_pred2)
 
@@ -57,15 +57,15 @@ test_that('sensitivity', {
   expect_equal(
     sens(pathology, estimate = scan, truth = pathology),
     231/258
-  )  
+  )
   expect_equal(
     sens(pathology, pathology, !! pred_ch),
     231/258
-  )    
+  )
   expect_equal(
     sens(pathology, pathology, scan),
     231/258
-  )  
+  )
   expect_equal(
     sens(path_tbl),
     231/258
@@ -77,7 +77,7 @@ test_that('sensitivity', {
   expect_equal(
     sens(as.matrix(path_tbl)),
     231/258
-  )  
+  )
 })
 
 
@@ -89,7 +89,7 @@ test_that('specificity', {
   expect_equal(
     spec(path_tbl),
     54/86
-  )  
+  )
   expect_equal(
     spec(pathology, truth = pathology, estimate = "scan_na"),
     53/85
@@ -97,7 +97,7 @@ test_that('specificity', {
   expect_equal(
     spec(as.matrix(path_tbl)),
     54/86
-  )    
+  )
 })
 
 
@@ -111,7 +111,7 @@ test_that('ppv', {
     ppv(path_tbl),
     0.87832,
     tolerance = .001
-  )  
+  )
   expect_equal(
     ppv(pathology, truth = pathology, estimate = "scan_na"),
     0.87744,
@@ -121,7 +121,7 @@ test_that('ppv', {
     ppv(pathology, truth = pathology, estimate = "scan", prevalence = .5),
     0.70642,
     tolerance = .001
-  )  
+  )
 })
 
 test_that('npv', {
@@ -134,7 +134,7 @@ test_that('npv', {
     npv(path_tbl),
     2/3,
     tolerance = .001
-  )  
+  )
   expect_equal(
     npv(pathology, truth = pathology, estimate = "scan_na"),
     0.67088,
@@ -144,7 +144,7 @@ test_that('npv', {
     npv(pathology, truth = pathology, estimate = "scan", prevalence = .5),
     0.85714,
     tolerance = .001
-  )  
+  )
 })
 
 
@@ -225,25 +225,58 @@ test_that('Youden J', {
     (231/258) + (54/86)  - 1
   )
   expect_equal(
-    mcc(pathology, pathology, scan),
-    ((231 * 54) - (32 * 27)) / sqrt((231 + 32)*(231 + 27) * (54 + 32) * (54 + 27))
+    j_index(pathology, pathology, scan),
+    (231/258) + (54/86)  - 1
   )
 })
 
+
+
+test_that('Balanced Accuracy', {
+  expect_equal(
+    bal_accuracy(pathology, truth = "pathology", estimate = "scan"),
+    ( sens(path_tbl) + spec(path_tbl) )/2
+  )
+  expect_equal(
+    bal_accuracy(path_tbl),
+    ( sens(path_tbl) + spec(path_tbl) )/2
+  )
+  expect_equal(
+    bal_accuracy(pathology, pathology, scan),
+    ( sens(path_tbl) + spec(path_tbl) )/2
+  )
+})
+
+
+
+test_that('Detection Prevalence', {
+  expect_equal(
+    detection_prevalence(pathology, truth = "pathology", estimate = "scan"),
+    ( 231 + 32 ) / 344
+  )
+  expect_equal(
+    detection_prevalence(path_tbl),
+    ( 231 + 32 ) / 344
+  )
+  expect_equal(
+    detection_prevalence(pathology, pathology, scan),
+    ( 231 + 32 ) / 344
+  )
+})
 
 ###################################################################
 
 roc_curv <- pROC::roc(two_class_example$truth,
                       two_class_example$Class1,
-                      levels = levels(two_class_example$truth))
+                      levels = rev(levels(two_class_example$truth)))
 lvls <- levels(two_class_example$truth)
 roc_val <- as.numeric(roc_curv$auc)
 smooth_curv <- pROC::roc(two_class_example$truth,
                       two_class_example$Class1,
-                      levels = levels(two_class_example$truth),
+                      levels = rev(levels(two_class_example$truth)),
                       smooth = TRUE)
 
-test_that('ROC Curve', {
+test_that('ROC AUC', {
   expect_equal(
     roc_auc(two_class_example, truth, Class1),
     roc_val
@@ -251,15 +284,32 @@ test_that('ROC Curve', {
   expect_equal(
     roc_auc(two_class_example, truth = "truth", starts_with("Class")),
     roc_val
-  )  
+  )
   expect_equal(
     roc_auc(two_class_example, truth = "truth", Class2),
     roc_val
-  )  
+  )
   expect_equal(
     roc_auc(two_class_example, truth, Class1, options = list(smooth = TRUE)),
     as.numeric(smooth_curv$auc),
     tol = 0.001
+  )
+})
+
+test_that('ROC Curve', {
+  library(pROC)
+  points <- coords(roc_curv, x = unique(c(-Inf, two_class_example$Class1, Inf)), input = "threshold")
+  points <- dplyr::as_tibble(t(points)) %>% dplyr::arrange(threshold)
+  s_points <- coords(smooth_curv, x = unique(c(0, smooth_curv$specificities, 1)), input = "specificity")
+  s_points <- dplyr::as_tibble(t(s_points)) %>% dplyr::arrange(specificity)
+
+  expect_equal(
+    as.data.frame(roc_curve(two_class_example, truth, Class1)),
+    as.data.frame(points)
+  )
+  expect_equal(
+    as.data.frame(roc_curve(two_class_example, truth, Class1, options = list(smooth = TRUE))),
+    as.data.frame(s_points)
   )
 })
 
@@ -275,7 +325,7 @@ test_that('PR Curve', {
   expect_equal(
     pr_auc(two_class_example, truth,  Class1),
     pr_val
-  )  
+  )
 })
 
 ll_dat <- data.frame(
@@ -293,7 +343,7 @@ test_that('LogLoss', {
   expect_equal(
     mnLogLoss(ll_dat, truth = "obs", A, B, C, sum = TRUE),
     log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4)
-  )  
+  )
 })
 
 ###################################################################
@@ -307,7 +357,7 @@ test_that('switch event definition', {
   expect_equal(
     sens(path_tbl),
     54/86
-  )  
+  )
   expect_equal(
     spec(pathology, truth = "pathology", estimate = "scan"),
     231/258
@@ -315,7 +365,7 @@ test_that('switch event definition', {
   expect_equal(
     spec(path_tbl),
     231/258
-  )  
+  )
   expect_equal(
     j_index(pathology, truth = "pathology", estimate = "scan"),
     (231/258) + (54/86)  - 1
@@ -332,5 +382,5 @@ test_that('bad args', {
   expect_error(sens(pathology, truth = pathology$pathology, estimate = pathology$scan))
   expect_error(sens(pathology, truth = "pathology", estimate = c("scan", "scan")))
   expect_error(sens(pathology, truth = "patholosgy", estimate = "scan"))
- 
+
 })

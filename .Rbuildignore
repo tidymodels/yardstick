@@ -10,3 +10,4 @@ contributors.md
 .github
 ^pkgdown$
 yardstick_hex.png
+yardstick.svg

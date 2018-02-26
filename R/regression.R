@@ -156,8 +156,13 @@ mae.data.frame <-
     data <- data[, c(vars$truth, vars$estimate)]
     if (na.rm)
       data <- data[complete.cases(data), ]
-    mean( abs(data[[vars$estimate]] - data[[vars$truth]]) )
+    mae_calc(data[[vars$estimate]], data[[vars$truth]])
   }
+
+
+mae_calc <- function(obs, pred)
+  mean( abs(obs - pred) )
+
 
 
 #' @export

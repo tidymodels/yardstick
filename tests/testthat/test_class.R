@@ -51,13 +51,14 @@ test_that('confusion matrix statistics', {
   )
   expect_equal(
     names(sum_obj_2),
-    c('accuracy', 'kappa', 'sens', 'spec', 'prevalence', 'ppv', 
-      'npv', 'mcc', 'j_index', 'precision', 'recall', 'F1')
+    c('accuracy', 'kappa', 'sens', 'spec', 'prevalence', 'ppv',
+      'npv', 'mcc', 'j_index', 'balanced_accuracy', 'detection_prevalence',
+      'precision', 'recall', 'F1')
   )
   expect_equal(
     sum_obj_2$sens,
     sens(three_class_tb[1:2, 1:2])
-  )  
+  )
 })
 
 
@@ -72,14 +73,40 @@ test_that('accuracy', {
   expect_equal(
     accuracy(three_class_tb),
     (24 + 17 + 14)/150
-  )  
+  )
   expect_equal(
     accuracy(as.matrix(three_class_tb)),
     (24 + 17 + 14)/150
-  )    
+  )
   expect_equal(
     accuracy(three_class, obs, pred_na),
     (11 + 10 + 11)/140
+  )
+})
+
+
+
+###################################################################
+
+# expected results from e1071::classAgreement(three_class_tb)$kappa
+# e1071::classAgreement(table(three_class$pred_na, three_class$obs))$kappa
+
+test_that('kappa', {
+  expect_equal(
+    kap(three_class, truth = "obs", estimate = "pred"),
+    0.05
+  )
+  expect_equal(
+    kap(three_class_tb),
+    0.05
+  )
+  expect_equal(
+    kap(as.matrix(three_class_tb)),
+    0.05
+  )
+  expect_equal(
+    kap(three_class, obs, pred_na),
+    -0.1570248
   )
 })
 
@@ -95,34 +122,34 @@ test_that('name/col matching', {
       lvl = c("Class1", "Class2")
     ),
     "Class1"
-  )  
+  )
   expect_equal(
     yardstick:::match_levels_to_cols(
       nms = "Class1",
       lvl = c("Class1", "Class2")
     ),
     "Class1"
-  ) 
+  )
   expect_equal(
     yardstick:::match_levels_to_cols(
       nms = "Class1",
       lvl = c("Class2", "Class1")
     ),
     "Class1"
-  )   
+  )
   expect_equal(
     yardstick:::match_levels_to_cols(
       nms = c("Class1", "Class2"),
       lvl = c("Class2", "Class1")
     ),
     "Class2"
-  )  
+  )
   expect_error(
     yardstick:::match_levels_to_cols(
       nms = c("Class 1", "Class 2"),
       lvl = c("Class2", "Class1")
     )
-  ) 
+  )
 })
 
 

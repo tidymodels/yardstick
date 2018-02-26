@@ -1,9 +1,9 @@
 #' General Function to Estimate Performance
-#' 
+#'
 #' This function estimates one or more common performance
 #'  estimates depending on the class of `truth` (see **Value**
 #'  below) and returns them in a single row tibble.
-#' 
+#'
 #' @param data A data frame
 #' @param truth The column identifier for the true results (that
 #'  is numeric or factor). This should an unquoted column name
@@ -25,15 +25,16 @@
 #'  work, an error is thrown. For `mnLogLoss`, there should be as
 #'  many columns as factor levels of `truth`. It is **assumed** that
 #'  they are in the same order as the factor levels.
-#' @param options Options to pass to [roc()] such as `direction` or 
-#'  `smooth`. These options should not include `response`, 
-#'  `predictor`, or `levels`. 
-#' @return A single row tibble. When `truth` is a factor, there is
-#'  an [accuracy()] column. If a full set of class probability
+#' @param options Options to pass to [roc()] such as `direction` or
+#'  `smooth`. These options should not include `response`,
+#'  `predictor`, or `levels`.
+#' @return A single row tibble. When `truth` is a factor, there
+#'  are columns for [accuracy()] and the Kappa statistic ([kap()]).
+#'   If a full set of class probability
 #'  columns are passed to `...`, then there is also a column for
 #'  [mnLogLoss()]. When `truth` has two levels and there are class
 #'  probabilities, [roc_auc()] is appended. When `truth` is numeric,
-#'  there are columns for [rmse()] and [rsq()],
+#'  there are columns for [rmse()], [rsq()], and [mae()].
 #' @return A number or `NA`
 
 #' @export metrics
@@ -54,7 +55,7 @@ metrics.data.frame  <-
       )
     all_vars <- unique(unlist(vars))
     all_vars <- all_vars[!is.na(all_vars)]
-    
+
     data <- data[, all_vars]
     if (na.rm)
       data <- data[complete.cases(data), ]
@@ -63,51 +64,53 @@ metrics.data.frame  <-
     if (is_class) {
       if(!is.factor(data[[ vars$estimate ]]))
         stop("`estimate` should be a factor", call. = FALSE)
-      
+
       xtab <- vec2table(
         truth = data[[ vars$truth ]],
         estimate = data[[ vars$estimate ]],
         na.rm = na.rm,
         dnn = c("Prediction", "Truth")
       )
-      
-      res <- dplyr::tibble(accuracy = accuracy(xtab))
-      
+
+      res <- dplyr::tibble(accuracy = accuracy(xtab),
+                           kappa = kap(xtab))
+
       has_probs <- !all(is.na(vars$probs))
       if (has_probs) {
-        res$mnLogLoss <- 
+        res$mnLogLoss <-
           mnLogLoss(data, vars$truth, !! vars$probs, na.rm = na.rm)
-        
+
         lvl <- levels(data[[ vars$truth ]])
         if (length(lvl) == 2) {
           col <- if (getOption("yardstick.event_first"))
             lvl[1]
           else
             lvl[2]
-          res$roc_auc <- 
+          res$roc_auc <-
             roc_auc(
-              data, vars$truth, 
-              !! col, 
-              na.rm = na.rm, 
+              data, vars$truth,
+              !! col,
+              na.rm = na.rm,
               options = options
             )
-          
+
         } # end two_classes
-        
+
       } # end has_probs
-      
+
     } else {
       # Assume only regression for now
       if(!is.numeric(data[[ vars$estimate ]]))
         stop("`estimate` should be numeric", call. = FALSE)
-      
+
       res <- dplyr::tibble(
         rmse = rmse_calc(data[[ vars$truth ]], data[[ vars$estimate ]]),
-        rsq = rsq_calc(data[[ vars$truth ]], data[[ vars$estimate ]])
+        rsq = rsq_calc(data[[ vars$truth ]], data[[ vars$estimate ]]),
+        mae = mae_calc(data[[ vars$truth ]], data[[ vars$estimate ]])
       )
-      
+
     } # end regression
-    
+
     res
   }
 

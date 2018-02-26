@@ -28,4 +28,5 @@ Imports:
     pROC,
     MLmetrics,
     rlang,
-    tidyselect
+    tidyselect,
+    ggplot2
