@@ -9,6 +9,8 @@
 \alias{rsq_trad.data.frame}
 \alias{mae}
 \alias{mae.data.frame}
+\alias{mape}
+\alias{mape.data.frame}
 \alias{ccc}
 \alias{ccc.data.frame}
 \title{Calculate Metrics for Numeric Outcomes}
@@ -28,6 +30,10 @@ rsq_trad(data, ...)
 mae(data, ...)
 
 \method{mae}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+mape(data, ...)
+
+\method{mape}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 ccc(data, ...)
 
@@ -70,7 +76,12 @@ their formula. The former guarantees a value on (0, 1) while the
 latter can generate inaccurate values when the model is
 non-informative (see the examples). Both are measures of
 consistency/correlation and not of accuracy. The concordance
-correlation coefficient (\code{ccc}) is a measure of both.
+correlation coefficient (\code{ccc}) is a measure of both. The mean absolute
+percent error (\code{mape}) is in relative units.
+}
+\details{
+Note that a value if \code{Inf} is returned for \code{mape} when the observed
+value is negative.
 }
 \examples{
 

@@ -18,7 +18,7 @@ test_that('rmse', {
     rmse(ex_dat, truth = "obs", estimate = "pred"),
     sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
   )
-  expect_equal(  
+  expect_equal(
     rmse(ex_dat, truth = obs, estimate = "pred_na"),
     sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2))
   )
@@ -31,7 +31,7 @@ test_that('R^2', {
     rsq(ex_dat, truth = "obs", estimate = "pred"),
     cor(ex_dat[, 1:2])[1,2]^2
   )
-  expect_equal(  
+  expect_equal(
     rsq(ex_dat, truth = "obs", estimate = "pred_na"),
     cor(ex_dat[, c(1, 3)], use = "complete.obs")[1,2]^2
   )
@@ -39,10 +39,10 @@ test_that('R^2', {
     rsq(ex_dat, truth = "obs", estimate = "rand"),
     cor(ex_dat[, c(1, 4)])[1,2]^2
   )
-  expect_equal(  
+  expect_equal(
     rsq(ex_dat, estimate = rand_na, truth = obs),
     cor(ex_dat[, c(1, 5)], use = "complete.obs")[1,2]^2
-  )  
+  )
 })
 
 ###################################################################
@@ -50,7 +50,7 @@ test_that('R^2', {
 test_that('Traditional R^2', {
   expect_equal(
     rsq_trad(ex_dat, truth = "obs", estimate = "pred"),
-    1 - 
+    1 -
       (
         sum((ex_dat$obs - ex_dat$pred)^2)/
         sum((ex_dat$obs - mean(ex_dat$obs))^2)
@@ -58,7 +58,7 @@ test_that('Traditional R^2', {
   )
   expect_equal(
     rsq_trad(ex_dat, truth = "obs", estimate = "pred_na"),
-    1 - 
+    1 -
       (
         sum((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2)/
         sum((ex_dat$obs[-ind] - mean(ex_dat$obs[-ind]))^2)
@@ -66,7 +66,7 @@ test_that('Traditional R^2', {
   )
   expect_equal(
     rsq_trad(ex_dat, truth = "obs", estimate = rand),
-    1 - 
+    1 -
       (
         sum((ex_dat$obs - ex_dat$rand)^2)/
         sum((ex_dat$obs - mean(ex_dat$obs))^2)
@@ -74,12 +74,12 @@ test_that('Traditional R^2', {
   )
   expect_equal(
     rsq_trad(ex_dat, obs, rand_na),
-    1 - 
+    1 -
       (
         sum((ex_dat$obs[-ind] - ex_dat$rand[-ind])^2)/
         sum((ex_dat$obs[-ind] - mean(ex_dat$obs[-ind]))^2)
       )
-  )  
+  )
 })
 
 
@@ -93,7 +93,21 @@ test_that('Mean Abs Deviation', {
   expect_equal(
     mae(ex_dat, obs, pred_na),
     mean(abs(ex_dat$obs[-ind] - ex_dat$pred[-ind]))
-  )  
+  )
+})
+
+
+###################################################################
+
+test_that('Mean Abs % Error', {
+  expect_equal(
+    mape(ex_dat, truth = "obs", estimate = "pred"),
+    100 * mean(abs((ex_dat$obs - ex_dat$pred)/ex_dat$obs))
+  )
+  expect_equal(
+    mape(ex_dat, obs, pred_na),
+    100 * mean(abs((ex_dat$obs[-ind] - ex_dat$pred[-ind])/ex_dat$obs[-ind]))
+  )
 })
 
 
