@@ -49,8 +49,6 @@ columns are passed to \code{...}, then there is also a column for
 \code{\link[=mnLogLoss]{mnLogLoss()}}. When \code{truth} has two levels and there are class
 probabilities, \code{\link[=roc_auc]{roc_auc()}} is appended. When \code{truth} is numeric,
 there are columns for \code{\link[=rmse]{rmse()}}, \code{\link[=rsq]{rsq()}}, and \code{\link[=mae]{mae()}}.
-
-A number or \code{NA}
 }
 \description{
 This function estimates one or more common performance
