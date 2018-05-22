@@ -29,4 +29,6 @@ Imports:
     MLmetrics,
     rlang,
     tidyselect,
-    ggplot2
+    ggplot2,
+    tdROC,
+    pec
