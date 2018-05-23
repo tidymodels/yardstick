@@ -52,7 +52,8 @@ get_tdbrier <-
     train_dat <- rsample::analysis(data)
 
     features <- names(mod$coefficients)
-    mod <- coxph(as.formula(paste0("Surv(time, status)~",features)), data =train_dat)
+
+    mod <- coxph(as.formula(paste0("Surv(time, status)~",paste0(features, collapse = "+"))), data =train_dat)
     pred_dat <- rsample::assessment(data)
 
     #Create grid of equidistant time points for testing
@@ -63,10 +64,10 @@ get_tdbrier <-
                                   times = timepoints)
     #Calculate brier score
     suppressWarnings(brier <- pec::pec(probs, Surv(time, status) ~ 1,
-                      data = pred_dat,
-                      maxtime = max(timepoints),
-                      exact = FALSE,
-                      exactness = 99L))
+                                       data = pred_dat,
+                                       maxtime = max(timepoints),
+                                       exact = FALSE,
+                                       exactness = 99L))
 
     return(brier)
   }

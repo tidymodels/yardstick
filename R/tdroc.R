@@ -31,30 +31,27 @@
 #'   from Right Censored Survival Data. R package version 1.0.
 #'  https://CRAN.R-project.org/package=tdROC
 #' @export tdroc
-#'
 tdroc <- function(data, mod,...)
   UseMethod("tdroc")
 
 #' @export
 #' @rdname tdroc
-
-"tdroc.model.list" <-
+get_tdroc <-
   function(data, mod, ...) {
     pred_dat <- assessment(data)
     probs <- predict(mod, newdata = pred_dat, type = "lp")
-    roc <- tdROC::tdROC(X = probs,
-                        Y = pred_dat$os_months,
-                        delta = pred_dat$os_deceased,
-                        tau = quantile(pred_dat$os_months, .9),
+
+    roc <- tdROC::tdROC(X = probs[!is.na(probs)],
+                        Y = pred_dat$time[!is.na(probs)],
+                        delta = pred_dat$status[!is.na(probs)],
+                        tau = max(pred_dat$time),
                         n.grid = 1000)
     return(roc)
   }
 #' @export
 #' @rdname tdroc
-"tdroc.int.matrix" <-
-  function(data, mod, ...) {
-    model <- tdroc.model.list(data, mod)
-    iroc <- model$AUC[1] %>% unlist
-    return(iroc)
+"integrate.tdroc"  <-
+  function( mod, ...) {
+     mod$AUC[1] %>% unlist
   }
 

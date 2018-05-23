@@ -37,7 +37,7 @@ get_cindex <-
   function(data, mod, ...) {
     pred_dat <- assessment(data)
     pred_dat$pred <- predict(mod, newdata = pred_dat)
-    survival::survConcordance(Surv(os_months, os_deceased) ~ pred, pred_dat, ...)$concordance
+    survival::survConcordance(Surv(time, status) ~ pred, pred_dat, ...)$concordance
   }
 
 

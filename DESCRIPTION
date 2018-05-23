@@ -16,7 +16,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 Depends:
     R (>= 2.10),
-    broom
+    broom,
+    prodlim
 Suggests: 
     testthat,
     covr
@@ -31,4 +32,5 @@ Imports:
     tidyselect,
     ggplot2,
     tdROC,
-    pec
+    pec,
+    prodlim
