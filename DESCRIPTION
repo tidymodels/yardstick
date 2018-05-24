@@ -17,7 +17,7 @@ RoxygenNote: 6.0.1
 Depends:
     R (>= 2.10),
     broom,
-    prodlim
+    survival
 Suggests: 
     testthat,
     covr

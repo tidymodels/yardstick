@@ -3,14 +3,14 @@
 \name{tdroc}
 \alias{tdroc}
 \alias{get_tdroc}
-\alias{integrate.tdroc}
+\alias{integrate_tdroc}
 \title{Calculate tdROC}
 \usage{
 tdroc(data, mod, ...)
 
 get_tdroc(data, mod, ...)
 
-integrate.tdroc(mod, ...)
+integrate_tdroc(mod, ...)
 }
 \arguments{
 \item{data}{For the default functions, a datframe containing survival
@@ -29,13 +29,16 @@ predicted survival.
 #'
 }
 \examples{
-data("surv_example")
-
-# Given a sample
 require(survival)
-mod <- coxph(Surv(time, status)~ age, data = surv_example)
+require(dplyr)
+data(lung)
+lung <- lung \%>\%
+mutate(status = (status == 2))
 
-tdroc(surv_example, mod)
+mod <- coxph(Surv(time, status)~ age, data = lung)
+
+tdroc <- get_tdroc(lung, mod)
+integrate_tdroc(tdroc)
 
 }
 \references{

@@ -13,18 +13,20 @@
 #' @seealso [iROC]
 #' @keywords tdroc
 #' @examples
-#' data("surv_example")
-#'
-#' # Given a sample
 #' require(survival)
-#' mod <- coxph(Surv(time, status)~ age, data = surv_example)
+#' require(dplyr)
+#' data(lung)
+#' lung <- lung %>%
+#' mutate(status = (status == 2))
 #'
-#' tdroc(surv_example, mod)
+#' mod <- coxph(Surv(time, status)~ age, data = lung)
+#'
+#' tdroc <- get_tdroc(lung, mod)
+#' integrate_tdroc(tdroc)
 #'
 #' @export tdroc
 #' @author Carlos S Traynor
 #' @references
-#'
 #'  Liang Li, Cai Wu Department of Biostatistics and
 #'  The University of Texas MD Anderson Cancer Center (2016).
 #'  tdROC: Nonparametric Estimation of Time-Dependent ROC Curve
@@ -50,7 +52,7 @@ get_tdroc <-
   }
 #' @export
 #' @rdname tdroc
-"integrate.tdroc"  <-
+integrate_tdroc  <-
   function( mod, ...) {
      mod$AUC[1] %>% unlist
   }

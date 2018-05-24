@@ -6,7 +6,7 @@
 \alias{tdbrier.int.matrix}
 \alias{stdbrier.int.reference}
 \alias{get_tdbrier}
-\alias{integrate.tdbrier}
+\alias{integrate_tdbrier}
 \alias{tdbrier.int.reference}
 \title{Calculate tdBrier}
 \usage{
@@ -14,7 +14,7 @@ tdbrier(data, mod, ...)
 
 get_tdbrier(data, mod, ...)
 
-integrate.tdbrier(x, ...)
+integrate_tdbrier(x, ...)
 
 \method{tdbrier}{int.reference}(x, ...)
 }

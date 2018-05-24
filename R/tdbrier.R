@@ -74,7 +74,7 @@ get_tdbrier <-
 
 #' @rdname tdbrier
 #' @export
-"integrate.tdbrier" <-
+integrate_tdbrier <-
   function(x, ...) {
     stop <- max(x$time[!is.na(x$AppErr$matrix)])
     ibrier <- pec::crps(x, models = "matrix", times = stop)[1]
