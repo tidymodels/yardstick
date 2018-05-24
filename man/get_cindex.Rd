@@ -31,7 +31,7 @@ mutate(status = (status == 2))
 
 mod <- coxph(Surv(time, status)~ age, data = lung)
 
-cindex(lung, mod)
+get_cindex(lung, mod)
 
 }
 \references{

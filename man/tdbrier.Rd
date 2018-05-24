@@ -45,13 +45,16 @@ ranges from 0 to 1; the model with an out-of-training sample value closer
 to 0 outperforms the rest.
 }
 \examples{
-data("surv_example")
-
-# Given a sample
 require(survival)
-mod <- coxph(Surv(time, status)~ age, data = surv_example)
+require(dplyr)
+data(lung)
+lung <- lung \%>\%
+mutate(status = (status == 2))
 
-tdbrier(surv_example, mod)
+mod <- coxph(Surv(time, status)~ age, data = lung)
+
+tdbrier <- get_tdbrier(lung, mod)
+integrate_tdbrier(tdroc)
 
 }
 \references{

@@ -24,13 +24,16 @@
 #' @seealso [iBrier]
 #' @keywords brier
 #' @examples
-#' data("surv_example")
-#'
-#' # Given a sample
 #' require(survival)
-#' mod <- coxph(Surv(time, status)~ age, data = surv_example)
+#' require(dplyr)
+#' data(lung)
+#' lung <- lung %>%
+#' mutate(status = (status == 2))
 #'
-#' tdbrier(surv_example, mod)
+#' mod <- coxph(Surv(time, status)~ age, data = lung)
+#'
+#' tdbrier <- get_tdbrier(lung, mod)
+#' integrate_tdbrier(tdroc)
 #'
 #' @export tdbrier
 #' @author Carlos S Traynor
