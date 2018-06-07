@@ -11,7 +11,7 @@ Status](https://img.shields.io/codecov/c/github/topepo/yardstick/master.svg)](ht
 
 `yardstick` is a package to estimate how well models are working using
 [tidy data](https://www.jstatsoft.org/article/view/v059i10) principals.
-The package webpage is <https://topepo.github.io/yardstick/> for more
+The package webpage is <https://tidymodels.github.io/yardstick/> for more
 information.
 
 For example, suppose you create a classification model and predict a
@@ -73,5 +73,5 @@ install.packages("yardstick")
 
 ## for development version:
 require("devtools")
-install_github("topepo/yardstick")
+install_github("tidymodels/yardstick")
 ```

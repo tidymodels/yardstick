@@ -18,13 +18,37 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Calculate Metrics for Numeric Outcomes — rmse" />
+
+<meta property="og:description" content="These functions are appropriate for cases where the model
+outcome is a number. The root mean squared error (rmse) and
+mean absolute error (mae) are error measures that are in the
+same units as the original data. The two estimates for the
+coefficient of determination, rsq and rsq_trad, differ by
+their formula. The former guarantees a value on (0, 1) while the
+latter can generate inaccurate values when the model is
+non-informative (see the examples). Both are measures of
+consistency/correlation and not of accuracy. The concordance
+correlation coefficient (ccc) is a measure of both. The mean absolute
+percent error (mape) is in relative units." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +71,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">yardstick</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">yardstick</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -61,12 +89,13 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/topepo/yardstick">
+  <a href="https://github.com/tidymodels/yardstick">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -74,12 +103,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate Metrics for Numeric Outcomes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/regression.R'><code>R/regression.R</code></a></small>
+    <div class="hidden name"><code>rmse.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>These functions are appropriate for cases where the model
 outcome is a number. The root mean squared error (<code>rmse</code>) and
@@ -90,8 +122,10 @@ their formula. The former guarantees a value on (0, 1) while the
 latter can generate inaccurate values when the model is
 non-informative (see the examples). Both are measures of
 consistency/correlation and not of accuracy. The concordance
-correlation coefficient (<code>ccc</code>) is a measure of both.</p>
+correlation coefficient (<code>ccc</code>) is a measure of both. The mean absolute
+percent error (<code>mape</code>) is in relative units.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>rmse</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
@@ -113,13 +147,18 @@ correlation coefficient (<code>ccc</code>) is a measure of both.</p>
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>mae</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
+<span class='fu'>mape</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>mape</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>ccc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>ccc</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>bias</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -162,6 +201,11 @@ Lin (1989))?</p></td>
 
     <p>A number or <code>NA</code></p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note that a value if <code>Inf</code> is returned for <code>mape</code> when the observed
+value is negative.</p>
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Kvalseth. Cautionary note about \(R^2\).
@@ -191,6 +235,8 @@ coefficient to evaluate reproducibility". <em>Biometrics</em>, 53(4),
       
       <li><a href="#value">Value</a></li>
 
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
@@ -209,11 +255,14 @@ Max Kuhn
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
