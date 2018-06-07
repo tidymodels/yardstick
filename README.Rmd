@@ -1,3 +1,7 @@
+---
+output: github_document
+---
+
 # `yardstick`
 
 [![Build Status](https://travis-ci.org/topepo/yardstick.svg?branch=master)](https://travis-ci.org/topepo/yardstick)
