@@ -18,13 +18,30 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Confusion Matrix for Categorical Data — conf_mat" />
+
+<meta property="og:description" content="Calculates a cross-tabulation of observed and predicted
+classes.
+For conf_mat() objects, the tidy method collapses the cell
+counts by cell into a data frame for each manipulation." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +64,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">yardstick</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">yardstick</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -61,12 +82,13 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/topepo/yardstick">
+  <a href="https://github.com/tidymodels/yardstick">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -74,18 +96,22 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Confusion Matrix for Categorical Data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/conf_mat.R'><code>R/conf_mat.R</code></a></small>
+    <div class="hidden name"><code>conf_mat.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Calculates a cross-tabulation of observed and predicted
 classes.</p>
 <p>For <code>conf_mat()</code> objects, the <code>tidy</code> method collapses the cell
 counts by cell into a data frame for each manipulation.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>conf_mat</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
@@ -99,7 +125,7 @@ counts by cell into a data frame for each manipulation.</p>
 <span class='co'># S3 method for conf_mat</span>
 <span class='fu'>tidy</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -151,14 +177,8 @@ levels.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'>data</span>(<span class='st'>"hpc_cv"</span>)
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>dplyr</span>)
+<span class='fu'>data</span>(<span class='st'>"hpc_cv"</span>)
 
 <span class='co'># The confusion matrix from a single assessment set (i.e. fold)</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
@@ -170,7 +190,7 @@ levels.</p>
 #&gt;         M    0   3   5   3
 #&gt;         L    0   1   4  10</div><div class='input'>
 <span class='co'># Now compute the average confusion matrix across all folds in</span>
-<span class='co'># terms of the proportion of the data contained in each cell. </span>
+<span class='co'># terms of the proportion of the data contained in each cell.</span>
 <span class='co'># First get the raw cell counts per fold using the `tidy` method</span>
 <span class='no'>cells_per_resample</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
@@ -188,24 +208,24 @@ levels.</p>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>prop</span>))
 
 <span class='no'>counts_per_resample</span></div><div class='output co'>#&gt; # A tibble: 16 x 2
-#&gt;        name         prop
-#&gt;       &lt;chr&gt;        &lt;dbl&gt;
-#&gt;  1 cell_1_1 0.4672451291
-#&gt;  2 cell_1_2 0.1070125709
-#&gt;  3 cell_1_3 0.0184655413
-#&gt;  4 cell_1_4 0.0025945025
-#&gt;  5 cell_2_1 0.0406866182
-#&gt;  6 cell_2_2 0.1866050267
-#&gt;  7 cell_2_3 0.0631650619
-#&gt;  8 cell_2_4 0.0173094431
-#&gt;  9 cell_3_1 0.0017341137
-#&gt; 10 cell_3_2 0.0069206198
-#&gt; 11 cell_3_3 0.0227791313
-#&gt; 12 cell_3_4 0.0080725199
-#&gt; 13 cell_4_1 0.0005747126
-#&gt; 14 cell_4_2 0.0103930022
-#&gt; 15 cell_4_3 0.0144251000
-#&gt; 16 cell_4_4 0.0320169067</div><div class='input'>
+#&gt;    name         prop
+#&gt;    &lt;chr&gt;       &lt;dbl&gt;
+#&gt;  1 cell_1_1 0.467   
+#&gt;  2 cell_1_2 0.107   
+#&gt;  3 cell_1_3 0.0185  
+#&gt;  4 cell_1_4 0.00259 
+#&gt;  5 cell_2_1 0.0407  
+#&gt;  6 cell_2_2 0.187   
+#&gt;  7 cell_2_3 0.0632  
+#&gt;  8 cell_2_4 0.0173  
+#&gt;  9 cell_3_1 0.00173 
+#&gt; 10 cell_3_2 0.00692 
+#&gt; 11 cell_3_3 0.0228  
+#&gt; 12 cell_3_4 0.00807 
+#&gt; 13 cell_4_1 0.000575
+#&gt; 14 cell_4_2 0.0104  
+#&gt; 15 cell_4_3 0.0144  
+#&gt; 16 cell_4_4 0.0320  </div><div class='input'>
 <span class='co'># Now reshape these into a matrix</span>
 <span class='no'>mean_cmat</span> <span class='kw'>&lt;-</span> <span class='fu'>matrix</span>(<span class='no'>counts_per_resample</span>$<span class='no'>prop</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 <span class='fu'>rownames</span>(<span class='no'>mean_cmat</span>) <span class='kw'>&lt;-</span> <span class='fu'>levels</span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)
@@ -238,11 +258,14 @@ levels.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

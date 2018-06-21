@@ -1,21 +1,12 @@
 
-# `yardstick`
+`yardstick`
+===========
 
-[![Build
-Status](https://travis-ci.org/topepo/yardstick.svg?branch=master)](https://travis-ci.org/topepo/yardstick)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/topepo/yardstick/master.svg)](https://codecov.io/github/topepo/yardstick?branch=master)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/yardstick)](http://cran.rstudio.com/package=yardstick)
-[![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](http://cran.rstudio.com/package=yardstick)
-![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![Build Status](https://travis-ci.org/topepo/yardstick.svg?branch=master)](https://travis-ci.org/topepo/yardstick) [![Coverage Status](https://img.shields.io/codecov/c/github/topepo/yardstick/master.svg)](https://codecov.io/github/topepo/yardstick?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/yardstick)](http://cran.rstudio.com/package=yardstick) [![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](http://cran.rstudio.com/package=yardstick) ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
-`yardstick` is a package to estimate how well models are working using
-[tidy data](https://www.jstatsoft.org/article/view/v059i10) principals.
-The package webpage is <https://topepo.github.io/yardstick/> for more
-information.
+`yardstick` is a package to estimate how well models are working using [tidy data](https://www.jstatsoft.org/article/view/v059i10) principals. The package webpage is [`https://tidymodels.github.io/yardstick/`](https://tidymodels.github.io/yardstick/) for more information.
 
-For example, suppose you create a classification model and predict a
-data set. You might have data that look like this:
+For example, suppose you create a classification model and predict a data set. You might have data that look like this:
 
 ``` r
 library(yardstick)
@@ -32,8 +23,7 @@ head(two_class_example)
     ## 5 Class2 0.01624 0.983760    Class2
     ## 6 Class1 0.99928 0.000725    Class1
 
-You can use a `dplyr`-like syntax to compute common performance
-characteristics of the model and get them back in a data frame:
+You can use a `dplyr`-like syntax to compute common performance characteristics of the model and get them back in a data frame:
 
 ``` r
 metrics(two_class_example, truth, predicted)
@@ -52,8 +42,7 @@ two_class_example %>% roc_auc(truth, Class1)
 
     ## [1] 0.939
 
-[Quasiquotation](http://rlang.tidyverse.org/reference/quasiquotation.html)
-can also be used:
+[Quasiquotation](http://rlang.tidyverse.org/reference/quasiquotation.html) can also be used:
 
 ``` r
 # probability columns:
@@ -64,7 +53,8 @@ two_class_example %>% mnLogLoss(truth, !! lvl)
 
     ## [1] -0.328
 
-## Installation
+Installation
+------------
 
 To install the package:
 
@@ -73,5 +63,5 @@ install.packages("yardstick")
 
 ## for development version:
 require("devtools")
-install_github("topepo/yardstick")
+install_github("tidymodels/yardstick")
 ```

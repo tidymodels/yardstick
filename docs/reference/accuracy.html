@@ -18,13 +18,30 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Classification Metrics on Predited Classes — accuracy" />
+
+<meta property="og:description" content="Accuracy is the proportion of the data that are
+predicted correctly. Kappa is a similar measure but is normalized by
+the accuracy that would be expected by chance alone and is very useful
+when one or more classes have large frequency distributions." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +64,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">yardstick</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">yardstick</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -61,12 +82,13 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/topepo/yardstick">
+  <a href="https://github.com/tidymodels/yardstick">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -74,15 +96,22 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Classification Metrics on Predited Classes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/classes.R'><code>R/classes.R</code></a></small>
+    <div class="hidden name"><code>accuracy.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
-    <p>General metrics for classification models</p>
+    <p>Accuracy is the proportion of the data that are
+predicted correctly. Kappa is a similar measure but is normalized by
+the accuracy that would be expected by chance alone and is very useful
+when one or more classes have large frequency distributions.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
@@ -93,9 +122,20 @@
 <span class='fu'>accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for table</span>
+<span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for matrix</span>
+<span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -131,19 +171,59 @@ values should be stripped before the computation proceeds</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A numeric value.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Cohen, J. (1960). "A coefficient of agreement for nominal
+scales". <em>Educational and Psychological Measurement</em>. 20 (1): 37–46.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='conf_mat.html'>conf_mat()</a></code></p>
+    <div class='dont-index'><p><code><a href='conf_mat.html'>conf_mat()</a></code>, <code><a href='metrics.html'>metrics()</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'>data</span>(<span class='st'>"hpc_cv"</span>)
+
+<span class='co'># The observed and predicted classes from a single</span>
+<span class='co'># assessment set (i.e. fold)</span>
+<span class='no'>fold_1</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>)
+
+<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='conf_mat.html'>conf_mat</a></span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt;           Truth
+#&gt; Prediction  VF   F   M   L
+#&gt;         VF 166  33   8   1
+#&gt;         F   11  71  24   7
+#&gt;         M    0   3   5   3
+#&gt;         L    0   1   4  10</div><div class='input'>
+<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'>accuracy</span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; [1] 0.7262248</div><div class='input'>
+<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'>kap</span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; [1] 0.5332257</div><div class='input'>
+<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='metrics.html'>metrics</a></span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   accuracy kappa
+#&gt;      &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1    0.726 0.533</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
+
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
     <h2>Author</h2>
     
@@ -158,11 +238,14 @@ Max Kuhn
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

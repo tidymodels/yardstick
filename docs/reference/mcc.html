@@ -18,13 +18,31 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Other Metrics for 2x2 Tables — mcc" />
+
+<meta property="og:description" content="Other metrics for two class problems that are not already in
+sens() or recall() are here, such as the Matthews
+correlation coefficient, Youden's J, the balanced accuracy (the
+average between sensitivity and specificity), and the detection
+prevalence (the rate of predicted events)." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +65,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">yardstick</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">yardstick</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -61,12 +83,13 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/topepo/yardstick">
+  <a href="https://github.com/tidymodels/yardstick">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -74,24 +97,23 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Other Metrics for 2x2 Tables</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/two_class.R'><code>R/two_class.R</code></a></small>
+    <div class="hidden name"><code>mcc.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
-    <p>General metrics for two class problems that are not already
-in <code><a href='sens.html'>sens()</a></code> or <code><a href='recall.html'>recall()</a></code> are here, such as the Matthews
-correlation coefficient, Youden's J.</p>
-<p>There is no common convention on which factor level should
-automatically be considered the "event" or "positive" results.
-In <code>yardstick</code>, the default is to use the <em>first</em> level. To
-change this, a global option called <code>yardstick.event_first</code> is
-set to <code>TRUE</code> when the package is loaded. This can be changed
-to <code>FALSE</code> if the last level of the factor is considered the
-level of interest.</p>
+    <p>Other metrics for two class problems that are not already in
+<code><a href='sens.html'>sens()</a></code> or <code><a href='recall.html'>recall()</a></code> are here, such as the Matthews
+correlation coefficient, Youden's J, the balanced accuracy (the
+average between sensitivity and specificity), and the detection
+prevalence (the rate of <em>predicted</em> events).</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>mcc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
@@ -107,9 +129,32 @@ level of interest.</p>
 <span class='fu'>j_index</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for table</span>
-<span class='fu'>j_index</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>j_index</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for table</span>
+<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for matrix</span>
+<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>)
+
+<span class='co'># S3 method for table</span>
+<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for matrix</span>
+<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -147,21 +192,30 @@ values should be stripped before the computation proceeds</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If more than one statistic is required, it is more
+    <p>There is no common convention on which factor level should
+automatically be considered the "event" or "positive" results.
+In <code>yardstick</code>, the default is to use the <em>first</em> level. To
+change this, a global option called <code>yardstick.event_first</code> is
+set to <code>TRUE</code> when the package is loaded. This can be changed
+to <code>FALSE</code> if the last level of the factor is considered the
+level of interest.</p>
+<p>If more than one statistic is required, it is more
 computationally efficient to create the confusion matrix using
 <code><a href='conf_mat.html'>conf_mat()</a></code> and applying the corresponding <code>summary</code> method
 (<code><a href='summary.conf_mat.html'>summary.conf_mat()</a></code>) to get the values at once.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='conf_mat.html'>conf_mat()</a></code>, <code><a href='summary.conf_mat.html'>summary.conf_mat()</a></code>, <code><a href='recall.html'>recall()</a></code>, <code><a href='sens.html'>sens()</a></code></p>
+    <div class='dont-index'><p><code><a href='conf_mat.html'>conf_mat()</a></code>, <code><a href='summary.conf_mat.html'>summary.conf_mat()</a></code>, <code><a href='recall.html'>recall()</a></code>, <code><a href='sens.html'>sens()</a></code>, <code><a href='sens.html'>spec()</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
 
 <span class='fu'>mcc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6768476</div><div class='input'>
-<span class='fu'>j_index</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6732334</div></pre>
+<span class='fu'>j_index</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6732334</div><div class='input'>
+<span class='fu'>bal_accuracy</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8366167</div><div class='input'>
+<span class='fu'>detection_prevalence</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.554</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -188,11 +242,14 @@ Max Kuhn
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

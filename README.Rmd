@@ -1,3 +1,7 @@
+---
+output: github_document
+---
+
 # `yardstick`
 
 [![Build Status](https://travis-ci.org/topepo/yardstick.svg?branch=master)](https://travis-ci.org/topepo/yardstick)
@@ -12,7 +16,7 @@ library(dplyr)
 options(width = 100, digits = 3)
 ```
 
-`yardstick` is a package to estimate how well models are working using [tidy data](https://www.jstatsoft.org/article/view/v059i10) principals. The package webpage is [`https://topepo.github.io/yardstick/`](https://topepo.github.io/yardstick/) for more information.
+`yardstick` is a package to estimate how well models are working using [tidy data](https://www.jstatsoft.org/article/view/v059i10) principals. The package webpage is [`https://tidymodels.github.io/yardstick/`](https://tidymodels.github.io/yardstick/) for more information.
 
 For example, suppose you create a classification model and predict a data set. You might have data that look like this:
 
@@ -51,5 +55,5 @@ install.packages("yardstick")
 
 ## for development version:
 require("devtools")
-install_github("topepo/yardstick")
+install_github("tidymodels/yardstick")
 ```

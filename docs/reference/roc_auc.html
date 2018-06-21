@@ -18,13 +18,30 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Metrics Based on Class Probabilities — roc_auc" />
+
+<meta property="og:description" content="These functions compute the areas under the receiver operating
+characteristic (ROC) curve (roc_auc), the precision-recall
+curve (pr_auc), or the multinomial log loss (mnLogLoss). The actual ROC
+curve can be created using roc_curve." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +64,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">yardstick</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">yardstick</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -61,12 +82,13 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/topepo/yardstick">
+  <a href="https://github.com/tidymodels/yardstick">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -74,17 +96,22 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Metrics Based on Class Probabilities</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/probs.R'><code>R/probs.R</code></a></small>
+    <div class="hidden name"><code>roc_auc.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>These functions compute the areas under the receiver operating
 characteristic (ROC) curve (<code>roc_auc</code>), the precision-recall
-curve (<code>pr_auc</code>), or the multinomial log loss (<code>mnLogLoss</code>).</p>
+curve (<code>pr_auc</code>), or the multinomial log loss (<code>mnLogLoss</code>). The actual ROC
+curve can be created using <code>roc_curve</code>.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>roc_auc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
@@ -100,9 +127,13 @@ curve (<code>pr_auc</code>), or the multinomial log loss (<code>mnLogLoss</code>
 <span class='fu'>mnLogLoss</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>mnLogLoss</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sum</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>mnLogLoss</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sum</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -150,7 +181,9 @@ contrinbutions be returned (instead of the mean value)?</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A number between 0 and 1 (or NA) for <code>roc_auc</code> or
-<code>pr_auc</code>. For <code>mnLogLoss</code> a number or <code>NA</code>.</p>
+<code>pr_auc</code>. For <code>mnLogLoss</code> a number or <code>NA</code>. For <code>roc_curve</code>, a tibble with
+columns <code>sensitivity</code> and <code>specificity</code>. In an ordinary (i.e. non-smoothed)
+curve is used, there is also a column for <code>threshold</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -161,30 +194,41 @@ change this, a global option called <code>yardstick.event_first</code> is
 set to <code>TRUE</code> when the package is loaded. This can be changed
 to <code>FALSE</code> if the last level of the factor is considered the
 level of interest.</p>
+<p><code>roc_curve</code> computes the sensitivity at every unique
+value of the probability column (in addition to infinity and
+minus infinity). If a smooth ROC curve was produced, the unique
+observed values of the specificity are used to create the curve
+points. In either case, this may not be efficient for large data
+sets.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='conf_mat.html'>conf_mat()</a></code>, <code><a href='summary.conf_mat.html'>summary.conf_mat()</a></code>, <code><a href='recall.html'>recall()</a></code>, <code><a href='mcc.html'>mcc()</a></code></p>
+    <div class='dont-index'><p><code><a href='conf_mat.html'>conf_mat()</a></code>, <code><a href='summary.conf_mat.html'>summary.conf_mat()</a></code>, <code><a href='recall.html'>recall()</a></code>, <code><a href='mcc.html'>mcc()</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>tidyselect</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘tidyselect’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:dplyr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    contains, ends_with, everything, matches, num_range, one_of,</span>
-#&gt; <span class='message'>    starts_with</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    matches</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>tidyselect</span>)
+
 <span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
 <span class='no'>prob_cols</span> <span class='kw'>&lt;-</span> <span class='fu'>levels</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>)
 
-<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; [1] 0.9393139</div><div class='input'><span class='co'># warning is issued here because 2 columns are selected:</span>
+<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; [1] 0.9393139</div><div class='input'>
+<span class='co'># a warning is issued here because 2 columns are selected:</span>
 <span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.9393139</div><div class='input'>
+<span class='fu'>library</span>(<span class='no'>ggplot2</span>)
+<span class='fu'>library</span>(<span class='no'>dplyr</span>)
+<span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span> - <span class='no'>specificity</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>sensitivity</span>)) +
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_path'>geom_path</a></span>() +
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_abline'>geom_abline</a></span>(<span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>3</span>) +
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/coord_fixed'>coord_equal</a></span>() +
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme'>theme_bw</a></span>()</div><div class='img'><img src='roc_auc-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># passing options via a list and _not_ `...`</span>
 <span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='no'>Class1</span>,
         <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] 0.9421511</div><div class='input'>
+
 <span class='fu'>pr_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.9425707</div><div class='input'>
-<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; [1] -0.3283096</div><div class='input'><span class='co'># or</span>
+<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://dplyr.tidyverse.org/reference/reexports.html'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; [1] -0.3283096</div><div class='input'><span class='co'># or</span>
 <span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; [1] -0.3283096</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -210,11 +254,14 @@ level of interest.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
