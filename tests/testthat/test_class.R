@@ -1,3 +1,5 @@
+context("Classes")
+
 library(testthat)
 library(yardstick)
 

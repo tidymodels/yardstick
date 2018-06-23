@@ -1,3 +1,5 @@
+context("Two-class metrics")
+
 library(testthat)
 library(yardstick)
 library(pROC)
