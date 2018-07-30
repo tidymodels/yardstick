@@ -21,11 +21,9 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
-
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -37,11 +35,10 @@
 <meta property="og:description" content="These functions calculate the recall, precision or F values of
 a measurement system for finding/retrieving relevant documents
 compared to reference results (the truth regarding relevance).
-The measurement and &quot;truth&quot; data must have the same two possible
+The measurement and "truth" data must have the same two possible
 outcomes and one of the outcomes must be thought of as a
-&quot;relevant&quot; results." />
+"relevant" results." />
 <meta name="twitter:card" content="summary" />
-
 
 
 <!-- mathjax -->
@@ -209,7 +206,6 @@ level of interest.</p>
 <tr><td>Predicted</td><td>relevant</td><td>Irrelevant</td></tr>
 <tr><td>relevant</td><td>A</td><td>B</td></tr>
 <tr><td>Irrelevant</td><td>C</td><td>D</td></tr>
-<tr><td></td><td></td><td>Reference</td></tr>
 </table>
     <p>The formulas used here are: $$recall = A/(A+C)$$ $$precision =
 A/(A+B)$$ $$F_i = (1+i^2)*prec*recall/((i^2 * precision)+recall)$$</p>
@@ -237,10 +233,10 @@ Technical Report SIE-07-001, Flinders University</p>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
 
 <span class='co'># Different methods for calling the functions:</span>
-<span class='fu'>precision</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8194946</div><div class='input'>
-<span class='fu'>recall</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='st'>"predicted"</span>)</div><div class='output co'>#&gt; [1] 0.879845</div><div class='input'>
+<span class='fu'>precision</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.819</div><div class='input'>
+<span class='fu'>recall</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='st'>"predicted"</span>)</div><div class='output co'>#&gt; [1] 0.88</div><div class='input'>
 <span class='no'>truth_var</span> <span class='kw'>&lt;-</span> <span class='fu'>quote</span>(<span class='no'>truth</span>)
-<span class='fu'>f_meas</span>(<span class='no'>two_class_example</span>, !! <span class='no'>truth_var</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8485981</div></pre>
+<span class='fu'>f_meas</span>(<span class='no'>two_class_example</span>, !! <span class='no'>truth_var</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.849</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -21,11 +21,9 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
-
 <!-- pkgdown -->
 <link href="pkgdown.css" rel="stylesheet">
+<script src="jquery.sticky-kit.min.js"></script>
 <script src="pkgdown.js"></script>
 
 
@@ -33,7 +31,6 @@
   <link href="extra.css" rel="stylesheet">
   
 <meta property="og:title" content="NA" />
-
 
 
 <!-- mathjax -->
@@ -102,7 +99,8 @@
 <li>[ ] Start a new R session</li>
 <li>[ ] Install the latest version of of the package: <code>update.packages(oldPkgs="yardstick", ask=FALSE)</code>
 </li>
-<li>[ ] [Write a minimal reproducible example](<a href="http://stackoverflow.com/a/5963610" class="uri">http://stackoverflow.com/a/5963610</a>)</li>
+<li>[ ] <a href="http://stackoverflow.com/a/5963610">Write a minimal reproducible example</a>
+</li>
 <li>[ ] run <code>sessionInfo()</code> and add the results to the issue. Even better would be to use the <a href="https://github.com/r-lib/sessioninfo"><code>sessioninfo</code></a> package’s <code>session_info()</code>.</li>
 </ul>
 <div id="minimal-reproducible-example" class="section level3">
@@ -114,27 +112,27 @@
 <h4 class="hasAnchor">
 <a href="#minimal-reproducible-dataset" class="anchor"></a><em>Minimal</em> Reproducible Dataset:</h4>
 <p>If you are not using a data set in a package then use e.g. <code>dput()</code> to give us something that can be put in R immediately, e.g.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dput</span>(<span class="kw">head</span>(iris,<span class="dv">4</span>))</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">dput</span>(<span class="kw">head</span>(iris,<span class="dv">4</span>))</a></code></pre></div>
 <p>Without a dataset, there usually isn’t much that we can do to help.</p>
 <p>If your data frame has a factor with many levels, the <code>dput</code> output can be unwieldy because it will still list all the possible factor levels even if they aren’t present in the the subset of your data. To solve this issue, you can use the <code>droplevels()</code> function. Notice below how species is a factor with only one level: <code>dput(droplevels(head(iris, 4)))</code>.</p>
 </div>
 <div id="minimal-runnable-code" class="section level4">
 <h4 class="hasAnchor">
 <a href="#minimal-runnable-code" class="anchor"></a>Minimal, runnable code:</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(yardstick)
-<span class="kw">library</span>(dplyr)
-<span class="kw">data</span>(<span class="st">"hpc_cv"</span>)
-hpc_cv <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(Resample <span class="op">==</span><span class="st"> "Fold01"</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="reference/conf_mat.html">conf_mat</a></span>(obs, pred)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(yardstick)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">data</span>(<span class="st">"hpc_cv"</span>)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">hpc_cv <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(Resample <span class="op">==</span><span class="st"> "Fold01"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="reference/conf_mat.html">conf_mat</a></span>(obs, pred)</a></code></pre></div>
 </div>
 </div>
 <div id="session-info" class="section level3">
 <h3 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info:</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()
-
-<span class="co"># or sessioninfo::session_info()</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># or sessioninfo::session_info()</span></a></code></pre></div>
 <p>Be sure to test your chunks of code in an empty R session before submitting your issue!</p>
 </div>
 

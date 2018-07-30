@@ -8,8 +8,8 @@
 <title>Tidy Characterizations of Model Performance • yardstick</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Tidy Characterizations of Model Performance">
 <meta property="og:description" content="Tidy tools for quantifying how well model fits to a data set such as confusion matrices, class probability curve summaries, and regression metrics (e.g., RMSE). ">
 <meta name="twitter:card" content="summary">
@@ -65,17 +65,14 @@
 
     
     
-<div id="yardstick" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#yardstick" class="anchor"></a><code>yardstick</code>
-</h1></div>
-<p><a href="https://travis-ci.org/topepo/yardstick"><img src="https://travis-ci.org/topepo/yardstick.svg?branch=master" alt="Build Status"></a> <a href="https://codecov.io/github/topepo/yardstick?branch=master"><img src="https://img.shields.io/codecov/c/github/topepo/yardstick/master.svg" alt="Coverage Status"></a> <a href="http://cran.rstudio.com/package=yardstick"><img src="http://www.r-pkg.org/badges/version/yardstick" alt="CRAN_Status_Badge"></a> <a href="http://cran.rstudio.com/package=yardstick"><img src="http://cranlogs.r-pkg.org/badges/yardstick" alt="Downloads"></a> <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></p>
+<p><img src="yardstick_hex_thumb.png" align="center" height="80px"></p>
+<p><a href="https://travis-ci.org/tidymodels/yardstick"><img src="https://travis-ci.org/tidymodels/yardstick.svg?branch=master" alt="Build Status"></a> <a href="https://codecov.io/github/tidymodels/yardstick?branch=master"><img src="https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg" alt="Coverage Status"></a> <a href="http://cran.rstudio.com/package=yardstick"><img src="http://www.r-pkg.org/badges/version/yardstick" alt="CRAN_Status_Badge"></a> <a href="http://cran.rstudio.com/package=yardstick"><img src="http://cranlogs.r-pkg.org/badges/yardstick" alt="Downloads"></a> <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></p>
 <p><code>yardstick</code> is a package to estimate how well models are working using <a href="https://www.jstatsoft.org/article/view/v059i10">tidy data</a> principals. The package webpage is <a href="https://tidymodels.github.io/yardstick/"><code>https://tidymodels.github.io/yardstick/</code></a> for more information.</p>
 <p>For example, suppose you create a classification model and predict a data set. You might have data that look like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(yardstick)
-<span class="kw">library</span>(dplyr)
-
-<span class="kw">head</span>(two_class_example)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(yardstick)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">head</span>(two_class_example)</a></code></pre></div>
 <pre><code>##    truth  Class1   Class2 predicted
 ## 1 Class2 0.00359 0.996411    Class2
 ## 2 Class1 0.67862 0.321379    Class1
@@ -84,31 +81,30 @@
 ## 5 Class2 0.01624 0.983760    Class2
 ## 6 Class1 0.99928 0.000725    Class1</code></pre>
 <p>You can use a <code>dplyr</code>-like syntax to compute common performance characteristics of the model and get them back in a data frame:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/metrics.html">metrics</a></span>(two_class_example, truth, predicted)</code></pre></div>
-<pre><code>## # A tibble: 1 x 2
-##   accuracy kappa
-##      &lt;dbl&gt; &lt;dbl&gt;
-## 1    0.838 0.675</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or </span>
-
-two_class_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/roc_auc.html">roc_auc</a></span>(truth, Class1)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="reference/metrics.html">metrics</a></span>(two_class_example, truth, predicted)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   accuracy
+##      &lt;dbl&gt;
+## 1    0.838</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># or </span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">two_class_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/roc_auc.html">roc_auc</a></span>(truth, Class1)</a></code></pre></div>
 <pre><code>## [1] 0.939</code></pre>
 <p><a href="http://rlang.tidyverse.org/reference/quasiquotation.html">Quasiquotation</a> can also be used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># probability columns:</span>
-lvl &lt;-<span class="st"> </span><span class="kw">levels</span>(two_class_example<span class="op">$</span>truth)
-
-two_class_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/roc_auc.html">mnLogLoss</a></span>(truth, <span class="op">!!</span><span class="st"> </span>lvl)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># probability columns:</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">lvl &lt;-<span class="st"> </span><span class="kw">levels</span>(two_class_example<span class="op">$</span>truth)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">two_class_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/roc_auc.html">mnLogLoss</a></span>(truth, <span class="op">!!</span><span class="st"> </span>lvl)</a></code></pre></div>
 <pre><code>## [1] -0.328</code></pre>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install the package:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"yardstick"</span>)
-
-## for development version:
-<span class="kw">require</span>(<span class="st">"devtools"</span>)
-<span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"tidymodels/yardstick"</span>)</code></pre></div>
-</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"yardstick"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">## for development version:</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw">require</span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"tidymodels/yardstick"</span>)</a></code></pre></div>
 </div>
   </div>
 

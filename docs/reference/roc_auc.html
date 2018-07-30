@@ -21,11 +21,9 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
-
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -39,7 +37,6 @@ characteristic (ROC) curve (roc_auc), the precision-recall
 curve (pr_auc), or the multinomial log loss (mnLogLoss). The actual ROC
 curve can be created using roc_curve." />
 <meta name="twitter:card" content="summary" />
-
 
 
 <!-- mathjax -->
@@ -212,9 +209,9 @@ sets.</p>
 <span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
 <span class='no'>prob_cols</span> <span class='kw'>&lt;-</span> <span class='fu'>levels</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>)
 
-<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; [1] 0.9393139</div><div class='input'>
+<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; [1] 0.939</div><div class='input'>
 <span class='co'># a warning is issued here because 2 columns are selected:</span>
-<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.9393139</div><div class='input'>
+<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.939</div><div class='input'>
 <span class='fu'>library</span>(<span class='no'>ggplot2</span>)
 <span class='fu'>library</span>(<span class='no'>dplyr</span>)
 <span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>) <span class='kw'>%&gt;%</span>
@@ -225,11 +222,11 @@ sets.</p>
   <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme'>theme_bw</a></span>()</div><div class='img'><img src='roc_auc-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># passing options via a list and _not_ `...`</span>
 <span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='no'>Class1</span>,
-        <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] 0.9421511</div><div class='input'>
+        <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] 0.942</div><div class='input'>
 
-<span class='fu'>pr_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.9425707</div><div class='input'>
-<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://dplyr.tidyverse.org/reference/reexports.html'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; [1] -0.3283096</div><div class='input'><span class='co'># or</span>
-<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; [1] -0.3283096</div></pre>
+<span class='fu'>pr_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.943</div><div class='input'>
+<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://dplyr.tidyverse.org/reference/reexports.html'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; [1] -0.328</div><div class='input'><span class='co'># or</span>
+<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; [1] -0.328</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

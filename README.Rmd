@@ -2,10 +2,11 @@
 output: github_document
 ---
 
-# `yardstick`
+<img src="yardstick_hex_thumb.png" align="center" height = "80px" align = "middle"/> 
 
-[![Build Status](https://travis-ci.org/topepo/yardstick.svg?branch=master)](https://travis-ci.org/topepo/yardstick)
-[![Coverage Status](https://img.shields.io/codecov/c/github/topepo/yardstick/master.svg)](https://codecov.io/github/topepo/yardstick?branch=master)
+
+[![Build Status](https://travis-ci.org/tidymodels/yardstick.svg?branch=master)](https://travis-ci.org/tidymodels/yardstick)
+[![Coverage Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)](https://codecov.io/github/tidymodels/yardstick?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yardstick)](http://cran.rstudio.com/package=yardstick)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](http://cran.rstudio.com/package=yardstick)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)

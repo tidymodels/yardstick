@@ -21,11 +21,9 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
-
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -37,11 +35,10 @@
 <meta property="og:description" content="These functions calculate the sensitivity, specificity or
 predictive values of a measurement system compared to a
 reference results (the truth or a gold standard). The
-measurement and &quot;truth&quot; data must have the same two possible
+measurement and "truth" data must have the same two possible
 outcomes and one of the outcomes must be thought of as a
-&quot;positive&quot; results or the &quot;event&quot;." />
+"positive" results or the "event"." />
 <meta name="twitter:card" content="summary" />
-
 
 
 <!-- mathjax -->
@@ -218,7 +215,6 @@ level of interest.</p>
 <tr><td>Predicted</td><td>Event</td><td>No Event</td></tr>
 <tr><td>Event</td><td>A</td><td>B</td></tr>
 <tr><td>No Event</td><td>C</td><td>D</td></tr>
-<tr><td></td><td></td><td>Reference</td></tr>
 </table>
     <p>The formulas used here are: $$Sensitivity = A/(A+C)$$ $$Specificity =
 D/(B+D)$$ $$Prevalence = (A+C)/(A+B+C+D)$$ $$PPV = (sensitivity *
@@ -250,12 +246,12 @@ predictive values,'' <em>British Medical Journal</em>, vol 309,
 
 <span class='co'># Given that a sample is Class 1, </span>
 <span class='co'>#   what is the probability that is predicted as Class 1? </span>
-<span class='fu'>sens</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.879845</div><div class='input'>
+<span class='fu'>sens</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.88</div><div class='input'>
 <span class='co'># Given that a sample is predicted to be Class 1, </span>
 <span class='co'>#  what is the probability that it truly is Class 1? </span>
-<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8194946</div><div class='input'>
+<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.819</div><div class='input'>
 <span class='co'># But what if we think that Class 1 only occurs 40% of the time?</span>
-<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='fl'>0.40</span>)</div><div class='output co'>#&gt; [1] 0.7395132</div></pre>
+<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='fl'>0.40</span>)</div><div class='output co'>#&gt; [1] 0.74</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
