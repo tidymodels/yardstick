@@ -2,6 +2,9 @@ template:
   package: tidytemplate
   default_assets: false
 
+development:
+  mode: auto
+  
 reference:
   - title: Classification Metrics
     contents:

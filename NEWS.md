@@ -1,5 +1,5 @@
 
-# yardstick 0.0.2
+# yardstick 0.0.1.9000
 
 * Unwieghted Kappa (via `kap`) is availible and is also returned by `metrics`. 
 * Detection prevalence and balanced accuracy were added. 
