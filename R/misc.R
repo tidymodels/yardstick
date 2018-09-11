@@ -92,10 +92,6 @@ validate_truth_estimate_checks <- function(truth, estimate) {
   validate_numeric(estimate, "estimate")
 }
 
-metric_tibble <- function(name, value) {
-  tibble::tibble(name = name, value = value)
-}
-
 #' @importFrom stats complete.cases
 metric_vec_template <- function(metric_impl, truth, estimate, na.rm = TRUE, ...) {
 
