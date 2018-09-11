@@ -56,7 +56,9 @@ this argument is passed by expression and support
 names or column positions).}
 
 \item{estimate}{The column identifier for the predicted class probabilities
-(that is a numeric) corresponding to the "positive" result. See Details.}
+(that is a numeric) corresponding to the "positive" result. See Details. For
+\code{mnLogLoss_vec}, this should be a matrix with as many columns as factor
+levels in \code{truth}.}
 
 \item{options}{Options to pass to \code{\link[=roc]{roc()}} such as \code{direction} or
 \code{smooth}. These options should not include \code{response},

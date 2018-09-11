@@ -17,7 +17,9 @@
 #' @aliases roc_auc roc_auc.default pr_auc pr_auc.default roc_curve
 #' @param data A data frame with the relevant columns.
 #' @param estimate The column identifier for the predicted class probabilities
-#' (that is a numeric) corresponding to the "positive" result. See Details.
+#' (that is a numeric) corresponding to the "positive" result. See Details. For
+#' `mnLogLoss_vec`, this should be a matrix with as many columns as factor
+#' levels in `truth`.
 #' @param ... For `mnLogLoss`, a set of unquoted column names or one or more
 #'  `dplyr` selector functions to choose which variables contain the
 #'  class probabilities. There should be as many columns as
