@@ -9,12 +9,14 @@
 \alias{rsq_vec}
 \alias{rsq_trad}
 \alias{rsq_trad.data.frame}
+\alias{rsq_trad_vec}
 \alias{mae}
 \alias{mae.data.frame}
 \alias{mape}
 \alias{mape.data.frame}
 \alias{ccc}
 \alias{ccc.data.frame}
+\alias{ccc_vec}
 \title{Calculate Metrics for Numeric Outcomes}
 \usage{
 rmse(data, ...)
@@ -33,6 +35,8 @@ rsq_trad(data, ...)
 
 \method{rsq_trad}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
+rsq_trad_vec(truth, estimate, na.rm = TRUE, ...)
+
 mae(data, ...)
 
 \method{mae}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
@@ -45,6 +49,8 @@ ccc(data, ...)
 
 \method{ccc}{data.frame}(data, truth, estimate, bias = FALSE, na.rm = TRUE,
   ...)
+
+ccc_vec(truth, estimate, bias = FALSE, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A data frame}

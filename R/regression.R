@@ -130,23 +130,33 @@ rsq_trad <- function(data, ...)
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases var
-rsq_trad.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    n <- nrow(data)
-    ss <- sum( (data[[vars$estimate]] - data[[vars$truth]]) ^ 2)
-    1 - (ss / ((n - 1) * var(data[[vars$truth]])))
+rsq_trad.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "rsq_trad",
+    metric_fn = rsq_trad_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+#' @importFrom stats var
+rsq_trad_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rsq_trad_impl <- function(truth, estimate) {
+    n <- length(truth)
+    ss <- sum( (estimate - truth) ^ 2)
+    1 - (ss / ((n - 1) * var(truth)))
   }
+
+  metric_vec_template(rsq_trad_impl, truth, estimate, na.rm, ...)
+}
 
 
 #' @export
@@ -213,33 +223,47 @@ ccc <- function(data, ...)
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases var
-ccc.data.frame <-
-  function(data, truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
+ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
 
-    m_e <- mean(data[[vars$estimate]])
-    m_t <- mean(data[[vars$truth]])
-    v_e <- var(data[[vars$estimate]])
-    v_t <- var(data[[vars$truth]])
-    cross <- scale(data[[vars$truth]], scale = FALSE) *
-      scale(data[[vars$estimate]], scale = FALSE)
+  metric_summarizer(
+    metric_nm = "ccc",
+    metric_fn = ccc_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...,
+    # Extra argument for ccc_impl()
+    bias = bias
+  )
+
+}
+
+
+#' @export
+#' @rdname rmse
+#' @importFrom stats var
+ccc_vec <- function(truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
+
+  ccc_impl <- function(truth, estimate, bias) {
+
+    m_e <- mean(estimate)
+    m_t <- mean(truth)
+    v_e <- var(estimate)
+    v_t <- var(truth)
+    cross <- scale(truth, scale = FALSE) *
+      scale(estimate, scale = FALSE)
     cross <- mean(cross)
 
     if (bias) {
-      n <- nrow(data)
+      n <- length(estimate)
       v_e <- v_e * (n - 1) / n
       v_t <- v_t * (n - 1) / n
     }
 
     2 * cross / (v_e + v_t + (m_e - m_t) ^ 2)
+
   }
+
+  metric_vec_template(ccc_impl, truth, estimate, na.rm, ..., bias = bias)
+}

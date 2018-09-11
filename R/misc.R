@@ -103,7 +103,7 @@ metric_vec_template <- function(metric_impl, truth, estimate, na.rm = TRUE, ...)
     estimate <- estimate[complete_cases]
   }
 
-  metric_impl(truth, estimate)
+  metric_impl(truth, estimate, ...)
 }
 
 metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate, na.rm = TRUE, ...) {
