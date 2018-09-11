@@ -5,14 +5,13 @@
 \alias{conf_mat.table}
 \alias{conf_mat.default}
 \alias{conf_mat.data.frame}
-\alias{conf_mat.table}
 \alias{tidy.conf_mat}
 \title{Confusion Matrix for Categorical Data}
 \usage{
 conf_mat(data, ...)
 
-\method{conf_mat}{data.frame}(data, truth, estimate, dnn = c("Prediction",
-  "Truth"), ...)
+\method{conf_mat}{data.frame}(data, truth, estimate,
+  dnn = c("Prediction", "Truth"), ...)
 
 \method{conf_mat}{table}(data, ...)
 
@@ -26,7 +25,7 @@ conf_mat(data, ...)
 method.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
+(that is a factor). This should be an unquoted column name although
 this argument is passed by expression and support
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names or column positions).}

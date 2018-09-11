@@ -7,47 +7,56 @@
 \alias{pr_auc.default}
 \alias{roc_curve}
 \alias{roc_auc.data.frame}
-\alias{pr_auc}
+\alias{roc_auc_vec}
 \alias{pr_auc.data.frame}
+\alias{pr_auc_vec}
 \alias{mnLogLoss}
 \alias{mnLogLoss.data.frame}
+\alias{mnLogLoss_vec}
 \alias{roc_curve.data.frame}
 \title{Metrics Based on Class Probabilities}
 \usage{
 roc_auc(data, ...)
 
-\method{roc_auc}{data.frame}(data, truth, ..., options = list(),
-  na.rm = TRUE)
+\method{roc_auc}{data.frame}(data, truth, estimate, options = list(),
+  na.rm = TRUE, ...)
+
+roc_auc_vec(truth, estimate, options = list(), na.rm = TRUE, ...)
 
 pr_auc(data, ...)
 
-\method{pr_auc}{data.frame}(data, truth, ..., na.rm = TRUE)
+\method{pr_auc}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+pr_auc_vec(truth, estimate, na.rm = TRUE, ...)
 
 mnLogLoss(data, ...)
 
-\method{mnLogLoss}{data.frame}(data, truth, ..., na.rm = TRUE, sum = FALSE)
+\method{mnLogLoss}{data.frame}(data, truth, ..., na.rm = TRUE,
+  sum = FALSE)
 
-\method{roc_curve}{data.frame}(data, truth, ..., options = list(),
+mnLogLoss_vec(truth, estimate, na.rm = TRUE, sum = FALSE, ...)
+
+\method{roc_curve}{data.frame}(data, truth, estimate, options = list(),
   na.rm = TRUE)
 }
 \arguments{
 \item{data}{A data frame with the relevant columns.}
 
-\item{...}{A set of unquoted column names or one or more
+\item{...}{For \code{mnLogLoss}, a set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
-class probabilities. See the examples below. For \code{roc_auc} and
-\code{pr_auc}, only one value is required. If more are given, the
-functions will try to match the column name to the appropriate
-factor level of \code{truth}. If this doesn't work, an error is
-thrown. For \code{mnLogLoss}, there should be as many columns as
+class probabilities. There should be as many columns as
 factor levels of \code{truth}. It is \strong{assumed} that they are in the
-same order as the factor levels.}
+same order as the factor levels. For \code{roc_auc} and
+\code{pr_auc}, unused.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
+(that is a factor). This should be an unquoted column name although
 this argument is passed by expression and support
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names or column positions).}
+
+\item{estimate}{The column identifier for the predicted class probabilities
+(that is a numeric) corresponding to the "positive" result. See Details.}
 
 \item{options}{Options to pass to \code{\link[=roc]{roc()}} such as \code{direction} or
 \code{smooth}. These options should not include \code{response},
@@ -60,10 +69,11 @@ values should be stripped before the computation proceeds}
 contrinbutions be returned (instead of the mean value)?}
 }
 \value{
-A number between 0 and 1 (or NA) for \code{roc_auc} or
-\code{pr_auc}. For \code{mnLogLoss} a number or \code{NA}. For \code{roc_curve}, a tibble with
-columns \code{sensitivity} and \code{specificity}. In an ordinary (i.e. non-smoothed)
-curve is used, there is also a column for \code{threshold}.
+A tibble containing a number between 0 and 1 (or NA) for \code{roc_auc} or
+\code{pr_auc}. For \code{mnLogLoss}, a tibble with a number or \code{NA}.
+For \code{roc_curve}, a tibble with columns \code{sensitivity} and \code{specificity}.
+If an ordinary (i.e. non-smoothed) curve is used, there is
+also a column for \code{threshold}.
 }
 \description{
 These functions compute the areas under the receiver operating
@@ -95,8 +105,6 @@ prob_cols <- levels(two_class_example$truth)
 
 roc_auc(two_class_example, truth = truth, Class1)
 
-# a warning is issued here because 2 columns are selected:
-roc_auc(two_class_example, truth, starts_with("Class"))
 
 library(ggplot2)
 library(dplyr)
@@ -108,11 +116,11 @@ roc_curve(two_class_example, truth, Class1) \%>\%
   theme_bw()
 
 # passing options via a list and _not_ `...`
-roc_auc(two_class_example, truth = "truth", Class1,
+roc_auc(two_class_example, truth = truth, Class1,
         options = list(smooth = TRUE))
 
 
-pr_auc(two_class_example, truth, prob_cols)
+pr_auc(two_class_example, truth, Class1)
 
 mnLogLoss(two_class_example, truth, starts_with("Class"))
 # or

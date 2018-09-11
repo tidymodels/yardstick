@@ -166,26 +166,30 @@ mae <- function(data, ...)
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases
-mae.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    mae_calc( data[[vars$truth]], data[[vars$estimate]])
+mae.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "mae",
+    metric_fn = mae_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+mae_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  mae_impl <- function(truth, estimate) {
+    mean( abs(truth - estimate) )
   }
 
-
-mae_calc <- function(obs, pred)
-  mean( abs(obs - pred) )
-
+  metric_vec_template(mae_impl, truth, estimate, na.rm, ...)
+}
 
 
 #' @export
@@ -195,25 +199,30 @@ mape <- function(data, ...)
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases
-mape.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    mape_calc(data[[vars$truth]], data[[vars$estimate]])
+mape.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+    metric_summarizer(
+      metric_nm = "mape",
+      metric_fn = mape_vec,
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na.rm = na.rm,
+      ... = ...
+    )
+
+}
+
+#' @export
+#' @rdname rmse
+mape_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  mape_impl <- function(truth, estimate) {
+    mean( abs( (truth - estimate) / truth ) ) * 100
   }
 
-
-mape_calc <- function(obs, pred)
-  mean( abs( (obs - pred)/obs ) ) * 100
+  metric_vec_template(mape_impl, truth, estimate, na.rm, ...)
+}
 
 
 #' @export

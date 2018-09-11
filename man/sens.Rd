@@ -18,15 +18,7 @@
 \alias{npv.table}
 \alias{npv.matrix}
 \alias{sens.data.frame}
-\alias{sens.table}
-\alias{sens.matrix}
 \alias{spec.data.frame}
-\alias{ppv}
-\alias{ppv.table}
-\alias{ppv.matrix}
-\alias{npv}
-\alias{npv.table}
-\alias{npv.matrix}
 \title{Calculate sensitivity, specificity and predictive values}
 \usage{
 sens(data, ...)
@@ -60,7 +52,7 @@ true class results should be in the columns of the table.}
 \item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
+(that is a factor). This should be an unquoted column name although
 this argument is passed by expression and support
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names or column positions).}
@@ -130,16 +122,16 @@ computationally efficient to create the confusion matrix using
 \examples{
 data("two_class_example")
 
-# Given that a sample is Class 1, 
-#   what is the probability that is predicted as Class 1? 
+# Given that a sample is Class 1,
+#   what is the probability that is predicted as Class 1?
 sens(two_class_example, truth = truth, estimate = predicted)
 
-# Given that a sample is predicted to be Class 1, 
-#  what is the probability that it truly is Class 1? 
+# Given that a sample is predicted to be Class 1,
+#  what is the probability that it truly is Class 1?
 ppv(two_class_example, truth = truth, estimate = predicted)
 
 # But what if we think that Class 1 only occurs 40\% of the time?
-ppv(two_class_example, truth, predicted, prevalence = 0.40) 
+ppv(two_class_example, truth, predicted, prevalence = 0.40)
 }
 \references{
 Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:

@@ -16,24 +16,26 @@
 #' @inheritParams sens
 #' @aliases roc_auc roc_auc.default pr_auc pr_auc.default roc_curve
 #' @param data A data frame with the relevant columns.
-#' @param ... A set of unquoted column names or one or more
+#' @param estimate The column identifier for the predicted class probabilities
+#' (that is a numeric) corresponding to the "positive" result. See Details.
+#' @param ... For `mnLogLoss`, a set of unquoted column names or one or more
 #'  `dplyr` selector functions to choose which variables contain the
-#'  class probabilities. See the examples below. For `roc_auc` and
-#'  `pr_auc`, only one value is required. If more are given, the
-#'  functions will try to match the column name to the appropriate
-#'  factor level of `truth`. If this doesn't work, an error is
-#'  thrown. For `mnLogLoss`, there should be as many columns as
+#'  class probabilities. There should be as many columns as
 #'  factor levels of `truth`. It is **assumed** that they are in the
-#'  same order as the factor levels.
+#'  same order as the factor levels. For `roc_auc` and
+#'  `pr_auc`, unused.
 #' @param na.rm A logical value indicating whether `NA`
 #'  values should be stripped before the computation proceeds
 #' @param options Options to pass to [roc()] such as `direction` or
 #'  `smooth`. These options should not include `response`,
 #'  `predictor`, or `levels`.
-#' @return A number between 0 and 1 (or NA) for `roc_auc` or
-#'  `pr_auc`. For `mnLogLoss` a number or `NA`. For `roc_curve`, a tibble with
-#'  columns `sensitivity` and `specificity`. In an ordinary (i.e. non-smoothed)
-#'  curve is used, there is also a column for `threshold`.
+#'
+#' @return A tibble containing a number between 0 and 1 (or NA) for `roc_auc` or
+#'  `pr_auc`. For `mnLogLoss`, a tibble with a number or `NA`.
+#'  For `roc_curve`, a tibble with columns `sensitivity` and `specificity`.
+#'  If an ordinary (i.e. non-smoothed) curve is used, there is
+#'  also a column for `threshold`.
+#'
 #' @details `roc_curve` computes the sensitivity at every unique
 #'  value of the probability column (in addition to infinity and
 #'  minus infinity). If a smooth ROC curve was produced, the unique
@@ -50,8 +52,6 @@
 #'
 #' roc_auc(two_class_example, truth = truth, Class1)
 #'
-#' # a warning is issued here because 2 columns are selected:
-#' roc_auc(two_class_example, truth, starts_with("Class"))
 #'
 #' library(ggplot2)
 #' library(dplyr)
@@ -63,11 +63,11 @@
 #'   theme_bw()
 #'
 #' # passing options via a list and _not_ `...`
-#' roc_auc(two_class_example, truth = "truth", Class1,
+#' roc_auc(two_class_example, truth = truth, Class1,
 #'         options = list(smooth = TRUE))
 #'
 #'
-#' pr_auc(two_class_example, truth, prob_cols)
+#' pr_auc(two_class_example, truth, Class1)
 #'
 #' mnLogLoss(two_class_example, truth, starts_with("Class"))
 #' # or
@@ -79,39 +79,55 @@ roc_auc <- function(data, ...)
 
 #' @export
 #' @rdname roc_auc
-#' @importFrom pROC roc auc
-#' @importFrom rlang invoke
-roc_auc.data.frame  <-
-  function(data, truth, ..., options = list(), na.rm = TRUE) {
-    vars <-
-      prob_select(
-        data = data,
-        truth = !!enquo(truth),
-        ...
-      )
+roc_auc.data.frame  <- function(data, truth, estimate, options = list(), na.rm = TRUE, ...) {
 
-    lvl_values <- levels(data[[vars$truth]])
+    metric_summarizer(
+      metric_nm = "roc_auc",
+      metric_fn = roc_auc_vec,
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na.rm = na.rm,
+      ... = ...,
+      metric_fn_options = list(options = options)
+    )
+
+}
+
+#' @rdname roc_auc
+#' @export
+#' @importFrom rlang call2
+#' @importFrom pROC roc auc
+roc_auc_vec <- function(truth, estimate, options = list(), na.rm = TRUE, ...) {
+
+  roc_auc_impl <- function(truth, estimate) {
+
+    lvl_values <- levels(truth)
 
     if (getOption("yardstick.event_first")) {
       lvl <- rev(lvl_values)
     } else {
       lvl <- lvl_values
     }
-    col <- match_levels_to_cols(vars$probs, rev(lvl))
 
-    data <- data[, c(vars$truth, col)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
+    args <- quos(response = truth, predictor = estimate, levels = lvl)
 
-    # working on a better way of doing this
-    options$response <- data[[vars$truth]]
-    options$predictor <- data[[col]]
-    options$levels <- lvl
+    curv <- eval_tidy(call2("roc", !!! args, !!! options, .ns = "pROC"))
 
-    curv <- invoke(pROC::roc, options)
     res <- unname(pROC::auc(curv))
+
     as.numeric(res)
   }
+
+  metric_vec_template(
+    metric_impl = roc_auc_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = c("factor", "numeric"),
+    ...
+  )
+}
 
 #' @export
 #' @rdname roc_auc
@@ -120,37 +136,54 @@ pr_auc <- function(data, ...)
 
 #' @export
 #' @rdname roc_auc
-#' @importFrom MLmetrics PRAUC
-pr_auc.data.frame  <-
-  function(data, truth, ..., na.rm = TRUE) {
-    vars <-
-      prob_select(
-        data = data,
-        truth = !!enquo(truth),
-        ...
-      )
+pr_auc.data.frame  <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
-    lvl_values <- levels(data[[vars$truth]])
+  metric_summarizer(
+    metric_nm = "pr_auc",
+    metric_fn = pr_auc_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname roc_auc
+#' @importFrom MLmetrics PRAUC
+pr_auc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  pr_auc_impl <- function(truth, estimate) {
+
+    lvl_values <- levels(truth)
 
     if (getOption("yardstick.event_first")) {
       lvl <- lvl_values
     } else {
       lvl <- rev(lvl_values)
     }
-    col <- match_levels_to_cols(vars$probs, lvl)
 
-    data <- data[, c(vars$truth, col)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
+    truth <- ifelse(truth == lvl[1], 1, 0)
 
-    data[[vars$truth]] <- ifelse(data[[vars$truth]] == lvl[1], 1, 0)
-
-    res <- MLmetrics::PRAUC(
-      y_true = data[[vars$truth]],
-      y_pred = data[[col]]
+    MLmetrics::PRAUC(
+      y_true = truth,
+      y_pred = estimate
     )
-    res
+
   }
+
+  metric_vec_template(
+    metric_impl = pr_auc_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = c("factor", "numeric"),
+    ...
+  )
+
+}
 
 #' @export mnLogLoss
 #' @rdname roc_auc
@@ -162,53 +195,50 @@ mnLogLoss <- function(data, ...)
 #' @importFrom stats model.matrix
 #' @param sum A logical. Should the sum of the likelihood
 #'  contrinbutions be returned (instead of the mean value)?
-mnLogLoss.data.frame  <-
-  function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
+mnLogLoss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
 
+    # Capture dots
     dot_vars <- rlang::with_handlers(
       tidyselect::vars_select(names(data), !!! quos(...)),
       tidyselect_empty = abort_selection
     )
 
-    estimate <- quos(!!!lapply(unname(dot_vars), as.name))
+    # estimate is a matrix of the selected columns
+    dot_nms <- lapply(dot_vars, as.name)
+    estimate <- quo(matrix(c(!!! dot_nms), ncol = !!length(dot_nms)))
 
     metric_summarizer(
       metric_nm = "mnLogLoss",
       metric_fn = mnLogLoss_vec,
       data = data,
       truth = !!enquo(truth),
-      estimate = NULL,
+      estimate = !!estimate,
       na.rm = na.rm,
       # dots are captured for column names in this impl
       #... = ...,
       # Extra argument for mnLogLoss_impl()
-      metric_fn_options = quos(!!!estimate, sum = sum)
+      metric_fn_options = list(sum = sum)
     )
 
   }
 
-mnLogLoss_vec <- function(truth, ..., na.rm = TRUE, sum = FALSE) {
-
-  estimate <- list(...)
-
-  # remove null, for df version, estimate=NULL is passed in
-  estimate <- estimate[!vapply(estimate, is.null, logical(1))]
-
-  lapply(estimate, validate_class, nm = "estimate", cls = "numeric")
-
-  # use a matrix so length checks match `truth`
-  estimate <- matrix(unlist(estimate), ncol = length(estimate))
-
-  lvl <- levels(truth)
-
-  if (ncol(estimate) != length(lvl))
-    stop("`...` should select exactly ",
-         length(lvl),
-         " columns of probabilities",
-         call. = FALSE)
+#' @rdname roc_auc
+#' @export
+mnLogLoss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
 
   # estimate here is a matrix of class prob columns
   mnLogLoss_impl <- function(truth, estimate, na.rm = TRUE, sum = FALSE) {
+
+    lvl <- levels(truth)
+
+    if (NCOL(estimate) != length(lvl)) {
+      stop(
+        "`estimate` should contain ",
+        length(lvl),
+        " columns of probabilities",
+        call. = FALSE
+      )
+    }
 
     y <- model.matrix(~ truth - 1)
     res <- y * estimate
@@ -222,7 +252,15 @@ mnLogLoss_vec <- function(truth, ..., na.rm = TRUE, sum = FALSE) {
 
   }
 
-  metric_vec_template(mnLogLoss_impl, truth, estimate, na.rm = na.rm, cls = c("factor", "matrix"), sum = sum)
+  metric_vec_template(
+    metric_impl = mnLogLoss_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = c("factor", "matrix"),
+    ...,
+    sum = sum
+  )
 }
 
 #' @export roc_curve
@@ -235,12 +273,12 @@ roc_curve <- function(data, ...)
 #' @importFrom rlang invoke
 #' @importFrom dplyr arrange as_tibble %>%
 roc_curve.data.frame  <-
-  function (data, truth, ..., options = list(), na.rm = TRUE) {
+  function (data, truth, estimate, options = list(), na.rm = TRUE) {
     vars <-
       prob_select(
         data = data,
         truth = !!enquo(truth),
-        ...
+        !!enquo(estimate) # currently passed as dots
       )
 
     lvl_values <- levels(data[[vars$truth]])

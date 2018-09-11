@@ -1,7 +1,10 @@
+#' @importFrom tibble as_tibble
+#' @importFrom dplyr summarise
 metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate, na.rm = TRUE, ..., metric_fn_options = list()) {
 
-  truth <- enquo(truth)
-  estimate <- enquo(estimate)
+  # Explicit handling of length 1 character vectors as column names
+  truth <- handle_chr_names(enquo(truth))
+  estimate <- handle_chr_names(enquo(estimate))
 
   metric_tbl <- summarise(
     data,
@@ -17,6 +20,18 @@ metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate, na.rm
   as_tibble(metric_tbl)
 }
 
+#' @importFrom rlang get_expr set_expr
+handle_chr_names <- function(x) {
+  x_expr <- get_expr(x)
+
+  # Replace character with bare name
+  if(is.character(x_expr) && length(x_expr) == 1) {
+    x <- set_expr(x, as.name(x_expr))
+  }
+
+  x
+}
+
 #' @importFrom stats complete.cases
 metric_vec_template <- function(metric_impl, truth, estimate, na.rm = TRUE, cls = "numeric", ...) {
 
@@ -25,7 +40,14 @@ metric_vec_template <- function(metric_impl, truth, estimate, na.rm = TRUE, cls 
   if (na.rm) {
     complete_cases <- complete.cases(truth, estimate)
     truth <- truth[complete_cases]
-    estimate <- estimate[complete_cases]
+
+    if(NCOL(estimate) == 1) {
+      estimate <- estimate[complete_cases]
+    } else {
+      # estimate can be a matrix
+      estimate <- estimate[complete_cases, , drop = FALSE]
+    }
+
   }
 
   metric_impl(truth, estimate, ...)

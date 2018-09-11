@@ -31,7 +31,8 @@ j_index(data, ...)
 
 bal_accuracy(data, ...)
 
-\method{bal_accuracy}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{bal_accuracy}{data.frame}(data, truth, estimate, na.rm = TRUE,
+  ...)
 
 \method{bal_accuracy}{table}(data, ...)
 
@@ -39,8 +40,8 @@ bal_accuracy(data, ...)
 
 detection_prevalence(data, ...)
 
-\method{detection_prevalence}{data.frame}(data, truth, estimate, na.rm = TRUE,
-  ...)
+\method{detection_prevalence}{data.frame}(data, truth, estimate,
+  na.rm = TRUE, ...)
 
 \method{detection_prevalence}{table}(data, ...)
 
@@ -55,7 +56,7 @@ true class results should be in the columns of the table.}
 \item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
+(that is a factor). This should be an unquoted column name although
 this argument is passed by expression and support
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names or column positions).}

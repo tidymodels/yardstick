@@ -7,8 +7,8 @@
 \usage{
 metrics(data, ...)
 
-\method{metrics}{data.frame}(data, truth, estimate, ..., options = list(),
-  na.rm = TRUE)
+\method{metrics}{data.frame}(data, truth, estimate, ...,
+  options = list(), na.rm = TRUE)
 }
 \arguments{
 \item{data}{A data frame}

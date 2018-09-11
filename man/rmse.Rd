@@ -12,8 +12,10 @@
 \alias{rsq_trad_vec}
 \alias{mae}
 \alias{mae.data.frame}
+\alias{mae_vec}
 \alias{mape}
 \alias{mape.data.frame}
+\alias{mape_vec}
 \alias{ccc}
 \alias{ccc.data.frame}
 \alias{ccc_vec}
@@ -41,14 +43,18 @@ mae(data, ...)
 
 \method{mae}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
+mae_vec(truth, estimate, na.rm = TRUE, ...)
+
 mape(data, ...)
 
 \method{mape}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
+mape_vec(truth, estimate, na.rm = TRUE, ...)
+
 ccc(data, ...)
 
-\method{ccc}{data.frame}(data, truth, estimate, bias = FALSE, na.rm = TRUE,
-  ...)
+\method{ccc}{data.frame}(data, truth, estimate, bias = FALSE,
+  na.rm = TRUE, ...)
 
 ccc_vec(truth, estimate, bias = FALSE, na.rm = TRUE, ...)
 }

@@ -11,14 +11,8 @@
 \alias{f_meas}
 \alias{f_meas.default}
 \alias{f_meas.table}
-\alias{recall.table}
 \alias{recall.data.frame}
-\alias{precision}
 \alias{precision.data.frame}
-\alias{precision.table}
-\alias{f_meas}
-\alias{f_meas.default}
-\alias{f_meas.table}
 \title{Calculate recall, precision and F values}
 \usage{
 recall(data, ...)
@@ -35,7 +29,8 @@ precision(data, ...)
 
 f_meas(data, ...)
 
-\method{f_meas}{default}(data, truth, estimate, beta = 1, na.rm = TRUE, ...)
+\method{f_meas}{default}(data, truth, estimate, beta = 1, na.rm = TRUE,
+  ...)
 
 \method{f_meas}{table}(data, beta = 1, ...)
 }
@@ -48,7 +43,7 @@ true class results should be in the columns of the table.}
 \item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
+(that is a factor). This should be an unquoted column name although
 this argument is passed by expression and support
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names or column positions).}
