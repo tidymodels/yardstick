@@ -164,35 +164,66 @@ mnLogLoss <- function(data, ...)
 #'  contrinbutions be returned (instead of the mean value)?
 mnLogLoss.data.frame  <-
   function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
-    vars <-
-      prob_select(
-        data = data,
-        truth = !!enquo(truth),
-        ...
-      )
 
-    lvl <- levels(data[[vars$truth]])
+    dot_vars <- rlang::with_handlers(
+      tidyselect::vars_select(names(data), !!! quos(...)),
+      tidyselect_empty = abort_selection
+    )
 
-    if (length(vars$probs) != length(lvl))
-      stop("`...` should select exactly ",
-           length(lvl),
-           " columns of probabilities",
-           call. = FALSE)
+    estimate <- quos(!!!lapply(unname(dot_vars), as.name))
 
-    data <- data[, c(vars$truth, vars$probs)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
+    metric_summarizer(
+      metric_nm = "mnLogLoss",
+      metric_fn = mnLogLoss_vec,
+      data = data,
+      truth = !!enquo(truth),
+      estimate = NULL,
+      na.rm = na.rm,
+      # dots are captured for column names in this impl
+      #... = ...,
+      # Extra argument for mnLogLoss_impl()
+      metric_fn_options = quos(!!!estimate, sum = sum)
+    )
 
-    y <- model.matrix(~ data[[vars$truth]] - 1)
-    res <- y * as.matrix(data[, vars$probs])
+  }
+
+mnLogLoss_vec <- function(truth, ..., na.rm = TRUE, sum = FALSE) {
+
+  estimate <- list(...)
+
+  # remove null, for df version, estimate=NULL is passed in
+  estimate <- estimate[!vapply(estimate, is.null, logical(1))]
+
+  lapply(estimate, validate_class, nm = "estimate", cls = "numeric")
+
+  # use a matrix so length checks match `truth`
+  estimate <- matrix(unlist(estimate), ncol = length(estimate))
+
+  lvl <- levels(truth)
+
+  if (ncol(estimate) != length(lvl))
+    stop("`...` should select exactly ",
+         length(lvl),
+         " columns of probabilities",
+         call. = FALSE)
+
+  # estimate here is a matrix of class prob columns
+  mnLogLoss_impl <- function(truth, estimate, na.rm = TRUE, sum = FALSE) {
+
+    y <- model.matrix(~ truth - 1)
+    res <- y * estimate
     res[res <= .Machine$double.eps & res > 0] <- .Machine$double.eps
     pos_log <- function(x)
       log(x[x != 0])
     res <- sum(apply(res, 1, pos_log))
     if (!sum)
-      res <- res / nrow(data)
+      res <- res / length(truth)
     res
+
   }
+
+  metric_vec_template(mnLogLoss_impl, truth, estimate, na.rm = na.rm, cls = c("factor", "matrix"), sum = sum)
+}
 
 #' @export roc_curve
 roc_curve <- function(data, ...)

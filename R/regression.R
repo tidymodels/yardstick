@@ -234,7 +234,7 @@ ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na.rm = TRUE, ..
     na.rm = na.rm,
     ... = ...,
     # Extra argument for ccc_impl()
-    bias = bias
+    metric_fn_options = list(bias = bias)
   )
 
 }
