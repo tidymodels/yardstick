@@ -3,8 +3,10 @@
 \name{rmse}
 \alias{rmse}
 \alias{rmse.data.frame}
+\alias{rmse_vec}
 \alias{rsq}
 \alias{rsq.data.frame}
+\alias{rsq_vec}
 \alias{rsq_trad}
 \alias{rsq_trad.data.frame}
 \alias{mae}
@@ -19,9 +21,13 @@ rmse(data, ...)
 
 \method{rmse}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
+rmse_vec(truth, estimate, na.rm = TRUE, ...)
+
 rsq(data, ...)
 
 \method{rsq}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+rsq_vec(truth, estimate, na.rm = TRUE, ...)
 
 rsq_trad(data, ...)
 

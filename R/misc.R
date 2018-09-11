@@ -10,8 +10,8 @@ get_col <- function(x, val) {
 pos_val <- function(xtab, check = TRUE) {
   if (check)
     if (!all(dim(xtab) == 2))
-      stop("Only relavant for 2x2 tables", call. = TRUE)
-  
+      stop("Only relevant for 2x2 tables", call. = TRUE)
+
   if (getOption("yardstick.event_first"))
     colnames(xtab)[1]
   else
@@ -21,8 +21,8 @@ pos_val <- function(xtab, check = TRUE) {
 neg_val <- function(xtab, check = TRUE) {
   if (check)
     if (!all(dim(xtab) == 2))
-      stop("Only relavant for 2x2 tables", call. = TRUE)
-  
+      stop("Only relevant for 2x2 tables", call. = TRUE)
+
   if (getOption("yardstick.event_first"))
     colnames(xtab)[2]
   else
@@ -57,7 +57,7 @@ match_levels_to_cols <- function(nms, lvl) {
     stop("These functions are for two-class problems and there ",
          "were ", length(nms), " columns given in `...`",
          call. = FALSE)
-  
+
   common <- lvl[lvl %in% nms]
   if(length(common) == 0)
     stop("Multiple columns were specified for class probabilities ",
@@ -66,4 +66,65 @@ match_levels_to_cols <- function(nms, lvl) {
   warning("Multiple columns were specified for class probabilities; ",
           common[1], " will be used.", call. = FALSE)
   common[1]
+}
+
+validate_truth_estimate_lengths <- function(truth, estimate) {
+
+  n_truth <- length(truth)
+  n_estimate <- length(estimate)
+
+  if(n_truth != n_estimate) {
+    msg <- paste0("Length of `truth` (", n_truth,
+                  ") and `estimate` (", estimate, ") must match.")
+    stop(msg, call. = FALSE)
+  }
+}
+
+validate_numeric <- function(x, nm) {
+  if(!is.numeric(x)) {
+    stop("`", nm, "` should be numeric", call. = FALSE)
+  }
+}
+
+validate_truth_estimate_checks <- function(truth, estimate) {
+  validate_truth_estimate_lengths(truth, estimate)
+  validate_numeric(truth, "truth")
+  validate_numeric(estimate, "estimate")
+}
+
+metric_tibble <- function(name, value) {
+  tibble::tibble(name = name, value = value)
+}
+
+#' @importFrom stats complete.cases
+metric_vec_template <- function(metric_impl, truth, estimate, na.rm = TRUE, ...) {
+
+  validate_truth_estimate_checks(truth, estimate)
+
+  if (na.rm) {
+    complete_cases <- complete.cases(truth, estimate)
+    truth <- truth[complete_cases]
+    estimate <- estimate[complete_cases]
+  }
+
+  metric_impl(truth, estimate)
+}
+
+metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate, na.rm = TRUE, ...) {
+
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+
+  metric_tbl <- summarise(
+    data,
+    name = !! metric_nm,
+    value = metric_fn(
+      truth = !! truth,
+      estimate = !! estimate,
+      na.rm = na.rm,
+      ...
+    )
+  )
+
+  as_tibble(metric_tbl)
 }

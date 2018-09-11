@@ -114,3 +114,37 @@ metrics.data.frame  <-
     res
   }
 
+
+#' @export
+#' @importFrom rlang call2
+#' @importFrom dplyr bind_rows
+#' @importFrom rlang eval_tidy
+metric_set <- function(...) {
+
+  # Capture functions in their environment
+  quo_fns <- enquos(...)
+  fns <- lapply(quo_fns, eval_tidy)
+
+  function(data, truth, estimate, na.rm = TRUE, ...) {
+
+    # Construct common argument set for each metric call
+    # Doing this dynamically inside the generated function means
+    # we capture the correct arguments
+    call_args <- quos(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na.rm = na.rm,
+      ... = ...
+    )
+
+    # Construct calls from the functions + arguments
+    calls <- lapply(fns, call2, !!! call_args)
+
+    # Evaluate
+    metric_list <- lapply(calls, eval_tidy)
+
+    bind_rows(metric_list)
+  }
+}
+

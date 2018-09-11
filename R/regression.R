@@ -65,25 +65,30 @@ rmse <- function(data, ...)
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases
-rmse.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    rmse_calc(data[[vars$truth]], data[[vars$estimate]])
+rmse.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "rmse",
+    metric_fn = rmse_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+rmse_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rmse_impl <- function(truth, estimate) {
+    sqrt( mean( (truth - estimate) ^ 2) )
   }
 
-rmse_calc <- function(obs, pred)
-  sqrt( mean( (obs - pred) ^ 2) )
-
+  metric_vec_template(rmse_impl, truth, estimate, na.rm, ...)
+}
 
 #' @export
 #' @rdname rmse
@@ -92,26 +97,31 @@ rsq <- function(data, ...)
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases cor
-rsq.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
+rsq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
-    rsq_calc(data[[vars$truth]], data[[vars$estimate]])
+  metric_summarizer(
+    metric_nm = "rsq",
+    metric_fn = rsq_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+#' @importFrom stats cor
+rsq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rsq_impl <- function(truth, estimate) {
+    cor(truth, estimate)^2
   }
 
-rsq_calc <- function(obs, pred)
-  cor(obs, pred)^2
-
+  metric_vec_template(rsq_impl, truth, estimate, na.rm, ...)
+}
 
 #' @export
 #' @rdname rmse
