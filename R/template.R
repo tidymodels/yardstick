@@ -8,8 +8,8 @@ metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate, na.rm
 
   metric_tbl <- summarise(
     data,
-    name = !! metric_nm,
-    value = metric_fn(
+    .metric = !! metric_nm,
+    .estimate = metric_fn(
       truth = !! truth,
       estimate = !! estimate,
       na.rm = na.rm,
