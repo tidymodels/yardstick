@@ -96,216 +96,323 @@ sens <- function(data, ...)
 
 #' @export
 #' @rdname sens
-sens.data.frame  <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+sens.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "sens",
+    metric_fn = sens_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @rdname sens
+#' @export
+sens.table <- function(data, ...) {
+
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+
+  positive <- pos_val(data)
+  numer <- sum(data[positive, positive])
+  denom <- sum(data[, positive])
+  sens <- ifelse(denom > 0, numer / denom, NA)
+  sens
+
+}
+
+#' @export
+#' @rdname sens
+sens.matrix <- function(data, ...) {
+
+  data <- as.table(data)
+  sens.table(data)
+
+}
+
+#' @export
+#' @rdname sens
+sens_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  sens_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
     sens.table(xtab, ...)
+
   }
 
-#' @rdname sens
-#' @export
-"sens.table" <-
-  function(data, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
+  metric_vec_template(
+    metric_impl = sens_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
 
-    positive <- pos_val(data)
-    numer <- sum(data[positive, positive])
-    denom <- sum(data[, positive])
-    sens <- ifelse(denom > 0, numer / denom, NA)
-    sens
-  }
-
-#' @rdname sens
-"sens.matrix" <-
-  function(data, ...) {
-    data <- as.table(data)
-    sens.table(data)
-  }
+}
 
 
 #' @export
-spec <-  function(data, ...)
+spec <-  function(data, ...) {
   UseMethod("spec")
+}
 
 
 #' @export
 #' @rdname sens
-spec.data.frame  <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+spec.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "spec",
+    metric_fn = spec_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname sens
+spec.table <- function(data, ...) {
+
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+
+  negative <- neg_val(data)
+
+  numer <- sum(data[negative, negative])
+  denom <- sum(data[, negative])
+  spec <- ifelse(denom > 0, numer / denom, NA)
+  spec
+
+}
+
+#' @rdname sens
+#' @export
+spec.matrix <- function(data, ...) {
+
+  data <- as.table(data)
+  spec.table(data)
+
+}
+
+#' @export
+#' @rdname sens
+spec_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  spec_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
-
     spec.table(xtab, ...)
+
   }
 
+  metric_vec_template(
+    metric_impl = spec_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
 
-#' @export
-"spec.table" <-
-  function(data, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
-
-    negative <- neg_val(data)
-
-    numer <- sum(data[negative, negative])
-    denom <- sum(data[, negative])
-    spec <- ifelse(denom > 0, numer / denom, NA)
-    spec
-  }
-
-"spec.matrix" <-
-  function(data, ...) {
-    data <- as.table(data)
-    spec.table(data)
-  }
+}
 
 #' @rdname sens
 #' @export
-ppv <- function(data, ...)
+ppv <- function(data, ...) {
   UseMethod("ppv")
+}
 
 #' @export
-ppv.data.frame  <-
-  function(data, truth, estimate,
-           na.rm = TRUE, prevalence = NULL, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+ppv.data.frame <- function(data, truth, estimate,
+                           prevalence = NULL, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "ppv",
+    metric_fn = ppv_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...,
+    metric_fn_options = list(prevalence = prevalence)
+  )
+
+}
+
+#' @rdname sens
+#' @export
+ppv.table <- function(data, prevalence = NULL, ...) {
+
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+
+  positive <- pos_val(data)
+  negative <- neg_val(data)
+
+  if (is.null(prevalence))
+    prevalence <- sum(data[, positive]) / sum(data)
+
+  sens <- sens(data)
+  spec <- spec(data)
+  (sens * prevalence) / ((sens * prevalence) + ((1 - spec) * (1 - prevalence)))
+
+}
+
+#' @rdname sens
+#' @export
+ppv.matrix <- function(data, prevalence = NULL, ...) {
+
+  data <- as.table(data)
+  ppv.table(data, prevalence = prevalence)
+
+}
+
+#' @export
+#' @rdname sens
+ppv_vec <- function(truth, estimate, prevalence = NULL, na.rm = TRUE, ...) {
+
+  ppv_impl <- function(truth, estimate, prevalence) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
-    lev <- if (getOption("yardstick.event_first"))
-      colnames(xtab)[1]
-    else
-      colnames(xtab)[2]
+
+    # # What is this doing?
+    # lev <- if (getOption("yardstick.event_first"))
+    #   colnames(xtab)[1]
+    # else
+    #   colnames(xtab)[2]
 
     ppv.table(xtab, prevalence = prevalence, ...)
-  }
-
-#' @rdname sens
-#' @export
-"ppv.table" <-
-  function(data, prevalence = NULL, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
-
-    positive <- pos_val(data)
-    negative <- neg_val(data)
-
-    if (is.null(prevalence))
-      prevalence <- sum(data[, positive]) / sum(data)
-
-    sens <- sens(data)
-    spec <- spec(data)
-    (sens * prevalence) / ((sens * prevalence) + ((1 - spec) * (1 - prevalence)))
 
   }
 
-#' @rdname sens
-#' @export
-"ppv.matrix" <-
-  function(data, prevalence = NULL, ...) {
-    data <- as.table(data)
-    ppv.table(data, prevalence = prevalence)
-  }
+  metric_vec_template(
+    metric_impl = ppv_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...,
+    prevalence = prevalence
+  )
+
+}
+
 
 #' @rdname sens
 #' @export
-npv <- function(data, ...)
+npv <- function(data, ...) {
   UseMethod("npv")
+}
 
 #' @export
-npv.data.frame  <-
-  function(data, truth, estimate,
-           na.rm = TRUE, prevalence = NULL, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+npv.data.frame <- function(data, truth, estimate,
+                           prevalence = NULL, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "npv",
+    metric_fn = npv_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...,
+    metric_fn_options = list(prevalence = prevalence)
+  )
+
+}
+
+#' @rdname sens
+#' @export
+npv.table <- function(data, prevalence = NULL, ...) {
+
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+
+  positive <- pos_val(data)
+  negative <- neg_val(data)
+
+  if (is.null(prevalence))
+    prevalence <- sum(data[, positive]) / sum(data)
+
+  sens <- sens(data)
+  spec <- spec(data)
+  (spec * (1 - prevalence)) / (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
+
+}
+
+#' @rdname sens
+#' @export
+npv.matrix <- function(data, prevalence = NULL, ...) {
+
+  data <- as.table(data)
+  npv.table(data, prevalence = prevalence)
+
+}
+
+#' @export
+#' @rdname sens
+npv_vec <- function(truth, estimate, prevalence = NULL, na.rm = TRUE, ...) {
+
+  npv_impl <- function(truth, estimate, prevalence) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
-    lev <- if (getOption("yardstick.event_first"))
-      colnames(xtab)[2]
-    else
-      colnames(xtab)[1]
+
+    # # What is this doing?
+    # lev <- if (getOption("yardstick.event_first"))
+    #   colnames(xtab)[1]
+    # else
+    #   colnames(xtab)[2]
 
     npv.table(xtab, prevalence = prevalence, ...)
-  }
-
-#' @rdname sens
-#' @export
-"npv.table" <-
-  function(data, prevalence = NULL, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
-
-    positive <- pos_val(data)
-    negative <- neg_val(data)
-
-    if (is.null(prevalence))
-      prevalence <- sum(data[, positive]) / sum(data)
-
-    sens <- sens(data)
-    spec <- spec(data)
-    (spec * (1 - prevalence)) / (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
 
   }
 
-#' @rdname sens
-#' @export
-"npv.matrix" <-
-  function(data, prevalence = NULL, ...) {
-    data <- as.table(data)
-    npv.table(data, prevalence = prevalence)
-  }
+  metric_vec_template(
+    metric_impl = npv_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...,
+    prevalence = prevalence
+  )
 
+}

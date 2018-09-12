@@ -19,14 +19,14 @@
 #'
 #' The measure "F" is a combination of precision and recall (see
 #'  below).
-#'  
+#'
 #' There is no common convention on which factor level should
-#'  automatically be considered the relevant result. 
-#'  In `yardstick`, the default is to use the _first_ level. To 
+#'  automatically be considered the relevant result.
+#'  In `yardstick`, the default is to use the _first_ level. To
 #'  change this, a global option called `yardstick.event_first` is
 #'  set to `TRUE` when the package is loaded. This can be changed
 #'  to `FALSE` if the last level of the factor is considered the
-#'  level of interest. 
+#'  level of interest.
 #'
 #' Suppose a 2x2 table with notation
 #'
@@ -42,7 +42,7 @@
 #'  computationally efficient to create the confusion matrix using
 #'  [conf_mat()] and applying the corresponding `summary` method
 #'  ([summary.conf_mat()]) to get the values at once.
-#'  
+#'
 #' @inheritParams sens
 #' @aliases recall recall.default recall.table precision
 #'  precision.default precision.table precision.matrix f_meas
@@ -60,133 +60,203 @@
 #'  Factor to ROC, Informedness, Markedness and Correlation.
 #'  Technical Report SIE-07-001, Flinders University
 #' @keywords manip
-#' @examples 
+#' @examples
 #' data("two_class_example")
 #'
 #' # Different methods for calling the functions:
 #' precision(two_class_example, truth = truth, estimate = predicted)
-#' 
+#'
 #' recall(two_class_example, truth = "truth", estimate = "predicted")
-#' 
+#'
 #' truth_var <- quote(truth)
 #' f_meas(two_class_example, !! truth_var, predicted)
 #' @export recall
-recall <- function(data, ...)
+recall <- function(data, ...) {
   UseMethod("recall")
+}
 
 #' @rdname recall
 #' @export
-"recall.table" <-
-  function(data, ...) {
-    check_table(data)
-    
-    relevant <- pos_val(data)
-    
-    numer <- data[relevant, relevant]
-    denom <- sum(data[, relevant])
-    rec <- ifelse(denom > 0, numer / denom, NA)
-    rec
-  }
+recall.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "recall",
+    metric_fn = recall_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
 
 #' @rdname recall
 #' @export
-recall.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    
+recall.table <- function(data, ...) {
+
+  check_table(data)
+
+  relevant <- pos_val(data)
+
+  numer <- data[relevant, relevant]
+  denom <- sum(data[, relevant])
+  rec <- ifelse(denom > 0, numer / denom, NA)
+  rec
+
+}
+
+#' @export
+#' @rdname recall
+recall_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  recall_impl <- function(truth, estimate) {
+
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
-      two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
     recall.table(xtab)
+
   }
+
+  metric_vec_template(
+    metric_impl = recall_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
+
+}
 
 #' @rdname recall
 #' @export
-precision <- function(data, ...)
+precision <- function(data, ...) {
   UseMethod("precision")
+}
 
 #' @rdname recall
 #' @export
-precision.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    
-    xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
-      na.rm = na.rm,
-      two_class = TRUE,
-      dnn = c("Prediction", "Truth"),
-      ...
-    )
-    precision.table(xtab)
-  }
+precision.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "precision",
+    metric_fn = precision_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
 
 #' @rdname recall
 #' @export
 precision.table <- function (data, ...) {
+
   check_table(data)
-  
+
   relevant <- pos_val(data)
   numer <- data[relevant, relevant]
   denom <- sum(data[relevant, ])
   precision <- ifelse(denom > 0, numer / denom, NA)
   precision
+
+}
+
+#' @export
+#' @rdname recall
+precision_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  precision_impl <- function(truth, estimate) {
+
+    xtab <- vec2table(
+      truth = truth,
+      estimate = estimate,
+      na.rm = na.rm,
+      dnn = c("Prediction", "Truth"),
+      ...
+    )
+    precision.table(xtab)
+
+  }
+
+  metric_vec_template(
+    metric_impl = precision_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
+
 }
 
 #' @rdname recall
 #' @export
-f_meas <- function(data, ...)
+f_meas <- function(data, ...) {
   UseMethod("f_meas")
+}
 
 #' @rdname recall
 #' @export
-f_meas.default <-
-  function(data, truth, estimate, beta = 1, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    
+f_meas.data.frame <- function(data, truth, estimate, beta = 1, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "f_meas",
+    metric_fn = f_meas_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...,
+    metric_fn_options = list(beta = beta)
+  )
+
+}
+
+#' @rdname recall
+#' @export
+f_meas.table <- function (data, beta = 1, ...) {
+  check_table(data)
+
+  relevant <- pos_val(data)
+  precision <- precision.table(data, relevant = relevant)
+  rec <- recall.table(data, relevant = relevant)
+  (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
+}
+
+#' @export
+#' @rdname recall
+f_meas_vec <- function(truth, estimate, beta = 1, na.rm = TRUE, ...) {
+
+  f_meas_impl <- function(truth, estimate, beta) {
+
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
-      two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
     f_meas.table(xtab, beta = beta)
+
   }
 
-#' @rdname recall
-#' @export
-f_meas.table <-
-  function (data, beta = 1, ...) {
-    check_table(data)
-    
-    relevant <- pos_val(data)
-    precision <- precision.table(data, relevant = relevant)
-    rec <- recall.table(data, relevant = relevant)
-    (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
-  }
+  metric_vec_template(
+    metric_impl = f_meas_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...,
+    beta = beta
+  )
+
+}

@@ -12,14 +12,20 @@
 \alias{f_meas.default}
 \alias{f_meas.table}
 \alias{recall.data.frame}
+\alias{recall_vec}
 \alias{precision.data.frame}
+\alias{precision_vec}
+\alias{f_meas.data.frame}
+\alias{f_meas_vec}
 \title{Calculate recall, precision and F values}
 \usage{
 recall(data, ...)
 
+\method{recall}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
 \method{recall}{table}(data, ...)
 
-\method{recall}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+recall_vec(truth, estimate, na.rm = TRUE, ...)
 
 precision(data, ...)
 
@@ -27,12 +33,16 @@ precision(data, ...)
 
 \method{precision}{table}(data, ...)
 
+precision_vec(truth, estimate, na.rm = TRUE, ...)
+
 f_meas(data, ...)
 
-\method{f_meas}{default}(data, truth, estimate, beta = 1, na.rm = TRUE,
-  ...)
+\method{f_meas}{data.frame}(data, truth, estimate, beta = 1,
+  na.rm = TRUE, ...)
 
 \method{f_meas}{table}(data, beta = 1, ...)
+
+f_meas_vec(truth, estimate, beta = 1, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the

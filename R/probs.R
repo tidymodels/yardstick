@@ -274,54 +274,53 @@ roc_curve <- function(data, ...)
 #' @importFrom pROC coords
 #' @importFrom rlang invoke
 #' @importFrom dplyr arrange as_tibble %>%
-roc_curve.data.frame  <-
-  function (data, truth, estimate, options = list(), na.rm = TRUE) {
-    vars <-
-      prob_select(
-        data = data,
-        truth = !!enquo(truth),
-        !!enquo(estimate) # currently passed as dots
-      )
+roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.rm = TRUE) {
+  vars <-
+    prob_select(
+      data = data,
+      truth = !!enquo(truth),
+      !!enquo(estimate) # currently passed as dots
+    )
 
-    lvl_values <- levels(data[[vars$truth]])
+  lvl_values <- levels(data[[vars$truth]])
 
-    if (getOption("yardstick.event_first")) {
-      lvl <- rev(lvl_values)
-    } else {
-      lvl <- lvl_values
-    }
-    col <- match_levels_to_cols(vars$probs, rev(lvl))
-
-    data <- data[, c(vars$truth, col)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-
-    # working on a better way of doing this
-    options$response <- data[[vars$truth]]
-    options$predictor <- data[[col]]
-    options$levels <- lvl
-
-    curv <- invoke(pROC::roc, options)
-    if (!inherits(curv, "smooth.roc")) {
-      res <- coords(
-        curv,
-        x = unique(c(-Inf, options$predictor, Inf)),
-        input = "threshold"
-      )
-    } else {
-      res <- coords(
-        curv,
-        x = unique(c(0, curv$specificities, 1)),
-        input = "specificity"
-      )
-    }
-    res <- dplyr::as_tibble(t(res))
-    res <- if (!inherits(curv, "smooth.roc"))
-      res %>% dplyr::arrange(threshold)
-    else
-      res %>% dplyr::arrange(specificity)
-    res
+  if (getOption("yardstick.event_first")) {
+    lvl <- rev(lvl_values)
+  } else {
+    lvl <- lvl_values
   }
+  col <- match_levels_to_cols(vars$probs, rev(lvl))
+
+  data <- data[, c(vars$truth, col)]
+  if (na.rm)
+    data <- data[complete.cases(data), ]
+
+  # working on a better way of doing this
+  options$response <- data[[vars$truth]]
+  options$predictor <- data[[col]]
+  options$levels <- lvl
+
+  curv <- invoke(pROC::roc, options)
+  if (!inherits(curv, "smooth.roc")) {
+    res <- coords(
+      curv,
+      x = unique(c(-Inf, options$predictor, Inf)),
+      input = "threshold"
+    )
+  } else {
+    res <- coords(
+      curv,
+      x = unique(c(0, curv$specificities, 1)),
+      input = "specificity"
+    )
+  }
+  res <- dplyr::as_tibble(t(res))
+  res <- if (!inherits(curv, "smooth.roc"))
+    res %>% dplyr::arrange(threshold)
+  else
+    res %>% dplyr::arrange(specificity)
+  res
+}
 
 
 

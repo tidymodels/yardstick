@@ -33,181 +33,290 @@
 #'
 #' detection_prevalence(two_class_example, truth, predicted)
 #' @export
-mcc <- function(data, ...)
+mcc <- function(data, ...) {
   UseMethod("mcc")
+}
 
 #' @export
 #' @rdname mcc
-mcc.data.frame  <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+mcc.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "mcc",
+    metric_fn = mcc_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @rdname mcc
+#' @export
+mcc.table <- function(data, ...) {
+
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+
+  positive <- pos_val(data)
+  negative <- neg_val(data)
+
+  # This and `prod` below to deal with integer overflow
+  data <- as.matrix(data)
+
+  tp <- data[positive, positive]
+  tn <- data[negative, negative]
+  fp <- data[positive, negative]
+  fn <- data[negative, positive]
+  d1 <- tp + fp
+  d2 <- tp + fn
+  d3 <- tn + fp
+  d4 <- tn + fn
+  if (d1 == 0 | d2 == 0 | d3 == 0 | d4 == 0)
+    return(NA)
+  ((tp * tn) - (fp * fn)) / sqrt(prod(d1, d2, d3, d4))
+
+}
+
+#' @export
+#' @rdname mcc
+mcc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  mcc_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
     mcc.table(xtab, ...)
+
   }
 
-#' @rdname mcc
-#' @export
-"mcc.table" <-
-  function(data, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
+  metric_vec_template(
+    metric_impl = mcc_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
 
-    positive <- pos_val(data)
-    negative <- neg_val(data)
-
-    # This and `prod` below to deal with integer overflow
-    data <- as.matrix(data)
-
-    tp <- data[positive, positive]
-    tn <- data[negative, negative]
-    fp <- data[positive, negative]
-    fn <- data[negative, positive]
-    d1 <- tp + fp
-    d2 <- tp + fn
-    d3 <- tn + fp
-    d4 <- tn + fn
-    if (d1 == 0 | d2 == 0 | d3 == 0 | d4 == 0)
-      return(NA)
-    ((tp * tn) - (fp * fn)) / sqrt(prod(d1, d2, d3, d4))
-  }
+}
 
 #' @export
 #' @rdname mcc
-j_index <- function(data, ...)
+j_index <- function(data, ...) {
   UseMethod("j_index")
+}
 
 #' @export
 #' @rdname mcc
-j_index.data.frame  <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+j_index.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "j_index",
+    metric_fn = j_index_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @rdname mcc
+#' @export
+j_index.table <- function(data, ...) {
+
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+  sens(data) + spec(data) - 1
+
+}
+
+#' @rdname mcc
+#' @export
+j_index.matrix <- function(data, ...) {
+
+  data <- as.table(data)
+  j_index.table(data)
+
+}
+
+#' @export
+#' @rdname mcc
+j_index_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  j_index_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
       two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
     j_index.table(xtab, ...)
+
   }
 
-#' @rdname mcc
-#' @export
-"j_index.table" <-
-  function(data, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
-    sens(data) + spec(data) - 1
-  }
+  metric_vec_template(
+    metric_impl = j_index_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
+
+}
 
 #' @export
 #' @rdname mcc
-bal_accuracy <- function(data, ...)
+bal_accuracy <- function(data, ...) {
   UseMethod("bal_accuracy")
+}
 
 #' @export
 #' @rdname mcc
-bal_accuracy.data.frame  <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+bal_accuracy.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+    metric_summarizer(
+      metric_nm = "bal_accuracy",
+      metric_fn = bal_accuracy_vec,
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na.rm = na.rm,
+      ... = ...
+    )
+
+}
+
+#' @rdname mcc
+#' @export
+bal_accuracy.table <- function(data, ...) {
+
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+
+  ( sens(data) + spec(data) ) / 2
+
+}
+
+#' @rdname mcc
+bal_accuracy.matrix <- function(data, ...) {
+
+  data <- as.table(data)
+  bal_accuracy.table(data)
+
+}
+
+#' @export
+#' @rdname mcc
+bal_accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  bal_accuracy_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
+      two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
     bal_accuracy.table(xtab, ...)
+
   }
 
-#' @rdname mcc
-#' @export
-"bal_accuracy.table" <-
-  function(data, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
+  metric_vec_template(
+    metric_impl = bal_accuracy_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
 
-    ( sens(data) + spec(data) ) / 2
-  }
+}
 
-#' @rdname mcc
-"bal_accuracy.matrix" <-
-  function(data, ...) {
-    data <- as.table(data)
-    bal_accuracy.table(data)
-  }
 
 #' @export
 #' @rdname mcc
-detection_prevalence <- function(data, ...)
+detection_prevalence <- function(data, ...) {
   UseMethod("detection_prevalence")
+}
 
 #' @export
 #' @rdname mcc
-detection_prevalence.data.frame  <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+detection_prevalence.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "detection_prevalence",
+    metric_fn = detection_prevalence_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @rdname mcc
+#' @export
+detection_prevalence.table <- function(data, ...) {
+
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+
+  pos_level <- pos_val(data)
+  sum(data[pos_level, ]) / sum(data)
+
+}
+
+#' @rdname mcc
+detection_prevalence.matrix <- function(data, ...) {
+
+  data <- as.table(data)
+  detection_prevalence.table(data)
+
+}
+
+#' @export
+#' @rdname mcc
+detection_prevalence_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  detection_prevalence_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
+      two_class = TRUE,
       dnn = c("Prediction", "Truth"),
       ...
     )
     detection_prevalence.table(xtab, ...)
+
   }
 
-#' @rdname mcc
-#' @export
-"detection_prevalence.table" <-
-  function(data, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
+  metric_vec_template(
+    metric_impl = detection_prevalence_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
 
-    pos_level <- pos_val(data)
-    sum(data[pos_level, ])/sum(data)
-  }
-
-#' @rdname mcc
-"detection_prevalence.matrix" <-
-  function(data, ...) {
-    data <- as.table(data)
-    detection_prevalence.table(data)
-  }
-
+}

@@ -5,10 +5,12 @@
 \alias{accuracy.data.frame}
 \alias{accuracy.table}
 \alias{accuracy.matrix}
+\alias{accuracy_vec}
 \alias{kap}
 \alias{kap.data.frame}
 \alias{kap.table}
 \alias{kap.matrix}
+\alias{kap_vec}
 \title{Classification Metrics on Predited Classes}
 \usage{
 accuracy(data, ...)
@@ -19,6 +21,8 @@ accuracy(data, ...)
 
 \method{accuracy}{matrix}(data, ...)
 
+accuracy_vec(truth, estimate, na.rm = TRUE, ...)
+
 kap(data, ...)
 
 \method{kap}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
@@ -26,6 +30,8 @@ kap(data, ...)
 \method{kap}{table}(data, ...)
 
 \method{kap}{matrix}(data, ...)
+
+kap_vec(truth, estimate, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the

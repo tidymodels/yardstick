@@ -4,17 +4,22 @@
 \alias{mcc}
 \alias{mcc.data.frame}
 \alias{mcc.table}
+\alias{mcc_vec}
 \alias{j_index}
 \alias{j_index.data.frame}
 \alias{j_index.table}
+\alias{j_index.matrix}
+\alias{j_index_vec}
 \alias{bal_accuracy}
 \alias{bal_accuracy.data.frame}
 \alias{bal_accuracy.table}
 \alias{bal_accuracy.matrix}
+\alias{bal_accuracy_vec}
 \alias{detection_prevalence}
 \alias{detection_prevalence.data.frame}
 \alias{detection_prevalence.table}
 \alias{detection_prevalence.matrix}
+\alias{detection_prevalence_vec}
 \title{Other Metrics for 2x2 Tables}
 \usage{
 mcc(data, ...)
@@ -23,11 +28,17 @@ mcc(data, ...)
 
 \method{mcc}{table}(data, ...)
 
+mcc_vec(truth, estimate, na.rm = TRUE, ...)
+
 j_index(data, ...)
 
 \method{j_index}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 \method{j_index}{table}(data, ...)
+
+\method{j_index}{matrix}(data, ...)
+
+j_index_vec(truth, estimate, na.rm = TRUE, ...)
 
 bal_accuracy(data, ...)
 
@@ -38,6 +49,8 @@ bal_accuracy(data, ...)
 
 \method{bal_accuracy}{matrix}(data, ...)
 
+bal_accuracy_vec(truth, estimate, na.rm = TRUE, ...)
+
 detection_prevalence(data, ...)
 
 \method{detection_prevalence}{data.frame}(data, truth, estimate,
@@ -46,6 +59,8 @@ detection_prevalence(data, ...)
 \method{detection_prevalence}{table}(data, ...)
 
 \method{detection_prevalence}{matrix}(data, ...)
+
+detection_prevalence_vec(truth, estimate, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the

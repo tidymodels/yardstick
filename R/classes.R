@@ -29,95 +29,136 @@
 #' fold_1 %>% metrics(truth = obs, estimate = pred)
 #' @keywords manip
 #' @export
-accuracy <- function(data, ...)
+accuracy <- function(data, ...) {
   UseMethod("accuracy")
+}
 
 #' @export
 #' @rdname accuracy
-accuracy.data.frame  <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+accuracy.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "accuracy",
+    metric_fn = accuracy_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @rdname accuracy
+#' @export
+accuracy.table <- function(data, ...) {
+
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+  sum(diag(data)) / sum(data)
+
+}
+
+#' @rdname accuracy
+accuracy.matrix <- function(data, ...) {
+  data <- as.table(data)
+  accuracy.table(data)
+}
+
+#' @export
+#' @rdname accuracy
+accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  accuracy_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
       dnn = c("Prediction", "Truth"),
       ...
     )
-    accuracy.table(xtab, ...)
+    accuracy.table(xtab)
+
   }
 
-#' @rdname accuracy
-#' @export
-"accuracy.table" <-
-  function(data, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
+  metric_vec_template(
+    metric_impl = accuracy_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
 
-    sum(diag(data))/sum(data)
-  }
-
-#' @rdname accuracy
-"accuracy.matrix" <-
-  function(data, ...) {
-    data <- as.table(data)
-    accuracy.table(data)
-  }
+}
 
 #' @export
 #' @rdname accuracy
-kap <- function(data, ...)
+kap <- function(data, ...) {
   UseMethod("kap")
+}
 
 #' @export
 #' @rdname accuracy
-kap.data.frame  <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+kap.data.frame  <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "kap",
+    metric_fn = kap_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @rdname accuracy
+#' @export
+kap.table <- function(data, ...) {
+  ## "truth" in columns, predictions in rows
+  check_table(data)
+
+  n <- sum(data)
+  marg1 <- apply(data, 1, sum) / n
+  marg2 <- apply(data, 2, sum) / n
+  null_acc <- sum(marg1 * marg2)
+  (accuracy(data) - null_acc)/(1 - null_acc)
+}
+
+#' @rdname accuracy
+kap.matrix <- function(data, ...) {
+  data <- as.table(data)
+  kap.table(data)
+}
+
+#' @export
+#' @rdname accuracy
+kap_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  kap_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
+      truth = truth,
+      estimate = estimate,
       na.rm = na.rm,
       dnn = c("Prediction", "Truth"),
       ...
     )
-    kap.table(xtab, ...)
+    kap.table(xtab)
+
   }
 
-#' @rdname accuracy
-#' @export
-"kap.table" <-
-  function(data, ...) {
-    ## "truth" in columns, predictions in rows
-    check_table(data)
+  metric_vec_template(
+    metric_impl = kap_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "factor",
+    ...
+  )
 
-    n <- sum(data)
-    marg1 <- apply(data, 1, sum) / n
-    marg2 <- apply(data, 2, sum) / n
-    null_acc <- sum(marg1 * marg2)
-    (accuracy(data) - null_acc)/(1 - null_acc)
-  }
-
-#' @rdname accuracy
-"kap.matrix" <-
-  function(data, ...) {
-    data <- as.table(data)
-    kap.table(data)
-  }
-
-
+}
 

@@ -1,6 +1,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr summarise
-metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate, na.rm = TRUE, ..., metric_fn_options = list()) {
+metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
+                              na.rm = TRUE, ..., metric_fn_options = list()) {
 
   # Explicit handling of length 1 character vectors as column names
   truth <- handle_chr_names(enquo(truth))
@@ -33,7 +34,8 @@ handle_chr_names <- function(x) {
 }
 
 #' @importFrom stats complete.cases
-metric_vec_template <- function(metric_impl, truth, estimate, na.rm = TRUE, cls = "numeric", ...) {
+metric_vec_template <- function(metric_impl, truth, estimate,
+                                na.rm = TRUE, cls = "numeric", ...) {
 
   validate_truth_estimate_checks(truth, estimate, cls)
 
@@ -55,7 +57,7 @@ metric_vec_template <- function(metric_impl, truth, estimate, na.rm = TRUE, cls 
 
 validate_truth_estimate_lengths <- function(truth, estimate) {
 
-  # use NROW not length so an estimate df and truth vec can be compared
+  # use NROW not length so an estimate matrix and truth vec can be compared
   n_truth <- NROW(truth)
   n_estimate <- NROW(estimate)
 

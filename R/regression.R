@@ -60,8 +60,9 @@
 #'
 #' @export
 #' @rdname rmse
-rmse <- function(data, ...)
+rmse <- function(data, ...) {
   UseMethod("rmse")
+}
 
 #' @rdname rmse
 #' @export
@@ -87,13 +88,22 @@ rmse_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     sqrt( mean( (truth - estimate) ^ 2) )
   }
 
-  metric_vec_template(rmse_impl, truth, estimate, na.rm, ...)
+  metric_vec_template(
+    metric_impl = rmse_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
 }
 
 #' @export
 #' @rdname rmse
-rsq <- function(data, ...)
+rsq <- function(data, ...) {
   UseMethod("rsq")
+}
 
 #' @rdname rmse
 #' @export
@@ -120,13 +130,22 @@ rsq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     cor(truth, estimate)^2
   }
 
-  metric_vec_template(rsq_impl, truth, estimate, na.rm, ...)
+  metric_vec_template(
+    metric_impl = rsq_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
 }
 
 #' @export
 #' @rdname rmse
-rsq_trad <- function(data, ...)
+rsq_trad <- function(data, ...) {
   UseMethod("rsq_trad")
+}
 
 #' @rdname rmse
 #' @export
@@ -155,14 +174,23 @@ rsq_trad_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     1 - (ss / ((n - 1) * var(truth)))
   }
 
-  metric_vec_template(rsq_trad_impl, truth, estimate, na.rm, ...)
+  metric_vec_template(
+    metric_impl = rsq_trad_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
 }
 
 
 #' @export
 #' @rdname rmse
-mae <- function(data, ...)
+mae <- function(data, ...) {
   UseMethod("mae")
+}
 
 #' @rdname rmse
 #' @export
@@ -188,28 +216,37 @@ mae_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     mean( abs(truth - estimate) )
   }
 
-  metric_vec_template(mae_impl, truth, estimate, na.rm, ...)
+  metric_vec_template(
+    metric_impl = mae_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
 }
 
 
 #' @export
 #' @rdname rmse
-mape <- function(data, ...)
+mape <- function(data, ...) {
   UseMethod("mape")
+}
 
 #' @rdname rmse
 #' @export
 mape.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
-    metric_summarizer(
-      metric_nm = "mape",
-      metric_fn = mape_vec,
-      data = data,
-      truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
-      na.rm = na.rm,
-      ... = ...
-    )
+  metric_summarizer(
+    metric_nm = "mape",
+    metric_fn = mape_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
 
 }
 
@@ -221,14 +258,23 @@ mape_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     mean( abs( (truth - estimate) / truth ) ) * 100
   }
 
-  metric_vec_template(mape_impl, truth, estimate, na.rm, ...)
+  metric_vec_template(
+    metric_impl = mape_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
 }
 
 
 #' @export
 #' @rdname rmse
-ccc <- function(data, ...)
+ccc <- function(data, ...) {
   UseMethod("ccc")
+}
 
 #' @rdname rmse
 #' @export
@@ -247,7 +293,6 @@ ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na.rm = TRUE, ..
   )
 
 }
-
 
 #' @export
 #' @rdname rmse
@@ -274,5 +319,14 @@ ccc_vec <- function(truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
 
   }
 
-  metric_vec_template(ccc_impl, truth, estimate, na.rm, ..., bias = bias)
+  metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...,
+    bias = bias
+  )
+
 }

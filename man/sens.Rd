@@ -18,7 +18,11 @@
 \alias{npv.table}
 \alias{npv.matrix}
 \alias{sens.data.frame}
+\alias{sens_vec}
 \alias{spec.data.frame}
+\alias{spec_vec}
+\alias{ppv_vec}
+\alias{npv_vec}
 \title{Calculate sensitivity, specificity and predictive values}
 \usage{
 sens(data, ...)
@@ -29,7 +33,15 @@ sens(data, ...)
 
 \method{sens}{matrix}(data, ...)
 
+sens_vec(truth, estimate, na.rm = TRUE, ...)
+
 \method{spec}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+\method{spec}{table}(data, ...)
+
+\method{spec}{matrix}(data, ...)
+
+spec_vec(truth, estimate, na.rm = TRUE, ...)
 
 ppv(data, ...)
 
@@ -37,11 +49,15 @@ ppv(data, ...)
 
 \method{ppv}{matrix}(data, prevalence = NULL, ...)
 
+ppv_vec(truth, estimate, prevalence = NULL, na.rm = TRUE, ...)
+
 npv(data, ...)
 
 \method{npv}{table}(data, prevalence = NULL, ...)
 
 \method{npv}{matrix}(data, prevalence = NULL, ...)
+
+npv_vec(truth, estimate, prevalence = NULL, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the

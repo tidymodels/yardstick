@@ -56,54 +56,88 @@
 #'
 #' @export
 #' @rdname rpd
-rpd <- function(data, ...)
+rpd <- function(data, ...) {
   UseMethod("rpd")
+}
 
 #' @rdname rpd
 #' @export
-#' @importFrom stats complete.cases sd
-rpd.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    
-    rpd_calc(data[[vars$truth]], data[[vars$estimate]])
+rpd.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "rpd",
+    metric_fn = rpd_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rpd
+#' @importFrom stats sd
+rpd_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rpd_impl <- function(truth, estimate) {
+
+    sd(truth) / rmse_vec(truth, estimate)
+
   }
 
-rpd_calc <- function(obs, pred)
-  sd( obs ) / rmse_calc( obs, pred )
+  metric_vec_template(
+    metric_impl = rpd_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
+}
 
 #' @export
 #' @rdname rpd
-rpiq <- function(data, ...)
+rpiq <- function(data, ...) {
   UseMethod("rpiq")
+}
 
 #' @rdname rpd
 #' @export
-#' @importFrom stats complete.cases IQR
-rpiq.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    
-    rpiq_calc(data[[vars$truth]], data[[vars$estimate]], na.rm = na.rm)
+rpiq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "rpiq",
+    metric_fn = rpiq_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rpd
+#' @importFrom stats IQR
+rpiq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rpiq_impl <- function(truth, estimate) {
+
+    IQR(truth) / rmse_vec(truth, estimate)
+
   }
 
-rpiq_calc <- function(obs, pred, ...)
-  IQR(obs, ...) / rmse_calc(obs, pred)
+  metric_vec_template(
+    metric_impl = rpiq_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
+}

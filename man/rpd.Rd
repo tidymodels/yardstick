@@ -3,17 +3,23 @@
 \name{rpd}
 \alias{rpd}
 \alias{rpd.data.frame}
+\alias{rpd_vec}
 \alias{rpiq}
 \alias{rpiq.data.frame}
+\alias{rpiq_vec}
 \title{Extra Metrics for Numeric Outcomes}
 \usage{
 rpd(data, ...)
 
 \method{rpd}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
+rpd_vec(truth, estimate, na.rm = TRUE, ...)
+
 rpiq(data, ...)
 
 \method{rpiq}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+rpiq_vec(truth, estimate, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A data frame}
