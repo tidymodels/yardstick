@@ -19,7 +19,8 @@ Depends:
     broom
 Suggests: 
     testthat,
-    covr
+    covr,
+    purrr
 Imports:
     dplyr,
     tibble,
