@@ -60,23 +60,10 @@ mcc.table <- function(data, ...) {
   ## "truth" in columns, predictions in rows
   check_table(data)
 
-  positive <- pos_val(data)
-  negative <- neg_val(data)
-
-  # This and `prod` below to deal with integer overflow
-  data <- as.matrix(data)
-
-  tp <- data[positive, positive]
-  tn <- data[negative, negative]
-  fp <- data[positive, negative]
-  fn <- data[negative, positive]
-  d1 <- tp + fp
-  d2 <- tp + fn
-  d3 <- tn + fp
-  d4 <- tn + fn
-  if (d1 == 0 | d2 == 0 | d3 == 0 | d4 == 0)
-    return(NA)
-  ((tp * tn) - (fp * fn)) / sqrt(prod(d1, d2, d3, d4))
+  metric_tibbler(
+    .metric = "mcc",
+    .estimate = mcc_table_impl(data)
+  )
 
 }
 
@@ -94,7 +81,7 @@ mcc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    mcc.table(xtab, ...)
+    mcc_table_impl(xtab)
 
   }
 
@@ -106,6 +93,28 @@ mcc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     cls = "factor",
     ...
   )
+
+}
+
+mcc_table_impl <- function(data) {
+
+  positive <- pos_val(data)
+  negative <- neg_val(data)
+
+  # This and `prod` below to deal with integer overflow
+  data <- as.matrix(data)
+
+  tp <- data[positive, positive]
+  tn <- data[negative, negative]
+  fp <- data[positive, negative]
+  fn <- data[negative, positive]
+  d1 <- tp + fp
+  d2 <- tp + fn
+  d3 <- tn + fp
+  d4 <- tn + fn
+  if (d1 == 0 | d2 == 0 | d3 == 0 | d4 == 0)
+    return(NA)
+  ((tp * tn) - (fp * fn)) / sqrt(prod(d1, d2, d3, d4))
 
 }
 
@@ -137,7 +146,11 @@ j_index.table <- function(data, ...) {
 
   ## "truth" in columns, predictions in rows
   check_table(data)
-  sens(data) + spec(data) - 1
+
+  metric_tibbler(
+    .metric = "j_index",
+    .estimate = j_index_table_impl(data)
+  )
 
 }
 
@@ -164,7 +177,7 @@ j_index_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    j_index.table(xtab, ...)
+    j_index_table_impl(xtab)
 
   }
 
@@ -176,6 +189,12 @@ j_index_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     cls = "factor",
     ...
   )
+
+}
+
+j_index_table_impl <- function(data) {
+
+  sens_table_impl(data) + spec_table_impl(data) - 1
 
 }
 
@@ -208,7 +227,10 @@ bal_accuracy.table <- function(data, ...) {
   ## "truth" in columns, predictions in rows
   check_table(data)
 
-  ( sens(data) + spec(data) ) / 2
+  metric_tibbler(
+    .metric = "bal_accuracy",
+    .estimate = bal_accuracy_table_impl(data)
+  )
 
 }
 
@@ -234,7 +256,7 @@ bal_accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    bal_accuracy.table(xtab, ...)
+    bal_accuracy_table_impl(xtab)
 
   }
 
@@ -249,6 +271,11 @@ bal_accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
 }
 
+bal_accuracy_table_impl <- function(data) {
+
+  ( sens_table_impl(data) + spec_table_impl(data) ) / 2
+
+}
 
 #' @export
 #' @rdname mcc
@@ -279,8 +306,10 @@ detection_prevalence.table <- function(data, ...) {
   ## "truth" in columns, predictions in rows
   check_table(data)
 
-  pos_level <- pos_val(data)
-  sum(data[pos_level, ]) / sum(data)
+  metric_tibbler(
+    .metric = "detection_prevalence",
+    .estimate = detection_prevalence_table_impl(data)
+  )
 
 }
 
@@ -306,7 +335,7 @@ detection_prevalence_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    detection_prevalence.table(xtab, ...)
+    detection_prevalence_table_impl(xtab)
 
   }
 
@@ -318,5 +347,12 @@ detection_prevalence_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     cls = "factor",
     ...
   )
+
+}
+
+detection_prevalence_table_impl <- function(data) {
+
+  pos_level <- pos_val(data)
+  sum(data[pos_level, ]) / sum(data)
 
 }

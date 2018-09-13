@@ -55,8 +55,11 @@ accuracy.table <- function(data, ...) {
 
   ## "truth" in columns, predictions in rows
   check_table(data)
-  sum(diag(data)) / sum(data)
 
+  metric_tibbler(
+    .metric = "accuracy",
+    .estimate = accuracy_table_impl(data)
+  )
 }
 
 #' @rdname accuracy
@@ -78,7 +81,7 @@ accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    accuracy.table(xtab)
+    accuracy_table_impl(xtab)
 
   }
 
@@ -91,6 +94,10 @@ accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     ...
   )
 
+}
+
+accuracy_table_impl <- function(data) {
+  sum(diag(data)) / sum(data)
 }
 
 #' @export
@@ -121,11 +128,10 @@ kap.table <- function(data, ...) {
   ## "truth" in columns, predictions in rows
   check_table(data)
 
-  n <- sum(data)
-  marg1 <- apply(data, 1, sum) / n
-  marg2 <- apply(data, 2, sum) / n
-  null_acc <- sum(marg1 * marg2)
-  (accuracy(data) - null_acc)/(1 - null_acc)
+  metric_tibbler(
+    .metric = "kap",
+    .estimate = kap_table_impl(data)
+  )
 }
 
 #' @rdname accuracy
@@ -147,7 +153,7 @@ kap_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    kap.table(xtab)
+    kap_table_impl(xtab)
 
   }
 
@@ -162,3 +168,12 @@ kap_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
 }
 
+kap_table_impl <- function(data) {
+
+  n <- sum(data)
+  marg1 <- apply(data, 1, sum) / n
+  marg2 <- apply(data, 2, sum) / n
+  null_acc <- sum(marg1 * marg2)
+  (accuracy_table_impl(data) - null_acc)/(1 - null_acc)
+
+}

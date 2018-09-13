@@ -117,11 +117,10 @@ sens.table <- function(data, ...) {
   ## "truth" in columns, predictions in rows
   check_table(data)
 
-  positive <- pos_val(data)
-  numer <- sum(data[positive, positive])
-  denom <- sum(data[, positive])
-  sens <- ifelse(denom > 0, numer / denom, NA)
-  sens
+  metric_tibbler(
+    .metric = "sens",
+    .estimate = sens_table_impl(data)
+  )
 
 }
 
@@ -148,7 +147,7 @@ sens_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    sens.table(xtab, ...)
+    sens_table_impl(xtab)
 
   }
 
@@ -163,6 +162,15 @@ sens_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
 }
 
+sens_table_impl <- function(data) {
+
+  positive <- pos_val(data)
+  numer <- sum(data[positive, positive])
+  denom <- sum(data[, positive])
+  sens <- ifelse(denom > 0, numer / denom, NA)
+  sens
+
+}
 
 #' @export
 spec <-  function(data, ...) {
@@ -193,12 +201,10 @@ spec.table <- function(data, ...) {
   ## "truth" in columns, predictions in rows
   check_table(data)
 
-  negative <- neg_val(data)
-
-  numer <- sum(data[negative, negative])
-  denom <- sum(data[, negative])
-  spec <- ifelse(denom > 0, numer / denom, NA)
-  spec
+  metric_tibbler(
+    .metric = "spec",
+    .estimate = spec_table_impl(data)
+  )
 
 }
 
@@ -225,7 +231,7 @@ spec_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    spec.table(xtab, ...)
+    spec_table_impl(xtab)
 
   }
 
@@ -237,6 +243,17 @@ spec_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     cls = "factor",
     ...
   )
+
+}
+
+spec_table_impl <- function(data) {
+
+  negative <- neg_val(data)
+
+  numer <- sum(data[negative, negative])
+  denom <- sum(data[, negative])
+  spec <- ifelse(denom > 0, numer / denom, NA)
+  spec
 
 }
 
@@ -270,15 +287,10 @@ ppv.table <- function(data, prevalence = NULL, ...) {
   ## "truth" in columns, predictions in rows
   check_table(data)
 
-  positive <- pos_val(data)
-  negative <- neg_val(data)
-
-  if (is.null(prevalence))
-    prevalence <- sum(data[, positive]) / sum(data)
-
-  sens <- sens(data)
-  spec <- spec(data)
-  (sens * prevalence) / ((sens * prevalence) + ((1 - spec) * (1 - prevalence)))
+  metric_tibbler(
+    .metric = "ppv",
+    .estimate = ppv_table_impl(data, prevalence = prevalence)
+  )
 
 }
 
@@ -312,7 +324,7 @@ ppv_vec <- function(truth, estimate, prevalence = NULL, na.rm = TRUE, ...) {
     # else
     #   colnames(xtab)[2]
 
-    ppv.table(xtab, prevalence = prevalence, ...)
+    ppv_table_impl(xtab, prevalence = prevalence)
 
   }
 
@@ -328,6 +340,19 @@ ppv_vec <- function(truth, estimate, prevalence = NULL, na.rm = TRUE, ...) {
 
 }
 
+ppv_table_impl <- function(data, prevalence = NULL) {
+
+  positive <- pos_val(data)
+  negative <- neg_val(data)
+
+  if (is.null(prevalence))
+    prevalence <- sum(data[, positive]) / sum(data)
+
+  sens <- sens_table_impl(data)
+  spec <- spec_table_impl(data)
+  (sens * prevalence) / ((sens * prevalence) + ((1 - spec) * (1 - prevalence)))
+
+}
 
 #' @rdname sens
 #' @export
@@ -359,15 +384,10 @@ npv.table <- function(data, prevalence = NULL, ...) {
   ## "truth" in columns, predictions in rows
   check_table(data)
 
-  positive <- pos_val(data)
-  negative <- neg_val(data)
-
-  if (is.null(prevalence))
-    prevalence <- sum(data[, positive]) / sum(data)
-
-  sens <- sens(data)
-  spec <- spec(data)
-  (spec * (1 - prevalence)) / (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
+  metric_tibbler(
+    .metric = "npv",
+    .estimate = npv_table_impl(data, prevalence = prevalence)
+  )
 
 }
 
@@ -401,7 +421,7 @@ npv_vec <- function(truth, estimate, prevalence = NULL, na.rm = TRUE, ...) {
     # else
     #   colnames(xtab)[2]
 
-    npv.table(xtab, prevalence = prevalence, ...)
+    npv_table_impl(xtab, prevalence = prevalence)
 
   }
 
@@ -414,5 +434,19 @@ npv_vec <- function(truth, estimate, prevalence = NULL, na.rm = TRUE, ...) {
     ...,
     prevalence = prevalence
   )
+
+}
+
+npv_table_impl <- function(data, prevalence = NULL) {
+
+  positive <- pos_val(data)
+  negative <- neg_val(data)
+
+  if (is.null(prevalence))
+    prevalence <- sum(data[, positive]) / sum(data)
+
+  sens <- sens_table_impl(data)
+  spec <- spec_table_impl(data)
+  (spec * (1 - prevalence)) / (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
 
 }

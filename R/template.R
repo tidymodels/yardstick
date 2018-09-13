@@ -55,6 +55,10 @@ metric_vec_template <- function(metric_impl, truth, estimate,
   metric_impl(truth, estimate, ...)
 }
 
+metric_tibbler <- function(.metric, .estimate) {
+  tibble::tibble(.metric = .metric, .estimate = .estimate)
+}
+
 validate_truth_estimate_lengths <- function(truth, estimate) {
 
   # use NROW not length so an estimate matrix and truth vec can be compared

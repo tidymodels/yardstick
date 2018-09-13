@@ -97,12 +97,10 @@ recall.table <- function(data, ...) {
 
   check_table(data)
 
-  relevant <- pos_val(data)
-
-  numer <- data[relevant, relevant]
-  denom <- sum(data[, relevant])
-  rec <- ifelse(denom > 0, numer / denom, NA)
-  rec
+  metric_tibbler(
+    .metric = "recall",
+    .estimate = recall_table_impl(data)
+  )
 
 }
 
@@ -119,7 +117,7 @@ recall_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    recall.table(xtab)
+    recall_table_impl(xtab)
 
   }
 
@@ -131,6 +129,17 @@ recall_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     cls = "factor",
     ...
   )
+
+}
+
+recall_table_impl <- function(data) {
+
+  relevant <- pos_val(data)
+
+  numer <- data[relevant, relevant]
+  denom <- sum(data[, relevant])
+  rec <- ifelse(denom > 0, numer / denom, NA)
+  rec
 
 }
 
@@ -162,11 +171,10 @@ precision.table <- function (data, ...) {
 
   check_table(data)
 
-  relevant <- pos_val(data)
-  numer <- data[relevant, relevant]
-  denom <- sum(data[relevant, ])
-  precision <- ifelse(denom > 0, numer / denom, NA)
-  precision
+  metric_tibbler(
+    .metric = "precision",
+    .estimate = precision_table_impl(data)
+  )
 
 }
 
@@ -183,7 +191,7 @@ precision_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    precision.table(xtab)
+    precision_table_impl(xtab)
 
   }
 
@@ -195,6 +203,16 @@ precision_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     cls = "factor",
     ...
   )
+
+}
+
+precision_table_impl <- function(data) {
+
+  relevant <- pos_val(data)
+  numer <- data[relevant, relevant]
+  denom <- sum(data[relevant, ])
+  precision <- ifelse(denom > 0, numer / denom, NA)
+  precision
 
 }
 
@@ -226,10 +244,10 @@ f_meas.data.frame <- function(data, truth, estimate, beta = 1, na.rm = TRUE, ...
 f_meas.table <- function (data, beta = 1, ...) {
   check_table(data)
 
-  relevant <- pos_val(data)
-  precision <- precision.table(data, relevant = relevant)
-  rec <- recall.table(data, relevant = relevant)
-  (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
+  metric_tibbler(
+    .metric = "f_meas",
+    .estimate = f_meas_table_impl(data, beta = beta)
+  )
 }
 
 #' @export
@@ -245,7 +263,7 @@ f_meas_vec <- function(truth, estimate, beta = 1, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
-    f_meas.table(xtab, beta = beta)
+    f_meas_table_impl(xtab, beta = beta)
 
   }
 
@@ -258,5 +276,14 @@ f_meas_vec <- function(truth, estimate, beta = 1, na.rm = TRUE, ...) {
     ...,
     beta = beta
   )
+
+}
+
+f_meas_table_impl <- function(data, beta = 1) {
+
+  relevant <- pos_val(data)
+  precision <- precision_table_impl(data)
+  rec <- recall_table_impl(data)
+  (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
 
 }
