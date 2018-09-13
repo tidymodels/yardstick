@@ -167,7 +167,7 @@ sens_table_impl <- function(data) {
   positive <- pos_val(data)
   numer <- sum(data[positive, positive])
   denom <- sum(data[, positive])
-  sens <- ifelse(denom > 0, numer / denom, NA)
+  sens <- ifelse(denom > 0, numer / denom, NA_real_)
   sens
 
 }
@@ -252,7 +252,7 @@ spec_table_impl <- function(data) {
 
   numer <- sum(data[negative, negative])
   denom <- sum(data[, negative])
-  spec <- ifelse(denom > 0, numer / denom, NA)
+  spec <- ifelse(denom > 0, numer / denom, NA_real_)
   spec
 
 }
