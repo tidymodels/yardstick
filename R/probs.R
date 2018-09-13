@@ -23,7 +23,7 @@
 #' (that is a `numeric`) corresponding to the "positive" result. See Details.
 #' For `_vec()` functions, a `numeric` vector. For `mnLogLoss_vec`, this should
 #' be a matrix with as many columns as factor levels in `truth`.
-#' @param ... For `mnLogLoss`, a set of unquoted column names or one or more
+#' @param ... For `mnLogLoss()`, a set of unquoted column names or one or more
 #'  `dplyr` selector functions to choose which variables contain the
 #'  class probabilities. There should be as many columns as
 #'  factor levels of `truth`. It is **assumed** that they are in the

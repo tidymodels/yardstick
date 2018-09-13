@@ -43,7 +43,7 @@ mnLogLoss_vec(truth, estimate, na.rm = TRUE, sum = FALSE, ...)
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
 columns.}
 
-\item{...}{For \code{mnLogLoss}, a set of unquoted column names or one or more
+\item{...}{For \code{mnLogLoss()}, a set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
 class probabilities. There should be as many columns as
 factor levels of \code{truth}. It is \strong{assumed} that they are in the
