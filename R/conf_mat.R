@@ -53,37 +53,37 @@
 #'
 #' round(mean_cmat, 3)
 #' @export
-conf_mat <- function(data, ...)
+conf_mat <- function(data, ...) {
   UseMethod("conf_mat")
+}
 
 #' @export
 #' @rdname conf_mat
-conf_mat.data.frame  <-
-  function(data,
-           truth,
-           estimate,
-           dnn = c("Prediction", "Truth"),
-           ...) {
-    vars <-
-      factor_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
+conf_mat.data.frame <- function(data, truth, estimate,
+                                dnn = c("Prediction", "Truth"), ...) {
 
-    xtab <- vec2table(
-      truth = data[[vars$truth]],
-      estimate = data[[vars$estimate]],
-      dnn = dnn,
+  vars <-
+    factor_select(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
       ...
     )
-    conf_mat(xtab, ...)
-  }
+
+  xtab <- vec2table(
+    truth = data[[vars$truth]],
+    estimate = data[[vars$estimate]],
+    dnn = dnn,
+    ...
+  )
+  conf_mat.table(xtab, ...)
+
+}
 
 #' @rdname conf_mat
 #' @export
 conf_mat.table <- function(data, ...) {
+
   if (length(dim(data)) != 2)
     stop("`data` must have two dimensions", call. = FALSE)
 
