@@ -263,6 +263,7 @@ ppv <- function(data, ...) {
   UseMethod("ppv")
 }
 
+#' @rdname sens
 #' @export
 ppv.data.frame <- function(data, truth, estimate,
                            prevalence = NULL, na.rm = TRUE, ...) {
@@ -360,6 +361,7 @@ npv <- function(data, ...) {
   UseMethod("npv")
 }
 
+#' @rdname sens
 #' @export
 npv.data.frame <- function(data, truth, estimate,
                            prevalence = NULL, na.rm = TRUE, ...) {

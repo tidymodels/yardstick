@@ -21,7 +21,9 @@
 \alias{sens_vec}
 \alias{spec.data.frame}
 \alias{spec_vec}
+\alias{ppv.data.frame}
 \alias{ppv_vec}
+\alias{npv.data.frame}
 \alias{npv_vec}
 \title{Calculate sensitivity, specificity and predictive values}
 \usage{
@@ -45,6 +47,9 @@ spec_vec(truth, estimate, na.rm = TRUE, ...)
 
 ppv(data, ...)
 
+\method{ppv}{data.frame}(data, truth, estimate, prevalence = NULL,
+  na.rm = TRUE, ...)
+
 \method{ppv}{table}(data, prevalence = NULL, ...)
 
 \method{ppv}{matrix}(data, prevalence = NULL, ...)
@@ -52,6 +57,9 @@ ppv(data, ...)
 ppv_vec(truth, estimate, prevalence = NULL, na.rm = TRUE, ...)
 
 npv(data, ...)
+
+\method{npv}{data.frame}(data, truth, estimate, prevalence = NULL,
+  na.rm = TRUE, ...)
 
 \method{npv}{table}(data, prevalence = NULL, ...)
 
