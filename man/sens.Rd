@@ -68,32 +68,34 @@ npv(data, ...)
 npv_vec(truth, estimate, prevalence = NULL, na.rm = TRUE, ...)
 }
 \arguments{
-\item{data}{For the default functions, a factor containing the
-discrete measurements. For the \code{table} or \code{matrix}
-functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.}
+\item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
+columns, or a \code{table}/\code{matrix} where the true class results should be
+in the columns of the table.}
 
 \item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should be an unquoted column name although
-this argument is passed by expression and support
+(that is a \code{factor}). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names or column positions).}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
-results (that is also factor). As with \code{truth} this can be
+results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name.}
+unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{na.rm}{A logical value indicating whether \code{NA}
-values should be stripped before the computation proceeds}
+\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+values should be stripped before the computation proceeds.}
 
 \item{prevalence}{A numeric value for the rate of the
 "positive" class of the data.}
 }
 \value{
-A number between 0 and 1 (or NA).
+For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
+Otherwise, a \code{tibble} with columns \code{.metric} and \code{.estimate} and 1 row of
+values. For grouped data frames, the number of rows returned will be the
+same as the number of groups.
 }
 \description{
 These functions calculate the sensitivity, specificity or
@@ -104,17 +106,17 @@ outcomes and one of the outcomes must be thought of as a
 "positive" results or the "event".
 }
 \details{
-The sensitivity is defined as the proportion of positive
+The sensitivity (\code{sens()}) is defined as the proportion of positive
 results out of the number of samples which were actually
 positive. When there are no positive results, sensitivity is not
 defined and a value of \code{NA} is returned. Similarly, when
-there are no negative results, specificity is not defined and a
+there are no negative results, specificity (\code{spec()}) is not defined and a
 value of \code{NA} is returned. Similar statements are true for
 predictive values.
 
-The positive predictive value is defined as the percent of
+The positive predictive value (\code{ppv()}) is defined as the percent of
 predicted positives that are actually positive while the
-negative predictive value is defined as the percent of negative
+negative predictive value (\code{npv()}) is defined as the percent of negative
 positives that are actually negative.
 
 There is no common convention on which factor level should
@@ -125,7 +127,7 @@ set to \code{TRUE} when the package is loaded. This can be changed
 to \code{FALSE} if the last level of the factor is considered the
 level of interest.
 
-Suppose a 2x2 table with notation
+Suppose a 2x2 table with notation:
 
 \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Event \tab No Event
 \cr Event \tab A \tab B \cr No Event \tab C \tab D \cr }
@@ -156,6 +158,10 @@ ppv(two_class_example, truth = truth, estimate = predicted)
 
 # But what if we think that Class 1 only occurs 40\% of the time?
 ppv(two_class_example, truth, predicted, prevalence = 0.40)
+
+# Vector arguments can be used with _vec() functions
+sens_vec(two_class_example$truth, two_class_example$predicted)
+
 }
 \references{
 Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:

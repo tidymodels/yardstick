@@ -7,17 +7,17 @@
 #'  outcomes and one of the outcomes must be thought of as a
 #'  "positive" results or the "event".
 #'
-#' The sensitivity is defined as the proportion of positive
+#' The sensitivity (`sens()`) is defined as the proportion of positive
 #'  results out of the number of samples which were actually
 #'  positive. When there are no positive results, sensitivity is not
 #'  defined and a value of `NA` is returned. Similarly, when
-#'  there are no negative results, specificity is not defined and a
+#'  there are no negative results, specificity (`spec()`) is not defined and a
 #'  value of `NA` is returned. Similar statements are true for
 #'  predictive values.
 #'
-#' The positive predictive value is defined as the percent of
+#' The positive predictive value (`ppv()`) is defined as the percent of
 #'  predicted positives that are actually positive while the
-#'  negative predictive value is defined as the percent of negative
+#'  negative predictive value (`npv()`) is defined as the percent of negative
 #'  positives that are actually negative.
 #'
 #' There is no common convention on which factor level should
@@ -28,7 +28,7 @@
 #'  to `FALSE` if the last level of the factor is considered the
 #'  level of interest.
 #'
-#' Suppose a 2x2 table with notation
+#' Suppose a 2x2 table with notation:
 #'
 #' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Event \tab No Event
 #' \cr Event \tab A \tab B \cr No Event \tab C \tab D \cr }
@@ -49,26 +49,32 @@
 #' @aliases sens sens.default sens.table sens.matrix spec
 #'  spec.default spec.table spec.matrix ppv ppv.default ppv.table
 #'  ppv.matrix npv npv.default npv.table npv.matrix
-#' @param data For the default functions, a factor containing the
-#'  discrete measurements. For the `table` or `matrix`
-#'  functions, a table or matrix object, respectively, where the
-#'  true class results should be in the columns of the table.
+#'
+#' @param data Either a `data.frame` containing the `truth` and `estimate`
+#' columns, or a `table`/`matrix` where the true class results should be
+#' in the columns of the table.
 #' @param truth The column identifier for the true class results
-#'  (that is a factor). This should be an unquoted column name although
-#'  this argument is passed by expression and support
+#'  (that is a `factor`). This should be an unquoted column name although
+#'  this argument is passed by expression and supports
 #'  [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'  names or column positions).
+#'  names). For `_vec()` functions, a `factor` vector.
 #' @param estimate The column identifier for the predicted class
-#'  results (that is also factor). As with `truth` this can be
+#'  results (that is also `factor`). As with `truth` this can be
 #'  specified different ways but the primary method is to use an
-#'  unquoted variable name.
+#'  unquoted variable name. For `_vec()` functions, a `factor` vector.
 #' @param prevalence A numeric value for the rate of the
 #'  "positive" class of the data.
-#' @param na.rm A logical value indicating whether `NA`
-#'  values should be stripped before the computation proceeds
+#' @param na.rm A `logical` value indicating whether `NA`
+#'  values should be stripped before the computation proceeds.
 #' @param ... Not currently used.
-#' @return A number between 0 and 1 (or NA).
+#'
+#' @return For `_vec()` functions, a single `numeric` value (or `NA`).
+#' Otherwise, a `tibble` with columns `.metric` and `.estimate` and 1 row of
+#' values. For grouped data frames, the number of rows returned will be the
+#' same as the number of groups.
+#'
 #' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [mcc()]
+#'
 #' @references Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
 #'  sensitivity and specificity,'' *British Medical Journal*,
 #'  vol 308, 1552.
@@ -76,7 +82,9 @@
 #'   Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 2:
 #'  predictive values,'' *British Medical Journal*, vol 309,
 #'  102.
+#'
 #' @keywords manip
+#'
 #' @examples
 #' data("two_class_example")
 #'
@@ -90,6 +98,10 @@
 #'
 #' # But what if we think that Class 1 only occurs 40% of the time?
 #' ppv(two_class_example, truth, predicted, prevalence = 0.40)
+#'
+#' # Vector arguments can be used with _vec() functions
+#' sens_vec(two_class_example$truth, two_class_example$predicted)
+#'
 #' @export sens
 sens <- function(data, ...)
   UseMethod("sens")

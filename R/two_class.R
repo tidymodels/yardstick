@@ -20,8 +20,11 @@
 #'  ([summary.conf_mat()]) to get the values at once.
 #'
 #' @inheritParams sens
+#'
 #' @author Max Kuhn
+#'
 #' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [sens()], [spec()]
+#'
 #' @examples
 #' data("two_class_example")
 #'
@@ -64,6 +67,15 @@ mcc.table <- function(data, ...) {
     .metric = "mcc",
     .estimate = mcc_table_impl(data)
   )
+
+}
+
+#' @rdname mcc
+#' @export
+mcc.matrix <- function(data, ...) {
+
+  data <- as.table(data)
+  mcc.table(data)
 
 }
 

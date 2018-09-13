@@ -2,25 +2,16 @@
 #'
 #' These functions are appropriate for cases where the model
 #'  outcome is a number. The ratio of performance to deviation
-#'  (`rpd`) and the ratio of performance to inter-quartile (`rpiq`)
+#'  (`rpd()`) and the ratio of performance to inter-quartile (`rpiq()`)
 #'  are both measures of consistency/correlation between observed
 #'  and predicted values (and not of accuracy).
 #'
-#' @param data A data frame
-#' @param truth The column identifier for the true results (that
-#'  is numeric). This should an unquoted column name although this
-#'  argument is passed by expression and support
-#'  [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'  names or column positions).
-#' @param estimate The column identifier for the predicted results
-#'  (that is also numeric). As with `truth` this can be specified
-#'  different ways but the primary method is to use an unquoted
-#'  variable name.
-#' @param na.rm A logical value indicating whether `NA`
-#'  values should be stripped before the computation proceeds.
-#' @param ... Not currently used.
-#' @return A number or `NA`
+#' @inheritParams rmse
+#'
+#' @inherit sens return
+#'
 #' @author Pierre Roudier
+#'
 #' @details In the field of spectroscopy in particular, the ratio
 #'  of performance to deviation (RPD) has been used as the standard
 #'  way to report the quality of a model. It is the ratio between

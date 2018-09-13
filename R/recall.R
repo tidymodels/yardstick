@@ -4,7 +4,7 @@
 #'  a measurement system for finding/retrieving relevant documents
 #'  compared to reference results (the truth regarding relevance).
 #'  The measurement and "truth" data must have the same two possible
-#'  outcomes and one of the outcomes must be thought of as a
+#'  outcomes and one of the outcomes must be thought of as
 #'  "relevant" results.
 #'
 #' The recall (aka specificity) is defined as the proportion of
@@ -12,7 +12,7 @@
 #'  actually relevant. When there are no relevant results, recall is
 #'  not defined and a value of `NA` is returned.
 #'
-#' The precision is percentage of predicted truly relevant results
+#' The precision is the percentage of predicted truly relevant results
 #'  of the total number of predicted relevant results and
 #'  characterizes the "purity in retrieval performance" (Buckland
 #'  and Gey, 1994).
@@ -28,10 +28,10 @@
 #'  to `FALSE` if the last level of the factor is considered the
 #'  level of interest.
 #'
-#' Suppose a 2x2 table with notation
+#' Suppose a 2x2 table with notation:
 #'
-#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab relevant \tab
-#' Irrelevant \cr relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
+#' Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
 #'
 #' The formulas used here are: \deqn{recall = A/(A+C)} \deqn{precision =
 #' A/(A+B)} \deqn{F_i = (1+i^2)*prec*recall/((i^2 * precision)+recall)}

@@ -8,9 +8,12 @@
 #' @inheritParams sens
 #' @author Max Kuhn
 #' @seealso [conf_mat()], [metrics()]
-#' @return A numeric value.
+#'
+#' @inherit sens return
+#'
 #' @references Cohen, J. (1960). "A coefficient of agreement for nominal
 #'  scales". _Educational and Psychological Measurement_. 20 (1): 37–46.
+#'
 #' @examples
 #' library(dplyr)
 #' data("hpc_cv")
@@ -27,7 +30,15 @@
 #' fold_1 %>% kap(truth = obs, estimate = pred)
 #'
 #' fold_1 %>% metrics(truth = obs, estimate = pred)
+#'
+#' # Groups are respected so you can calculate
+#' # metrics across multiple resamples at once
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   accuracy(obs, pred)
+#'
 #' @keywords manip
+#'
 #' @export
 accuracy <- function(data, ...) {
   UseMethod("accuracy")

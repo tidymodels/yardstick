@@ -1,9 +1,9 @@
 #' Metrics Based on Class Probabilities
 #'
 #' These functions compute the areas under the receiver operating
-#'  characteristic (ROC) curve (`roc_auc`), the precision-recall
-#'  curve (`pr_auc`), or the multinomial log loss (`mnLogLoss`). The actual ROC
-#'  curve can be created using `roc_curve`.
+#'  characteristic (ROC) curve (`roc_auc()`), the precision-recall
+#'  curve (`pr_auc()`), or the multinomial log loss (`mnLogLoss()`). The actual ROC
+#'  curve can be created using `roc_curve()`.
 #'
 #' There is no common convention on which factor level should
 #'  automatically be considered the "relevant" or "positive" results.
@@ -14,29 +14,30 @@
 #'  level of interest.
 
 #' @inheritParams sens
+#'
 #' @aliases roc_auc roc_auc.default pr_auc pr_auc.default roc_curve
-#' @param data A data frame with the relevant columns.
+#'
+#' @param data A `data.frame` containing the `truth` and `estimate`
+#' columns.
 #' @param estimate The column identifier for the predicted class probabilities
-#' (that is a numeric) corresponding to the "positive" result. See Details. For
-#' `mnLogLoss_vec`, this should be a matrix with as many columns as factor
-#' levels in `truth`.
+#' (that is a `numeric`) corresponding to the "positive" result. See Details.
+#' For `_vec()` functions, a `numeric` vector. For `mnLogLoss_vec`, this should
+#' be a matrix with as many columns as factor levels in `truth`.
 #' @param ... For `mnLogLoss`, a set of unquoted column names or one or more
 #'  `dplyr` selector functions to choose which variables contain the
 #'  class probabilities. There should be as many columns as
 #'  factor levels of `truth`. It is **assumed** that they are in the
-#'  same order as the factor levels. For `roc_auc` and
-#'  `pr_auc`, unused.
-#' @param na.rm A logical value indicating whether `NA`
-#'  values should be stripped before the computation proceeds
-#' @param options Options to pass to [roc()] such as `direction` or
-#'  `smooth`. These options should not include `response`,
-#'  `predictor`, or `levels`.
+#'  same order as the factor levels. Otherwise, unused.
+#' @param options A `list` of named options to pass to [roc()]
+#' such as `direction` or `smooth`. These options should not include `response`,
+#' `predictor`, or `levels`.
 #'
-#' @return A tibble containing a number between 0 and 1 (or NA) for `roc_auc` or
-#'  `pr_auc`. For `mnLogLoss`, a tibble with a number or `NA`.
-#'  For `roc_curve`, a tibble with columns `sensitivity` and `specificity`.
-#'  If an ordinary (i.e. non-smoothed) curve is used, there is
-#'  also a column for `threshold`.
+#' @return For `_vec()` functions, a single `numeric` value (or `NA`).
+#' Otherwise, a `tibble` with columns `.metric` and `.estimate` and 1 row of
+#' values. For grouped data frames, the number of rows returned will be the
+#' same as the number of groups. For `roc_curve()`, a tibble with columns
+#' `sensitivity` and `specificity`. If an ordinary (i.e. non-smoothed) curve
+#' is used, there is also a column for `threshold`.
 #'
 #' @details `roc_curve` computes the sensitivity at every unique
 #'  value of the probability column (in addition to infinity and
@@ -194,9 +195,8 @@ mnLogLoss <- function(data, ...)
 
 #' @export
 #' @rdname roc_auc
-#' @importFrom stats model.matrix
-#' @param sum A logical. Should the sum of the likelihood
-#'  contrinbutions be returned (instead of the mean value)?
+#' @param sum A `logical`. Should the sum of the likelihood
+#'  contributions be returned (instead of the mean value)?
 mnLogLoss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
 
     # Capture dots
@@ -225,6 +225,7 @@ mnLogLoss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
   }
 
 #' @rdname roc_auc
+#' @importFrom stats model.matrix
 #' @export
 mnLogLoss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
 

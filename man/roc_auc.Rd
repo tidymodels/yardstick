@@ -40,48 +40,49 @@ mnLogLoss_vec(truth, estimate, na.rm = TRUE, sum = FALSE, ...)
   na.rm = TRUE)
 }
 \arguments{
-\item{data}{A data frame with the relevant columns.}
+\item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
+columns.}
 
 \item{...}{For \code{mnLogLoss}, a set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
 class probabilities. There should be as many columns as
 factor levels of \code{truth}. It is \strong{assumed} that they are in the
-same order as the factor levels. For \code{roc_auc} and
-\code{pr_auc}, unused.}
+same order as the factor levels. Otherwise, unused.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should be an unquoted column name although
-this argument is passed by expression and support
+(that is a \code{factor}). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names or column positions).}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class probabilities
-(that is a numeric) corresponding to the "positive" result. See Details. For
-\code{mnLogLoss_vec}, this should be a matrix with as many columns as factor
-levels in \code{truth}.}
+(that is a \code{numeric}) corresponding to the "positive" result. See Details.
+For \code{_vec()} functions, a \code{numeric} vector. For \code{mnLogLoss_vec}, this should
+be a matrix with as many columns as factor levels in \code{truth}.}
 
-\item{options}{Options to pass to \code{\link[=roc]{roc()}} such as \code{direction} or
-\code{smooth}. These options should not include \code{response},
+\item{options}{A \code{list} of named options to pass to \code{\link[=roc]{roc()}}
+such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
 
-\item{na.rm}{A logical value indicating whether \code{NA}
-values should be stripped before the computation proceeds}
+\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+values should be stripped before the computation proceeds.}
 
-\item{sum}{A logical. Should the sum of the likelihood
-contrinbutions be returned (instead of the mean value)?}
+\item{sum}{A \code{logical}. Should the sum of the likelihood
+contributions be returned (instead of the mean value)?}
 }
 \value{
-A tibble containing a number between 0 and 1 (or NA) for \code{roc_auc} or
-\code{pr_auc}. For \code{mnLogLoss}, a tibble with a number or \code{NA}.
-For \code{roc_curve}, a tibble with columns \code{sensitivity} and \code{specificity}.
-If an ordinary (i.e. non-smoothed) curve is used, there is
-also a column for \code{threshold}.
+For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
+Otherwise, a \code{tibble} with columns \code{.metric} and \code{.estimate} and 1 row of
+values. For grouped data frames, the number of rows returned will be the
+same as the number of groups. For \code{roc_curve()}, a tibble with columns
+\code{sensitivity} and \code{specificity}. If an ordinary (i.e. non-smoothed) curve
+is used, there is also a column for \code{threshold}.
 }
 \description{
 These functions compute the areas under the receiver operating
-characteristic (ROC) curve (\code{roc_auc}), the precision-recall
-curve (\code{pr_auc}), or the multinomial log loss (\code{mnLogLoss}). The actual ROC
-curve can be created using \code{roc_curve}.
+characteristic (ROC) curve (\code{roc_auc()}), the precision-recall
+curve (\code{pr_auc()}), or the multinomial log loss (\code{mnLogLoss()}). The actual ROC
+curve can be created using \code{roc_curve()}.
 }
 \details{
 There is no common convention on which factor level should

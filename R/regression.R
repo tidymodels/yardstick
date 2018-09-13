@@ -1,37 +1,42 @@
 #' Calculate Metrics for Numeric Outcomes
 #'
 #' These functions are appropriate for cases where the model
-#'  outcome is a number. The root mean squared error (`rmse`) and
-#'  mean absolute error (`mae`) are error measures that are in the
+#'  outcome is a number. The root mean squared error (`rmse()`) and
+#'  mean absolute error (`mae()`) are error measures that are in the
 #'  same units as the original data. The two estimates for the
-#'  coefficient of determination, `rsq` and `rsq_trad`, differ by
+#'  coefficient of determination, `rsq()` and `rsq_trad()`, differ by
 #'  their formula. The former guarantees a value on (0, 1) while the
 #'  latter can generate inaccurate values when the model is
 #'  non-informative (see the examples). Both are measures of
 #'  consistency/correlation and not of accuracy. The concordance
-#'  correlation coefficient (`ccc`) is a measure of both. The mean absolute
-#'  percent error (`mape`) is in relative units.
+#'  correlation coefficient (`ccc()`) is a measure of both. The mean absolute
+#'  percent error (`mape()`) is in relative units.
 #'
-#' @param data A data frame
+#' @param data A `data.frame` containing the `truth` and `estimate`
+#' columns.
 #' @param truth The column identifier for the true results
-#'  (that is numeric). This should an unquoted column name although
-#'  this argument is passed by expression and support
+#'  (that is `numeric`). This should be an unquoted column name although
+#'  this argument is passed by expression and supports
 #'  [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'  names or column positions).
+#'  names). For `_vec()` functions, a `numeric` vector.
 #' @param estimate The column identifier for the predicted
-#'  results (that is also numeric). As with `truth` this can be
+#'  results (that is also `numeric`). As with `truth` this can be
 #'  specified different ways but the primary method is to use an
-#'  unquoted variable name.
-#' @param bias A logical; should the biased estimate of variance
+#'  unquoted variable name. For `_vec()` functions, a `numeric` vector.
+#' @param bias A `logical`; should the biased estimate of variance
 #'  be used for the concordance correlation coefficient (as is
 #'  Lin (1989))?
-#' @param na.rm A logical value indicating whether `NA`
+#' @param na.rm A `logical` value indicating whether `NA`
 #'  values should be stripped before the computation proceeds.
 #' @param ... Not currently used.
-#' @return A number or `NA`
-#' @details Note that a value if `Inf` is returned for `mape` when the observed
-#'  value is negative.
+#'
+#' @inherit sens return
+#'
+#' @details Note that a value of `Inf` is returned for `mape()` when the
+#' observed value is negative.
+#'
 #' @author Max Kuhn
+#'
 #' @references Kvalseth. Cautionary note about \eqn{R^2}.
 #' American Statistician (1985) vol. 39 (4) pp. 279-285.
 #'
@@ -39,11 +44,12 @@
 #'  coefficient to evaluate reproducibility. _Biometrics_, 45 (1),
 #'  255–268.
 #'
-#' Nickerson, C. (1997). A note on" A concordance correlation
+#' Nickerson, C. (1997). A note on "A concordance correlation
 #'  coefficient to evaluate reproducibility". _Biometrics_, 53(4),
 #'  1503-1507.
 #'
 #' @keywords manip
+#'
 #' @examples
 #'
 #' rmse(solubility_test, truth = solubility, estimate = prediction)

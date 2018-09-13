@@ -4,6 +4,7 @@
 \alias{mcc}
 \alias{mcc.data.frame}
 \alias{mcc.table}
+\alias{mcc.matrix}
 \alias{mcc_vec}
 \alias{j_index}
 \alias{j_index.data.frame}
@@ -27,6 +28,8 @@ mcc(data, ...)
 \method{mcc}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
 \method{mcc}{table}(data, ...)
+
+\method{mcc}{matrix}(data, ...)
 
 mcc_vec(truth, estimate, na.rm = TRUE, ...)
 
@@ -63,26 +66,25 @@ detection_prevalence(data, ...)
 detection_prevalence_vec(truth, estimate, na.rm = TRUE, ...)
 }
 \arguments{
-\item{data}{For the default functions, a factor containing the
-discrete measurements. For the \code{table} or \code{matrix}
-functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.}
+\item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
+columns, or a \code{table}/\code{matrix} where the true class results should be
+in the columns of the table.}
 
 \item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should be an unquoted column name although
-this argument is passed by expression and support
+(that is a \code{factor}). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names or column positions).}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
-results (that is also factor). As with \code{truth} this can be
+results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name.}
+unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{na.rm}{A logical value indicating whether \code{NA}
-values should be stripped before the computation proceeds}
+\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+values should be stripped before the computation proceeds.}
 }
 \description{
 Other metrics for two class problems that are not already in
