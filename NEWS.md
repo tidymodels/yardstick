@@ -11,6 +11,7 @@ a breaking change. Use the vector versions for the old behavior.
 
 * `roc_auc()`, `pr_auc()`, and `roc_curve()` now have an `estimate` parameter
 in place of using `...` to specify the class probability column.
+* `broom` has been moved from `Depends` to `Suggests`.
 
 # yardstick 0.0.2
 

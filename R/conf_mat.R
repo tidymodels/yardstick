@@ -3,6 +3,10 @@
 #' Calculates a cross-tabulation of observed and predicted
 #'  classes.
 #'
+#'  For [conf_mat()] objects, a [broom::tidy()] method has been created
+#'  that collapses the cell counts by cell into a data frame for
+#'  easy manipulation.
+#'
 #' The function requires that the factors have exactly the same
 #'  levels.
 
@@ -19,6 +23,7 @@
 #'  `value` (the cell count).
 #' @examples
 #' library(dplyr)
+#' library(broom)
 #' data("hpc_cv")
 #'
 #' # The confusion matrix from a single assessment set (i.e. fold)
@@ -105,18 +110,12 @@ conf_mat.table <- function(data, ...) {
 print.conf_mat <- function(x, ...)
   print(x$table)
 
-#' Tidy Representation of Confusion Matrices
-#'
-#' For [conf_mat()] objects, the `tidy` method collapses the cell
-#'  counts by cell into a data frame for each manipulation.
-#' @param x A object of class [conf_mat()].
-#' @importFrom tibble tibble
-#' @importFrom broom tidy
-#' @rdname conf_mat
-#' @export
+
+# yardstick no longer depends on broom
+# this method is registered in .onLoad()
 tidy.conf_mat <- function(x, ...) {
   y <- flatten(x$table)
-  tibble(name = names(y),
+  tibble::tibble(name = names(y),
          value = unname(y))
 }
 

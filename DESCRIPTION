@@ -15,9 +15,9 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0.9000
 Depends:
-    R (>= 2.10),
-    broom
+    R (>= 2.10)
 Suggests: 
+    broom,
     testthat,
     covr,
     purrr
