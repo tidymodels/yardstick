@@ -69,20 +69,28 @@ test_that('confusion matrix statistics', {
 
 test_that('accuracy', {
   expect_equal(
-    accuracy(three_class, truth = "obs", estimate = "pred"),
+    accuracy(three_class, truth = "obs", estimate = "pred")[[".estimate"]],
     (24 + 17 + 14)/150
   )
   expect_equal(
-    accuracy(three_class_tb),
+    accuracy(three_class_tb)[[".estimate"]],
     (24 + 17 + 14)/150
   )
   expect_equal(
-    accuracy(as.matrix(three_class_tb)),
+    accuracy(as.matrix(three_class_tb))[[".estimate"]],
     (24 + 17 + 14)/150
   )
   expect_equal(
-    accuracy(three_class, obs, pred_na),
+    accuracy(three_class, obs, pred_na)[[".estimate"]],
     (11 + 10 + 11)/140
+  )
+  expect_equal(
+    colnames(accuracy(three_class, truth = "obs", estimate = "pred")),
+    c(".metric", ".estimate")
+  )
+  expect_equal(
+    accuracy(three_class, truth = "obs", estimate = "pred")[[".metric"]],
+    "accuracy"
   )
 })
 
@@ -95,20 +103,28 @@ test_that('accuracy', {
 
 test_that('kappa', {
   expect_equal(
-    kap(three_class, truth = "obs", estimate = "pred"),
+    kap(three_class, truth = "obs", estimate = "pred")[[".estimate"]],
     0.05
   )
   expect_equal(
-    kap(three_class_tb),
+    kap(three_class_tb)[[".estimate"]],
     0.05
   )
   expect_equal(
-    kap(as.matrix(three_class_tb)),
+    kap(as.matrix(three_class_tb))[[".estimate"]],
     0.05
   )
   expect_equal(
-    kap(three_class, obs, pred_na),
+    kap(three_class, obs, pred_na)[[".estimate"]],
     -0.1570248
+  )
+  expect_equal(
+    colnames(kap(three_class, truth = "obs", estimate = "pred")),
+    c(".metric", ".estimate")
+  )
+  expect_equal(
+    kap(three_class, truth = "obs", estimate = "pred")[[".metric"]],
+    "kap"
   )
 })
 

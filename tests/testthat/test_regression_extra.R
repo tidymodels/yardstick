@@ -17,11 +17,11 @@ ex_dat$rand_na[ind] <- NA
 
 test_that('rpd', {
   expect_equal(
-    rpd(ex_dat, truth = "obs", estimate = "pred"),
+    rpd(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
     sd(ex_dat$obs) / (sqrt(mean((ex_dat$obs - ex_dat$pred)^2)))
   )
   expect_equal(
-    rpd(ex_dat, truth = "obs", estimate = "pred_na"),
+    rpd(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
     sd(ex_dat$obs[-ind]) / (sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2)))
   )
 })
@@ -30,11 +30,11 @@ test_that('rpd', {
 
 test_that('rpiq', {
   expect_equal(
-    rpiq(ex_dat, truth = "obs", estimate = "pred"),
+    rpiq(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
     IQR(ex_dat$obs) / sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
   )
   expect_equal(
-    rpiq(ex_dat, truth = "obs", estimate = "pred_na"),
+    rpiq(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
     IQR(ex_dat$obs[-ind]) / sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2))
   )
 })
