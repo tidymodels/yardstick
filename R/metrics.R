@@ -172,13 +172,17 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #'
 #' @importFrom rlang call2
 #' @importFrom dplyr bind_rows
-#' @importFrom rlang eval_tidy
 #' @importFrom rlang enquos
+#' @importFrom rlang quo_name
 metric_set <- function(...) {
 
   # Capture functions in their environment
   quo_fns <- enquos(...)
   fns <- lapply(quo_fns, eval_tidy)
+
+  validate_inputs_are_functions(fns)
+
+  names(fns) <- vapply(quo_fns, quo_name, character(1))
 
   function(data, truth, estimate, na.rm = TRUE, ...) {
 
@@ -197,9 +201,50 @@ metric_set <- function(...) {
     calls <- lapply(fns, call2, !!! call_args)
 
     # Evaluate
-    metric_list <- lapply(calls, eval_tidy)
+    metric_list <- mapply(
+      FUN = eval_safely,
+      calls, # .x
+      names(calls), # .y
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE
+    )
 
     bind_rows(metric_list)
   }
 }
 
+
+#' @importFrom rlang is_function
+validate_inputs_are_functions <- function(fns) {
+
+  # Check that the user supplied all functions
+  is_fun_vec <- vapply(fns, is_function, logical(1))
+  all_fns <- all(is_fun_vec)
+
+  if(!all_fns) {
+    not_fn <- which(!is_fun_vec)
+    not_fn <- paste(not_fn, collapse = ", ")
+    stop(
+      "All inputs to `metric_set()` must be functions. ",
+      "These inputs are not: (", not_fn, ").",
+      call. = FALSE
+    )
+  }
+
+}
+
+# Safely evaluate metrics in such a way that we can capture the
+# error and inform the user of the metric that failed
+
+#' @importFrom rlang caller_env
+#' @importFrom rlang eval_tidy
+eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
+  tryCatch(
+    expr = {
+      eval_tidy(expr, data = data, env = env)
+    },
+    error = function(e) {
+      stop("In metric: `", expr_nm, "`\n", e$message, call. = FALSE)
+    }
+  )
+}
