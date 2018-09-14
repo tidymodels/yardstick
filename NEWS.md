@@ -5,7 +5,8 @@
 * All metrics now have a data frame version and a vector version.
 * The data frame version now returns a tibble rather than a numeric. This is
 a breaking change. Use the vector versions for the old behavior.
-* Data frame metric functions now work on grouped data frames.
+* Data frame metric functions now work on grouped data frames and produce
+1 row per group.
 
 ## Other changes
 
