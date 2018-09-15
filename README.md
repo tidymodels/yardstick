@@ -10,7 +10,7 @@ Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
 `yardstick` is a package to estimate how well models are working using
-[tidy data](https://www.jstatsoft.org/article/view/v059i10) principals.
+[tidy data](https://www.jstatsoft.org/article/view/v059i10) principles.
 The package webpage is <https://tidymodels.github.io/yardstick/> for
 more information.
 
