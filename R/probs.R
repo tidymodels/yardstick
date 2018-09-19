@@ -324,8 +324,102 @@ roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.r
 }
 
 
+pr_curve <- function(data, truth, estimate, na.rm = TRUE) {
 
+  vars <-
+    prob_select(
+      data = data,
+      truth = !!enquo(truth),
+      !!enquo(estimate) # currently passed as dots
+    )
 
+  truth <- as.integer(data[[vars$truth]])
+  estimate <- data[[vars$probs]]
+
+  # sort
+  ord <- order(estimate, decreasing = TRUE)
+  truth <- truth[ord]
+  estimate <- estimate[ord]
+
+  pr_list <- pr_curve_impl(truth, estimate)
+
+  tibble::tibble(!!!pr_list)
+}
+
+pr_curve_impl <- function(truth, estimate) {
+  fp <- 0L
+  tp <- 0L
+
+  estimate_previous <- -Inf
+
+  # algorithm skips repeated probabilities
+  n_positive <- sum(truth == 1L)
+  n_out <- length(unique(estimate))
+
+  x_recall <- vector("numeric", n_out)
+  y_precision <- vector("numeric", n_out)
+
+  # j is only incremented when there are no duplicates
+  j <- 1L
+
+  for(i in seq_along(truth)) {
+
+    estimate_i <- estimate[i]
+
+    # append to recall and precision vectors
+    if(estimate_i != estimate_previous) {
+
+      x_recall[j] <- tp / n_positive
+
+      if(tp == 0L) {
+        y_precision[j] <- 1L
+      } else {
+        y_precision[j] <- tp / (tp + fp)
+      }
+
+      estimate_previous <- estimate_i
+      j <- j + 1L
+    }
+
+    # increment tp and fp if necessary
+    if(truth[i] == 1L) {
+      tp <- tp + 1L
+    }
+    else if (truth[i] == 2) {
+      fp <- fp + 1L
+    }
+  }
+
+  # Add end cases
+  # (min value of precision is 0.5)
+  x_recall <- c(0, x_recall, 1)
+  y_precision <- c(1, y_precision, 0.5)
+  thresholds <- c(Inf, estimate, -Inf)
+
+  list(threshold = thresholds, recall = x_recall, precision = y_precision)
+}
+
+pr_curve2 <- function(data, truth, estimate, na.rm = TRUE) {
+
+  vars <-
+    prob_select(
+      data = data,
+      truth = !!enquo(truth),
+      !!enquo(estimate) # currently passed as dots
+    )
+
+  truth <- as.integer(data[[vars$truth]])
+  estimate <- data[[vars$probs]]
+
+  # sort
+  ord <- order(estimate, decreasing = TRUE)
+  truth <- truth[ord]
+  estimate <- estimate[ord]
+
+  pr_list <- pr_curve_cpp(truth, estimate)
+
+  tibble::tibble(!!!pr_list)
+}
 
 
 #' @importFrom utils globalVariables
