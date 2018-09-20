@@ -1,18 +1,25 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-// This is a simple example of exporting a C++ function to R. You can
-// source this function into an R session using the Rcpp::sourceCpp
-// function (or via the Source button on the editor toolbar). Learn
-// more about Rcpp at:
-//
-//   http://www.rcpp.org/
-//   http://adv-r.had.co.nz/Rcpp.html
-//   http://gallery.rcpp.org/
-//
+// [[Rcpp::export]]
+IntegerVector order_cpp(NumericVector x, bool decreasing) {
+  // sort(true) = sort decreasing
+  NumericVector sorted = clone(x).sort(decreasing);
+  // return the cpp order not the r order (0 index based)
+  return match(sorted, x) - 1;
+}
+
+// Algorithm modified from page 866 of
+// http://people.inf.elte.hu/kiss/12dwhdm/roc.pdf
 
 // [[Rcpp::export]]
-List pr_curve_cpp(NumericVector truth, NumericVector estimate) {
+List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
+
+  // descending order sort based on estimate order
+  IntegerVector estimate_order = order_cpp(estimate, true);
+
+  truth = truth[estimate_order];
+  estimate = estimate[estimate_order];
 
   double fp = 0;
   double tp = 0;
@@ -20,8 +27,11 @@ List pr_curve_cpp(NumericVector truth, NumericVector estimate) {
   double estimate_previous = -INFINITY;
 
   // algorithm skips repeated probabilities
-  NumericVector unique_estimate = unique(estimate);
-  int n_positive = sum(truth == 1L);
+  // (must re-sort because unique doesnt respect order)
+  NumericVector unique_estimate = unique(estimate).sort(true);
+
+  int n = truth.size();
+  int n_positive = sum(truth == 1);
   int n_out = unique_estimate.size();
 
   NumericVector x_recall = NumericVector(n_out);
@@ -31,9 +41,21 @@ List pr_curve_cpp(NumericVector truth, NumericVector estimate) {
   int j = 0;
   double estimate_i = 0;
 
-  for(int i = 0; i <= truth.size(); i++) {
+  for(int i = 0; i < n; i++) {
 
     estimate_i = estimate[i];
+
+    // increment tp and fp as necessary
+    // incrementing before the appending step is the equivalent of the
+    // >= case when comparing to the threshold value (incrementing after
+    // would be the > case) This is consistent with ROCR but different from
+    // the paper.
+    if(truth[i] == 1) {
+      tp = tp + 1;
+    }
+    else if (truth[i] == 2) {
+      fp = fp + 1;
+    }
 
     // append to recall and precision vectors
     if(estimate_i != estimate_previous) {
@@ -50,39 +72,33 @@ List pr_curve_cpp(NumericVector truth, NumericVector estimate) {
       j = j + 1;
     }
 
-    // increment tp and fp if necessary
-    if(truth[i] == 1) {
-      tp = tp + 1;
-    }
-    else if (truth[i] == 2) {
-      fp = fp + 1;
-    }
   }
 
+  NumericVector thresholds = unique_estimate;
+
   // Add end cases
-  // (min value of precision is 0.5)
-  x_recall.push_front(0);
-  x_recall.push_back(1);
 
-  y_precision.push_front(1);
-  y_precision.push_back(0.5);
-
-  NumericVector thresholds = estimate;
+  // threshold = infinity
+  // recall = TP/P = 0 if length(P) > 0
+  // precision = TP / (TP + FP) = undefined b/c no value was estimated as P
   thresholds.push_front(R_PosInf);
-  thresholds.push_back(R_NegInf);
+  x_recall.push_front(0);
+  y_precision.push_front(NA_REAL);
 
-  return List::create(Named("threshold") = thresholds,
-                      Named("recall")    = x_recall,
-                      Named("precision") = y_precision);
+  // This case is not needed b/c it does not add any extra info. The last
+  // iteration captures the all positive case. This is also consistent with
+  // ROCR
+  // // threshold = -infinity
+  // // recall = TP/P = 1 if length(P) > 0
+  // // precision = TP / (TP + FP) = P / N = #positives / #elements
+  // thresholds.push_back(R_NegInf);
+  // x_recall.push_back(1);
+  // // ensure double division
+  // y_precision.push_back(n_positive /(double)n);
+
+  return List::create(
+    Named("threshold") = thresholds,
+    Named("recall")    = x_recall,
+    Named("precision") = y_precision
+  );
 }
-
-
-// You can include R code blocks in C++ files processed with sourceCpp
-// (useful for testing and development). The R code will be automatically
-// run after the compilation.
-//
-
-/*** R
-data("two_class_example")
-pr_curve_cpp(two_class_example$truth, two_class_example$Class1)
-*/
