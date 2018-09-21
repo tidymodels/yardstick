@@ -6,6 +6,7 @@
 \alias{pr_auc}
 \alias{pr_auc.default}
 \alias{roc_curve}
+\alias{pr_curve}
 \alias{roc_auc.data.frame}
 \alias{roc_auc_vec}
 \alias{pr_auc.data.frame}
@@ -14,6 +15,7 @@
 \alias{mnLogLoss.data.frame}
 \alias{mnLogLoss_vec}
 \alias{roc_curve.data.frame}
+\alias{pr_curve.data.frame}
 \title{Metrics Based on Class Probabilities}
 \usage{
 roc_auc(data, ...)
@@ -36,8 +38,14 @@ mnLogLoss(data, ...)
 
 mnLogLoss_vec(truth, estimate, na.rm = TRUE, sum = FALSE, ...)
 
+roc_curve(data, ...)
+
 \method{roc_curve}{data.frame}(data, truth, estimate, options = list(),
   na.rm = TRUE)
+
+pr_curve(data, ...)
+
+\method{pr_curve}{data.frame}(data, truth, estimate, na.rm = TRUE)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -71,18 +79,26 @@ values should be stripped before the computation proceeds.}
 contributions be returned (instead of the mean value)?}
 }
 \value{
-For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
-Otherwise, a \code{tibble} with columns \code{.metric} and \code{.estimate} and 1 row of
-values. For grouped data frames, the number of rows returned will be the
-same as the number of groups. For \code{roc_curve()}, a tibble with columns
+For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}). Otherwise, a
+\code{tibble} with columns \code{.metric} and \code{.estimate} and 1 row of
+values.
+
+For grouped data frames, the number of rows returned will be the
+same as the number of groups.
+
+For \code{roc_curve()}, a tibble with columns
 \code{sensitivity} and \code{specificity}. If an ordinary (i.e. non-smoothed) curve
 is used, there is also a column for \code{threshold}.
+
+For \code{pr_curve()}, a tibble with columns \code{recall}, \code{precision}, and
+\code{threshold}.
 }
 \description{
 These functions compute the areas under the receiver operating
 characteristic (ROC) curve (\code{roc_auc()}), the precision-recall
 curve (\code{pr_auc()}), or the multinomial log loss (\code{mnLogLoss()}). The actual ROC
-curve can be created using \code{roc_curve()}.
+curve can be created using \code{roc_curve()}. The actual PR curve can be created
+using \code{pr_curve()}.
 }
 \details{
 There is no common convention on which factor level should
@@ -93,12 +109,15 @@ set to \code{TRUE} when the package is loaded. This can be changed
 to \code{FALSE} if the last level of the factor is considered the
 level of interest.
 
-\code{roc_curve} computes the sensitivity at every unique
+\code{roc_curve()} computes the sensitivity at every unique
 value of the probability column (in addition to infinity and
 minus infinity). If a smooth ROC curve was produced, the unique
 observed values of the specificity are used to create the curve
 points. In either case, this may not be efficient for large data
 sets.
+
+\code{pr_curve()} computes the precision at every unique value of the
+probability column (in addition to infinity).
 }
 \examples{
 library(tidyselect)
@@ -108,13 +127,19 @@ prob_cols <- levels(two_class_example$truth)
 
 roc_auc(two_class_example, truth = truth, Class1)
 
-
 library(ggplot2)
 library(dplyr)
+
 roc_curve(two_class_example, truth, Class1) \%>\%
   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
   geom_path() +
   geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw()
+
+pr_curve(two_class_example, truth, Class1) \%>\%
+  ggplot(aes(x = recall, y = precision)) +
+  geom_path() +
   coord_equal() +
   theme_bw()
 

@@ -3,7 +3,8 @@
 #' These functions compute the areas under the receiver operating
 #'  characteristic (ROC) curve (`roc_auc()`), the precision-recall
 #'  curve (`pr_auc()`), or the multinomial log loss (`mnLogLoss()`). The actual ROC
-#'  curve can be created using `roc_curve()`.
+#'  curve can be created using `roc_curve()`. The actual PR curve can be created
+#'  using `pr_curve()`.
 #'
 #' There is no common convention on which factor level should
 #'  automatically be considered the "relevant" or "positive" results.
@@ -15,7 +16,7 @@
 
 #' @inheritParams sens
 #'
-#' @aliases roc_auc roc_auc.default pr_auc pr_auc.default roc_curve
+#' @aliases roc_auc roc_auc.default pr_auc pr_auc.default roc_curve pr_curve
 #'
 #' @param data A `data.frame` containing the `truth` and `estimate`
 #' columns.
@@ -32,19 +33,34 @@
 #' such as `direction` or `smooth`. These options should not include `response`,
 #' `predictor`, or `levels`.
 #'
-#' @return For `_vec()` functions, a single `numeric` value (or `NA`).
-#' Otherwise, a `tibble` with columns `.metric` and `.estimate` and 1 row of
-#' values. For grouped data frames, the number of rows returned will be the
-#' same as the number of groups. For `roc_curve()`, a tibble with columns
+#' @return
+#'
+#' For `_vec()` functions, a single `numeric` value (or `NA`). Otherwise, a
+#' `tibble` with columns `.metric` and `.estimate` and 1 row of
+#' values.
+#'
+#' For grouped data frames, the number of rows returned will be the
+#' same as the number of groups.
+#'
+#' For `roc_curve()`, a tibble with columns
 #' `sensitivity` and `specificity`. If an ordinary (i.e. non-smoothed) curve
 #' is used, there is also a column for `threshold`.
 #'
-#' @details `roc_curve` computes the sensitivity at every unique
+#' For `pr_curve()`, a tibble with columns `recall`, `precision`, and
+#' `threshold`.
+#'
+#' @details
+#'
+#' `roc_curve()` computes the sensitivity at every unique
 #'  value of the probability column (in addition to infinity and
 #'  minus infinity). If a smooth ROC curve was produced, the unique
 #'  observed values of the specificity are used to create the curve
 #'  points. In either case, this may not be efficient for large data
 #'  sets.
+#'
+#'  `pr_curve()` computes the precision at every unique value of the
+#'  probability column (in addition to infinity).
+#'
 #' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [mcc()]
 #' @keywords manip
 #' @examples
@@ -55,13 +71,19 @@
 #'
 #' roc_auc(two_class_example, truth = truth, Class1)
 #'
-#'
 #' library(ggplot2)
 #' library(dplyr)
+#'
 #' roc_curve(two_class_example, truth, Class1) %>%
 #'   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
 #'   geom_path() +
 #'   geom_abline(lty = 3) +
+#'   coord_equal() +
+#'   theme_bw()
+#'
+#' pr_curve(two_class_example, truth, Class1) %>%
+#'   ggplot(aes(x = recall, y = precision)) +
+#'   geom_path() +
 #'   coord_equal() +
 #'   theme_bw()
 #'
@@ -266,7 +288,8 @@ mnLogLoss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
   )
 }
 
-#' @export roc_curve
+#' @export
+#' @rdname roc_auc
 roc_curve <- function(data, ...)
   UseMethod("roc_curve")
 
@@ -323,7 +346,15 @@ roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.r
   res
 }
 
-pr_curve <- function(data, truth, estimate, na.rm = TRUE) {
+#' @export
+#' @rdname roc_auc
+pr_curve <- function(data, ...) {
+  UseMethod("pr_curve")
+}
+
+#' @export
+#' @rdname roc_auc
+pr_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE) {
 
   vars <- prob_select(
     data = data,
