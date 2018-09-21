@@ -340,13 +340,18 @@ pr_curve <- function(data, truth, estimate, na.rm = TRUE) {
     stop("`truth` must be a two level factor.", call. = FALSE)
   }
 
+  # Relevel if event_first = FALSE
+  # The second level becomes the first so as.integer()
+  # holds the 1s and 2s in the correct slot
+  if (!getOption("yardstick.event_first")) {
+    truth <- relevel(truth, lvls[2])
+  }
+
   if(na.rm) {
     complete_idx <- complete.cases(truth, estimate)
     truth <- truth[complete_idx]
     estimate <- estimate[complete_idx]
   }
-
-  # TODO - use match_levels_to_cols like roc_curve to respect global opt?
 
   # quicker to convert to integer now rather than letting rcpp do it
   # 1=good, 2=bad
