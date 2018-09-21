@@ -98,11 +98,9 @@ test_that('custom metric sets', {
   )
   # ensure helpful messages are printed
   expect_error(
-    metric_set(rmse, "x"),
-    regexp = "All inputs to `metric_set()` must be functions. These inputs are not: (2)."
+    metric_set(rmse, "x")
   )
   expect_error(
     mixed_set(solubility_test, solubility, prediction),
-    regexp = "In metric: `accuracy`"
   )
 })
