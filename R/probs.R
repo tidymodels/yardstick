@@ -217,8 +217,9 @@ mnLogLoss <- function(data, ...)
 
 #' @export
 #' @rdname roc_auc
-#' @param sum A `logical`. Should the sum of the likelihood
-#'  contributions be returned (instead of the mean value)?
+#' @param sum A `logical`. Should the sum of the likelihood contributions be
+#' returned (instead of the mean value)?
+#' @importFrom rlang quo
 mnLogLoss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
 
     # Capture dots
@@ -298,7 +299,7 @@ roc_curve <- function(data, ...)
 #' @importFrom pROC coords
 #' @importFrom rlang invoke
 #' @importFrom dplyr arrange as_tibble %>%
-roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.rm = TRUE) {
+roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.rm = TRUE, ...) {
   vars <-
     prob_select(
       data = data,
@@ -354,7 +355,8 @@ pr_curve <- function(data, ...) {
 
 #' @export
 #' @rdname roc_auc
-pr_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE) {
+#' @importFrom stats relevel
+pr_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
   vars <- prob_select(
     data = data,

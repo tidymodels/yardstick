@@ -41,11 +41,11 @@ mnLogLoss_vec(truth, estimate, na.rm = TRUE, sum = FALSE, ...)
 roc_curve(data, ...)
 
 \method{roc_curve}{data.frame}(data, truth, estimate, options = list(),
-  na.rm = TRUE)
+  na.rm = TRUE, ...)
 
 pr_curve(data, ...)
 
-\method{pr_curve}{data.frame}(data, truth, estimate, na.rm = TRUE)
+\method{pr_curve}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -75,8 +75,8 @@ such as \code{direction} or \code{smooth}. These options should not include \cod
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
-\item{sum}{A \code{logical}. Should the sum of the likelihood
-contributions be returned (instead of the mean value)?}
+\item{sum}{A \code{logical}. Should the sum of the likelihood contributions be
+returned (instead of the mean value)?}
 }
 \value{
 For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}). Otherwise, a
