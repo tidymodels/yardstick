@@ -20,14 +20,13 @@ Suggests:
     broom,
     testthat,
     covr,
-    purrr
+    purrr,
+    tidyr,
 Imports:
     dplyr,
     tibble,
-    tidyr,
     utils,
     pROC,
     MLmetrics,
     rlang,
-    tidyselect,
-    ggplot2
+    tidyselect

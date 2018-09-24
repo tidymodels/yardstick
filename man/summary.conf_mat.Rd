@@ -4,8 +4,7 @@
 \alias{summary.conf_mat}
 \title{Summary Statistics for Confusion Matrices}
 \usage{
-\method{summary}{conf_mat}(object, prevalence = NULL, beta = 1,
-  wide = FALSE, ...)
+\method{summary}{conf_mat}(object, prevalence = NULL, beta = 1, ...)
 }
 \arguments{
 \item{object}{An object of class \code{\link[=conf_mat]{conf_mat()}}.}
@@ -16,10 +15,6 @@ to derive this value.}
 
 \item{beta}{A numeric value used to weight precision and
 recall for \code{\link[=f_meas]{f_meas()}}.}
-
-\item{wide}{A single logical value: should there be one row and
-columns for each statistic (\code{wide = TRUE}) or a column for the
-statistic name (\code{name}) and the estimate (\code{value}).}
 
 \item{...}{Not currently used.}
 }
@@ -47,18 +42,26 @@ level of interest.
 data("two_class_example")
 
 cmat <- conf_mat(two_class_example, truth = "truth", estimate = "predicted")
-summary(cmat, wide = TRUE)
-summary(cmat, wide = TRUE, prevalence = 0.70)
+summary(cmat)
+summary(cmat, prevalence = 0.70)
 
 library(dplyr)
+library(purrr)
+library(tidyr)
 data("hpc_cv")
 
 # Compute statistics per resample then summarize
-hpc_cv \%>\%
+all_metrics <- hpc_cv \%>\%
   group_by(Resample) \%>\%
-  do(summary(conf_mat(., truth = "obs", estimate = "pred"))) \%>\%
-  group_by(name) \%>\%
-  summarize(mean = mean(value, na.rm = TRUE),
-            sd = sd(value, na.rm = TRUE))
+  conf_mat(obs, pred) \%>\%
+  mutate(summary_tbl = map(conf_mat, summary)) \%>\%
+  unnest(summary_tbl)
+
+all_metrics \%>\%
+  group_by(Resample) \%>\%
+  summarise(
+    mean = mean(.estimate, na.rm = TRUE),
+    sd = sd(.estimate, na.rm = TRUE)
+  )
 
 }

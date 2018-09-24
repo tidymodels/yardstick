@@ -85,6 +85,37 @@ conf_mat.data.frame <- function(data, truth, estimate,
 
 }
 
+#' @export
+#' @rdname conf_mat
+conf_mat.grouped_df <- function(data, truth, estimate,
+                                dnn = c("Prediction", "Truth"), ...) {
+
+  vars <-
+    factor_select(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      ...
+    )
+
+  truth <- as.name(vars$truth)
+  estimate <- as.name(vars$estimate)
+
+  dplyr::summarise(
+    data,
+    conf_mat = {
+      xtab <- vec2table(
+        truth = !! truth,
+        estimate = !! estimate,
+        dnn = dnn,
+        ...
+      )
+      list(conf_mat.table(xtab, ...))
+    }
+  )
+
+}
+
 #' @rdname conf_mat
 #' @export
 conf_mat.table <- function(data, ...) {
@@ -115,8 +146,10 @@ print.conf_mat <- function(x, ...)
 # this method is registered in .onLoad()
 tidy.conf_mat <- function(x, ...) {
   y <- flatten(x$table)
-  tibble::tibble(name = names(y),
-         value = unname(y))
+  tibble::tibble(
+    name = names(y),
+    value = unname(y)
+  )
 }
 
 
@@ -142,67 +175,76 @@ tidy.conf_mat <- function(x, ...) {
 #'  to derive this value.
 #' @param beta A numeric value used to weight precision and
 #'  recall for [f_meas()].
-#' @param wide A single logical value: should there be one row and
-#'  columns for each statistic (`wide = TRUE`) or a column for the
-#'  statistic name (`name`) and the estimate (`value`).
 #' @param ... Not currently used.
 #' @return A tibble. Note that if the argument `prevalence` was
 #'  used, the value reported in the tibble reflects the argument
 #'  value and not the observed rate of events.
 #' @export
-#' @importFrom tibble tibble
-#' @importFrom dplyr bind_cols
-#' @importFrom tidyr gather
+#' @importFrom dplyr bind_rows
 #' @examples
 #' data("two_class_example")
 #'
 #' cmat <- conf_mat(two_class_example, truth = "truth", estimate = "predicted")
-#' summary(cmat, wide = TRUE)
-#' summary(cmat, wide = TRUE, prevalence = 0.70)
+#' summary(cmat)
+#' summary(cmat, prevalence = 0.70)
 #'
 #' library(dplyr)
+#' library(purrr)
+#' library(tidyr)
 #' data("hpc_cv")
 #'
 #' # Compute statistics per resample then summarize
-#' hpc_cv %>%
+#' all_metrics <- hpc_cv %>%
 #'   group_by(Resample) %>%
-#'   do(summary(conf_mat(., truth = "obs", estimate = "pred"))) %>%
-#'   group_by(name) %>%
-#'   summarize(mean = mean(value, na.rm = TRUE),
-#'             sd = sd(value, na.rm = TRUE))
+#'   conf_mat(obs, pred) %>%
+#'   mutate(summary_tbl = map(conf_mat, summary)) %>%
+#'   unnest(summary_tbl)
+#'
+#' all_metrics %>%
+#'   group_by(Resample) %>%
+#'   summarise(
+#'     mean = mean(.estimate, na.rm = TRUE),
+#'     sd = sd(.estimate, na.rm = TRUE)
+#'   )
 #'
 summary.conf_mat <- function(object, prevalence = NULL,
-                             beta = 1, wide = FALSE, ...) {
-  xtab <- object$table
-  stats <-
-    tibble(accuracy = accuracy(xtab),
-           kappa = kap(xtab))
+                             beta = 1, ...) {
 
+  xtab <- object$table
+
+  stats <- bind_rows(
+    accuracy(xtab),
+    kap(xtab)
+  )
+
+  # Two class metrics
   if (nrow(xtab) == 2) {
     positive <- pos_val(xtab)
 
-    if (is.null(prevalence))
+    if (is.null(prevalence)) {
       prevalence <- sum(xtab[, positive]) / sum(xtab)
+    }
 
-    stats_2class <-
-      tibble(
-        sens = sens(xtab),
-        spec = spec(xtab),
-        prevalence = prevalence,
-        ppv = ppv(xtab, prevalence = prevalence),
-        npv = npv(xtab, prevalence = prevalence),
-        mcc = mcc(xtab),
-        j_index = j_index(xtab),
-        balanced_accuracy = bal_accuracy(xtab),
-        detection_prevalence = bal_accuracy(xtab),
-        precision = precision(xtab),
-        recall = recall(xtab),
-        F1 = f_meas(xtab, beta = beta)
-      )
-    stats <- bind_cols(stats, stats_2class)
+    prev_tbl <- metric_tibbler("prevalence", prevalence)
+
+    stats_2class <- bind_rows(
+        sens(xtab),
+        spec(xtab),
+        prev_tbl,
+        ppv(xtab, prevalence = prevalence),
+        npv(xtab, prevalence = prevalence),
+        mcc(xtab),
+        j_index(xtab),
+        bal_accuracy(xtab),
+        detection_prevalence(xtab),
+        precision(xtab),
+        recall(xtab),
+        f_meas(xtab, beta = beta)
+    )
+
+    stats <- bind_rows(stats, stats_2class)
   }
-  if(!wide)
-    stats <- gather(stats, name, value)
+
   stats
 }
 
