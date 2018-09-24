@@ -30,7 +30,7 @@ Imports:
     pROC,
     MLmetrics,
     rlang,
-    tidyselect
+    tidyselect,
     Rcpp
 LinkingTo: 
     Rcpp
