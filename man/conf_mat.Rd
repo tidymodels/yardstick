@@ -5,11 +5,15 @@
 \alias{conf_mat.table}
 \alias{conf_mat.default}
 \alias{conf_mat.data.frame}
+\alias{conf_mat.grouped_df}
 \title{Confusion Matrix for Categorical Data}
 \usage{
 conf_mat(data, ...)
 
 \method{conf_mat}{data.frame}(data, truth, estimate,
+  dnn = c("Prediction", "Truth"), ...)
+
+\method{conf_mat}{grouped_df}(data, truth, estimate,
   dnn = c("Prediction", "Truth"), ...)
 
 \method{conf_mat}{table}(data, ...)

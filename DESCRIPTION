@@ -20,17 +20,17 @@ Suggests:
     broom,
     testthat,
     covr,
-    purrr
+    purrr,
+    tidyr,
+    ggplot2
 Imports:
     dplyr,
     tibble,
-    tidyr,
     utils,
     pROC,
     MLmetrics,
     rlang,
-    tidyselect,
-    ggplot2,
+    tidyselect
     Rcpp
 LinkingTo: 
     Rcpp

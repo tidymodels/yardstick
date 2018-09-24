@@ -7,12 +7,16 @@
 a breaking change. Use the vector versions for the old behavior.
 * Data frame metric functions now work on grouped data frames and produce
 1 row per group.
+* There is now a `grouped_df` method for `conf_mat()` that returns a tibble
+with a list column of `conf_mat` objects.
 
 ## Other changes
 
 * `roc_auc()`, `pr_auc()`, and `roc_curve()` now have an `estimate` parameter
 in place of using `...` to specify the class probability column.
 * `broom` has been moved from `Depends` to `Suggests`.
+* Summary methods for `conf_mat()` now return a tibble consistent with other
+metric functions.
 
 # yardstick 0.0.2
 
