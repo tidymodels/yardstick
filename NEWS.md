@@ -9,6 +9,7 @@ a breaking change. Use the vector versions for the old behavior.
 1 row per group.
 * There is now a `grouped_df` method for `conf_mat()` that returns a tibble
 with a list column of `conf_mat` objects.
+* `pr_curve()` has been added for calculating precision recall curves.
 
 ## Other changes
 
