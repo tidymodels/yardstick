@@ -207,8 +207,7 @@ tidy.conf_mat <- function(x, ...) {
 #'     sd = sd(.estimate, na.rm = TRUE)
 #'   )
 #'
-summary.conf_mat <- function(object, prevalence = NULL,
-                             beta = 1, ...) {
+summary.conf_mat <- function(object, prevalence = NULL, beta = 1, ...) {
 
   xtab <- object$table
 
