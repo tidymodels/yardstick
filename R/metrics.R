@@ -145,6 +145,9 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' functions calculate the same kind of metric (regression vs classification).
 #'
 #' @examples
+#'
+#' library(dplyr)
+#'
 #' # Multiple regression metrics
 #' multi_metric <- metric_set(rmse, rsq, ccc)
 #'

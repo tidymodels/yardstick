@@ -3,7 +3,8 @@
 #' These functions compute the areas under the receiver operating
 #'  characteristic (ROC) curve (`roc_auc()`), the precision-recall
 #'  curve (`pr_auc()`), or the multinomial log loss (`mnLogLoss()`). The actual ROC
-#'  curve can be created using `roc_curve()`.
+#'  curve can be created using `roc_curve()`. The actual PR curve can be created
+#'  using `pr_curve()`.
 #'
 #' There is no common convention on which factor level should
 #'  automatically be considered the "relevant" or "positive" results.
@@ -15,7 +16,7 @@
 
 #' @inheritParams sens
 #'
-#' @aliases roc_auc roc_auc.default pr_auc pr_auc.default roc_curve
+#' @aliases roc_auc roc_auc.default pr_auc pr_auc.default roc_curve pr_curve
 #'
 #' @param data A `data.frame` containing the `truth` and `estimate`
 #' columns.
@@ -32,19 +33,34 @@
 #' such as `direction` or `smooth`. These options should not include `response`,
 #' `predictor`, or `levels`.
 #'
-#' @return For `_vec()` functions, a single `numeric` value (or `NA`).
-#' Otherwise, a `tibble` with columns `.metric` and `.estimate` and 1 row of
-#' values. For grouped data frames, the number of rows returned will be the
-#' same as the number of groups. For `roc_curve()`, a tibble with columns
+#' @return
+#'
+#' For `_vec()` functions, a single `numeric` value (or `NA`). Otherwise, a
+#' `tibble` with columns `.metric` and `.estimate` and 1 row of
+#' values.
+#'
+#' For grouped data frames, the number of rows returned will be the
+#' same as the number of groups.
+#'
+#' For `roc_curve()`, a tibble with columns
 #' `sensitivity` and `specificity`. If an ordinary (i.e. non-smoothed) curve
 #' is used, there is also a column for `threshold`.
 #'
-#' @details `roc_curve` computes the sensitivity at every unique
+#' For `pr_curve()`, a tibble with columns `recall`, `precision`, and
+#' `threshold`.
+#'
+#' @details
+#'
+#' `roc_curve()` computes the sensitivity at every unique
 #'  value of the probability column (in addition to infinity and
 #'  minus infinity). If a smooth ROC curve was produced, the unique
 #'  observed values of the specificity are used to create the curve
 #'  points. In either case, this may not be efficient for large data
 #'  sets.
+#'
+#'  `pr_curve()` computes the precision at every unique value of the
+#'  probability column (in addition to infinity).
+#'
 #' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [mcc()]
 #' @keywords manip
 #' @examples
@@ -55,13 +71,19 @@
 #'
 #' roc_auc(two_class_example, truth = truth, Class1)
 #'
-#'
 #' library(ggplot2)
 #' library(dplyr)
+#'
 #' roc_curve(two_class_example, truth, Class1) %>%
 #'   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
 #'   geom_path() +
 #'   geom_abline(lty = 3) +
+#'   coord_equal() +
+#'   theme_bw()
+#'
+#' pr_curve(two_class_example, truth, Class1) %>%
+#'   ggplot(aes(x = recall, y = precision)) +
+#'   geom_path() +
 #'   coord_equal() +
 #'   theme_bw()
 #'
@@ -195,8 +217,9 @@ mnLogLoss <- function(data, ...)
 
 #' @export
 #' @rdname roc_auc
-#' @param sum A `logical`. Should the sum of the likelihood
-#'  contributions be returned (instead of the mean value)?
+#' @param sum A `logical`. Should the sum of the likelihood contributions be
+#' returned (instead of the mean value)?
+#' @importFrom rlang quo
 mnLogLoss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
 
     # Capture dots
@@ -266,7 +289,8 @@ mnLogLoss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
   )
 }
 
-#' @export roc_curve
+#' @export
+#' @rdname roc_auc
 roc_curve <- function(data, ...)
   UseMethod("roc_curve")
 
@@ -275,7 +299,7 @@ roc_curve <- function(data, ...)
 #' @importFrom pROC coords
 #' @importFrom rlang invoke
 #' @importFrom dplyr arrange as_tibble %>%
-roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.rm = TRUE) {
+roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.rm = TRUE, ...) {
   vars <-
     prob_select(
       data = data,
@@ -323,9 +347,53 @@ roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.r
   res
 }
 
+#' @export
+#' @rdname roc_auc
+pr_curve <- function(data, ...) {
+  UseMethod("pr_curve")
+}
 
+#' @export
+#' @rdname roc_auc
+#' @importFrom stats relevel
+pr_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
+  vars <- prob_select(
+    data = data,
+    truth = !!enquo(truth),
+    !!enquo(estimate) # currently passed as dots
+  )
 
+  truth <- data[[vars$truth]]
+  estimate <- data[[vars$probs]]
+
+  lvls <- levels(truth)
+
+  if(length(lvls) != 2L) {
+    stop("`truth` must be a two level factor.", call. = FALSE)
+  }
+
+  # Relevel if event_first = FALSE
+  # The second level becomes the first so as.integer()
+  # holds the 1s and 2s in the correct slot
+  if (!getOption("yardstick.event_first")) {
+    truth <- relevel(truth, lvls[2])
+  }
+
+  if(na.rm) {
+    complete_idx <- complete.cases(truth, estimate)
+    truth <- truth[complete_idx]
+    estimate <- estimate[complete_idx]
+  }
+
+  # quicker to convert to integer now rather than letting rcpp do it
+  # 1=good, 2=bad
+  truth <- as.integer(truth)
+
+  pr_list <- pr_curve_cpp(truth, estimate)
+
+  tibble::tibble(!!!pr_list)
+}
 
 
 #' @importFrom utils globalVariables

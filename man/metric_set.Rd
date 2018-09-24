@@ -18,6 +18,9 @@ There are currently no checks in place to ensure that all of the metric
 functions calculate the same kind of metric (regression vs classification).
 }
 \examples{
+
+library(dplyr)
+
 # Multiple regression metrics
 multi_metric <- metric_set(rmse, rsq, ccc)
 
