@@ -31,3 +31,5 @@ Imports:
     MLmetrics,
     rlang,
     tidyselect
+LinkingTo: 
+    Rcpp
