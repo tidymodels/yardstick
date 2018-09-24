@@ -22,6 +22,7 @@ Suggests:
     covr,
     purrr,
     tidyr,
+    ggplot2
 Imports:
     dplyr,
     tibble,
