@@ -1,23 +1,41 @@
 # yardstick 0.0.2.9000
 
-## New features
+## New functions
 
-* All metrics now have a data frame version and a vector version.
-* The data frame version now returns a tibble rather than a numeric. This is
-a breaking change. Use the vector versions for the old behavior.
-* Data frame metric functions now work on grouped data frames and produce
-1 row per group.
-* There is now a `grouped_df` method for `conf_mat()` that returns a tibble
-with a list column of `conf_mat` objects.
-* `pr_curve()` has been added for calculating precision recall curves.
+* `pr_curve()` calculates precision recall curves.
 
-## Other changes
+* `metric_set()` constructions functions that calculate 
+multiple metrics at once.
+
+## Changes
+
+### Breaking
+
+* All metrics now have a data frame version and a vector 
+version. The data frame version now returns a tibble rather than a numeric. Use 
+the vector versions for the old behavior.
+
+* `summary()` for `conf_mat` objects now returns a tibble,
+consistent with other metric functions.
 
 * `roc_auc()`, `pr_auc()`, and `roc_curve()` now have an `estimate` parameter
 in place of using `...` to specify the class probability column.
+
+### Features
+
+* Data frame metric functions now work on grouped data frames and produce
+1 row per group.
+
+* There is now a `grouped_df` method for `conf_mat()` that returns a tibble
+with a list column of `conf_mat` objects.
+
+### Dependancies
+
 * `broom` has been moved from `Depends` to `Suggests`.
-* Summary methods for `conf_mat()` now return a tibble consistent with other
-metric functions.
+
+* `tidyr` has been moved to `Suggests`.
+
+* `MLmetrics` has been removed as a dependancy.
 
 # yardstick 0.0.2
 
