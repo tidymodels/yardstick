@@ -3,7 +3,6 @@ context("Two-class metrics")
 library(testthat)
 library(yardstick)
 library(pROC)
-library(MLmetrics)
 library(tidyselect)
 
 ## data from: Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
@@ -311,9 +310,10 @@ test_that('ROC Curve', {
   )
 })
 
-pr_val <-
-  MLmetrics::PRAUC(two_class_example$Class1,
-                   ifelse(two_class_example$truth == lvls[1], 1, 0))
+# from:
+# MLmetrics::PRAUC(two_class_example$Class1,
+#                  ifelse(two_class_example$truth == lvls[1], 1, 0))
+pr_val <- 0.942570731650901
 
 test_that('PR AUC', {
   expect_equal(
@@ -361,6 +361,15 @@ test_that('LogLoss', {
     mnLogLoss(ll_dat, truth = "obs", A, B, C, sum = TRUE)[[".estimate"]],
     log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4)
   )
+})
+
+x <- c(1, 1.2, 1.6, 2)
+y <- c(4, 3.8, 4.2, 5)
+# MLmetrics::Area_Under_Curve(x, y, "trapezoid")
+auc_known <- 4.22
+
+test_that('AUC', {
+  expect_equal(auc(x, y), auc_known)
 })
 
 ###################################################################

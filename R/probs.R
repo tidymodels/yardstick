@@ -177,25 +177,12 @@ pr_auc.data.frame  <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
 #' @export
 #' @rdname roc_auc
-#' @importFrom MLmetrics PRAUC
 pr_auc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
   pr_auc_impl <- function(truth, estimate) {
 
-    lvl_values <- levels(truth)
-
-    if (getOption("yardstick.event_first")) {
-      lvl <- lvl_values
-    } else {
-      lvl <- rev(lvl_values)
-    }
-
-    truth <- ifelse(truth == lvl[1], 1, 0)
-
-    MLmetrics::PRAUC(
-      y_true = truth,
-      y_pred = estimate
-    )
+    pr_list <- pr_curve_vec(truth, estimate, na.rm)
+    auc(pr_list[["recall"]], pr_list[["precision"]])
 
   }
 
@@ -367,6 +354,14 @@ pr_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
   truth <- data[[vars$truth]]
   estimate <- data[[vars$probs]]
 
+  pr_list <- pr_curve_vec(truth, estimate, na.rm)
+
+  tibble::tibble(!!!pr_list)
+}
+
+# Undecided of whether to export this or not
+pr_curve_vec <- function(truth, estimate, na.rm) {
+
   lvls <- levels(truth)
 
   if(length(lvls) != 2L) {
@@ -392,9 +387,38 @@ pr_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
   pr_list <- pr_curve_cpp(truth, estimate)
 
-  tibble::tibble(!!!pr_list)
+  pr_list
 }
 
+# AUC by trapezoidal rule:
+# https://en.wikipedia.org/wiki/Trapezoidal_rule
+# assumes x is a partition and that x & y are the same length
+auc <- function(x, y, na.rm = TRUE) {
+
+  if(na.rm) {
+    comp <- complete.cases(x, y)
+    x <- x[comp]
+    y <- y[comp]
+  }
+
+  # order increasing by x
+  x_order <- order(x)
+  x <- x[x_order]
+  y <- y[x_order]
+
+  # length x = length y
+  n <- length(x)
+
+  # dx
+  dx <- x[-1] - x[-n]
+
+  # mid height of y
+  height <- (y[-n] + y[-1]) / 2
+
+  auc <- sum(height * dx)
+
+  auc
+}
 
 #' @importFrom utils globalVariables
 utils::globalVariables(c("estimate", "threshold", "specificity"))
