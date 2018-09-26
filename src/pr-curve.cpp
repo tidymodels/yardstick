@@ -62,11 +62,9 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
 
       x_recall[j] = tp / n_positive;
 
-      if(tp == 0) {
-        y_precision[j] = 1;
-      } else {
-        y_precision[j] = tp / (tp + fp);
-      }
+      // as long as incrementing of tp and fp is done before this,
+      // then this is never undefined
+      y_precision[j] = tp / (tp + fp);
 
       estimate_previous = estimate_i;
       j = j + 1;
