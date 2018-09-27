@@ -35,7 +35,7 @@ with a list column of `conf_mat` objects.
 
 * `tidyr` has been moved to `Suggests`.
 
-* `MLmetrics` has been removed as a dependancy.
+* `MLmetrics` has been removed as a dependency.
 
 # yardstick 0.0.2
 
