@@ -29,7 +29,7 @@ in place of using `...` to specify the class probability column.
 * There is now a `grouped_df` method for `conf_mat()` that returns a tibble
 with a list column of `conf_mat` objects.
 
-### Dependancies
+### Dependencies
 
 * `broom` has been moved from `Depends` to `Suggests`.
 
