@@ -1,7 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-// [[Rcpp::export]]
 IntegerVector order_cpp(NumericVector x, bool decreasing) {
   // sort(true) = sort decreasing
   NumericVector sorted = clone(x).sort(decreasing);

@@ -5,18 +5,6 @@
 
 using namespace Rcpp;
 
-// order_cpp
-IntegerVector order_cpp(NumericVector x, bool decreasing);
-RcppExport SEXP _yardstick_order_cpp(SEXP xSEXP, SEXP decreasingSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< bool >::type decreasing(decreasingSEXP);
-    rcpp_result_gen = Rcpp::wrap(order_cpp(x, decreasing));
-    return rcpp_result_gen;
-END_RCPP
-}
 // pr_curve_cpp
 List pr_curve_cpp(IntegerVector truth, NumericVector estimate);
 RcppExport SEXP _yardstick_pr_curve_cpp(SEXP truthSEXP, SEXP estimateSEXP) {
@@ -31,7 +19,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_yardstick_order_cpp", (DL_FUNC) &_yardstick_order_cpp, 2},
     {"_yardstick_pr_curve_cpp", (DL_FUNC) &_yardstick_pr_curve_cpp, 2},
     {NULL, NULL, 0}
 };
