@@ -39,50 +39,54 @@ test_that('flat tables', {
 })
 
 test_that('confusion matrix statistics', {
-  sum_obj_3 <- summary(conf_mat(three_class, obs, pred),
-                       wide = TRUE)
-  sum_obj_2 <- summary(conf_mat(three_class_tb[1:2, 1:2]),
-                       wide = TRUE)
+  sum_obj_3 <- summary(conf_mat(three_class, obs, pred))
+  sum_obj_2 <- summary(conf_mat(three_class_tb[1:2, 1:2]))
   expect_equal(
-    names(sum_obj_3),
-    c("accuracy", "kappa")
+    sum_obj_3$.metric,
+    c("accuracy", "kap")
   )
   expect_equal(
-    sum_obj_3$accuracy,
+    dplyr::slice(sum_obj_3, 1),
     accuracy(three_class_tb)
   )
   expect_equal(
-    names(sum_obj_2),
-    c('accuracy', 'kappa', 'sens', 'spec', 'prevalence', 'ppv',
-      'npv', 'mcc', 'j_index', 'balanced_accuracy', 'detection_prevalence',
-      'precision', 'recall', 'F1')
+    sum_obj_2$.metric,
+    c('accuracy', 'kap', 'sens', 'spec', 'prevalence', 'ppv',
+      'npv', 'mcc', 'j_index', 'bal_accuracy', 'detection_prevalence',
+      'precision', 'recall', 'f_meas')
   )
   expect_equal(
-    sum_obj_2$sens,
+    dplyr::filter(sum_obj_2, .metric == "sens"),
     sens(three_class_tb[1:2, 1:2])
   )
 })
 
-
 ###################################################################
-
 
 test_that('accuracy', {
   expect_equal(
-    accuracy(three_class, truth = "obs", estimate = "pred"),
+    accuracy(three_class, truth = "obs", estimate = "pred")[[".estimate"]],
     (24 + 17 + 14)/150
   )
   expect_equal(
-    accuracy(three_class_tb),
+    accuracy(three_class_tb)[[".estimate"]],
     (24 + 17 + 14)/150
   )
   expect_equal(
-    accuracy(as.matrix(three_class_tb)),
+    accuracy(as.matrix(three_class_tb))[[".estimate"]],
     (24 + 17 + 14)/150
   )
   expect_equal(
-    accuracy(three_class, obs, pred_na),
+    accuracy(three_class, obs, pred_na)[[".estimate"]],
     (11 + 10 + 11)/140
+  )
+  expect_equal(
+    colnames(accuracy(three_class, truth = "obs", estimate = "pred")),
+    c(".metric", ".estimate")
+  )
+  expect_equal(
+    accuracy(three_class, truth = "obs", estimate = "pred")[[".metric"]],
+    "accuracy"
   )
 })
 
@@ -95,20 +99,28 @@ test_that('accuracy', {
 
 test_that('kappa', {
   expect_equal(
-    kap(three_class, truth = "obs", estimate = "pred"),
+    kap(three_class, truth = "obs", estimate = "pred")[[".estimate"]],
     0.05
   )
   expect_equal(
-    kap(three_class_tb),
+    kap(three_class_tb)[[".estimate"]],
     0.05
   )
   expect_equal(
-    kap(as.matrix(three_class_tb)),
+    kap(as.matrix(three_class_tb))[[".estimate"]],
     0.05
   )
   expect_equal(
-    kap(three_class, obs, pred_na),
+    kap(three_class, obs, pred_na)[[".estimate"]],
     -0.1570248
+  )
+  expect_equal(
+    colnames(kap(three_class, truth = "obs", estimate = "pred")),
+    c(".metric", ".estimate")
+  )
+  expect_equal(
+    kap(three_class, truth = "obs", estimate = "pred")[[".metric"]],
+    "kap"
   )
 })
 
@@ -119,9 +131,11 @@ test_that('name/col matching', {
     yardstick:::match_levels_to_cols(names(iris))
   )
   expect_equal(
-    yardstick:::match_levels_to_cols(
-      nms = c("Class1", "Class2"),
-      lvl = c("Class1", "Class2")
+    suppressWarnings(
+      yardstick:::match_levels_to_cols(
+        nms = c("Class1", "Class2"),
+        lvl = c("Class1", "Class2")
+      )
     ),
     "Class1"
   )
@@ -140,9 +154,11 @@ test_that('name/col matching', {
     "Class1"
   )
   expect_equal(
-    yardstick:::match_levels_to_cols(
-      nms = c("Class1", "Class2"),
-      lvl = c("Class2", "Class1")
+    suppressWarnings(
+      yardstick:::match_levels_to_cols(
+        nms = c("Class1", "Class2"),
+        lvl = c("Class2", "Class1")
+      )
     ),
     "Class2"
   )

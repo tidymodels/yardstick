@@ -2,25 +2,16 @@
 #'
 #' These functions are appropriate for cases where the model
 #'  outcome is a number. The ratio of performance to deviation
-#'  (`rpd`) and the ratio of performance to inter-quartile (`rpiq`)
+#'  (`rpd()`) and the ratio of performance to inter-quartile (`rpiq()`)
 #'  are both measures of consistency/correlation between observed
 #'  and predicted values (and not of accuracy).
 #'
-#' @param data A data frame
-#' @param truth The column identifier for the true results (that
-#'  is numeric). This should an unquoted column name although this
-#'  argument is passed by expression and support
-#'  [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'  names or column positions).
-#' @param estimate The column identifier for the predicted results
-#'  (that is also numeric). As with `truth` this can be specified
-#'  different ways but the primary method is to use an unquoted
-#'  variable name.
-#' @param na.rm A logical value indicating whether `NA`
-#'  values should be stripped before the computation proceeds.
-#' @param ... Not currently used.
-#' @return A number or `NA`
+#' @inheritParams rmse
+#'
+#' @inherit sens return
+#'
 #' @author Pierre Roudier
+#'
 #' @details In the field of spectroscopy in particular, the ratio
 #'  of performance to deviation (RPD) has been used as the standard
 #'  way to report the quality of a model. It is the ratio between
@@ -56,54 +47,88 @@
 #'
 #' @export
 #' @rdname rpd
-rpd <- function(data, ...)
+rpd <- function(data, ...) {
   UseMethod("rpd")
+}
 
 #' @rdname rpd
 #' @export
-#' @importFrom stats complete.cases sd
-rpd.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    
-    rpd_calc(data[[vars$truth]], data[[vars$estimate]])
+rpd.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "rpd",
+    metric_fn = rpd_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rpd
+#' @importFrom stats sd
+rpd_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rpd_impl <- function(truth, estimate) {
+
+    sd(truth) / rmse_vec(truth, estimate)
+
   }
 
-rpd_calc <- function(obs, pred)
-  sd( obs ) / rmse_calc( obs, pred )
+  metric_vec_template(
+    metric_impl = rpd_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
+}
 
 #' @export
 #' @rdname rpd
-rpiq <- function(data, ...)
+rpiq <- function(data, ...) {
   UseMethod("rpiq")
+}
 
 #' @rdname rpd
 #' @export
-#' @importFrom stats complete.cases IQR
-rpiq.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    
-    rpiq_calc(data[[vars$truth]], data[[vars$estimate]], na.rm = na.rm)
+rpiq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "rpiq",
+    metric_fn = rpiq_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rpd
+#' @importFrom stats IQR
+rpiq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rpiq_impl <- function(truth, estimate) {
+
+    IQR(truth) / rmse_vec(truth, estimate)
+
   }
 
-rpiq_calc <- function(obs, pred, ...)
-  IQR(obs, ...) / rmse_calc(obs, pred)
+  metric_vec_template(
+    metric_impl = rpiq_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
+}

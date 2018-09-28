@@ -20,38 +20,38 @@ prob_select <- function(data, truth, ...) {
   }
   if(!is.factor(data[[truth_var]]))
     stop("`", truth_var, "` should be a factor.", call. = FALSE)
-  prob_num <- vapply(data[, dot_vars, drop = FALSE], 
+  prob_num <- vapply(data[, dot_vars, drop = FALSE],
                      is.numeric, logical(1))
   if(any(!prob_num))
     stop("The columns selected for class probabilities should ",
-         "be numeric: ", 
+         "be numeric: ",
          paste0("`", names(prob_num)[!prob_num], "`", collapse = ", "),
          call. = FALSE)
-  
+
   list(truth = truth_var, probs = unname(dot_vars))
 }
 
 all_select <- function(data, truth, estimate, ...) {
   truth_var <- tidyselect::vars_pull(names(data), !! enquo(truth))
   est_var <- tidyselect::vars_pull(names(data), !! enquo(estimate))
-  
+
   dot_vars <- rlang::with_handlers(
     tidyselect::vars_select(names(data), !!! quos(...)),
     tidyselect_empty = abort_selection
   )
-  
+
   if (length(dot_vars) == 0) {
     dot_vars <- NA
   } else {
-    prob_num <- vapply(data[, dot_vars, drop = FALSE], 
+    prob_num <- vapply(data[, dot_vars, drop = FALSE],
                        is.numeric, logical(1))
     if(any(!prob_num))
       stop("The columns selected for class probabilities should ",
-           "be numeric: ", 
+           "be numeric: ",
            paste0("`", names(prob_num)[!prob_num], "`", collapse = ", "),
            call. = FALSE)
   }
-  
+
   list(truth = truth_var, estimate = est_var, probs = unname(dot_vars))
 }
 
@@ -63,7 +63,7 @@ factor_select <- function(data, truth, estimate, ...) {
     stop("`", truth_var, "` should be a factor.", call. = FALSE)
   if(!is.factor(data[[est_var]]))
     stop("`", est_var, "` should be a factor.", call. = FALSE)
-  
+
   list(truth = truth_var, estimate = est_var)
 }
 
@@ -71,11 +71,7 @@ factor_select <- function(data, truth, estimate, ...) {
 num_select <- function(data, truth, estimate, ...) {
   truth_var <- tidyselect::vars_pull(names(data), !! enquo(truth))
   est_var <- tidyselect::vars_pull(names(data), !! enquo(estimate))
-  if(!is.numeric(data[[truth_var]]))
-    stop("`", truth_var, "` should be numeric", call. = FALSE)
-  if(!is.numeric(data[[est_var]]))
-    stop("`", est_var, "` should be numeric.", call. = FALSE)
-  
+
   list(truth = truth_var, estimate = est_var)
 }
 

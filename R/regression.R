@@ -1,37 +1,42 @@
 #' Calculate Metrics for Numeric Outcomes
 #'
 #' These functions are appropriate for cases where the model
-#'  outcome is a number. The root mean squared error (`rmse`) and
-#'  mean absolute error (`mae`) are error measures that are in the
+#'  outcome is a number. The root mean squared error (`rmse()`) and
+#'  mean absolute error (`mae()`) are error measures that are in the
 #'  same units as the original data. The two estimates for the
-#'  coefficient of determination, `rsq` and `rsq_trad`, differ by
+#'  coefficient of determination, `rsq()` and `rsq_trad()`, differ by
 #'  their formula. The former guarantees a value on (0, 1) while the
 #'  latter can generate inaccurate values when the model is
 #'  non-informative (see the examples). Both are measures of
 #'  consistency/correlation and not of accuracy. The concordance
-#'  correlation coefficient (`ccc`) is a measure of both. The mean absolute
-#'  percent error (`mape`) is in relative units.
+#'  correlation coefficient (`ccc()`) is a measure of both. The mean absolute
+#'  percent error (`mape()`) is in relative units.
 #'
-#' @param data A data frame
+#' @param data A `data.frame` containing the `truth` and `estimate`
+#' columns.
 #' @param truth The column identifier for the true results
-#'  (that is numeric). This should an unquoted column name although
-#'  this argument is passed by expression and support
+#'  (that is `numeric`). This should be an unquoted column name although
+#'  this argument is passed by expression and supports
 #'  [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'  names or column positions).
+#'  names). For `_vec()` functions, a `numeric` vector.
 #' @param estimate The column identifier for the predicted
-#'  results (that is also numeric). As with `truth` this can be
+#'  results (that is also `numeric`). As with `truth` this can be
 #'  specified different ways but the primary method is to use an
-#'  unquoted variable name.
-#' @param bias A logical; should the biased estimate of variance
+#'  unquoted variable name. For `_vec()` functions, a `numeric` vector.
+#' @param bias A `logical`; should the biased estimate of variance
 #'  be used for the concordance correlation coefficient (as is
 #'  Lin (1989))?
-#' @param na.rm A logical value indicating whether `NA`
+#' @param na.rm A `logical` value indicating whether `NA`
 #'  values should be stripped before the computation proceeds.
 #' @param ... Not currently used.
-#' @return A number or `NA`
-#' @details Note that a value if `Inf` is returned for `mape` when the observed
-#'  value is negative.
+#'
+#' @inherit sens return
+#'
+#' @details Note that a value of `Inf` is returned for `mape()` when the
+#' observed value is negative.
+#'
 #' @author Max Kuhn
+#'
 #' @references Kvalseth. Cautionary note about \eqn{R^2}.
 #' American Statistician (1985) vol. 39 (4) pp. 279-285.
 #'
@@ -39,11 +44,12 @@
 #'  coefficient to evaluate reproducibility. _Biometrics_, 45 (1),
 #'  255–268.
 #'
-#' Nickerson, C. (1997). A note on" A concordance correlation
+#' Nickerson, C. (1997). A note on "A concordance correlation
 #'  coefficient to evaluate reproducibility". _Biometrics_, 53(4),
 #'  1503-1507.
 #'
 #' @keywords manip
+#'
 #' @examples
 #'
 #' rmse(solubility_test, truth = solubility, estimate = prediction)
@@ -60,176 +66,273 @@
 #'
 #' @export
 #' @rdname rmse
-rmse <- function(data, ...)
+rmse <- function(data, ...) {
   UseMethod("rmse")
+}
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases
-rmse.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    rmse_calc(data[[vars$truth]], data[[vars$estimate]])
+rmse.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "rmse",
+    metric_fn = rmse_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+rmse_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rmse_impl <- function(truth, estimate) {
+    sqrt( mean( (truth - estimate) ^ 2) )
   }
 
-rmse_calc <- function(obs, pred)
-  sqrt( mean( (obs - pred) ^ 2) )
+  metric_vec_template(
+    metric_impl = rmse_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
 
+}
 
 #' @export
 #' @rdname rmse
-rsq <- function(data, ...)
+rsq <- function(data, ...) {
   UseMethod("rsq")
+}
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases cor
-rsq.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
+rsq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
-    rsq_calc(data[[vars$truth]], data[[vars$estimate]])
+  metric_summarizer(
+    metric_nm = "rsq",
+    metric_fn = rsq_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+#' @importFrom stats cor
+rsq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rsq_impl <- function(truth, estimate) {
+    cor(truth, estimate)^2
   }
 
-rsq_calc <- function(obs, pred)
-  cor(obs, pred)^2
+  metric_vec_template(
+    metric_impl = rsq_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
 
+}
 
 #' @export
 #' @rdname rmse
-rsq_trad <- function(data, ...)
+rsq_trad <- function(data, ...) {
   UseMethod("rsq_trad")
+}
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases var
-rsq_trad.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    n <- nrow(data)
-    ss <- sum( (data[[vars$estimate]] - data[[vars$truth]]) ^ 2)
-    1 - (ss / ((n - 1) * var(data[[vars$truth]])))
+rsq_trad.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "rsq_trad",
+    metric_fn = rsq_trad_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+#' @importFrom stats var
+rsq_trad_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  rsq_trad_impl <- function(truth, estimate) {
+    n <- length(truth)
+    ss <- sum( (estimate - truth) ^ 2)
+    1 - (ss / ((n - 1) * var(truth)))
   }
 
+  metric_vec_template(
+    metric_impl = rsq_trad_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
+
+}
+
 
 #' @export
 #' @rdname rmse
-mae <- function(data, ...)
+mae <- function(data, ...) {
   UseMethod("mae")
+}
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases
-mae.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    mae_calc( data[[vars$truth]], data[[vars$estimate]])
+mae.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "mae",
+    metric_fn = mae_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+mae_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  mae_impl <- function(truth, estimate) {
+    mean( abs(truth - estimate) )
   }
 
+  metric_vec_template(
+    metric_impl = mae_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
 
-mae_calc <- function(obs, pred)
-  mean( abs(obs - pred) )
-
+}
 
 
 #' @export
 #' @rdname rmse
-mape <- function(data, ...)
+mape <- function(data, ...) {
   UseMethod("mape")
+}
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases
-mape.data.frame <-
-  function(data, truth, estimate, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
-    mape_calc(data[[vars$truth]], data[[vars$estimate]])
+mape.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+
+  metric_summarizer(
+    metric_nm = "mape",
+    metric_fn = mape_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+mape_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  mape_impl <- function(truth, estimate) {
+    mean( abs( (truth - estimate) / truth ) ) * 100
   }
 
+  metric_vec_template(
+    metric_impl = mape_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...
+  )
 
-mape_calc <- function(obs, pred)
-  mean( abs( (obs - pred)/obs ) ) * 100
+}
 
 
 #' @export
 #' @rdname rmse
-ccc <- function(data, ...)
+ccc <- function(data, ...) {
   UseMethod("ccc")
+}
 
 #' @rdname rmse
 #' @export
-#' @importFrom stats complete.cases var
-ccc.data.frame <-
-  function(data, truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
-    vars <-
-      num_select(
-        data = data,
-        truth = !!enquo(truth),
-        estimate = !!enquo(estimate),
-        ...
-      )
-    data <- data[, c(vars$truth, vars$estimate)]
-    if (na.rm)
-      data <- data[complete.cases(data), ]
+ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
 
-    m_e <- mean(data[[vars$estimate]])
-    m_t <- mean(data[[vars$truth]])
-    v_e <- var(data[[vars$estimate]])
-    v_t <- var(data[[vars$truth]])
-    cross <- scale(data[[vars$truth]], scale = FALSE) *
-      scale(data[[vars$estimate]], scale = FALSE)
+  metric_summarizer(
+    metric_nm = "ccc",
+    metric_fn = ccc_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na.rm = na.rm,
+    ... = ...,
+    # Extra argument for ccc_impl()
+    metric_fn_options = list(bias = bias)
+  )
+
+}
+
+#' @export
+#' @rdname rmse
+#' @importFrom stats var
+ccc_vec <- function(truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
+
+  ccc_impl <- function(truth, estimate, bias) {
+
+    m_e <- mean(estimate)
+    m_t <- mean(truth)
+    v_e <- var(estimate)
+    v_t <- var(truth)
+    cross <- scale(truth, scale = FALSE) *
+      scale(estimate, scale = FALSE)
     cross <- mean(cross)
 
     if (bias) {
-      n <- nrow(data)
+      n <- length(estimate)
       v_e <- v_e * (n - 1) / n
       v_t <- v_t * (n - 1) / n
     }
 
     2 * cross / (v_e + v_t + (m_e - m_t) ^ 2)
+
   }
+
+  metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    cls = "numeric",
+    ...,
+    bias = bias
+  )
+
+}

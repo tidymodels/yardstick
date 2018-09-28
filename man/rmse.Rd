@@ -3,85 +3,107 @@
 \name{rmse}
 \alias{rmse}
 \alias{rmse.data.frame}
+\alias{rmse_vec}
 \alias{rsq}
 \alias{rsq.data.frame}
+\alias{rsq_vec}
 \alias{rsq_trad}
 \alias{rsq_trad.data.frame}
+\alias{rsq_trad_vec}
 \alias{mae}
 \alias{mae.data.frame}
+\alias{mae_vec}
 \alias{mape}
 \alias{mape.data.frame}
+\alias{mape_vec}
 \alias{ccc}
 \alias{ccc.data.frame}
+\alias{ccc_vec}
 \title{Calculate Metrics for Numeric Outcomes}
 \usage{
 rmse(data, ...)
 
 \method{rmse}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
+rmse_vec(truth, estimate, na.rm = TRUE, ...)
+
 rsq(data, ...)
 
 \method{rsq}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+rsq_vec(truth, estimate, na.rm = TRUE, ...)
 
 rsq_trad(data, ...)
 
 \method{rsq_trad}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
+rsq_trad_vec(truth, estimate, na.rm = TRUE, ...)
+
 mae(data, ...)
 
 \method{mae}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+mae_vec(truth, estimate, na.rm = TRUE, ...)
 
 mape(data, ...)
 
 \method{mape}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
+mape_vec(truth, estimate, na.rm = TRUE, ...)
+
 ccc(data, ...)
 
-\method{ccc}{data.frame}(data, truth, estimate, bias = FALSE, na.rm = TRUE,
-  ...)
+\method{ccc}{data.frame}(data, truth, estimate, bias = FALSE,
+  na.rm = TRUE, ...)
+
+ccc_vec(truth, estimate, bias = FALSE, na.rm = TRUE, ...)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
+columns.}
 
 \item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true results
-(that is numeric). This should an unquoted column name although
-this argument is passed by expression and support
+(that is \code{numeric}). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names or column positions).}
+names). For \code{_vec()} functions, a \code{numeric} vector.}
 
 \item{estimate}{The column identifier for the predicted
-results (that is also numeric). As with \code{truth} this can be
+results (that is also \code{numeric}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name.}
+unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
 
-\item{na.rm}{A logical value indicating whether \code{NA}
+\item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
-\item{bias}{A logical; should the biased estimate of variance
+\item{bias}{A \code{logical}; should the biased estimate of variance
 be used for the concordance correlation coefficient (as is
 Lin (1989))?}
 }
 \value{
-A number or \code{NA}
+For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
+Otherwise, a \code{tibble} with columns \code{.metric} and \code{.estimate} and 1 row of
+values. For grouped data frames, the number of rows returned will be the
+same as the number of groups.
 }
 \description{
 These functions are appropriate for cases where the model
-outcome is a number. The root mean squared error (\code{rmse}) and
-mean absolute error (\code{mae}) are error measures that are in the
+outcome is a number. The root mean squared error (\code{rmse()}) and
+mean absolute error (\code{mae()}) are error measures that are in the
 same units as the original data. The two estimates for the
-coefficient of determination, \code{rsq} and \code{rsq_trad}, differ by
+coefficient of determination, \code{rsq()} and \code{rsq_trad()}, differ by
 their formula. The former guarantees a value on (0, 1) while the
 latter can generate inaccurate values when the model is
 non-informative (see the examples). Both are measures of
 consistency/correlation and not of accuracy. The concordance
-correlation coefficient (\code{ccc}) is a measure of both. The mean absolute
-percent error (\code{mape}) is in relative units.
+correlation coefficient (\code{ccc()}) is a measure of both. The mean absolute
+percent error (\code{mape()}) is in relative units.
 }
 \details{
-Note that a value if \code{Inf} is returned for \code{mape} when the observed
-value is negative.
+Note that a value of \code{Inf} is returned for \code{mape()} when the
+observed value is negative.
 }
 \examples{
 
@@ -106,7 +128,7 @@ Lin, L. (1989). A concordance correlation
 coefficient to evaluate reproducibility. \emph{Biometrics}, 45 (1),
 255–268.
 
-Nickerson, C. (1997). A note on" A concordance correlation
+Nickerson, C. (1997). A note on "A concordance correlation
 coefficient to evaluate reproducibility". \emph{Biometrics}, 53(4),
 1503-1507.
 }

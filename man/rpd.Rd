@@ -3,44 +3,54 @@
 \name{rpd}
 \alias{rpd}
 \alias{rpd.data.frame}
+\alias{rpd_vec}
 \alias{rpiq}
 \alias{rpiq.data.frame}
+\alias{rpiq_vec}
 \title{Extra Metrics for Numeric Outcomes}
 \usage{
 rpd(data, ...)
 
 \method{rpd}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
+rpd_vec(truth, estimate, na.rm = TRUE, ...)
+
 rpiq(data, ...)
 
 \method{rpiq}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
+rpiq_vec(truth, estimate, na.rm = TRUE, ...)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
+columns.}
 
 \item{...}{Not currently used.}
 
-\item{truth}{The column identifier for the true results (that
-is numeric). This should an unquoted column name although this
-argument is passed by expression and support
+\item{truth}{The column identifier for the true results
+(that is \code{numeric}). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names or column positions).}
+names). For \code{_vec()} functions, a \code{numeric} vector.}
 
-\item{estimate}{The column identifier for the predicted results
-(that is also numeric). As with \code{truth} this can be specified
-different ways but the primary method is to use an unquoted
-variable name.}
+\item{estimate}{The column identifier for the predicted
+results (that is also \code{numeric}). As with \code{truth} this can be
+specified different ways but the primary method is to use an
+unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
 
-\item{na.rm}{A logical value indicating whether \code{NA}
+\item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 }
 \value{
-A number or \code{NA}
+For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
+Otherwise, a \code{tibble} with columns \code{.metric} and \code{.estimate} and 1 row of
+values. For grouped data frames, the number of rows returned will be the
+same as the number of groups.
 }
 \description{
 These functions are appropriate for cases where the model
 outcome is a number. The ratio of performance to deviation
-(\code{rpd}) and the ratio of performance to inter-quartile (\code{rpiq})
+(\code{rpd()}) and the ratio of performance to inter-quartile (\code{rpiq()})
 are both measures of consistency/correlation between observed
 and predicted values (and not of accuracy).
 }

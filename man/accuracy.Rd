@@ -5,10 +5,12 @@
 \alias{accuracy.data.frame}
 \alias{accuracy.table}
 \alias{accuracy.matrix}
+\alias{accuracy_vec}
 \alias{kap}
 \alias{kap.data.frame}
 \alias{kap.table}
 \alias{kap.matrix}
+\alias{kap_vec}
 \title{Classification Metrics on Predited Classes}
 \usage{
 accuracy(data, ...)
@@ -19,6 +21,8 @@ accuracy(data, ...)
 
 \method{accuracy}{matrix}(data, ...)
 
+accuracy_vec(truth, estimate, na.rm = TRUE, ...)
+
 kap(data, ...)
 
 \method{kap}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
@@ -26,31 +30,35 @@ kap(data, ...)
 \method{kap}{table}(data, ...)
 
 \method{kap}{matrix}(data, ...)
+
+kap_vec(truth, estimate, na.rm = TRUE, ...)
 }
 \arguments{
-\item{data}{For the default functions, a factor containing the
-discrete measurements. For the \code{table} or \code{matrix}
-functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.}
+\item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
+columns, or a \code{table}/\code{matrix} where the true class results should be
+in the columns of the table.}
 
 \item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a \code{factor}). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names or column positions).}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
-results (that is also factor). As with \code{truth} this can be
+results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name.}
+unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{na.rm}{A logical value indicating whether \code{NA}
-values should be stripped before the computation proceeds}
+\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+values should be stripped before the computation proceeds.}
 }
 \value{
-A numeric value.
+For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
+Otherwise, a \code{tibble} with columns \code{.metric} and \code{.estimate} and 1 row of
+values. For grouped data frames, the number of rows returned will be the
+same as the number of groups.
 }
 \description{
 Accuracy is the proportion of the data that are
@@ -74,6 +82,13 @@ fold_1 \%>\% accuracy(truth = obs, estimate = pred)
 fold_1 \%>\% kap(truth = obs, estimate = pred)
 
 fold_1 \%>\% metrics(truth = obs, estimate = pred)
+
+# Groups are respected so you can calculate
+# metrics across multiple resamples at once
+hpc_cv \%>\%
+  group_by(Resample) \%>\%
+  accuracy(obs, pred)
+
 }
 \references{
 Cohen, J. (1960). "A coefficient of agreement for nominal

@@ -5,18 +5,18 @@
 \alias{conf_mat.table}
 \alias{conf_mat.default}
 \alias{conf_mat.data.frame}
-\alias{conf_mat.table}
-\alias{tidy.conf_mat}
+\alias{conf_mat.grouped_df}
 \title{Confusion Matrix for Categorical Data}
 \usage{
 conf_mat(data, ...)
 
-\method{conf_mat}{data.frame}(data, truth, estimate, dnn = c("Prediction",
-  "Truth"), ...)
+\method{conf_mat}{data.frame}(data, truth, estimate,
+  dnn = c("Prediction", "Truth"), ...)
+
+\method{conf_mat}{grouped_df}(data, truth, estimate,
+  dnn = c("Prediction", "Truth"), ...)
 
 \method{conf_mat}{table}(data, ...)
-
-\method{tidy}{conf_mat}(x, ...)
 }
 \arguments{
 \item{data}{A data frame or a \code{\link[base:table]{base::table()}}.}
@@ -26,19 +26,17 @@ conf_mat(data, ...)
 method.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a \code{factor}). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names or column positions).}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
-results (that is also factor). As with \code{truth} this can be
+results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name.}
+unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{dnn}{a character vector of dimnames for the table}
-
-\item{x}{A object of class \code{\link[=conf_mat]{conf_mat()}}.}
 }
 \value{
 \code{conf_mat} produces a object with class \code{conf_mat}.
@@ -49,16 +47,18 @@ generates a tibble with columns \code{name} (the cell identifier) and
 \description{
 Calculates a cross-tabulation of observed and predicted
 classes.
-
-For \code{\link[=conf_mat]{conf_mat()}} objects, the \code{tidy} method collapses the cell
-counts by cell into a data frame for each manipulation.
 }
 \details{
+For \code{\link[=conf_mat]{conf_mat()}} objects, a \code{\link[broom:tidy]{broom::tidy()}} method has been created
+that collapses the cell counts by cell into a data frame for
+easy manipulation.
+
 The function requires that the factors have exactly the same
 levels.
 }
 \examples{
 library(dplyr)
+library(broom)
 data("hpc_cv")
 
 # The confusion matrix from a single assessment set (i.e. fold)

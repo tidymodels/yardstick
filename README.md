@@ -39,10 +39,11 @@ characteristics of the model and get them back in a data frame:
 metrics(two_class_example, truth, predicted)
 ```
 
-    ## # A tibble: 1 x 1
-    ##   accuracy
-    ##      <dbl>
-    ## 1    0.838
+    ## # A tibble: 2 x 2
+    ##   .metric  .estimate
+    ##   <chr>        <dbl>
+    ## 1 accuracy     0.838
+    ## 2 kap          0.675
 
 ``` r
 # or 
@@ -50,7 +51,10 @@ metrics(two_class_example, truth, predicted)
 two_class_example %>% roc_auc(truth, Class1)
 ```
 
-    ## [1] 0.939
+    ## # A tibble: 1 x 2
+    ##   .metric .estimate
+    ##   <chr>       <dbl>
+    ## 1 roc_auc     0.939
 
 [Quasiquotation](http://rlang.tidyverse.org/reference/quasiquotation.html)
 can also be used:
@@ -62,7 +66,10 @@ lvl <- levels(two_class_example$truth)
 two_class_example %>% mnLogLoss(truth, !! lvl)
 ```
 
-    ## [1] -0.328
+    ## # A tibble: 1 x 2
+    ##   .metric   .estimate
+    ##   <chr>         <dbl>
+    ## 1 mnLogLoss    -0.328
 
 ## Installation
 

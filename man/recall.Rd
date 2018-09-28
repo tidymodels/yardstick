@@ -11,21 +11,21 @@
 \alias{f_meas}
 \alias{f_meas.default}
 \alias{f_meas.table}
-\alias{recall.table}
 \alias{recall.data.frame}
-\alias{precision}
+\alias{recall_vec}
 \alias{precision.data.frame}
-\alias{precision.table}
-\alias{f_meas}
-\alias{f_meas.default}
-\alias{f_meas.table}
+\alias{precision_vec}
+\alias{f_meas.data.frame}
+\alias{f_meas_vec}
 \title{Calculate recall, precision and F values}
 \usage{
 recall(data, ...)
 
+\method{recall}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+
 \method{recall}{table}(data, ...)
 
-\method{recall}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+recall_vec(truth, estimate, na.rm = TRUE, ...)
 
 precision(data, ...)
 
@@ -33,33 +33,37 @@ precision(data, ...)
 
 \method{precision}{table}(data, ...)
 
+precision_vec(truth, estimate, na.rm = TRUE, ...)
+
 f_meas(data, ...)
 
-\method{f_meas}{default}(data, truth, estimate, beta = 1, na.rm = TRUE, ...)
+\method{f_meas}{data.frame}(data, truth, estimate, beta = 1,
+  na.rm = TRUE, ...)
 
 \method{f_meas}{table}(data, beta = 1, ...)
+
+f_meas_vec(truth, estimate, beta = 1, na.rm = TRUE, ...)
 }
 \arguments{
-\item{data}{For the default functions, a factor containing the
-discrete measurements. For the \code{table} or \code{matrix}
-functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.}
+\item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
+columns, or a \code{table}/\code{matrix} where the true class results should be
+in the columns of the table.}
 
 \item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a \code{factor}). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names or column positions).}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
-results (that is also factor). As with \code{truth} this can be
+results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name.}
+unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{na.rm}{A logical value indicating whether \code{NA}
-values should be stripped before the computation proceeds}
+\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+values should be stripped before the computation proceeds.}
 
 \item{beta}{A numeric value used to weight precision and
 recall. A value of 1 is traditionally used and corresponds to
@@ -71,7 +75,7 @@ These functions calculate the recall, precision or F values of
 a measurement system for finding/retrieving relevant documents
 compared to reference results (the truth regarding relevance).
 The measurement and "truth" data must have the same two possible
-outcomes and one of the outcomes must be thought of as a
+outcomes and one of the outcomes must be thought of as
 "relevant" results.
 }
 \details{
@@ -80,7 +84,7 @@ relevant results out of the number of samples which were
 actually relevant. When there are no relevant results, recall is
 not defined and a value of \code{NA} is returned.
 
-The precision is percentage of predicted truly relevant results
+The precision is the percentage of predicted truly relevant results
 of the total number of predicted relevant results and
 characterizes the "purity in retrieval performance" (Buckland
 and Gey, 1994).
@@ -96,10 +100,10 @@ set to \code{TRUE} when the package is loaded. This can be changed
 to \code{FALSE} if the last level of the factor is considered the
 level of interest.
 
-Suppose a 2x2 table with notation
+Suppose a 2x2 table with notation:
 
-\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab relevant \tab
-Irrelevant \cr relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
+Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
 
 The formulas used here are: \deqn{recall = A/(A+C)} \deqn{precision =
 A/(A+B)} \deqn{F_i = (1+i^2)*prec*recall/((i^2 * precision)+recall)}
