@@ -78,12 +78,56 @@
       <small>Source: <a href='https://github.com/tidymodels/yardstick/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="yardstick-0-0-1-9000" class="section level1">
+    <div id="yardstick-0-0-2-9000" class="section level1">
 <h1 class="page-header">
-<a href="#yardstick-0-0-1-9000" class="anchor"></a>yardstick 0.0.1.9000<small> Unreleased </small>
+<a href="#yardstick-0-0-2-9000" class="anchor"></a>yardstick 0.0.2.9000<small> Unreleased </small>
+</h1>
+<div id="new-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions" class="anchor"></a>New functions</h2>
+<ul>
+<li><p><code><a href="../reference/roc_auc.html">pr_curve()</a></code> calculates precision recall curves.</p></li>
+<li><p><code><a href="../reference/metric_set.html">metric_set()</a></code> constructions functions that calculate multiple metrics at once.</p></li>
+</ul>
+</div>
+<div id="changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes" class="anchor"></a>Changes</h2>
+<div id="breaking" class="section level3">
+<h3 class="hasAnchor">
+<a href="#breaking" class="anchor"></a>Breaking</h3>
+<ul>
+<li><p>All metrics now have a data frame version and a vector version. The data frame version now returns a tibble rather than a numeric. Use the vector versions for the old behavior.</p></li>
+<li><p><code>summary()</code> for <code>conf_mat</code> objects now returns a tibble, consistent with other metric functions.</p></li>
+<li><p><code><a href="../reference/roc_auc.html">roc_auc()</a></code>, <code><a href="../reference/roc_auc.html">pr_auc()</a></code>, and <code><a href="../reference/roc_auc.html">roc_curve()</a></code> now have an <code>estimate</code> parameter in place of using <code>...</code> to specify the class probability column.</p></li>
+<li><p>For naming consistency, <code>mnLogLoss</code> was renamed to <code>mn_log_loss</code>.</p></li>
+</ul>
+</div>
+<div id="features" class="section level3">
+<h3 class="hasAnchor">
+<a href="#features" class="anchor"></a>Features</h3>
+<ul>
+<li><p>Data frame metric functions now work on grouped data frames and produce 1 row per group.</p></li>
+<li><p>There is now a <code>grouped_df</code> method for <code><a href="../reference/conf_mat.html">conf_mat()</a></code> that returns a tibble with a list column of <code>conf_mat</code> objects.</p></li>
+</ul>
+</div>
+<div id="dependencies" class="section level3">
+<h3 class="hasAnchor">
+<a href="#dependencies" class="anchor"></a>Dependencies</h3>
+<ul>
+<li><p><code>broom</code> has been moved from <code>Depends</code> to <code>Suggests</code>.</p></li>
+<li><p><code>tidyr</code> has been moved to <code>Suggests</code>.</p></li>
+<li><p><code>MLmetrics</code> has been removed as a dependency.</p></li>
+</ul>
+</div>
+</div>
+</div>
+    <div id="yardstick-0-0-2" class="section level1">
+<h1 class="page-header">
+<a href="#yardstick-0-0-2" class="anchor"></a>yardstick 0.0.2<small> Unreleased </small>
 </h1>
 <ul>
-<li>Unwieghted Kappa (via <code>kap</code>) is availible and is also returned by <code>metrics</code>.</li>
+<li>Unweighted Kappa (via <code>kap</code>) is availible and is also returned by <code>metrics</code>.</li>
 <li>Detection prevalence and balanced accuracy were added.</li>
 <li>
 <code>roc_curve</code> is a tidy method for getting the points on an ROC curve.</li>
@@ -104,7 +148,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#yardstick-0-0-1-9000">0.0.1.9000</a></li>
+        <li><a href="#yardstick-0-0-2-9000">0.0.2.9000</a></li>
+        <li><a href="#yardstick-0-0-2">0.0.2</a></li>
         <li><a href="#yardstick-0-0-1">0.0.1</a></li>
       </ul>
     </div>

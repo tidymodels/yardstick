@@ -101,10 +101,24 @@ outcomes and one of the outcomes must be thought of as a
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>sens</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
+<span class='fu'>sens_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>spec</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for table</span>
+<span class='fu'>spec</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for matrix</span>
+<span class='fu'>spec</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='fu'>spec_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>ppv</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>ppv</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for table</span>
 <span class='fu'>ppv</span>(<span class='no'>data</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
@@ -112,23 +126,30 @@ outcomes and one of the outcomes must be thought of as a
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>ppv</span>(<span class='no'>data</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
+<span class='fu'>ppv_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>npv</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>npv</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for table</span>
 <span class='fu'>npv</span>(<span class='no'>data</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>npv</span>(<span class='no'>data</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>npv</span>(<span class='no'>data</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+
+<span class='fu'>npv_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>For the default functions, a factor containing the
-discrete measurements. For the <code>table</code> or <code>matrix</code>
-functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.</p></td>
+      <td><p>Either a <code>data.frame</code> containing the <code>truth</code> and <code>estimate</code>
+columns, or a <code>table</code>/<code>matrix</code> where the true class results should be
+in the columns of the table.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -137,22 +158,22 @@ true class results should be in the columns of the table.</p></td>
     <tr>
       <th>truth</th>
       <td><p>The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a <code>factor</code>). This should be an unquoted column name although
+this argument is passed by expression and supports
 <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
-names or column positions).</p></td>
+names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>estimate</th>
       <td><p>The column identifier for the predicted class
-results (that is also factor). As with <code>truth</code> this can be
+results (that is also <code>factor</code>). As with <code>truth</code> this can be
 specified different ways but the primary method is to use an
-unquoted variable name.</p></td>
+unquoted variable name. For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>A logical value indicating whether <code>NA</code>
-values should be stripped before the computation proceeds</p></td>
+      <td><p>A <code>logical</code> value indicating whether <code>NA</code>
+values should be stripped before the computation proceeds.</p></td>
     </tr>
     <tr>
       <th>prevalence</th>
@@ -163,20 +184,23 @@ values should be stripped before the computation proceeds</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A number between 0 and 1 (or NA).</p>
+    <p>For <code>_vec()</code> functions, a single <code>numeric</code> value (or <code>NA</code>).
+Otherwise, a <code>tibble</code> with columns <code>.metric</code> and <code>.estimate</code> and 1 row of
+values. For grouped data frames, the number of rows returned will be the
+same as the number of groups.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The sensitivity is defined as the proportion of positive
+    <p>The sensitivity (<code>sens()</code>) is defined as the proportion of positive
 results out of the number of samples which were actually
 positive. When there are no positive results, sensitivity is not
 defined and a value of <code>NA</code> is returned. Similarly, when
-there are no negative results, specificity is not defined and a
+there are no negative results, specificity (<code>spec()</code>) is not defined and a
 value of <code>NA</code> is returned. Similar statements are true for
 predictive values.</p>
-<p>The positive predictive value is defined as the percent of
+<p>The positive predictive value (<code>ppv()</code>) is defined as the percent of
 predicted positives that are actually positive while the
-negative predictive value is defined as the percent of negative
+negative predictive value (<code>npv()</code>) is defined as the percent of negative
 positives that are actually negative.</p>
 <p>There is no common convention on which factor level should
 automatically be considered the "event" or "positive" results.
@@ -185,7 +209,7 @@ change this, a global option called <code>yardstick.event_first</code> is
 set to <code>TRUE</code> when the package is loaded. This can be changed
 to <code>FALSE</code> if the last level of the factor is considered the
 level of interest.</p>
-<p>Suppose a 2x2 table with notation</p>
+<p>Suppose a 2x2 table with notation:</p>
 <table class='table'>
 <tr><td></td><td>Reference</td><td></td></tr>
 <tr><td>Predicted</td><td>Event</td><td>No Event</td></tr>
@@ -221,14 +245,26 @@ predictive values,'' <em>British Medical Journal</em>, vol 309,
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
 
-<span class='co'># Given that a sample is Class 1, </span>
-<span class='co'>#   what is the probability that is predicted as Class 1? </span>
-<span class='fu'>sens</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.879845</div><div class='input'>
-<span class='co'># Given that a sample is predicted to be Class 1, </span>
-<span class='co'>#  what is the probability that it truly is Class 1? </span>
-<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8194946</div><div class='input'>
+<span class='co'># Given that a sample is Class 1,</span>
+<span class='co'>#   what is the probability that is predicted as Class 1?</span>
+<span class='fu'>sens</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 sens        0.880</div><div class='input'>
+<span class='co'># Given that a sample is predicted to be Class 1,</span>
+<span class='co'>#  what is the probability that it truly is Class 1?</span>
+<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 ppv         0.819</div><div class='input'>
 <span class='co'># But what if we think that Class 1 only occurs 40% of the time?</span>
-<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='fl'>0.40</span>)</div><div class='output co'>#&gt; [1] 0.7395132</div></pre>
+<span class='fu'>ppv</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='fl'>0.40</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 ppv         0.740</div><div class='input'>
+<span class='co'># Vector arguments can be used with _vec() functions</span>
+<span class='fu'>sens_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.879845</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

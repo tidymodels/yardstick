@@ -11,7 +11,9 @@ reference:
   - title: Classification Metrics
     contents:
     - metrics
+    - metric_set
     - conf_mat
+    - summary.conf_mat
     - sens
     - spec
     - recall
@@ -19,10 +21,11 @@ reference:
     - mcc
     - j_index
     - f_meas
+    - rpd
     - accuracy
     - ppv
     - npv
-    - mnLogLoss
+    - mn_log_loss
     - roc_auc
     - pr_auc
   - title: Regression Metrics
@@ -35,6 +38,12 @@ reference:
   - title: Other Functions
     contents:
     - matches("tidy")  
+  - title: Data Sets
+    contents:
+    - hpc_cv
+    - pathology
+    - solubility_test
+    - two_class_example  
 
 navbar:
   left:

@@ -11,9 +11,9 @@
 \alias{roc_auc_vec}
 \alias{pr_auc.data.frame}
 \alias{pr_auc_vec}
-\alias{mnLogLoss}
-\alias{mnLogLoss.data.frame}
-\alias{mnLogLoss_vec}
+\alias{mn_log_loss}
+\alias{mn_log_loss.data.frame}
+\alias{mn_log_loss_vec}
 \alias{roc_curve.data.frame}
 \alias{pr_curve.data.frame}
 \title{Metrics Based on Class Probabilities}
@@ -31,12 +31,12 @@ pr_auc(data, ...)
 
 pr_auc_vec(truth, estimate, na.rm = TRUE, ...)
 
-mnLogLoss(data, ...)
+mn_log_loss(data, ...)
 
-\method{mnLogLoss}{data.frame}(data, truth, ..., na.rm = TRUE,
+\method{mn_log_loss}{data.frame}(data, truth, ..., na.rm = TRUE,
   sum = FALSE)
 
-mnLogLoss_vec(truth, estimate, na.rm = TRUE, sum = FALSE, ...)
+mn_log_loss_vec(truth, estimate, na.rm = TRUE, sum = FALSE, ...)
 
 roc_curve(data, ...)
 
@@ -51,7 +51,7 @@ pr_curve(data, ...)
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
 columns.}
 
-\item{...}{For \code{mnLogLoss()}, a set of unquoted column names or one or more
+\item{...}{For \code{mn_log_loss()}, a set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
 class probabilities. There should be as many columns as
 factor levels of \code{truth}. It is \strong{assumed} that they are in the
@@ -65,7 +65,7 @@ names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class probabilities
 (that is a \code{numeric}) corresponding to the "positive" result. See Details.
-For \code{_vec()} functions, a \code{numeric} vector. For \code{mnLogLoss_vec}, this should
+For \code{_vec()} functions, a \code{numeric} vector. For \code{mn_log_loss_vec}, this should
 be a matrix with as many columns as factor levels in \code{truth}.}
 
 \item{options}{A \code{list} of named options to pass to \code{\link[=roc]{roc()}}
@@ -96,7 +96,7 @@ For \code{pr_curve()}, a tibble with columns \code{recall}, \code{precision}, an
 \description{
 These functions compute the areas under the receiver operating
 characteristic (ROC) curve (\code{roc_auc()}), the precision-recall
-curve (\code{pr_auc()}), or the multinomial log loss (\code{mnLogLoss()}). The actual ROC
+curve (\code{pr_auc()}), or the multinomial log loss (\code{mn_log_loss()}). The actual ROC
 curve can be created using \code{roc_curve()}. The actual PR curve can be created
 using \code{pr_curve()}.
 }
@@ -150,9 +150,9 @@ roc_auc(two_class_example, truth = truth, Class1,
 
 pr_auc(two_class_example, truth, Class1)
 
-mnLogLoss(two_class_example, truth, starts_with("Class"))
+mn_log_loss(two_class_example, truth, starts_with("Class"))
 # or
-mnLogLoss(two_class_example, truth, !! prob_cols)
+mn_log_loss(two_class_example, truth, !! prob_cols)
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=mcc]{mcc()}}

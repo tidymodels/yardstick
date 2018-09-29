@@ -83,75 +83,103 @@
     
     <p>This function estimates one or more common performance
 estimates depending on the class of <code>truth</code> (see <strong>Value</strong>
-below) and returns them in a single row tibble.</p>
+below) and returns them in a two column tibble.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>metrics</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>metrics</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>metrics</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='no'>...</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A data frame</p></td>
+      <td><p>A <code>data.frame</code> containing the <code>truth</code> and <code>estimate</code>
+columns and any columns specified by <code>...</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>For classification: a set of unquoted column names
-or one or more <code>dplyr</code> selector functions to choose which
-variables contain the class probabilities. See the examples
-below. For <code>roc_auc</code> and <code>pr_auc</code>, only one value is required.
-If more are given, the functions will try to match the column
-name to the appropriate factor level of <code>truth</code>. If this doesn't
-work, an error is thrown. For <code>mnLogLoss</code>, there should be as
-many columns as factor levels of <code>truth</code>. It is <strong>assumed</strong> that
-they are in the same order as the factor levels.</p></td>
+      <td><p>For <code><a href='roc_auc.html'>mn_log_loss()</a></code>, a set of unquoted column names or one or more
+<code>dplyr</code> selector functions to choose which variables contain the
+class probabilities. There should be as many columns as
+factor levels of <code>truth</code>. It is <strong>assumed</strong> that they are in the
+same order as the factor levels. Otherwise, unused.</p></td>
     </tr>
     <tr>
       <th>truth</th>
       <td><p>The column identifier for the true results (that
-is numeric or factor). This should an unquoted column name
+is <code>numeric</code> or <code>factor</code>). This should be an unquoted column name
 although this argument is passed by expression and support
 <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
-names or column positions).</p></td>
+names).</p></td>
     </tr>
     <tr>
       <th>estimate</th>
       <td><p>The column identifier for the predicted results
-(that is also numeric or factor). As with <code>truth</code> this can be
+(that is also <code>numeric</code> or <code>factor</code>). As with <code>truth</code> this can be
 specified different ways but the primary method is to use an
 unquoted variable name.</p></td>
     </tr>
     <tr>
       <th>options</th>
-      <td><p>Options to pass to <code>roc()</code> such as <code>direction</code> or
-<code>smooth</code>. These options should not include <code>response</code>,
+      <td><p>A <code>list</code> of named options to pass to <code>roc()</code>
+such as <code>direction</code> or <code>smooth</code>. These options should not include <code>response</code>,
 <code>predictor</code>, or <code>levels</code>.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>A logical value indicating whether <code>NA</code>
+      <td><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A single row tibble. When <code>truth</code> is a factor, there
-are columns for <code><a href='accuracy.html'>accuracy()</a></code> and the Kappa statistic (<code><a href='accuracy.html'>kap()</a></code>).
-If a full set of class probability
-columns are passed to <code>...</code>, then there is also a column for
-<code><a href='roc_auc.html'>mnLogLoss()</a></code>. When <code>truth</code> has two levels and there are class
-probabilities, <code><a href='roc_auc.html'>roc_auc()</a></code> is appended. When <code>truth</code> is numeric,
-there are columns for <code><a href='rmse.html'>rmse()</a></code>, <code><a href='rmse.html'>rsq()</a></code>, and <code><a href='rmse.html'>mae()</a></code>.</p>
-<p>A number or <code>NA</code></p>
+    <p>A two column tibble.</p><ul>
+<li><p>When <code>truth</code> is a factor, there are columns for <code><a href='accuracy.html'>accuracy()</a></code> and the
+Kappa statistic (<code><a href='accuracy.html'>kap()</a></code>).</p></li>
+<li><p>If a full set of class probability columns are passed to <code>...</code>, then
+there is also a column for <code><a href='roc_auc.html'>mn_log_loss()</a></code>.</p></li>
+<li><p>When <code>truth</code> has two levels and there are class probabilities, <code><a href='roc_auc.html'>roc_auc()</a></code>
+is appended.</p></li>
+<li><p>When <code>truth</code> is numeric, there are columns for <code><a href='rmse.html'>rmse()</a></code>, <code><a href='rmse.html'>rsq()</a></code>,
+and <code><a href='rmse.html'>mae()</a></code>.</p></li>
+</ul>
+
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='metric_set.html'>metric_set()</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># Accuracy and kappa</span>
+<span class='fu'>metrics</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;   .metric  .estimate
+#&gt;   &lt;chr&gt;        &lt;dbl&gt;
+#&gt; 1 accuracy     0.838
+#&gt; 2 kap          0.675</div><div class='input'>
+<span class='co'># Add on multinomal log loss and ROC AUC by specifying class prob columns</span>
+<span class='fu'>metrics</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='no'>Class1</span>, <span class='no'>Class2</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 2
+#&gt;   .metric     .estimate
+#&gt;   &lt;chr&gt;           &lt;dbl&gt;
+#&gt; 1 accuracy        0.838
+#&gt; 2 kap             0.675
+#&gt; 3 mn_log_loss    -0.328
+#&gt; 4 roc_auc         0.939</div><div class='input'>
+<span class='co'># Regression metrics</span>
+<span class='fu'>metrics</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 rmse        0.722
+#&gt; 2 rsq         0.879
+#&gt; 3 mae         0.545</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -159,7 +187,11 @@ there are columns for <code><a href='rmse.html'>rmse()</a></code>, <code><a href
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

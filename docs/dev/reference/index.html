@@ -101,37 +101,55 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="conf_mat.html">conf_mat()</a></code> <code><a href="conf_mat.html">tidy(<i>&lt;conf_mat&gt;</i>)</a></code> </p>
+          <p><code><a href="metric_set.html">metric_set()</a></code> </p>
+        </td>
+        <td><p>Combine metric functions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="conf_mat.html">conf_mat()</a></code> </p>
         </td>
         <td><p>Confusion Matrix for Categorical Data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="sens.html">sens()</a></code> <code><a href="sens.html">spec(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="sens.html">ppv()</a></code> <code><a href="sens.html">npv()</a></code> </p>
+          <p><code><a href="summary.conf_mat.html">summary(<i>&lt;conf_mat&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Summary Statistics for Confusion Matrices</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sens.html">sens()</a></code> <code><a href="sens.html">sens_vec()</a></code> <code><a href="sens.html">spec(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="sens.html">spec(<i>&lt;table&gt;</i>)</a></code> <code><a href="sens.html">spec(<i>&lt;matrix&gt;</i>)</a></code> <code><a href="sens.html">spec_vec()</a></code> <code><a href="sens.html">ppv()</a></code> <code><a href="sens.html">ppv_vec()</a></code> <code><a href="sens.html">npv()</a></code> <code><a href="sens.html">npv_vec()</a></code> </p>
         </td>
         <td><p>Calculate sensitivity, specificity and predictive values</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="recall.html">recall()</a></code> <code><a href="recall.html">precision()</a></code> <code><a href="recall.html">f_meas()</a></code> </p>
+          <p><code><a href="recall.html">recall()</a></code> <code><a href="recall.html">recall_vec()</a></code> <code><a href="recall.html">precision()</a></code> <code><a href="recall.html">precision_vec()</a></code> <code><a href="recall.html">f_meas()</a></code> <code><a href="recall.html">f_meas_vec()</a></code> </p>
         </td>
         <td><p>Calculate recall, precision and F values</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="mcc.html">mcc()</a></code> <code><a href="mcc.html">j_index()</a></code> <code><a href="mcc.html">bal_accuracy()</a></code> <code><a href="mcc.html">detection_prevalence()</a></code> </p>
+          <p><code><a href="mcc.html">mcc()</a></code> <code><a href="mcc.html">mcc_vec()</a></code> <code><a href="mcc.html">j_index()</a></code> <code><a href="mcc.html">j_index_vec()</a></code> <code><a href="mcc.html">bal_accuracy()</a></code> <code><a href="mcc.html">bal_accuracy_vec()</a></code> <code><a href="mcc.html">detection_prevalence()</a></code> <code><a href="mcc.html">detection_prevalence_vec()</a></code> </p>
         </td>
         <td><p>Other Metrics for 2x2 Tables</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="accuracy.html">accuracy()</a></code> <code><a href="accuracy.html">kap()</a></code> </p>
+          <p><code><a href="rpd.html">rpd()</a></code> <code><a href="rpd.html">rpd_vec()</a></code> <code><a href="rpd.html">rpiq()</a></code> <code><a href="rpd.html">rpiq_vec()</a></code> </p>
+        </td>
+        <td><p>Extra Metrics for Numeric Outcomes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="accuracy.html">accuracy()</a></code> <code><a href="accuracy.html">accuracy_vec()</a></code> <code><a href="accuracy.html">kap()</a></code> <code><a href="accuracy.html">kap_vec()</a></code> </p>
         </td>
         <td><p>Classification Metrics on Predited Classes</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="roc_auc.html">roc_auc()</a></code> <code><a href="roc_auc.html">pr_auc()</a></code> <code><a href="roc_auc.html">mnLogLoss()</a></code> <code><a href="roc_auc.html">roc_curve(<i>&lt;data.frame&gt;</i>)</a></code> </p>
+          <p><code><a href="roc_auc.html">roc_auc()</a></code> <code><a href="roc_auc.html">roc_auc_vec()</a></code> <code><a href="roc_auc.html">pr_auc()</a></code> <code><a href="roc_auc.html">pr_auc_vec()</a></code> <code><a href="roc_auc.html">mn_log_loss()</a></code> <code><a href="roc_auc.html">mn_log_loss_vec()</a></code> <code><a href="roc_auc.html">roc_curve()</a></code> <code><a href="roc_auc.html">pr_curve()</a></code> </p>
         </td>
         <td><p>Metrics Based on Class Probabilities</p></td>
       </tr>
@@ -145,7 +163,7 @@
       <tr>
         
         <td>
-          <p><code><a href="rmse.html">rmse()</a></code> <code><a href="rmse.html">rsq()</a></code> <code><a href="rmse.html">rsq_trad()</a></code> <code><a href="rmse.html">mae()</a></code> <code><a href="rmse.html">mape()</a></code> <code><a href="rmse.html">ccc()</a></code> </p>
+          <p><code><a href="rmse.html">rmse()</a></code> <code><a href="rmse.html">rmse_vec()</a></code> <code><a href="rmse.html">rsq()</a></code> <code><a href="rmse.html">rsq_vec()</a></code> <code><a href="rmse.html">rsq_trad()</a></code> <code><a href="rmse.html">rsq_trad_vec()</a></code> <code><a href="rmse.html">mae()</a></code> <code><a href="rmse.html">mae_vec()</a></code> <code><a href="rmse.html">mape()</a></code> <code><a href="rmse.html">mape_vec()</a></code> <code><a href="rmse.html">ccc()</a></code> <code><a href="rmse.html">ccc_vec()</a></code> </p>
         </td>
         <td><p>Calculate Metrics for Numeric Outcomes</p></td>
       </tr>
@@ -159,9 +177,125 @@
       <tr>
         
         <td>
-          <p><code><a href="conf_mat.html">conf_mat()</a></code> <code><a href="conf_mat.html">tidy(<i>&lt;conf_mat&gt;</i>)</a></code> </p>
+          <p><code><a href="accuracy.html">accuracy()</a></code> <code><a href="accuracy.html">accuracy_vec()</a></code> <code><a href="accuracy.html">kap()</a></code> <code><a href="accuracy.html">kap_vec()</a></code> </p>
+        </td>
+        <td><p>Classification Metrics on Predited Classes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="conf_mat.html">conf_mat()</a></code> </p>
         </td>
         <td><p>Confusion Matrix for Categorical Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="hpc_cv.html">hpc_cv</a></code> </p>
+        </td>
+        <td><p>Class Probability Predictions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mcc.html">mcc()</a></code> <code><a href="mcc.html">mcc_vec()</a></code> <code><a href="mcc.html">j_index()</a></code> <code><a href="mcc.html">j_index_vec()</a></code> <code><a href="mcc.html">bal_accuracy()</a></code> <code><a href="mcc.html">bal_accuracy_vec()</a></code> <code><a href="mcc.html">detection_prevalence()</a></code> <code><a href="mcc.html">detection_prevalence_vec()</a></code> </p>
+        </td>
+        <td><p>Other Metrics for 2x2 Tables</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="metric_set.html">metric_set()</a></code> </p>
+        </td>
+        <td><p>Combine metric functions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="metrics.html">metrics()</a></code> </p>
+        </td>
+        <td><p>General Function to Estimate Performance</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pathology.html">pathology</a></code> </p>
+        </td>
+        <td><p>Liver Pathology Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="recall.html">recall()</a></code> <code><a href="recall.html">recall_vec()</a></code> <code><a href="recall.html">precision()</a></code> <code><a href="recall.html">precision_vec()</a></code> <code><a href="recall.html">f_meas()</a></code> <code><a href="recall.html">f_meas_vec()</a></code> </p>
+        </td>
+        <td><p>Calculate recall, precision and F values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rmse.html">rmse()</a></code> <code><a href="rmse.html">rmse_vec()</a></code> <code><a href="rmse.html">rsq()</a></code> <code><a href="rmse.html">rsq_vec()</a></code> <code><a href="rmse.html">rsq_trad()</a></code> <code><a href="rmse.html">rsq_trad_vec()</a></code> <code><a href="rmse.html">mae()</a></code> <code><a href="rmse.html">mae_vec()</a></code> <code><a href="rmse.html">mape()</a></code> <code><a href="rmse.html">mape_vec()</a></code> <code><a href="rmse.html">ccc()</a></code> <code><a href="rmse.html">ccc_vec()</a></code> </p>
+        </td>
+        <td><p>Calculate Metrics for Numeric Outcomes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="roc_auc.html">roc_auc()</a></code> <code><a href="roc_auc.html">roc_auc_vec()</a></code> <code><a href="roc_auc.html">pr_auc()</a></code> <code><a href="roc_auc.html">pr_auc_vec()</a></code> <code><a href="roc_auc.html">mn_log_loss()</a></code> <code><a href="roc_auc.html">mn_log_loss_vec()</a></code> <code><a href="roc_auc.html">roc_curve()</a></code> <code><a href="roc_auc.html">pr_curve()</a></code> </p>
+        </td>
+        <td><p>Metrics Based on Class Probabilities</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rpd.html">rpd()</a></code> <code><a href="rpd.html">rpd_vec()</a></code> <code><a href="rpd.html">rpiq()</a></code> <code><a href="rpd.html">rpiq_vec()</a></code> </p>
+        </td>
+        <td><p>Extra Metrics for Numeric Outcomes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sens.html">sens()</a></code> <code><a href="sens.html">sens_vec()</a></code> <code><a href="sens.html">spec(<i>&lt;data.frame&gt;</i>)</a></code> <code><a href="sens.html">spec(<i>&lt;table&gt;</i>)</a></code> <code><a href="sens.html">spec(<i>&lt;matrix&gt;</i>)</a></code> <code><a href="sens.html">spec_vec()</a></code> <code><a href="sens.html">ppv()</a></code> <code><a href="sens.html">ppv_vec()</a></code> <code><a href="sens.html">npv()</a></code> <code><a href="sens.html">npv_vec()</a></code> </p>
+        </td>
+        <td><p>Calculate sensitivity, specificity and predictive values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="solubility_test.html">solubility_test</a></code> </p>
+        </td>
+        <td><p>Solubility Predictions from MARS Model</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="summary.conf_mat.html">summary(<i>&lt;conf_mat&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Summary Statistics for Confusion Matrices</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="two_class_example.html">two_class_example</a></code> </p>
+        </td>
+        <td><p>Two Class Predictions</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data-sets" class="hasAnchor"><a href="#section-data-sets" class="anchor"></a>Data Sets</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="hpc_cv.html">hpc_cv</a></code> </p>
+        </td>
+        <td><p>Class Probability Predictions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pathology.html">pathology</a></code> </p>
+        </td>
+        <td><p>Liver Pathology Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="solubility_test.html">solubility_test</a></code> </p>
+        </td>
+        <td><p>Solubility Predictions from MARS Model</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="two_class_example.html">two_class_example</a></code> </p>
+        </td>
+        <td><p>Two Class Predictions</p></td>
       </tr>
     </tbody>
     </table>
@@ -173,6 +307,7 @@
       <li><a href="#section-classification-metrics">Classification Metrics</a></li>
       <li><a href="#section-regression-metrics">Regression Metrics</a></li>
       <li><a href="#section-other-functions">Other Functions</a></li>
+      <li><a href="#section-data-sets">Data Sets</a></li>
     </ul>
   </div>
 </div>

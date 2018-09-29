@@ -85,18 +85,20 @@
 a measurement system for finding/retrieving relevant documents
 compared to reference results (the truth regarding relevance).
 The measurement and "truth" data must have the same two possible
-outcomes and one of the outcomes must be thought of as a
+outcomes and one of the outcomes must be thought of as
 "relevant" results.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>recall</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>recall</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='co'># S3 method for table</span>
 <span class='fu'>recall</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for data.frame</span>
-<span class='fu'>recall</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>recall_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>precision</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
@@ -106,23 +108,27 @@ outcomes and one of the outcomes must be thought of as a
 <span class='co'># S3 method for table</span>
 <span class='fu'>precision</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
+<span class='fu'>precision_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>f_meas</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for default</span>
-<span class='fu'>f_meas</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>f_meas</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for table</span>
-<span class='fu'>f_meas</span>(<span class='no'>data</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>f_meas</span>(<span class='no'>data</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+
+<span class='fu'>f_meas_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>For the default functions, a factor containing the
-discrete measurements. For the <code>table</code> or <code>matrix</code>
-functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.</p></td>
+      <td><p>Either a <code>data.frame</code> containing the <code>truth</code> and <code>estimate</code>
+columns, or a <code>table</code>/<code>matrix</code> where the true class results should be
+in the columns of the table.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -131,22 +137,22 @@ true class results should be in the columns of the table.</p></td>
     <tr>
       <th>truth</th>
       <td><p>The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a <code>factor</code>). This should be an unquoted column name although
+this argument is passed by expression and supports
 <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
-names or column positions).</p></td>
+names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>estimate</th>
       <td><p>The column identifier for the predicted class
-results (that is also factor). As with <code>truth</code> this can be
+results (that is also <code>factor</code>). As with <code>truth</code> this can be
 specified different ways but the primary method is to use an
-unquoted variable name.</p></td>
+unquoted variable name. For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>A logical value indicating whether <code>NA</code>
-values should be stripped before the computation proceeds</p></td>
+      <td><p>A <code>logical</code> value indicating whether <code>NA</code>
+values should be stripped before the computation proceeds.</p></td>
     </tr>
     <tr>
       <th>beta</th>
@@ -163,7 +169,7 @@ recall beta times more important than precision.</p></td>
 relevant results out of the number of samples which were
 actually relevant. When there are no relevant results, recall is
 not defined and a value of <code>NA</code> is returned.</p>
-<p>The precision is percentage of predicted truly relevant results
+<p>The precision is the percentage of predicted truly relevant results
 of the total number of predicted relevant results and
 characterizes the "purity in retrieval performance" (Buckland
 and Gey, 1994).</p>
@@ -176,11 +182,11 @@ change this, a global option called <code>yardstick.event_first</code> is
 set to <code>TRUE</code> when the package is loaded. This can be changed
 to <code>FALSE</code> if the last level of the factor is considered the
 level of interest.</p>
-<p>Suppose a 2x2 table with notation</p>
+<p>Suppose a 2x2 table with notation:</p>
 <table class='table'>
 <tr><td></td><td>Reference</td><td></td></tr>
-<tr><td>Predicted</td><td>relevant</td><td>Irrelevant</td></tr>
-<tr><td>relevant</td><td>A</td><td>B</td></tr>
+<tr><td>Predicted</td><td>Relevant</td><td>Irrelevant</td></tr>
+<tr><td>Relevant</td><td>A</td><td>B</td></tr>
 <tr><td>Irrelevant</td><td>C</td><td>D</td></tr>
 <tr><td></td><td></td><td>Reference</td></tr>
 </table>
@@ -210,10 +216,19 @@ Technical Report SIE-07-001, Flinders University</p>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
 
 <span class='co'># Different methods for calling the functions:</span>
-<span class='fu'>precision</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8194946</div><div class='input'>
-<span class='fu'>recall</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='st'>"predicted"</span>)</div><div class='output co'>#&gt; [1] 0.879845</div><div class='input'>
+<span class='fu'>precision</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric   .estimate
+#&gt;   &lt;chr&gt;         &lt;dbl&gt;
+#&gt; 1 precision     0.819</div><div class='input'>
+<span class='fu'>recall</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='st'>"predicted"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 recall      0.880</div><div class='input'>
 <span class='no'>truth_var</span> <span class='kw'>&lt;-</span> <span class='fu'>quote</span>(<span class='no'>truth</span>)
-<span class='fu'>f_meas</span>(<span class='no'>two_class_example</span>, !! <span class='no'>truth_var</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8485981</div></pre>
+<span class='fu'>f_meas</span>(<span class='no'>two_class_example</span>, !! <span class='no'>truth_var</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 f_meas      0.849</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

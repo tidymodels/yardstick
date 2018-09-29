@@ -354,11 +354,11 @@ ll_dat <- data.frame(
 
 test_that('LogLoss', {
   expect_equal(
-    mnLogLoss(ll_dat, obs, LETTERS[1:3])[[".estimate"]],
+    mn_log_loss(ll_dat, obs, LETTERS[1:3])[[".estimate"]],
     (log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4))/6
   )
   expect_equal(
-    mnLogLoss(ll_dat, truth = "obs", A, B, C, sum = TRUE)[[".estimate"]],
+    mn_log_loss(ll_dat, truth = "obs", A, B, C, sum = TRUE)[[".estimate"]],
     log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4)
   )
 })
