@@ -258,7 +258,7 @@ mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
     res[res <= .Machine$double.eps & res > 0] <- .Machine$double.eps
     pos_log <- function(x)
       log(x[x != 0])
-    res <- sum(apply(res, 1, pos_log))
+    res <- sum(unlist(apply(res, 1, pos_log)))
     if (!sum)
       res <- res / length(truth)
     res

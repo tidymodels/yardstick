@@ -1,9 +1,9 @@
-context("Two-class metrics")
-
 library(testthat)
 library(yardstick)
 library(pROC)
 library(tidyselect)
+
+context("Two-class metrics")
 
 ## data from: Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
 #'  sensitivity and specificity,'' *British Medical Journal*,
@@ -352,7 +352,7 @@ ll_dat <- data.frame(
   C = c(0, .15, .20, .1, .2, .4)
   )
 
-test_that('LogLoss', {
+test_that('Log Loss', {
   expect_equal(
     mn_log_loss(ll_dat, obs, LETTERS[1:3])[[".estimate"]],
     (log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4))/6
@@ -361,6 +361,40 @@ test_that('LogLoss', {
     mn_log_loss(ll_dat, truth = "obs", A, B, C, sum = TRUE)[[".estimate"]],
     log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4)
   )
+  
+  # issue #29
+  x <- 
+    structure(
+      list(
+        No = c(0.860384856004899, 1, 1),
+        Yes = c(0.139615143995101, 0, 0),
+        prob = c(0.139615143995101, 0, 0),
+        estimate = structure(
+          c(1L, 1L, 1L), 
+          .Label = c("No", "Yes"), 
+          class = "factor"
+        ),
+        truth = structure(
+          c(2L, 1L, 2L), 
+          .Label = c("No", "Yes"), 
+          class = "factor"
+        ),
+        truth_num = c(1, 0, 1)
+      ),
+      row.names = c(NA,-3L),
+      class = c("tbl_df", "tbl", "data.frame")
+    )
+  expect_equal(
+    mn_log_loss(x[1:2,], truth = truth, No, Yes)[[".estimate"]], 
+    -0.9844328,
+    tol = .0001
+  )
+  expect_equal(
+    mn_log_loss(x, truth = truth, No, Yes)[[".estimate"]], 
+    -0.6562885,
+    tol = .0001
+  )
+  
 })
 
 x <- c(1, 1.2, 1.6, 2)
