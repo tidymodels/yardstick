@@ -259,6 +259,7 @@ mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
     pos_log <- function(x)
       log(x[x != 0])
     res <- sum(unlist(apply(res, 1, pos_log)))
+
     if (!sum)
       res <- res / length(truth)
     res
