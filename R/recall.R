@@ -84,7 +84,7 @@ recall.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
     metric_fn = recall_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
+    estimate = !!vars_prep(enquo(estimate)),
     na.rm = na.rm,
     ... = ...
   )
@@ -151,14 +151,15 @@ precision <- function(data, ...) {
 
 #' @rdname recall
 #' @export
-precision.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+precision.data.frame <- function(data, truth, estimate, averaging = "binary", na.rm = TRUE, ...) {
 
   metric_summarizer(
-    metric_nm = "precision",
+    metric_nm = construct_name("precision", averaging),
     metric_fn = precision_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
+    estimate = !!vars_prep(data, enquo(estimate)),
+    averaging = averaging,
     na.rm = na.rm,
     ... = ...
   )
@@ -180,9 +181,9 @@ precision.table <- function (data, ...) {
 
 #' @export
 #' @rdname recall
-precision_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+precision_vec <- function(truth, estimate, averaging = "binary", na.rm = TRUE, ...) {
 
-  precision_impl <- function(truth, estimate) {
+  precision_impl <- function(truth, estimate, averaging) {
 
     xtab <- vec2table(
       truth = truth,
@@ -191,6 +192,9 @@ precision_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       dnn = c("Prediction", "Truth"),
       ...
     )
+
+    xtab <- add_class(xtab, averaging)
+
     precision_table_impl(xtab)
 
   }
@@ -199,6 +203,7 @@ precision_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = precision_impl,
     truth = truth,
     estimate = estimate,
+    averaging = averaging,
     na.rm = na.rm,
     cls = "factor",
     ...
@@ -207,10 +212,32 @@ precision_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 }
 
 precision_table_impl <- function(data) {
+  UseMethod("precision_table_impl")
+}
+
+precision_table_impl.binary <- function(data) {
 
   relevant <- pos_val(data)
   numer <- data[relevant, relevant]
   denom <- sum(data[relevant, ])
+  precision <- ifelse(denom > 0, numer / denom, NA)
+  precision
+
+}
+
+precision_table_impl.micro <- function(data) {
+
+  numer <- sum(diag(data))
+  denom <- sum(rowSums(data))
+  precision <- ifelse(denom > 0, numer / denom, NA)
+  precision
+
+}
+
+precision_table_impl.macro <- function(data) {
+
+  numer <- sum(diag(data) / rowSums(data))
+  denom <- nrow(data)
   precision <- ifelse(denom > 0, numer / denom, NA)
   precision
 

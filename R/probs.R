@@ -104,14 +104,15 @@ roc_auc <- function(data, ...)
 
 #' @export
 #' @rdname roc_auc
-roc_auc.data.frame  <- function(data, truth, estimate, options = list(), na.rm = TRUE, ...) {
+roc_auc.data.frame  <- function(data, truth, estimate, options = list(), averaging = "binary", na.rm = TRUE, ...) {
 
     metric_summarizer(
-      metric_nm = "roc_auc",
+      metric_nm = construct_name("roc_auc", averaging),
       metric_fn = roc_auc_vec,
       data = data,
       truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
+      estimate = !!vars_prep(data, enquo(estimate)),
+      averaging = averaging,
       na.rm = na.rm,
       ... = ...,
       metric_fn_options = list(options = options)
@@ -123,36 +124,71 @@ roc_auc.data.frame  <- function(data, truth, estimate, options = list(), na.rm =
 #' @export
 #' @importFrom rlang call2
 #' @importFrom pROC roc auc
-roc_auc_vec <- function(truth, estimate, options = list(), na.rm = TRUE, ...) {
+roc_auc_vec <- function(truth, estimate, options = list(), averaging = "binary", na.rm = TRUE, ...) {
 
-  roc_auc_impl <- function(truth, estimate) {
+  roc_auc_impl <- function(truth, estimate, ...) {
 
-    lvl_values <- levels(truth)
+    truth <- add_class(truth, averaging)
+    roc_auc_averaging_impl(truth, estimate, options)
 
-    if (getOption("yardstick.event_first")) {
-      lvl <- rev(lvl_values)
-    } else {
-      lvl <- lvl_values
-    }
-
-    args <- quos(response = truth, predictor = estimate, levels = lvl)
-
-    curv <- eval_tidy(call2("roc", !!! args, !!! options, .ns = "pROC"))
-
-    res <- unname(pROC::auc(curv))
-
-    as.numeric(res)
   }
 
   metric_vec_template(
     metric_impl = roc_auc_impl,
     truth = truth,
     estimate = estimate,
+    averaging = averaging,
     na.rm = na.rm,
-    cls = c("factor", "numeric"),
+    cls = list("factor", c("numeric", "matrix")),
     ...
   )
 }
+
+roc_auc_averaging_impl <- function(truth, estimate, options) {
+  UseMethod("roc_auc_averaging_impl")
+}
+
+
+roc_auc_averaging_impl.binary <- function(truth, estimate, options) {
+
+  lvl_values <- levels(truth)
+
+  if (getOption("yardstick.event_first")) {
+    lvl <- rev(lvl_values)
+  } else {
+    lvl <- lvl_values
+  }
+
+  args <- quos(response = truth, predictor = estimate, levels = lvl)
+
+  curv <- eval_tidy(call2("roc", !!! args, !!! options, .ns = "pROC"))
+
+  res <- unname(pROC::auc(curv))
+
+  as.numeric(res)
+
+}
+
+roc_auc_averaging_impl.macro <- function(truth, estimate, options) {
+
+  lvls <- levels(truth)
+  other <- "..other"
+
+  aucs <- vector("numeric", length = length(lvls))
+
+  for(i in seq_along(lvls)) {
+
+    lvl <- lvls[i]
+    truth_temp <- factor(ifelse(truth == lvl, lvl, other), levels = c(lvl, other))
+    estimate_temp <- estimate[, i]
+
+    aucs[i] <- roc_auc_averaging_impl.binary(truth_temp, estimate_temp, options)
+
+  }
+
+  mean(aucs)
+}
+
 
 #' @export
 #' @rdname roc_auc

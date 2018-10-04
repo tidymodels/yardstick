@@ -1,7 +1,8 @@
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr summarise
 metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
-                              na.rm = TRUE, ..., metric_fn_options = list()) {
+                              averaging = NULL, na.rm = TRUE, ...,
+                              metric_fn_options = list()) {
 
   # Explicit handling of length 1 character vectors as column names
   truth <- handle_chr_names(enquo(truth))
@@ -13,6 +14,7 @@ metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
     .estimate = metric_fn(
       truth = !! truth,
       estimate = !! estimate,
+      averaging = averaging,
       na.rm = na.rm,
       !!! metric_fn_options
     )
@@ -34,7 +36,7 @@ handle_chr_names <- function(x) {
 }
 
 #' @importFrom stats complete.cases
-metric_vec_template <- function(metric_impl, truth, estimate,
+metric_vec_template <- function(metric_impl, truth, estimate, averaging = "binary",
                                 na.rm = TRUE, cls = "numeric", ...) {
 
   validate_truth_estimate_checks(truth, estimate, cls)
@@ -62,7 +64,7 @@ metric_vec_template <- function(metric_impl, truth, estimate,
 
   }
 
-  metric_impl(truth, estimate, ...)
+  metric_impl(truth, estimate, averaging, ...)
 }
 
 metric_tibbler <- function(.metric, .estimate) {
@@ -90,11 +92,11 @@ validate_class <- function(x, nm, cls) {
 
 validate_truth_estimate_checks <- function(truth, estimate, cls = "numeric") {
 
-  truth_cls <- cls[1]
+  truth_cls <- cls[[1]]
 
   # Allow cls to be a vector of length 2
   if(length(cls) > 1) {
-    estimate_cls <- cls[2]
+    estimate_cls <- cls[[2]]
   } else {
     estimate_cls <- truth_cls
   }
