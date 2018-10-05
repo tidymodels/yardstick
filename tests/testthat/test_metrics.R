@@ -22,11 +22,11 @@ test_that('correct metrics returned', {
   )
   expect_equal(
     metrics(two_class_example, truth, predicted, starts_with("Class"))[[".metric"]],
-    c("accuracy", "kap", "mnLogLoss", "roc_auc")
+    c("accuracy", "kap", "mn_log_loss", "roc_auc")
   )
   expect_equal(
     metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[".metric"]],
-    c("accuracy", "kap", "mnLogLoss")
+    c("accuracy", "kap", "mn_log_loss")
   )
   expect_equal(
     metrics(solubility_test, solubility, "prediction")[[".metric"]],
@@ -56,7 +56,7 @@ test_that('bad args', {
 class_res_1 <- bind_rows(
   accuracy(two_class_example, truth, predicted),
   kap(two_class_example, truth, predicted),
-  mnLogLoss(two_class_example, truth, Class1, Class2),
+  mn_log_loss(two_class_example, truth, Class1, Class2),
   roc_auc(two_class_example, truth, Class1)
 )
 

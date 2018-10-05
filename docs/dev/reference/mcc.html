@@ -97,6 +97,11 @@ prevalence (the rate of <em>predicted</em> events).</p>
 <span class='co'># S3 method for table</span>
 <span class='fu'>mcc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for matrix</span>
+<span class='fu'>mcc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='fu'>mcc_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>j_index</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
@@ -105,38 +110,47 @@ prevalence (the rate of <em>predicted</em> events).</p>
 <span class='co'># S3 method for table</span>
 <span class='fu'>j_index</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
-<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for data.frame</span>
-<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for table</span>
-<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
-
 <span class='co'># S3 method for matrix</span>
+<span class='fu'>j_index</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='fu'>j_index_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
-<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>...</span>)
-
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>)
 
 <span class='co'># S3 method for table</span>
+<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for matrix</span>
+<span class='fu'>bal_accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='fu'>bal_accuracy_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for table</span>
 <span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>detection_prevalence</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='fu'>detection_prevalence_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>For the default functions, a factor containing the
-discrete measurements. For the <code>table</code> or <code>matrix</code>
-functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.</p></td>
+      <td><p>Either a <code>data.frame</code> containing the <code>truth</code> and <code>estimate</code>
+columns, or a <code>table</code>/<code>matrix</code> where the true class results should be
+in the columns of the table.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -145,22 +159,22 @@ true class results should be in the columns of the table.</p></td>
     <tr>
       <th>truth</th>
       <td><p>The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a <code>factor</code>). This should be an unquoted column name although
+this argument is passed by expression and supports
 <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
-names or column positions).</p></td>
+names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>estimate</th>
       <td><p>The column identifier for the predicted class
-results (that is also factor). As with <code>truth</code> this can be
+results (that is also <code>factor</code>). As with <code>truth</code> this can be
 specified different ways but the primary method is to use an
-unquoted variable name.</p></td>
+unquoted variable name. For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>A logical value indicating whether <code>NA</code>
-values should be stripped before the computation proceeds</p></td>
+      <td><p>A <code>logical</code> value indicating whether <code>NA</code>
+values should be stripped before the computation proceeds.</p></td>
     </tr>
     </table>
     
@@ -186,10 +200,22 @@ computationally efficient to create the confusion matrix using
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
 
-<span class='fu'>mcc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6768476</div><div class='input'>
-<span class='fu'>j_index</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6732334</div><div class='input'>
-<span class='fu'>bal_accuracy</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8366167</div><div class='input'>
-<span class='fu'>detection_prevalence</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.554</div></pre>
+<span class='fu'>mcc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 mcc         0.677</div><div class='input'>
+<span class='fu'>j_index</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 j_index     0.673</div><div class='input'>
+<span class='fu'>bal_accuracy</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric      .estimate
+#&gt;   &lt;chr&gt;            &lt;dbl&gt;
+#&gt; 1 bal_accuracy     0.837</div><div class='input'>
+<span class='fu'>detection_prevalence</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric              .estimate
+#&gt;   &lt;chr&gt;                    &lt;dbl&gt;
+#&gt; 1 detection_prevalence     0.554</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

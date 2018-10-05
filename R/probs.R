@@ -2,7 +2,7 @@
 #'
 #' These functions compute the areas under the receiver operating
 #'  characteristic (ROC) curve (`roc_auc()`), the precision-recall
-#'  curve (`pr_auc()`), or the multinomial log loss (`mnLogLoss()`). The actual ROC
+#'  curve (`pr_auc()`), or the multinomial log loss (`mn_log_loss()`). The actual ROC
 #'  curve can be created using `roc_curve()`. The actual PR curve can be created
 #'  using `pr_curve()`.
 #'
@@ -22,9 +22,9 @@
 #' columns.
 #' @param estimate The column identifier for the predicted class probabilities
 #' (that is a `numeric`) corresponding to the "positive" result. See Details.
-#' For `_vec()` functions, a `numeric` vector. For `mnLogLoss_vec`, this should
+#' For `_vec()` functions, a `numeric` vector. For `mn_log_loss_vec`, this should
 #' be a matrix with as many columns as factor levels in `truth`.
-#' @param ... For `mnLogLoss()`, a set of unquoted column names or one or more
+#' @param ... For `mn_log_loss()`, a set of unquoted column names or one or more
 #'  `dplyr` selector functions to choose which variables contain the
 #'  class probabilities. There should be as many columns as
 #'  factor levels of `truth`. It is **assumed** that they are in the
@@ -94,9 +94,9 @@
 #'
 #' pr_auc(two_class_example, truth, Class1)
 #'
-#' mnLogLoss(two_class_example, truth, starts_with("Class"))
+#' mn_log_loss(two_class_example, truth, starts_with("Class"))
 #' # or
-#' mnLogLoss(two_class_example, truth, !! prob_cols)
+#' mn_log_loss(two_class_example, truth, !! prob_cols)
 
 #' @export roc_auc
 roc_auc <- function(data, ...)
@@ -197,17 +197,17 @@ pr_auc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
 }
 
-#' @export mnLogLoss
+#' @export mn_log_loss
 #' @rdname roc_auc
-mnLogLoss <- function(data, ...)
-  UseMethod("mnLogLoss")
+mn_log_loss <- function(data, ...)
+  UseMethod("mn_log_loss")
 
 #' @export
 #' @rdname roc_auc
 #' @param sum A `logical`. Should the sum of the likelihood contributions be
 #' returned (instead of the mean value)?
 #' @importFrom rlang quo
-mnLogLoss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
+mn_log_loss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
 
     # Capture dots
     dot_vars <- rlang::with_handlers(
@@ -220,15 +220,15 @@ mnLogLoss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
     estimate <- quo(matrix(c(!!! dot_nms), ncol = !!length(dot_nms)))
 
     metric_summarizer(
-      metric_nm = "mnLogLoss",
-      metric_fn = mnLogLoss_vec,
+      metric_nm = "mn_log_loss",
+      metric_fn = mn_log_loss_vec,
       data = data,
       truth = !!enquo(truth),
       estimate = !!estimate,
       na.rm = na.rm,
       # dots are captured for column names in this impl
       #... = ...,
-      # Extra argument for mnLogLoss_impl()
+      # Extra argument for mn_log_loss_impl()
       metric_fn_options = list(sum = sum)
     )
 
@@ -237,10 +237,10 @@ mnLogLoss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
 #' @rdname roc_auc
 #' @importFrom stats model.matrix
 #' @export
-mnLogLoss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
+mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
 
   # estimate here is a matrix of class prob columns
-  mnLogLoss_impl <- function(truth, estimate, na.rm = TRUE, sum = FALSE) {
+  mn_log_loss_impl <- function(truth, estimate, na.rm = TRUE, sum = FALSE) {
 
     lvl <- levels(truth)
 
@@ -257,8 +257,9 @@ mnLogLoss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
     res <- y * estimate
     res[res <= .Machine$double.eps & res > 0] <- .Machine$double.eps
     pos_log <- function(x)
-      -log(x[x != 0])
-    res <- sum(apply(res, 1, pos_log))
+      log(x[x != 0])
+    res <- -sum(unlist(apply(res, 1, pos_log)))
+
     if (!sum)
       res <- res / length(truth)
     res
@@ -266,7 +267,7 @@ mnLogLoss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
   }
 
   metric_vec_template(
-    metric_impl = mnLogLoss_impl,
+    metric_impl = mn_log_loss_impl,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,

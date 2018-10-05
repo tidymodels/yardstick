@@ -82,83 +82,108 @@
     <div class="ref-description">
     
     <p>These functions compute the areas under the receiver operating
-characteristic (ROC) curve (<code>roc_auc</code>), the precision-recall
-curve (<code>pr_auc</code>), or the multinomial log loss (<code>mnLogLoss</code>). The actual ROC
-curve can be created using <code>roc_curve</code>.</p>
+characteristic (ROC) curve (<code>roc_auc()</code>), the precision-recall
+curve (<code>pr_auc()</code>), or the multinomial log loss (<code>mn_log_loss()</code>). The actual ROC
+curve can be created using <code>roc_curve()</code>. The actual PR curve can be created
+using <code>pr_curve()</code>.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>roc_auc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>roc_auc</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>roc_auc</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>roc_auc_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>pr_auc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>pr_auc</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>pr_auc</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>mnLogLoss</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+<span class='fu'>pr_auc_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>mn_log_loss</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>mnLogLoss</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sum</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>mn_log_loss</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>sum</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>mn_log_loss_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sum</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+
+<span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>pr_curve</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>pr_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A data frame with the relevant columns.</p></td>
+      <td><p>A <code>data.frame</code> containing the <code>truth</code> and <code>estimate</code>
+columns.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>A set of unquoted column names or one or more
+      <td><p>For <code>mn_log_loss()</code>, a set of unquoted column names or one or more
 <code>dplyr</code> selector functions to choose which variables contain the
-class probabilities. See the examples below. For <code>roc_auc</code> and
-<code>pr_auc</code>, only one value is required. If more are given, the
-functions will try to match the column name to the appropriate
-factor level of <code>truth</code>. If this doesn't work, an error is
-thrown. For <code>mnLogLoss</code>, there should be as many columns as
+class probabilities. There should be as many columns as
 factor levels of <code>truth</code>. It is <strong>assumed</strong> that they are in the
-same order as the factor levels.</p></td>
+same order as the factor levels. Otherwise, unused.</p></td>
     </tr>
     <tr>
       <th>truth</th>
       <td><p>The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a <code>factor</code>). This should be an unquoted column name although
+this argument is passed by expression and supports
 <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
-names or column positions).</p></td>
+names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
+    </tr>
+    <tr>
+      <th>estimate</th>
+      <td><p>The column identifier for the predicted class probabilities
+(that is a <code>numeric</code>) corresponding to the "positive" result. See Details.
+For <code>_vec()</code> functions, a <code>numeric</code> vector. For <code>mn_log_loss_vec</code>, this should
+be a matrix with as many columns as factor levels in <code>truth</code>.</p></td>
     </tr>
     <tr>
       <th>options</th>
-      <td><p>Options to pass to <code>roc()</code> such as <code>direction</code> or
-<code>smooth</code>. These options should not include <code>response</code>,
+      <td><p>A <code>list</code> of named options to pass to <code>roc()</code>
+such as <code>direction</code> or <code>smooth</code>. These options should not include <code>response</code>,
 <code>predictor</code>, or <code>levels</code>.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>A logical value indicating whether <code>NA</code>
-values should be stripped before the computation proceeds</p></td>
+      <td><p>A <code>logical</code> value indicating whether <code>NA</code>
+values should be stripped before the computation proceeds.</p></td>
     </tr>
     <tr>
       <th>sum</th>
-      <td><p>A logical. Should the sum of the likelihood
-contrinbutions be returned (instead of the mean value)?</p></td>
+      <td><p>A <code>logical</code>. Should the sum of the likelihood contributions be
+returned (instead of the mean value)?</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A number between 0 and 1 (or NA) for <code>roc_auc</code> or
-<code>pr_auc</code>. For <code>mnLogLoss</code> a number or <code>NA</code>. For <code>roc_curve</code>, a tibble with
-columns <code>sensitivity</code> and <code>specificity</code>. In an ordinary (i.e. non-smoothed)
-curve is used, there is also a column for <code>threshold</code>.</p>
+    <p>For <code>_vec()</code> functions, a single <code>numeric</code> value (or <code>NA</code>). Otherwise, a
+<code>tibble</code> with columns <code>.metric</code> and <code>.estimate</code> and 1 row of
+values.</p>
+<p>For grouped data frames, the number of rows returned will be the
+same as the number of groups.</p>
+<p>For <code>roc_curve()</code>, a tibble with columns
+<code>sensitivity</code> and <code>specificity</code>. If an ordinary (i.e. non-smoothed) curve
+is used, there is also a column for <code>threshold</code>.</p>
+<p>For <code>pr_curve()</code>, a tibble with columns <code>recall</code>, <code>precision</code>, and
+<code>threshold</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -169,12 +194,14 @@ change this, a global option called <code>yardstick.event_first</code> is
 set to <code>TRUE</code> when the package is loaded. This can be changed
 to <code>FALSE</code> if the last level of the factor is considered the
 level of interest.</p>
-<p><code>roc_curve</code> computes the sensitivity at every unique
+<p><code>roc_curve()</code> computes the sensitivity at every unique
 value of the probability column (in addition to infinity and
 minus infinity). If a smooth ROC curve was produced, the unique
 observed values of the specificity are used to create the curve
 points. In either case, this may not be efficient for large data
 sets.</p>
+<p><code>pr_curve()</code> computes the precision at every unique value of the
+probability column (in addition to infinity).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -187,24 +214,43 @@ sets.</p>
 <span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
 <span class='no'>prob_cols</span> <span class='kw'>&lt;-</span> <span class='fu'>levels</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>)
 
-<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; [1] 0.9393139</div><div class='input'>
-<span class='co'># a warning is issued here because 2 columns are selected:</span>
-<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.9393139</div><div class='input'>
+<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 roc_auc     0.939</div><div class='input'>
 <span class='fu'>library</span>(<span class='no'>ggplot2</span>)
 <span class='fu'>library</span>(<span class='no'>dplyr</span>)
+
 <span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span> - <span class='no'>specificity</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>sensitivity</span>)) +
   <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_path'>geom_path</a></span>() +
   <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_abline'>geom_abline</a></span>(<span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>3</span>) +
   <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/coord_fixed'>coord_equal</a></span>() +
   <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme'>theme_bw</a></span>()</div><div class='img'><img src='roc_auc-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>pr_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>recall</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>precision</span>)) +
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_path'>geom_path</a></span>() +
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/coord_fixed'>coord_equal</a></span>() +
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme'>theme_bw</a></span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='img'><img src='roc_auc-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># passing options via a list and _not_ `...`</span>
-<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='no'>Class1</span>,
-        <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] 0.9421511</div><div class='input'>
+<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>, <span class='no'>Class1</span>,
+        <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 roc_auc     0.942</div><div class='input'>
 
-<span class='fu'>pr_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple columns were specified for class probabilities; Class1 will be used.</span></div><div class='output co'>#&gt; [1] 0.9425707</div><div class='input'>
-<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://dplyr.tidyverse.org/reference/reexports.html'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; [1] -0.3283096</div><div class='input'><span class='co'># or</span>
-<span class='fu'>mnLogLoss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; [1] -0.3283096</div></pre>
+<span class='fu'>pr_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 pr_auc      0.943</div><div class='input'>
+<span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='fu'><a href='http://dplyr.tidyverse.org/reference/reexports.html'>starts_with</a></span>(<span class='st'>"Class"</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric     .estimate
+#&gt;   &lt;chr&gt;           &lt;dbl&gt;
+#&gt; 1 mn_log_loss    -0.328</div><div class='input'><span class='co'># or</span>
+<span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric     .estimate
+#&gt;   &lt;chr&gt;           &lt;dbl&gt;
+#&gt; 1 mn_log_loss    -0.328</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

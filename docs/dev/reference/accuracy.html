@@ -99,6 +99,8 @@ when one or more classes have large frequency distributions.</p>
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>accuracy</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
+<span class='fu'>accuracy_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
@@ -108,17 +110,18 @@ when one or more classes have large frequency distributions.</p>
 <span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='fu'>kap_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>For the default functions, a factor containing the
-discrete measurements. For the <code>table</code> or <code>matrix</code>
-functions, a table or matrix object, respectively, where the
-true class results should be in the columns of the table.</p></td>
+      <td><p>Either a <code>data.frame</code> containing the <code>truth</code> and <code>estimate</code>
+columns, or a <code>table</code>/<code>matrix</code> where the true class results should be
+in the columns of the table.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -127,28 +130,31 @@ true class results should be in the columns of the table.</p></td>
     <tr>
       <th>truth</th>
       <td><p>The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a <code>factor</code>). This should be an unquoted column name although
+this argument is passed by expression and supports
 <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
-names or column positions).</p></td>
+names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>estimate</th>
       <td><p>The column identifier for the predicted class
-results (that is also factor). As with <code>truth</code> this can be
+results (that is also <code>factor</code>). As with <code>truth</code> this can be
 specified different ways but the primary method is to use an
-unquoted variable name.</p></td>
+unquoted variable name. For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>A logical value indicating whether <code>NA</code>
-values should be stripped before the computation proceeds</p></td>
+      <td><p>A <code>logical</code> value indicating whether <code>NA</code>
+values should be stripped before the computation proceeds.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A numeric value.</p>
+    <p>For <code>_vec()</code> functions, a single <code>numeric</code> value (or <code>NA</code>).
+Otherwise, a <code>tibble</code> with columns <code>.metric</code> and <code>.estimate</code> and 1 row of
+values. For grouped data frames, the number of rows returned will be the
+same as the number of groups.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -179,12 +185,37 @@ scales". <em>Educational and Psychological Measurement</em>. 20 (1): 37–46.</p
 #&gt;         F   11  71  24   7
 #&gt;         M    0   3   5   3
 #&gt;         L    0   1   4  10</div><div class='input'>
-<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'>accuracy</span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; [1] 0.7262248</div><div class='input'>
-<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'>kap</span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; [1] 0.5332257</div><div class='input'>
-<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='metrics.html'>metrics</a></span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
-#&gt;   accuracy kappa
-#&gt;      &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1    0.726 0.533</div></pre>
+<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'>accuracy</span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric  .estimate
+#&gt;   &lt;chr&gt;        &lt;dbl&gt;
+#&gt; 1 accuracy     0.726</div><div class='input'>
+<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'>kap</span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 kap         0.533</div><div class='input'>
+<span class='no'>fold_1</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='metrics.html'>metrics</a></span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;   .metric  .estimate
+#&gt;   &lt;chr&gt;        &lt;dbl&gt;
+#&gt; 1 accuracy     0.726
+#&gt; 2 kap          0.533</div><div class='input'>
+<span class='co'># Groups are respected so you can calculate</span>
+<span class='co'># metrics across multiple resamples at once</span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 3
+#&gt;    Resample .metric  .estimate
+#&gt;    &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt;
+#&gt;  1 Fold01   accuracy     0.726
+#&gt;  2 Fold02   accuracy     0.712
+#&gt;  3 Fold03   accuracy     0.758
+#&gt;  4 Fold04   accuracy     0.712
+#&gt;  5 Fold05   accuracy     0.712
+#&gt;  6 Fold06   accuracy     0.697
+#&gt;  7 Fold07   accuracy     0.675
+#&gt;  8 Fold08   accuracy     0.721
+#&gt;  9 Fold09   accuracy     0.673
+#&gt; 10 Fold10   accuracy     0.699</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

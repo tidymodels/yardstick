@@ -22,7 +22,7 @@
 #' * When `truth` is a factor, there are columns for [accuracy()] and the
 #' Kappa statistic ([kap()]).
 #' * If a full set of class probability columns are passed to `...`, then
-#' there is also a column for [mnLogLoss()].
+#' there is also a column for [mn_log_loss()].
 #' * When `truth` has two levels and there are class probabilities, [roc_auc()]
 #' is appended.
 #' * When `truth` is numeric, there are columns for [rmse()], [rsq()],
@@ -87,7 +87,7 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 
       res <- bind_rows(
         res,
-        mnLogLoss(data, !! vars$truth, !! vars$probs, na.rm = na.rm)
+        mn_log_loss(data, !! vars$truth, !! vars$probs, na.rm = na.rm)
       )
 
       # truth=factor and there are ...

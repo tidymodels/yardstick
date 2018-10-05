@@ -21,6 +21,8 @@ consistent with other metric functions.
 * `roc_auc()`, `pr_auc()`, and `roc_curve()` now have an `estimate` parameter
 in place of using `...` to specify the class probability column.
 
+* For naming consistency, `mnLogLoss` was renamed to `mn_log_loss` and now returns the **negative** log loss for the multinomial distribution. 
+
 ### Features
 
 * Data frame metric functions now work on grouped data frames and produce

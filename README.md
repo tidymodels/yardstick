@@ -63,13 +63,13 @@ can also be used:
 # probability columns:
 lvl <- levels(two_class_example$truth)
 
-two_class_example %>% mnLogLoss(truth, !! lvl)
+two_class_example %>% mn_log_loss(truth, !! lvl)
 ```
 
     ## # A tibble: 1 x 2
     ##   .metric   .estimate
     ##   <chr>         <dbl>
-    ## 1 mnLogLoss    -0.328
+    ## 1 mn_log_loss    -0.328
 
 ## Installation
 

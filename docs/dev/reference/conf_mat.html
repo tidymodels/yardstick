@@ -83,22 +83,21 @@
     
     <p>Calculates a cross-tabulation of observed and predicted
 classes.</p>
-<p>For <code>conf_mat()</code> objects, the <code>tidy</code> method collapses the cell
-counts by cell into a data frame for each manipulation.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>conf_mat</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>conf_mat</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>dnn</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Prediction"</span>,
-  <span class='st'>"Truth"</span>), <span class='no'>...</span>)
+<span class='fu'>conf_mat</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>,
+  <span class='kw'>dnn</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Prediction"</span>, <span class='st'>"Truth"</span>), <span class='no'>...</span>)
+
+<span class='co'># S3 method for grouped_df</span>
+<span class='fu'>conf_mat</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>,
+  <span class='kw'>dnn</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Prediction"</span>, <span class='st'>"Truth"</span>), <span class='no'>...</span>)
 
 <span class='co'># S3 method for table</span>
-<span class='fu'>conf_mat</span>(<span class='no'>data</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for conf_mat</span>
-<span class='fu'>tidy</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>conf_mat</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -116,25 +115,21 @@ method.</p></td>
     <tr>
       <th>truth</th>
       <td><p>The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a <code>factor</code>). This should be an unquoted column name although
+this argument is passed by expression and supports
 <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
-names or column positions).</p></td>
+names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>estimate</th>
       <td><p>The column identifier for the predicted class
-results (that is also factor). As with <code>truth</code> this can be
+results (that is also <code>factor</code>). As with <code>truth</code> this can be
 specified different ways but the primary method is to use an
-unquoted variable name.</p></td>
+unquoted variable name. For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
       <th>dnn</th>
       <td><p>a character vector of dimnames for the table</p></td>
-    </tr>
-    <tr>
-      <th>x</th>
-      <td><p>A object of class <code>conf_mat()</code>.</p></td>
     </tr>
     </table>
     
@@ -147,12 +142,16 @@ generates a tibble with columns <code>name</code> (the cell identifier) and
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function requires that the factors have exactly the same
+    <p>For <code>conf_mat()</code> objects, a <code><a href='http://www.rdocumentation.org/packages/broom/topics/tidy'>broom::tidy()</a></code> method has been created
+that collapses the cell counts by cell into a data frame for
+easy manipulation.</p>
+<p>The function requires that the factors have exactly the same
 levels.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>dplyr</span>)
+<span class='fu'>library</span>(<span class='no'>broom</span>)
 <span class='fu'>data</span>(<span class='st'>"hpc_cv"</span>)
 
 <span class='co'># The confusion matrix from a single assessment set (i.e. fold)</span>
@@ -169,7 +168,7 @@ levels.</p>
 <span class='co'># First get the raw cell counts per fold using the `tidy` method</span>
 <span class='no'>cells_per_resample</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/do.html'>do</a></span>(<span class='fu'>tidy</span>(<span class='fu'>conf_mat</span>(<span class='no'>.</span>, <span class='no'>obs</span>, <span class='no'>pred</span>)))
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/do.html'>do</a></span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/broom/topics/tidy'>tidy</a></span>(<span class='fu'>conf_mat</span>(<span class='no'>.</span>, <span class='no'>obs</span>, <span class='no'>pred</span>)))
 
 <span class='co'># Get the totals per resample</span>
 <span class='no'>counts_per_resample</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>

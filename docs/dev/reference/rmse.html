@@ -82,16 +82,16 @@
     <div class="ref-description">
     
     <p>These functions are appropriate for cases where the model
-outcome is a number. The root mean squared error (<code>rmse</code>) and
-mean absolute error (<code>mae</code>) are error measures that are in the
+outcome is a number. The root mean squared error (<code>rmse()</code>) and
+mean absolute error (<code>mae()</code>) are error measures that are in the
 same units as the original data. The two estimates for the
-coefficient of determination, <code>rsq</code> and <code>rsq_trad</code>, differ by
+coefficient of determination, <code>rsq()</code> and <code>rsq_trad()</code>, differ by
 their formula. The former guarantees a value on (0, 1) while the
 latter can generate inaccurate values when the model is
 non-informative (see the examples). Both are measures of
 consistency/correlation and not of accuracy. The concordance
-correlation coefficient (<code>ccc</code>) is a measure of both. The mean absolute
-percent error (<code>mape</code>) is in relative units.</p>
+correlation coefficient (<code>ccc()</code>) is a measure of both. The mean absolute
+percent error (<code>mape()</code>) is in relative units.</p>
     
     </div>
 
@@ -100,38 +100,51 @@ percent error (<code>mape</code>) is in relative units.</p>
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>rmse</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
+<span class='fu'>rmse_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>rsq</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>rsq</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>rsq_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>rsq_trad</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>rsq_trad</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
+<span class='fu'>rsq_trad_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>mae</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>mae</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>mae_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>mape</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>mape</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
+<span class='fu'>mape_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
 <span class='fu'>ccc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>ccc</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>bias</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>)</pre>
+<span class='fu'>ccc</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>bias</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>ccc_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>bias</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A data frame</p></td>
+      <td><p>A <code>data.frame</code> containing the <code>truth</code> and <code>estimate</code>
+columns.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -140,26 +153,26 @@ percent error (<code>mape</code>) is in relative units.</p>
     <tr>
       <th>truth</th>
       <td><p>The column identifier for the true results
-(that is numeric). This should an unquoted column name although
-this argument is passed by expression and support
+(that is <code>numeric</code>). This should be an unquoted column name although
+this argument is passed by expression and supports
 <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
-names or column positions).</p></td>
+names). For <code>_vec()</code> functions, a <code>numeric</code> vector.</p></td>
     </tr>
     <tr>
       <th>estimate</th>
       <td><p>The column identifier for the predicted
-results (that is also numeric). As with <code>truth</code> this can be
+results (that is also <code>numeric</code>). As with <code>truth</code> this can be
 specified different ways but the primary method is to use an
-unquoted variable name.</p></td>
+unquoted variable name. For <code>_vec()</code> functions, a <code>numeric</code> vector.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
-      <td><p>A logical value indicating whether <code>NA</code>
+      <td><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></td>
     </tr>
     <tr>
       <th>bias</th>
-      <td><p>A logical; should the biased estimate of variance
+      <td><p>A <code>logical</code>; should the biased estimate of variance
 be used for the concordance correlation coefficient (as is
 Lin (1989))?</p></td>
     </tr>
@@ -167,12 +180,15 @@ Lin (1989))?</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A number or <code>NA</code></p>
+    <p>For <code>_vec()</code> functions, a single <code>numeric</code> value (or <code>NA</code>).
+Otherwise, a <code>tibble</code> with columns <code>.metric</code> and <code>.estimate</code> and 1 row of
+values. For grouped data frames, the number of rows returned will be the
+same as the number of groups.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that a value if <code>Inf</code> is returned for <code>mape</code> when the observed
-value is negative.</p>
+    <p>Note that a value of <code>Inf</code> is returned for <code>mape()</code> when the
+observed value is negative.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -181,19 +197,37 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 <p>Lin, L. (1989). A concordance correlation
 coefficient to evaluate reproducibility. <em>Biometrics</em>, 45 (1),
 255–268.</p>
-<p>Nickerson, C. (1997). A note on" A concordance correlation
+<p>Nickerson, C. (1997). A note on "A concordance correlation
 coefficient to evaluate reproducibility". <em>Biometrics</em>, 53(4),
 1503-1507.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>rmse</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; [1] 0.7221107</div><div class='input'><span class='fu'>mae</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; [1] 0.5450709</div><div class='input'>
-<span class='fu'>rsq</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; [1] 0.8794357</div><div class='input'>
+<span class='fu'>rmse</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 rmse        0.722</div><div class='input'><span class='fu'>mae</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 mae         0.545</div><div class='input'>
+<span class='fu'>rsq</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 rsq         0.879</div><div class='input'>
 <span class='fu'>set.seed</span>(<span class='fl'>2291</span>)
 <span class='no'>solubility_test</span>$<span class='no'>randomized</span> <span class='kw'>&lt;-</span> <span class='fu'>sample</span>(<span class='no'>solubility_test</span>$<span class='no'>prediction</span>)
-<span class='fu'>rsq</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; [1] 0.0002464279</div><div class='input'><span class='fu'>rsq_trad</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; [1] -0.9509402</div><div class='input'>
-<span class='fu'>ccc</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; [1] 0.9339958</div><div class='input'>
+<span class='fu'>rsq</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 rsq      0.000246</div><div class='input'><span class='fu'>rsq_trad</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric  .estimate
+#&gt;   &lt;chr&gt;        &lt;dbl&gt;
+#&gt; 1 rsq_trad    -0.951</div><div class='input'>
+<span class='fu'>ccc</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   .metric .estimate
+#&gt;   &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1 ccc         0.934</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

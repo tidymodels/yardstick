@@ -14,7 +14,7 @@ metrics(data, ...)
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
 columns and any columns specified by \code{...}.}
 
-\item{...}{For \code{mnLogLoss()}, a set of unquoted column names or one or more
+\item{...}{For \code{mn_log_loss()}, a set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
 class probabilities. There should be as many columns as
 factor levels of \code{truth}. It is \strong{assumed} that they are in the
@@ -44,7 +44,7 @@ A two column tibble.
 \item When \code{truth} is a factor, there are columns for \code{\link[=accuracy]{accuracy()}} and the
 Kappa statistic (\code{\link[=kap]{kap()}}).
 \item If a full set of class probability columns are passed to \code{...}, then
-there is also a column for \code{\link[=mnLogLoss]{mnLogLoss()}}.
+there is also a column for \code{\link[=mn_log_loss]{mn_log_loss()}}.
 \item When \code{truth} has two levels and there are class probabilities, \code{\link[=roc_auc]{roc_auc()}}
 is appended.
 \item When \code{truth} is numeric, there are columns for \code{\link[=rmse]{rmse()}}, \code{\link[=rsq]{rsq()}},
