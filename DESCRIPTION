@@ -21,7 +21,9 @@ Suggests:
     covr,
     purrr,
     tidyr,
-    ggplot2
+    ggplot2,
+    knitr,
+    rmarkdown
 Imports:
     dplyr,
     tibble,
@@ -35,3 +37,4 @@ LinkingTo:
     Rcpp
 Remotes:
     r-lib/generics
+VignetteBuilder: knitr

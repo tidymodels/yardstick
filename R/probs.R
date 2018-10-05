@@ -126,7 +126,7 @@ roc_auc.data.frame  <- function(data, truth, estimate, options = list(), averagi
 #' @importFrom pROC roc auc
 roc_auc_vec <- function(truth, estimate, options = list(), averaging = "binary", na.rm = TRUE, ...) {
 
-  roc_auc_impl <- function(truth, estimate, ...) {
+  roc_auc_impl <- function(truth, estimate) {
 
     truth <- add_class(truth, averaging)
     roc_auc_averaging_impl(truth, estimate, options)
@@ -137,7 +137,6 @@ roc_auc_vec <- function(truth, estimate, options = list(), averaging = "binary",
     metric_impl = roc_auc_impl,
     truth = truth,
     estimate = estimate,
-    averaging = averaging,
     na.rm = na.rm,
     cls = list("factor", c("numeric", "matrix")),
     ...

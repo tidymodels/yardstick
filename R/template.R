@@ -36,7 +36,7 @@ handle_chr_names <- function(x) {
 }
 
 #' @importFrom stats complete.cases
-metric_vec_template <- function(metric_impl, truth, estimate, averaging = "binary",
+metric_vec_template <- function(metric_impl, truth, estimate,
                                 na.rm = TRUE, cls = "numeric", ...) {
 
   validate_truth_estimate_checks(truth, estimate, cls)
@@ -64,7 +64,7 @@ metric_vec_template <- function(metric_impl, truth, estimate, averaging = "binar
 
   }
 
-  metric_impl(truth, estimate, averaging, ...)
+  metric_impl(truth, estimate, ...)
 }
 
 metric_tibbler <- function(.metric, .estimate) {

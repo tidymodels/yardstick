@@ -149,5 +149,11 @@ construct_name <- function(nm, averaging) {
   }
 }
 
+is_binary <- function(x) {
+  x == "binary"
+}
 
+is_micro <- function(x) {
+  x == "micro"
+}
 
