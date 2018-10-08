@@ -58,7 +58,6 @@ levels.
 }
 \examples{
 library(dplyr)
-library(broom)
 data("hpc_cv")
 
 # The confusion matrix from a single assessment set (i.e. fold)

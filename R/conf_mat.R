@@ -23,7 +23,6 @@
 #'  `value` (the cell count).
 #' @examples
 #' library(dplyr)
-#' library(broom)
 #' data("hpc_cv")
 #'
 #' # The confusion matrix from a single assessment set (i.e. fold)
@@ -144,6 +143,7 @@ print.conf_mat <- function(x, ...)
 
 # yardstick no longer depends on broom
 # this method is registered in .onLoad()
+#' @export
 tidy.conf_mat <- function(x, ...) {
   y <- flatten(x$table)
   tibble::tibble(

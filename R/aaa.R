@@ -14,12 +14,6 @@ NULL
   toset <- !(names(op.yardstick) %in% names(op))
   if (any(toset)) options(op.yardstick[toset])
 
-  # Dynamic registration of tidy.conf_mat() so we don't need to
-  # import broom
-  if (requireNamespace("broom", quietly = TRUE)) {
-    register_s3_method("broom", "tidy", "conf_mat")
-  }
-
   invisible()
 }
 
