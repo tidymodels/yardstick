@@ -43,11 +43,21 @@ metric_vec_template <- function(metric_impl, truth, estimate,
     complete_cases <- complete.cases(truth, estimate)
     truth <- truth[complete_cases]
 
-    if(NCOL(estimate) == 1) {
+    if (NCOL(estimate) == 1) {
       estimate <- estimate[complete_cases]
-    } else {
+    }
+    else {
       # estimate can be a matrix
       estimate <- estimate[complete_cases, , drop = FALSE]
+    }
+
+  }
+  # na.rm = FALSE
+  # return NA if any NA
+  else {
+
+    if (anyNA(truth) || anyNA(estimate)) {
+      return(NA_real_)
     }
 
   }
