@@ -79,6 +79,10 @@ test_that('sensitivity', {
     sens(as.matrix(path_tbl))[[".estimate"]],
     231/258
   )
+  expect_equal(
+    sens(pathology, pathology, scan_na, na.rm = FALSE)[[".estimate"]],
+    NA_real_
+  )
 })
 
 
@@ -361,22 +365,22 @@ test_that('Log Loss', {
     mn_log_loss(ll_dat, truth = "obs", A, B, C, sum = TRUE)[[".estimate"]],
     -(log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4))
   )
-  
+
   # issue #29
-  x <- 
+  x <-
     structure(
       list(
         No = c(0.860384856004899, 1, 1),
         Yes = c(0.139615143995101, 0, 0),
         prob = c(0.139615143995101, 0, 0),
         estimate = structure(
-          c(1L, 1L, 1L), 
-          .Label = c("No", "Yes"), 
+          c(1L, 1L, 1L),
+          .Label = c("No", "Yes"),
           class = "factor"
         ),
         truth = structure(
-          c(2L, 1L, 2L), 
-          .Label = c("No", "Yes"), 
+          c(2L, 1L, 2L),
+          .Label = c("No", "Yes"),
           class = "factor"
         ),
         truth_num = c(1, 0, 1)
@@ -385,16 +389,16 @@ test_that('Log Loss', {
       class = c("tbl_df", "tbl", "data.frame")
     )
   expect_equal(
-    mn_log_loss(x[1:2,], truth = truth, No, Yes)[[".estimate"]], 
+    mn_log_loss(x[1:2,], truth = truth, No, Yes)[[".estimate"]],
     0.9844328,
     tol = .0001
   )
   expect_equal(
-    mn_log_loss(x, truth = truth, No, Yes)[[".estimate"]], 
+    mn_log_loss(x, truth = truth, No, Yes)[[".estimate"]],
     0.6562885,
     tol = .0001
   )
-  
+
 })
 
 x <- c(1, 1.2, 1.6, 2)
