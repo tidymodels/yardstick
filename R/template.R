@@ -1,7 +1,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr summarise
 metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
-                              averaging = NULL, na.rm = TRUE, ...,
+                              averaging = NA, na.rm = TRUE, ...,
                               metric_fn_options = list()) {
 
   # Explicit handling of length 1 character vectors as column names
@@ -113,8 +113,10 @@ validate_truth_estimate_checks <- function(truth, estimate, cls = "numeric") {
 # if averaging = NULL, we don't want to pass it along
 # as an argument. splicing in an empty list essentially is equivalent
 # to splicing in nothing
+# averaging = NA -> not applicable for this metric
+# averaging = NULL -> should be chosen automatically for this metric
 spliceable_averaging <- function(averaging) {
-  if (is.null(averaging)) {
+  if (is.na(averaging)) {
     return(list())
   }
   else {
