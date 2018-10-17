@@ -21,9 +21,10 @@
 roc_auc(data, ...)
 
 \method{roc_auc}{data.frame}(data, truth, estimate, options = list(),
-  na.rm = TRUE, ...)
+  averaging = "binary", na.rm = TRUE, ...)
 
-roc_auc_vec(truth, estimate, options = list(), na.rm = TRUE, ...)
+roc_auc_vec(truth, estimate, options = list(), averaging = "binary",
+  na.rm = TRUE, ...)
 
 pr_auc(data, ...)
 

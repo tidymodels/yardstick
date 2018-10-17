@@ -29,32 +29,36 @@
 \usage{
 sens(data, ...)
 
-\method{sens}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{sens}{data.frame}(data, truth, estimate, averaging = "binary",
+  na.rm = TRUE, ...)
 
-\method{sens}{table}(data, ...)
+\method{sens}{table}(data, averaging = "binary", ...)
 
-\method{sens}{matrix}(data, ...)
+\method{sens}{matrix}(data, averaging = "binary", ...)
 
-sens_vec(truth, estimate, na.rm = TRUE, ...)
+sens_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
 
-\method{spec}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{spec}{data.frame}(data, truth, estimate, averaging = "binary",
+  na.rm = TRUE, ...)
 
-\method{spec}{table}(data, ...)
+\method{spec}{table}(data, averaging = "binary", ...)
 
-\method{spec}{matrix}(data, ...)
+\method{spec}{matrix}(data, averaging = "binary", ...)
 
-spec_vec(truth, estimate, na.rm = TRUE, ...)
+spec_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
 
 ppv(data, ...)
 
 \method{ppv}{data.frame}(data, truth, estimate, prevalence = NULL,
+  averaging = "binary", na.rm = TRUE, ...)
+
+\method{ppv}{table}(data, prevalence = NULL, averaging = "binary", ...)
+
+\method{ppv}{matrix}(data, prevalence = NULL, averaging = "binary",
+  ...)
+
+ppv_vec(truth, estimate, prevalence = NULL, averaging = "binary",
   na.rm = TRUE, ...)
-
-\method{ppv}{table}(data, prevalence = NULL, ...)
-
-\method{ppv}{matrix}(data, prevalence = NULL, ...)
-
-ppv_vec(truth, estimate, prevalence = NULL, na.rm = TRUE, ...)
 
 npv(data, ...)
 

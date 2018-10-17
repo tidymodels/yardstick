@@ -21,28 +21,31 @@
 \usage{
 recall(data, ...)
 
-\method{recall}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{recall}{data.frame}(data, truth, estimate, averaging = "binary",
+  na.rm = TRUE, ...)
 
-\method{recall}{table}(data, ...)
+\method{recall}{table}(data, averaging = "binary", ...)
 
-recall_vec(truth, estimate, na.rm = TRUE, ...)
+recall_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
 
 precision(data, ...)
 
-\method{precision}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{precision}{data.frame}(data, truth, estimate,
+  averaging = "binary", na.rm = TRUE, ...)
 
-\method{precision}{table}(data, ...)
+\method{precision}{table}(data, averaging = "binary", ...)
 
-precision_vec(truth, estimate, na.rm = TRUE, ...)
+precision_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
 
 f_meas(data, ...)
 
 \method{f_meas}{data.frame}(data, truth, estimate, beta = 1,
+  averaging = "binary", na.rm = TRUE, ...)
+
+\method{f_meas}{table}(data, beta = 1, averaging = "binary", ...)
+
+f_meas_vec(truth, estimate, beta = 1, averaging = "binary",
   na.rm = TRUE, ...)
-
-\method{f_meas}{table}(data, beta = 1, ...)
-
-f_meas_vec(truth, estimate, beta = 1, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}

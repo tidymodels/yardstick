@@ -25,45 +25,49 @@
 \usage{
 mcc(data, ...)
 
-\method{mcc}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{mcc}{data.frame}(data, truth, estimate, averaging = "binary",
+  na.rm = TRUE, ...)
 
-\method{mcc}{table}(data, ...)
+\method{mcc}{table}(data, averaging = "binary", ...)
 
-\method{mcc}{matrix}(data, ...)
+\method{mcc}{matrix}(data, averaging = "binary", ...)
 
-mcc_vec(truth, estimate, na.rm = TRUE, ...)
+mcc_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
 
 j_index(data, ...)
 
-\method{j_index}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{j_index}{data.frame}(data, truth, estimate, averaging = "binary",
+  na.rm = TRUE, ...)
 
-\method{j_index}{table}(data, ...)
+\method{j_index}{table}(data, averaging = "binary", ...)
 
-\method{j_index}{matrix}(data, ...)
+\method{j_index}{matrix}(data, averaging = "binary", ...)
 
-j_index_vec(truth, estimate, na.rm = TRUE, ...)
+j_index_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
 
 bal_accuracy(data, ...)
 
-\method{bal_accuracy}{data.frame}(data, truth, estimate, na.rm = TRUE,
+\method{bal_accuracy}{data.frame}(data, truth, estimate,
+  averaging = "binary", na.rm = TRUE, ...)
+
+\method{bal_accuracy}{table}(data, averaging = "binary", ...)
+
+\method{bal_accuracy}{matrix}(data, averaging = "binary", ...)
+
+bal_accuracy_vec(truth, estimate, averaging = "binary", na.rm = TRUE,
   ...)
-
-\method{bal_accuracy}{table}(data, ...)
-
-\method{bal_accuracy}{matrix}(data, ...)
-
-bal_accuracy_vec(truth, estimate, na.rm = TRUE, ...)
 
 detection_prevalence(data, ...)
 
 \method{detection_prevalence}{data.frame}(data, truth, estimate,
+  averaging = "binary", na.rm = TRUE, ...)
+
+\method{detection_prevalence}{table}(data, averaging = "binary", ...)
+
+\method{detection_prevalence}{matrix}(data, averaging = "binary", ...)
+
+detection_prevalence_vec(truth, estimate, averaging = "binary",
   na.rm = TRUE, ...)
-
-\method{detection_prevalence}{table}(data, ...)
-
-\method{detection_prevalence}{matrix}(data, ...)
-
-detection_prevalence_vec(truth, estimate, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
