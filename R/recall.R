@@ -253,7 +253,7 @@ precision_binary <- function(data) {
   relevant <- pos_val(data)
   numer <- data[relevant, relevant]
   denom <- sum(data[relevant, ])
-  precision <- ifelse(denom > 0, numer / denom, NA)
+  precision <- ifelse(denom > 0, numer / denom, NA_real_)
   precision
 
 }

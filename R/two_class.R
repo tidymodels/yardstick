@@ -270,11 +270,11 @@ j_index_table_impl <- function(data, averaging) {
 
 j_index_binary <- function(data) {
   # sens + spec - 1
-  recall_binary(data) + precision_binary(data) - 1
+  recall_binary(data) + spec_binary(data) - 1
 }
 
 j_index_multiclass <- function(data, averaging) {
-  recall_multiclass(data, averaging) + precision_multiclass(data, averaging) - 1
+  recall_multiclass(data, averaging) + spec_multiclass(data, averaging) - 1
 }
 
 #' @export
@@ -366,13 +366,13 @@ bal_accuracy_table_impl <- function(data, averaging) {
 bal_accuracy_binary <- function(data) {
 
   # (sens + spec) / 2
-  ( recall_binary(data) + precision_binary(data) ) / 2
+  ( recall_binary(data) + spec_binary(data) ) / 2
 
 }
 
 # Urbanowicz 2015 ExSTraCS 2.0 description and evaluation of a scalable learning.pdf
 bal_accuracy_multiclass <- function(data, averaging) {
-  ( recall_multiclass(data, averaging) + precision_multiclass(data, averaging) ) / 2
+  ( recall_multiclass(data, averaging) + spec_multiclass(data, averaging) ) / 2
 }
 
 #' @export

@@ -250,8 +250,54 @@ spec_vec <- function(truth, estimate, averaging = "binary", na.rm = TRUE, ...) {
 
 }
 
-# spec = precision
-spec_table_impl <- precision_table_impl
+spec_table_impl <- function(data, averaging) {
+
+  if(is_binary(averaging)) {
+    spec_binary(data)
+  } else {
+    w <- get_weights(data, averaging)
+    out_vec <- spec_multiclass(data, averaging)
+    weighted.mean(out_vec, w)
+  }
+
+}
+
+spec_binary <- function(data) {
+
+  negative <- neg_val(data)
+
+  numer <- sum(data[negative, negative])
+  denom <- sum(data[, negative])
+  spec <- ifelse(denom > 0, numer / denom, NA_real_)
+  spec
+
+}
+
+spec_multiclass <- function(data, averaging) {
+
+  n <- sum(data)
+
+  tp   <- diag(data)
+  tpfp <- rowSums(data)
+  tpfn <- colSums(data)
+  tn   <- n - (tpfp + tpfn - tp)
+  fp   <- tpfp - tp
+
+  numer <- tn
+  denom <- tn + fp
+
+  if(any(denom <= 0)) {
+    res <- rep(NA_real_, times = nrow(data))
+    return(res)
+  }
+
+  if(is_micro(averaging)) {
+    numer <- sum(numer)
+    denom <- sum(denom)
+  }
+
+  numer / denom
+}
 
 
 #' @rdname sens
@@ -358,26 +404,6 @@ ppv_table_impl.binary <- function(data, prevalence = NULL) {
   spec <- spec_table_impl(data)
   (sens * prevalence) / ((sens * prevalence) + ((1 - spec) * (1 - prevalence)))
 
-}
-
-ppv_table_impl.macro <- function(data, prevalence = NULL) {
-
-  .diag <- diag(data)
-  .col_sums <- colSums(data)
-  .row_sums <- rowSums(data)
-  .n <- nrow(data)
-
-  if(is.null(prevalence)) {
-    prevalence <- .col_sums / sum(.col_sums)
-  }
-
-  .sens_vec <- .diag / .col_sums
-  .spec_vec <- .diag / .row_sums
-
-  numer <- .sens_vec * prevalence
-  denom <- .sens_vec * prevalence + (1 - .spec_vec) * (1 - prevalence)
-
-  sum(numer / denom) / .n
 }
 
 ppv_table_impl.macro <- function(data, prevalence = NULL) {
