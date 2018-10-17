@@ -11,7 +11,7 @@
 \alias{kap.table}
 \alias{kap.matrix}
 \alias{kap_vec}
-\title{Classification Metrics on Predited Classes}
+\title{Classification Metrics on Predicted Classes}
 \usage{
 accuracy(data, ...)
 
@@ -66,6 +66,13 @@ predicted correctly. Kappa is a similar measure but is normalized by
 the accuracy that would be expected by chance alone and is very useful
 when one or more classes have large frequency distributions.
 }
+\section{Multiclass}{
+
+
+Accuracy and Kappa both extend naturally to multiclass scenarios. Because
+of this, macro and micro averaging are not implemented for either of these.
+}
+
 \examples{
 library(dplyr)
 data("hpc_cv")
@@ -77,6 +84,7 @@ fold_1 <- hpc_cv \%>\%
 
 fold_1 \%>\% conf_mat(truth = obs, estimate = pred)
 
+# Calculate multiclass accuracy
 fold_1 \%>\% accuracy(truth = obs, estimate = pred)
 
 fold_1 \%>\% kap(truth = obs, estimate = pred)
