@@ -1,10 +1,10 @@
 ---
-title: "Metric implementation"
+title: "Multiclass averaging"
 author: "Davis Vaughan"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Metric implementation}
+  %\VignetteIndexEntry{Multiclass averaging}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 Classification metrics in `yardstick` where both the `truth` and `estimate` 
 columns are factors are implemented for the binary and the
-multiclass case. The multiclass implemenations use `micro`, `macro`,
+multiclass case. The multiclass implementations use `micro`, `macro`,
 and `macro_weighted` averaging. 
 
 ## Macro averaging
@@ -52,8 +52,8 @@ down to just `class 1` and `other`.
 
 Note that in macro averaging, all classes get equal weight when contributing
 their portion of the precision value to the total (here `1/4`). This might not
-be a realistic calculation when you have a large amount of class imbalance, 
-and there a weighted macro average might make more sense, where the weights
+be a realistic calculation when you have a large amount of class imbalance. In
+that case, a weighted macro average might make more sense, where the weights
 are calculated by the frequency of that class in the `truth` column.
 
 $$
@@ -67,7 +67,7 @@ calculates 1 metric rather than `k` metrics that get averaged together.
 
 For precision, this works by calculating all of the true positive results for
 each class and using that as the numerator, and then calculating all of the
-true positive and false positive results for each class, and then uses that
+true positive and false positive results for each class, and using that
 as the denominator.
 
 $$
