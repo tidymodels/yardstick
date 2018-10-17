@@ -140,6 +140,7 @@ kap.data.frame  <- function(data, truth, estimate,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na.rm = na.rm
+    # do not pass dots through (could allow averaging to be set. unwanted!)
   )
 
 }
