@@ -14,7 +14,7 @@ metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
     .estimate = metric_fn(
       truth = !! truth,
       estimate = !! estimate,
-      averaging = averaging,
+      !!! spliceable_averaging(averaging),
       na.rm = na.rm,
       !!! metric_fn_options
     )
@@ -108,4 +108,16 @@ validate_truth_estimate_checks <- function(truth, estimate, cls = "numeric") {
   validate_truth_estimate_lengths(truth, estimate)
   validate_class(truth, "truth", truth_cls)
   validate_class(estimate, "estimate", estimate_cls)
+}
+
+# if averaging = NULL, we don't want to pass it along
+# as an argument. splicing in an empty list essentially is equivalent
+# to splicing in nothing
+spliceable_averaging <- function(averaging) {
+  if (is.null(averaging)) {
+    return(list())
+  }
+  else {
+    return(list(averaging = averaging))
+  }
 }
