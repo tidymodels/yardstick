@@ -141,8 +141,11 @@ add_class <- function(data, cls) {
   data
 }
 
-construct_name <- function(nm, averaging) {
-  if(averaging == "binary") {
+construct_name <- function(nm, averaging, estimate) {
+
+  averaging <- finalize_averaging(estimate, averaging)
+
+  if(averaging == "binary" | is.na(averaging)) {
     nm
   } else {
     paste0(nm, "_", averaging)
@@ -157,3 +160,48 @@ is_micro <- function(x) {
   x == "micro"
 }
 
+finalize_averaging <- function(x, averaging) {
+  if (!is.null(averaging)) return(averaging)
+  UseMethod("finalize_averaging")
+}
+
+finalize_averaging.default <- function(x, averaging) {
+  "binary"
+}
+
+finalize_averaging.matrix <- function(x, averaging) {
+  "macro"
+}
+
+finalize_averaging.numeric <- function(x, averaging) {
+  "binary"
+}
+
+finalize_averaging.table <- function(x, averaging) {
+  n_col <- ncol(x)
+
+  # binary
+  if (n_col == 2) {
+    return("binary")
+  }
+
+  # multiclass
+  if (n_col > 2) {
+    return("macro")
+  }
+}
+
+finalize_averaging.factor <- function(x, averaging) {
+  lvls <- levels(x)
+
+  # binary
+  if (length(lvls) == 2) {
+    return("binary")
+  }
+
+  # multiclass
+  if (length(lvls) > 2) {
+    return("macro")
+  }
+
+}

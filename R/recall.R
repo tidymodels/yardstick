@@ -3,7 +3,7 @@
 #' These functions calculate the recall, precision or F values of
 #'  a measurement system for finding/retrieving relevant documents
 #'  compared to reference results (the truth regarding relevance).
-#'  The measurement and "truth" data must have the same two possible
+#'  The measurement and "truth" data must have the same possible
 #'  outcomes and one of the outcomes must be thought of as
 #'  "relevant" results.
 #'
@@ -44,14 +44,18 @@
 #'  ([summary.conf_mat()]) to get the values at once.
 #'
 #' @inheritParams sens
-#' @aliases recall recall.default recall.table precision
-#'  precision.default precision.table precision.matrix f_meas
-#'  f_meas.default f_meas.table
+#'
 #' @param beta A numeric value used to weight precision and
 #'  recall. A value of 1 is traditionally used and corresponds to
 #'  the harmonic mean of the two values but other values weight
 #'  recall beta times more important than precision.
+#'
+#' @aliases recall recall.default recall.table precision
+#'  precision.default precision.table precision.matrix f_meas
+#'  f_meas.default f_meas.table
+#'
 #' @seealso [conf_mat()], [summary.conf_mat()], [sens()], [mcc()]
+#'
 #' @references Buckland, M., & Gey, F. (1994). The relationship
 #'  between Recall and Precision. *Journal of the American Society
 #'  for Information Science*, 45(1), 12-19.
@@ -59,6 +63,14 @@
 #' Powers, D. (2007). Evaluation: From Precision, Recall and F
 #'  Factor to ROC, Informedness, Markedness and Correlation.
 #'  Technical Report SIE-07-001, Flinders University
+#'
+#' @section Multiclass:
+#'
+#' Macro, micro, and macro-weighted averaging is available for these metrics.
+#' Macro averaging is automatically selected for you if you pass in an `estimate`
+#' factor with more than 2 levels. See `vignette("averaging", "yardstick")` for
+#' more information.
+#'
 #' @keywords manip
 #' @examples
 #' data("two_class_example")
@@ -77,10 +89,11 @@ recall <- function(data, ...) {
 
 #' @rdname recall
 #' @export
-recall.data.frame <- function(data, truth, estimate, averaging = "binary", na.rm = TRUE, ...) {
+recall.data.frame <- function(data, truth, estimate,
+                              averaging = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
-    metric_nm = construct_name("recall", averaging),
+    metric_nm = "recall",
     metric_fn = recall_vec,
     data = data,
     truth = !!enquo(truth),
@@ -94,12 +107,12 @@ recall.data.frame <- function(data, truth, estimate, averaging = "binary", na.rm
 
 #' @rdname recall
 #' @export
-recall.table <- function(data, averaging = "binary", ...) {
+recall.table <- function(data, averaging = NULL, ...) {
 
   check_table(data)
 
   metric_tibbler(
-    .metric = construct_name("recall", averaging),
+    .metric = construct_name("recall", averaging, data),
     .estimate = recall_table_impl(data, averaging)
   )
 
@@ -107,16 +120,16 @@ recall.table <- function(data, averaging = "binary", ...) {
 
 #' @export
 #' @rdname recall
-recall_vec <- function(truth, estimate, averaging = "binary", na.rm = TRUE, ...) {
+recall_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
 
   recall_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
       truth = truth,
       estimate = estimate,
-      na.rm = FALSE,
-      ...
+      na.rm = FALSE
     )
+
     recall_table_impl(xtab, averaging)
 
   }
@@ -133,6 +146,8 @@ recall_vec <- function(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
 }
 
 recall_table_impl <- function(data, averaging) {
+
+  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     recall_binary(data)
@@ -181,11 +196,12 @@ precision <- function(data, ...) {
 
 #' @rdname recall
 #' @export
-precision.data.frame <- function(data, truth, estimate, averaging = "binary",
+precision.data.frame <- function(data, truth, estimate,
+                                 averaging = NULL,
                                  na.rm = TRUE, ...) {
 
   metric_summarizer(
-    metric_nm = construct_name("precision", averaging),
+    metric_nm = "precision",
     metric_fn = precision_vec,
     data = data,
     truth = !!enquo(truth),
@@ -199,12 +215,12 @@ precision.data.frame <- function(data, truth, estimate, averaging = "binary",
 
 #' @rdname recall
 #' @export
-precision.table <- function (data, averaging = "binary", ...) {
+precision.table <- function (data, averaging = NULL, ...) {
 
   check_table(data)
 
   metric_tibbler(
-    .metric = construct_name("precision", averaging),
+    .metric = construct_name("precision", averaging, data),
     .estimate = precision_table_impl(data, averaging)
   )
 
@@ -212,7 +228,8 @@ precision.table <- function (data, averaging = "binary", ...) {
 
 #' @export
 #' @rdname recall
-precision_vec <- function(truth, estimate, averaging = "binary", na.rm = TRUE, ...) {
+precision_vec <- function(truth, estimate,
+                          averaging = NULL, na.rm = TRUE, ...) {
 
   precision_impl <- function(truth, estimate) {
 
@@ -237,6 +254,8 @@ precision_vec <- function(truth, estimate, averaging = "binary", na.rm = TRUE, .
 }
 
 precision_table_impl <- function(data, averaging) {
+
+  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     precision_binary(data)
@@ -286,10 +305,10 @@ f_meas <- function(data, ...) {
 #' @rdname recall
 #' @export
 f_meas.data.frame <- function(data, truth, estimate, beta = 1,
-                              averaging = "binary", na.rm = TRUE, ...) {
+                              averaging = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
-    metric_nm = construct_name("f_meas", averaging),
+    metric_nm = "f_meas",
     metric_fn = f_meas_vec,
     data = data,
     truth = !!enquo(truth),
@@ -304,19 +323,19 @@ f_meas.data.frame <- function(data, truth, estimate, beta = 1,
 
 #' @rdname recall
 #' @export
-f_meas.table <- function (data, beta = 1, averaging = "binary", ...) {
+f_meas.table <- function (data, beta = 1, averaging = NULL, ...) {
   check_table(data)
 
   metric_tibbler(
-    .metric = construct_name("f_meas", averaging),
-    .estimate = f_meas_table_impl(data, beta = beta)
+    .metric = construct_name("f_meas", averaging, data),
+    .estimate = f_meas_table_impl(data, averaging, beta = beta)
   )
 }
 
 #' @export
 #' @rdname recall
 f_meas_vec <- function(truth, estimate, beta = 1,
-                       averaging = "binary", na.rm = TRUE, ...) {
+                       averaging = NULL, na.rm = TRUE, ...) {
 
   f_meas_impl <- function(truth, estimate, beta) {
 
@@ -343,6 +362,8 @@ f_meas_vec <- function(truth, estimate, beta = 1,
 }
 
 f_meas_table_impl <- function(data, averaging, beta = 1) {
+
+  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     f_meas_binary(data, beta)

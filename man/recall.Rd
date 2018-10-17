@@ -21,31 +21,31 @@
 \usage{
 recall(data, ...)
 
-\method{recall}{data.frame}(data, truth, estimate, averaging = "binary",
+\method{recall}{data.frame}(data, truth, estimate, averaging = NULL,
   na.rm = TRUE, ...)
 
-\method{recall}{table}(data, averaging = "binary", ...)
+\method{recall}{table}(data, averaging = NULL, ...)
 
-recall_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
+recall_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
 precision(data, ...)
 
-\method{precision}{data.frame}(data, truth, estimate,
-  averaging = "binary", na.rm = TRUE, ...)
+\method{precision}{data.frame}(data, truth, estimate, averaging = NULL,
+  na.rm = TRUE, ...)
 
-\method{precision}{table}(data, averaging = "binary", ...)
+\method{precision}{table}(data, averaging = NULL, ...)
 
-precision_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
+precision_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
 f_meas(data, ...)
 
 \method{f_meas}{data.frame}(data, truth, estimate, beta = 1,
-  averaging = "binary", na.rm = TRUE, ...)
+  averaging = NULL, na.rm = TRUE, ...)
 
-\method{f_meas}{table}(data, beta = 1, averaging = "binary", ...)
+\method{f_meas}{table}(data, beta = 1, averaging = NULL, ...)
 
-f_meas_vec(truth, estimate, beta = 1, averaging = "binary",
-  na.rm = TRUE, ...)
+f_meas_vec(truth, estimate, beta = 1, averaging = NULL, na.rm = TRUE,
+  ...)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -65,6 +65,12 @@ results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
+\item{averaging}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
+or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
+only relevant for the two class case. The other three are general methods for
+calculating multiclass metrics. The default will automatically choose \code{"binary"}
+or \code{"macro"} based on \code{estimate}.}
+
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
@@ -77,7 +83,7 @@ recall beta times more important than precision.}
 These functions calculate the recall, precision or F values of
 a measurement system for finding/retrieving relevant documents
 compared to reference results (the truth regarding relevance).
-The measurement and "truth" data must have the same two possible
+The measurement and "truth" data must have the same possible
 outcomes and one of the outcomes must be thought of as
 "relevant" results.
 }
@@ -118,6 +124,15 @@ computationally efficient to create the confusion matrix using
 \code{\link[=conf_mat]{conf_mat()}} and applying the corresponding \code{summary} method
 (\code{\link[=summary.conf_mat]{summary.conf_mat()}}) to get the values at once.
 }
+\section{Multiclass}{
+
+
+Macro, micro, and macro-weighted averaging is available for these metrics.
+Macro averaging is automatically selected for you if you pass in an \code{estimate}
+factor with more than 2 levels. See \code{vignette("averaging", "yardstick")} for
+more information.
+}
+
 \examples{
 data("two_class_example")
 

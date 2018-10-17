@@ -73,6 +73,12 @@ be a matrix with as many columns as factor levels in \code{truth}.}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
 
+\item{averaging}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
+or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
+only relevant for the two class case. The other three are general methods for
+calculating multiclass metrics. The default will automatically choose \code{"binary"}
+or \code{"macro"} based on \code{estimate}.}
+
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 

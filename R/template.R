@@ -10,7 +10,7 @@ metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
 
   metric_tbl <- summarise(
     data,
-    .metric = !! metric_nm,
+    .metric = construct_name(!! metric_nm, averaging, !! estimate),
     .estimate = metric_fn(
       truth = !! truth,
       estimate = !! estimate,
@@ -116,10 +116,12 @@ validate_truth_estimate_checks <- function(truth, estimate, cls = "numeric") {
 # averaging = NA -> not applicable for this metric
 # averaging = NULL -> should be chosen automatically for this metric
 spliceable_averaging <- function(averaging) {
-  if (is.na(averaging)) {
-    return(list())
-  }
-  else {
+
+  if(is.null(averaging) || !is.na(averaging)) {
     return(list(averaging = averaging))
   }
+  else{
+    return(list())
+  }
+
 }
