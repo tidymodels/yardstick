@@ -85,7 +85,11 @@ validate_truth_estimate_lengths <- function(truth, estimate) {
 }
 
 validate_class <- function(x, nm, cls) {
-  if(!inherits(x, cls)) {
+
+  # cls is always known to have a `is.cls()` function
+  is_cls <- get(paste0("is.", cls))
+
+  if(!is_cls(x)) {
     stop("`", nm, "` should be a ", cls, call. = FALSE)
   }
 }

@@ -138,7 +138,7 @@ roc_auc_vec <- function(truth, estimate, options = list(), averaging = "binary",
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    cls = list("factor", c("numeric", "matrix")),
+    cls = c("factor", "numeric"),
     ...
   )
 }
@@ -306,7 +306,7 @@ mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    cls = c("factor", "matrix"),
+    cls = c("factor", "numeric"),
     ...,
     sum = sum
   )

@@ -129,3 +129,14 @@ test_that('Concordance Correlation Coefficient', {
     tol = 0.001
   )
 })
+
+###################################################################
+
+test_that('Integer columns are allowed', {
+  # Issue #44
+  ex_dat$obs <- as.integer(ex_dat$obs)
+  expect_equal(
+    rmse(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
+    sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
+  )
+})
