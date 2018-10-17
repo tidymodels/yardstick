@@ -14,6 +14,9 @@ NULL
   toset <- !(names(op.yardstick) %in% names(op))
   if (any(toset)) options(op.yardstick[toset])
 
+  s3_register("ggplot2::autoplot", "gain_df")
+  s3_register("ggplot2::autoplot", "lift_df")
+
   invisible()
 }
 
@@ -27,32 +30,31 @@ NULL
   invisible()
 }
 
-# function is called in .onLoad()
-# adapted from
-# https://github.com/tidyverse/googledrive/blob/master/R/dplyr-compat.R
-register_s3_method <- function(pkg, generic, class, fun = NULL) {
+# vctrs/register-s3.R
+# https://github.com/r-lib/vctrs/blob/master/R/register-s3.R
+s3_register <- function(generic, class, method = NULL) {
+  stopifnot(is.character(generic), length(generic) == 1)
+  stopifnot(is.character(class), length(class) == 1)
 
-  is_string <- function(x) length(x) == 1L && is.character(x)
+  pieces <- strsplit(generic, "::")[[1]]
+  stopifnot(length(pieces) == 2)
+  package <- pieces[[1]]
+  generic <- pieces[[2]]
 
-  stopifnot(is_string(pkg))
-  envir <- asNamespace(pkg)
-
-  stopifnot(is_string(generic))
-  stopifnot(is_string(class))
-  if (is.null(fun)) {
-    fun <- get(paste0(generic, ".", class), envir = parent.frame())
+  if (is.null(method)) {
+    method <- get(paste0(generic, ".", class), envir = parent.frame())
   }
-  stopifnot(is.function(fun))
+  stopifnot(is.function(method))
 
-  if (pkg %in% loadedNamespaces()) {
-    registerS3method(generic, class, fun, envir = envir)
+  if (package %in% loadedNamespaces()) {
+    registerS3method(generic, class, method, envir = asNamespace(package))
   }
 
   # Always register hook in case package is later unloaded & reloaded
   setHook(
-    packageEvent(pkg, "onLoad"),
+    packageEvent(package, "onLoad"),
     function(...) {
-      registerS3method(generic, class, fun, envir = envir)
+      registerS3method(generic, class, method, envir = asNamespace(package))
     }
   )
 }
