@@ -17,32 +17,31 @@
 \usage{
 mcc(data, ...)
 
-\method{mcc}{data.frame}(data, truth, estimate, averaging = "binary",
+\method{mcc}{data.frame}(data, truth, estimate, averaging = NULL,
   na.rm = TRUE, ...)
 
-mcc_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
+mcc_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
 j_index(data, ...)
 
-\method{j_index}{data.frame}(data, truth, estimate, averaging = "binary",
+\method{j_index}{data.frame}(data, truth, estimate, averaging = NULL,
   na.rm = TRUE, ...)
 
-j_index_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
+j_index_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
 bal_accuracy(data, ...)
 
 \method{bal_accuracy}{data.frame}(data, truth, estimate,
-  averaging = "binary", na.rm = TRUE, ...)
+  averaging = NULL, na.rm = TRUE, ...)
 
-bal_accuracy_vec(truth, estimate, averaging = "binary", na.rm = TRUE,
-  ...)
+bal_accuracy_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
 detection_prevalence(data, ...)
 
 \method{detection_prevalence}{data.frame}(data, truth, estimate,
-  averaging = "binary", na.rm = TRUE, ...)
+  averaging = NULL, na.rm = TRUE, ...)
 
-detection_prevalence_vec(truth, estimate, averaging = "binary",
+detection_prevalence_vec(truth, estimate, averaging = NULL,
   na.rm = TRUE, ...)
 }
 \arguments{
@@ -73,7 +72,7 @@ or \code{"macro"} based on \code{estimate}.}
 values should be stripped before the computation proceeds.}
 }
 \description{
-Other metrics for two class problems that are not already in
+Other metrics for classification problems that are not already in
 \code{\link[=sens]{sens()}} or \code{\link[=recall]{recall()}} are here, such as the Matthews
 correlation coefficient, Youden's J, the balanced accuracy (the
 average between sensitivity and specificity), and the detection
