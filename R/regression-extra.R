@@ -40,11 +40,16 @@
 
 #'
 #' @keywords manip
+#' @name rpd
 #' @examples
 #'
 #' rpd(solubility_test, truth = solubility, estimate = prediction)
 #' rpiq(solubility_test, truth = solubility, estimate = prediction)
 #'
+NULL
+
+# RPD --------------------------------------------------------------------------
+
 #' @export
 #' @rdname rpd
 rpd <- function(data, ...) {
@@ -88,6 +93,8 @@ rpd_vec <- function(truth, estimate, na.rm = TRUE, ...) {
   )
 
 }
+
+# RPIQ -------------------------------------------------------------------------
 
 #' @export
 #' @rdname rpd

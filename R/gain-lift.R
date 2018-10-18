@@ -1,5 +1,3 @@
-# Gain -------------------------------------------------------------------------
-
 #' Cumulative gain and lift charts
 #'
 #' `gain_curve()` calculates the information required for cumulative gain charts,
@@ -91,8 +89,13 @@
 #' library(ggplot2)
 #' autoplot(gain_curve(two_class_example, truth, Class1))
 #'
+#' @name gain_curve
+NULL
+
+# Gain -------------------------------------------------------------------------
+
 #' @export
-#'
+#' @rdname gain_curve
 gain_curve <- function(data, ...) {
   UseMethod("gain_curve")
 }

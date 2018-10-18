@@ -44,8 +44,13 @@
 #'   accuracy(obs, pred)
 #'
 #' @keywords manip
-#'
+#' @name accuracy
+NULL
+
+# accuracy ---------------------------------------------------------------------
+
 #' @export
+#' @rdname accuracy
 accuracy <- function(data, ...) {
   UseMethod("accuracy")
 }
@@ -69,10 +74,7 @@ accuracy.data.frame <- function(data, truth, estimate,
 
 #' @export
 accuracy.table <- function(data, ...) {
-
-  ## "truth" in columns, predictions in rows
   check_table(data)
-
   metric_tibbler(
     .metric = "accuracy",
     .estimate = accuracy_table_impl(data)
@@ -120,6 +122,8 @@ accuracy_table_impl <- function(data) {
 accuracy_binary <- function(data) {
   sum(diag(data)) / sum(data)
 }
+
+# kappa ------------------------------------------------------------------------
 
 #' @export
 #' @rdname accuracy

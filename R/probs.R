@@ -63,6 +63,7 @@
 #'
 #' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [mcc()]
 #' @keywords manip
+#' @name roc_auc
 #' @examples
 #' library(tidyselect)
 #'
@@ -97,14 +98,19 @@
 #' mn_log_loss(two_class_example, truth, starts_with("Class"))
 #' # or
 #' mn_log_loss(two_class_example, truth, !! prob_cols)
+NULL
 
-#' @export roc_auc
+# ROC AUC ----------------------------------------------------------------------
+
+#' @export
+#' @rdname roc_auc
 roc_auc <- function(data, ...)
   UseMethod("roc_auc")
 
 #' @export
 #' @rdname roc_auc
-roc_auc.data.frame  <- function(data, truth, estimate, options = list(), averaging = "binary", na.rm = TRUE, ...) {
+roc_auc.data.frame  <- function(data, truth, estimate, options = list(),
+                                averaging = "binary", na.rm = TRUE, ...) {
 
     metric_summarizer(
       metric_nm = construct_name("roc_auc", averaging),
@@ -124,10 +130,12 @@ roc_auc.data.frame  <- function(data, truth, estimate, options = list(), averagi
 #' @export
 #' @importFrom rlang call2
 #' @importFrom pROC roc auc
-roc_auc_vec <- function(truth, estimate, options = list(), averaging = "binary", na.rm = TRUE, ...) {
+roc_auc_vec <- function(truth, estimate, options = list(),
+                        averaging = "binary", na.rm = TRUE, ...) {
 
   roc_auc_impl <- function(truth, estimate) {
 
+    # remove the add_class function when this changes
     truth <- add_class(truth, averaging)
     roc_auc_averaging_impl(truth, estimate, options)
 
@@ -146,7 +154,6 @@ roc_auc_vec <- function(truth, estimate, options = list(), averaging = "binary",
 roc_auc_averaging_impl <- function(truth, estimate, options) {
   UseMethod("roc_auc_averaging_impl")
 }
-
 
 roc_auc_averaging_impl.binary <- function(truth, estimate, options) {
 
@@ -188,6 +195,7 @@ roc_auc_averaging_impl.macro <- function(truth, estimate, options) {
   mean(aucs)
 }
 
+# PR AUC -----------------------------------------------------------------------
 
 #' @export
 #' @rdname roc_auc
@@ -231,6 +239,8 @@ pr_auc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
   )
 
 }
+
+# Mean Log Loss ----------------------------------------------------------------
 
 #' @export mn_log_loss
 #' @rdname roc_auc
@@ -312,6 +322,8 @@ mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
   )
 }
 
+# ROC Curve --------------------------------------------------------------------
+
 #' @export
 #' @rdname roc_auc
 roc_curve <- function(data, ...)
@@ -370,6 +382,8 @@ roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.r
   res
 }
 
+# PR Curve ---------------------------------------------------------------------
+
 #' @export
 #' @rdname roc_auc
 pr_curve <- function(data, ...) {
@@ -425,6 +439,8 @@ pr_curve_vec <- function(truth, estimate, na.rm) {
 
   pr_list
 }
+
+# AUC helper -------------------------------------------------------------------
 
 # AUC by trapezoidal rule:
 # https://en.wikipedia.org/wiki/Trapezoidal_rule

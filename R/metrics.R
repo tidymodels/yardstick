@@ -41,7 +41,6 @@
 #' # Regression metrics
 #' metrics(solubility_test, truth = solubility, estimate = prediction)
 #'
-
 #' @export metrics
 metrics <- function(data, ...)
   UseMethod("metrics")
@@ -131,6 +130,7 @@ metrics.data.frame <- function(data, truth, estimate, ...,
   res
 }
 
+# Metric set -------------------------------------------------------------------
 
 #' Combine metric functions
 #'

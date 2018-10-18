@@ -35,7 +35,15 @@
 #' bal_accuracy(two_class_example, truth, predicted)
 #'
 #' detection_prevalence(two_class_example, truth, predicted)
+#'
+#' @name mcc
+#'
+NULL
+
+# MCC --------------------------------------------------------------------------
+
 #' @export
+#' @rdname mcc
 mcc <- function(data, ...) {
   UseMethod("mcc")
 }
@@ -180,6 +188,8 @@ mcc_multiclass <- function(data, averaging) {
 
 }
 
+# J Index ----------------------------------------------------------------------
+
 #' @export
 #' @rdname mcc
 j_index <- function(data, ...) {
@@ -272,6 +282,8 @@ j_index_binary <- function(data) {
 j_index_multiclass <- function(data, averaging) {
   recall_multiclass(data, averaging) + spec_multiclass(data, averaging) - 1
 }
+
+# Balanced Accuracy ------------------------------------------------------------
 
 #' @export
 #' @rdname mcc
@@ -369,6 +381,8 @@ bal_accuracy_binary <- function(data) {
 bal_accuracy_multiclass <- function(data, averaging) {
   ( recall_multiclass(data, averaging) + spec_multiclass(data, averaging) ) / 2
 }
+
+# Detection prevalence ---------------------------------------------------------
 
 #' @export
 #' @rdname mcc

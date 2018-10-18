@@ -67,6 +67,8 @@
 #' @inheritSection sens Multiclass
 #'
 #' @keywords manip
+#' @name recall
+#'
 #' @examples
 #' data("two_class_example")
 #'
@@ -77,7 +79,12 @@
 #'
 #' truth_var <- quote(truth)
 #' f_meas(two_class_example, !! truth_var, predicted)
-#' @export recall
+NULL
+
+# Recall -----------------------------------------------------------------------
+
+#' @export
+#' @rdname recall
 recall <- function(data, ...) {
   UseMethod("recall")
 }
@@ -102,22 +109,17 @@ recall.data.frame <- function(data, truth, estimate,
 
 #' @export
 recall.table <- function(data, averaging = NULL, ...) {
-
   check_table(data)
-
   metric_tibbler(
     .metric = construct_name("recall", averaging, data),
     .estimate = recall_table_impl(data, averaging)
   )
-
 }
 
 #' @export
 recall.matrix <- function(data, averaging = NULL, ...) {
-
   data <- as.table(data)
   recall.table(data, averaging)
-
 }
 
 #' @export
@@ -189,6 +191,8 @@ recall_multiclass <- function(data, averaging) {
   numer / denom
 
 }
+
+# Precision --------------------------------------------------------------------
 
 #' @rdname recall
 #' @export
@@ -304,6 +308,8 @@ precision_multiclass <- function(data, averaging) {
   numer / denom
 
 }
+
+# F Measure --------------------------------------------------------------------
 
 #' @rdname recall
 #' @export

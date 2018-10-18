@@ -103,6 +103,7 @@ j_index(two_class_example, truth, predicted)
 bal_accuracy(two_class_example, truth, predicted)
 
 detection_prevalence(two_class_example, truth, predicted)
+
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=sens]{sens()}}, \code{\link[=spec]{spec()}}

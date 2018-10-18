@@ -64,6 +64,11 @@
 #'
 #' ccc(solubility_test, solubility, prediction)
 #'
+#' @name rmse
+NULL
+
+# RMSE -------------------------------------------------------------------------
+
 #' @export
 #' @rdname rmse
 rmse <- function(data, ...) {
@@ -104,6 +109,8 @@ rmse_vec <- function(truth, estimate, na.rm = TRUE, ...) {
   )
 
 }
+
+# RSQ --------------------------------------------------------------------------
 
 #' @export
 #' @rdname rmse
@@ -146,6 +153,8 @@ rsq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
   )
 
 }
+
+# RSQ Traditional --------------------------------------------------------------
 
 #' @export
 #' @rdname rmse
@@ -191,6 +200,7 @@ rsq_trad_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
 }
 
+# MAE --------------------------------------------------------------------------
 
 #' @export
 #' @rdname rmse
@@ -233,6 +243,7 @@ mae_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
 }
 
+# MAPE -------------------------------------------------------------------------
 
 #' @export
 #' @rdname rmse
@@ -275,6 +286,7 @@ mape_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
 }
 
+# CCC --------------------------------------------------------------------------
 
 #' @export
 #' @rdname rmse

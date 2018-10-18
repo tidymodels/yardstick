@@ -1,3 +1,7 @@
+# ------------------------------------------------------------------------------
+
+# Column name extractors
+
 get_col <- function(x, val) {
   call <- match.call()
   if(!any(colnames(x) == val))
@@ -29,6 +33,7 @@ neg_val <- function(xtab, check = TRUE) {
     colnames(xtab)[1]
 }
 
+# ------------------------------------------------------------------------------
 
 check_table <- function(x) {
   if (!all.equal(nrow(x), ncol(x)))
@@ -68,6 +73,9 @@ match_levels_to_cols <- function(nms, lvl) {
   common[1]
 }
 
+# ------------------------------------------------------------------------------
+
+# utilities for name selection
 
 # dplyr:::tbl_at_vars
 tbl_at_vars <- function (tbl, vars, .include_group_vars = FALSE) {
@@ -136,10 +144,14 @@ vars_prep <- function(data, estimate) {
   estimate
 }
 
+# ------------------------------------------------------------------------------
+
 add_class <- function(data, cls) {
   class(data) <- c(cls, class(data))
   data
 }
+
+# ------------------------------------------------------------------------------
 
 construct_name <- function(nm, averaging, estimate) {
 
@@ -152,6 +164,8 @@ construct_name <- function(nm, averaging, estimate) {
   }
 }
 
+# ------------------------------------------------------------------------------
+
 is_binary <- function(x) {
   x == "binary"
 }
@@ -159,6 +173,8 @@ is_binary <- function(x) {
 is_micro <- function(x) {
   x == "micro"
 }
+
+# ------------------------------------------------------------------------------
 
 finalize_averaging <- function(x, averaging) {
   if (!is.null(averaging)) return(averaging)

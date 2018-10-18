@@ -120,7 +120,14 @@
 #' # Vector arguments can be used with _vec() functions
 #' sens_vec(two_class_example$truth, two_class_example$predicted)
 #'
-#' @export sens
+#' @name sens
+#'
+NULL
+
+# Sensitivity ------------------------------------------------------------------
+
+#' @rdname sens
+#' @export
 sens <- function(data, ...)
   UseMethod("sens")
 
@@ -191,6 +198,8 @@ sens_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
 
 # sensitivity = recall
 sens_table_impl <- recall_table_impl
+
+# Specificity ------------------------------------------------------------------
 
 #' @export
 spec <-  function(data, ...) {
@@ -315,6 +324,7 @@ spec_multiclass <- function(data, averaging) {
   numer / denom
 }
 
+# PPV --------------------------------------------------------------------------
 
 #' @rdname sens
 #' @export
@@ -453,7 +463,7 @@ ppv_multiclass <- function(data, averaging, prevalence = NULL) {
   sum(numer / denom) / .n
 }
 
-
+# NPV --------------------------------------------------------------------------
 
 #' @rdname sens
 #' @export
