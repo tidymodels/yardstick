@@ -157,3 +157,32 @@ test_that('f_meas', {
     .25
   )
 })
+
+test_that('ppv', {
+
+  expect_equal(
+    ppv(multi_ex, averaging = "macro")[[".estimate"]],
+    macro_metric(ppv_binary)
+  )
+  expect_equal(
+    ppv(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    macro_weighted_metric(ppv_binary)
+  )
+  expect_equal(
+    ppv(multi_ex, averaging = "micro")[[".estimate"]],
+    precision(multi_ex, averaging = "micro")[[".estimate"]]
+  )
+})
+
+test_that('npv', {
+
+  expect_equal(
+    npv(multi_ex, averaging = "macro")[[".estimate"]],
+    macro_metric(npv_binary)
+  )
+  expect_equal(
+    npv(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    macro_weighted_metric(npv_binary)
+  )
+  # good micro test?
+})
