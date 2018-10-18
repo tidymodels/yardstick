@@ -403,7 +403,7 @@ f_meas_binary <- function(data, beta = 1) {
   rec <- recall_binary(data)
 
   # if precision and recall are both 0, return 0 not NA
-  if(precision == 0 & recall == 0) {
+  if(precision == 0 & rec == 0) {
     return(0)
   }
 
