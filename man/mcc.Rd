@@ -3,23 +3,15 @@
 \name{mcc}
 \alias{mcc}
 \alias{mcc.data.frame}
-\alias{mcc.table}
-\alias{mcc.matrix}
 \alias{mcc_vec}
 \alias{j_index}
 \alias{j_index.data.frame}
-\alias{j_index.table}
-\alias{j_index.matrix}
 \alias{j_index_vec}
 \alias{bal_accuracy}
 \alias{bal_accuracy.data.frame}
-\alias{bal_accuracy.table}
-\alias{bal_accuracy.matrix}
 \alias{bal_accuracy_vec}
 \alias{detection_prevalence}
 \alias{detection_prevalence.data.frame}
-\alias{detection_prevalence.table}
-\alias{detection_prevalence.matrix}
 \alias{detection_prevalence_vec}
 \title{Other Metrics for 2x2 Tables}
 \usage{
@@ -28,20 +20,12 @@ mcc(data, ...)
 \method{mcc}{data.frame}(data, truth, estimate, averaging = "binary",
   na.rm = TRUE, ...)
 
-\method{mcc}{table}(data, averaging = "binary", ...)
-
-\method{mcc}{matrix}(data, averaging = "binary", ...)
-
 mcc_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
 
 j_index(data, ...)
 
 \method{j_index}{data.frame}(data, truth, estimate, averaging = "binary",
   na.rm = TRUE, ...)
-
-\method{j_index}{table}(data, averaging = "binary", ...)
-
-\method{j_index}{matrix}(data, averaging = "binary", ...)
 
 j_index_vec(truth, estimate, averaging = "binary", na.rm = TRUE, ...)
 
@@ -50,10 +34,6 @@ bal_accuracy(data, ...)
 \method{bal_accuracy}{data.frame}(data, truth, estimate,
   averaging = "binary", na.rm = TRUE, ...)
 
-\method{bal_accuracy}{table}(data, averaging = "binary", ...)
-
-\method{bal_accuracy}{matrix}(data, averaging = "binary", ...)
-
 bal_accuracy_vec(truth, estimate, averaging = "binary", na.rm = TRUE,
   ...)
 
@@ -61,10 +41,6 @@ detection_prevalence(data, ...)
 
 \method{detection_prevalence}{data.frame}(data, truth, estimate,
   averaging = "binary", na.rm = TRUE, ...)
-
-\method{detection_prevalence}{table}(data, averaging = "binary", ...)
-
-\method{detection_prevalence}{matrix}(data, averaging = "binary", ...)
 
 detection_prevalence_vec(truth, estimate, averaging = "binary",
   na.rm = TRUE, ...)

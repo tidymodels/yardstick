@@ -141,7 +141,6 @@ sens.data.frame <- function(data, truth, estimate, averaging = NULL, na.rm = TRU
 
 }
 
-#' @rdname sens
 #' @export
 sens.table <- function(data, averaging = NULL, ...) {
 
@@ -156,7 +155,6 @@ sens.table <- function(data, averaging = NULL, ...) {
 }
 
 #' @export
-#' @rdname sens
 sens.matrix <- function(data, averaging = NULL, ...) {
 
   data <- as.table(data)
@@ -218,7 +216,6 @@ spec.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-#' @rdname sens
 spec.table <- function(data, averaging = NULL, ...) {
 
   ## "truth" in columns, predictions in rows
@@ -231,7 +228,6 @@ spec.table <- function(data, averaging = NULL, ...) {
 
 }
 
-#' @rdname sens
 #' @export
 spec.matrix <- function(data, averaging = NULL, ...) {
 
@@ -346,7 +342,6 @@ ppv.data.frame <- function(data, truth, estimate,
 
 }
 
-#' @rdname sens
 #' @export
 ppv.table <- function(data, prevalence = NULL, averaging = NULL, ...) {
 
@@ -364,7 +359,6 @@ ppv.table <- function(data, prevalence = NULL, averaging = NULL, ...) {
 
 }
 
-#' @rdname sens
 #' @export
 ppv.matrix <- function(data, prevalence = NULL, averaging = NULL, ...) {
 
@@ -487,7 +481,6 @@ npv.data.frame <- function(data, truth, estimate,
 
 }
 
-#' @rdname sens
 #' @export
 npv.table <- function(data, prevalence = NULL, averaging = NULL, ...) {
 
@@ -501,7 +494,6 @@ npv.table <- function(data, prevalence = NULL, averaging = NULL, ...) {
 
 }
 
-#' @rdname sens
 #' @export
 npv.matrix <- function(data, prevalence = NULL, averaging = NULL, ...) {
 

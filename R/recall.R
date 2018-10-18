@@ -100,7 +100,6 @@ recall.data.frame <- function(data, truth, estimate,
 
 }
 
-#' @rdname recall
 #' @export
 recall.table <- function(data, averaging = NULL, ...) {
 
@@ -114,7 +113,6 @@ recall.table <- function(data, averaging = NULL, ...) {
 }
 
 #' @export
-#' @rdname recall
 recall.matrix <- function(data, averaging = NULL, ...) {
 
   data <- as.table(data)
@@ -217,7 +215,6 @@ precision.data.frame <- function(data, truth, estimate,
 
 }
 
-#' @rdname recall
 #' @export
 precision.table <- function (data, averaging = NULL, ...) {
 
@@ -231,7 +228,6 @@ precision.table <- function (data, averaging = NULL, ...) {
 }
 
 #' @export
-#' @rdname recall
 precision.matrix <- function(data, averaging = NULL, ...) {
 
   data <- as.table(data)
@@ -334,7 +330,6 @@ f_meas.data.frame <- function(data, truth, estimate, beta = 1,
 
 }
 
-#' @rdname recall
 #' @export
 f_meas.table <- function (data, beta = 1, averaging = NULL, ...) {
   check_table(data)
@@ -346,7 +341,6 @@ f_meas.table <- function (data, beta = 1, averaging = NULL, ...) {
 }
 
 #' @export
-#' @rdname recall
 f_meas.matrix <- function(data, beta = 1, averaging = NULL, ...) {
 
   data <- as.table(data)

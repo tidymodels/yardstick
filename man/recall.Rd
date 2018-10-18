@@ -12,12 +12,10 @@
 \alias{f_meas.default}
 \alias{f_meas.table}
 \alias{recall.data.frame}
-\alias{recall.matrix}
 \alias{recall_vec}
 \alias{precision.data.frame}
 \alias{precision_vec}
 \alias{f_meas.data.frame}
-\alias{f_meas.matrix}
 \alias{f_meas_vec}
 \title{Calculate recall, precision and F values}
 \usage{
@@ -26,10 +24,6 @@ recall(data, ...)
 \method{recall}{data.frame}(data, truth, estimate, averaging = NULL,
   na.rm = TRUE, ...)
 
-\method{recall}{table}(data, averaging = NULL, ...)
-
-\method{recall}{matrix}(data, averaging = NULL, ...)
-
 recall_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
 precision(data, ...)
@@ -37,20 +31,12 @@ precision(data, ...)
 \method{precision}{data.frame}(data, truth, estimate, averaging = NULL,
   na.rm = TRUE, ...)
 
-\method{precision}{table}(data, averaging = NULL, ...)
-
-\method{precision}{matrix}(data, averaging = NULL, ...)
-
 precision_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
 f_meas(data, ...)
 
 \method{f_meas}{data.frame}(data, truth, estimate, beta = 1,
   averaging = NULL, na.rm = TRUE, ...)
-
-\method{f_meas}{table}(data, beta = 1, averaging = NULL, ...)
-
-\method{f_meas}{matrix}(data, beta = 1, averaging = NULL, ...)
 
 f_meas_vec(truth, estimate, beta = 1, averaging = NULL, na.rm = TRUE,
   ...)

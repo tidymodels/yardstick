@@ -67,7 +67,6 @@ accuracy.data.frame <- function(data, truth, estimate,
 
 }
 
-#' @rdname accuracy
 #' @export
 accuracy.table <- function(data, ...) {
 
@@ -80,7 +79,7 @@ accuracy.table <- function(data, ...) {
   )
 }
 
-#' @rdname accuracy
+#' @export
 accuracy.matrix <- function(data, ...) {
   data <- as.table(data)
   accuracy.table(data)
@@ -145,7 +144,6 @@ kap.data.frame  <- function(data, truth, estimate,
 
 }
 
-#' @rdname accuracy
 #' @export
 kap.table <- function(data, ...) {
   check_table(data)
@@ -155,7 +153,7 @@ kap.table <- function(data, ...) {
   )
 }
 
-#' @rdname accuracy
+#' @export
 kap.matrix <- function(data, ...) {
   data <- as.table(data)
   kap.table(data)

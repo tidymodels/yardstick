@@ -32,18 +32,10 @@ sens(data, ...)
 \method{sens}{data.frame}(data, truth, estimate, averaging = NULL,
   na.rm = TRUE, ...)
 
-\method{sens}{table}(data, averaging = NULL, ...)
-
-\method{sens}{matrix}(data, averaging = NULL, ...)
-
 sens_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
 \method{spec}{data.frame}(data, truth, estimate, averaging = NULL,
   na.rm = TRUE, ...)
-
-\method{spec}{table}(data, averaging = NULL, ...)
-
-\method{spec}{matrix}(data, averaging = NULL, ...)
 
 spec_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
@@ -52,10 +44,6 @@ ppv(data, ...)
 \method{ppv}{data.frame}(data, truth, estimate, prevalence = NULL,
   averaging = NULL, na.rm = TRUE, ...)
 
-\method{ppv}{table}(data, prevalence = NULL, averaging = NULL, ...)
-
-\method{ppv}{matrix}(data, prevalence = NULL, averaging = NULL, ...)
-
 ppv_vec(truth, estimate, prevalence = NULL, averaging = NULL,
   na.rm = TRUE, ...)
 
@@ -63,10 +51,6 @@ npv(data, ...)
 
 \method{npv}{data.frame}(data, truth, estimate, prevalence = NULL,
   averaging = NULL, na.rm = TRUE, ...)
-
-\method{npv}{table}(data, prevalence = NULL, averaging = NULL, ...)
-
-\method{npv}{matrix}(data, prevalence = NULL, averaging = NULL, ...)
 
 npv_vec(truth, estimate, prevalence = NULL, averaging = averaging,
   na.rm = TRUE, ...)

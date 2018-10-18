@@ -58,7 +58,6 @@ mcc.data.frame <- function(data, truth, estimate, averaging = "binary",
 
 }
 
-#' @rdname mcc
 #' @export
 mcc.table <- function(data, averaging = "binary", ...) {
 
@@ -72,7 +71,6 @@ mcc.table <- function(data, averaging = "binary", ...) {
 
 }
 
-#' @rdname mcc
 #' @export
 mcc.matrix <- function(data, averaging = "binary", ...) {
 
@@ -205,7 +203,6 @@ j_index.data.frame <- function(data, truth, estimate, averaging = "binary", na.r
 
 }
 
-#' @rdname mcc
 #' @export
 j_index.table <- function(data, averaging = "binary", ...) {
 
@@ -219,7 +216,6 @@ j_index.table <- function(data, averaging = "binary", ...) {
 
 }
 
-#' @rdname mcc
 #' @export
 j_index.matrix <- function(data, averaging = "binary", ...) {
 
@@ -301,7 +297,6 @@ bal_accuracy.data.frame <- function(data, truth, estimate, averaging = "binary",
 
 }
 
-#' @rdname mcc
 #' @export
 bal_accuracy.table <- function(data, averaging = "binary", ...) {
 
@@ -315,7 +310,7 @@ bal_accuracy.table <- function(data, averaging = "binary", ...) {
 
 }
 
-#' @rdname mcc
+#' @export
 bal_accuracy.matrix <- function(data, averaging = "binary", ...) {
 
   data <- as.table(data)
@@ -400,7 +395,6 @@ detection_prevalence.data.frame <- function(data, truth, estimate,
 
 }
 
-#' @rdname mcc
 #' @export
 detection_prevalence.table <- function(data, averaging = "binary", ...) {
 
@@ -414,7 +408,7 @@ detection_prevalence.table <- function(data, averaging = "binary", ...) {
 
 }
 
-#' @rdname mcc
+#' @export
 detection_prevalence.matrix <- function(data, averaging = "binary", ...) {
 
   data <- as.table(data)
