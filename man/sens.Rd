@@ -52,7 +52,7 @@ npv(data, ...)
 \method{npv}{data.frame}(data, truth, estimate, prevalence = NULL,
   averaging = NULL, na.rm = TRUE, ...)
 
-npv_vec(truth, estimate, prevalence = NULL, averaging = averaging,
+npv_vec(truth, estimate, prevalence = NULL, averaging = NULL,
   na.rm = TRUE, ...)
 }
 \arguments{
