@@ -3,7 +3,7 @@
 #' These functions calculate the sensitivity, specificity or
 #'  predictive values of a measurement system compared to a
 #'  reference results (the truth or a gold standard). The
-#'  measurement and "truth" data must have the same two possible
+#'  measurement and "truth" data must have the same possible
 #'  outcomes and one of the outcomes must be thought of as a
 #'  "positive" results or the "event".
 #'
@@ -83,6 +83,13 @@
 #' Otherwise, a `tibble` with columns `.metric` and `.estimate` and 1 row of
 #' values. For grouped data frames, the number of rows returned will be the
 #' same as the number of groups.
+#'
+#' @section Multiclass:
+#'
+#' Macro, micro, and macro-weighted averaging is available for these metrics.
+#' Macro averaging is automatically selected for you if you pass in an `estimate`
+#' factor with more than 2 levels. See `vignette("averaging", "yardstick")` for
+#' more information.
 #'
 #' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [mcc()]
 #'
