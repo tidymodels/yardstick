@@ -406,7 +406,7 @@ pr_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
   pr_list <- pr_curve_vec(truth, estimate, na.rm)
 
-  tibble::tibble(!!!pr_list)
+  dplyr::tibble(!!!pr_list)
 }
 
 # Undecided of whether to export this or not

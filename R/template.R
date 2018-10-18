@@ -1,4 +1,3 @@
-#' @importFrom tibble as_tibble
 #' @importFrom dplyr summarise
 metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
                               averaging = NA, na.rm = TRUE, ...,
@@ -20,7 +19,7 @@ metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
     )
   )
 
-  as_tibble(metric_tbl)
+  dplyr::as_tibble(metric_tbl)
 }
 
 #' @importFrom rlang get_expr set_expr
@@ -68,7 +67,7 @@ metric_vec_template <- function(metric_impl, truth, estimate,
 }
 
 metric_tibbler <- function(.metric, .estimate) {
-  tibble::tibble(.metric = .metric, .estimate = .estimate)
+  dplyr::tibble(.metric = .metric, .estimate = .estimate)
 }
 
 validate_truth_estimate_lengths <- function(truth, estimate) {

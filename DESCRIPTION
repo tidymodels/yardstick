@@ -26,7 +26,6 @@ Suggests:
     rmarkdown
 Imports:
     dplyr,
-    tibble,
     utils,
     pROC,
     rlang,

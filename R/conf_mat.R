@@ -152,7 +152,7 @@ print.conf_mat <- function(x, ...)
 #' @export
 tidy.conf_mat <- function(x, ...) {
   y <- flatten(x$table)
-  tibble::tibble(
+  dplyr::tibble(
     name = names(y),
     value = unname(y)
   )

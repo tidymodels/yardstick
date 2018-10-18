@@ -115,7 +115,7 @@ gain_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
   pr_list <- gain_curve_vec(truth, estimate, na.rm)
 
-  gain_df <- tibble::tibble(!!!pr_list)
+  gain_df <- dplyr::tibble(!!!pr_list)
   class(gain_df) <- c("gain_df", class(gain_df))
 
   gain_df
@@ -221,7 +221,7 @@ lift_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
   pr_list <- lift_curve_vec(truth, estimate, na.rm)
 
-  lift_df <- tibble::tibble(!!!pr_list)
+  lift_df <- dplyr::tibble(!!!pr_list)
   class(lift_df) <- c("lift_df", class(lift_df))
 
   lift_df
