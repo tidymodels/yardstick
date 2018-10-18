@@ -50,11 +50,11 @@ mcc <- function(data, ...) {
 
 #' @export
 #' @rdname mcc
-mcc.data.frame <- function(data, truth, estimate, averaging = "binary",
+mcc.data.frame <- function(data, truth, estimate, averaging = NULL,
                            na.rm = TRUE, ...) {
 
   metric_summarizer(
-    metric_nm = construct_name("mcc", averaging),
+    metric_nm = "mcc",
     metric_fn = mcc_vec,
     data = data,
     truth = !!enquo(truth),
@@ -67,29 +67,25 @@ mcc.data.frame <- function(data, truth, estimate, averaging = "binary",
 }
 
 #' @export
-mcc.table <- function(data, averaging = "binary", ...) {
-
-  ## "truth" in columns, predictions in rows
+mcc.table <- function(data, averaging = NULL, ...) {
   check_table(data)
 
   metric_tibbler(
-    .metric = construct_name("mcc", averaging),
+    .metric = construct_name("mcc", averaging, data),
     .estimate = mcc_table_impl(data, averaging)
   )
 
 }
 
 #' @export
-mcc.matrix <- function(data, averaging = "binary", ...) {
-
+mcc.matrix <- function(data, averaging = NULL, ...) {
   data <- as.table(data)
   mcc.table(data, averaging)
-
 }
 
 #' @export
 #' @rdname mcc
-mcc_vec <- function(truth, estimate, averaging = "binary", na.rm = TRUE, ...) {
+mcc_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
 
   mcc_impl <- function(truth, estimate) {
 
@@ -115,6 +111,8 @@ mcc_vec <- function(truth, estimate, averaging = "binary", na.rm = TRUE, ...) {
 }
 
 mcc_table_impl <- function(data, averaging) {
+
+  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     mcc_binary(data)
@@ -148,6 +146,7 @@ mcc_binary <- function(data) {
 
 }
 
+# implement the true multiclass generalization
 mcc_multiclass <- function(data, averaging) {
 
   n     <- sum(data)
@@ -198,10 +197,11 @@ j_index <- function(data, ...) {
 
 #' @export
 #' @rdname mcc
-j_index.data.frame <- function(data, truth, estimate, averaging = "binary", na.rm = TRUE, ...) {
+j_index.data.frame <- function(data, truth, estimate,
+                               averaging = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
-    metric_nm = construct_name("j_index", averaging),
+    metric_nm = "j_index",
     metric_fn = j_index_vec,
     data = data,
     truth = !!enquo(truth),
@@ -214,20 +214,18 @@ j_index.data.frame <- function(data, truth, estimate, averaging = "binary", na.r
 }
 
 #' @export
-j_index.table <- function(data, averaging = "binary", ...) {
-
-  ## "truth" in columns, predictions in rows
+j_index.table <- function(data, averaging = NULL, ...) {
   check_table(data)
 
   metric_tibbler(
-    .metric = construct_name("j_index", averaging),
+    .metric = construct_name("j_index", averaging, data),
     .estimate = j_index_table_impl(data, averaging)
   )
 
 }
 
 #' @export
-j_index.matrix <- function(data, averaging = "binary", ...) {
+j_index.matrix <- function(data, averaging = NULL, ...) {
 
   data <- as.table(data)
   j_index.table(data, averaging)
@@ -236,7 +234,7 @@ j_index.matrix <- function(data, averaging = "binary", ...) {
 
 #' @export
 #' @rdname mcc
-j_index_vec <- function(truth, estimate, averaging = "binary",
+j_index_vec <- function(truth, estimate, averaging = NULL,
                         na.rm = TRUE, ...) {
 
   j_index_impl <- function(truth, estimate) {
@@ -263,6 +261,8 @@ j_index_vec <- function(truth, estimate, averaging = "binary",
 }
 
 j_index_table_impl <- function(data, averaging) {
+
+  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     j_index_binary(data)
@@ -293,11 +293,11 @@ bal_accuracy <- function(data, ...) {
 
 #' @export
 #' @rdname mcc
-bal_accuracy.data.frame <- function(data, truth, estimate, averaging = "binary",
-                                    na.rm = TRUE, ...) {
+bal_accuracy.data.frame <- function(data, truth, estimate,
+                                    averaging = NULL, na.rm = TRUE, ...) {
 
     metric_summarizer(
-      metric_nm = construct_name("bal_accuracy", averaging),
+      metric_nm = "bal_accuracy",
       metric_fn = bal_accuracy_vec,
       data = data,
       truth = !!enquo(truth),
@@ -310,20 +310,20 @@ bal_accuracy.data.frame <- function(data, truth, estimate, averaging = "binary",
 }
 
 #' @export
-bal_accuracy.table <- function(data, averaging = "binary", ...) {
+bal_accuracy.table <- function(data, averaging = NULL, ...) {
 
   ## "truth" in columns, predictions in rows
   check_table(data)
 
   metric_tibbler(
-    .metric = construct_name("bal_accuracy", averaging),
+    .metric = construct_name("bal_accuracy", averaging, data),
     .estimate = bal_accuracy_table_impl(data, averaging)
   )
 
 }
 
 #' @export
-bal_accuracy.matrix <- function(data, averaging = "binary", ...) {
+bal_accuracy.matrix <- function(data, averaging = NULL, ...) {
 
   data <- as.table(data)
   bal_accuracy.table(data, averaging)
@@ -332,7 +332,7 @@ bal_accuracy.matrix <- function(data, averaging = "binary", ...) {
 
 #' @export
 #' @rdname mcc
-bal_accuracy_vec <- function(truth, estimate, averaging = "binary",
+bal_accuracy_vec <- function(truth, estimate, averaging = NULL,
                              na.rm = TRUE, ...) {
 
   bal_accuracy_impl <- function(truth, estimate) {
@@ -359,6 +359,8 @@ bal_accuracy_vec <- function(truth, estimate, averaging = "binary",
 }
 
 bal_accuracy_table_impl <- function(data, averaging) {
+
+  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     bal_accuracy_binary(data)
@@ -393,11 +395,11 @@ detection_prevalence <- function(data, ...) {
 #' @export
 #' @rdname mcc
 detection_prevalence.data.frame <- function(data, truth, estimate,
-                                            averaging = "binary",
+                                            averaging = NULL,
                                             na.rm = TRUE, ...) {
 
   metric_summarizer(
-    metric_nm = construct_name("detection_prevalence", averaging),
+    metric_nm = "detection_prevalence",
     metric_fn = detection_prevalence_vec,
     data = data,
     truth = !!enquo(truth),
@@ -410,20 +412,20 @@ detection_prevalence.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-detection_prevalence.table <- function(data, averaging = "binary", ...) {
+detection_prevalence.table <- function(data, averaging = NULL, ...) {
 
   ## "truth" in columns, predictions in rows
   check_table(data)
 
   metric_tibbler(
-    .metric = construct_name("detection_prevalence", averaging),
+    .metric = construct_name("detection_prevalence", averaging, data),
     .estimate = detection_prevalence_table_impl(data, averaging)
   )
 
 }
 
 #' @export
-detection_prevalence.matrix <- function(data, averaging = "binary", ...) {
+detection_prevalence.matrix <- function(data, averaging = NULL, ...) {
 
   data <- as.table(data)
   detection_prevalence.table(data, averaging)
@@ -432,7 +434,7 @@ detection_prevalence.matrix <- function(data, averaging = "binary", ...) {
 
 #' @export
 #' @rdname mcc
-detection_prevalence_vec <- function(truth, estimate, averaging = "binary",
+detection_prevalence_vec <- function(truth, estimate, averaging = NULL,
                                      na.rm = TRUE, ...) {
 
   detection_prevalence_impl <- function(truth, estimate) {
@@ -459,6 +461,8 @@ detection_prevalence_vec <- function(truth, estimate, averaging = "binary",
 }
 
 detection_prevalence_table_impl <- function(data, averaging) {
+
+  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     detection_prevalence_binary(data)
