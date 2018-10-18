@@ -235,7 +235,7 @@ spec.matrix <- function(data, averaging = NULL, ...) {
 
 #' @export
 #' @rdname sens
-spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
+spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE,...) {
 
   spec_impl <- function(truth, estimate) {
 
@@ -260,6 +260,7 @@ spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
 
 }
 
+#' @importFrom stats weighted.mean
 spec_table_impl <- function(data, averaging) {
 
   averaging <- finalize_averaging(data, averaging)
