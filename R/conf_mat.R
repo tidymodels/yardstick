@@ -137,6 +137,15 @@ conf_mat.table <- function(data, ...) {
 }
 
 #' @export
+conf_mat.matrix <- function(data, ...) {
+
+  data <- as.table(data)
+  conf_mat.table(data, ...)
+
+}
+
+
+#' @export
 print.conf_mat <- function(x, ...)
   print(x$table)
 
