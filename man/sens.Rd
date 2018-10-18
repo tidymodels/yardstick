@@ -142,9 +142,9 @@ computationally efficient to create the confusion matrix using
 \section{Multiclass}{
 
 
-Macro, micro, and macro-weighted averaging is available for these metrics.
-Macro averaging is automatically selected for you if you pass in an \code{estimate}
-factor with more than 2 levels. See \code{vignette("averaging", "yardstick")} for
+Macro, micro, and macro-weighted averaging are available for these metrics.
+The default is to select macro averaging if an \code{estimate} factor with more
+than 2 levels is provided. See \code{vignette("averaging", "yardstick")} for
 more information.
 }
 
@@ -152,11 +152,11 @@ more information.
 data("two_class_example")
 
 # Given that a sample is Class 1,
-#   what is the probability that is predicted as Class 1?
+# what is the probability that is predicted as Class 1?
 sens(two_class_example, truth = truth, estimate = predicted)
 
 # Given that a sample is predicted to be Class 1,
-#  what is the probability that it truly is Class 1?
+# what is the probability that it truly is Class 1?
 ppv(two_class_example, truth = truth, estimate = predicted)
 
 # But what if we think that Class 1 only occurs 40\% of the time?
@@ -164,6 +164,20 @@ ppv(two_class_example, truth, predicted, prevalence = 0.40)
 
 # Vector arguments can be used with _vec() functions
 sens_vec(two_class_example$truth, two_class_example$predicted)
+
+# Multiclass calcuations
+data("hpc_cv")
+library(dplyr)
+
+# Macro averaged sensitivity
+sens(hpc_cv, obs, pred)
+
+# Micro averaged sensitivity
+sens(hpc_cv, obs, pred, averaging = "micro")
+
+# Macro-weighted averaged sensitivity
+# (for sensitivity, this is the same as micro)
+sens(hpc_cv, obs, pred, averaging = "macro_weighted")
 
 }
 \references{

@@ -121,9 +121,9 @@ computationally efficient to create the confusion matrix using
 \section{Multiclass}{
 
 
-Macro, micro, and macro-weighted averaging is available for these metrics.
-Macro averaging is automatically selected for you if you pass in an \code{estimate}
-factor with more than 2 levels. See \code{vignette("averaging", "yardstick")} for
+Macro, micro, and macro-weighted averaging are available for these metrics.
+The default is to select macro averaging if an \code{estimate} factor with more
+than 2 levels is provided. See \code{vignette("averaging", "yardstick")} for
 more information.
 }
 
