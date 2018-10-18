@@ -401,14 +401,29 @@ f_meas_binary <- function(data, beta = 1) {
 
   precision <- precision_binary(data)
   rec <- recall_binary(data)
-  (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
 
+  # if precision and recall are both 0, return 0 not NA
+  if(precision == 0 & recall == 0) {
+    return(0)
+  }
+
+  (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
 }
 
 f_meas_multiclass <- function(data, averaging, beta = 1) {
 
   precision <- precision_multiclass(data, averaging)
   rec <- recall_multiclass(data, averaging)
-  (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
 
+  res <- (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
+
+  # if precision and recall are both 0, define this as 0 not NA
+  # this is the case when tp == 0 and is well defined
+  # Matches sklearn behavior
+  # https://github.com/scikit-learn/scikit-learn/blob/bac89c253b35a8f1a3827389fbee0f5bebcbc985/sklearn/metrics/classification.py#L1150
+  where_zero <- which(precision == 0 & rec == 0)
+
+  res[where_zero] <- 0
+
+  res
 }
