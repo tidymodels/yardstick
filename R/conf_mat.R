@@ -140,9 +140,6 @@ conf_mat.table <- function(data, ...) {
 print.conf_mat <- function(x, ...)
   print(x$table)
 
-
-# yardstick no longer depends on broom
-# this method is registered in .onLoad()
 #' @export
 tidy.conf_mat <- function(x, ...) {
   y <- flatten(x$table)
