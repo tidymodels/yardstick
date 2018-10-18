@@ -34,7 +34,7 @@
 #' Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
 #'
 #' The formulas used here are: \deqn{recall = A/(A+C)} \deqn{precision =
-#' A/(A+B)} \deqn{F_i = (1+i^2)*prec*recall/((i^2 * precision)+recall)}
+#' A/(A+B)} \deqn{F_meas_\beta = (1+\beta^2) * precision * recall/((\beta^2 * precision)+recall)}
 #'
 #' See the references for discussions of the statistics.
 #'
