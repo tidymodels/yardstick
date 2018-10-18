@@ -1,6 +1,6 @@
-#' Other Metrics for 2x2 Tables
+#' Other Classification Metrics
 #'
-#' Other metrics for two class problems that are not already in
+#' Other metrics for classification problems that are not already in
 #'  [sens()] or [recall()] are here, such as the Matthews
 #'  correlation coefficient, Youden's J, the balanced accuracy (the
 #'  average between sensitivity and specificity), and the detection
@@ -18,6 +18,8 @@
 #'  computationally efficient to create the confusion matrix using
 #'  [conf_mat()] and applying the corresponding `summary` method
 #'  ([summary.conf_mat()]) to get the values at once.
+#'
+#' @inheritSection sens Multiclass
 #'
 #' @inheritParams sens
 #'

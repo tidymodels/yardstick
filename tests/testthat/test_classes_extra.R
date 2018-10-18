@@ -3,7 +3,7 @@ library(yardstick)
 library(pROC)
 library(tidyselect)
 
-context("Two-class metrics")
+context("Extra class metrics")
 
 ## data from: Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
 #'  sensitivity and specificity,'' *British Medical Journal*,
