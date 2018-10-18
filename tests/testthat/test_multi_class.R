@@ -99,3 +99,61 @@ test_that('specificity', {
     micro(.numer = ~.x[2,2], .denom = ~sum(.x[,2]))
   )
 })
+
+test_that('recall', {
+
+  # sens = recall
+  expect_equal(
+    recall(multi_ex, averaging = "macro")[[".estimate"]],
+    macro_metric(recall_binary)
+  )
+  expect_equal(
+    recall(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    macro_weighted_metric(recall_binary)
+  )
+  expect_equal(
+    recall(multi_ex, averaging = "micro")[[".estimate"]],
+    micro(.numer = ~.x[1,1], .denom = ~sum(.x[,1]))
+  )
+})
+
+test_that('precision', {
+
+  # sens = recall
+  expect_equal(
+    precision(multi_ex, averaging = "macro")[[".estimate"]],
+    macro_metric(precision_binary)
+  )
+  expect_equal(
+    precision(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    macro_weighted_metric(precision_binary)
+  )
+  expect_equal(
+    precision(multi_ex, averaging = "micro")[[".estimate"]],
+    micro(.numer = ~.x[1,1], .denom = ~sum(.x[1,]))
+  )
+})
+
+test_that('f_meas', {
+
+  # sens = recall
+  expect_equal(
+    f_meas(multi_ex, averaging = "macro")[[".estimate"]],
+    macro_metric(f_meas_binary)
+  )
+  expect_equal(
+    f_meas(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    macro_weighted_metric(f_meas_binary)
+  )
+
+  # https://turi.com/products/create/docs/generated/graphlab.evaluation.fbeta_score.html
+  turi_ex <- tibble(
+    tru = as.factor(c(0, 1, 2, 3, 0, 1, 2, 3)),
+    pre = as.factor(c(1, 0, 2, 1, 3, 1, 0, 1))
+  )
+
+  expect_equal(
+    f_meas(turi_ex, tru, pre, averaging = "micro")[[".estimate"]],
+    .25
+  )
+})
