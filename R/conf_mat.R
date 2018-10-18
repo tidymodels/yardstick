@@ -3,7 +3,7 @@
 #' Calculates a cross-tabulation of observed and predicted
 #'  classes.
 #'
-#'  For [conf_mat()] objects, a [broom::tidy()] method has been created
+#'  For [conf_mat()] objects, a `broom` `tidy()` method has been created
 #'  that collapses the cell counts by cell into a data frame for
 #'  easy manipulation.
 #'

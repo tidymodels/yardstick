@@ -49,7 +49,7 @@ Calculates a cross-tabulation of observed and predicted
 classes.
 }
 \details{
-For \code{\link[=conf_mat]{conf_mat()}} objects, a \code{\link[broom:tidy]{broom::tidy()}} method has been created
+For \code{\link[=conf_mat]{conf_mat()}} objects, a \code{broom} \code{tidy()} method has been created
 that collapses the cell counts by cell into a data frame for
 easy manipulation.
 
