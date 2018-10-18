@@ -441,26 +441,35 @@ ppv_binary <- function(data, prevalence = NULL) {
 
 }
 
-# how to do micro of this?
-
 ppv_multiclass <- function(data, averaging, prevalence = NULL) {
 
-  .diag <- diag(data)
-  .col_sums <- colSums(data)
-  .row_sums <- rowSums(data)
-  .n <- nrow(data)
+  # ppv should be equal to precision in all cases except when
+  # prevalence is explicitely set. In that case, that value
+  # is used which alters the result
+  if (is.null(prevalence)) {
+    tpfn     <- colSums(data)
+    tptnfpfn <- rep(sum(data), times = nrow(data))
 
-  if(is.null(prevalence)) {
-    prevalence <- .col_sums / sum(.col_sums)
+    if (is_micro(averaging)) {
+      tpfn       <- sum(tpfn)
+      tptnfpfn   <- sum(tptnfpfn)
+    }
+
+    prevalence <- tpfn / tptnfpfn
   }
 
-  .sens_vec <- .diag / .col_sums
-  .spec_vec <- .diag / .row_sums
+  .sens_vec <- recall_multiclass(data, averaging)
+  .spec_vec <- spec_multiclass(data, averaging)
 
   numer <- .sens_vec * prevalence
   denom <- .sens_vec * prevalence + (1 - .spec_vec) * (1 - prevalence)
 
-  sum(numer / denom) / .n
+  if(any(denom <= 0)) {
+    res <- rep(NA_real_, times = nrow(data))
+    return(res)
+  }
+
+  numer / denom
 }
 
 # NPV --------------------------------------------------------------------------
@@ -516,7 +525,7 @@ npv.matrix <- function(data, prevalence = NULL, averaging = NULL, ...) {
 #' @rdname sens
 npv_vec <- function(truth, estimate,
                     prevalence = NULL,
-                    averaging = averaging, na.rm = TRUE, ...) {
+                    averaging = NULL, na.rm = TRUE, ...) {
 
   npv_impl <- function(truth, estimate, prevalence) {
 
@@ -526,12 +535,6 @@ npv_vec <- function(truth, estimate,
       na.rm = na.rm,
       ...
     )
-
-    # # What is this doing?
-    # lev <- if (getOption("yardstick.event_first"))
-    #   colnames(xtab)[1]
-    # else
-    #   colnames(xtab)[2]
 
     npv_table_impl(xtab, averaging, prevalence = prevalence)
 
@@ -578,5 +581,29 @@ npv_binary <- function(data, prevalence = NULL) {
 }
 
 npv_multiclass <- function(data, averaging, prevalence = NULL) {
-  # implement me
+
+  if (is.null(prevalence)) {
+    tpfn     <- colSums(data)
+    tptnfpfn <- rep(sum(data), times = nrow(data))
+
+    if (is_micro(averaging)) {
+      tpfn       <- sum(tpfn)
+      tptnfpfn   <- sum(tptnfpfn)
+    }
+
+    prevalence <- tpfn / tptnfpfn
+  }
+
+  .sens_vec <- recall_multiclass(data, averaging)
+  .spec_vec <- spec_multiclass(data, averaging)
+
+  numer <- .spec_vec * (1 - prevalence)
+  denom <- (1 - .sens_vec) * prevalence + .spec_vec * (1 - prevalence)
+
+  if(any(denom <= 0)) {
+    res <- rep(NA_real_, times = nrow(data))
+    return(res)
+  }
+
+  numer / denom
 }
