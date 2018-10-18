@@ -414,6 +414,7 @@ test_that('AUC', {
 
 test_that('switch event definition', {
   options(yardstick.event_first = FALSE)
+  on.exit(options(yardstick.event_first = TRUE))
   expect_equal(
     sens(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
     54/86
