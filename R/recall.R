@@ -64,12 +64,7 @@
 #'  Factor to ROC, Informedness, Markedness and Correlation.
 #'  Technical Report SIE-07-001, Flinders University
 #'
-#' @section Multiclass:
-#'
-#' Macro, micro, and macro-weighted averaging is available for these metrics.
-#' Macro averaging is automatically selected for you if you pass in an `estimate`
-#' factor with more than 2 levels. See `vignette("averaging", "yardstick")` for
-#' more information.
+#' @inheritSection sens Multiclass
 #'
 #' @keywords manip
 #' @examples
@@ -115,6 +110,15 @@ recall.table <- function(data, averaging = NULL, ...) {
     .metric = construct_name("recall", averaging, data),
     .estimate = recall_table_impl(data, averaging)
   )
+
+}
+
+#' @export
+#' @rdname recall
+recall.matrix <- function(data, averaging = NULL, ...) {
+
+  data <- as.table(data)
+  recall.table(data, averaging)
 
 }
 
@@ -228,6 +232,15 @@ precision.table <- function (data, averaging = NULL, ...) {
 
 #' @export
 #' @rdname recall
+precision.matrix <- function(data, averaging = NULL, ...) {
+
+  data <- as.table(data)
+  precision.table(data, averaging)
+
+}
+
+#' @export
+#' @rdname recall
 precision_vec <- function(truth, estimate,
                           averaging = NULL, na.rm = TRUE, ...) {
 
@@ -330,6 +343,15 @@ f_meas.table <- function (data, beta = 1, averaging = NULL, ...) {
     .metric = construct_name("f_meas", averaging, data),
     .estimate = f_meas_table_impl(data, averaging, beta = beta)
   )
+}
+
+#' @export
+#' @rdname recall
+f_meas.matrix <- function(data, beta = 1, averaging = NULL, ...) {
+
+  data <- as.table(data)
+  f_meas.table(data, averaging)
+
 }
 
 #' @export

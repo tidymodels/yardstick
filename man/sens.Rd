@@ -111,7 +111,7 @@ same as the number of groups.
 These functions calculate the sensitivity, specificity or
 predictive values of a measurement system compared to a
 reference results (the truth or a gold standard). The
-measurement and "truth" data must have the same two possible
+measurement and "truth" data must have the same possible
 outcomes and one of the outcomes must be thought of as a
 "positive" results or the "event".
 }
@@ -155,6 +155,15 @@ computationally efficient to create the confusion matrix using
 \code{\link[=conf_mat]{conf_mat()}} and applying the corresponding \code{summary} method
 (\code{\link[=summary.conf_mat]{summary.conf_mat()}}) to get the values at once.
 }
+\section{Multiclass}{
+
+
+Macro, micro, and macro-weighted averaging is available for these metrics.
+Macro averaging is automatically selected for you if you pass in an \code{estimate}
+factor with more than 2 levels. See \code{vignette("averaging", "yardstick")} for
+more information.
+}
+
 \examples{
 data("two_class_example")
 
