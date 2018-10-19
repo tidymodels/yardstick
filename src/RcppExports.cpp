@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// mcc_multiclass_cpp
+double mcc_multiclass_cpp(NumericMatrix x);
+RcppExport SEXP _yardstick_mcc_multiclass_cpp(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(mcc_multiclass_cpp(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // pr_curve_cpp
 List pr_curve_cpp(IntegerVector truth, NumericVector estimate);
 RcppExport SEXP _yardstick_pr_curve_cpp(SEXP truthSEXP, SEXP estimateSEXP) {
@@ -19,6 +30,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_yardstick_mcc_multiclass_cpp", (DL_FUNC) &_yardstick_mcc_multiclass_cpp, 1},
     {"_yardstick_pr_curve_cpp", (DL_FUNC) &_yardstick_pr_curve_cpp, 2},
     {NULL, NULL, 0}
 };

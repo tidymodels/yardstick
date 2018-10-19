@@ -17,10 +17,9 @@
 \usage{
 mcc(data, ...)
 
-\method{mcc}{data.frame}(data, truth, estimate, averaging = NULL,
-  na.rm = TRUE, ...)
+\method{mcc}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
-mcc_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
+mcc_vec(truth, estimate, na.rm = TRUE, ...)
 
 j_index(data, ...)
 
@@ -62,14 +61,14 @@ results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
+\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+values should be stripped before the computation proceeds.}
+
 \item{averaging}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
 or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
 only relevant for the two class case. The other three are general methods for
 calculating multiclass metrics. The default will automatically choose \code{"binary"}
 or \code{"macro"} based on \code{estimate}.}
-
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
-values should be stripped before the computation proceeds.}
 }
 \description{
 Other metrics for classification problems that are not already in
@@ -96,9 +95,13 @@ computationally efficient to create the confusion matrix using
 
 
 Macro, micro, and macro-weighted averaging are available for these metrics.
-The default is to select macro averaging if an \code{estimate} factor with more
-than 2 levels is provided. See \code{vignette("averaging", "yardstick")} for
-more information.
+The default is to select macro averaging if an estimate factor with more
+than 2 levels is provided. See \code{vignette("averaging", "yardstick")} for more
+information.
+
+\code{mcc()} has a known multiclass generalization and that is computed
+automatically if a factor with more than 2 levels is provided. Because
+of this, no averaging methods are provided.
 }
 
 \examples{

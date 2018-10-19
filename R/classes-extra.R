@@ -19,7 +19,17 @@
 #'  [conf_mat()] and applying the corresponding `summary` method
 #'  ([summary.conf_mat()]) to get the values at once.
 #'
-#' @inheritSection sens Multiclass
+#'
+#' @section Multiclass:
+#'
+#' Macro, micro, and macro-weighted averaging are available for these metrics.
+#' The default is to select macro averaging if an estimate factor with more
+#' than 2 levels is provided. See `vignette("averaging", "yardstick")` for more
+#' information.
+#'
+#' `mcc()` has a known multiclass generalization and that is computed
+#' automatically if a factor with more than 2 levels is provided. Because
+#' of this, no averaging methods are provided.
 #'
 #' @inheritParams sens
 #'
@@ -52,7 +62,7 @@ mcc <- function(data, ...) {
 
 #' @export
 #' @rdname mcc
-mcc.data.frame <- function(data, truth, estimate, averaging = NULL,
+mcc.data.frame <- function(data, truth, estimate,
                            na.rm = TRUE, ...) {
 
   metric_summarizer(
@@ -61,33 +71,33 @@ mcc.data.frame <- function(data, truth, estimate, averaging = NULL,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
     na.rm = na.rm,
-    ... = ...
+    # do not pass dots through
+    # (could allow averaging to be set. unwanted!)
   )
 
 }
 
 #' @export
-mcc.table <- function(data, averaging = NULL, ...) {
+mcc.table <- function(data, ...) {
   check_table(data)
 
   metric_tibbler(
-    .metric = construct_name("mcc", averaging, data),
-    .estimate = mcc_table_impl(data, averaging)
+    .metric = "mcc",
+    .estimate = mcc_table_impl(data)
   )
 
 }
 
 #' @export
-mcc.matrix <- function(data, averaging = NULL, ...) {
+mcc.matrix <- function(data, ...) {
   data <- as.table(data)
-  mcc.table(data, averaging)
+  mcc.table(data)
 }
 
 #' @export
 #' @rdname mcc
-mcc_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
+mcc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
   mcc_impl <- function(truth, estimate) {
 
@@ -97,7 +107,7 @@ mcc_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
       na.rm = FALSE
     )
 
-    mcc_table_impl(xtab, averaging)
+    mcc_table_impl(xtab)
 
   }
 
@@ -112,16 +122,15 @@ mcc_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
 
 }
 
-mcc_table_impl <- function(data, averaging) {
+mcc_table_impl <- function(data) {
 
-  averaging <- finalize_averaging(data, averaging)
+  # determine binary / multiclass automatically
+  averaging <- finalize_averaging(data, NULL)
 
   if(is_binary(averaging)) {
     mcc_binary(data)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- mcc_multiclass(data, averaging)
-    weighted.mean(out_vec, w)
+    mcc_multiclass(data)
   }
 
 }
@@ -148,45 +157,9 @@ mcc_binary <- function(data) {
 
 }
 
-# implement the true multiclass generalization
-mcc_multiclass <- function(data, averaging) {
-
-  n     <- sum(data)
-  tp    <- diag(data)
-  tp_fp <- rowSums(data)
-  tp_fn <- colSums(data)
-
-  fp    <- tp_fp - tp
-  fn    <- tp_fn - tp
-  tn    <- n - (tp + fp + fn)
-
-  tn_fp <- tn + fp
-  tn_fn <- tn + fn
-
-  if (
-    any(tp_fp == 0) |
-    any(tp_fn == 0) |
-    any(tn_fp == 0) |
-    any(tn_fn == 0)
-  ) {
-    ret <- rep(NA_real_, times = nrow(data))
-    return(ret)
-  }
-
-  if(is_micro(averaging)) {
-    tp <- sum(tp)
-    fp <- sum(fp)
-    fn <- sum(fn)
-    tn <- sum(tn)
-    tp_fp <- sum(tp_fp)
-    tp_fn <- sum(tp_fn)
-    tn_fp <- sum(tn_fp)
-    tn_fn <- sum(tn_fn)
-  }
-
-  # mcc calc
-  ((tp * tn) - (fp * fn)) / sqrt(tp_fp * tp_fn * tn_fp * tn_fn)
-
+mcc_multiclass <- function(data) {
+  stopifnot(is.table(data))
+  mcc_multiclass_cpp(data)
 }
 
 # J Index ----------------------------------------------------------------------
