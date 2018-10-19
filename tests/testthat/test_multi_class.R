@@ -186,3 +186,20 @@ test_that('npv', {
   )
   # good micro test?
 })
+
+# Multiclass mcc calculator here:
+# http://rk.kvl.dk/
+known_data <- matrix(
+  c(213, 21, 12, 89, 459, 90, 29, 39, 958),
+  nrow = 3,
+  byrow = TRUE
+)
+# They only provide 2 decimal places but this is the answer
+known_result <- 0.754991343856656
+
+test_that('mcc', {
+  expect_equal(
+    mcc(known_data)[[".estimate"]],
+    known_result
+  )
+})
