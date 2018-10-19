@@ -35,6 +35,9 @@
 #'
 #' @author Max Kuhn
 #'
+#' @references Giuseppe, J. (2012). "A Comparison of MCC and CEN Error
+#' Measures in Multi-Class Prediction". _PLOS ONE_. Vol 7, Iss 8, e41882.
+#'
 #' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [sens()], [spec()]
 #'
 #' @examples

@@ -116,6 +116,10 @@ bal_accuracy(two_class_example, truth, predicted)
 detection_prevalence(two_class_example, truth, predicted)
 
 }
+\references{
+Giuseppe, J. (2012). "A Comparison of MCC and CEN Error
+Measures in Multi-Class Prediction". \emph{PLOS ONE}. Vol 7, Iss 8, e41882.
+}
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=sens]{sens()}}, \code{\link[=spec]{spec()}}
 }
