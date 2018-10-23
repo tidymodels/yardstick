@@ -165,6 +165,19 @@ pr_auc(two_class_example, truth, Class1)
 mn_log_loss(two_class_example, truth, Class1)
 # or
 mn_log_loss(two_class_example, truth, !! prob_cols[1])
+
+# Multiclass one-vs-all approach with roc_curve()
+# One curve per level
+hpc_cv \%>\%
+  filter(Resample == "Fold01") \%>\%
+  roc_curve(obs, VF:L) \%>\%
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_path() +
+  geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw() +
+  facet_wrap(~.level)
+
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=mcc]{mcc()}}
