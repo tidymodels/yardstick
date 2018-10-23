@@ -179,23 +179,6 @@ roc_auc_averaging_impl <- function(truth, estimate, options, averaging) {
 
 roc_auc_binary <- function(truth, estimate, options) {
 
-  # handle case where user passes in the name of both columns
-  if (is.matrix(estimate)) {
-
-    if (ncol(estimate) != 1) {
-      nm <- names(estimate)[1]
-      rlang::warn(
-        paste0(
-          "Multiple columns have been passed in `...` ",
-          "for a binary ROC AUC calculation. Using the first column detected."
-        )
-      )
-    }
-
-    # matrix -> vector for pROC::roc
-    estimate <- as.numeric(estimate[,1])
-  }
-
   lvl_values <- levels(truth)
 
   if (getOption("yardstick.event_first")) {
@@ -232,7 +215,7 @@ roc_auc_multiclass <- function(truth, estimate, options) {
       x = ifelse(truth == lvl, lvl, other),
       levels = c(lvl, other)
     )
-    estimate_temp <- estimate[, lvl, drop = FALSE]
+    estimate_temp <- as.numeric(estimate[, lvl])
 
     aucs[i] <- roc_auc_binary(truth_temp, estimate_temp, options)
 
@@ -297,13 +280,13 @@ roc_auc_hand_till <- function(truth, estimate, options) {
 }
 
 validate_averaging_roc_auc <- function(averaging) {
-  is_allowed <- averaging %in% c("binary", "macro", "macro_weighted", "hand_till")
+  allowed_roc_averaging <- c("binary", "macro", "macro_weighted", "hand_till")
+  is_allowed <- averaging %in% allowed_roc_averaging
 
   if(!is_allowed) {
-    msg <- paste0(
-      "Averaging type: `", averaging, "`, is not allowed for `roc_auc()`."
-    )
-    abort(msg)
+    abort(paste0(
+      "Averaging type `", averaging, "`, is not allowed for `roc_auc()`."
+    ))
   }
 }
 
@@ -316,7 +299,10 @@ pr_auc <- function(data, ...)
 
 #' @export
 #' @rdname roc_auc
-pr_auc.data.frame  <- function(data, truth, estimate, na.rm = TRUE, ...) {
+pr_auc.data.frame  <- function(data, truth, estimate,
+                               averaging = NULL,
+                               na.rm = TRUE,
+                               ...) {
 
   metric_summarizer(
     metric_nm = "pr_auc",
@@ -324,6 +310,7 @@ pr_auc.data.frame  <- function(data, truth, estimate, na.rm = TRUE, ...) {
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
+    averaging = averaging,
     na.rm = na.rm,
     ... = ...
   )
@@ -332,13 +319,13 @@ pr_auc.data.frame  <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
 #' @export
 #' @rdname roc_auc
-pr_auc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+pr_auc_vec <- function(truth, estimate,
+                       averaging = NULL, na.rm = TRUE, ...) {
+
+  averaging <- finalize_averaging(truth, averaging)
 
   pr_auc_impl <- function(truth, estimate) {
-
-    pr_list <- pr_curve_vec(truth, estimate, na.rm)
-    auc(pr_list[["recall"]], pr_list[["precision"]])
-
+    pr_auc_averaging_impl(truth, estimate, averaging)
   }
 
   metric_vec_template(
@@ -346,10 +333,27 @@ pr_auc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = c("factor", "numeric"),
     ...
   )
 
+}
+
+pr_auc_averaging_impl <- function(truth, estimate, averaging) {
+
+  if (is_binary(averaging)) {
+    pr_auc_binary(truth, estimate)
+  }
+  else {
+    # implement me?
+    # pr_auc_multiclass()
+  }
+}
+
+pr_auc_binary <- function(truth, estimate) {
+  pr_list <- pr_curve_vec(truth, estimate)
+  auc(pr_list[["recall"]], pr_list[["precision"]])
 }
 
 # Mean Log Loss ----------------------------------------------------------------
@@ -376,8 +380,6 @@ mn_log_loss.data.frame <- function(data, truth, ...,
     truth = !!enquo(truth),
     estimate = !!estimate,
     na.rm = na.rm,
-    # dots are captured for column names in this impl
-    #... = ...,
     # Extra argument for mn_log_loss_impl()
     metric_fn_options = list(sum = sum)
   )
@@ -389,31 +391,11 @@ mn_log_loss.data.frame <- function(data, truth, ...,
 #' @export
 mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
 
+  averaging <- finalize_averaging(truth, NULL)
+
   # estimate here is a matrix of class prob columns
-  mn_log_loss_impl <- function(truth, estimate, na.rm = TRUE, sum = FALSE) {
-
-    lvl <- levels(truth)
-
-    if (NCOL(estimate) != length(lvl)) {
-      stop(
-        "`...` should contain ",
-        length(lvl),
-        " columns of probabilities",
-        call. = FALSE
-      )
-    }
-
-    y <- model.matrix(~ truth - 1)
-    res <- y * estimate
-    res[res <= .Machine$double.eps & res > 0] <- .Machine$double.eps
-    pos_log <- function(x)
-      log(x[x != 0])
-    res <- -sum(unlist(apply(res, 1, pos_log)))
-
-    if (!sum)
-      res <- res / length(truth)
-    res
-
+  mn_log_loss_impl <- function(truth, estimate, sum = FALSE) {
+    mn_log_loss_averaging_impl(truth, estimate, averaging, sum)
   }
 
   metric_vec_template(
@@ -421,10 +403,43 @@ mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = c("factor", "numeric"),
     ...,
     sum = sum
   )
+}
+
+mn_log_loss_averaging_impl <- function(truth, estimate, averaging, sum = FALSE) {
+
+  if (is_binary(averaging)) {
+    mn_log_loss_binary(truth, estimate, sum)
+  }
+  else {
+    mn_log_loss_multiclass(truth, estimate, sum)
+  }
+
+}
+
+mn_log_loss_binary <- function(truth, estimate, sum) {
+  estimate <- matrix(c(estimate, 1-estimate), ncol = 2)
+  mn_log_loss_multiclass(truth, estimate, sum)
+}
+
+mn_log_loss_multiclass <- function(truth, estimate, sum) {
+
+  y <- model.matrix(~ truth - 1)
+  res <- y * estimate
+  res[res <= .Machine$double.eps & res > 0] <- .Machine$double.eps
+  pos_log <- function(x)
+    log(x[x != 0])
+  res <- -sum(unlist(apply(res, 1, pos_log)))
+
+  if (!sum)
+    res <- res / length(truth)
+
+  res
+
 }
 
 # ROC Curve --------------------------------------------------------------------
@@ -439,7 +454,8 @@ roc_curve <- function(data, ...)
 #' @importFrom pROC coords
 #' @importFrom rlang invoke
 #' @importFrom dplyr arrange as_tibble %>%
-roc_curve.data.frame  <- function (data, truth, estimate, options = list(), na.rm = TRUE, ...) {
+roc_curve.data.frame  <- function (data, truth, estimate,
+                                   options = list(), na.rm = TRUE, ...) {
   vars <-
     prob_select(
       data = data,
@@ -515,7 +531,7 @@ pr_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 }
 
 # Undecided of whether to export this or not
-pr_curve_vec <- function(truth, estimate, na.rm) {
+pr_curve_vec <- function(truth, estimate, na.rm = TRUE) {
 
   lvls <- levels(truth)
 

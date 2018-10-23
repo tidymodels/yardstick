@@ -75,84 +75,6 @@ match_levels_to_cols <- function(nms, lvl) {
 
 # ------------------------------------------------------------------------------
 
-# utilities for name selection
-
-# dplyr:::tbl_at_vars
-tbl_at_vars <- function (tbl, vars, .include_group_vars = FALSE) {
-
-  if (.include_group_vars) {
-    tibble_vars <- dplyr::tbl_vars(tbl)
-  }
-  else {
-    tibble_vars <- dplyr::tbl_nongroup_vars(tbl)
-  }
-
-  if (rlang::is_null(vars)) {
-    character()
-  }
-  else if (rlang::is_character(vars)) {
-    vars
-  }
-  else if (rlang::is_integerish(vars)) {
-    tibble_vars[vars]
-  }
-  # make tbl_at_vars() more flexible so it allows a single quosure
-  else if (rlang::is_quosure(vars)) {
-    out <- tidyselect::vars_select(tibble_vars, !!vars)
-    if (!any(rlang::have_name(vars))) {
-      names(out) <- NULL
-    }
-    out
-  }
-  else if (rlang::is_quosures(vars)) {
-    out <- tidyselect::vars_select(tibble_vars, !!!vars)
-    if (!any(rlang::have_name(vars))) {
-      names(out) <- NULL
-    }
-    out
-  }
-  else {
-    rlang::abort("`.vars` must be a character/numeric vector or a `vars()` object, not XYZthing")
-  }
-}
-
-# take data and estimate which can be:
-# - quosure with a name, - quosure with a call
-# if with a call, evaluate it to get
-# - character vector
-# - numeric vector
-# - quosures object
-# then get the character column names
-# then construct something we can pass to summarise()
-vars_prep <- function(data, estimate) {
-
-  # eval if not a single name
-  if(rlang::is_call(rlang::get_expr(estimate))) {
-    estimate <- rlang::eval_tidy(estimate)
-  }
-
-  chr_vars <- tbl_at_vars(data, estimate)
-  sym_vars <- rlang::syms(chr_vars)
-
-  # multiple columns get returned as a matrix, single columns are a vector
-  if(length(sym_vars) > 1) {
-    estimate <- rlang::quo(matrix(c(!!! sym_vars), ncol = !!length(sym_vars)))
-  } else {
-    estimate <- sym_vars[[1]]
-  }
-
-  estimate
-}
-
-# ------------------------------------------------------------------------------
-
-add_class <- function(data, cls) {
-  class(data) <- c(cls, class(data))
-  data
-}
-
-# ------------------------------------------------------------------------------
-
 construct_name <- function(nm, averaging, estimate) {
 
   averaging <- finalize_averaging(estimate, averaging)
@@ -173,3 +95,5 @@ is_binary <- function(x) {
 is_micro <- function(x) {
   x == "micro"
 }
+
+# ------------------------------------------------------------------------------

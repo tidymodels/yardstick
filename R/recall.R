@@ -110,6 +110,7 @@ recall.data.frame <- function(data, truth, estimate,
 #' @export
 recall.table <- function(data, averaging = NULL, ...) {
   check_table(data)
+  averaging <- finalize_averaging(data, averaging)
   metric_tibbler(
     .metric = construct_name("recall", averaging, data),
     .estimate = recall_table_impl(data, averaging)
@@ -125,6 +126,8 @@ recall.matrix <- function(data, averaging = NULL, ...) {
 #' @export
 #' @rdname recall
 recall_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
+
+  averaging <- finalize_averaging(truth, averaging)
 
   recall_impl <- function(truth, estimate) {
 
@@ -143,6 +146,7 @@ recall_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = "factor",
     ...
   )
@@ -150,8 +154,6 @@ recall_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
 }
 
 recall_table_impl <- function(data, averaging) {
-
-  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     recall_binary(data)
@@ -223,6 +225,7 @@ precision.data.frame <- function(data, truth, estimate,
 precision.table <- function (data, averaging = NULL, ...) {
 
   check_table(data)
+  averaging <- finalize_averaging(data, averaging)
 
   metric_tibbler(
     .metric = construct_name("precision", averaging, data),
@@ -244,6 +247,8 @@ precision.matrix <- function(data, averaging = NULL, ...) {
 precision_vec <- function(truth, estimate,
                           averaging = NULL, na.rm = TRUE, ...) {
 
+  averaging <- finalize_averaging(truth, averaging)
+
   precision_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
@@ -260,6 +265,7 @@ precision_vec <- function(truth, estimate,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = "factor",
     ...
   )
@@ -267,8 +273,6 @@ precision_vec <- function(truth, estimate,
 }
 
 precision_table_impl <- function(data, averaging) {
-
-  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     precision_binary(data)
@@ -339,6 +343,7 @@ f_meas.data.frame <- function(data, truth, estimate, beta = 1,
 #' @export
 f_meas.table <- function (data, beta = 1, averaging = NULL, ...) {
   check_table(data)
+  averaging <- finalize_averaging(data, averaging)
 
   metric_tibbler(
     .metric = construct_name("f_meas", averaging, data),
@@ -359,6 +364,8 @@ f_meas.matrix <- function(data, beta = 1, averaging = NULL, ...) {
 f_meas_vec <- function(truth, estimate, beta = 1,
                        averaging = NULL, na.rm = TRUE, ...) {
 
+  averaging <- finalize_averaging(truth, averaging)
+
   f_meas_impl <- function(truth, estimate, beta) {
 
     xtab <- vec2table(
@@ -376,6 +383,7 @@ f_meas_vec <- function(truth, estimate, beta = 1,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = "factor",
     ...,
     beta = beta
@@ -384,8 +392,6 @@ f_meas_vec <- function(truth, estimate, beta = 1,
 }
 
 f_meas_table_impl <- function(data, averaging, beta = 1) {
-
-  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     f_meas_binary(data, beta)

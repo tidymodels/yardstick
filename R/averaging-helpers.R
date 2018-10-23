@@ -38,7 +38,12 @@ finalize_averaging <- function(x, averaging) {
 }
 
 finalize_averaging.default <- function(x, averaging) {
-  "binary"
+  cls <- class(x)[[1]]
+  abort(paste0(
+    "Averaging cannot be automatically determined from object of class `",
+    cls,
+    "`."
+  ))
 }
 
 finalize_averaging.matrix <- function(x, averaging) {
