@@ -75,6 +75,8 @@ rmse <- function(data, ...) {
   UseMethod("rmse")
 }
 
+class(rmse) <- c("numeric_metric", "function")
+
 #' @rdname rmse
 #' @export
 rmse.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
@@ -117,6 +119,8 @@ rmse_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 rsq <- function(data, ...) {
   UseMethod("rsq")
 }
+
+class(rsq) <- c("numeric_metric", "function")
 
 #' @rdname rmse
 #' @export
@@ -161,6 +165,8 @@ rsq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 rsq_trad <- function(data, ...) {
   UseMethod("rsq_trad")
 }
+
+class(rsq_trad) <- c("numeric_metric", "function")
 
 #' @rdname rmse
 #' @export
@@ -208,6 +214,8 @@ mae <- function(data, ...) {
   UseMethod("mae")
 }
 
+class(mae) <- c("numeric_metric", "function")
+
 #' @rdname rmse
 #' @export
 mae.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
@@ -251,6 +259,8 @@ mape <- function(data, ...) {
   UseMethod("mape")
 }
 
+class(mape) <- c("numeric_metric", "function")
+
 #' @rdname rmse
 #' @export
 mape.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
@@ -293,6 +303,8 @@ mape_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 ccc <- function(data, ...) {
   UseMethod("ccc")
 }
+
+class(ccc) <- c("numeric_metric", "function")
 
 #' @rdname rmse
 #' @export

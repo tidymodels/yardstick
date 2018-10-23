@@ -87,7 +87,6 @@ test_that('correct results', {
 test_that('custom metric sets', {
 
   reg_set <- metric_set(rmse, rsq, mae)
-  mixed_set <- metric_set(rmse, accuracy)
 
   expect_equal(
     reg_set(solubility_test, solubility, prediction),
@@ -98,6 +97,6 @@ test_that('custom metric sets', {
     metric_set(rmse, "x")
   )
   expect_error(
-    mixed_set(solubility_test, solubility, prediction),
+    metric_set(rmse, accuracy)
   )
 })

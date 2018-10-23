@@ -347,6 +347,8 @@ gain_capture <- function(data, ...) {
   UseMethod("gain_capture")
 }
 
+class(gain_capture) <- c("prob_metric", "function")
+
 #' @rdname gain_curve
 #' @export
 gain_capture.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {

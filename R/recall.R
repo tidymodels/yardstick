@@ -89,6 +89,8 @@ recall <- function(data, ...) {
   UseMethod("recall")
 }
 
+class(recall) <- c("class_metric", "function")
+
 #' @rdname recall
 #' @export
 recall.data.frame <- function(data, truth, estimate,
@@ -201,6 +203,8 @@ recall_multiclass <- function(data, averaging) {
 precision <- function(data, ...) {
   UseMethod("precision")
 }
+
+class(precision) <- c("class_metric", "function")
 
 #' @rdname recall
 #' @export
@@ -320,6 +324,8 @@ precision_multiclass <- function(data, averaging) {
 f_meas <- function(data, ...) {
   UseMethod("f_meas")
 }
+
+class(f_meas) <- c("class_metric", "function")
 
 #' @rdname recall
 #' @export

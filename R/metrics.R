@@ -141,8 +141,10 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #'
 #' @details
 #'
-#' There are currently no checks in place to ensure that all of the metric
-#' functions calculate the same kind of metric (regression vs classification).
+#' All functions must be of the same "function class" to be able to be used
+#' together. For instance, `rmse()` can be used with `mae()` because they
+#' are numeric metrics, but not with `accuracy()` because it is a classification
+#' metric.
 #'
 #' @examples
 #'
@@ -151,6 +153,8 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' # Multiple regression metrics
 #' multi_metric <- metric_set(rmse, rsq, ccc)
 #'
+#' # The returned function has arguments:
+#' # fn(data, truth, estimate, na.rm = TRUE, ...)
 #' multi_metric(solubility_test, truth = solubility, estimate = prediction)
 #'
 #' # Groups are respected on the new metric function
@@ -160,14 +164,34 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #'   group_by(Resample) %>%
 #'   class_metrics(obs, pred)
 #'
+#' # ---------------------------------------------------------------------------
+#'
 #' # If you need to set options for certain metrics,
-#' # do so ahead of time with purrr::partial()
+#' # do so ahead of time with purrr::partial(). Unfortunately
+#' # this requires you to reset the class of the metric function manually
+#' # as partial() removes it. Metric function classes are one of:
+#' # "numeric_metric", "class_metric", "prob_metric"
 #' library(purrr)
 #' ccc_with_bias <- partial(ccc, bias = TRUE)
+#' class(ccc_with_bias) <- c("numeric_metric", "function")
 #'
 #' multi_metric2 <- metric_set(rmse, rsq, ccc_with_bias)
 #'
 #' multi_metric2(solubility_test, truth = solubility, estimate = prediction)
+#'
+#' # ---------------------------------------------------------------------------
+#' # A class probability example:
+#'
+#' # Note that, when given prob functions, metric_set() returns a function
+#' # with signature:
+#' # fn(data, truth, ...)
+#' # to be consistent with class probability metric functions
+#'
+#' probs_metrics <- metric_set(roc_auc, pr_auc, mn_log_loss)
+#'
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   probs_metrics(obs, VF:L)
 #'
 #' @seealso [metrics()]
 #'
@@ -179,43 +203,97 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' @importFrom rlang quo_name
 metric_set <- function(...) {
 
-  # Capture functions in their environment
   quo_fns <- enquos(...)
-  fns <- lapply(quo_fns, eval_tidy)
+  validate_not_empty(quo_fns)
 
+  # Get values and check that they are fns
+  fns <- lapply(quo_fns, eval_tidy)
   validate_inputs_are_functions(fns)
 
+  # Add on names, and then check that
+  # all fns are of the same function class
   names(fns) <- vapply(quo_fns, quo_name, character(1))
+  validate_function_class(fns)
 
-  function(data, truth, estimate, na.rm = TRUE, ...) {
+  fn_cls <- class(fns[[1]])[1]
 
-    # Construct common argument set for each metric call
-    # Doing this dynamically inside the generated function means
-    # we capture the correct arguments
-    call_args <- quos(
-      data = data,
-      truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
-      na.rm = na.rm,
-      ... = ...
-    )
+  # signature of the function is different depending on input functions
+  if (fn_cls %in% c("class_metric", "numeric_metric")) {
 
-    # Construct calls from the functions + arguments
-    calls <- lapply(fns, call2, !!! call_args)
+    function(data, truth, estimate, na.rm = TRUE, ...) {
 
-    # Evaluate
-    metric_list <- mapply(
-      FUN = eval_safely,
-      calls, # .x
-      names(calls), # .y
-      SIMPLIFY = FALSE,
-      USE.NAMES = FALSE
-    )
+      # Construct common argument set for each metric call
+      # Doing this dynamically inside the generated function means
+      # we capture the correct arguments
+      call_args <- quos(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        na.rm = na.rm,
+        ... = ...
+      )
 
-    bind_rows(metric_list)
+      # Construct calls from the functions + arguments
+      calls <- lapply(fns, call2, !!! call_args)
+
+      # Evaluate
+      metric_list <- mapply(
+        FUN = eval_safely,
+        calls, # .x
+        names(calls), # .y
+        SIMPLIFY = FALSE,
+        USE.NAMES = FALSE
+      )
+
+      bind_rows(metric_list)
+    }
+
   }
+  else if (fn_cls == "prob_metric") {
+
+    function(data, truth, ..., na.rm = TRUE) {
+
+      # Construct common argument set for each metric call
+      # Doing this dynamically inside the generated function means
+      # we capture the correct arguments
+      call_args <- quos(
+        data = data,
+        truth = !!enquo(truth),
+        ... = ...,
+        na.rm = na.rm
+      )
+
+      # Construct calls from the functions + arguments
+      calls <- lapply(fns, call2, !!! call_args)
+
+      # Evaluate
+      metric_list <- mapply(
+        FUN = eval_safely,
+        calls, # .x
+        names(calls), # .y
+        SIMPLIFY = FALSE,
+        USE.NAMES = FALSE
+      )
+
+      bind_rows(metric_list)
+    }
+
+  }
+  else {
+    abort(paste0(
+      "No `metric_set()` implementation available for functions of class: ",
+      fn_cls, "."
+    ))
+  }
+
 }
 
+
+validate_not_empty <- function(x) {
+  if (rlang::is_empty(x)) {
+    abort("`metric_set()` requires at least 1 function supplied to `...`.")
+  }
+}
 
 #' @importFrom rlang is_function
 validate_inputs_are_functions <- function(fns) {
@@ -236,6 +314,49 @@ validate_inputs_are_functions <- function(fns) {
 
 }
 
+# Validate that all metric functions inherit from the same function class
+validate_function_class <- function(fns) {
+  fn_cls <- vapply(fns, function(fn) class(fn)[1], character(1))
+  fn_cls_unique <- unique(fn_cls)
+
+  if (length(fn_cls_unique) > 1) {
+
+    # Each element of the list contains the names of the fns
+    # that inherit that specific class
+    fn_bad_names <- lapply(fn_cls_unique, function(x) {
+      x <- unique(c(x, "function"))
+      fn_nms <- names(fns)
+      where <- vapply(fns, rlang::inherits_only, logical(1), class = x)
+      fn_nms[where]
+    })
+
+    # clean up for nicer printing
+    fn_cls_unique <- gsub("_metric", "", fn_cls_unique)
+    fn_cls_unique <- gsub("function", "other", fn_cls_unique)
+
+    # Prints as:
+    # - fn_type1 (fn_name1, fn_name2)
+    # - fn_type2 (fn_name1)
+    fn_pastable <- mapply(
+      FUN = function(fn_type, fn_names) {
+        fn_names <- paste0(fn_names, collapse = ", ")
+        paste0("- ", fn_type, " (", fn_names, ")")
+      },
+      fn_type = fn_cls_unique,
+      fn_names = fn_bad_names,
+      USE.NAMES = FALSE
+    )
+
+    fn_pastable <- paste0(fn_pastable, collapse = "\n")
+
+    abort(paste0(
+      "All metric functions must be of the same class. ",
+      "The following metric function types are being mixed:\n",
+      fn_pastable
+    ))
+  }
+}
+
 # Safely evaluate metrics in such a way that we can capture the
 # error and inform the user of the metric that failed
 
@@ -247,7 +368,10 @@ eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
       eval_tidy(expr, data = data, env = env)
     },
     error = function(e) {
-      stop("In metric: `", expr_nm, "`\n", e$message, call. = FALSE)
+      abort(paste0(
+        "In metric: `", expr_nm, "`\n",
+        e$message
+      ))
     }
   )
 }

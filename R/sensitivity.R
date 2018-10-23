@@ -142,8 +142,11 @@ NULL
 
 #' @rdname sens
 #' @export
-sens <- function(data, ...)
+sens <- function(data, ...) {
   UseMethod("sens")
+}
+
+class(sens) <- c("class_metric", "function")
 
 #' @export
 #' @rdname sens
@@ -223,6 +226,8 @@ sens_table_impl <- recall_table_impl
 spec <-  function(data, ...) {
   UseMethod("spec")
 }
+
+class(spec) <- c("class_metric", "function")
 
 #' @export
 #' @rdname sens
@@ -350,6 +355,8 @@ spec_multiclass <- function(data, averaging) {
 ppv <- function(data, ...) {
   UseMethod("ppv")
 }
+
+class(ppv) <- c("class_metric", "function")
 
 #' @rdname sens
 #' @export
@@ -493,6 +500,8 @@ ppv_multiclass <- function(data, averaging, prevalence = NULL) {
 npv <- function(data, ...) {
   UseMethod("npv")
 }
+
+class(npv) <- c("class_metric", "function")
 
 #' @rdname sens
 #' @export

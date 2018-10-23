@@ -130,8 +130,11 @@ NULL
 
 #' @export
 #' @rdname roc_auc
-roc_auc <- function(data, ...)
+roc_auc <- function(data, ...) {
   UseMethod("roc_auc")
+}
+
+class(roc_auc) <- c("prob_metric", "function")
 
 #' @export
 #' @rdname roc_auc
@@ -283,8 +286,11 @@ roc_auc_hand_till <- function(truth, estimate, options) {
 
 #' @export
 #' @rdname roc_auc
-pr_auc <- function(data, ...)
+pr_auc <- function(data, ...) {
   UseMethod("pr_auc")
+}
+
+class(pr_auc) <- c("prob_metric", "function")
 
 #' @export
 #' @rdname roc_auc
@@ -364,6 +370,8 @@ pr_auc_multiclass <- function(truth, estimate) {
 mn_log_loss <- function(data, ...) {
   UseMethod("mn_log_loss")
 }
+
+class(mn_log_loss) <- c("prob_metric", "function")
 
 #' @export
 #' @rdname roc_auc
