@@ -348,8 +348,9 @@ pr_auc_binary <- function(truth, estimate) {
 
 #' @export mn_log_loss
 #' @rdname roc_auc
-mn_log_loss <- function(data, ...)
+mn_log_loss <- function(data, ...) {
   UseMethod("mn_log_loss")
+}
 
 #' @export
 #' @rdname roc_auc
