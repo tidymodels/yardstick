@@ -10,10 +10,7 @@ abort_selection <- rlang::exiting(function(cnd) {
 
 prob_select <- function(data, truth, ...) {
   truth_var <- tidyselect::vars_pull(names(data), !! enquo(truth))
-  dot_vars <- rlang::with_handlers(
-    tidyselect::vars_select(names(data), !!! quos(...)),
-    tidyselect_empty = abort_selection
-  )
+  dot_vars <- tidyselect::vars_select(names(data), !!! quos(...))
   if (length(dot_vars) == 0) {
     stop("No class probability columns were selected by the `...`.",
          call. = FALSE)
@@ -35,10 +32,7 @@ all_select <- function(data, truth, estimate, ...) {
   truth_var <- tidyselect::vars_pull(names(data), !! enquo(truth))
   est_var <- tidyselect::vars_pull(names(data), !! enquo(estimate))
 
-  dot_vars <- rlang::with_handlers(
-    tidyselect::vars_select(names(data), !!! quos(...)),
-    tidyselect_empty = abort_selection
-  )
+  dot_vars <- tidyselect::vars_select(names(data), !!! quos(...))
 
   if (length(dot_vars) == 0) {
     dot_vars <- NA

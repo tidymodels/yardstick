@@ -752,10 +752,13 @@ auc <- function(x, y, na.rm = TRUE) {
 # `...` -> estimate matrix / vector helper -------------------------------------
 
 dots_to_estimate <- function(data, ...) {
+
   # Capture dots
   dot_vars <- rlang::with_handlers(
     tidyselect::vars_select(names(data), !!! enquos(...)),
-    tidyselect_empty = abort_selection
+    tidyselect_empty_dots = function(cnd) {
+      abort("No valid variables provided to `...`.")
+    }
   )
 
   # estimate is a matrix of the selected columns if >1 selected
