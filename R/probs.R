@@ -751,6 +751,41 @@ auc <- function(x, y, na.rm = TRUE) {
 
 # `...` -> estimate matrix / vector helper -------------------------------------
 
+#' Developer helpers
+#'
+#' Helpers to be used alongside [metric_vec_template()] and [metric_summarizer()]
+#' when creating new metrics.
+#'
+#' `dots_to_estimate()` is useful with class probability metrics that take
+#' `...` rather than `estimate` as an argument. It constructs either a single
+#' name if 1 input is provided to `...` or it constructs a quosure where the
+#' expression constructs a matrix of as many columns as are provided to `...`.
+#' These are eventually evaluated in the `summarise()` call in
+#' [metric_summarizer()] and evaluate to either a vector or a matrix for further
+#' use.
+#'
+#' `finalize_averaging()` is the engine for auto-selection of averaging based
+#' on the type of `x`. Generally `x` is the `truth` column.
+#' If `averaging` is not `NULL`, it is returned immediately
+#' as no auto-selection is needed. If `x` is a:
+#'
+#' * `factor` - Then `"binary"` is returned if it has 2 levels, otherwise
+#' `"macro"` is returned.
+#'
+#' * `numeric` - Then `"binary"` is returned.
+#'
+#' * `table` - Then `"binary"` is returned if it has 2 columns, otherwise
+#' `"macro"` is returned. This is useful if you have `table` methods.
+#'
+#' * `matrix` - Then `"macro"` is returned.
+#'
+#' @name developer-helpers
+#'
+#' @aliases dots_to_estimate
+#'
+#' @export
+#'
+#' @inheritParams roc_auc
 dots_to_estimate <- function(data, ...) {
 
   # Capture dots
