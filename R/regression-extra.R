@@ -56,6 +56,8 @@ rpd <- function(data, ...) {
   UseMethod("rpd")
 }
 
+class(rpd) <- c("numeric_metric", "function")
+
 #' @rdname rpd
 #' @export
 rpd.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
@@ -101,6 +103,8 @@ rpd_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 rpiq <- function(data, ...) {
   UseMethod("rpiq")
 }
+
+class(rpiq) <- c("numeric_metric", "function")
 
 #' @rdname rpd
 #' @export

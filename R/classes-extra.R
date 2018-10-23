@@ -63,6 +63,8 @@ mcc <- function(data, ...) {
   UseMethod("mcc")
 }
 
+class(mcc) <- c("class_metric", "function")
+
 #' @export
 #' @rdname mcc
 mcc.data.frame <- function(data, truth, estimate,
@@ -176,6 +178,8 @@ j_index <- function(data, ...) {
   UseMethod("j_index")
 }
 
+class(j_index) <- c("class_metric", "function")
+
 #' @export
 #' @rdname mcc
 j_index.data.frame <- function(data, truth, estimate,
@@ -275,6 +279,8 @@ j_index_multiclass <- function(data, averaging) {
 bal_accuracy <- function(data, ...) {
   UseMethod("bal_accuracy")
 }
+
+class(bal_accuracy) <- c("class_metric", "function")
 
 #' @export
 #' @rdname mcc
@@ -377,6 +383,8 @@ bal_accuracy_multiclass <- function(data, averaging) {
 detection_prevalence <- function(data, ...) {
   UseMethod("detection_prevalence")
 }
+
+class(detection_prevalence) <- c("class_metric", "function")
 
 #' @export
 #' @rdname mcc

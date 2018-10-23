@@ -14,8 +14,10 @@ metric_set(...)
 into a new function that calculates all of them at once.
 }
 \details{
-There are currently no checks in place to ensure that all of the metric
-functions calculate the same kind of metric (regression vs classification).
+All functions must be of the same "function class" to be able to be used
+together. For instance, \code{rmse()} can be used with \code{mae()} because they
+are numeric metrics, but not with \code{accuracy()} because it is a classification
+metric.
 }
 \examples{
 
@@ -24,6 +26,8 @@ library(dplyr)
 # Multiple regression metrics
 multi_metric <- metric_set(rmse, rsq, ccc)
 
+# The returned function has arguments:
+# fn(data, truth, estimate, na.rm = TRUE, ...)
 multi_metric(solubility_test, truth = solubility, estimate = prediction)
 
 # Groups are respected on the new metric function
@@ -33,14 +37,34 @@ hpc_cv \%>\%
   group_by(Resample) \%>\%
   class_metrics(obs, pred)
 
+# ---------------------------------------------------------------------------
+
 # If you need to set options for certain metrics,
-# do so ahead of time with purrr::partial()
+# do so ahead of time with purrr::partial(). Unfortunately
+# this requires you to reset the class of the metric function manually
+# as partial() removes it. Metric function classes are one of:
+# "numeric_metric", "class_metric", "prob_metric"
 library(purrr)
 ccc_with_bias <- partial(ccc, bias = TRUE)
+class(ccc_with_bias) <- c("numeric_metric", "function")
 
 multi_metric2 <- metric_set(rmse, rsq, ccc_with_bias)
 
 multi_metric2(solubility_test, truth = solubility, estimate = prediction)
+
+# ---------------------------------------------------------------------------
+# A class probability example:
+
+# Note that, when given prob functions, metric_set() returns a function
+# with signature:
+# fn(data, truth, ...)
+# to be consistent with class probability metric functions
+
+probs_metrics <- metric_set(roc_auc, pr_auc, mn_log_loss)
+
+hpc_cv \%>\%
+  group_by(Resample) \%>\%
+  probs_metrics(obs, VF:L)
 
 }
 \seealso{

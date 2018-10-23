@@ -55,6 +55,8 @@ accuracy <- function(data, ...) {
   UseMethod("accuracy")
 }
 
+class(accuracy) <- c("class_metric", "function")
+
 #' @export
 #' @rdname accuracy
 accuracy.data.frame <- function(data, truth, estimate,
@@ -131,6 +133,8 @@ accuracy_binary <- function(data) {
 kap <- function(data, ...) {
   UseMethod("kap")
 }
+
+class(kap) <- c("class_metric", "function")
 
 #' @export
 #' @rdname accuracy

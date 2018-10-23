@@ -26,7 +26,7 @@ test_that('correct metrics returned', {
   )
   expect_equal(
     metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[".metric"]],
-    c("accuracy", "kap", "mn_log_loss")
+    c("accuracy", "kap", "mn_log_loss", "roc_auc_macro")
   )
   expect_equal(
     metrics(solubility_test, solubility, "prediction")[[".metric"]],
@@ -87,7 +87,6 @@ test_that('correct results', {
 test_that('custom metric sets', {
 
   reg_set <- metric_set(rmse, rsq, mae)
-  mixed_set <- metric_set(rmse, accuracy)
 
   expect_equal(
     reg_set(solubility_test, solubility, prediction),
@@ -98,6 +97,6 @@ test_that('custom metric sets', {
     metric_set(rmse, "x")
   )
   expect_error(
-    mixed_set(solubility_test, solubility, prediction),
+    metric_set(rmse, accuracy)
   )
 })

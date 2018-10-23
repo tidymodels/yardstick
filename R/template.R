@@ -1,6 +1,9 @@
 #' @importFrom dplyr summarise
-metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
-                              averaging = NA, na.rm = TRUE, ...,
+metric_summarizer <- function(metric_nm, metric_fn,
+                              data, truth, estimate,
+                              averaging = NA,
+                              na.rm = TRUE,
+                              ...,
                               metric_fn_options = list()) {
 
   truth <- enquo(truth)
@@ -13,7 +16,7 @@ metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
   truth <- handle_chr_names(truth)
   estimate <- handle_chr_names(estimate)
 
-  metric_tbl <- summarise(
+  metric_tbl <- dplyr::summarise(
     data,
     .metric = construct_name(!! metric_nm, averaging, !! estimate),
     .estimate = metric_fn(
@@ -28,20 +31,10 @@ metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
   dplyr::as_tibble(metric_tbl)
 }
 
-#' @importFrom rlang get_expr set_expr
-handle_chr_names <- function(x) {
-  x_expr <- get_expr(x)
-
-  # Replace character with bare name
-  if(is.character(x_expr) && length(x_expr) == 1) {
-    x <- set_expr(x, as.name(x_expr))
-  }
-
-  x
-}
 
 #' @importFrom stats complete.cases
-metric_vec_template <- function(metric_impl, truth, estimate,
+metric_vec_template <- function(metric_impl,
+                                truth, estimate,
                                 na.rm = TRUE,
                                 cls = "numeric",
                                 averaging = NULL,
@@ -74,6 +67,18 @@ metric_vec_template <- function(metric_impl, truth, estimate,
   }
 
   metric_impl(truth, estimate, ...)
+}
+
+#' @importFrom rlang get_expr set_expr
+handle_chr_names <- function(x) {
+  x_expr <- get_expr(x)
+
+  # Replace character with bare name
+  if(is.character(x_expr) && length(x_expr) == 1) {
+    x <- set_expr(x, as.name(x_expr))
+  }
+
+  x
 }
 
 metric_tibbler <- function(.metric, .estimate) {

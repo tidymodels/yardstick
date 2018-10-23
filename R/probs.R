@@ -130,8 +130,11 @@ NULL
 
 #' @export
 #' @rdname roc_auc
-roc_auc <- function(data, ...)
+roc_auc <- function(data, ...) {
   UseMethod("roc_auc")
+}
+
+class(roc_auc) <- c("prob_metric", "function")
 
 #' @export
 #' @rdname roc_auc
@@ -283,8 +286,11 @@ roc_auc_hand_till <- function(truth, estimate, options) {
 
 #' @export
 #' @rdname roc_auc
-pr_auc <- function(data, ...)
+pr_auc <- function(data, ...) {
   UseMethod("pr_auc")
+}
+
+class(pr_auc) <- c("prob_metric", "function")
 
 #' @export
 #' @rdname roc_auc
@@ -364,6 +370,8 @@ pr_auc_multiclass <- function(truth, estimate) {
 mn_log_loss <- function(data, ...) {
   UseMethod("mn_log_loss")
 }
+
+class(mn_log_loss) <- c("prob_metric", "function")
 
 #' @export
 #' @rdname roc_auc
@@ -744,10 +752,13 @@ auc <- function(x, y, na.rm = TRUE) {
 # `...` -> estimate matrix / vector helper -------------------------------------
 
 dots_to_estimate <- function(data, ...) {
+
   # Capture dots
   dot_vars <- rlang::with_handlers(
     tidyselect::vars_select(names(data), !!! enquos(...)),
-    tidyselect_empty = abort_selection
+    tidyselect_empty_dots = function(cnd) {
+      abort("No valid variables provided to `...`.")
+    }
   )
 
   # estimate is a matrix of the selected columns if >1 selected
