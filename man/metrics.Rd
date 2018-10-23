@@ -71,6 +71,8 @@ metrics(solubility_test, truth = solubility, estimate = prediction)
 # Multiclass metrics work, but you cannot specify any averaging
 # for roc_auc() besides the default, macro. Use the specific function
 # if you need more customization
+library(dplyr)
+
 hpc_cv \%>\%
   group_by(Resample) \%>\%
   metrics(obs, pred, VF:L) \%>\%
