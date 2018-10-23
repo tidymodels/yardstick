@@ -7,7 +7,7 @@ get_weights <- function(data, averaging) {
   }
   else if (averaging == "macro") {
 
-    n <- nrow(data)
+    n <- ncol(data)
     rep(1 / n, times = n)
 
   }
