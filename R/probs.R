@@ -152,13 +152,12 @@ roc_auc_vec <- function(truth, estimate, options = list(),
     averaging = averaging,
     na.rm = na.rm,
     cls = c("factor", "numeric"),
+    averaging_override = c("binary", "macro", "macro_weighted", "hand_till"),
     ...
   )
 }
 
 roc_auc_averaging_impl <- function(truth, estimate, options, averaging) {
-
-  validate_averaging_roc_auc(averaging)
 
   if (is_binary(averaging)) {
     roc_auc_binary(truth, estimate, options)
@@ -277,17 +276,6 @@ roc_auc_hand_till <- function(truth, estimate, options) {
   }
 
   multiplier * sum_val
-}
-
-validate_averaging_roc_auc <- function(averaging) {
-  allowed_roc_averaging <- c("binary", "macro", "macro_weighted", "hand_till")
-  is_allowed <- averaging %in% allowed_roc_averaging
-
-  if(!is_allowed) {
-    abort(paste0(
-      "Averaging type `", averaging, "`, is not allowed for `roc_auc()`."
-    ))
-  }
 }
 
 # PR AUC -----------------------------------------------------------------------

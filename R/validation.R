@@ -183,7 +183,7 @@ validate_truth_estimate_checks <- function(truth, estimate,
   validate_truth_estimate_lengths(truth, estimate)
 }
 
-# Validate that the user supplied an input
+# Validate that the user supplied an input -------------------------------------
 
 validate_not_missing <- function(x, nm) {
   if(rlang::quo_is_missing(x)) {
@@ -193,3 +193,43 @@ validate_not_missing <- function(x, nm) {
    ))
   }
 }
+
+# Validate averaging type is allowed -------------------------------------------
+
+validate_averaging <- function(averaging, averaging_override) {
+
+  if(is.null(averaging)) {
+    return()
+  }
+
+  if (!is.null(averaging_override)) {
+    allowed <- averaging_override
+  }
+  else {
+    allowed <- c("binary", "macro", "micro", "macro_weighted")
+  }
+
+  if (length(averaging) != 1) {
+    abort(paste0(
+      "`averaging` must be length 1, not ", length(averaging), "."
+    ))
+  }
+
+  if (!is.character(averaging)) {
+    abort(paste0(
+      "`averaging` must be a character, not a ", class(averaging)[1], "."
+    ))
+  }
+
+  averaging_ok <- (averaging %in% allowed)
+
+  if (!averaging_ok) {
+    allowed <- paste0(dQuote(allowed), collapse = ", ")
+    abort(paste0(
+      "`averaging` must be one of: ", allowed,
+      ". Not ", dQuote(averaging), "."
+    ))
+  }
+
+}
+

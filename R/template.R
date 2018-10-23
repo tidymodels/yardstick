@@ -45,8 +45,10 @@ metric_vec_template <- function(metric_impl, truth, estimate,
                                 na.rm = TRUE,
                                 cls = "numeric",
                                 averaging = NULL,
+                                averaging_override = NULL,
                                 ...) {
 
+  validate_averaging(averaging, averaging_override)
   validate_truth_estimate_checks(truth, estimate, cls, averaging)
 
   if (na.rm) {
