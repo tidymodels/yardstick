@@ -365,39 +365,11 @@ gain_capture.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
 gain_capture_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
+  # currently only binary is allowed
+  averaging <- "binary"
+
   gain_capture_impl <- function(truth, estimate) {
-
-    gain_list <- gain_curve_vec(truth, estimate)
-
-    gain_to_0_auc <- auc(
-      x = gain_list[[".percent_tested"]],
-      y = gain_list[[".percent_found"]]
-    )
-
-    scaler <- 1 / (100 ^ 2)
-    height <- 100
-    width <- 100
-    baseline <- 0.5
-
-    gain_to_0_auc <- gain_to_0_auc * scaler
-
-    # perfect = value at the elbow of the perfect gain chart
-    .n_events <- gain_list[[".n_events"]]
-    slope <- 1 / (max(.n_events) / length(.n_events))
-    perfect <- height / slope
-
-    # perfect triangle
-    perf_triang <- (perfect * height) / 2
-
-    # perfect rectangle
-    perf_rect <- (width - perfect) * height
-
-    perf_auc <- (perf_rect + perf_triang) * scaler
-
-    # calculate capture ratio = fraction of area captured
-    # under the gain curve, but above the baseline, and relative to a
-    # perfect capture score
-    (gain_to_0_auc - baseline) / (perf_auc - baseline)
+    gain_capture_averaging_impl(truth, estimate, averaging)
   }
 
   metric_vec_template(
@@ -405,8 +377,56 @@ gain_capture_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = c("factor", "numeric"),
     ...
   )
+
+}
+
+gain_capture_averaging_impl <- function(truth, estimate, averaging) {
+
+  if(is_binary(averaging)) {
+    gain_capture_binary(truth, estimate)
+  } else {
+    # should there be a multiclass case?
+    # could do macro?
+  }
+
+}
+
+gain_capture_binary <- function(truth, estimate) {
+
+  gain_list <- gain_curve_vec(truth, estimate)
+
+  gain_to_0_auc <- auc(
+    x = gain_list[[".percent_tested"]],
+    y = gain_list[[".percent_found"]]
+  )
+
+  scaler <- 1 / (100 ^ 2)
+  height <- 100
+  width <- 100
+  baseline <- 0.5
+
+  gain_to_0_auc <- gain_to_0_auc * scaler
+
+  # perfect = value at the elbow of the perfect gain chart
+  .n_events <- gain_list[[".n_events"]]
+  slope <- 1 / (max(.n_events) / length(.n_events))
+  perfect <- height / slope
+
+  # perfect triangle
+  perf_triang <- (perfect * height) / 2
+
+  # perfect rectangle
+  perf_rect <- (width - perfect) * height
+
+  perf_auc <- (perf_rect + perf_triang) * scaler
+
+  # calculate capture ratio = fraction of area captured
+  # under the gain curve, but above the baseline, and relative to a
+  # perfect capture score
+  (gain_to_0_auc - baseline) / (perf_auc - baseline)
 
 }

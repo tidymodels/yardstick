@@ -21,7 +21,7 @@ test_that('correct metrics returned', {
     c("accuracy", "kap")
   )
   expect_equal(
-    metrics(two_class_example, truth, predicted, starts_with("Class"))[[".metric"]],
+    metrics(two_class_example, truth, predicted, Class1)[[".metric"]],
     c("accuracy", "kap", "mn_log_loss", "roc_auc")
   )
   expect_equal(
@@ -46,9 +46,6 @@ test_that('bad args', {
   expect_error(
     metrics(three_class, "obs", "pred", setosa, versicolor)
   )
-  expect_error(
-    metrics(two_class_example, truth, predicted, Class1)
-  )
 })
 
 ###################################################################
@@ -56,7 +53,7 @@ test_that('bad args', {
 class_res_1 <- bind_rows(
   accuracy(two_class_example, truth, predicted),
   kap(two_class_example, truth, predicted),
-  mn_log_loss(two_class_example, truth, Class1, Class2),
+  mn_log_loss(two_class_example, truth, Class1),
   roc_auc(two_class_example, truth, Class1)
 )
 
@@ -76,7 +73,7 @@ test_that('correct results', {
     class_res_1[class_idx,][[".estimate"]]
   )
   expect_equal(
-    metrics(two_class_example, truth, predicted, Class1, Class2)[[".estimate"]],
+    metrics(two_class_example, truth, predicted, Class1)[[".estimate"]],
     class_res_1[[".estimate"]]
   )
   expect_equal(

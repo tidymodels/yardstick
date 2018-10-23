@@ -3,9 +3,15 @@ metric_summarizer <- function(metric_nm, metric_fn, data, truth, estimate,
                               averaging = NA, na.rm = TRUE, ...,
                               metric_fn_options = list()) {
 
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+
+  validate_not_missing(truth, "truth")
+  validate_not_missing(estimate, "estimate")
+
   # Explicit handling of length 1 character vectors as column names
-  truth <- handle_chr_names(enquo(truth))
-  estimate <- handle_chr_names(enquo(estimate))
+  truth <- handle_chr_names(truth)
+  estimate <- handle_chr_names(estimate)
 
   metric_tbl <- summarise(
     data,
@@ -36,20 +42,24 @@ handle_chr_names <- function(x) {
 
 #' @importFrom stats complete.cases
 metric_vec_template <- function(metric_impl, truth, estimate,
-                                na.rm = TRUE, cls = "numeric", ...) {
+                                na.rm = TRUE,
+                                cls = "numeric",
+                                averaging = NULL,
+                                averaging_override = NULL,
+                                ...) {
 
-  validate_truth_estimate_checks(truth, estimate, cls)
+  validate_averaging(averaging, averaging_override)
+  validate_truth_estimate_checks(truth, estimate, cls, averaging)
 
   if (na.rm) {
     complete_cases <- complete.cases(truth, estimate)
     truth <- truth[complete_cases]
 
-    if (NCOL(estimate) == 1) {
-      estimate <- estimate[complete_cases]
+    if (is.matrix(estimate)) {
+      estimate <- estimate[complete_cases, , drop = FALSE]
     }
     else {
-      # estimate can be a matrix
-      estimate <- estimate[complete_cases, , drop = FALSE]
+      estimate <- estimate[complete_cases]
     }
 
   }
@@ -68,45 +78,6 @@ metric_vec_template <- function(metric_impl, truth, estimate,
 
 metric_tibbler <- function(.metric, .estimate) {
   dplyr::tibble(.metric = .metric, .estimate = .estimate)
-}
-
-validate_truth_estimate_lengths <- function(truth, estimate) {
-
-  # use NROW not length so an estimate matrix and truth vec can be compared
-  n_truth <- NROW(truth)
-  n_estimate <- NROW(estimate)
-
-  if(n_truth != n_estimate) {
-    msg <- paste0("Length of `truth` (", n_truth,
-                  ") and `estimate` (", n_estimate, ") must match.")
-    stop(msg, call. = FALSE)
-  }
-}
-
-validate_class <- function(x, nm, cls) {
-
-  # cls is always known to have a `is.cls()` function
-  is_cls <- get(paste0("is.", cls))
-
-  if(!is_cls(x)) {
-    stop("`", nm, "` should be a ", cls, call. = FALSE)
-  }
-}
-
-validate_truth_estimate_checks <- function(truth, estimate, cls = "numeric") {
-
-  truth_cls <- cls[[1]]
-
-  # Allow cls to be a vector of length 2
-  if(length(cls) > 1) {
-    estimate_cls <- cls[[2]]
-  } else {
-    estimate_cls <- truth_cls
-  }
-
-  validate_truth_estimate_lengths(truth, estimate)
-  validate_class(truth, "truth", truth_cls)
-  validate_class(estimate, "estimate", estimate_cls)
 }
 
 # if averaging = NULL, we don't want to pass it along

@@ -147,7 +147,8 @@ sens <- function(data, ...)
 
 #' @export
 #' @rdname sens
-sens.data.frame <- function(data, truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
+sens.data.frame <- function(data, truth, estimate,
+                            averaging = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "sens",
@@ -165,8 +166,8 @@ sens.data.frame <- function(data, truth, estimate, averaging = NULL, na.rm = TRU
 #' @export
 sens.table <- function(data, averaging = NULL, ...) {
 
-  ## "truth" in columns, predictions in rows
   check_table(data)
+  averaging <- finalize_averaging(data, averaging)
 
   metric_tibbler(
     .metric = construct_name("sens", averaging, data),
@@ -187,6 +188,8 @@ sens.matrix <- function(data, averaging = NULL, ...) {
 #' @rdname sens
 sens_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
 
+  averaging <- finalize_averaging(truth, averaging)
+
   sens_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
@@ -204,6 +207,7 @@ sens_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = "factor",
     ...
   )
@@ -241,8 +245,8 @@ spec.data.frame <- function(data, truth, estimate,
 #' @export
 spec.table <- function(data, averaging = NULL, ...) {
 
-  ## "truth" in columns, predictions in rows
   check_table(data)
+  averaging <- finalize_averaging(data, averaging)
 
   metric_tibbler(
     .metric = construct_name("spec", averaging, data),
@@ -263,6 +267,8 @@ spec.matrix <- function(data, averaging = NULL, ...) {
 #' @rdname sens
 spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE,...) {
 
+  averaging <- finalize_averaging(truth, averaging)
+
   spec_impl <- function(truth, estimate) {
 
     xtab <- vec2table(
@@ -280,6 +286,7 @@ spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE,...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = "factor",
     ...
   )
@@ -288,8 +295,6 @@ spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE,...) {
 
 #' @importFrom stats weighted.mean
 spec_table_impl <- function(data, averaging) {
-
-  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     spec_binary(data)
@@ -369,8 +374,8 @@ ppv.data.frame <- function(data, truth, estimate,
 #' @export
 ppv.table <- function(data, prevalence = NULL, averaging = NULL, ...) {
 
-  ## "truth" in columns, predictions in rows
   check_table(data)
+  averaging <- finalize_averaging(data, averaging)
 
   metric_tibbler(
     .metric = construct_name("ppv", averaging, data),
@@ -396,6 +401,8 @@ ppv.matrix <- function(data, prevalence = NULL, averaging = NULL, ...) {
 ppv_vec <- function(truth, estimate, prevalence = NULL,
                     averaging = NULL, na.rm = TRUE, ...) {
 
+  averaging <- finalize_averaging(truth, averaging)
+
   ppv_impl <- function(truth, estimate, prevalence) {
 
     xtab <- vec2table(
@@ -404,12 +411,6 @@ ppv_vec <- function(truth, estimate, prevalence = NULL,
       na.rm = FALSE,
       ...
     )
-
-    # # What is this doing?
-    # lev <- if (getOption("yardstick.event_first"))
-    #   colnames(xtab)[1]
-    # else
-    #   colnames(xtab)[2]
 
     ppv_table_impl(xtab, averaging, prevalence = prevalence)
 
@@ -420,6 +421,7 @@ ppv_vec <- function(truth, estimate, prevalence = NULL,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = "factor",
     ...,
     prevalence = prevalence
@@ -428,8 +430,6 @@ ppv_vec <- function(truth, estimate, prevalence = NULL,
 }
 
 ppv_table_impl <- function(data, averaging, prevalence = NULL) {
-
-  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     ppv_binary(data, prevalence)
@@ -517,8 +517,8 @@ npv.data.frame <- function(data, truth, estimate,
 #' @export
 npv.table <- function(data, prevalence = NULL, averaging = NULL, ...) {
 
-  ## "truth" in columns, predictions in rows
   check_table(data)
+  averaging <- finalize_averaging(data, averaging)
 
   metric_tibbler(
     .metric = construct_name("npv", averaging, data),
@@ -541,6 +541,8 @@ npv_vec <- function(truth, estimate,
                     prevalence = NULL,
                     averaging = NULL, na.rm = TRUE, ...) {
 
+  averaging <- finalize_averaging(truth, averaging)
+
   npv_impl <- function(truth, estimate, prevalence) {
 
     xtab <- vec2table(
@@ -559,6 +561,7 @@ npv_vec <- function(truth, estimate,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = averaging,
     cls = "factor",
     ...,
     prevalence = prevalence
@@ -567,8 +570,6 @@ npv_vec <- function(truth, estimate,
 }
 
 npv_table_impl <- function(data, averaging, prevalence = NULL) {
-
-  averaging <- finalize_averaging(data, averaging)
 
   if(is_binary(averaging)) {
     npv_binary(data, prevalence)

@@ -94,8 +94,8 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
   // y_precision.push_back(n_positive /(double)n);
 
   return List::create(
-    Named("threshold") = thresholds,
-    Named("recall")    = x_recall,
-    Named("precision") = y_precision
+    Named(".threshold") = thresholds,
+    Named("recall")     = x_recall,
+    Named("precision")  = y_precision
   );
 }

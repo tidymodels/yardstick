@@ -300,7 +300,7 @@ test_that('ROC AUC', {
 test_that('ROC Curve', {
   library(pROC)
   points <- coords(roc_curv, x = unique(c(-Inf, two_class_example$Class1, Inf)), input = "threshold")
-  points <- dplyr::as_tibble(t(points)) %>% dplyr::arrange(threshold)
+  points <- dplyr::as_tibble(t(points)) %>% dplyr::arrange(threshold) %>% dplyr::rename(.threshold = threshold)
   s_points <- coords(smooth_curv, x = unique(c(0, smooth_curv$specificities, 1)), input = "specificity")
   s_points <- dplyr::as_tibble(t(s_points)) %>% dplyr::arrange(specificity)
 
@@ -337,7 +337,7 @@ pr_example <- data.frame(
 )
 
 pr_result <- list(
-  threshold = c(Inf, 0.9, 0.7, 0.4, 0.35),
+  .threshold = c(Inf, 0.9, 0.7, 0.4, 0.35),
   recall = c(0, 1/3, 2/3, 1, 1),
   precision = c(NA, 1, 1, 1, 0.75)
 )
@@ -389,12 +389,12 @@ test_that('Log Loss', {
       class = c("tbl_df", "tbl", "data.frame")
     )
   expect_equal(
-    mn_log_loss(x[1:2,], truth = truth, No, Yes)[[".estimate"]],
+    mn_log_loss(x[1:2,], truth = truth, No)[[".estimate"]],
     0.9844328,
     tol = .0001
   )
   expect_equal(
-    mn_log_loss(x, truth = truth, No, Yes)[[".estimate"]],
+    mn_log_loss(x, truth = truth, No)[[".estimate"]],
     0.6562885,
     tol = .0001
   )

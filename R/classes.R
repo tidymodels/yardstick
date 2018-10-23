@@ -108,6 +108,7 @@ accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = "binary",
     cls = "factor",
     ...
   )
@@ -184,6 +185,7 @@ kap_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
+    averaging = "binary",
     cls = "factor",
     ...
   )
