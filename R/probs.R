@@ -21,20 +21,25 @@
 #' @param data A `data.frame` containing the `truth` and `estimate`
 #' columns.
 #'
-#' @param estimate The column identifier for the predicted class probabilities
-#' (that is a `numeric`) corresponding to the "positive" result. See Details.
-#' For `_vec()` functions, a `numeric` vector. For `mn_log_loss_vec`, this should
-#' be a matrix with as many columns as factor levels in `truth`.
+#' @param estimate If `truth` is binary, a numeric vector of class probabilities
+#' corresponding to the "relevant" class. Otherwise, a matrix with as many
+#' columns as factor levels of `truth`.
 #'
-#' @param ... For `mn_log_loss()`, a set of unquoted column names or one or more
-#'  `dplyr` selector functions to choose which variables contain the
-#'  class probabilities. There should be as many columns as
-#'  factor levels of `truth`. It is **assumed** that they are in the
-#'  same order as the factor levels. Otherwise, unused.
+#' @param ... A set of unquoted column names or one or more
+#' `dplyr` selector functions to choose which variables contain the
+#' class probabilities. If truth is binary, only 1 column should be selected.
+#' Otherwise, there should be as many columns as factor levels of `truth`.
 #'
 #' @param options A `list` of named options to pass to [roc()]
 #' such as `direction` or `smooth`. These options should not include `response`,
 #' `predictor`, or `levels`.
+#'
+#' @param averaging For `roc_auc()` and `pr_auc()`, one of `"binary"`,
+#' `"macro"`, or `"macro_weighted"` to specify the type of averaging to be done.
+#' `"binary"` is only relevant for the two class case. The other two are
+#' general methods for calculating multiclass metrics. The default will
+#' automatically choose `"binary"` or `"macro"` based on `estimate`. `roc_auc()`
+#' also accepts `"hand_till"` for the metric described in Hand, Till (2001).
 #'
 #' @return
 #'
@@ -47,10 +52,15 @@
 #'
 #' For `roc_curve()`, a tibble with columns
 #' `sensitivity` and `specificity`. If an ordinary (i.e. non-smoothed) curve
-#' is used, there is also a column for `threshold`.
+#' is used, there is also a column for `.threshold`.
 #'
 #' For `pr_curve()`, a tibble with columns `recall`, `precision`, and
-#' `threshold`.
+#' `.threshold`.
+#'
+#' For `roc_curve()` and `pr_curve()`, if a multiclass `truth` column is
+#' provided, a one-vs-all approach will be taken to calculate multiple curves,
+#' one per level. In this case, there will be an additional column, `.level`,
+#' identifying the "one" column in the one-vs-all calculation.
 #'
 #' @details
 #'
@@ -197,30 +207,8 @@ roc_auc_binary <- function(truth, estimate, options) {
 }
 
 roc_auc_multiclass <- function(truth, estimate, options) {
-
-  lvls <- levels(truth)
-  other <- "..other"
-
-  aucs <- vector("numeric", length = length(lvls))
-
-  # one vs all
-  for(i in seq_along(lvls)) {
-
-    # Recode truth into 2 levels, relevant and other
-    # Pull out estimate prob column corresponding to relevant
-    # Pulls by name so they dont have to be in the same order
-    lvl <- lvls[i]
-    truth_temp <- factor(
-      x = ifelse(truth == lvl, lvl, other),
-      levels = c(lvl, other)
-    )
-    estimate_temp <- as.numeric(estimate[, lvl])
-
-    aucs[i] <- roc_auc_binary(truth_temp, estimate_temp, options)
-
-  }
-
-  aucs
+  res_lst <- one_vs_all_impl(roc_auc_binary, truth, estimate, options = options)
+  rlang::flatten_dbl(res_lst)
 }
 
 roc_auc_hand_till <- function(truth, estimate, options) {
@@ -287,17 +275,18 @@ pr_auc <- function(data, ...)
 
 #' @export
 #' @rdname roc_auc
-pr_auc.data.frame  <- function(data, truth, estimate,
+pr_auc.data.frame  <- function(data, truth, ...,
                                averaging = NULL,
-                               na.rm = TRUE,
-                               ...) {
+                               na.rm = TRUE) {
+
+  estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
     metric_nm = "pr_auc",
     metric_fn = pr_auc_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
+    estimate = !!estimate,
     averaging = averaging,
     na.rm = na.rm,
     ... = ...
@@ -323,6 +312,7 @@ pr_auc_vec <- function(truth, estimate,
     na.rm = na.rm,
     averaging = averaging,
     cls = c("factor", "numeric"),
+    averaging_override = c("binary", "macro", "macro_weighted"),
     ...
   )
 
@@ -334,14 +324,24 @@ pr_auc_averaging_impl <- function(truth, estimate, averaging) {
     pr_auc_binary(truth, estimate)
   }
   else {
-    # implement me?
-    # pr_auc_multiclass()
+    # weights for macro / macro_weighted are based on truth frequencies
+    # (this is the usual definition)
+    truth_table <- matrix(table(truth), nrow = 1)
+    w <- get_weights(truth_table, averaging)
+    out_vec <- pr_auc_multiclass(truth, estimate)
+    weighted.mean(out_vec, w)
   }
+
 }
 
 pr_auc_binary <- function(truth, estimate) {
   pr_list <- pr_curve_vec(truth, estimate)
   auc(pr_list[["recall"]], pr_list[["precision"]])
+}
+
+pr_auc_multiclass <- function(truth, estimate) {
+  res_lst <- one_vs_all_impl(pr_auc_binary, truth, estimate)
+  rlang::flatten_dbl(res_lst)
 }
 
 # Mean Log Loss ----------------------------------------------------------------
@@ -443,53 +443,135 @@ roc_curve <- function(data, ...)
 #' @importFrom pROC coords
 #' @importFrom rlang invoke
 #' @importFrom dplyr arrange as_tibble %>%
-roc_curve.data.frame  <- function (data, truth, estimate,
-                                   options = list(), na.rm = TRUE, ...) {
-  vars <-
-    prob_select(
-      data = data,
-      truth = !!enquo(truth),
-      !!enquo(estimate) # currently passed as dots
+roc_curve.data.frame  <- function (data, truth, ...,
+                                   options = list(),
+                                   na.rm = TRUE) {
+
+  estimate <- dots_to_estimate(data, !!! enquos(...))
+  truth <- enquo(truth)
+
+  validate_not_missing(truth, "truth")
+
+  # Explicit handling of length 1 character vectors as column names
+  truth <- handle_chr_names(truth)
+  estimate <- handle_chr_names(estimate)
+
+  res <- dplyr::do(
+    data,
+    roc_curve_vec(
+      truth = rlang::eval_tidy(truth, data = .),
+      estimate = rlang::eval_tidy(estimate, data = .),
+      na.rm = na.rm,
+      !!! list(options = options)
     )
+  )
 
-  lvl_values <- levels(data[[vars$truth]])
-
-  if (getOption("yardstick.event_first")) {
-    lvl <- rev(lvl_values)
-  } else {
-    lvl <- lvl_values
+  if (".level" %in% colnames(res)) {
+    res <- dplyr::group_by(res, .level, add = TRUE)
   }
-  col <- match_levels_to_cols(vars$probs, rev(lvl))
 
-  data <- data[, c(vars$truth, col)]
-  if (na.rm)
-    data <- data[complete.cases(data), ]
+  res
+}
+
+roc_curve_vec <- function(truth, estimate,
+                          options = list(),
+                          na.rm = TRUE,
+                          ...) {
+
+  # finalize just to see if binary/multiclass
+  averaging <- finalize_averaging(truth, NULL)
+
+  # estimate here is a matrix of class prob columns
+  roc_curve_impl <- function(truth, estimate, options = list()) {
+    roc_curve_averaging_impl(truth, estimate, averaging, options)
+  }
+
+  metric_vec_template(
+    metric_impl = roc_curve_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    averaging = averaging,
+    cls = c("factor", "numeric"),
+    ...,
+    options = options
+  )
+}
+
+roc_curve_averaging_impl <- function(truth, estimate, averaging, options) {
+
+  if (is_binary(averaging)) {
+    roc_curve_binary(truth, estimate, options)
+  }
+  else {
+    roc_curve_multiclass(truth, estimate, options)
+  }
+
+}
+
+roc_curve_binary <- function(truth, estimate, options) {
+
+  lvls <- levels(truth)
+
+  if (getOption("yardstick.event_first", default = TRUE)) {
+    lvls <- rev(lvls)
+  }
 
   # working on a better way of doing this
-  options$response <- data[[vars$truth]]
-  options$predictor <- data[[col]]
-  options$levels <- lvl
+  options$response <- truth
+  options$predictor <- estimate
+  options$levels <- lvls
 
   curv <- invoke(pROC::roc, options)
+
   if (!inherits(curv, "smooth.roc")) {
     res <- coords(
       curv,
       x = unique(c(-Inf, options$predictor, Inf)),
       input = "threshold"
     )
-  } else {
+  }
+  else {
     res <- coords(
       curv,
       x = unique(c(0, curv$specificities, 1)),
       input = "specificity"
     )
   }
+
   res <- dplyr::as_tibble(t(res))
-  res <- if (!inherits(curv, "smooth.roc"))
-    res %>% dplyr::arrange(threshold)
-  else
-    res %>% dplyr::arrange(specificity)
+
+  if (!inherits(curv, "smooth.roc")) {
+    res <- dplyr::arrange(res, threshold)
+    res <- dplyr::rename(res, .threshold = threshold)
+  }
+  else {
+    res <- dplyr::arrange(res, specificity)
+  }
+
   res
+}
+
+# One-VS-All approach
+roc_curve_multiclass <- function(truth, estimate, options) {
+  res <- one_vs_all_impl(roc_curve_binary, truth, estimate, options)
+
+  lvls <- levels(truth)
+
+  with_level <- function(df, lvl) {
+    df$.level <- lvl
+    dplyr::select(df, .level, tidyselect::everything())
+  }
+
+  res <- mapply(
+    with_level,
+    df = res,
+    lvl = lvls,
+    SIMPLIFY = FALSE,
+    USE.NAMES = FALSE
+  )
+
+  dplyr::bind_rows(res)
 }
 
 # PR Curve ---------------------------------------------------------------------
@@ -503,30 +585,69 @@ pr_curve <- function(data, ...) {
 #' @export
 #' @rdname roc_auc
 #' @importFrom stats relevel
-pr_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+pr_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
 
-  vars <- prob_select(
-    data = data,
-    truth = !!enquo(truth),
-    !!enquo(estimate) # currently passed as dots
+  estimate <- dots_to_estimate(data, !!! enquos(...))
+  truth <- enquo(truth)
+
+  validate_not_missing(truth, "truth")
+
+  # Explicit handling of length 1 character vectors as column names
+  truth <- handle_chr_names(truth)
+
+  res <- dplyr::do(
+    data,
+    pr_curve_vec(
+      truth = rlang::eval_tidy(truth, data = .),
+      estimate = rlang::eval_tidy(estimate, data = .),
+      na.rm = na.rm
+    )
   )
 
-  truth <- data[[vars$truth]]
-  estimate <- data[[vars$probs]]
+  if (".level" %in% colnames(res)) {
+    res <- dplyr::group_by(res, .level, add = TRUE)
+  }
 
-  pr_list <- pr_curve_vec(truth, estimate, na.rm)
-
-  dplyr::tibble(!!!pr_list)
+  res
 }
 
 # Undecided of whether to export this or not
-pr_curve_vec <- function(truth, estimate, na.rm = TRUE) {
+pr_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  # finalize just to see if binary/multiclass
+  averaging <- finalize_averaging(truth, NULL)
+
+  # estimate here is a matrix of class prob columns
+  pr_curve_impl <- function(truth, estimate) {
+    pr_curve_averaging_impl(truth, estimate, averaging)
+  }
+
+  metric_vec_template(
+    metric_impl = pr_curve_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    averaging = averaging,
+    cls = c("factor", "numeric"),
+    ...
+  )
+
+}
+
+pr_curve_averaging_impl <- function(truth, estimate, averaging) {
+
+  if (is_binary(averaging)) {
+    pr_curve_binary(truth, estimate)
+  }
+  else {
+    pr_curve_multiclass(truth, estimate)
+  }
+
+}
+
+pr_curve_binary <- function(truth, estimate) {
 
   lvls <- levels(truth)
-
-  if(length(lvls) != 2L) {
-    stop("`truth` must be a two level factor.", call. = FALSE)
-  }
 
   # Relevel if event_first = FALSE
   # The second level becomes the first so as.integer()
@@ -535,19 +656,44 @@ pr_curve_vec <- function(truth, estimate, na.rm = TRUE) {
     truth <- relevel(truth, lvls[2])
   }
 
-  if(na.rm) {
-    complete_idx <- complete.cases(truth, estimate)
-    truth <- truth[complete_idx]
-    estimate <- estimate[complete_idx]
-  }
-
   # quicker to convert to integer now rather than letting rcpp do it
   # 1=good, 2=bad
   truth <- as.integer(truth)
 
   pr_list <- pr_curve_cpp(truth, estimate)
 
-  pr_list
+  dplyr::tibble(!!!pr_list)
+}
+
+# One vs all approach
+pr_curve_multiclass <- function(truth, estimate) {
+
+  lvls <- levels(truth)
+  other <- "..other"
+
+  pr_curves <- rlang::new_list(n = length(lvls))
+
+  # one vs all
+  for(i in seq_along(lvls)) {
+
+    # Recode truth into 2 levels, relevant and other
+    # Pull out estimate prob column corresponding to relevant
+    # Pulls by name so they dont have to be in the same order
+    lvl <- lvls[i]
+    truth_temp <- factor(
+      x = ifelse(truth == lvl, lvl, other),
+      levels = c(lvl, other)
+    )
+    estimate_temp <- as.numeric(estimate[, lvl])
+
+    curve <- pr_curve_binary(truth_temp, estimate_temp)
+    curve$.level = lvl
+    curve <- dplyr::select(curve, .level, tidyselect::everything())
+
+    pr_curves[[i]] <- curve
+  }
+
+  dplyr::bind_rows(pr_curves)
 }
 
 # AUC helper -------------------------------------------------------------------
@@ -582,6 +728,8 @@ auc <- function(x, y, na.rm = TRUE) {
   auc
 }
 
+# `...` -> estimate matrix / vector helper -------------------------------------
+
 dots_to_estimate <- function(data, ...) {
   # Capture dots
   dot_vars <- rlang::with_handlers(
@@ -609,5 +757,36 @@ dots_to_estimate <- function(data, ...) {
   estimate
 }
 
+# One vs all helper ------------------------------------------------------------
+
+one_vs_all_impl <- function(metric_fn, truth, estimate, ...) {
+
+  lvls <- levels(truth)
+  other <- "..other"
+
+  metric_lst <- rlang::new_list(n = length(lvls))
+
+  # one vs all
+  for(i in seq_along(lvls)) {
+
+    # Recode truth into 2 levels, relevant and other
+    # Pull out estimate prob column corresponding to relevant
+    # Pulls by name so they dont have to be in the same order
+    lvl <- lvls[i]
+
+    truth_temp <- factor(
+      x = ifelse(truth == lvl, lvl, other),
+      levels = c(lvl, other)
+    )
+
+    estimate_temp <- as.numeric(estimate[, lvl])
+
+    metric_lst[[i]] <- metric_fn(truth_temp, estimate_temp, ...)
+
+  }
+
+  metric_lst
+}
+
 #' @importFrom utils globalVariables
-utils::globalVariables(c("estimate", "threshold", "specificity"))
+utils::globalVariables(c("estimate", "threshold", "specificity", ".level", "."))

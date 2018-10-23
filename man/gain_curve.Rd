@@ -19,9 +19,9 @@ lift_curve(data, ...)
 
 \method{lift_curve}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
 
-autoplot.gain_df(object, ...)
+\method{autoplot}{gain_df}(object, ...)
 
-autoplot.lift_df(object, ...)
+\method{autoplot}{lift_df}(object, ...)
 
 gain_capture(data, ...)
 

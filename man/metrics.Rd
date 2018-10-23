@@ -14,11 +14,10 @@ metrics(data, ...)
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
 columns and any columns specified by \code{...}.}
 
-\item{...}{For \code{mn_log_loss()}, a set of unquoted column names or one or more
+\item{...}{A set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
-class probabilities. There should be as many columns as
-factor levels of \code{truth}. It is \strong{assumed} that they are in the
-same order as the factor levels. Otherwise, unused.}
+class probabilities. If truth is binary, only 1 column should be selected.
+Otherwise, there should be as many columns as factor levels of \code{truth}.}
 
 \item{truth}{The column identifier for the true results (that
 is \code{numeric} or \code{factor}). This should be an unquoted column name

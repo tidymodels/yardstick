@@ -28,8 +28,8 @@ roc_auc_vec(truth, estimate, options = list(), averaging = NULL,
 
 pr_auc(data, ...)
 
-\method{pr_auc}{data.frame}(data, truth, estimate, averaging = NULL,
-  na.rm = TRUE, ...)
+\method{pr_auc}{data.frame}(data, truth, ..., averaging = NULL,
+  na.rm = TRUE)
 
 pr_auc_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
@@ -42,22 +42,21 @@ mn_log_loss_vec(truth, estimate, na.rm = TRUE, sum = FALSE, ...)
 
 roc_curve(data, ...)
 
-\method{roc_curve}{data.frame}(data, truth, estimate, options = list(),
-  na.rm = TRUE, ...)
+\method{roc_curve}{data.frame}(data, truth, ..., options = list(),
+  na.rm = TRUE)
 
 pr_curve(data, ...)
 
-\method{pr_curve}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{pr_curve}{data.frame}(data, truth, ..., na.rm = TRUE)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
 columns.}
 
-\item{...}{For \code{mn_log_loss()}, a set of unquoted column names or one or more
+\item{...}{A set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
-class probabilities. There should be as many columns as
-factor levels of \code{truth}. It is \strong{assumed} that they are in the
-same order as the factor levels. Otherwise, unused.}
+class probabilities. If truth is binary, only 1 column should be selected.
+Otherwise, there should be as many columns as factor levels of \code{truth}.}
 
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
@@ -69,19 +68,19 @@ names). For \code{_vec()} functions, a \code{factor} vector.}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
 
-\item{averaging}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
-or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
-only relevant for the two class case. The other three are general methods for
-calculating multiclass metrics. The default will automatically choose \code{"binary"}
-or \code{"macro"} based on \code{estimate}.}
+\item{averaging}{For \code{roc_auc()} and \code{pr_auc()}, one of \code{"binary"},
+\code{"macro"}, or \code{"macro_weighted"} to specify the type of averaging to be done.
+\code{"binary"} is only relevant for the two class case. The other two are
+general methods for calculating multiclass metrics. The default will
+automatically choose \code{"binary"} or \code{"macro"} based on \code{estimate}. \code{roc_auc()}
+also accepts \code{"hand_till"} for the metric described in Hand, Till (2001).}
 
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
-\item{estimate}{The column identifier for the predicted class probabilities
-(that is a \code{numeric}) corresponding to the "positive" result. See Details.
-For \code{_vec()} functions, a \code{numeric} vector. For \code{mn_log_loss_vec}, this should
-be a matrix with as many columns as factor levels in \code{truth}.}
+\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
+corresponding to the "relevant" class. Otherwise, a matrix with as many
+columns as factor levels of \code{truth}.}
 
 \item{sum}{A \code{logical}. Should the sum of the likelihood contributions be
 returned (instead of the mean value)?}
@@ -96,10 +95,15 @@ same as the number of groups.
 
 For \code{roc_curve()}, a tibble with columns
 \code{sensitivity} and \code{specificity}. If an ordinary (i.e. non-smoothed) curve
-is used, there is also a column for \code{threshold}.
+is used, there is also a column for \code{.threshold}.
 
 For \code{pr_curve()}, a tibble with columns \code{recall}, \code{precision}, and
-\code{threshold}.
+\code{.threshold}.
+
+For \code{roc_curve()} and \code{pr_curve()}, if a multiclass \code{truth} column is
+provided, a one-vs-all approach will be taken to calculate multiple curves,
+one per level. In this case, there will be an additional column, \code{.level},
+identifying the "one" column in the one-vs-all calculation.
 }
 \description{
 These functions compute the areas under the receiver operating
