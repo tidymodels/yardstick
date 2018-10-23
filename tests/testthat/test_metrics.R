@@ -26,7 +26,7 @@ test_that('correct metrics returned', {
   )
   expect_equal(
     metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[".metric"]],
-    c("accuracy", "kap", "mn_log_loss")
+    c("accuracy", "kap", "mn_log_loss", "roc_auc_macro")
   )
   expect_equal(
     metrics(solubility_test, solubility, "prediction")[[".metric"]],

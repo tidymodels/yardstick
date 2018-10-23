@@ -6,13 +6,16 @@
 #'
 #'
 #' @inheritParams roc_auc
+#'
 #' @param data A `data.frame` containing the `truth` and `estimate`
 #' columns and any columns specified by `...`.
+#'
 #' @param truth The column identifier for the true results (that
 #'  is `numeric` or `factor`). This should be an unquoted column name
 #'  although this argument is passed by expression and support
 #'  [quasiquotation][rlang::quasiquotation] (you can unquote column
 #'  names).
+#'
 #' @param estimate The column identifier for the predicted results
 #'  (that is also `numeric` or `factor`). As with `truth` this can be
 #'  specified different ways but the primary method is to use an
@@ -21,10 +24,12 @@
 #' @return A two column tibble.
 #' * When `truth` is a factor, there are columns for [accuracy()] and the
 #' Kappa statistic ([kap()]).
-#' * If a full set of class probability columns are passed to `...`, then
-#' there is also a column for [mn_log_loss()].
-#' * When `truth` has two levels and there are class probabilities, [roc_auc()]
-#' is appended.
+#' * When `truth` has two levels, and 1 column of class probabilities is
+#' passed to `...`, there are columns for the two class versions of
+#' [mn_log_loss()] and [roc_auc()].
+#' * When `truth` has more than two levels, and a full set of class probabilities
+#' are passed to `...`, there are columns for the multiclass version of
+#' [mn_log_loss()] and macro averaged [roc_auc()].
 #' * When `truth` is numeric, there are columns for [rmse()], [rsq()],
 #' and [mae()].
 #'
@@ -41,9 +46,18 @@
 #' # Regression metrics
 #' metrics(solubility_test, truth = solubility, estimate = prediction)
 #'
+#' # Multiclass metrics work, but you cannot specify any averaging
+#' # for roc_auc() besides the default, macro. Use the specific function
+#' # if you need more customization
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   metrics(obs, pred, VF:L) %>%
+#'   print(n = 40)
+#'
 #' @export metrics
-metrics <- function(data, ...)
+metrics <- function(data, ...) {
   UseMethod("metrics")
+}
 
 #' @export
 #' @rdname metrics
@@ -67,45 +81,24 @@ metrics.data.frame <- function(data, truth, estimate, ...,
       stop("`estimate` should be a factor", call. = FALSE)
     }
 
-    # Precompute the table for speed
-    xtab <- vec2table(
-      truth = data[[ vars$truth ]],
-      estimate = data[[ vars$estimate ]],
-      na.rm = na.rm,
-      dnn = c("Prediction", "Truth")
-    )
-
     metrics_class <- metric_set(accuracy, kap)
 
-    res <- metrics_class(xtab)
+    res <- metrics_class(data, !! vars$truth, !!vars$estimate)
 
     # truth=factor. Any ... ?
     has_probs <- !all(is.na(vars$probs))
 
     if (has_probs) {
 
-      res <- bind_rows(
-        res,
-        mn_log_loss(data, !! vars$truth, !! vars$probs, na.rm = na.rm)
-      )
-
       # truth=factor and there are ...
       # Is truth a 2 level factor?
       lvl <- levels(data[[ vars$truth ]])
 
-      if (length(lvl) == 2) {
-
-        col <- if (getOption("yardstick.event_first"))
-          lvl[1]
-        else
-          lvl[2]
-
-        res <- bind_rows(
-          res,
-          roc_auc(data, !! vars$truth, !! col, na.rm = na.rm, options = options)
-        )
-
-      } # end two_classes
+      res <- bind_rows(
+        res,
+        mn_log_loss(data, !! vars$truth, !! vars$probs, na.rm = na.rm),
+        roc_auc(data, !! vars$truth, !! vars$probs, na.rm = na.rm, options = options)
+      )
 
     } # end has_probs
 
@@ -113,8 +106,9 @@ metrics.data.frame <- function(data, truth, estimate, ...,
   } else {
 
     # Assume only regression for now
-    if(!is.numeric(data[[ vars$estimate ]]))
+    if (!is.numeric(data[[ vars$estimate ]])) {
       stop("`estimate` should be numeric", call. = FALSE)
+    }
 
     metrics_regression <- metric_set(rmse, rsq, mae)
 

@@ -42,10 +42,12 @@ A two column tibble.
 \itemize{
 \item When \code{truth} is a factor, there are columns for \code{\link[=accuracy]{accuracy()}} and the
 Kappa statistic (\code{\link[=kap]{kap()}}).
-\item If a full set of class probability columns are passed to \code{...}, then
-there is also a column for \code{\link[=mn_log_loss]{mn_log_loss()}}.
-\item When \code{truth} has two levels and there are class probabilities, \code{\link[=roc_auc]{roc_auc()}}
-is appended.
+\item When \code{truth} has two levels, and 1 column of class probabilities is
+passed to \code{...}, there are columns for the two class versions of
+\code{\link[=mn_log_loss]{mn_log_loss()}} and \code{\link[=roc_auc]{roc_auc()}}.
+\item When \code{truth} has more than two levels, and a full set of class probabilities
+are passed to \code{...}, there are columns for the multiclass version of
+\code{\link[=mn_log_loss]{mn_log_loss()}} and macro averaged \code{\link[=roc_auc]{roc_auc()}}.
 \item When \code{truth} is numeric, there are columns for \code{\link[=rmse]{rmse()}}, \code{\link[=rsq]{rsq()}},
 and \code{\link[=mae]{mae()}}.
 }
@@ -65,6 +67,14 @@ metrics(two_class_example, truth, predicted, Class1)
 
 # Regression metrics
 metrics(solubility_test, truth = solubility, estimate = prediction)
+
+# Multiclass metrics work, but you cannot specify any averaging
+# for roc_auc() besides the default, macro. Use the specific function
+# if you need more customization
+hpc_cv \%>\%
+  group_by(Resample) \%>\%
+  metrics(obs, pred, VF:L) \%>\%
+  print(n = 40)
 
 }
 \seealso{
