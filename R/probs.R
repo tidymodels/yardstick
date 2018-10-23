@@ -98,9 +98,9 @@
 #'
 #' pr_auc(two_class_example, truth, Class1)
 #'
-#' mn_log_loss(two_class_example, truth, starts_with("Class"))
+#' mn_log_loss(two_class_example, truth, Class1)
 #' # or
-#' mn_log_loss(two_class_example, truth, !! prob_cols)
+#' mn_log_loss(two_class_example, truth, !! prob_cols[1])
 NULL
 
 # ROC AUC ----------------------------------------------------------------------

@@ -28,9 +28,10 @@ roc_auc_vec(truth, estimate, options = list(), averaging = NULL,
 
 pr_auc(data, ...)
 
-\method{pr_auc}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{pr_auc}{data.frame}(data, truth, estimate, averaging = NULL,
+  na.rm = TRUE, ...)
 
-pr_auc_vec(truth, estimate, na.rm = TRUE, ...)
+pr_auc_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
 
 mn_log_loss(data, ...)
 
@@ -157,9 +158,9 @@ roc_auc(two_class_example, truth = truth, Class1,
 
 pr_auc(two_class_example, truth, Class1)
 
-mn_log_loss(two_class_example, truth, starts_with("Class"))
+mn_log_loss(two_class_example, truth, Class1)
 # or
-mn_log_loss(two_class_example, truth, !! prob_cols)
+mn_log_loss(two_class_example, truth, !! prob_cols[1])
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}, \code{\link[=summary.conf_mat]{summary.conf_mat()}}, \code{\link[=recall]{recall()}}, \code{\link[=mcc]{mcc()}}

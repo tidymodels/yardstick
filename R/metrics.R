@@ -36,7 +36,7 @@
 #' metrics(two_class_example, truth, predicted)
 #'
 #' # Add on multinomal log loss and ROC AUC by specifying class prob columns
-#' metrics(two_class_example, truth, predicted, Class1, Class2)
+#' metrics(two_class_example, truth, predicted, Class1)
 #'
 #' # Regression metrics
 #' metrics(solubility_test, truth = solubility, estimate = prediction)
