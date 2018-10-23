@@ -13,22 +13,25 @@
 #'  set to `TRUE` when the package is loaded. This can be changed
 #'  to `FALSE` if the last level of the factor is considered the
 #'  level of interest.
-
+#'
 #' @inheritParams sens
 #'
 #' @aliases roc_auc roc_auc.default pr_auc pr_auc.default roc_curve pr_curve
 #'
 #' @param data A `data.frame` containing the `truth` and `estimate`
 #' columns.
+#'
 #' @param estimate The column identifier for the predicted class probabilities
 #' (that is a `numeric`) corresponding to the "positive" result. See Details.
 #' For `_vec()` functions, a `numeric` vector. For `mn_log_loss_vec`, this should
 #' be a matrix with as many columns as factor levels in `truth`.
+#'
 #' @param ... For `mn_log_loss()`, a set of unquoted column names or one or more
 #'  `dplyr` selector functions to choose which variables contain the
 #'  class probabilities. There should be as many columns as
 #'  factor levels of `truth`. It is **assumed** that they are in the
 #'  same order as the factor levels. Otherwise, unused.
+#'
 #' @param options A `list` of named options to pass to [roc()]
 #' such as `direction` or `smooth`. These options should not include `response`,
 #' `predictor`, or `levels`.
@@ -109,20 +112,23 @@ roc_auc <- function(data, ...)
 
 #' @export
 #' @rdname roc_auc
-roc_auc.data.frame  <- function(data, truth, estimate, options = list(),
-                                averaging = "binary", na.rm = TRUE, ...) {
+roc_auc.data.frame  <- function(data, truth, ..., options = list(),
+                                averaging = NULL, na.rm = TRUE) {
 
-    metric_summarizer(
-      metric_nm = construct_name("roc_auc", averaging),
-      metric_fn = roc_auc_vec,
-      data = data,
-      truth = !!enquo(truth),
-      estimate = !!vars_prep(data, enquo(estimate)),
-      averaging = averaging,
-      na.rm = na.rm,
-      ... = ...,
-      metric_fn_options = list(options = options)
-    )
+
+  estimate <- dots_to_estimate(data, !!! enquos(...))
+
+  metric_summarizer(
+    metric_nm = "roc_auc",
+    metric_fn = roc_auc_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!estimate,
+    averaging = averaging,
+    na.rm = na.rm,
+    ... = ...,
+    metric_fn_options = list(options = options)
+  )
 
 }
 
@@ -131,31 +137,64 @@ roc_auc.data.frame  <- function(data, truth, estimate, options = list(),
 #' @importFrom rlang call2
 #' @importFrom pROC roc auc
 roc_auc_vec <- function(truth, estimate, options = list(),
-                        averaging = "binary", na.rm = TRUE, ...) {
+                        averaging = NULL, na.rm = TRUE, ...) {
+
+  averaging <- finalize_averaging(truth, averaging)
 
   roc_auc_impl <- function(truth, estimate) {
-
-    # remove the add_class function when this changes
-    truth <- add_class(truth, averaging)
-    roc_auc_averaging_impl(truth, estimate, options)
-
+    roc_auc_averaging_impl(truth, estimate, options, averaging)
   }
 
   metric_vec_template(
     metric_impl = roc_auc_impl,
     truth = truth,
     estimate = estimate,
+    averaging = averaging,
     na.rm = na.rm,
     cls = c("factor", "numeric"),
     ...
   )
 }
 
-roc_auc_averaging_impl <- function(truth, estimate, options) {
-  UseMethod("roc_auc_averaging_impl")
+roc_auc_averaging_impl <- function(truth, estimate, options, averaging) {
+
+  validate_averaging_roc_auc(averaging)
+
+  if (is_binary(averaging)) {
+    roc_auc_binary(truth, estimate, options)
+  }
+  else if (averaging == "hand_till") {
+    roc_auc_hand_till(truth, estimate, options)
+  }
+  else {
+    # weights for macro / macro_weighted are based on truth frequencies
+    # (this is the usual definition)
+    truth_table <- matrix(table(truth), nrow = 1)
+    w <- get_weights(truth_table, averaging)
+    out_vec <- roc_auc_multiclass(truth, estimate, options)
+    weighted.mean(out_vec, w)
+  }
+
 }
 
-roc_auc_averaging_impl.binary <- function(truth, estimate, options) {
+roc_auc_binary <- function(truth, estimate, options) {
+
+  # handle case where user passes in the name of both columns
+  if (is.matrix(estimate)) {
+
+    if (ncol(estimate) != 1) {
+      nm <- names(estimate)[1]
+      rlang::warn(
+        paste0(
+          "Multiple columns have been passed in `...` ",
+          "for a binary ROC AUC calculation. Using the first column detected."
+        )
+      )
+    }
+
+    # matrix -> vector for pROC::roc
+    estimate <- as.numeric(estimate[,1])
+  }
 
   lvl_values <- levels(truth)
 
@@ -175,24 +214,97 @@ roc_auc_averaging_impl.binary <- function(truth, estimate, options) {
 
 }
 
-roc_auc_averaging_impl.macro <- function(truth, estimate, options) {
+roc_auc_multiclass <- function(truth, estimate, options) {
 
   lvls <- levels(truth)
   other <- "..other"
 
   aucs <- vector("numeric", length = length(lvls))
 
+  # one vs all
   for(i in seq_along(lvls)) {
 
+    # Recode truth into 2 levels, relevant and other
+    # Pull out estimate prob column corresponding to relevant
+    # Pulls by name so they dont have to be in the same order
     lvl <- lvls[i]
-    truth_temp <- factor(ifelse(truth == lvl, lvl, other), levels = c(lvl, other))
-    estimate_temp <- estimate[, i]
+    truth_temp <- factor(
+      x = ifelse(truth == lvl, lvl, other),
+      levels = c(lvl, other)
+    )
+    estimate_temp <- estimate[, lvl, drop = FALSE]
 
-    aucs[i] <- roc_auc_averaging_impl.binary(truth_temp, estimate_temp, options)
+    aucs[i] <- roc_auc_binary(truth_temp, estimate_temp, options)
 
   }
 
-  mean(aucs)
+  aucs
+}
+
+roc_auc_hand_till <- function(truth, estimate, options) {
+
+  lvls <- levels(truth)
+  C <- length(lvls)
+
+  multiplier <- 2 / (C * (C - 1))
+
+  # A_hat(i | j) in the paper
+  roc_auc_subset <- function(lvl1, lvl2) {
+    # Subset where truth is one of the two current levels
+    subset_idx <- which(truth == lvl1 | truth == lvl2)
+
+    # Use estimate based on lvl1 being the relevant level
+    # Estimate for lvl2 is just 1-lvl1 rather than the value that
+    # is actually there for the multiclass case
+    estimate_lvl1 <- estimate[,lvl1]
+
+    # subset and recode truth to only have 2 levels
+    truth_subset <- factor(truth[subset_idx], levels = c(lvl1, lvl2))
+    estimate_subset <- estimate_lvl1[subset_idx]
+
+    auc_val <- roc_auc_binary(truth_subset, estimate_subset, options)
+
+    # Hand Till 2001 uses an AUC calc that is always >0.5
+    # Eq 3 of https://link.springer.com/content/pdf/10.1023%2FA%3A1010920819831.pdf
+    # This means their multiclass auc metric is made up of these >0.5 AUCs.
+    # To be consistent, we force <0.5 AUC values to be 1-AUC which is the
+    # same value that HandTill would get.
+    if(auc_val < 0.5) {
+      auc_val <- 1 - auc_val
+    }
+
+    auc_val
+  }
+
+  sum_val <- 0
+
+  for(i_lvl in lvls) {
+
+    # Double sum:
+    # (sum i<j)
+    cutpoint <- which(lvls == i_lvl)
+    j_lvls <- lvls[-seq_len(cutpoint)]
+
+    for(j_lvl in j_lvls) {
+
+      # sum A_hat(i, j)
+      sum_val <- sum_val +
+        mean(c(roc_auc_subset(i_lvl, j_lvl), roc_auc_subset(j_lvl, i_lvl)))
+    }
+  }
+
+  multiplier * sum_val
+}
+
+validate_averaging_roc_auc <- function(averaging) {
+  is_allowed <- averaging %in% c("binary", "macro", "macro_weighted", "hand_till")
+
+  if(!is_allowed) {
+    msg <- paste0(
+      "Averaging type: `", averaging, "`, is not allowed for `roc_auc()`."
+    )
+    abort(msg)
+  }
 }
 
 # PR AUC -----------------------------------------------------------------------
@@ -252,32 +364,25 @@ mn_log_loss <- function(data, ...)
 #' @param sum A `logical`. Should the sum of the likelihood contributions be
 #' returned (instead of the mean value)?
 #' @importFrom rlang quo
-mn_log_loss.data.frame <- function(data, truth, ..., na.rm = TRUE, sum = FALSE) {
+mn_log_loss.data.frame <- function(data, truth, ...,
+                                   na.rm = TRUE, sum = FALSE) {
 
-    # Capture dots
-    dot_vars <- rlang::with_handlers(
-      tidyselect::vars_select(names(data), !!! quos(...)),
-      tidyselect_empty = abort_selection
-    )
+  estimate <- dots_to_estimate(data, !!! enquos(...))
 
-    # estimate is a matrix of the selected columns
-    dot_nms <- lapply(dot_vars, as.name)
-    estimate <- quo(matrix(c(!!! dot_nms), ncol = !!length(dot_nms)))
+  metric_summarizer(
+    metric_nm = "mn_log_loss",
+    metric_fn = mn_log_loss_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!estimate,
+    na.rm = na.rm,
+    # dots are captured for column names in this impl
+    #... = ...,
+    # Extra argument for mn_log_loss_impl()
+    metric_fn_options = list(sum = sum)
+  )
 
-    metric_summarizer(
-      metric_nm = "mn_log_loss",
-      metric_fn = mn_log_loss_vec,
-      data = data,
-      truth = !!enquo(truth),
-      estimate = !!estimate,
-      na.rm = na.rm,
-      # dots are captured for column names in this impl
-      #... = ...,
-      # Extra argument for mn_log_loss_impl()
-      metric_fn_options = list(sum = sum)
-    )
-
-  }
+}
 
 #' @rdname roc_auc
 #' @importFrom stats model.matrix
@@ -291,7 +396,7 @@ mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
 
     if (NCOL(estimate) != length(lvl)) {
       stop(
-        "`estimate` should contain ",
+        "`...` should contain ",
         length(lvl),
         " columns of probabilities",
         call. = FALSE
@@ -470,6 +575,33 @@ auc <- function(x, y, na.rm = TRUE) {
   auc <- sum(height * dx)
 
   auc
+}
+
+dots_to_estimate <- function(data, ...) {
+  # Capture dots
+  dot_vars <- rlang::with_handlers(
+    tidyselect::vars_select(names(data), !!! enquos(...)),
+    tidyselect_empty = abort_selection
+  )
+
+  # estimate is a matrix of the selected columns if >1 selected
+  dot_nms <- lapply(dot_vars, as.name)
+
+  if (length(dot_nms) > 1) {
+    estimate <- quo(
+      matrix(
+        data = c(!!! dot_nms),
+        ncol = !!length(dot_nms),
+        dimnames = list(NULL, !!dot_vars)
+      )
+    )
+  }
+  else {
+    estimate <- dot_nms[[1]]
+  }
+
+
+  estimate
 }
 
 #' @importFrom utils globalVariables

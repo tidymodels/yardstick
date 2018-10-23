@@ -20,10 +20,10 @@
 \usage{
 roc_auc(data, ...)
 
-\method{roc_auc}{data.frame}(data, truth, estimate, options = list(),
-  averaging = "binary", na.rm = TRUE, ...)
+\method{roc_auc}{data.frame}(data, truth, ..., options = list(),
+  averaging = NULL, na.rm = TRUE)
 
-roc_auc_vec(truth, estimate, options = list(), averaging = "binary",
+roc_auc_vec(truth, estimate, options = list(), averaging = NULL,
   na.rm = TRUE, ...)
 
 pr_auc(data, ...)
@@ -64,11 +64,6 @@ this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names). For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{estimate}{The column identifier for the predicted class probabilities
-(that is a \code{numeric}) corresponding to the "positive" result. See Details.
-For \code{_vec()} functions, a \code{numeric} vector. For \code{mn_log_loss_vec}, this should
-be a matrix with as many columns as factor levels in \code{truth}.}
-
 \item{options}{A \code{list} of named options to pass to \code{\link[=roc]{roc()}}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
@@ -81,6 +76,11 @@ or \code{"macro"} based on \code{estimate}.}
 
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{estimate}{The column identifier for the predicted class probabilities
+(that is a \code{numeric}) corresponding to the "positive" result. See Details.
+For \code{_vec()} functions, a \code{numeric} vector. For \code{mn_log_loss_vec}, this should
+be a matrix with as many columns as factor levels in \code{truth}.}
 
 \item{sum}{A \code{logical}. Should the sum of the likelihood contributions be
 returned (instead of the mean value)?}
