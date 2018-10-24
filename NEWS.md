@@ -4,8 +4,16 @@
 
 * `pr_curve()` calculates precision recall curves.
 
-* `metric_set()` constructions functions that calculate 
+* `metric_set()` constructs functions that calculate 
 multiple metrics at once.
+
+* `gain_curve()` and `lift_curve()` calculate the gain and lift.
+
+* `gain_capture()` is a measure of performance similar in spirit to AUC
+but applied to a gain curve.
+
+* `pr_curve()`, `roc_curve()`, `gain_curve()` and `lift_curve()` now have 
+`ggplot2::autoplot()` methods for easy visualization.
 
 ## Changes
 
@@ -18,10 +26,8 @@ the vector versions for the old behavior.
 * `summary()` for `conf_mat` objects now returns a tibble,
 consistent with other metric functions.
 
-* `roc_auc()`, `pr_auc()`, and `roc_curve()` now have an `estimate` parameter
-in place of using `...` to specify the class probability column.
-
-* For naming consistency, `mnLogLoss` was renamed to `mn_log_loss` and now returns the **negative** log loss for the multinomial distribution. 
+* For naming consistency, `mnLogLoss` was renamed to `mn_log_loss` and now 
+returns the **negative** log loss for the multinomial distribution. 
 
 ### Features
 
