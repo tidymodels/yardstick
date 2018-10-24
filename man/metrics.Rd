@@ -16,7 +16,7 @@ columns and any columns specified by \code{...}.}
 
 \item{...}{A set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
-class probabilities. If truth is binary, only 1 column should be selected.
+class probabilities. If \code{truth} is binary, only 1 column should be selected.
 Otherwise, there should be as many columns as factor levels of \code{truth}.}
 
 \item{truth}{The column identifier for the true results (that

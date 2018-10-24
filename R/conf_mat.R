@@ -252,6 +252,3 @@ summary.conf_mat <- function(object, prevalence = NULL, beta = 1, ...) {
 
   stats
 }
-
-#' @importFrom utils globalVariables
-utils::globalVariables(c("name", "value"))
