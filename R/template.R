@@ -1,3 +1,57 @@
+#' Developer function for summarizing new metrics
+#'
+#' `metric_summarizer()` is useful alongside [metric_vec_template()] for
+#' implementing new custom metrics. `metric_summarizer()` calls the metric
+#' function inside `dplyr::summarise()`. `metric_vec_template()` is a
+#' generalized function that calls the core implementation of a metric function,
+#' and includes a number of checks on the types, lengths, and argument inputs.
+#'
+#' @details
+#'
+#' `metric_summarizer()` is generally called from the data frame version
+#' of your metric function. It knows how to call your metric over grouped data
+#' frames and returns a `tibble` consistent with other metrics.
+#'
+#'
+#' @param metric_nm A single character representing the name of the metric to
+#' use in the `tibble` output. This will be modified to include the type
+#' of averaging if appropriate.
+#'
+#' @param metric_fn The vector version of your custom metric function. It
+#' generally takes `truth`, `estimate`, `na.rm`, and any other extra arguments
+#' needed to calculate the metric.
+#'
+#' @param data The data frame with `truth` and `estimate` columns passed
+#' in from the data frame version of your metric function that called
+#' `metric_summarizer()`.
+#'
+#' @param truth The unquoted column name corresponding to the `truth` column.
+#'
+#' @param estimate Generally, the unquoted column name corresponding to
+#' the `estimate` column. For metrics that take multiple columns through `...`
+#' like class probability metrics, this is a result of [dots_to_estimate()].
+#'
+#' @param averaging For numeric metrics, this is left as `NA` so averaging
+#' is not passed on to the metric function implementation. For classification
+#' metrics, this can either be `NULL` for the default auto-selection of
+#' averaging (`"binary"` or `"macro"`), or a single character to pass along
+#' to the metric implementation describing the kind of averaging to use.
+#'
+#' @param na.rm A `logical` value indicating whether `NA` values should be
+#' stripped before the computation proceeds. The removal is executed in
+#' `metric_vec_template()`.
+#'
+#' @param ... Currently not used. Metric specific options are passed in
+#' through `metric_fn_options`.
+#'
+#' @param metric_fn_options A named list of metric specific options. These
+#' are spliced into the metric function call using `!!!` from `rlang`. The
+#' default results in nothing being spliced into the call.
+#'
+#' @seealso [metric_vec_template()] [finalize_averaging()] [dots_to_estimate()]
+#'
+#' @export
+#'
 #' @importFrom dplyr summarise
 metric_summarizer <- function(metric_nm, metric_fn,
                               data, truth, estimate,
@@ -31,7 +85,62 @@ metric_summarizer <- function(metric_nm, metric_fn,
   dplyr::as_tibble(metric_tbl)
 }
 
-
+#' Developer function for calling new metrics
+#'
+#' `metric_vec_template()` is useful alongside [metric_summarizer()] for
+#' implementing new custom metrics. `metric_summarizer()` calls the metric
+#' function inside `dplyr::summarise()`. `metric_vec_template()` is a
+#' generalized function that calls the core implementation of a metric function,
+#' and includes a number of checks on the types, lengths, and argument inputs.
+#'
+#' @param metric_impl The core implementation function of your custom metric.
+#' This core implementation function is generally defined inside the vector
+#' method of your metric function.
+#'
+#' @param truth The realized vector of `truth`. This is either a factor
+#' or a numeric.
+#'
+#' @param estimate The realized `estimate` result. This is either a numeric
+#' vector, a factor vector, or a numeric matrix (in the case of multiple
+#' class probability columns) depending on your metric function.
+#'
+#' @param na.rm A `logical` value indicating whether `NA` values should be
+#' stripped before the computation proceeds. `NA` values are removed
+#' before getting to your core implementation function so you do not have to
+#' worry about handling them yourself. If `na.rm=FALSE` and any `NA` values
+#' exist, then `NA` is automatically returned.
+#'
+#' @param cls A character vector of length 1 or 2 corresponding to the
+#' class that `truth` and `estimate` should be, respectively. If `truth` and
+#' `estimate` are of the same class, just supply a vector of length 1. If
+#' they are different, supply a vector of length 2. For matrices, it is best
+#' to supply `"numeric"` as the class to check here.
+#'
+#' @param averaging The type of averaging to use. By this point, the averaging
+#' type should be finalized, so this should be a character vector of length 1\.
+#' By default, this character value is required to be one of: `"binary"`,
+#' `"macro"`, `"micro"`, or `"macro_weighted"`. If your metric allows more
+#' or less averaging methods, override this with `averaging_override`.
+#'
+#' @param averaging_override An optional character vector of averaging types to
+#' override the default averaging types. See `averaging`.
+#'
+#' @param ... Extra arguments to your core metric function, `metric_impl`, can
+#' technically be passed here, but generally the extra args are added through
+#' R's scoping rules because the core metric function is created on the fly
+#' when the vector method is called.
+#'
+#' @details
+#'
+#' `metric_vec_template()` is called from the vector implementation of your
+#' metric. Also defined inside your vector implemenation is a separate
+#' function performing the core implemenation of the metric function. This
+#' core function is passed along to `metric_vec_template()` as `metric_impl`.
+#'
+#' @seealso [metric_summarizer()] [finalize_averaging()] [dots_to_estimate()]
+#'
+#' @export
+#'
 #' @importFrom stats complete.cases
 metric_vec_template <- function(metric_impl,
                                 truth, estimate,

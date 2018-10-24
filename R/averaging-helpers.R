@@ -32,6 +32,17 @@ get_weights <- function(data, averaging) {
 
 # ------------------------------------------------------------------------------
 
+#' @rdname developer-helpers
+#'
+#' @param x An object to dispatch the auto-selection off of. This is generally
+#' the `truth` column.
+#'
+#' @param averaging Either `NULL` for auto-selection, or a single character
+#' for the type of averaging to use.
+#'
+#' @seealso [metric_summarizer()] [metric_vec_template()]
+#'
+#' @export
 finalize_averaging <- function(x, averaging) {
   if (!is.null(averaging)) return(averaging)
   UseMethod("finalize_averaging")
