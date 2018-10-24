@@ -28,7 +28,10 @@ test_that("gain_curve() matches known result", {
 
 test_that("error handling", {
 
-  expect_error(lift_curve(df, estimate, truth), "`estimate` should be a factor.")
+  expect_error(
+    lift_curve(df, estimate, truth),
+    "`truth` should be a factor but a numeric was supplied."
+  )
 
 })
 

@@ -27,7 +27,7 @@
 #'
 #' @param ... A set of unquoted column names or one or more
 #' `dplyr` selector functions to choose which variables contain the
-#' class probabilities. If truth is binary, only 1 column should be selected.
+#' class probabilities. If `truth` is binary, only 1 column should be selected.
 #' Otherwise, there should be as many columns as factor levels of `truth`.
 #'
 #' @param options A `list` of named options to pass to [roc()]
@@ -38,8 +38,10 @@
 #' `"macro"`, or `"macro_weighted"` to specify the type of averaging to be done.
 #' `"binary"` is only relevant for the two class case. The other two are
 #' general methods for calculating multiclass metrics. The default will
-#' automatically choose `"binary"` or `"macro"` based on `estimate`. `roc_auc()`
+#' automatically choose `"binary"` or `"macro"` based on `truth`. `roc_auc()`
 #' also accepts `"hand_till"` for the metric described in Hand, Till (2001).
+#'
+#' @param object The data frame output from `roc_curve()` or `pr_curve()`
 #'
 #' @return
 #'
@@ -74,6 +76,11 @@
 #'  `pr_curve()` computes the precision at every unique value of the
 #'  probability column (in addition to infinity).
 #'
+#'  The output of both `roc_curve()` and `pr_curve()` have [ggplot2::autoplot()]
+#'  methods for quickly visualizing their curves. These methods work for
+#'  binary and multiclass output, and also work with grouped data (i.e. from
+#'  resamples). See the examples.
+#'
 #' @seealso [conf_mat()], [summary.conf_mat()], [recall()], [mcc()]
 #' @keywords manip
 #' @name roc_auc
@@ -88,6 +95,7 @@
 #' library(ggplot2)
 #' library(dplyr)
 #'
+#' # Visualize the curve using ggplot2 manually
 #' roc_curve(two_class_example, truth, Class1) %>%
 #'   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
 #'   geom_path() +
@@ -95,21 +103,25 @@
 #'   coord_equal() +
 #'   theme_bw()
 #'
+#' # Or use the autoplot method
+#' autoplot(roc_curve(two_class_example, truth, Class1))
+#'
 #' pr_curve(two_class_example, truth, Class1) %>%
 #'   ggplot(aes(x = recall, y = precision)) +
 #'   geom_path() +
 #'   coord_equal() +
 #'   theme_bw()
 #'
+#' autoplot(pr_curve(two_class_example, truth, Class1))
+#'
 #' # passing options via a list and _not_ `...`
 #' roc_auc(two_class_example, truth = truth, Class1,
 #'         options = list(smooth = TRUE))
 #'
-#'
 #' pr_auc(two_class_example, truth, Class1)
 #'
+#' # Supply `...` with quasiquotation
 #' mn_log_loss(two_class_example, truth, Class1)
-#' # or
 #' mn_log_loss(two_class_example, truth, !! prob_cols[1])
 #'
 #' # Multiclass one-vs-all approach with roc_curve()
@@ -117,12 +129,13 @@
 #' hpc_cv %>%
 #'   filter(Resample == "Fold01") %>%
 #'   roc_curve(obs, VF:L) %>%
-#'   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
-#'   geom_path() +
-#'   geom_abline(lty = 3) +
-#'   coord_equal() +
-#'   theme_bw() +
-#'   facet_wrap(~.level)
+#'   autoplot()
+#'
+#' # Same as above, but will all of the resamples
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   roc_curve(obs, VF:L) %>%
+#'   autoplot()
 #'
 NULL
 
@@ -487,8 +500,11 @@ roc_curve.data.frame  <- function (data, truth, ...,
     )
   )
 
-  if (".level" %in% colnames(res)) {
-    res <- dplyr::group_by(res, .level, add = TRUE)
+  if (dplyr::is_grouped_df(res)) {
+    class(res) <- c("grouped_roc_df", "roc_df", class(res))
+  }
+  else {
+    class(res) <- c("roc_df", class(res))
   }
 
   res
@@ -575,24 +591,7 @@ roc_curve_binary <- function(truth, estimate, options) {
 
 # One-VS-All approach
 roc_curve_multiclass <- function(truth, estimate, options) {
-  res <- one_vs_all_impl(roc_curve_binary, truth, estimate, options)
-
-  lvls <- levels(truth)
-
-  with_level <- function(df, lvl) {
-    df$.level <- lvl
-    dplyr::select(df, .level, tidyselect::everything())
-  }
-
-  res <- mapply(
-    with_level,
-    df = res,
-    lvl = lvls,
-    SIMPLIFY = FALSE,
-    USE.NAMES = FALSE
-  )
-
-  dplyr::bind_rows(res)
+  one_vs_all_with_level(roc_curve_binary, truth, estimate, options)
 }
 
 # PR Curve ---------------------------------------------------------------------
@@ -625,8 +624,11 @@ pr_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
     )
   )
 
-  if (".level" %in% colnames(res)) {
-    res <- dplyr::group_by(res, .level, add = TRUE)
+  if (dplyr::is_grouped_df(res)) {
+    class(res) <- c("grouped_pr_df", "pr_df", class(res))
+  }
+  else {
+    class(res) <- c("pr_df", class(res))
   }
 
   res
@@ -688,33 +690,7 @@ pr_curve_binary <- function(truth, estimate) {
 
 # One vs all approach
 pr_curve_multiclass <- function(truth, estimate) {
-
-  lvls <- levels(truth)
-  other <- "..other"
-
-  pr_curves <- rlang::new_list(n = length(lvls))
-
-  # one vs all
-  for(i in seq_along(lvls)) {
-
-    # Recode truth into 2 levels, relevant and other
-    # Pull out estimate prob column corresponding to relevant
-    # Pulls by name so they dont have to be in the same order
-    lvl <- lvls[i]
-    truth_temp <- factor(
-      x = ifelse(truth == lvl, lvl, other),
-      levels = c(lvl, other)
-    )
-    estimate_temp <- as.numeric(estimate[, lvl])
-
-    curve <- pr_curve_binary(truth_temp, estimate_temp)
-    curve$.level = lvl
-    curve <- dplyr::select(curve, .level, tidyselect::everything())
-
-    pr_curves[[i]] <- curve
-  }
-
-  dplyr::bind_rows(pr_curves)
+  one_vs_all_with_level(pr_curve_binary, truth, estimate)
 }
 
 # AUC helper -------------------------------------------------------------------
@@ -830,7 +806,8 @@ one_vs_all_impl <- function(metric_fn, truth, estimate, ...) {
 
     # Recode truth into 2 levels, relevant and other
     # Pull out estimate prob column corresponding to relevant
-    # Pulls by name so they dont have to be in the same order
+    # Pulls by order, so they have to be in the same order as the levels!
+    # (cannot pull by name because they arent always the same name i.e. .pred_{level})
     lvl <- lvls[i]
 
     truth_temp <- factor(
@@ -838,7 +815,7 @@ one_vs_all_impl <- function(metric_fn, truth, estimate, ...) {
       levels = c(lvl, other)
     )
 
-    estimate_temp <- as.numeric(estimate[, lvl])
+    estimate_temp <- as.numeric(estimate[, i])
 
     metric_lst[[i]] <- metric_fn(truth_temp, estimate_temp, ...)
 
@@ -847,5 +824,26 @@ one_vs_all_impl <- function(metric_fn, truth, estimate, ...) {
   metric_lst
 }
 
-#' @importFrom utils globalVariables
-utils::globalVariables(c("estimate", "threshold", "specificity", ".level", "."))
+one_vs_all_with_level <- function(metric_fn, truth, estimate, ...) {
+
+  res <- one_vs_all_impl(metric_fn, truth, estimate, ...)
+
+  lvls <- levels(truth)
+
+  with_level <- function(df, lvl) {
+    df$.level <- lvl
+    dplyr::select(df, .level, tidyselect::everything())
+  }
+
+  res <- mapply(
+    with_level,
+    df = res,
+    lvl = lvls,
+    SIMPLIFY = FALSE,
+    USE.NAMES = FALSE
+  )
+
+  dplyr::bind_rows(res)
+
+}
+

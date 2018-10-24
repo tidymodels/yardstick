@@ -2,7 +2,8 @@
 #'
 #' `gain_curve()` calculates the information required for cumulative gain charts,
 #' and `lift_curve()` calculates the information for lift charts. Both are visual
-#' aids for measuring model performance.
+#' aids for measuring model performance. `gain_capture()` is a measure of
+#' performance similar to an AUC calculation.
 #'
 #' The motivation behind cumulative gain and lift charts is as a visual method to
 #' determine the effectiveness of a model when compared to the results one
@@ -17,7 +18,7 @@
 #' The calculation to construct gain and lift curves is as follows:
 #'
 #' 1. `truth` and `estimate` are placed in descending order by the `estimate`
-#' values.
+#' values. (`estimate` here is a single column supplied in `...`)
 #'
 #' 2. The cumulative number of samples with true results relative to the
 #' entire number of true results are found. This is the y-axis in a gain chart.
@@ -30,8 +31,13 @@
 #' The greater the area between the gain curve and the baseline, the better
 #' the model.
 #'
-#' The output of `gain_curve()` and `lift_curve()` both have [ggplot2::autoplot()] methods
-#' for easy visualization.
+#' The output of `gain_curve()` and `lift_curve()` both have
+#' [ggplot2::autoplot()] methods for easy visualization. See the examples.
+#'
+#' For `gain_curve()` and `lift_curve()`, if a multiclass `truth` column is
+#' provided, a one-vs-all approach will be taken to calculate multiple curves,
+#' one per level. In this case, there will be an additional column, `.level`,
+#' identifying the "one" column in the one-vs-all calculation.
 #'
 #' `gain_capture()` calculates the area _under_ the gain curve, but _above_
 #' the baseline, and then divides that by the area _under_ a perfect gain curve,
@@ -39,30 +45,23 @@
 #' gain "captured" by the model.
 #'
 #' There is no common convention on which factor level should
-#'  automatically be considered the "relevant" or "positive" results.
-#'  In `yardstick`, the default is to use the _first_ level. To
-#'  change this, a global option called `yardstick.event_first` is
-#'  set to `TRUE` when the package is loaded. This can be changed
-#'  to `FALSE` if the last level of the factor is considered the
-#'  level of interest.
+#' automatically be considered the "relevant" or "positive" results.
+#' In `yardstick`, the default is to use the _first_ level. To
+#' change this, a global option called `yardstick.event_first` is
+#' set to `TRUE` when the package is loaded. This can be changed
+#' to `FALSE` if the last level of the factor is considered the
+#' level of interest.
 #'
-#' @param data A `data.frame` containing the truth and estimate columns.
-#'
-#' @param estimate The column identifier for the predicted class probabilities
-#' (that is a `numeric`) corresponding to the "positive" result. See Details.
-#'
-#' @param truth The column identifier for the true class results
-#' (that is a `factor`). This should be an unquoted column name although this
-#' argument is passed by expression and supports
-#' [quasiquotation][rlang::quasiquotation] (you can unquote column names).
-#'
-#' @param na.rm A `logical` value indicating whether `NA`
-#'  values should be stripped before the computation proceeds.
-#'
-#' @param ... Not currently used.
+#' @inheritParams roc_curve
 #'
 #' @param object The data frame output of `gain_curve()` or `lift_curve()`
 #' to plot.
+#'
+#' @param averaging One of `"binary"`, `"macro"`, or `"macro_weighted"` to
+#' specify the type of averaging to be done. `"binary"` is only relevant for
+#' the two class case. The other two are general methods for calculating
+#' multiclass metrics. The default will automatically choose `"binary"` or
+#' `"macro"` based on `truth`.
 #'
 #' @aliases gain_curve lift_curve gain_capture
 #'
@@ -102,23 +101,33 @@ gain_curve <- function(data, ...) {
 
 #' @rdname gain_curve
 #' @export
-gain_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+gain_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
 
-  vars <- prob_select(
-    data = data,
-    truth = !! enquo(truth),
-    !! enquo(estimate)
+  estimate <- dots_to_estimate(data, !!! enquos(...))
+  truth <- enquo(truth)
+
+  validate_not_missing(truth, "truth")
+
+  # Explicit handling of length 1 character vectors as column names
+  truth <- handle_chr_names(truth)
+
+  res <- dplyr::do(
+    data,
+    gain_curve_vec(
+      truth = rlang::eval_tidy(truth, data = .),
+      estimate = rlang::eval_tidy(estimate, data = .),
+      na.rm = na.rm
+    )
   )
 
-  truth <- data[[vars$truth]]
-  estimate <- data[[vars$probs]]
+  if (dplyr::is_grouped_df(res)) {
+    class(res) <- c("grouped_gain_df", "gain_df", class(res))
+  }
+  else {
+    class(res) <- c("gain_df", class(res))
+  }
 
-  pr_list <- gain_curve_vec(truth, estimate, na.rm)
-
-  gain_df <- dplyr::tibble(!!!pr_list)
-  class(gain_df) <- c("gain_df", class(gain_df))
-
-  gain_df
+  res
 }
 
 # dont export gain_curve_vec / lift_curve_vec
@@ -128,34 +137,62 @@ gain_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 #' @importFrom stats relevel complete.cases
 gain_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
-  lvls <- levels(truth)
+  # finalize just to see if binary/multiclass
+  averaging <- finalize_averaging(truth, NULL)
 
-  if(length(lvls) != 2L) {
-    stop("`truth` must be a two level factor.", call. = FALSE)
+  # estimate here is a matrix of class prob columns
+  gain_curve_impl <- function(truth, estimate) {
+    gain_curve_averaging_impl(truth, estimate, averaging)
   }
+
+  metric_vec_template(
+    metric_impl = gain_curve_impl,
+    truth = truth,
+    estimate = estimate,
+    na.rm = na.rm,
+    averaging = averaging,
+    cls = c("factor", "numeric"),
+    ...
+  )
+
+}
+
+gain_curve_averaging_impl <- function(truth, estimate, averaging) {
+
+  if (is_binary(averaging)) {
+    gain_curve_binary(truth, estimate)
+  }
+  else {
+    gain_curve_multiclass(truth, estimate)
+  }
+
+}
+
+gain_curve_binary <- function(truth, estimate) {
 
   # Relevel if event_first = FALSE
   # The second level becomes the first so as.integer()
   # holds the 1s and 2s in the correct slot
   if (!getOption("yardstick.event_first", default = TRUE)) {
+    lvls <- levels(truth)
     truth <- relevel(truth, lvls[2])
-  }
-
-  if(na.rm) {
-    complete_idx <- complete.cases(truth, estimate)
-    truth <- truth[complete_idx]
-    estimate <- estimate[complete_idx]
   }
 
   # truth is now either 1 or 2
   truth <- as.integer(truth)
 
-  gain_curve_vec_impl(truth, estimate)
+  gain_list <- gain_curve_binary_impl(truth, estimate)
+
+  dplyr::tibble(!!!gain_list)
+}
+
+gain_curve_multiclass <- function(truth, estimate) {
+  one_vs_all_with_level(gain_curve_binary, truth, estimate)
 }
 
 # Following the Example Problem 2 of:
 # http://www2.cs.uregina.ca/~dbd/cs831/notes/lift_chart/lift_chart.html
-gain_curve_vec_impl <- function(truth, estimate) {
+gain_curve_binary_impl <- function(truth, estimate) {
 
   # arrange in decreasing order by class probability score
   estimate_ord <- order(estimate, decreasing = TRUE)
@@ -208,135 +245,45 @@ lift_curve <- function(data, ...) {
 
 #' @rdname gain_curve
 #' @export
-lift_curve.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+lift_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
 
-  vars <- prob_select(
-    data = data,
-    truth = !! enquo(truth),
-    !! enquo(estimate)
+  estimate <- dots_to_estimate(data, !!! enquos(...))
+  truth <- enquo(truth)
+
+  validate_not_missing(truth, "truth")
+
+  # Explicit handling of length 1 character vectors as column names
+  truth <- handle_chr_names(truth)
+
+  res <- dplyr::do(
+    data,
+    lift_curve_vec(
+      truth = rlang::eval_tidy(truth, data = .),
+      estimate = rlang::eval_tidy(estimate, data = .),
+      na.rm = na.rm
+    )
   )
 
-  truth <- data[[vars$truth]]
-  estimate <- data[[vars$probs]]
-
-  pr_list <- lift_curve_vec(truth, estimate, na.rm)
-
-  lift_df <- dplyr::tibble(!!!pr_list)
-  class(lift_df) <- c("lift_df", class(lift_df))
-
-  lift_df
-}
-
-lift_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
-
-  res <- gain_curve_vec(truth, estimate, na.rm)
-  res[[".lift"]] <- res[[".percent_found"]] / res[[".percent_tested"]]
-  res[[".percent_found"]] <- NULL
+  if (dplyr::is_grouped_df(res)) {
+    class(res) <- c("grouped_lift_df", "lift_df", class(res))
+  }
+  else {
+    class(res) <- c("lift_df", class(res))
+  }
 
   res
 }
 
-# autoplot() -------------------------------------------------------------------
+lift_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
-# dynamically exported in .onLoad()
+  # tibble result, possibly grouped
+  res <- gain_curve_vec(truth, estimate, na.rm)
 
-#' @rdname gain_curve
-autoplot.gain_df <- function(object, ...) {
+  res <- dplyr::mutate(res, .lift = .percent_found / .percent_tested)
 
-  `%+%` <- ggplot2::`%+%`
+  res[[".percent_found"]] <- NULL
 
-  # slope of the line from (0,0) to the elbow
-  slope <- 1 / (max(object[[".n_events"]]) / nrow(object))
-  # x-axis point of the elbow
-  perfect <- 100 / slope
-
-  poly_data <- data.frame(
-    x = c(0, perfect, 100),
-    y = c(0, 100, 100)
-  )
-
-  # Avoid cran check for "globals"
-  .percent_tested <- as.name(".percent_tested")
-  .percent_found <- as.name(".percent_found")
-  x <- as.name("x")
-  y <- as.name("y")
-
-  ggplot2::ggplot(object) %+%
-
-    # gain curve
-    ggplot2::geom_line(
-      mapping = ggplot2::aes(
-        x = !!.percent_tested,
-        y = !!.percent_found
-      ),
-      data = object
-    ) %+%
-
-    # boundary poly
-    ggplot2::geom_polygon(
-      mapping = ggplot2::aes(
-        x = !!x,
-        y = !!y
-      ),
-      data = poly_data,
-      # fill
-      fill = "lightgrey",
-      alpha = 0.2,
-      # border
-      colour = "grey60",
-      linetype = 2
-    ) %+%
-
-    ggplot2::labs(
-      x = "% Tested",
-      y = "% Found"
-    )
-}
-
-# dynamically exported in .onLoad()
-
-#' @rdname gain_curve
-autoplot.lift_df <- function(object, ...) {
-
-  `%+%` <- ggplot2::`%+%`
-
-  baseline <- data.frame(
-    x = c(0, 100),
-    y = c(1, 1)
-  )
-
-  # Avoid cran check for "globals"
-  .percent_tested <- as.name(".percent_tested")
-  .lift <- as.name(".lift")
-  x <- as.name("x")
-  y <- as.name("y")
-
-  ggplot2::ggplot(object) %+%
-
-    # gain curve
-    ggplot2::geom_line(
-      mapping = ggplot2::aes(
-        x = !!.percent_tested,
-        y = !!.lift
-      ),
-      data = object
-    ) %+%
-
-    # baseline
-    ggplot2::geom_line(
-      mapping = ggplot2::aes(
-        x = !!x,
-        y = !!y
-      ),
-      data = baseline,
-      colour = "grey60",
-      linetype = 2
-    ) %+%
-
-    ggplot2::labs(
-      x = "% Tested",
-      y = "Lift"
-    )
+  res
 }
 
 # Gain Capture -----------------------------------------------------------------
@@ -351,24 +298,31 @@ class(gain_capture) <- c("prob_metric", "function")
 
 #' @rdname gain_curve
 #' @export
-gain_capture.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+gain_capture.data.frame <- function(data, truth, ...,
+                                    averaging = NULL,
+                                    na.rm = TRUE) {
+
+  estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
     metric_nm = "gain_capture",
     metric_fn = gain_capture_vec,
     data = data,
     truth = !! enquo(truth),
-    estimate = !! enquo(estimate),
+    estimate = !! estimate,
+    averaging = averaging,
     na.rm = na.rm,
     ... = ...
   )
 
 }
 
-gain_capture_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+gain_capture_vec <- function(truth, estimate,
+                             averaging = NULL,
+                             na.rm = TRUE,
+                             ...) {
 
-  # currently only binary is allowed
-  averaging <- "binary"
+  averaging <- finalize_averaging(truth, averaging)
 
   gain_capture_impl <- function(truth, estimate) {
     gain_capture_averaging_impl(truth, estimate, averaging)
@@ -381,6 +335,7 @@ gain_capture_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     na.rm = na.rm,
     averaging = averaging,
     cls = c("factor", "numeric"),
+    averaging_override = c("binary", "macro", "macro_weighted"),
     ...
   )
 
@@ -391,8 +346,10 @@ gain_capture_averaging_impl <- function(truth, estimate, averaging) {
   if(is_binary(averaging)) {
     gain_capture_binary(truth, estimate)
   } else {
-    # should there be a multiclass case?
-    # could do macro?
+    truth_table <- matrix(table(truth), nrow = 1)
+    w <- get_weights(truth_table, averaging)
+    out_vec <- gain_capture_multiclass(truth, estimate)
+    weighted.mean(out_vec, w)
   }
 
 }
@@ -431,4 +388,9 @@ gain_capture_binary <- function(truth, estimate) {
   # perfect capture score
   (gain_to_0_auc - baseline) / (perf_auc - baseline)
 
+}
+
+gain_capture_multiclass <- function(truth, estimate) {
+  res_lst <- one_vs_all_impl(gain_capture_binary, truth, estimate)
+  rlang::flatten_dbl(res_lst)
 }
