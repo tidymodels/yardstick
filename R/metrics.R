@@ -85,7 +85,7 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 
     metrics_class <- metric_set(accuracy, kap)
 
-    res <- metrics_class(data, !! vars$truth, !!vars$estimate)
+    res <- metrics_class(data, !! vars$truth, estimate = !!vars$estimate)
 
     # truth=factor. Any ... ?
     has_probs <- !all(is.na(vars$probs))
@@ -137,10 +137,26 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #'
 #' @details
 #'
-#' All functions must be of the same "function class" to be able to be used
-#' together. For instance, `rmse()` can be used with `mae()` because they
+#' All functions must be either:
+#' - Only numeric metrics
+#' - A mix of class metrics or class prob metrics
+#'
+#' For instance, `rmse()` can be used with `mae()` because they
 #' are numeric metrics, but not with `accuracy()` because it is a classification
-#' metric.
+#' metric. But `accuracy()` can be used with `roc_auc()`.
+#'
+#' The returned metric function will have a different argument list
+#' depending on whether numeric metrics or a mix of class/prob metrics were
+#' passed in.
+#'
+#' Numeric metrics will have a signature like:
+#' `fn(data, truth, estimate, na.rm = TRUE, ...)`.
+#'
+#' Class/prob metrics have a signature of
+#' `fn(data, truth, ..., estimate, na.rm = TRUE)`. When mixing class and
+#' class prob metrics, pass in the hard predictions (the factor column) as
+#' the named argument `estimate`, and the soft predictions (the class probability
+#' columns) as bare column names or `tidyselect` selectors to `...`.
 #'
 #' @examples
 #'
@@ -158,7 +174,7 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #'
 #' hpc_cv %>%
 #'   group_by(Resample) %>%
-#'   class_metrics(obs, pred)
+#'   class_metrics(obs, estimate = pred)
 #'
 #' # ---------------------------------------------------------------------------
 #'
@@ -188,16 +204,19 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' # ---------------------------------------------------------------------------
 #' # A class probability example:
 #'
-#' # Note that, when given prob functions, metric_set() returns a function
-#' # with signature:
-#' # fn(data, truth, ...)
-#' # to be consistent with class probability metric functions
+#' # Note that, when given class or class prob functions,
+#' # metric_set() returns a function with signature:
+#' # fn(data, truth, ..., estimate)
+#' # to be able to mix class and class prob metrics.
 #'
-#' probs_metrics <- metric_set(roc_auc, pr_auc, mn_log_loss)
+#' # You must provide the `estimate` column by explicitly naming
+#' # the argument
+#'
+#' class_and_probs_metrics <- metric_set(roc_auc, pr_auc, accuracy)
 #'
 #' hpc_cv %>%
 #'   group_by(Resample) %>%
-#'   probs_metrics(obs, VF:L)
+#'   class_and_probs_metrics(obs, VF:L, estimate = pred)
 #'
 #' @seealso [metrics()]
 #'
@@ -224,7 +243,7 @@ metric_set <- function(...) {
   fn_cls <- class(fns[[1]])[1]
 
   # signature of the function is different depending on input functions
-  if (fn_cls %in% c("class_metric", "numeric_metric")) {
+  if (fn_cls == "numeric_metric") {
 
     function(data, truth, estimate, na.rm = TRUE, ...) {
 
@@ -255,31 +274,62 @@ metric_set <- function(...) {
     }
 
   }
-  else if (fn_cls == "prob_metric") {
+  else if (fn_cls %in% c("prob_metric", "class_metric")) {
 
-    function(data, truth, ..., na.rm = TRUE) {
+    function(data, truth, ..., estimate, na.rm = TRUE) {
 
-      # Construct common argument set for each metric call
-      # Doing this dynamically inside the generated function means
-      # we capture the correct arguments
-      call_args <- quos(
-        data = data,
-        truth = !!enquo(truth),
-        ... = ...,
-        na.rm = na.rm
-      )
+      # Find class vs prob metrics
+      are_class_metrics <- vapply(fns, inherits, logical(1), what = "class_metric")
+      class_fns <- fns[are_class_metrics]
+      prob_fns <- fns[!are_class_metrics]
 
-      # Construct calls from the functions + arguments
-      calls <- lapply(fns, call2, !!! call_args)
+      metric_list <- list()
 
-      # Evaluate
-      metric_list <- mapply(
-        FUN = eval_safely,
-        calls, # .x
-        names(calls), # .y
-        SIMPLIFY = FALSE,
-        USE.NAMES = FALSE
-      )
+      # Evaluate class metrics
+      if(!rlang::is_empty(class_fns)) {
+
+        class_args <- quos(
+          data = data,
+          truth = !!enquo(truth),
+          estimate = !!enquo(estimate),
+          na.rm = na.rm
+        )
+
+        class_calls <- lapply(class_fns, call2, !!! class_args)
+
+        class_list <- mapply(
+          FUN = eval_safely,
+          class_calls, # .x
+          names(class_calls), # .y
+          SIMPLIFY = FALSE,
+          USE.NAMES = FALSE
+        )
+
+        metric_list <- c(metric_list, class_list)
+      }
+
+      # Evaluate prob metrics
+      if(!rlang::is_empty(prob_fns)) {
+
+        prob_args <- quos(
+          data = data,
+          truth = !!enquo(truth),
+          ... = ...,
+          na.rm = na.rm
+        )
+
+        prob_calls <- lapply(prob_fns, call2, !!! prob_args)
+
+        prob_list <- mapply(
+          FUN = eval_safely,
+          prob_calls, # .x
+          names(prob_calls), # .y
+          SIMPLIFY = FALSE,
+          USE.NAMES = FALSE
+        )
+
+        metric_list <- c(metric_list, prob_list)
+      }
 
       bind_rows(metric_list)
     }
@@ -293,7 +343,6 @@ metric_set <- function(...) {
   }
 
 }
-
 
 validate_not_empty <- function(x) {
   if (rlang::is_empty(x)) {
@@ -323,7 +372,17 @@ validate_inputs_are_functions <- function(fns) {
 # Validate that all metric functions inherit from the same function class
 validate_function_class <- function(fns) {
   fn_cls <- vapply(fns, function(fn) class(fn)[1], character(1))
+
   fn_cls_unique <- unique(fn_cls)
+
+  # Special case of ONLY class and prob functions together
+  # These are allowed to be together
+  if (length(fn_cls_unique) == 2) {
+    if (fn_cls_unique[1] %in% c("class_metric", "prob_metric") &
+        fn_cls_unique[2] %in% c("class_metric", "prob_metric")) {
+      return()
+    }
+  }
 
   if (length(fn_cls_unique) > 1) {
 
@@ -356,7 +415,9 @@ validate_function_class <- function(fns) {
     fn_pastable <- paste0(fn_pastable, collapse = "\n")
 
     abort(paste0(
-      "All metric functions must be of the same class. ",
+      "\nThe combination of metric functions must be:\n",
+      "- only numeric metrics\n",
+      "- a mix of class metrics and class probability metrics\n",
       "The following metric function types are being mixed:\n",
       fn_pastable
     ))
