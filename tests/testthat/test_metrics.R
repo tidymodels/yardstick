@@ -84,7 +84,7 @@ test_that('correct results', {
 
 ###################################################################
 
-test_that('custom metric sets', {
+test_that('numeric metric sets', {
 
   reg_set <- metric_set(rmse, rsq, mae)
 
@@ -96,7 +96,28 @@ test_that('custom metric sets', {
   expect_error(
     metric_set(rmse, "x")
   )
+
+  # Can mix class and class prob together
+  mixed_set <- metric_set(accuracy, roc_auc)
+  expect_error(
+    mixed_set(two_class_example, truth, Class1, estimate = predicted),
+    NA
+  )
+})
+
+test_that('mixing bad metric sets', {
   expect_error(
     metric_set(rmse, accuracy)
+  )
+})
+
+test_that('can mix class and class prob metrics together', {
+  expect_error(
+    mixed_set <- metric_set(accuracy, roc_auc),
+    NA
+  )
+  expect_error(
+    mixed_set(two_class_example, truth, Class1, estimate = predicted),
+    NA
   )
 })

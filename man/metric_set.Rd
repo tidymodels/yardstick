@@ -14,10 +14,28 @@ metric_set(...)
 into a new function that calculates all of them at once.
 }
 \details{
-All functions must be of the same "function class" to be able to be used
-together. For instance, \code{rmse()} can be used with \code{mae()} because they
+All functions must be either:
+\itemize{
+\item Only numeric metrics
+\item A mix of class metrics or class prob metrics
+}
+
+For instance, \code{rmse()} can be used with \code{mae()} because they
 are numeric metrics, but not with \code{accuracy()} because it is a classification
-metric.
+metric. But \code{accuracy()} can be used with \code{roc_auc()}.
+
+The returned metric function will have a different argument list
+depending on whether numeric metrics or a mix of class/prob metrics were
+passed in.
+
+Numeric metrics will have a signature like:
+\code{fn(data, truth, estimate, na.rm = TRUE, ...)}.
+
+Class/prob metrics have a signature of
+\code{fn(data, truth, ..., estimate, na.rm = TRUE)}. When mixing class and
+class prob metrics, pass in the hard predictions (the factor column) as
+the named argument \code{estimate}, and the soft predictions (the class probability
+columns) as bare column names or \code{tidyselect} selectors to \code{...}.
 }
 \examples{
 
@@ -35,7 +53,7 @@ class_metrics <- metric_set(accuracy, kap)
 
 hpc_cv \%>\%
   group_by(Resample) \%>\%
-  class_metrics(obs, pred)
+  class_metrics(obs, estimate = pred)
 
 # ---------------------------------------------------------------------------
 
@@ -65,16 +83,19 @@ multi_metric2(solubility_test, truth = solubility, estimate = prediction)
 # ---------------------------------------------------------------------------
 # A class probability example:
 
-# Note that, when given prob functions, metric_set() returns a function
-# with signature:
-# fn(data, truth, ...)
-# to be consistent with class probability metric functions
+# Note that, when given class or class prob functions,
+# metric_set() returns a function with signature:
+# fn(data, truth, ..., estimate)
+# to be able to mix class and class prob metrics.
 
-probs_metrics <- metric_set(roc_auc, pr_auc, mn_log_loss)
+# You must provide the `estimate` column by explicitly naming
+# the argument
+
+class_and_probs_metrics <- metric_set(roc_auc, pr_auc, accuracy)
 
 hpc_cv \%>\%
   group_by(Resample) \%>\%
-  probs_metrics(obs, VF:L)
+  class_and_probs_metrics(obs, VF:L, estimate = pred)
 
 }
 \seealso{
