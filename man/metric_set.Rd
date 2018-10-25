@@ -40,13 +40,23 @@ hpc_cv \%>\%
 # ---------------------------------------------------------------------------
 
 # If you need to set options for certain metrics,
-# do so ahead of time with purrr::partial(). Unfortunately
-# this requires you to reset the class of the metric function manually
-# as partial() removes it. Metric function classes are one of:
-# "numeric_metric", "class_metric", "prob_metric"
-library(purrr)
-ccc_with_bias <- partial(ccc, bias = TRUE)
-class(ccc_with_bias) <- c("numeric_metric", "function")
+# do so by wrapping the metric and setting the options inside the wrapper,
+# passing along truth and estimate as quoted arguments.
+# Then add on the function class of the underlying wrapped function.
+ccc_with_bias <- function(data, truth, estimate, na.rm = TRUE, ...) {
+  ccc(
+    data = data,
+    truth = !! rlang::enquo(truth),
+    estimate = !! rlang::enquo(estimate),
+    # set bias = TRUE
+    bias = TRUE,
+    na.rm = na.rm,
+    ...
+  )
+}
+
+# Add on the underlying function class (here, "numeric_metric")
+class(ccc_with_bias) <- class(ccc)
 
 multi_metric2 <- metric_set(rmse, rsq, ccc_with_bias)
 
