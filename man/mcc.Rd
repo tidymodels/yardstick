@@ -23,24 +23,24 @@ mcc_vec(truth, estimate, na.rm = TRUE, ...)
 
 j_index(data, ...)
 
-\method{j_index}{data.frame}(data, truth, estimate, averaging = NULL,
+\method{j_index}{data.frame}(data, truth, estimate, estimator = NULL,
   na.rm = TRUE, ...)
 
-j_index_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
+j_index_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
 
 bal_accuracy(data, ...)
 
 \method{bal_accuracy}{data.frame}(data, truth, estimate,
-  averaging = NULL, na.rm = TRUE, ...)
+  estimator = NULL, na.rm = TRUE, ...)
 
-bal_accuracy_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
+bal_accuracy_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
 
 detection_prevalence(data, ...)
 
 \method{detection_prevalence}{data.frame}(data, truth, estimate,
-  averaging = NULL, na.rm = TRUE, ...)
+  estimator = NULL, na.rm = TRUE, ...)
 
-detection_prevalence_vec(truth, estimate, averaging = NULL,
+detection_prevalence_vec(truth, estimate, estimator = NULL,
   na.rm = TRUE, ...)
 }
 \arguments{
@@ -64,7 +64,7 @@ unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
-\item{averaging}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
+\item{estimator}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
 or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
 only relevant for the two class case. The other three are general methods for
 calculating multiclass metrics. The default will automatically choose \code{"binary"}
@@ -95,7 +95,7 @@ computationally efficient to create the confusion matrix using
 
 
 Macro, micro, and macro-weighted averaging are available for these metrics.
-The default is to select macro averaging if an estimate factor with more
+The default is to select macro averaging if an \code{estimate} factor with more
 than 2 levels is provided. See \code{vignette("averaging", "yardstick")} for more
 information.
 

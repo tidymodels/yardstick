@@ -23,7 +23,7 @@
 #' @section Multiclass:
 #'
 #' Macro, micro, and macro-weighted averaging are available for these metrics.
-#' The default is to select macro averaging if an estimate factor with more
+#' The default is to select macro averaging if an `estimate` factor with more
 #' than 2 levels is provided. See `vignette("averaging", "yardstick")` for more
 #' information.
 #'
@@ -78,7 +78,7 @@ mcc.data.frame <- function(data, truth, estimate,
     estimate = !!enquo(estimate),
     na.rm = na.rm,
     # do not pass dots through
-    # (could allow averaging to be set. unwanted!)
+    # (could allow estimator to be set. unwanted!)
   )
 
 }
@@ -86,11 +86,12 @@ mcc.data.frame <- function(data, truth, estimate,
 #' @export
 mcc.table <- function(data, ...) {
   check_table(data)
-  averaging <- finalize_averaging(data, NULL)
+  estimator <- finalize_estimator(data, metric_class = "mcc")
 
   metric_tibbler(
     .metric = "mcc",
-    .estimate = mcc_table_impl(data, averaging)
+    .estimator = estimator,
+    .estimate = mcc_table_impl(data, estimator)
   )
 
 }
@@ -105,9 +106,7 @@ mcc.matrix <- function(data, ...) {
 #' @rdname mcc
 mcc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
-  # determine binary / multiclass automatically
-  # user does not get to choose
-  averaging <- finalize_averaging(truth, NULL)
+  estimator <- finalize_estimator(truth, metric_class = "mcc")
 
   mcc_impl <- function(truth, estimate) {
 
@@ -117,7 +116,7 @@ mcc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
       na.rm = FALSE
     )
 
-    mcc_table_impl(xtab, averaging)
+    mcc_table_impl(xtab, estimator)
 
   }
 
@@ -126,16 +125,16 @@ mcc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...
   )
 
 }
 
-mcc_table_impl <- function(data, averaging) {
+mcc_table_impl <- function(data, estimator) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     mcc_binary(data)
   } else {
     mcc_multiclass(data)
@@ -183,7 +182,7 @@ class(j_index) <- c("class_metric", "function")
 #' @export
 #' @rdname mcc
 j_index.data.frame <- function(data, truth, estimate,
-                               averaging = NULL,
+                               estimator = NULL,
                                na.rm = TRUE,
                                ...) {
 
@@ -193,7 +192,7 @@ j_index.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...
   )
@@ -201,31 +200,32 @@ j_index.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-j_index.table <- function(data, averaging = NULL, ...) {
+j_index.table <- function(data, estimator = NULL, ...) {
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
-    .metric = construct_name("j_index", averaging, data),
-    .estimate = j_index_table_impl(data, averaging)
+    .metric = "j_index",
+    .estimator = estimator,
+    .estimate = j_index_table_impl(data, estimator)
   )
 
 }
 
 #' @export
-j_index.matrix <- function(data, averaging = NULL, ...) {
+j_index.matrix <- function(data, estimator = NULL, ...) {
 
   data <- as.table(data)
-  j_index.table(data, averaging)
+  j_index.table(data, estimator)
 
 }
 
 #' @export
 #' @rdname mcc
-j_index_vec <- function(truth, estimate, averaging = NULL,
+j_index_vec <- function(truth, estimate, estimator = NULL,
                         na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   j_index_impl <- function(truth, estimate) {
 
@@ -235,7 +235,7 @@ j_index_vec <- function(truth, estimate, averaging = NULL,
       na.rm = FALSE
     )
 
-    j_index_table_impl(xtab, averaging)
+    j_index_table_impl(xtab, estimator)
 
   }
 
@@ -245,19 +245,19 @@ j_index_vec <- function(truth, estimate, averaging = NULL,
     estimate = estimate,
     na.rm = na.rm,
     cls = "factor",
-    averaging = averaging,
+    estimator = estimator,
     ...
   )
 
 }
 
-j_index_table_impl <- function(data, averaging) {
+j_index_table_impl <- function(data, estimator) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     j_index_binary(data)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- j_index_multiclass(data, averaging)
+    w <- get_weights(data, estimator)
+    out_vec <- j_index_multiclass(data, estimator)
     weighted.mean(out_vec, w)
   }
 
@@ -268,8 +268,8 @@ j_index_binary <- function(data) {
   recall_binary(data) + spec_binary(data) - 1
 }
 
-j_index_multiclass <- function(data, averaging) {
-  recall_multiclass(data, averaging) + spec_multiclass(data, averaging) - 1
+j_index_multiclass <- function(data, estimator) {
+  recall_multiclass(data, estimator) + spec_multiclass(data, estimator) - 1
 }
 
 # Balanced Accuracy ------------------------------------------------------------
@@ -285,7 +285,7 @@ class(bal_accuracy) <- c("class_metric", "function")
 #' @export
 #' @rdname mcc
 bal_accuracy.data.frame <- function(data, truth, estimate,
-                                    averaging = NULL, na.rm = TRUE, ...) {
+                                    estimator = NULL, na.rm = TRUE, ...) {
 
     metric_summarizer(
       metric_nm = "bal_accuracy",
@@ -293,7 +293,7 @@ bal_accuracy.data.frame <- function(data, truth, estimate,
       data = data,
       truth = !!enquo(truth),
       estimate = !!enquo(estimate),
-      averaging = averaging,
+      estimator = estimator,
       na.rm = na.rm,
       ... = ...
     )
@@ -301,32 +301,33 @@ bal_accuracy.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-bal_accuracy.table <- function(data, averaging = NULL, ...) {
+bal_accuracy.table <- function(data, estimator = NULL, ...) {
 
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
-    .metric = construct_name("bal_accuracy", averaging, data),
-    .estimate = bal_accuracy_table_impl(data, averaging)
+    .metric = "bal_accuracy",
+    .estimator = estimator,
+    .estimate = bal_accuracy_table_impl(data, estimator)
   )
 
 }
 
 #' @export
-bal_accuracy.matrix <- function(data, averaging = NULL, ...) {
+bal_accuracy.matrix <- function(data, estimator = NULL, ...) {
 
   data <- as.table(data)
-  bal_accuracy.table(data, averaging)
+  bal_accuracy.table(data, estimator)
 
 }
 
 #' @export
 #' @rdname mcc
-bal_accuracy_vec <- function(truth, estimate, averaging = NULL,
+bal_accuracy_vec <- function(truth, estimate, estimator = NULL,
                              na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   bal_accuracy_impl <- function(truth, estimate) {
 
@@ -336,7 +337,7 @@ bal_accuracy_vec <- function(truth, estimate, averaging = NULL,
       na.rm = FALSE
     )
 
-    bal_accuracy_table_impl(xtab, averaging)
+    bal_accuracy_table_impl(xtab, estimator)
 
   }
 
@@ -345,20 +346,20 @@ bal_accuracy_vec <- function(truth, estimate, averaging = NULL,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...
   )
 
 }
 
-bal_accuracy_table_impl <- function(data, averaging) {
+bal_accuracy_table_impl <- function(data, estimator) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     bal_accuracy_binary(data)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- bal_accuracy_multiclass(data, averaging)
+    w <- get_weights(data, estimator)
+    out_vec <- bal_accuracy_multiclass(data, estimator)
     weighted.mean(out_vec, w)
   }
 
@@ -372,8 +373,8 @@ bal_accuracy_binary <- function(data) {
 }
 
 # Urbanowicz 2015 ExSTraCS 2.0 description and evaluation of a scalable learning.pdf
-bal_accuracy_multiclass <- function(data, averaging) {
-  ( recall_multiclass(data, averaging) + spec_multiclass(data, averaging) ) / 2
+bal_accuracy_multiclass <- function(data, estimator) {
+  ( recall_multiclass(data, estimator) + spec_multiclass(data, estimator) ) / 2
 }
 
 # Detection prevalence ---------------------------------------------------------
@@ -389,7 +390,7 @@ class(detection_prevalence) <- c("class_metric", "function")
 #' @export
 #' @rdname mcc
 detection_prevalence.data.frame <- function(data, truth, estimate,
-                                            averaging = NULL,
+                                            estimator = NULL,
                                             na.rm = TRUE, ...) {
 
   metric_summarizer(
@@ -398,7 +399,7 @@ detection_prevalence.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...
   )
@@ -406,32 +407,33 @@ detection_prevalence.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-detection_prevalence.table <- function(data, averaging = NULL, ...) {
+detection_prevalence.table <- function(data, estimator = NULL, ...) {
 
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
-    .metric = construct_name("detection_prevalence", averaging, data),
-    .estimate = detection_prevalence_table_impl(data, averaging)
+    .metric = "detection_prevalence",
+    .estimator = estimator,
+    .estimate = detection_prevalence_table_impl(data, estimator)
   )
 
 }
 
 #' @export
-detection_prevalence.matrix <- function(data, averaging = NULL, ...) {
+detection_prevalence.matrix <- function(data, estimator = NULL, ...) {
 
   data <- as.table(data)
-  detection_prevalence.table(data, averaging)
+  detection_prevalence.table(data, estimator)
 
 }
 
 #' @export
 #' @rdname mcc
-detection_prevalence_vec <- function(truth, estimate, averaging = NULL,
+detection_prevalence_vec <- function(truth, estimate, estimator = NULL,
                                      na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   detection_prevalence_impl <- function(truth, estimate) {
 
@@ -441,7 +443,7 @@ detection_prevalence_vec <- function(truth, estimate, averaging = NULL,
       na.rm = FALSE
     )
 
-    detection_prevalence_table_impl(xtab, averaging)
+    detection_prevalence_table_impl(xtab, estimator)
 
   }
 
@@ -450,20 +452,20 @@ detection_prevalence_vec <- function(truth, estimate, averaging = NULL,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...
   )
 
 }
 
-detection_prevalence_table_impl <- function(data, averaging) {
+detection_prevalence_table_impl <- function(data, estimator) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     detection_prevalence_binary(data)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- detection_prevalence_multiclass(data, averaging)
+    w <- get_weights(data, estimator)
+    out_vec <- detection_prevalence_multiclass(data, estimator)
     weighted.mean(out_vec, w)
   }
 
@@ -476,7 +478,7 @@ detection_prevalence_binary <- function(data) {
 
 }
 
-detection_prevalence_multiclass <- function(data, averaging) {
+detection_prevalence_multiclass <- function(data, estimator) {
 
   numer <- rowSums(data)
   denom <- rep(sum(data), times = nrow(data))
@@ -486,7 +488,7 @@ detection_prevalence_multiclass <- function(data, averaging) {
     return(res)
   }
 
-  if(is_micro(averaging)) {
+  if(is_micro(estimator)) {
     numer <- sum(numer)
     denom <- sum(denom)
   }

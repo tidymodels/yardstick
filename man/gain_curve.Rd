@@ -11,9 +11,9 @@
 \alias{gain_capture.data.frame}
 \title{Cumulative gain and lift charts}
 \usage{
-\method{autoplot}{gain_df}(object, ...)
+autoplot.gain_df(object, ...)
 
-\method{autoplot}{lift_df}(object, ...)
+autoplot.lift_df(object, ...)
 
 gain_curve(data, ...)
 
@@ -25,7 +25,7 @@ lift_curve(data, ...)
 
 gain_capture(data, ...)
 
-\method{gain_capture}{data.frame}(data, truth, ..., averaging = NULL,
+\method{gain_capture}{data.frame}(data, truth, ..., estimator = NULL,
   na.rm = TRUE)
 }
 \arguments{
@@ -49,8 +49,8 @@ names). For \code{_vec()} functions, a \code{factor} vector.}
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
-\item{averaging}{One of \code{"binary"}, \code{"macro"}, or \code{"macro_weighted"} to
-specify the type of averaging to be done. \code{"binary"} is only relevant for
+\item{estimator}{One of \code{"binary"}, \code{"macro"}, or \code{"macro_weighted"} to
+specify the type of estimator to be done. \code{"binary"} is only relevant for
 the two class case. The other two are general methods for calculating
 multiclass metrics. The default will automatically choose \code{"binary"} or
 \code{"macro"} based on \code{truth}.}

@@ -5,7 +5,7 @@
 \title{Developer function for calling new metrics}
 \usage{
 metric_vec_template(metric_impl, truth, estimate, na.rm = TRUE,
-  cls = "numeric", averaging = NULL, averaging_override = NULL, ...)
+  cls = "numeric", estimator = NULL, ...)
 }
 \arguments{
 \item{metric_impl}{The core implementation function of your custom metric.
@@ -31,14 +31,11 @@ class that \code{truth} and \code{estimate} should be, respectively. If \code{tr
 they are different, supply a vector of length 2. For matrices, it is best
 to supply \code{"numeric"} as the class to check here.}
 
-\item{averaging}{The type of averaging to use. By this point, the averaging
+\item{estimator}{The type of averaging to use. By this point, the averaging
 type should be finalized, so this should be a character vector of length 1.
 By default, this character value is required to be one of: \code{"binary"},
 \code{"macro"}, \code{"micro"}, or \code{"macro_weighted"}. If your metric allows more
 or less averaging methods, override this with \code{averaging_override}.}
-
-\item{averaging_override}{An optional character vector of averaging types to
-override the default averaging types. See \code{averaging}.}
 
 \item{...}{Extra arguments to your core metric function, \code{metric_impl}, can
 technically be passed here, but generally the extra args are added through
@@ -59,5 +56,5 @@ function performing the core implemenation of the metric function. This
 core function is passed along to \code{metric_vec_template()} as \code{metric_impl}.
 }
 \seealso{
-\code{\link[=metric_summarizer]{metric_summarizer()}} \code{\link[=finalize_averaging]{finalize_averaging()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
+\code{\link[=metric_summarizer]{metric_summarizer()}} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
 }

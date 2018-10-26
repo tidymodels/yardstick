@@ -75,19 +75,6 @@ match_levels_to_cols <- function(nms, lvl) {
 
 # ------------------------------------------------------------------------------
 
-construct_name <- function(nm, averaging, estimate) {
-
-  averaging <- finalize_averaging(estimate, averaging)
-
-  if(averaging == "binary" | is.na(averaging)) {
-    nm
-  } else {
-    paste0(nm, "_", averaging)
-  }
-}
-
-# ------------------------------------------------------------------------------
-
 is_binary <- function(x) {
   x == "binary"
 }

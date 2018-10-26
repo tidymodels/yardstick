@@ -21,24 +21,24 @@
 \usage{
 recall(data, ...)
 
-\method{recall}{data.frame}(data, truth, estimate, averaging = NULL,
+\method{recall}{data.frame}(data, truth, estimate, estimator = NULL,
   na.rm = TRUE, ...)
 
-recall_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
+recall_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
 
 precision(data, ...)
 
-\method{precision}{data.frame}(data, truth, estimate, averaging = NULL,
+\method{precision}{data.frame}(data, truth, estimate, estimator = NULL,
   na.rm = TRUE, ...)
 
-precision_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
+precision_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
 
 f_meas(data, ...)
 
 \method{f_meas}{data.frame}(data, truth, estimate, beta = 1,
-  averaging = NULL, na.rm = TRUE, ...)
+  estimator = NULL, na.rm = TRUE, ...)
 
-f_meas_vec(truth, estimate, beta = 1, averaging = NULL, na.rm = TRUE,
+f_meas_vec(truth, estimate, beta = 1, estimator = NULL, na.rm = TRUE,
   ...)
 }
 \arguments{
@@ -59,7 +59,7 @@ results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{averaging}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
+\item{estimator}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
 or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
 only relevant for the two class case. The other three are general methods for
 calculating multiclass metrics. The default will automatically choose \code{"binary"}

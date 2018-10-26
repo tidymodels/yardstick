@@ -77,8 +77,10 @@ accuracy.data.frame <- function(data, truth, estimate,
 #' @export
 accuracy.table <- function(data, ...) {
   check_table(data)
+  estimator <- finalize_estimator(data, metric_class = "accuracy")
   metric_tibbler(
     .metric = "accuracy",
+    .estimator = estimator,
     .estimate = accuracy_table_impl(data)
   )
 }
@@ -92,6 +94,8 @@ accuracy.matrix <- function(data, ...) {
 #' @export
 #' @rdname accuracy
 accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  estimator <- finalize_estimator(truth, metric_class = "accuracy")
 
   accuracy_impl <- function(truth, estimate) {
 
@@ -110,7 +114,7 @@ accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = "binary",
+    estimator = estimator,
     cls = "factor",
     ...
   )
@@ -158,6 +162,7 @@ kap.table <- function(data, ...) {
   check_table(data)
   metric_tibbler(
     .metric = "kap",
+    .estimator = finalize_estimator(data, metric_class = "kap"),
     .estimate = kap_table_impl(data)
   )
 }
@@ -171,6 +176,8 @@ kap.matrix <- function(data, ...) {
 #' @export
 #' @rdname accuracy
 kap_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+
+  estimator <- finalize_estimator(truth, metric_class = "kap")
 
   kap_impl <- function(truth, estimate) {
 
@@ -189,7 +196,7 @@ kap_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = "binary",
+    estimator = estimator,
     cls = "factor",
     ...
   )

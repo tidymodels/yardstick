@@ -31,7 +31,7 @@
 #' the `estimate` column. For metrics that take multiple columns through `...`
 #' like class probability metrics, this is a result of [dots_to_estimate()].
 #'
-#' @param averaging For numeric metrics, this is left as `NA` so averaging
+#' @param estimator For numeric metrics, this is left as `NA` so averaging
 #' is not passed on to the metric function implementation. For classification
 #' metrics, this can either be `NULL` for the default auto-selection of
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along
@@ -48,14 +48,14 @@
 #' are spliced into the metric function call using `!!!` from `rlang`. The
 #' default results in nothing being spliced into the call.
 #'
-#' @seealso [metric_vec_template()] [finalize_averaging()] [dots_to_estimate()]
+#' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
 #'
 #' @export
 #'
 #' @importFrom dplyr summarise
 metric_summarizer <- function(metric_nm, metric_fn,
                               data, truth, estimate,
-                              averaging = NA,
+                              estimator = NULL,
                               na.rm = TRUE,
                               ...,
                               metric_fn_options = list()) {
@@ -70,13 +70,18 @@ metric_summarizer <- function(metric_nm, metric_fn,
   truth <- handle_chr_names(truth)
   estimate <- handle_chr_names(estimate)
 
+  finalize_estimator_expr <- rlang::expr(
+    finalize_estimator(!! truth, estimator, metric_nm)
+  )
+
   metric_tbl <- dplyr::summarise(
     data,
-    .metric = construct_name(!! metric_nm, averaging, !! estimate),
+    .metric = metric_nm,
+    .estimator = eval_tidy(finalize_estimator_expr),
     .estimate = metric_fn(
       truth = !! truth,
       estimate = !! estimate,
-      !!! spliceable_averaging(averaging),
+      !!! spliceable_estimator(estimator),
       na.rm = na.rm,
       !!! metric_fn_options
     )
@@ -116,14 +121,11 @@ metric_summarizer <- function(metric_nm, metric_fn,
 #' they are different, supply a vector of length 2. For matrices, it is best
 #' to supply `"numeric"` as the class to check here.
 #'
-#' @param averaging The type of averaging to use. By this point, the averaging
+#' @param estimator The type of averaging to use. By this point, the averaging
 #' type should be finalized, so this should be a character vector of length 1\.
 #' By default, this character value is required to be one of: `"binary"`,
 #' `"macro"`, `"micro"`, or `"macro_weighted"`. If your metric allows more
 #' or less averaging methods, override this with `averaging_override`.
-#'
-#' @param averaging_override An optional character vector of averaging types to
-#' override the default averaging types. See `averaging`.
 #'
 #' @param ... Extra arguments to your core metric function, `metric_impl`, can
 #' technically be passed here, but generally the extra args are added through
@@ -137,21 +139,20 @@ metric_summarizer <- function(metric_nm, metric_fn,
 #' function performing the core implemenation of the metric function. This
 #' core function is passed along to `metric_vec_template()` as `metric_impl`.
 #'
-#' @seealso [metric_summarizer()] [finalize_averaging()] [dots_to_estimate()]
+#' @seealso [metric_summarizer()] [finalize_estimator()] [dots_to_estimate()]
 #'
 #' @export
 #'
 #' @importFrom stats complete.cases
 metric_vec_template <- function(metric_impl,
-                                truth, estimate,
+                                truth,
+                                estimate,
                                 na.rm = TRUE,
                                 cls = "numeric",
-                                averaging = NULL,
-                                averaging_override = NULL,
+                                estimator = NULL,
                                 ...) {
 
-  validate_averaging(averaging, averaging_override)
-  validate_truth_estimate_checks(truth, estimate, cls, averaging)
+  validate_truth_estimate_checks(truth, estimate, cls, estimator)
 
   if (na.rm) {
     complete_cases <- complete.cases(truth, estimate)
@@ -190,21 +191,24 @@ handle_chr_names <- function(x) {
   x
 }
 
-metric_tibbler <- function(.metric, .estimate) {
-  dplyr::tibble(.metric = .metric, .estimate = .estimate)
+metric_tibbler <- function(.metric, .estimator, .estimate) {
+  dplyr::tibble(
+    .metric = .metric,
+    .estimator = .estimator,
+    .estimate = .estimate
+  )
 }
 
-# if averaging = NULL, we don't want to pass it along
-# as an argument. splicing in an empty list essentially is equivalent
-# to splicing in nothing
-# averaging = NA -> not applicable for this metric
-# averaging = NULL -> should be chosen automatically for this metric
-spliceable_averaging <- function(averaging) {
+# if estimator = NULL, we don't want to pass it along
+# as an argument. (autoselection will do the work for us)
+# splicing in an empty list essentially is equivalent
+# to splicing in nothing.
+spliceable_estimator <- function(estimator) {
 
-  if(is.null(averaging) || !is.na(averaging)) {
-    return(list(averaging = averaging))
+  if (!is.null(estimator)) {
+    return(list(estimator = estimator))
   }
-  else{
+  else {
     return(list())
   }
 

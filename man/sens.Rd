@@ -29,30 +29,30 @@
 \usage{
 sens(data, ...)
 
-\method{sens}{data.frame}(data, truth, estimate, averaging = NULL,
+\method{sens}{data.frame}(data, truth, estimate, estimator = NULL,
   na.rm = TRUE, ...)
 
-sens_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
+sens_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
 
-\method{spec}{data.frame}(data, truth, estimate, averaging = NULL,
+\method{spec}{data.frame}(data, truth, estimate, estimator = NULL,
   na.rm = TRUE, ...)
 
-spec_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
+spec_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
 
 ppv(data, ...)
 
 \method{ppv}{data.frame}(data, truth, estimate, prevalence = NULL,
-  averaging = NULL, na.rm = TRUE, ...)
+  estimator = NULL, na.rm = TRUE, ...)
 
-ppv_vec(truth, estimate, prevalence = NULL, averaging = NULL,
+ppv_vec(truth, estimate, prevalence = NULL, estimator = NULL,
   na.rm = TRUE, ...)
 
 npv(data, ...)
 
 \method{npv}{data.frame}(data, truth, estimate, prevalence = NULL,
-  averaging = NULL, na.rm = TRUE, ...)
+  estimator = NULL, na.rm = TRUE, ...)
 
-npv_vec(truth, estimate, prevalence = NULL, averaging = NULL,
+npv_vec(truth, estimate, prevalence = NULL, estimator = NULL,
   na.rm = TRUE, ...)
 }
 \arguments{
@@ -73,7 +73,7 @@ results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{averaging}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
+\item{estimator}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
 or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
 only relevant for the two class case. The other three are general methods for
 calculating multiclass metrics. The default will automatically choose \code{"binary"}
@@ -87,9 +87,9 @@ values should be stripped before the computation proceeds.}
 }
 \value{
 For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
-Otherwise, a \code{tibble} with columns \code{.metric} and \code{.estimate} and 1 row of
-values. For grouped data frames, the number of rows returned will be the
-same as the number of groups.
+Otherwise, a \code{tibble} with columns \code{.metric}, \code{.estimator},
+and \code{.estimate} and 1 row of values. For grouped data frames, the number
+of rows returned will be the same as the number of groups.
 }
 \description{
 These functions calculate the sensitivity, specificity or
@@ -173,11 +173,11 @@ library(dplyr)
 sens(hpc_cv, obs, pred)
 
 # Micro averaged sensitivity
-sens(hpc_cv, obs, pred, averaging = "micro")
+sens(hpc_cv, obs, pred, estimator = "micro")
 
 # Macro-weighted averaged sensitivity
 # (for sensitivity, this is the same as micro)
-sens(hpc_cv, obs, pred, averaging = "macro_weighted")
+sens(hpc_cv, obs, pred, estimator = "macro_weighted")
 
 }
 \references{

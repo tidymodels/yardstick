@@ -1,10 +1,10 @@
 # Checking column types and number supplied ------------------------------------
 
-validate_truth_estimate_types <- function(truth, estimate, averaging) {
+validate_truth_estimate_types <- function(truth, estimate, estimator) {
   UseMethod("validate_truth_estimate_types")
 }
 
-validate_truth_estimate_types.default <- function(truth, estimate, averaging) {
+validate_truth_estimate_types.default <- function(truth, estimate, estimator) {
   cls <- class(truth)[[1]]
   abort(paste0(
     "`truth` class `", cls, "` is unknown. ",
@@ -13,8 +13,8 @@ validate_truth_estimate_types.default <- function(truth, estimate, averaging) {
 }
 
 # factor / ?
-validate_truth_estimate_types.factor <- function(truth, estimate, averaging) {
-  switch (averaging,
+validate_truth_estimate_types.factor <- function(truth, estimate, estimator) {
+  switch (estimator,
           "binary" = binary_checks(truth, estimate),
           # otherwise multiclass checks
           multiclass_checks(truth, estimate)
@@ -22,13 +22,7 @@ validate_truth_estimate_types.factor <- function(truth, estimate, averaging) {
 }
 
 # numeric / numeric
-validate_truth_estimate_types.numeric <- function(truth, estimate, averaging) {
-  if (!is.null(averaging)) {
-    abort(paste0(
-      "`averaging` was somehow applied to a numeric metric.",
-      "This should never happen."
-    ))
-  }
+validate_truth_estimate_types.numeric <- function(truth, estimate, estimator) {
 
   if (!is.numeric(estimate)) {
     cls <- class(estimate)[[1]]
@@ -171,7 +165,7 @@ validate_class <- function(x, nm, cls) {
 
 validate_truth_estimate_checks <- function(truth, estimate,
                                            cls = "numeric",
-                                           averaging = NULL) {
+                                           estimator) {
 
   if(length(cls) == 1) {
     cls <- c(cls, cls)
@@ -179,7 +173,7 @@ validate_truth_estimate_checks <- function(truth, estimate,
 
   validate_class(truth, "truth", cls[1])
   validate_class(estimate, "estimate", cls[2])
-  validate_truth_estimate_types(truth, estimate, averaging)
+  validate_truth_estimate_types(truth, estimate, estimator)
   validate_truth_estimate_lengths(truth, estimate)
 }
 
@@ -194,40 +188,40 @@ validate_not_missing <- function(x, nm) {
   }
 }
 
-# Validate averaging type is allowed -------------------------------------------
+# Validate estimator type is allowed -------------------------------------------
 
-validate_averaging <- function(averaging, averaging_override) {
+validate_estimator <- function(estimator, estimator_override = NULL) {
 
-  if(is.null(averaging)) {
+  if(is.null(estimator)) {
     return()
   }
 
-  if (!is.null(averaging_override)) {
-    allowed <- averaging_override
+  if (!is.null(estimator_override)) {
+    allowed <- estimator_override
   }
   else {
     allowed <- c("binary", "macro", "micro", "macro_weighted")
   }
 
-  if (length(averaging) != 1) {
+  if (length(estimator) != 1) {
     abort(paste0(
-      "`averaging` must be length 1, not ", length(averaging), "."
+      "`estimator` must be length 1, not ", length(estimator), "."
     ))
   }
 
-  if (!is.character(averaging)) {
+  if (!is.character(estimator)) {
     abort(paste0(
-      "`averaging` must be a character, not a ", class(averaging)[1], "."
+      "`estimator` must be a character, not a ", class(estimator)[1], "."
     ))
   }
 
-  averaging_ok <- (averaging %in% allowed)
+  estimator_ok <- (estimator %in% allowed)
 
-  if (!averaging_ok) {
+  if (!estimator_ok) {
     allowed <- paste0(dQuote(allowed), collapse = ", ")
     abort(paste0(
-      "`averaging` must be one of: ", allowed,
-      ". Not ", dQuote(averaging), "."
+      "`estimator` must be one of: ", allowed,
+      ". Not ", dQuote(estimator), "."
     ))
   }
 

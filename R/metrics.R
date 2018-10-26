@@ -276,7 +276,7 @@ metric_set <- function(...) {
   }
   else if (fn_cls %in% c("prob_metric", "class_metric")) {
 
-    function(data, truth, ..., estimate, na.rm = TRUE) {
+    function(data, truth, ..., estimate, estimator = NULL, na.rm = TRUE) {
 
       # Find class vs prob metrics
       are_class_metrics <- vapply(fns, inherits, logical(1), what = "class_metric")
@@ -292,6 +292,7 @@ metric_set <- function(...) {
           data = data,
           truth = !!enquo(truth),
           estimate = !!enquo(estimate),
+          estimator = estimator,
           na.rm = na.rm
         )
 
@@ -311,10 +312,19 @@ metric_set <- function(...) {
       # Evaluate prob metrics
       if(!rlang::is_empty(prob_fns)) {
 
+        # TODO - If prob metrics can all do micro, we can remove this
+        if (!is.null(estimator) && estimator == "micro") {
+          prob_estimator <- NULL
+        }
+        else {
+          prob_estimator <- estimator
+        }
+
         prob_args <- quos(
           data = data,
           truth = !!enquo(truth),
           ... = ...,
+          estimator = prob_estimator,
           na.rm = na.rm
         )
 

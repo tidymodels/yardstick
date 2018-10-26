@@ -43,9 +43,9 @@ values should be stripped before the computation proceeds.}
 }
 \value{
 For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
-Otherwise, a \code{tibble} with columns \code{.metric} and \code{.estimate} and 1 row of
-values. For grouped data frames, the number of rows returned will be the
-same as the number of groups.
+Otherwise, a \code{tibble} with columns \code{.metric}, \code{.estimator},
+and \code{.estimate} and 1 row of values. For grouped data frames, the number
+of rows returned will be the same as the number of groups.
 }
 \description{
 These functions are appropriate for cases where the model

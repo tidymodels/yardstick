@@ -20,24 +20,24 @@
 \alias{pr_curve.data.frame}
 \title{Metrics Based on Class Probabilities}
 \usage{
-\method{autoplot}{roc_df}(object, ...)
+autoplot.roc_df(object, ...)
 
-\method{autoplot}{pr_df}(object, ...)
+autoplot.pr_df(object, ...)
 
 roc_auc(data, ...)
 
 \method{roc_auc}{data.frame}(data, truth, ..., options = list(),
-  averaging = NULL, na.rm = TRUE)
+  estimator = NULL, na.rm = TRUE)
 
-roc_auc_vec(truth, estimate, options = list(), averaging = NULL,
+roc_auc_vec(truth, estimate, options = list(), estimator = NULL,
   na.rm = TRUE, ...)
 
 pr_auc(data, ...)
 
-\method{pr_auc}{data.frame}(data, truth, ..., averaging = NULL,
+\method{pr_auc}{data.frame}(data, truth, ..., estimator = NULL,
   na.rm = TRUE)
 
-pr_auc_vec(truth, estimate, averaging = NULL, na.rm = TRUE, ...)
+pr_auc_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
 
 mn_log_loss(data, ...)
 
@@ -76,7 +76,7 @@ names). For \code{_vec()} functions, a \code{factor} vector.}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
 
-\item{averaging}{For \code{roc_auc()} and \code{pr_auc()}, one of \code{"binary"},
+\item{estimator}{For \code{roc_auc()} and \code{pr_auc()}, one of \code{"binary"},
 \code{"macro"}, or \code{"macro_weighted"} to specify the type of averaging to be done.
 \code{"binary"} is only relevant for the two class case. The other two are
 general methods for calculating multiclass metrics. The default will

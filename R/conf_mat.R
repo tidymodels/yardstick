@@ -175,6 +175,7 @@ tidy.conf_mat <- function(x, ...) {
 #'  to `FALSE` if the last level of the factor is considered the
 #'  level of interest.
 #'
+#' @inheritParams sens
 #' @param object An object of class [conf_mat()].
 #' @param prevalence A number in `(0, 1)` for the prevalence (i.e.
 #'  prior) of the event. If left to the default, the data are used
@@ -207,48 +208,38 @@ tidy.conf_mat <- function(x, ...) {
 #'   unnest(summary_tbl)
 #'
 #' all_metrics %>%
-#'   group_by(Resample) %>%
+#'   group_by(.metric) %>%
 #'   summarise(
 #'     mean = mean(.estimate, na.rm = TRUE),
 #'     sd = sd(.estimate, na.rm = TRUE)
 #'   )
 #'
-summary.conf_mat <- function(object, prevalence = NULL, beta = 1, ...) {
+summary.conf_mat <- function(object,
+                             prevalence = NULL,
+                             beta = 1,
+                             estimator = NULL,
+                             ...) {
 
   xtab <- object$table
 
   stats <- bind_rows(
+    # known multiclass extension
     accuracy(xtab),
-    kap(xtab)
+    # known multiclass extension
+    kap(xtab),
+    sens(xtab, estimator = estimator),
+    spec(xtab, estimator = estimator),
+    ppv(xtab, prevalence = prevalence, estimator = estimator),
+    npv(xtab, prevalence = prevalence, estimator = estimator),
+    # known multiclass extension
+    mcc(xtab),
+    j_index(xtab, estimator = estimator),
+    bal_accuracy(xtab, estimator = estimator),
+    detection_prevalence(xtab, estimator = estimator),
+    precision(xtab, estimator = estimator),
+    recall(xtab, estimator = estimator),
+    f_meas(xtab, beta = beta, estimator = estimator)
   )
-
-  # Two class metrics
-  if (nrow(xtab) == 2) {
-    positive <- pos_val(xtab)
-
-    if (is.null(prevalence)) {
-      prevalence <- sum(xtab[, positive]) / sum(xtab)
-    }
-
-    prev_tbl <- metric_tibbler("prevalence", prevalence)
-
-    stats_2class <- bind_rows(
-        sens(xtab),
-        spec(xtab),
-        prev_tbl,
-        ppv(xtab, prevalence = prevalence),
-        npv(xtab, prevalence = prevalence),
-        mcc(xtab),
-        j_index(xtab),
-        bal_accuracy(xtab),
-        detection_prevalence(xtab),
-        precision(xtab),
-        recall(xtab),
-        f_meas(xtab, beta = beta)
-    )
-
-    stats <- bind_rows(stats, stats_2class)
-  }
 
   stats
 }
