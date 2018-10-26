@@ -34,7 +34,7 @@
 #' such as `direction` or `smooth`. These options should not include `response`,
 #' `predictor`, or `levels`.
 #'
-#' @param averaging For `roc_auc()` and `pr_auc()`, one of `"binary"`,
+#' @param estimator For `roc_auc()` and `pr_auc()`, one of `"binary"`,
 #' `"macro"`, or `"macro_weighted"` to specify the type of averaging to be done.
 #' `"binary"` is only relevant for the two class case. The other two are
 #' general methods for calculating multiclass metrics. The default will
@@ -152,7 +152,7 @@ class(roc_auc) <- c("prob_metric", "function")
 #' @export
 #' @rdname roc_auc
 roc_auc.data.frame  <- function(data, truth, ..., options = list(),
-                                averaging = NULL, na.rm = TRUE) {
+                                estimator = NULL, na.rm = TRUE) {
 
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
@@ -163,7 +163,7 @@ roc_auc.data.frame  <- function(data, truth, ..., options = list(),
     data = data,
     truth = !!enquo(truth),
     estimate = !!estimate,
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...,
     metric_fn_options = list(options = options)
@@ -176,39 +176,38 @@ roc_auc.data.frame  <- function(data, truth, ..., options = list(),
 #' @importFrom rlang call2
 #' @importFrom pROC roc auc
 roc_auc_vec <- function(truth, estimate, options = list(),
-                        averaging = NULL, na.rm = TRUE, ...) {
+                        estimator = NULL, na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator, "roc_auc")
 
   roc_auc_impl <- function(truth, estimate) {
-    roc_auc_averaging_impl(truth, estimate, options, averaging)
+    roc_auc_estimator_impl(truth, estimate, options, estimator)
   }
 
   metric_vec_template(
     metric_impl = roc_auc_impl,
     truth = truth,
     estimate = estimate,
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     cls = c("factor", "numeric"),
-    averaging_override = c("binary", "macro", "macro_weighted", "hand_till"),
     ...
   )
 }
 
-roc_auc_averaging_impl <- function(truth, estimate, options, averaging) {
+roc_auc_estimator_impl <- function(truth, estimate, options, estimator) {
 
-  if (is_binary(averaging)) {
+  if (is_binary(estimator)) {
     roc_auc_binary(truth, estimate, options)
   }
-  else if (averaging == "hand_till") {
+  else if (estimator == "hand_till") {
     roc_auc_hand_till(truth, estimate, options)
   }
   else {
     # weights for macro / macro_weighted are based on truth frequencies
     # (this is the usual definition)
     truth_table <- matrix(table(truth), nrow = 1)
-    w <- get_weights(truth_table, averaging)
+    w <- get_weights(truth_table, estimator)
     out_vec <- roc_auc_multiclass(truth, estimate, options)
     weighted.mean(out_vec, w)
   }
@@ -308,7 +307,7 @@ class(pr_auc) <- c("prob_metric", "function")
 #' @export
 #' @rdname roc_auc
 pr_auc.data.frame  <- function(data, truth, ...,
-                               averaging = NULL,
+                               estimator = NULL,
                                na.rm = TRUE) {
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
@@ -319,7 +318,7 @@ pr_auc.data.frame  <- function(data, truth, ...,
     data = data,
     truth = !!enquo(truth),
     estimate = !!estimate,
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...
   )
@@ -329,12 +328,12 @@ pr_auc.data.frame  <- function(data, truth, ...,
 #' @export
 #' @rdname roc_auc
 pr_auc_vec <- function(truth, estimate,
-                       averaging = NULL, na.rm = TRUE, ...) {
+                       estimator = NULL, na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator, "pr_auc")
 
   pr_auc_impl <- function(truth, estimate) {
-    pr_auc_averaging_impl(truth, estimate, averaging)
+    pr_auc_estimator_impl(truth, estimate, estimator)
   }
 
   metric_vec_template(
@@ -342,24 +341,23 @@ pr_auc_vec <- function(truth, estimate,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = c("factor", "numeric"),
-    averaging_override = c("binary", "macro", "macro_weighted"),
     ...
   )
 
 }
 
-pr_auc_averaging_impl <- function(truth, estimate, averaging) {
+pr_auc_estimator_impl <- function(truth, estimate, estimator) {
 
-  if (is_binary(averaging)) {
+  if (is_binary(estimator)) {
     pr_auc_binary(truth, estimate)
   }
   else {
     # weights for macro / macro_weighted are based on truth frequencies
     # (this is the usual definition)
     truth_table <- matrix(table(truth), nrow = 1)
-    w <- get_weights(truth_table, averaging)
+    w <- get_weights(truth_table, estimator)
     out_vec <- pr_auc_multiclass(truth, estimate)
     weighted.mean(out_vec, w)
   }
@@ -414,11 +412,11 @@ mn_log_loss.data.frame <- function(data, truth, ...,
 #' @export
 mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
 
-  averaging <- finalize_averaging(truth, NULL)
+  estimator <- finalize_estimator(truth, metric_class = "mn_log_loss")
 
   # estimate here is a matrix of class prob columns
   mn_log_loss_impl <- function(truth, estimate, sum = FALSE) {
-    mn_log_loss_averaging_impl(truth, estimate, averaging, sum)
+    mn_log_loss_estimator_impl(truth, estimate, estimator, sum)
   }
 
   metric_vec_template(
@@ -426,16 +424,16 @@ mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = c("factor", "numeric"),
     ...,
     sum = sum
   )
 }
 
-mn_log_loss_averaging_impl <- function(truth, estimate, averaging, sum = FALSE) {
+mn_log_loss_estimator_impl <- function(truth, estimate, estimator, sum = FALSE) {
 
-  if (is_binary(averaging)) {
+  if (is_binary(estimator)) {
     mn_log_loss_binary(truth, estimate, sum)
   }
   else {
@@ -515,12 +513,11 @@ roc_curve_vec <- function(truth, estimate,
                           na.rm = TRUE,
                           ...) {
 
-  # finalize just to see if binary/multiclass
-  averaging <- finalize_averaging(truth, NULL)
+  estimator <- finalize_estimator(truth, metric_class = "roc_curve")
 
   # estimate here is a matrix of class prob columns
   roc_curve_impl <- function(truth, estimate, options = list()) {
-    roc_curve_averaging_impl(truth, estimate, averaging, options)
+    roc_curve_estimator_impl(truth, estimate, estimator, options)
   }
 
   metric_vec_template(
@@ -528,16 +525,16 @@ roc_curve_vec <- function(truth, estimate,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = c("factor", "numeric"),
     ...,
     options = options
   )
 }
 
-roc_curve_averaging_impl <- function(truth, estimate, averaging, options) {
+roc_curve_estimator_impl <- function(truth, estimate, estimator, options) {
 
-  if (is_binary(averaging)) {
+  if (is_binary(estimator)) {
     roc_curve_binary(truth, estimate, options)
   }
   else {
@@ -637,12 +634,11 @@ pr_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
 # Undecided of whether to export this or not
 pr_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
-  # finalize just to see if binary/multiclass
-  averaging <- finalize_averaging(truth, NULL)
+  estimator <- finalize_estimator(truth, metric_class = "pr_curve")
 
   # estimate here is a matrix of class prob columns
   pr_curve_impl <- function(truth, estimate) {
-    pr_curve_averaging_impl(truth, estimate, averaging)
+    pr_curve_estimator_impl(truth, estimate, estimator)
   }
 
   metric_vec_template(
@@ -650,16 +646,16 @@ pr_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = c("factor", "numeric"),
     ...
   )
 
 }
 
-pr_curve_averaging_impl <- function(truth, estimate, averaging) {
+pr_curve_estimator_impl <- function(truth, estimate, estimator) {
 
-  if (is_binary(averaging)) {
+  if (is_binary(estimator)) {
     pr_curve_binary(truth, estimate)
   }
   else {
@@ -732,28 +728,16 @@ auc <- function(x, y, na.rm = TRUE) {
 #' Helpers to be used alongside [metric_vec_template()] and [metric_summarizer()]
 #' when creating new metrics.
 #'
+#' @section Dots -> Estimate:
+#'
 #' `dots_to_estimate()` is useful with class probability metrics that take
 #' `...` rather than `estimate` as an argument. It constructs either a single
 #' name if 1 input is provided to `...` or it constructs a quosure where the
 #' expression constructs a matrix of as many columns as are provided to `...`.
 #' These are eventually evaluated in the `summarise()` call in
 #' [metric_summarizer()] and evaluate to either a vector or a matrix for further
-#' use.
+#' use in the underlying vector functions.
 #'
-#' `finalize_averaging()` is the engine for auto-selection of averaging based
-#' on the type of `x`. Generally `x` is the `truth` column.
-#' If `averaging` is not `NULL`, it is returned immediately
-#' as no auto-selection is needed. If `x` is a:
-#'
-#' * `factor` - Then `"binary"` is returned if it has 2 levels, otherwise
-#' `"macro"` is returned.
-#'
-#' * `numeric` - Then `"binary"` is returned.
-#'
-#' * `table` - Then `"binary"` is returned if it has 2 columns, otherwise
-#' `"macro"` is returned. This is useful if you have `table` methods.
-#'
-#' * `matrix` - Then `"macro"` is returned.
 #'
 #' @name developer-helpers
 #'

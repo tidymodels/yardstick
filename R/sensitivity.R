@@ -65,7 +65,7 @@
 #'  specified different ways but the primary method is to use an
 #'  unquoted variable name. For `_vec()` functions, a `factor` vector.
 #'
-#' @param averaging One of: `"binary"`, `"macro"`, `"macro_weighted"`,
+#' @param estimator One of: `"binary"`, `"macro"`, `"macro_weighted"`,
 #' or `"micro"` to specify the type of averaging to be done. `"binary"` is
 #' only relevant for the two class case. The other three are general methods for
 #' calculating multiclass metrics. The default will automatically choose `"binary"`
@@ -80,9 +80,9 @@
 #' @param ... Not currently used.
 #'
 #' @return For `_vec()` functions, a single `numeric` value (or `NA`).
-#' Otherwise, a `tibble` with columns `.metric` and `.estimate` and 1 row of
-#' values. For grouped data frames, the number of rows returned will be the
-#' same as the number of groups.
+#' Otherwise, a `tibble` with columns `.metric`, `.estimator`,
+#' and `.estimate` and 1 row of values. For grouped data frames, the number
+#' of rows returned will be the same as the number of groups.
 #'
 #' @section Multiclass:
 #'
@@ -128,11 +128,11 @@
 #' sens(hpc_cv, obs, pred)
 #'
 #' # Micro averaged sensitivity
-#' sens(hpc_cv, obs, pred, averaging = "micro")
+#' sens(hpc_cv, obs, pred, estimator = "micro")
 #'
 #' # Macro-weighted averaged sensitivity
 #' # (for sensitivity, this is the same as micro)
-#' sens(hpc_cv, obs, pred, averaging = "macro_weighted")
+#' sens(hpc_cv, obs, pred, estimator = "macro_weighted")
 #'
 #' @name sens
 #'
@@ -151,7 +151,7 @@ class(sens) <- c("class_metric", "function")
 #' @export
 #' @rdname sens
 sens.data.frame <- function(data, truth, estimate,
-                            averaging = NULL, na.rm = TRUE, ...) {
+                            estimator = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "sens",
@@ -159,7 +159,7 @@ sens.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...
   )
@@ -167,31 +167,32 @@ sens.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-sens.table <- function(data, averaging = NULL, ...) {
+sens.table <- function(data, estimator = NULL, ...) {
 
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
-    .metric = construct_name("sens", averaging, data),
-    .estimate = sens_table_impl(data, averaging)
+    .metric = "sens",
+    .estimator = estimator,
+    .estimate = sens_table_impl(data, estimator)
   )
 
 }
 
 #' @export
-sens.matrix <- function(data, averaging = NULL, ...) {
+sens.matrix <- function(data, estimator = NULL, ...) {
 
   data <- as.table(data)
-  sens.table(data, averaging)
+  sens.table(data, estimator)
 
 }
 
 #' @export
 #' @rdname sens
-sens_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
+sens_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   sens_impl <- function(truth, estimate) {
 
@@ -201,7 +202,7 @@ sens_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
       na.rm = FALSE
     )
 
-    sens_table_impl(xtab, averaging)
+    sens_table_impl(xtab, estimator)
 
   }
 
@@ -210,7 +211,7 @@ sens_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...
   )
@@ -232,7 +233,7 @@ class(spec) <- c("class_metric", "function")
 #' @export
 #' @rdname sens
 spec.data.frame <- function(data, truth, estimate,
-                            averaging = NULL, na.rm = TRUE, ...) {
+                            estimator = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "spec",
@@ -240,7 +241,7 @@ spec.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...
   )
@@ -248,31 +249,32 @@ spec.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-spec.table <- function(data, averaging = NULL, ...) {
+spec.table <- function(data, estimator = NULL, ...) {
 
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
-    .metric = construct_name("spec", averaging, data),
-    .estimate = spec_table_impl(data, averaging)
+    .metric = "spec",
+    .estimator = estimator,
+    .estimate = spec_table_impl(data, estimator)
   )
 
 }
 
 #' @export
-spec.matrix <- function(data, averaging = NULL, ...) {
+spec.matrix <- function(data, estimator = NULL, ...) {
 
   data <- as.table(data)
-  spec.table(data, averaging)
+  spec.table(data, estimator)
 
 }
 
 #' @export
 #' @rdname sens
-spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE,...) {
+spec_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE,...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   spec_impl <- function(truth, estimate) {
 
@@ -282,7 +284,7 @@ spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE,...) {
       na.rm = FALSE
     )
 
-    spec_table_impl(xtab, averaging)
+    spec_table_impl(xtab, estimator)
 
   }
 
@@ -291,7 +293,7 @@ spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE,...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...
   )
@@ -299,13 +301,13 @@ spec_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE,...) {
 }
 
 #' @importFrom stats weighted.mean
-spec_table_impl <- function(data, averaging) {
+spec_table_impl <- function(data, estimator) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     spec_binary(data)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- spec_multiclass(data, averaging)
+    w <- get_weights(data, estimator)
+    out_vec <- spec_multiclass(data, estimator)
     weighted.mean(out_vec, w)
   }
 
@@ -322,7 +324,7 @@ spec_binary <- function(data) {
 
 }
 
-spec_multiclass <- function(data, averaging) {
+spec_multiclass <- function(data, estimator) {
 
   n <- sum(data)
 
@@ -340,7 +342,7 @@ spec_multiclass <- function(data, averaging) {
     return(res)
   }
 
-  if(is_micro(averaging)) {
+  if(is_micro(estimator)) {
     numer <- sum(numer)
     denom <- sum(denom)
   }
@@ -362,7 +364,7 @@ class(ppv) <- c("class_metric", "function")
 #' @export
 ppv.data.frame <- function(data, truth, estimate,
                            prevalence = NULL,
-                           averaging = NULL, na.rm = TRUE, ...) {
+                           estimator = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "ppv",
@@ -370,7 +372,7 @@ ppv.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...,
     metric_fn_options = list(prevalence = prevalence)
@@ -379,16 +381,17 @@ ppv.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-ppv.table <- function(data, prevalence = NULL, averaging = NULL, ...) {
+ppv.table <- function(data, prevalence = NULL, estimator = NULL, ...) {
 
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
-    .metric = construct_name("ppv", averaging, data),
+    .metric = "ppv",
+    .estimator = estimator,
     .estimate = ppv_table_impl(
       data,
-      averaging = averaging,
+      estimator = estimator,
       prevalence = prevalence
     )
   )
@@ -396,19 +399,19 @@ ppv.table <- function(data, prevalence = NULL, averaging = NULL, ...) {
 }
 
 #' @export
-ppv.matrix <- function(data, prevalence = NULL, averaging = NULL, ...) {
+ppv.matrix <- function(data, prevalence = NULL, estimator = NULL, ...) {
 
   data <- as.table(data)
-  ppv.table(data, prevalence = prevalence, averaging = averaging)
+  ppv.table(data, prevalence = prevalence, estimator = estimator)
 
 }
 
 #' @export
 #' @rdname sens
 ppv_vec <- function(truth, estimate, prevalence = NULL,
-                    averaging = NULL, na.rm = TRUE, ...) {
+                    estimator = NULL, na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   ppv_impl <- function(truth, estimate, prevalence) {
 
@@ -419,7 +422,7 @@ ppv_vec <- function(truth, estimate, prevalence = NULL,
       ...
     )
 
-    ppv_table_impl(xtab, averaging, prevalence = prevalence)
+    ppv_table_impl(xtab, estimator, prevalence = prevalence)
 
   }
 
@@ -428,7 +431,7 @@ ppv_vec <- function(truth, estimate, prevalence = NULL,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...,
     prevalence = prevalence
@@ -436,13 +439,13 @@ ppv_vec <- function(truth, estimate, prevalence = NULL,
 
 }
 
-ppv_table_impl <- function(data, averaging, prevalence = NULL) {
+ppv_table_impl <- function(data, estimator, prevalence = NULL) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     ppv_binary(data, prevalence)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- ppv_multiclass(data, averaging, prevalence)
+    w <- get_weights(data, estimator)
+    out_vec <- ppv_multiclass(data, estimator, prevalence)
     weighted.mean(out_vec, w)
   }
 
@@ -462,7 +465,7 @@ ppv_binary <- function(data, prevalence = NULL) {
 
 }
 
-ppv_multiclass <- function(data, averaging, prevalence = NULL) {
+ppv_multiclass <- function(data, estimator, prevalence = NULL) {
 
   # ppv should be equal to precision in all cases except when
   # prevalence is explicitely set. In that case, that value
@@ -471,7 +474,7 @@ ppv_multiclass <- function(data, averaging, prevalence = NULL) {
     tpfn     <- colSums(data)
     tptnfpfn <- rep(sum(data), times = nrow(data))
 
-    if (is_micro(averaging)) {
+    if (is_micro(estimator)) {
       tpfn       <- sum(tpfn)
       tptnfpfn   <- sum(tptnfpfn)
     }
@@ -479,8 +482,8 @@ ppv_multiclass <- function(data, averaging, prevalence = NULL) {
     prevalence <- tpfn / tptnfpfn
   }
 
-  .sens_vec <- recall_multiclass(data, averaging)
-  .spec_vec <- spec_multiclass(data, averaging)
+  .sens_vec <- recall_multiclass(data, estimator)
+  .spec_vec <- spec_multiclass(data, estimator)
 
   numer <- .sens_vec * prevalence
   denom <- .sens_vec * prevalence + (1 - .spec_vec) * (1 - prevalence)
@@ -507,7 +510,7 @@ class(npv) <- c("class_metric", "function")
 #' @export
 npv.data.frame <- function(data, truth, estimate,
                            prevalence = NULL,
-                           averaging = NULL, na.rm = TRUE, ...) {
+                           estimator = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "npv",
@@ -515,7 +518,7 @@ npv.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...,
     metric_fn_options = list(prevalence = prevalence)
@@ -524,23 +527,24 @@ npv.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-npv.table <- function(data, prevalence = NULL, averaging = NULL, ...) {
+npv.table <- function(data, prevalence = NULL, estimator = NULL, ...) {
 
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
-    .metric = construct_name("npv", averaging, data),
-    .estimate = npv_table_impl(data, averaging, prevalence = prevalence)
+    .metric = "npv",
+    .estimator = estimator,
+    .estimate = npv_table_impl(data, estimator, prevalence = prevalence)
   )
 
 }
 
 #' @export
-npv.matrix <- function(data, prevalence = NULL, averaging = NULL, ...) {
+npv.matrix <- function(data, prevalence = NULL, estimator = NULL, ...) {
 
   data <- as.table(data)
-  npv.table(data, prevalence = prevalence, averaging = averaging)
+  npv.table(data, prevalence = prevalence, estimator = estimator)
 
 }
 
@@ -548,9 +552,9 @@ npv.matrix <- function(data, prevalence = NULL, averaging = NULL, ...) {
 #' @rdname sens
 npv_vec <- function(truth, estimate,
                     prevalence = NULL,
-                    averaging = NULL, na.rm = TRUE, ...) {
+                    estimator = NULL, na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   npv_impl <- function(truth, estimate, prevalence) {
 
@@ -561,7 +565,7 @@ npv_vec <- function(truth, estimate,
       ...
     )
 
-    npv_table_impl(xtab, averaging, prevalence = prevalence)
+    npv_table_impl(xtab, estimator, prevalence = prevalence)
 
   }
 
@@ -570,7 +574,7 @@ npv_vec <- function(truth, estimate,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...,
     prevalence = prevalence
@@ -578,13 +582,13 @@ npv_vec <- function(truth, estimate,
 
 }
 
-npv_table_impl <- function(data, averaging, prevalence = NULL) {
+npv_table_impl <- function(data, estimator, prevalence = NULL) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     npv_binary(data, prevalence)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- npv_multiclass(data, averaging, prevalence)
+    w <- get_weights(data, estimator)
+    out_vec <- npv_multiclass(data, estimator, prevalence)
     weighted.mean(out_vec, w)
   }
 }
@@ -604,13 +608,13 @@ npv_binary <- function(data, prevalence = NULL) {
 
 }
 
-npv_multiclass <- function(data, averaging, prevalence = NULL) {
+npv_multiclass <- function(data, estimator, prevalence = NULL) {
 
   if (is.null(prevalence)) {
     tpfn     <- colSums(data)
     tptnfpfn <- rep(sum(data), times = nrow(data))
 
-    if (is_micro(averaging)) {
+    if (is_micro(estimator)) {
       tpfn       <- sum(tpfn)
       tptnfpfn   <- sum(tptnfpfn)
     }
@@ -618,8 +622,8 @@ npv_multiclass <- function(data, averaging, prevalence = NULL) {
     prevalence <- tpfn / tptnfpfn
   }
 
-  .sens_vec <- recall_multiclass(data, averaging)
-  .spec_vec <- spec_multiclass(data, averaging)
+  .sens_vec <- recall_multiclass(data, estimator)
+  .spec_vec <- spec_multiclass(data, estimator)
 
   numer <- .spec_vec * (1 - prevalence)
   denom <- (1 - .sens_vec) * prevalence + .spec_vec * (1 - prevalence)

@@ -5,7 +5,7 @@
 \title{Developer function for summarizing new metrics}
 \usage{
 metric_summarizer(metric_nm, metric_fn, data, truth, estimate,
-  averaging = NA, na.rm = TRUE, ..., metric_fn_options = list())
+  estimator = NULL, na.rm = TRUE, ..., metric_fn_options = list())
 }
 \arguments{
 \item{metric_nm}{A single character representing the name of the metric to
@@ -26,7 +26,7 @@ in from the data frame version of your metric function that called
 the \code{estimate} column. For metrics that take multiple columns through \code{...}
 like class probability metrics, this is a result of \code{\link[=dots_to_estimate]{dots_to_estimate()}}.}
 
-\item{averaging}{For numeric metrics, this is left as \code{NA} so averaging
+\item{estimator}{For numeric metrics, this is left as \code{NA} so averaging
 is not passed on to the metric function implementation. For classification
 metrics, this can either be \code{NULL} for the default auto-selection of
 averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along
@@ -56,5 +56,5 @@ of your metric function. It knows how to call your metric over grouped data
 frames and returns a \code{tibble} consistent with other metrics.
 }
 \seealso{
-\code{\link[=metric_vec_template]{metric_vec_template()}} \code{\link[=finalize_averaging]{finalize_averaging()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
+\code{\link[=metric_vec_template]{metric_vec_template()}} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
 }

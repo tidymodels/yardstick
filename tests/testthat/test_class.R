@@ -43,7 +43,9 @@ test_that('confusion matrix statistics', {
   sum_obj_2 <- summary(conf_mat(three_class_tb[1:2, 1:2]))
   expect_equal(
     sum_obj_3$.metric,
-    c("accuracy", "kap")
+    c("accuracy", "kap", "sens", "spec", "ppv", "npv", "mcc", "j_index",
+      "bal_accuracy", "detection_prevalence", "precision", "recall",
+      "f_meas")
   )
   expect_equal(
     dplyr::slice(sum_obj_3, 1),
@@ -51,9 +53,9 @@ test_that('confusion matrix statistics', {
   )
   expect_equal(
     sum_obj_2$.metric,
-    c('accuracy', 'kap', 'sens', 'spec', 'prevalence', 'ppv',
-      'npv', 'mcc', 'j_index', 'bal_accuracy', 'detection_prevalence',
-      'precision', 'recall', 'f_meas')
+    c("accuracy", "kap", "sens", "spec", "ppv", "npv", "mcc", "j_index",
+      "bal_accuracy", "detection_prevalence", "precision", "recall",
+      "f_meas")
   )
   expect_equal(
     dplyr::filter(sum_obj_2, .metric == "sens"),
@@ -82,15 +84,13 @@ test_that('accuracy', {
   )
   expect_equal(
     colnames(accuracy(three_class, truth = "obs", estimate = "pred")),
-    c(".metric", ".estimate")
+    c(".metric", ".estimator", ".estimate")
   )
   expect_equal(
     accuracy(three_class, truth = "obs", estimate = "pred")[[".metric"]],
     "accuracy"
   )
 })
-
-
 
 ###################################################################
 
@@ -116,7 +116,7 @@ test_that('kappa', {
   )
   expect_equal(
     colnames(kap(three_class, truth = "obs", estimate = "pred")),
-    c(".metric", ".estimate")
+    c(".metric", ".estimator", ".estimate")
   )
   expect_equal(
     kap(three_class, truth = "obs", estimate = "pred")[[".metric"]],

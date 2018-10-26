@@ -70,15 +70,15 @@ test_that('sensitivity', {
 
   # sens = recall
   expect_equal(
-    sens(multi_ex, averaging = "macro")[[".estimate"]],
+    sens(multi_ex, estimator = "macro")[[".estimate"]],
     macro_metric(recall_binary)
   )
   expect_equal(
-    sens(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    sens(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(recall_binary)
   )
   expect_equal(
-    sens(multi_ex, averaging = "micro")[[".estimate"]],
+    sens(multi_ex, estimator = "micro")[[".estimate"]],
     micro(.numer = ~.x[1,1], .denom = ~sum(.x[,1]))
   )
 })
@@ -87,15 +87,15 @@ test_that('sensitivity', {
 test_that('specificity', {
 
   expect_equal(
-    spec(multi_ex, averaging = "macro")[[".estimate"]],
+    spec(multi_ex, estimator = "macro")[[".estimate"]],
     macro_metric(spec_binary)
   )
   expect_equal(
-    spec(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    spec(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(spec_binary)
   )
   expect_equal(
-    spec(multi_ex, averaging = "micro")[[".estimate"]],
+    spec(multi_ex, estimator = "micro")[[".estimate"]],
     micro(.numer = ~.x[2,2], .denom = ~sum(.x[,2]))
   )
 })
@@ -104,15 +104,15 @@ test_that('recall', {
 
   # sens = recall
   expect_equal(
-    recall(multi_ex, averaging = "macro")[[".estimate"]],
+    recall(multi_ex, estimator = "macro")[[".estimate"]],
     macro_metric(recall_binary)
   )
   expect_equal(
-    recall(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    recall(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(recall_binary)
   )
   expect_equal(
-    recall(multi_ex, averaging = "micro")[[".estimate"]],
+    recall(multi_ex, estimator = "micro")[[".estimate"]],
     micro(.numer = ~.x[1,1], .denom = ~sum(.x[,1]))
   )
 })
@@ -121,15 +121,15 @@ test_that('precision', {
 
   # sens = recall
   expect_equal(
-    precision(multi_ex, averaging = "macro")[[".estimate"]],
+    precision(multi_ex, estimator = "macro")[[".estimate"]],
     macro_metric(precision_binary)
   )
   expect_equal(
-    precision(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    precision(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(precision_binary)
   )
   expect_equal(
-    precision(multi_ex, averaging = "micro")[[".estimate"]],
+    precision(multi_ex, estimator = "micro")[[".estimate"]],
     micro(.numer = ~.x[1,1], .denom = ~sum(.x[1,]))
   )
 })
@@ -138,11 +138,11 @@ test_that('f_meas', {
 
   # sens = recall
   expect_equal(
-    f_meas(multi_ex, averaging = "macro")[[".estimate"]],
+    f_meas(multi_ex, estimator = "macro")[[".estimate"]],
     macro_metric(f_meas_binary)
   )
   expect_equal(
-    f_meas(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    f_meas(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(f_meas_binary)
   )
 
@@ -153,7 +153,7 @@ test_that('f_meas', {
   )
 
   expect_equal(
-    f_meas(turi_ex, tru, pre, averaging = "micro")[[".estimate"]],
+    f_meas(turi_ex, tru, pre, estimator = "micro")[[".estimate"]],
     .25
   )
 })
@@ -161,27 +161,27 @@ test_that('f_meas', {
 test_that('ppv', {
 
   expect_equal(
-    ppv(multi_ex, averaging = "macro")[[".estimate"]],
+    ppv(multi_ex, estimator = "macro")[[".estimate"]],
     macro_metric(ppv_binary)
   )
   expect_equal(
-    ppv(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    ppv(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(ppv_binary)
   )
   expect_equal(
-    ppv(multi_ex, averaging = "micro")[[".estimate"]],
-    precision(multi_ex, averaging = "micro")[[".estimate"]]
+    ppv(multi_ex, estimator = "micro")[[".estimate"]],
+    precision(multi_ex, estimator = "micro")[[".estimate"]]
   )
 })
 
 test_that('npv', {
 
   expect_equal(
-    npv(multi_ex, averaging = "macro")[[".estimate"]],
+    npv(multi_ex, estimator = "macro")[[".estimate"]],
     macro_metric(npv_binary)
   )
   expect_equal(
-    npv(multi_ex, averaging = "macro_weighted")[[".estimate"]],
+    npv(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(npv_binary)
   )
   # good micro test?

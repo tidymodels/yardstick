@@ -57,8 +57,8 @@
 #' @param object The data frame output of `gain_curve()` or `lift_curve()`
 #' to plot.
 #'
-#' @param averaging One of `"binary"`, `"macro"`, or `"macro_weighted"` to
-#' specify the type of averaging to be done. `"binary"` is only relevant for
+#' @param estimator One of `"binary"`, `"macro"`, or `"macro_weighted"` to
+#' specify the type of estimator to be done. `"binary"` is only relevant for
 #' the two class case. The other two are general methods for calculating
 #' multiclass metrics. The default will automatically choose `"binary"` or
 #' `"macro"` based on `truth`.
@@ -137,12 +137,11 @@ gain_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
 #' @importFrom stats relevel complete.cases
 gain_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
 
-  # finalize just to see if binary/multiclass
-  averaging <- finalize_averaging(truth, NULL)
+  estimator <- finalize_estimator(truth, metric_class = "gain_curve")
 
   # estimate here is a matrix of class prob columns
   gain_curve_impl <- function(truth, estimate) {
-    gain_curve_averaging_impl(truth, estimate, averaging)
+    gain_curve_estimator_impl(truth, estimate, estimator)
   }
 
   metric_vec_template(
@@ -150,16 +149,16 @@ gain_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = c("factor", "numeric"),
     ...
   )
 
 }
 
-gain_curve_averaging_impl <- function(truth, estimate, averaging) {
+gain_curve_estimator_impl <- function(truth, estimate, estimator) {
 
-  if (is_binary(averaging)) {
+  if (is_binary(estimator)) {
     gain_curve_binary(truth, estimate)
   }
   else {
@@ -299,7 +298,7 @@ class(gain_capture) <- c("prob_metric", "function")
 #' @rdname gain_curve
 #' @export
 gain_capture.data.frame <- function(data, truth, ...,
-                                    averaging = NULL,
+                                    estimator = NULL,
                                     na.rm = TRUE) {
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
@@ -310,7 +309,7 @@ gain_capture.data.frame <- function(data, truth, ...,
     data = data,
     truth = !! enquo(truth),
     estimate = !! estimate,
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...
   )
@@ -318,14 +317,14 @@ gain_capture.data.frame <- function(data, truth, ...,
 }
 
 gain_capture_vec <- function(truth, estimate,
-                             averaging = NULL,
+                             estimator = NULL,
                              na.rm = TRUE,
                              ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator, "gain_capture")
 
   gain_capture_impl <- function(truth, estimate) {
-    gain_capture_averaging_impl(truth, estimate, averaging)
+    gain_capture_estimator_impl(truth, estimate, estimator)
   }
 
   metric_vec_template(
@@ -333,21 +332,20 @@ gain_capture_vec <- function(truth, estimate,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = c("factor", "numeric"),
-    averaging_override = c("binary", "macro", "macro_weighted"),
     ...
   )
 
 }
 
-gain_capture_averaging_impl <- function(truth, estimate, averaging) {
+gain_capture_estimator_impl <- function(truth, estimate, estimator) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     gain_capture_binary(truth, estimate)
   } else {
     truth_table <- matrix(table(truth), nrow = 1)
-    w <- get_weights(truth_table, averaging)
+    w <- get_weights(truth_table, estimator)
     out_vec <- gain_capture_multiclass(truth, estimate)
     weighted.mean(out_vec, w)
   }

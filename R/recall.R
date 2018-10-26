@@ -94,7 +94,7 @@ class(recall) <- c("class_metric", "function")
 #' @rdname recall
 #' @export
 recall.data.frame <- function(data, truth, estimate,
-                              averaging = NULL, na.rm = TRUE, ...) {
+                              estimator = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "recall",
@@ -102,7 +102,7 @@ recall.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...
   )
@@ -110,26 +110,27 @@ recall.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-recall.table <- function(data, averaging = NULL, ...) {
+recall.table <- function(data, estimator = NULL, ...) {
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
   metric_tibbler(
-    .metric = construct_name("recall", averaging, data),
-    .estimate = recall_table_impl(data, averaging)
+    .metric = "recall",
+    .estimator = estimator,
+    .estimate = recall_table_impl(data, estimator)
   )
 }
 
 #' @export
-recall.matrix <- function(data, averaging = NULL, ...) {
+recall.matrix <- function(data, estimator = NULL, ...) {
   data <- as.table(data)
-  recall.table(data, averaging)
+  recall.table(data, estimator)
 }
 
 #' @export
 #' @rdname recall
-recall_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
+recall_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   recall_impl <- function(truth, estimate) {
 
@@ -139,7 +140,7 @@ recall_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
       na.rm = FALSE
     )
 
-    recall_table_impl(xtab, averaging)
+    recall_table_impl(xtab, estimator)
 
   }
 
@@ -148,20 +149,20 @@ recall_vec <- function(truth, estimate, averaging = NULL, na.rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...
   )
 
 }
 
-recall_table_impl <- function(data, averaging) {
+recall_table_impl <- function(data, estimator) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     recall_binary(data)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- recall_multiclass(data, averaging)
+    w <- get_weights(data, estimator)
+    out_vec <- recall_multiclass(data, estimator)
     weighted.mean(out_vec, w)
   }
 
@@ -177,7 +178,7 @@ recall_binary <- function(data) {
 
 }
 
-recall_multiclass <- function(data, averaging) {
+recall_multiclass <- function(data, estimator) {
 
   numer <- diag(data)
   denom <- colSums(data)
@@ -187,7 +188,7 @@ recall_multiclass <- function(data, averaging) {
     return(res)
   }
 
-  if(is_micro(averaging)) {
+  if(is_micro(estimator)) {
     numer <- sum(numer)
     denom <- sum(denom)
   }
@@ -209,7 +210,7 @@ class(precision) <- c("class_metric", "function")
 #' @rdname recall
 #' @export
 precision.data.frame <- function(data, truth, estimate,
-                                 averaging = NULL,
+                                 estimator = NULL,
                                  na.rm = TRUE, ...) {
 
   metric_summarizer(
@@ -218,7 +219,7 @@ precision.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...
   )
@@ -226,32 +227,33 @@ precision.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-precision.table <- function (data, averaging = NULL, ...) {
+precision.table <- function (data, estimator = NULL, ...) {
 
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
-    .metric = construct_name("precision", averaging, data),
-    .estimate = precision_table_impl(data, averaging)
+    .metric = "precision",
+    .estimator = estimator,
+    .estimate = precision_table_impl(data, estimator)
   )
 
 }
 
 #' @export
-precision.matrix <- function(data, averaging = NULL, ...) {
+precision.matrix <- function(data, estimator = NULL, ...) {
 
   data <- as.table(data)
-  precision.table(data, averaging)
+  precision.table(data, estimator)
 
 }
 
 #' @export
 #' @rdname recall
 precision_vec <- function(truth, estimate,
-                          averaging = NULL, na.rm = TRUE, ...) {
+                          estimator = NULL, na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   precision_impl <- function(truth, estimate) {
 
@@ -261,7 +263,7 @@ precision_vec <- function(truth, estimate,
       na.rm = FALSE
     )
 
-    precision_table_impl(xtab, averaging)
+    precision_table_impl(xtab, estimator)
   }
 
   metric_vec_template(
@@ -269,20 +271,20 @@ precision_vec <- function(truth, estimate,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...
   )
 
 }
 
-precision_table_impl <- function(data, averaging) {
+precision_table_impl <- function(data, estimator) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     precision_binary(data)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- precision_multiclass(data, averaging)
+    w <- get_weights(data, estimator)
+    out_vec <- precision_multiclass(data, estimator)
     weighted.mean(out_vec, w)
   }
 
@@ -298,7 +300,7 @@ precision_binary <- function(data) {
 
 }
 
-precision_multiclass <- function(data, averaging) {
+precision_multiclass <- function(data, estimator) {
 
   numer <- diag(data)
   denom <- rowSums(data)
@@ -308,7 +310,7 @@ precision_multiclass <- function(data, averaging) {
     return(res)
   }
 
-  if(is_micro(averaging)) {
+  if(is_micro(estimator)) {
     numer <- sum(numer)
     denom <- sum(denom)
   }
@@ -330,7 +332,7 @@ class(f_meas) <- c("class_metric", "function")
 #' @rdname recall
 #' @export
 f_meas.data.frame <- function(data, truth, estimate, beta = 1,
-                              averaging = NULL, na.rm = TRUE, ...) {
+                              estimator = NULL, na.rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "f_meas",
@@ -338,7 +340,7 @@ f_meas.data.frame <- function(data, truth, estimate, beta = 1,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    averaging = averaging,
+    estimator = estimator,
     na.rm = na.rm,
     ... = ...,
     metric_fn_options = list(beta = beta)
@@ -347,30 +349,31 @@ f_meas.data.frame <- function(data, truth, estimate, beta = 1,
 }
 
 #' @export
-f_meas.table <- function (data, beta = 1, averaging = NULL, ...) {
+f_meas.table <- function (data, beta = 1, estimator = NULL, ...) {
   check_table(data)
-  averaging <- finalize_averaging(data, averaging)
+  estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
-    .metric = construct_name("f_meas", averaging, data),
-    .estimate = f_meas_table_impl(data, averaging, beta = beta)
+    .metric = "f_meas",
+    .estimator = estimator,
+    .estimate = f_meas_table_impl(data, estimator, beta = beta)
   )
 }
 
 #' @export
-f_meas.matrix <- function(data, beta = 1, averaging = NULL, ...) {
+f_meas.matrix <- function(data, beta = 1, estimator = NULL, ...) {
 
   data <- as.table(data)
-  f_meas.table(data, averaging)
+  f_meas.table(data, estimator)
 
 }
 
 #' @export
 #' @rdname recall
 f_meas_vec <- function(truth, estimate, beta = 1,
-                       averaging = NULL, na.rm = TRUE, ...) {
+                       estimator = NULL, na.rm = TRUE, ...) {
 
-  averaging <- finalize_averaging(truth, averaging)
+  estimator <- finalize_estimator(truth, estimator)
 
   f_meas_impl <- function(truth, estimate, beta) {
 
@@ -380,7 +383,7 @@ f_meas_vec <- function(truth, estimate, beta = 1,
       na.rm = FALSE
     )
 
-    f_meas_table_impl(xtab, averaging, beta = beta)
+    f_meas_table_impl(xtab, estimator, beta = beta)
 
   }
 
@@ -389,7 +392,7 @@ f_meas_vec <- function(truth, estimate, beta = 1,
     truth = truth,
     estimate = estimate,
     na.rm = na.rm,
-    averaging = averaging,
+    estimator = estimator,
     cls = "factor",
     ...,
     beta = beta
@@ -397,13 +400,13 @@ f_meas_vec <- function(truth, estimate, beta = 1,
 
 }
 
-f_meas_table_impl <- function(data, averaging, beta = 1) {
+f_meas_table_impl <- function(data, estimator, beta = 1) {
 
-  if(is_binary(averaging)) {
+  if(is_binary(estimator)) {
     f_meas_binary(data, beta)
   } else {
-    w <- get_weights(data, averaging)
-    out_vec <- f_meas_multiclass(data, averaging, beta)
+    w <- get_weights(data, estimator)
+    out_vec <- f_meas_multiclass(data, estimator, beta)
     weighted.mean(out_vec, w)
   }
 
@@ -422,10 +425,10 @@ f_meas_binary <- function(data, beta = 1) {
   (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
 }
 
-f_meas_multiclass <- function(data, averaging, beta = 1) {
+f_meas_multiclass <- function(data, estimator, beta = 1) {
 
-  precision <- precision_multiclass(data, averaging)
-  rec <- recall_multiclass(data, averaging)
+  precision <- precision_multiclass(data, estimator)
+  rec <- recall_multiclass(data, estimator)
 
   res <- (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
 
