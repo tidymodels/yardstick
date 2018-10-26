@@ -34,8 +34,6 @@ Imports:
     generics
 LinkingTo: 
     Rcpp
-Remotes:
-    r-lib/generics
 VignetteBuilder: knitr
 Collate: 
     'RcppExports.R'
