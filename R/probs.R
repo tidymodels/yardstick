@@ -1,22 +1,12 @@
 #' Metrics Based on Class Probabilities
 #'
 #' These functions compute the areas under the receiver operating
-#'  characteristic (ROC) curve (`roc_auc()`), the precision-recall
-#'  curve (`pr_auc()`), or the multinomial log loss (`mn_log_loss()`). The actual ROC
-#'  curve can be created using `roc_curve()`. The actual PR curve can be created
-#'  using `pr_curve()`.
+#'  characteristic (ROC) curve (`roc_auc()`), or the multinomial log loss (`mn_log_loss()`). The actual ROC
+#'  curve can be created using `roc_curve()`.
 #'
-#' There is no common convention on which factor level should
-#'  automatically be considered the "relevant" or "positive" results.
-#'  In `yardstick`, the default is to use the _first_ level. To
-#'  change this, a global option called `yardstick.event_first` is
-#'  set to `TRUE` when the package is loaded. This can be changed
-#'  to `FALSE` if the last level of the factor is considered the
-#'  level of interest.
 #'
 #' @inheritParams sens
 #'
-#' @aliases roc_auc roc_auc.default pr_auc pr_auc.default roc_curve pr_curve
 #'
 #' @param data A `data.frame` containing the `truth` and `estimate`
 #' columns.
@@ -41,23 +31,14 @@
 #' automatically choose `"binary"` or `"macro"` based on `truth`. `roc_auc()`
 #' also accepts `"hand_till"` for the metric described in Hand, Till (2001).
 #'
-#' @param object The data frame output from `roc_curve()` or `pr_curve()`
 #'
 #' @return
 #'
-#' For `_vec()` functions, a single `numeric` value (or `NA`). Otherwise, a
-#' `tibble` with columns `.metric` and `.estimate` and 1 row of
-#' values.
-#'
-#' For grouped data frames, the number of rows returned will be the
-#' same as the number of groups.
 #'
 #' For `roc_curve()`, a tibble with columns
 #' `sensitivity` and `specificity`. If an ordinary (i.e. non-smoothed) curve
 #' is used, there is also a column for `.threshold`.
 #'
-#' For `pr_curve()`, a tibble with columns `recall`, `precision`, and
-#' `.threshold`.
 #'
 #' For `roc_curve()` and `pr_curve()`, if a multiclass `truth` column is
 #' provided, a one-vs-all approach will be taken to calculate multiple curves,
@@ -106,13 +87,6 @@
 #' # Or use the autoplot method
 #' autoplot(roc_curve(two_class_example, truth, Class1))
 #'
-#' pr_curve(two_class_example, truth, Class1) %>%
-#'   ggplot(aes(x = recall, y = precision)) +
-#'   geom_path() +
-#'   coord_equal() +
-#'   theme_bw()
-#'
-#' autoplot(pr_curve(two_class_example, truth, Class1))
 #'
 #' # passing options via a list and _not_ `...`
 #' roc_auc(two_class_example, truth = truth, Class1,
@@ -292,86 +266,6 @@ roc_auc_hand_till <- function(truth, estimate, options) {
   }
 
   multiplier * sum_val
-}
-
-# PR AUC -----------------------------------------------------------------------
-
-#' @export
-#' @rdname roc_auc
-pr_auc <- function(data, ...) {
-  UseMethod("pr_auc")
-}
-
-class(pr_auc) <- c("prob_metric", "function")
-
-#' @export
-#' @rdname roc_auc
-pr_auc.data.frame  <- function(data, truth, ...,
-                               estimator = NULL,
-                               na.rm = TRUE) {
-
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "pr_auc",
-    metric_fn = pr_auc_vec,
-    data = data,
-    truth = !!enquo(truth),
-    estimate = !!estimate,
-    estimator = estimator,
-    na.rm = na.rm,
-    ... = ...
-  )
-
-}
-
-#' @export
-#' @rdname roc_auc
-pr_auc_vec <- function(truth, estimate,
-                       estimator = NULL, na.rm = TRUE, ...) {
-
-  estimator <- finalize_estimator(truth, estimator, "pr_auc")
-
-  pr_auc_impl <- function(truth, estimate) {
-    pr_auc_estimator_impl(truth, estimate, estimator)
-  }
-
-  metric_vec_template(
-    metric_impl = pr_auc_impl,
-    truth = truth,
-    estimate = estimate,
-    na.rm = na.rm,
-    estimator = estimator,
-    cls = c("factor", "numeric"),
-    ...
-  )
-
-}
-
-pr_auc_estimator_impl <- function(truth, estimate, estimator) {
-
-  if (is_binary(estimator)) {
-    pr_auc_binary(truth, estimate)
-  }
-  else {
-    # weights for macro / macro_weighted are based on truth frequencies
-    # (this is the usual definition)
-    truth_table <- matrix(table(truth), nrow = 1)
-    w <- get_weights(truth_table, estimator)
-    out_vec <- pr_auc_multiclass(truth, estimate)
-    weighted.mean(out_vec, w)
-  }
-
-}
-
-pr_auc_binary <- function(truth, estimate) {
-  pr_list <- pr_curve_vec(truth, estimate)
-  auc(pr_list[["recall"]], pr_list[["precision"]])
-}
-
-pr_auc_multiclass <- function(truth, estimate) {
-  res_lst <- one_vs_all_impl(pr_auc_binary, truth, estimate)
-  rlang::flatten_dbl(res_lst)
 }
 
 # Mean Log Loss ----------------------------------------------------------------
@@ -589,104 +483,6 @@ roc_curve_binary <- function(truth, estimate, options) {
 # One-VS-All approach
 roc_curve_multiclass <- function(truth, estimate, options) {
   one_vs_all_with_level(roc_curve_binary, truth, estimate, options)
-}
-
-# PR Curve ---------------------------------------------------------------------
-
-#' @export
-#' @rdname roc_auc
-pr_curve <- function(data, ...) {
-  UseMethod("pr_curve")
-}
-
-#' @export
-#' @rdname roc_auc
-#' @importFrom stats relevel
-pr_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
-
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-  truth <- enquo(truth)
-
-  validate_not_missing(truth, "truth")
-
-  # Explicit handling of length 1 character vectors as column names
-  truth <- handle_chr_names(truth)
-
-  res <- dplyr::do(
-    data,
-    pr_curve_vec(
-      truth = rlang::eval_tidy(truth, data = .),
-      estimate = rlang::eval_tidy(estimate, data = .),
-      na.rm = na.rm
-    )
-  )
-
-  if (dplyr::is_grouped_df(res)) {
-    class(res) <- c("grouped_pr_df", "pr_df", class(res))
-  }
-  else {
-    class(res) <- c("pr_df", class(res))
-  }
-
-  res
-}
-
-# Undecided of whether to export this or not
-pr_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
-
-  estimator <- finalize_estimator(truth, metric_class = "pr_curve")
-
-  # estimate here is a matrix of class prob columns
-  pr_curve_impl <- function(truth, estimate) {
-    pr_curve_estimator_impl(truth, estimate, estimator)
-  }
-
-  metric_vec_template(
-    metric_impl = pr_curve_impl,
-    truth = truth,
-    estimate = estimate,
-    na.rm = na.rm,
-    estimator = estimator,
-    cls = c("factor", "numeric"),
-    ...
-  )
-
-}
-
-pr_curve_estimator_impl <- function(truth, estimate, estimator) {
-
-  if (is_binary(estimator)) {
-    pr_curve_binary(truth, estimate)
-  }
-  else {
-    pr_curve_multiclass(truth, estimate)
-  }
-
-}
-
-pr_curve_binary <- function(truth, estimate) {
-
-  lvls <- levels(truth)
-
-  # Relevel if event_first = FALSE
-  # The second level becomes the first so as.integer()
-  # holds the 1s and 2s in the correct slot
-  if (!getOption("yardstick.event_first")) {
-    truth <- relevel(truth, lvls[2])
-  }
-
-  # quicker to convert to integer now rather than letting rcpp do it
-  # 1=good, 2=bad
-  truth <- as.integer(truth)
-
-  pr_list <- pr_curve_cpp(truth, estimate)
-
-  dplyr::tibble(!!!pr_list)
-}
-
-# One vs all approach
-pr_curve_multiclass <- function(truth, estimate) {
-  one_vs_all_with_level(pr_curve_binary, truth, estimate)
 }
 
 # AUC helper -------------------------------------------------------------------

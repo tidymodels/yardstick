@@ -82,12 +82,6 @@ values should be stripped before the computation proceeds.}
 be used for the concordance correlation coefficient (as is
 Lin (1989))?}
 }
-\value{
-For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
-Otherwise, a \code{tibble} with columns \code{.metric}, \code{.estimator},
-and \code{.estimate} and 1 row of values. For grouped data frames, the number
-of rows returned will be the same as the number of groups.
-}
 \description{
 These functions are appropriate for cases where the model
 outcome is a number. The root mean squared error (\code{rmse()}) and

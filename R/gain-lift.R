@@ -2,8 +2,7 @@
 #'
 #' `gain_curve()` calculates the information required for cumulative gain charts,
 #' and `lift_curve()` calculates the information for lift charts. Both are visual
-#' aids for measuring model performance. `gain_capture()` is a measure of
-#' performance similar to an AUC calculation.
+#' aids for measuring model performance.
 #'
 #' The motivation behind cumulative gain and lift charts is as a visual method to
 #' determine the effectiveness of a model when compared to the results one
@@ -63,7 +62,7 @@
 #' multiclass metrics. The default will automatically choose `"binary"` or
 #' `"macro"` based on `truth`.
 #'
-#' @aliases gain_curve lift_curve gain_capture
+#' @aliases gain_curve lift_curve
 #'
 #' @examples
 #' library(ggplot2)
@@ -283,112 +282,4 @@ lift_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
   res[[".percent_found"]] <- NULL
 
   res
-}
-
-# Gain Capture -----------------------------------------------------------------
-
-#' @rdname gain_curve
-#' @export
-gain_capture <- function(data, ...) {
-  UseMethod("gain_capture")
-}
-
-class(gain_capture) <- c("prob_metric", "function")
-
-#' @rdname gain_curve
-#' @export
-gain_capture.data.frame <- function(data, truth, ...,
-                                    estimator = NULL,
-                                    na.rm = TRUE) {
-
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "gain_capture",
-    metric_fn = gain_capture_vec,
-    data = data,
-    truth = !! enquo(truth),
-    estimate = !! estimate,
-    estimator = estimator,
-    na.rm = na.rm,
-    ... = ...
-  )
-
-}
-
-gain_capture_vec <- function(truth, estimate,
-                             estimator = NULL,
-                             na.rm = TRUE,
-                             ...) {
-
-  estimator <- finalize_estimator(truth, estimator, "gain_capture")
-
-  gain_capture_impl <- function(truth, estimate) {
-    gain_capture_estimator_impl(truth, estimate, estimator)
-  }
-
-  metric_vec_template(
-    metric_impl = gain_capture_impl,
-    truth = truth,
-    estimate = estimate,
-    na.rm = na.rm,
-    estimator = estimator,
-    cls = c("factor", "numeric"),
-    ...
-  )
-
-}
-
-gain_capture_estimator_impl <- function(truth, estimate, estimator) {
-
-  if(is_binary(estimator)) {
-    gain_capture_binary(truth, estimate)
-  } else {
-    truth_table <- matrix(table(truth), nrow = 1)
-    w <- get_weights(truth_table, estimator)
-    out_vec <- gain_capture_multiclass(truth, estimate)
-    weighted.mean(out_vec, w)
-  }
-
-}
-
-gain_capture_binary <- function(truth, estimate) {
-
-  gain_list <- gain_curve_vec(truth, estimate)
-
-  gain_to_0_auc <- auc(
-    x = gain_list[[".percent_tested"]],
-    y = gain_list[[".percent_found"]]
-  )
-
-  scaler <- 1 / (100 ^ 2)
-  height <- 100
-  width <- 100
-  baseline <- 0.5
-
-  gain_to_0_auc <- gain_to_0_auc * scaler
-
-  # perfect = value at the elbow of the perfect gain chart
-  .n_events <- gain_list[[".n_events"]]
-  slope <- 1 / (max(.n_events) / length(.n_events))
-  perfect <- height / slope
-
-  # perfect triangle
-  perf_triang <- (perfect * height) / 2
-
-  # perfect rectangle
-  perf_rect <- (width - perfect) * height
-
-  perf_auc <- (perf_rect + perf_triang) * scaler
-
-  # calculate capture ratio = fraction of area captured
-  # under the gain curve, but above the baseline, and relative to a
-  # perfect capture score
-  (gain_to_0_auc - baseline) / (perf_auc - baseline)
-
-}
-
-gain_capture_multiclass <- function(truth, estimate) {
-  res_lst <- one_vs_all_impl(gain_capture_binary, truth, estimate)
-  rlang::flatten_dbl(res_lst)
 }

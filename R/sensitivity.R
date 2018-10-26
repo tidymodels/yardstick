@@ -79,10 +79,6 @@
 #'
 #' @param ... Not currently used.
 #'
-#' @return For `_vec()` functions, a single `numeric` value (or `NA`).
-#' Otherwise, a `tibble` with columns `.metric`, `.estimator`,
-#' and `.estimate` and 1 row of values. For grouped data frames, the number
-#' of rows returned will be the same as the number of groups.
 #'
 #' @section Multiclass:
 #'

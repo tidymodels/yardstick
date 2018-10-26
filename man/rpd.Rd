@@ -41,12 +41,6 @@ unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 }
-\value{
-For \code{_vec()} functions, a single \code{numeric} value (or \code{NA}).
-Otherwise, a \code{tibble} with columns \code{.metric}, \code{.estimator},
-and \code{.estimate} and 1 row of values. For grouped data frames, the number
-of rows returned will be the same as the number of groups.
-}
 \description{
 These functions are appropriate for cases where the model
 outcome is a number. The ratio of performance to deviation

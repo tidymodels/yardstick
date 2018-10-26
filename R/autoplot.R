@@ -55,7 +55,8 @@ autoplot.roc_df <- function(object, ...) {
 
 # pr_df ------------------------------------------------------------------------
 
-#' @rdname roc_auc
+#' @rdname pr_curve
+#' @include prob-pr_curve.R
 autoplot.pr_df <- function(object, ...) {
 
   `%+%` <- ggplot2::`%+%`

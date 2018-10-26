@@ -5,10 +5,8 @@
 \alias{autoplot.lift_df}
 \alias{gain_curve}
 \alias{lift_curve}
-\alias{gain_capture}
 \alias{gain_curve.data.frame}
 \alias{lift_curve.data.frame}
-\alias{gain_capture.data.frame}
 \title{Cumulative gain and lift charts}
 \usage{
 autoplot.gain_df(object, ...)
@@ -22,11 +20,6 @@ gain_curve(data, ...)
 lift_curve(data, ...)
 
 \method{lift_curve}{data.frame}(data, truth, ..., na.rm = TRUE)
-
-gain_capture(data, ...)
-
-\method{gain_capture}{data.frame}(data, truth, ..., estimator = NULL,
-  na.rm = TRUE)
 }
 \arguments{
 \item{object}{The data frame output of \code{gain_curve()} or \code{lift_curve()}
@@ -58,8 +51,7 @@ multiclass metrics. The default will automatically choose \code{"binary"} or
 \description{
 \code{gain_curve()} calculates the information required for cumulative gain charts,
 and \code{lift_curve()} calculates the information for lift charts. Both are visual
-aids for measuring model performance. \code{gain_capture()} is a measure of
-performance similar to an AUC calculation.
+aids for measuring model performance.
 }
 \details{
 The motivation behind cumulative gain and lift charts is as a visual method to
