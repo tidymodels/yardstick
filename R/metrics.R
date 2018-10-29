@@ -2,8 +2,7 @@
 #'
 #' This function estimates one or more common performance
 #'  estimates depending on the class of `truth` (see **Value**
-#'  below) and returns them in a two column tibble.
-#'
+#'  below) and returns them in a three column tibble.
 #'
 #' @inheritParams roc_auc
 #'
@@ -11,26 +10,32 @@
 #' columns and any columns specified by `...`.
 #'
 #' @param truth The column identifier for the true results (that
-#'  is `numeric` or `factor`). This should be an unquoted column name
-#'  although this argument is passed by expression and support
-#'  [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'  names).
+#' is `numeric` or `factor`). This should be an unquoted column name
+#' although this argument is passed by expression and support
+#' [quasiquotation][rlang::quasiquotation] (you can unquote column
+#' names).
 #'
 #' @param estimate The column identifier for the predicted results
-#'  (that is also `numeric` or `factor`). As with `truth` this can be
-#'  specified different ways but the primary method is to use an
-#'  unquoted variable name.
+#' (that is also `numeric` or `factor`). As with `truth` this can be
+#' specified different ways but the primary method is to use an
+#' unquoted variable name.
 #'
-#' @return A two column tibble.
-#' * When `truth` is a factor, there are columns for [accuracy()] and the
+#' @return
+#'
+#' A two column tibble.
+#'
+#' * When `truth` is a factor, there are rows for [accuracy()] and the
 #' Kappa statistic ([kap()]).
-#' * When `truth` has two levels, and 1 column of class probabilities is
-#' passed to `...`, there are columns for the two class versions of
+#'
+#' * When `truth` has two levels and 1 column of class probabilities is
+#' passed to `...`, there are rows for the two class versions of
 #' [mn_log_loss()] and [roc_auc()].
-#' * When `truth` has more than two levels, and a full set of class probabilities
-#' are passed to `...`, there are columns for the multiclass version of
-#' [mn_log_loss()] and macro averaged [roc_auc()].
-#' * When `truth` is numeric, there are columns for [rmse()], [rsq()],
+#'
+#' * When `truth` has more than two levels and a full set of class probabilities
+#' are passed to `...`, there are rows for the multiclass version of
+#' [mn_log_loss()] and the Hand Till generalization of [roc_auc()].
+#'
+#' * When `truth` is numeric, there are rows for [rmse()], [rsq()],
 #' and [mae()].
 #'
 #' @seealso [metric_set()]
@@ -47,7 +52,7 @@
 #' metrics(solubility_test, truth = solubility, estimate = prediction)
 #'
 #' # Multiclass metrics work, but you cannot specify any averaging
-#' # for roc_auc() besides the default, macro. Use the specific function
+#' # for roc_auc() besides the default, hand_till. Use the specific function
 #' # if you need more customization
 #' library(dplyr)
 #'
