@@ -105,8 +105,11 @@ scales". \emph{Educational and Psychological Measurement}. 20 (1): 37–46.
 \seealso{
 Other class metrics: \code{\link{accuracy}},
   \code{\link{bal_accuracy}},
-  \code{\link{detection_prevalence}},
-  \code{\link{j_index}}, \code{\link{mcc}}
+  \code{\link{detection_prevalence}}, \code{\link{f_meas}},
+  \code{\link{j_index}}, \code{\link{mcc}},
+  \code{\link{npv}}, \code{\link{ppv}},
+  \code{\link{precision}}, \code{\link{recall}},
+  \code{\link{sens}}, \code{\link{spec}}
 }
 \author{
 Max Kuhn

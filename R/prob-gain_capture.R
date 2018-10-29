@@ -3,16 +3,33 @@
 #' `gain_capture()` is a measure of performance similar to an AUC calculation,
 #' but applied to a gain curve.
 #'
+#' `gain_capture()` calculates the area _under_ the gain curve, but _above_
+#' the baseline, and then divides that by the area _under_ a perfect gain curve,
+#' but _above_ the baseline. It is meant to represent the amount of potential
+#' gain "captured" by the model.
+#'
 #' @family class probability metrics
 #' @templateVar metric_fn gain_capture
 #' @template event_first
 #' @template return-prob
+#' @template multiclass-prob
 #'
 #' @inheritParams pr_auc
 #'
 #' @author Max Kuhn
 #'
+#' @seealso
+#'
+#' [gain_curve()] to compute the full gain curve.
+#'
 #' @template examples-prob
+#' @examples
+#' # Visualize gain_capture() --------------------------------------------------
+#'
+#' # Visually, this represents the area under the black curve, but above the
+#' # 45 degree line, divided by the area of the shaded triangle.
+#' library(ggplot2)
+#' autoplot(gain_curve(two_class_example, truth, Class1))
 #'
 #' @export
 gain_capture <- function(data, ...) {

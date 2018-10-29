@@ -30,7 +30,7 @@ names).}
 specified different ways but the primary method is to use an
 unquoted variable name.}
 
-\item{options}{A \code{list} of named options to pass to \code{\link[=roc]{roc()}}
+\item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
 

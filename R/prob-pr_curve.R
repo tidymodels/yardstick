@@ -1,53 +1,38 @@
 #' Precision recall curve
 #'
 #' `pr_curve()` constructs the full precision recall curve and returns a
-#' tibble. `pr_auc()` is a metric that computes the area under the precision
-#' recall curve.
+#' tibble. See [pr_auc()] for the area under the precision recall curve.
 #'
-#' For `pr_curve()`, if a multiclass `truth` column is provided, a one-vs-all
-#' approach will be taken to calculate multiple curves, one per level.
-#' In this case, there will be an additional column, `.level`,
-#' identifying the "one" column in the one-vs-all calculation.
+#' `pr_curve()` computes the precision at every unique value of the
+#'  probability column (in addition to infinity).
 #'
-#' @family class probability metrics
-#' @aliases pr_curve
-#' @templateVar metric_fn pr_auc
-#' @template return
-#' @template multiclass-prob
+#'  There is a [ggplot2::autoplot()]
+#'  method for quickly visualizing the curve. This works for
+#'  binary and multiclass output, and also works with grouped data (i.e. from
+#'  resamples). See the examples.
 #'
-#' @inheritParams sens
+#' @family curve metrics
+#' @template multiclass-curve
 #'
-#' @param data A `data.frame` containing the `truth` and `estimate`
-#' columns.
-#'
-#' @param estimate If `truth` is binary, a numeric vector of class probabilities
-#' corresponding to the "relevant" class. Otherwise, a matrix with as many
-#' columns as factor levels of `truth`.
-#'
-#' @param ... A set of unquoted column names or one or more
-#' `dplyr` selector functions to choose which variables contain the
-#' class probabilities. If `truth` is binary, only 1 column should be selected.
-#' Otherwise, there should be as many columns as factor levels of `truth`.
-#'
-#' @param estimator One of `"binary"`, `"macro"`, or `"macro_weighted"` to
-#' specify the type of averaging to be done. `"binary"` is only relevant for
-#' the two class case. The other two are general methods for calculating
-#' multiclass metrics. The default will automatically choose `"binary"` or
-#' `"macro"` based on `truth`.
-#'
-#' @param object The data frame returned from `pr_curve()`.
+#' @inheritParams pr_auc
+#' @param object The `pr_df` data frame returned from `pr_curve()`.
 #'
 #' @return
-#' For `pr_curve()`, a tibble with class `pr_df` or `pr_grouped_df` having
-#' columns `recall`, `precision`, and `.threshold`.
+#' A tibble with class `pr_df` or `pr_grouped_df` having
+#' columns `.threshold`, `recall`, and `precision`.
+#'
+#' @seealso
+#' Compute the area under the precision recall curve with [pr_auc()].
 #'
 #' @author Max Kuhn
 #'
 #' @examples
-#' # PR Curve examples ---------------------------------------------------------
 #' library(ggplot2)
 #'
-#' # Two class
+#' # Two class - a tibble is returned
+#' pr_curve(two_class_example, truth, Class1)
+#'
+#' # Visualize the curve using ggplot2 manually
 #' pr_curve(two_class_example, truth, Class1) %>%
 #'   ggplot(aes(x = recall, y = precision)) +
 #'   geom_path() +
@@ -70,19 +55,8 @@
 #'   pr_curve(obs, VF:L) %>%
 #'   autoplot()
 #'
-#' # PR AUC examples -----------------------------------------------------------
-#'
-#' @template examples-prob
-#'
 #' @export
 #'
-#' @name pr_curve
-NULL
-
-# PR Curve ---------------------------------------------------------------------
-
-#' @export
-#' @rdname pr_curve
 pr_curve <- function(data, ...) {
   UseMethod("pr_curve")
 }
@@ -177,82 +151,56 @@ pr_curve_multiclass <- function(truth, estimate) {
   one_vs_all_with_level(pr_curve_binary, truth, estimate)
 }
 
-# PR AUC -----------------------------------------------------------------------
 
-#' @export
+# Dynamically exported
 #' @rdname pr_curve
-pr_auc <- function(data, ...) {
-  UseMethod("pr_auc")
-}
+autoplot.pr_df <- function(object, ...) {
 
-class(pr_auc) <- c("prob_metric", "function")
+  `%+%` <- ggplot2::`%+%`
 
-#' @export
-#' @rdname pr_curve
-pr_auc.data.frame  <- function(data, truth, ...,
-                               estimator = NULL,
-                               na.rm = TRUE) {
+  # Base chart
+  pr_chart <- ggplot2::ggplot(data = object)
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
+  # Add in group interactions if required
+  if (inherits(object, "grouped_pr_df")) {
 
-  metric_summarizer(
-    metric_nm = "pr_auc",
-    metric_fn = pr_auc_vec,
-    data = data,
-    truth = !!enquo(truth),
-    estimate = !!estimate,
-    estimator = estimator,
-    na.rm = na.rm,
-    ... = ...
-  )
+    grps <- dplyr::groups(object)
 
-}
+    grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
 
-#' @export
-#' @rdname pr_curve
-pr_auc_vec <- function(truth, estimate,
-                       estimator = NULL, na.rm = TRUE, ...) {
+    interact_expr <- list(
+      color = rlang::expr(interaction(!!! grps, sep = "_"))
+    )
 
-  estimator <- finalize_estimator(truth, estimator, "pr_auc")
+    pr_chart <- pr_chart %+%
+      ggplot2::labs(color = grps_chr)
 
-  pr_auc_impl <- function(truth, estimate) {
-    pr_auc_estimator_impl(truth, estimate, estimator)
-  }
-
-  metric_vec_template(
-    metric_impl = pr_auc_impl,
-    truth = truth,
-    estimate = estimate,
-    na.rm = na.rm,
-    estimator = estimator,
-    cls = c("factor", "numeric"),
-    ...
-  )
-
-}
-
-pr_auc_estimator_impl <- function(truth, estimate, estimator) {
-
-  if (is_binary(estimator)) {
-    pr_auc_binary(truth, estimate)
   }
   else {
-    # weights for macro / macro_weighted are based on truth frequencies
-    # (this is the usual definition)
-    truth_table <- matrix(table(truth), nrow = 1)
-    w <- get_weights(truth_table, estimator)
-    out_vec <- pr_auc_multiclass(truth, estimate)
-    weighted.mean(out_vec, w)
+
+    interact_expr <- list()
+
   }
 
-}
+  # splice in the group interactions, or do nothing
+  aes_spliced <- ggplot2::aes(
+    x = recall,
+    y = precision,
+    !!! interact_expr
+  )
 
-pr_auc_binary <- function(truth, estimate) {
-  pr_list <- pr_curve_vec(truth, estimate)
-  auc(pr_list[["recall"]], pr_list[["precision"]])
-}
+  # build the graph
+  pr_chart <- pr_chart %+%
+    ggplot2::geom_path(mapping = aes_spliced) %+%
+    ggplot2::coord_equal() %+%
+    ggplot2::theme_bw()
 
-pr_auc_multiclass <- function(truth, estimate) {
-  res_lst <- one_vs_all_impl(pr_auc_binary, truth, estimate)
-  rlang::flatten_dbl(res_lst)
+  # If we have .level, that means this was multiclass
+  # and we want to show 1 vs all graphs
+  if (".level" %in% colnames(object)) {
+    pr_chart <- pr_chart %+%
+      ggplot2::facet_wrap(~.level)
+  }
+
+  pr_chart
 }

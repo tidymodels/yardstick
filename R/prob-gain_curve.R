@@ -1,8 +1,18 @@
-#' Cumulative gain and lift charts
+#' Gain curve
 #'
-#' `gain_curve()` calculates the information required for cumulative gain charts,
-#' and `lift_curve()` calculates the information for lift charts. Both are visual
-#' aids for measuring model performance.
+#' `gain_curve()` constructs the full gain curve and returns a
+#' tibble. See [gain_capture()] for the relevant area under the gain curve.
+#' Also see [lift_curve()] for a closely related concept.
+#'
+#' There is a [ggplot2::autoplot()]
+#' method for quickly visualizing the curve. This works for
+#' binary and multiclass output, and also works with grouped data (i.e. from
+#' resamples). See the examples.
+#'
+#' The greater the area between the gain curve and the baseline, the better
+#' the model.
+#'
+#' @section Gain and Lift Curves:
 #'
 #' The motivation behind cumulative gain and lift charts is as a visual method to
 #' determine the effectiveness of a model when compared to the results one
@@ -14,86 +24,64 @@
 #' accurately target 10\% of your customer base and capture
 #' \>10\% of the total number of positive responses.
 #'
-#' The calculation to construct gain and lift curves is as follows:
+#' The calculation to construct gain curves is as follows:
 #'
 #' 1. `truth` and `estimate` are placed in descending order by the `estimate`
-#' values. (`estimate` here is a single column supplied in `...`)
+#' values (`estimate` here is a single column supplied in `...`).
 #'
 #' 2. The cumulative number of samples with true results relative to the
 #' entire number of true results are found. This is the y-axis in a gain chart.
 #'
-#' 3. The cumulative \% found is divided by the cumulative \% tested
-#' to construct the lift value. This ratio represents the factor of improvement
-#' over an uninformed model. Values >1 represent a valuable model. This is the
-#' y-axis of the lift chart.
+#' @family curve metrics
+#' @template multiclass-curve
+#' @template event_first
 #'
-#' The greater the area between the gain curve and the baseline, the better
-#' the model.
+#' @inheritParams pr_auc
+#' @param object The `gain_df` data frame returned from `gain_curve()`.
 #'
-#' The output of `gain_curve()` and `lift_curve()` both have
-#' [ggplot2::autoplot()] methods for easy visualization. See the examples.
+#' @return
+#' A tibble with class `gain_df` or `gain_grouped_df` having
+#' columns:
 #'
-#' For `gain_curve()` and `lift_curve()`, if a multiclass `truth` column is
-#' provided, a one-vs-all approach will be taken to calculate multiple curves,
-#' one per level. In this case, there will be an additional column, `.level`,
-#' identifying the "one" column in the one-vs-all calculation.
+#' - `.n` - The index of the current sample.
+#' - `.n_events` - The index of the current _unique_ sample. Values with repeated
+#'   `estimate` values are given identical indices in this column.
+#' - `.percent_tested` - The cumulative percentage of values tested.
+#' - `.percent_found` - The cumulative percentage of true results relative to the
+#'   total number of true results.
 #'
-#' `gain_capture()` calculates the area _under_ the gain curve, but _above_
-#' the baseline, and then divides that by the area _under_ a perfect gain curve,
-#' but _above_ the baseline. It is meant to represent the amount of potential
-#' gain "captured" by the model.
+#' @seealso
+#' Compute the relevant area under the gain curve with [gain_capture()].
 #'
-#' There is no common convention on which factor level should
-#' automatically be considered the "relevant" or "positive" results.
-#' In `yardstick`, the default is to use the _first_ level. To
-#' change this, a global option called `yardstick.event_first` is
-#' set to `TRUE` when the package is loaded. This can be changed
-#' to `FALSE` if the last level of the factor is considered the
-#' level of interest.
-#'
-#' @inheritParams roc_curve
-#'
-#' @param object The data frame output of `gain_curve()` or `lift_curve()`
-#' to plot.
-#'
-#' @param estimator One of `"binary"`, `"macro"`, or `"macro_weighted"` to
-#' specify the type of estimator to be done. `"binary"` is only relevant for
-#' the two class case. The other two are general methods for calculating
-#' multiclass metrics. The default will automatically choose `"binary"` or
-#' `"macro"` based on `truth`.
-#'
-#' @aliases gain_curve lift_curve
+#' @author Max Kuhn
 #'
 #' @examples
 #' library(ggplot2)
-#' data(two_class_example)
 #'
-#' # Calculate the cumulative gain information given a 2 class factor
-#' # and the corresponding predicted class probabilities
-#' gn <- gain_curve(two_class_example, truth, Class1)
+#' # Two class - a tibble is returned
+#' gain_curve(two_class_example, truth, Class1)
 #'
-#' # Plot it
-#' autoplot(gn)
-#'
-#' # Similar calculation, but for lift
-#' lif <- lift_curve(two_class_example, truth, Class1)
-#'
-#' autoplot(lif)
-#'
-#' gain_capture(two_class_example, truth, Class1)
-#'
-#' # Visually, this represents the area under the black curve, but above the
-#' # 45 degree dotted line, divided by the area of the shaded triangle.
-#' library(ggplot2)
+#' # Use autoplot to visualize
+#' # The top left hand corner of the grey triangle is a "perfect" gain curve
 #' autoplot(gain_curve(two_class_example, truth, Class1))
 #'
-#' @name gain_curve
-NULL
-
-# Gain -------------------------------------------------------------------------
-
+#' # Multiclass one-vs-all approach
+#' # One curve per level
+#' hpc_cv %>%
+#'   filter(Resample == "Fold01") %>%
+#'   gain_curve(obs, VF:L) %>%
+#'   autoplot()
+#'
+#' # Same as above, but will all of the resamples
+#' # The resample with the minimum (farthest to the left) "perfect" value is
+#' # used to draw the shaded region
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   gain_curve(obs, VF:L) %>%
+#'   autoplot()
+#'
 #' @export
-#' @rdname gain_curve
+#'
 gain_curve <- function(data, ...) {
   UseMethod("gain_curve")
 }
@@ -233,53 +221,116 @@ gain_curve_binary_impl <- function(truth, estimate) {
   )
 }
 
-# Lift -------------------------------------------------------------------------
+# autoplot ---------------------------------------------------------------------
+
+# dynamically exported in .onLoad()
 
 #' @rdname gain_curve
-#' @export
-lift_curve <- function(data, ...) {
-  UseMethod("lift_curve")
-}
+autoplot.gain_df <- function(object, ...) {
 
-#' @rdname gain_curve
-#' @export
-lift_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
+  `%+%` <- ggplot2::`%+%`
+  `%>%` <- dplyr::`%>%`
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-  truth <- enquo(truth)
+  # Base chart
+  chart <- ggplot2::ggplot(data = object)
 
-  validate_not_missing(truth, "truth")
+  # Grouped specific chart features
+  if (dplyr::is_grouped_df(object)) {
 
-  # Explicit handling of length 1 character vectors as column names
-  truth <- handle_chr_names(truth)
-
-  res <- dplyr::do(
-    data,
-    lift_curve_vec(
-      truth = rlang::eval_tidy(truth, data = .),
-      estimate = rlang::eval_tidy(estimate, data = .),
-      na.rm = na.rm
+    # Construct the color interaction group
+    grps <- dplyr::groups(object)
+    interact_expr <- list(
+      color = rlang::expr(interaction(!!! grps, sep = "_"))
     )
-  )
 
-  if (dplyr::is_grouped_df(res)) {
-    class(res) <- c("grouped_lift_df", "lift_df", class(res))
+    # Add group legend label
+    grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
+    chart <- chart %+%
+      ggplot2::labs(color = grps_chr)
+
   }
   else {
-    class(res) <- c("lift_df", class(res))
+    interact_expr <- list()
   }
 
-  res
-}
+  # Generic enough to be used in the pipe chain
+  # for multiclass and binary curves
+  maybe_group_by_level <- function(object, with_old = TRUE) {
 
-lift_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+    if (with_old) {
+      grps <- dplyr::groups(object)
+    } else {
+      grps <- list()
+    }
 
-  # tibble result, possibly grouped
-  res <- gain_curve_vec(truth, estimate, na.rm)
+    if (".level" %in% colnames(object)) {
+      # .level should be the first group b/c of how summarise()
+      # drops a group
+      object <- dplyr::group_by(object, .level, !!! grps)
+    }
+    object
+  }
 
-  res <- dplyr::mutate(res, .lift = .percent_found / .percent_tested)
+  # Construct poly_data
+  # If grouped (ie resamples), we take the min of all "perfect" values
+  #   to ensure we capture all lines in the polygon
+  # If multiclass, we calculate each level separately
+  poly_data <- object %>%
+    maybe_group_by_level() %>%
+    dplyr::summarise(slope = 1 / (max(.n_events) / dplyr::last(.n))) %>%
+    dplyr::mutate(perfect = 100 / slope) %>%
+    maybe_group_by_level(with_old = FALSE) %>%
+    dplyr::summarise(perfect = min(perfect)) %>%
+    maybe_group_by_level() %>%
+    dplyr::do(
+      dplyr::tibble(
+        x = c(0, .$perfect, 100),
+        y = c(0, 100, 100)
+      )
+    )
 
-  res[[".percent_found"]] <- NULL
+  # Avoid cran check for "globals"
+  .percent_tested <- as.name(".percent_tested")
+  .percent_found <- as.name(".percent_found")
+  x <- as.name("x")
+  y <- as.name("y")
 
-  res
+  chart <- chart %+%
+
+    # gain curve
+    ggplot2::geom_line(
+      mapping = ggplot2::aes(
+        x = !!.percent_tested,
+        y = !!.percent_found,
+        !!! interact_expr
+      ),
+      data = object
+    ) %+%
+
+    # boundary poly
+    ggplot2::geom_polygon(
+      mapping = ggplot2::aes(
+        x = !!x,
+        y = !!y
+      ),
+      data = poly_data,
+      # fill
+      fill = "lightgrey",
+      alpha = 0.4
+    ) %+%
+
+    ggplot2::labs(
+      x = "% Tested",
+      y = "% Found"
+    ) %+%
+
+    ggplot2::theme_bw()
+
+  # facet by .level if this was a multiclass computation
+  if (".level" %in% colnames(object)) {
+    chart <- chart %+%
+      ggplot2::facet_wrap(~.level)
+  }
+
+  chart
 }
