@@ -13,7 +13,7 @@
 #' @template examples-class
 #'
 #' @export
-j_index <- function(data, estimator = NULL, ...) {
+j_index <- function(data, ...) {
   UseMethod("j_index")
 }
 

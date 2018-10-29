@@ -28,6 +28,7 @@
 #'
 #' @examples
 #' library(ggplot2)
+#' library(dplyr)
 #'
 #' # Two class - a tibble is returned
 #' pr_curve(two_class_example, truth, Class1)

@@ -11,7 +11,7 @@
 #' @family class probability metrics
 #' @templateVar metric_fn gain_capture
 #' @template event_first
-#' @template return-prob
+#' @template return
 #' @template multiclass-prob
 #'
 #' @inheritParams pr_auc
@@ -59,6 +59,8 @@ gain_capture.data.frame <- function(data, truth, ...,
 
 }
 
+#' @export
+#' @rdname gain_capture
 gain_capture_vec <- function(truth, estimate,
                              estimator = NULL,
                              na.rm = TRUE,

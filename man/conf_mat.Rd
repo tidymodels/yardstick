@@ -34,6 +34,8 @@ specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{dnn}{A character vector of dimnames for the table.}
+
+\item{x}{A \code{conf_mat} object.}
 }
 \value{
 \code{conf_mat()} produces an object with class \code{conf_mat}. This contains the

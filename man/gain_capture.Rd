@@ -3,12 +3,15 @@
 \name{gain_capture}
 \alias{gain_capture}
 \alias{gain_capture.data.frame}
+\alias{gain_capture_vec}
 \title{Gain capture}
 \usage{
 gain_capture(data, ...)
 
 \method{gain_capture}{data.frame}(data, truth, ..., estimator = NULL,
   na.rm = TRUE)
+
+gain_capture_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -33,6 +36,11 @@ multiclass metrics. The default will automatically choose \code{"binary"} or
 
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
+corresponding to the "relevant" class. Otherwise, a matrix with as many
+columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
+same order as the levels of \code{truth}.}}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
@@ -40,6 +48,8 @@ and \code{.estimate} and 1 row of values.
 
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
+
+For \code{gain_capture_vec()}, a single \code{numeric} value (or \code{NA}).
 }
 \description{
 \code{gain_capture()} is a measure of performance similar to an AUC calculation,

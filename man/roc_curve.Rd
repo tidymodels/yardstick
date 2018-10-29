@@ -72,6 +72,7 @@ identifying the "one" column in the one-vs-all calculation.
 
 \examples{
 library(ggplot2)
+library(dplyr)
 
 # Two class - a tibbble is returned
 roc_curve(two_class_example, truth, Class1)

@@ -170,6 +170,7 @@ print.conf_mat <- function(x, ...)
 
 #' @export
 #' @rdname conf_mat
+#' @param x A `conf_mat` object.
 tidy.conf_mat <- function(x, ...) {
   y <- flatten(x$table)
   dplyr::tibble(

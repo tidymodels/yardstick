@@ -13,7 +13,7 @@
 #' @template examples-class
 #'
 #' @export
-bal_accuracy <- function(data, estimator = NULL, ...) {
+bal_accuracy <- function(data, ...) {
   UseMethod("bal_accuracy")
 }
 

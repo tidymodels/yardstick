@@ -6,7 +6,7 @@
 \alias{bal_accuracy_vec}
 \title{Balanced accuracy}
 \usage{
-bal_accuracy(data, estimator = NULL, ...)
+bal_accuracy(data, ...)
 
 \method{bal_accuracy}{data.frame}(data, truth, estimate,
   estimator = NULL, na.rm = TRUE, ...)
@@ -17,12 +17,6 @@ bal_accuracy_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
 columns, or a \code{table}/\code{matrix} where the true class results should be
 in the columns of the table.}
-
-\item{estimator}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
-or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
-only relevant for the two class case. The other three are general methods for
-calculating multiclass metrics. The default will automatically choose \code{"binary"}
-or \code{"macro"} based on \code{estimate}.}
 
 \item{...}{Not currently used.}
 
@@ -36,6 +30,12 @@ names). For \code{_vec()} functions, a \code{factor} vector.}
 results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
+
+\item{estimator}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
+or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
+only relevant for the two class case. The other three are general methods for
+calculating multiclass metrics. The default will automatically choose \code{"binary"}
+or \code{"macro"} based on \code{estimate}.}
 
 \item{na.rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
