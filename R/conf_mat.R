@@ -1,26 +1,42 @@
 #' Confusion Matrix for Categorical Data
 #'
-#' Calculates a cross-tabulation of observed and predicted
-#'  classes.
+#' Calculates a cross-tabulation of observed and predicted classes.
 #'
-#'  For [conf_mat()] objects, a `broom` `tidy()` method has been created
-#'  that collapses the cell counts by cell into a data frame for
-#'  easy manipulation.
+#' For [conf_mat()] objects, a `broom` `tidy()` method has been created
+#' that collapses the cell counts by cell into a data frame for
+#' easy manipulation.
 #'
-#' The function requires that the factors have exactly the same
-#'  levels.
-
-#' @inheritParams sens
+#' There is also a `summary()` method that computes various classification
+#' metrics at once. See [summary.conf_mat()]
+#'
+#' The function requires that the factors have exactly the same levels.
+#'
 #' @aliases conf_mat.table conf_mat.default conf_mat
+#'
+#' @inheritParams sens
+#'
 #' @param data A data frame or a [base::table()].
-#' @param dnn a character vector of dimnames for the table
+#'
+#' @param dnn A character vector of dimnames for the table.
+#'
 #' @param ... Options to pass to [base::table()] (not including
 #'  `dnn`). This argument is not currently used for the `tidy`
 #'  method.
-#' @return `conf_mat` produces a object with class `conf_mat`.
-#'  This contains the table and other objects. `tidy.conf_mat`
-#'  generates a tibble with columns `name` (the cell identifier) and
-#'  `value` (the cell count).
+#'
+#' @return
+#' `conf_mat()` produces an object with class `conf_mat`. This contains the
+#' table and other objects. `tidy.conf_mat()` generates a tibble with columns
+#' `name` (the cell identifier) and `value` (the cell count).
+#'
+#' When used on a grouped data frame, `conf_mat()` returns a tibble containing
+#' columns for the groups along with `conf_mat`, a list-column
+#' where each element is a `conf_mat` object.
+#'
+#' @seealso
+#'
+#' [summary.conf_mat()] for computing a large number of metrics from one
+#' confusion matrix.
+#'
 #' @examples
 #' library(dplyr)
 #' data("hpc_cv")
@@ -33,9 +49,14 @@
 #' # Now compute the average confusion matrix across all folds in
 #' # terms of the proportion of the data contained in each cell.
 #' # First get the raw cell counts per fold using the `tidy` method
+#' library(purrr)
+#' library(tidyr)
+#'
 #' cells_per_resample <- hpc_cv %>%
 #'   group_by(Resample) %>%
-#'   do(tidy(conf_mat(., obs, pred)))
+#'   conf_mat(obs, pred) %>%
+#'   mutate(tidied = map(conf_mat, tidy)) %>%
+#'   unnest(tidied)
 #'
 #' # Get the totals per resample
 #' counts_per_resample <- hpc_cv %>%
@@ -85,7 +106,6 @@ conf_mat.data.frame <- function(data, truth, estimate,
 }
 
 #' @export
-#' @rdname conf_mat
 conf_mat.grouped_df <- function(data, truth, estimate,
                                 dnn = c("Prediction", "Truth"), ...) {
 
@@ -115,7 +135,6 @@ conf_mat.grouped_df <- function(data, truth, estimate,
 
 }
 
-#' @rdname conf_mat
 #' @export
 conf_mat.table <- function(data, ...) {
 
@@ -150,6 +169,7 @@ print.conf_mat <- function(x, ...)
   print(x$table)
 
 #' @export
+#' @rdname conf_mat
 tidy.conf_mat <- function(x, ...) {
   y <- flatten(x$table)
   dplyr::tibble(
@@ -162,32 +182,32 @@ tidy.conf_mat <- function(x, ...) {
 #' Summary Statistics for Confusion Matrices
 #'
 #' Various statistical summaries of confusion matrices are
-#'  produced and returned in a easily used format. These potentially
-#'  include those shown in the help pages for [sens()], [recall()],
-#'  and [accuracy()].
+#' produced and returned in a tibble. These include those shown in the help
+#' pages for [sens()], [recall()], and [accuracy()], among others.
 #'
-#' @details
-#' There is no common convention on which factor level should
-#'  automatically be considered the "event" or "positive" results.
-#'  In `yardstick`, the default is to use the _first_ level. To
-#'  change this, a global option called `yardstick.event_first` is
-#'  set to `TRUE` when the package is loaded. This can be changed
-#'  to `FALSE` if the last level of the factor is considered the
-#'  level of interest.
+#' @template event_first
 #'
 #' @inheritParams sens
+#'
 #' @param object An object of class [conf_mat()].
+#'
 #' @param prevalence A number in `(0, 1)` for the prevalence (i.e.
 #'  prior) of the event. If left to the default, the data are used
 #'  to derive this value.
+#'
 #' @param beta A numeric value used to weight precision and
 #'  recall for [f_meas()].
+#'
 #' @param ... Not currently used.
-#' @return A tibble. Note that if the argument `prevalence` was
-#'  used, the value reported in the tibble reflects the argument
-#'  value and not the observed rate of events.
-#' @export
-#' @importFrom dplyr bind_rows
+#'
+#' @return
+#'
+#' A tibble containing various classification metrics.
+#'
+#' @seealso
+#'
+#' [conf_mat()]
+#'
 #' @examples
 #' data("two_class_example")
 #'
@@ -214,6 +234,9 @@ tidy.conf_mat <- function(x, ...) {
 #'     sd = sd(.estimate, na.rm = TRUE)
 #'   )
 #'
+#'
+#' @export
+#' @importFrom dplyr bind_rows
 summary.conf_mat <- function(object,
                              prevalence = NULL,
                              beta = 1,
