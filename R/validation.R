@@ -190,6 +190,11 @@ validate_not_missing <- function(x, nm) {
 
 # Validate estimator type is allowed -------------------------------------------
 
+#' @param estimator_override A character vector overriding the default allowed
+#' estimator list of `c("binary", "macro", "micro", "macro_weighted")`. Set
+#' this is your classification estimator does not support all of these methods.
+#' @rdname developer-helpers
+#' @export
 validate_estimator <- function(estimator, estimator_override = NULL) {
 
   if(is.null(estimator)) {
