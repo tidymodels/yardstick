@@ -71,8 +71,7 @@ detection_prevalence_vec <- function(truth, estimate, estimator = NULL,
 
     xtab <- vec2table(
       truth = truth,
-      estimate = estimate,
-      na.rm = FALSE
+      estimate = estimate
     )
 
     detection_prevalence_table_impl(xtab, estimator)

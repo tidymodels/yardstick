@@ -90,9 +90,7 @@ npv_vec <- function(truth, estimate,
 
     xtab <- vec2table(
       truth = truth,
-      estimate = estimate,
-      na.rm = na.rm,
-      ...
+      estimate = estimate
     )
 
     npv_table_impl(xtab, estimator, prevalence = prevalence)

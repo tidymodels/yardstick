@@ -70,8 +70,7 @@ bal_accuracy_vec <- function(truth, estimate, estimator = NULL,
 
     xtab <- vec2table(
       truth = truth,
-      estimate = estimate,
-      na.rm = FALSE
+      estimate = estimate
     )
 
     bal_accuracy_table_impl(xtab, estimator)

@@ -94,8 +94,7 @@ f_meas_vec <- function(truth, estimate, beta = 1,
 
     xtab <- vec2table(
       truth = truth,
-      estimate = estimate,
-      na.rm = FALSE
+      estimate = estimate
     )
 
     f_meas_table_impl(xtab, estimator, beta = beta)

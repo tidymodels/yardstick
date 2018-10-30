@@ -99,9 +99,7 @@ ppv_vec <- function(truth, estimate, prevalence = NULL,
 
     xtab <- vec2table(
       truth = truth,
-      estimate = estimate,
-      na.rm = FALSE,
-      ...
+      estimate = estimate
     )
 
     ppv_table_impl(xtab, estimator, prevalence = prevalence)

@@ -112,8 +112,7 @@ sens_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
 
     xtab <- vec2table(
       truth = truth,
-      estimate = estimate,
-      na.rm = FALSE
+      estimate = estimate
     )
 
     sens_table_impl(xtab, estimator)

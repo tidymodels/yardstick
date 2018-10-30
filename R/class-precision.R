@@ -93,8 +93,7 @@ precision_vec <- function(truth, estimate,
 
     xtab <- vec2table(
       truth = truth,
-      estimate = estimate,
-      na.rm = FALSE
+      estimate = estimate
     )
 
     precision_table_impl(xtab, estimator)

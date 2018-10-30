@@ -71,8 +71,7 @@ j_index_vec <- function(truth, estimate, estimator = NULL,
 
     xtab <- vec2table(
       truth = truth,
-      estimate = estimate,
-      na.rm = FALSE
+      estimate = estimate
     )
 
     j_index_table_impl(xtab, estimator)
