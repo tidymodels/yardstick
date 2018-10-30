@@ -79,7 +79,7 @@ The `metric_vec_template()` helper handles the removal of `NA` values in your
 metric, so your implementation function does not have to worry about them. It performs type checking using `cls` and also checks that the `estimator` is valid, the second of which is covered in the classification example. This way, all you have to worry about is the core implementation.
 
 ```{r}
-mse_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+mse_vec <- function(truth, estimate, na_rm = TRUE, ...) {
   
   mse_impl <- function(truth, estimate) {
     mean((truth - estimate) ^ 2)
@@ -89,7 +89,7 @@ mse_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = mse_impl,
     truth = truth, 
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "numeric",
     ...
   )
@@ -116,7 +116,7 @@ mse_vec(truth = "apple", estimate = 1)
 mse_vec(truth = 1, estimate = factor("xyz"))
 ```
 
-`NA` values are removed if `na.rm = TRUE` (the default). If `na.rm = FALSE` and
+`NA` values are removed if `na_rm = TRUE` (the default). If `na_rm = FALSE` and
 any `NA` values are detected, then the metric automatically returns `NA`.
 
 ```{r}
@@ -124,7 +124,7 @@ any `NA` values are detected, then the metric automatically returns `NA`.
 mse_vec(truth = c(NA, .5, .4), estimate = c(1, .6, .5))
 
 # NA returned
-mse_vec(truth = c(NA, .5, .4), estimate = c(1, .6, .5), na.rm = FALSE)
+mse_vec(truth = c(NA, .5, .4), estimate = c(1, .6, .5), na_rm = FALSE)
 ```
 
 ### Data frame implementation
@@ -142,7 +142,7 @@ mse <- function(data, ...) {
   UseMethod("mse")
 }
 
-mse.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+mse.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
   
   metric_summarizer(
     metric_nm = "mse",
@@ -150,7 +150,7 @@ mse.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
     data = data,
     truth = !! enquo(truth),
     estimate = !! enquo(estimate), 
-    na.rm = na.rm,
+    na_rm = na_rm,
     ...
   )
   
@@ -226,7 +226,7 @@ relevant_col <- function(xtab) {
     }
 }
 
-miss_rate_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
+miss_rate_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
   
   estimator <- finalize_estimator(truth, estimator)
   
@@ -248,7 +248,7 @@ miss_rate_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) 
     metric_impl = miss_rate_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "factor",
     estimator = estimator,
     ...
@@ -310,7 +310,7 @@ finalize_estimator_internal.miss_rate <- function(metric_dispatcher, x, estimato
   "binary"
 }
 
-miss_rate_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
+miss_rate_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
   
   # calls finalize_estimator_internal() internally
   estimator <- finalize_estimator(truth, estimator, metric_class = "miss_rate")
@@ -333,7 +333,7 @@ miss_rate_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) 
     metric_impl = miss_rate_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "factor",
     estimator = estimator,
     ...
@@ -384,7 +384,7 @@ in `miss_rate_estimator_impl()` depending on whether or not it was macro or
 weighted macro.
 
 ```{r}
-miss_rate_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
+miss_rate_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
   
   # calls finalize_estimator_internal() internally
   estimator <- finalize_estimator(truth, estimator, metric_class = "miss_rate")
@@ -401,7 +401,7 @@ miss_rate_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) 
     metric_impl = miss_rate_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "factor",
     estimator = estimator,
     ...
@@ -479,11 +479,11 @@ Luckily, the data frame implementation is as simple as the numeric case,
 we just need to add an extra `estimator` argument and pass that through.
 
 ```{r}
-miss_rate <- function(data, truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
+miss_rate <- function(data, truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
   UseMethod("miss_rate")
 }
 
-miss_rate.data.frame <- function(data, truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
+miss_rate.data.frame <- function(data, truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
   
   metric_summarizer(
     metric_nm = "miss_rate",
@@ -492,7 +492,7 @@ miss_rate.data.frame <- function(data, truth, estimate, estimator = NULL, na.rm 
     truth = !! enquo(truth),
     estimate = !! enquo(estimate), 
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ...
   )
   

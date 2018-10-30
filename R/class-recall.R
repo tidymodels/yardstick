@@ -44,7 +44,7 @@ class(recall) <- c("class_metric", "function")
 #' @rdname recall
 #' @export
 recall.data.frame <- function(data, truth, estimate,
-                              estimator = NULL, na.rm = TRUE, ...) {
+                              estimator = NULL, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "recall",
@@ -53,7 +53,7 @@ recall.data.frame <- function(data, truth, estimate,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -78,7 +78,7 @@ recall.matrix <- function(data, estimator = NULL, ...) {
 
 #' @export
 #' @rdname recall
-recall_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
+recall_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, estimator)
 
@@ -97,7 +97,7 @@ recall_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
     metric_impl = recall_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = "factor",
     ...

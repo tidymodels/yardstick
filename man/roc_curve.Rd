@@ -9,7 +9,7 @@
 roc_curve(data, ...)
 
 \method{roc_curve}{data.frame}(data, truth, ..., options = list(),
-  na.rm = TRUE)
+  na_rm = TRUE)
 
 autoplot.roc_df(object, ...)
 }
@@ -32,7 +32,7 @@ names). For \code{_vec()} functions, a \code{factor} vector.}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
 \item{object}{The \code{roc_df} data frame returned from \code{roc_curve()}.}

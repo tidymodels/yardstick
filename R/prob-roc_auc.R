@@ -75,7 +75,7 @@ class(roc_auc) <- c("prob_metric", "function")
 #' @export
 #' @rdname roc_auc
 roc_auc.data.frame  <- function(data, truth, ..., options = list(),
-                                estimator = NULL, na.rm = TRUE) {
+                                estimator = NULL, na_rm = TRUE) {
 
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
@@ -87,7 +87,7 @@ roc_auc.data.frame  <- function(data, truth, ..., options = list(),
     truth = !!enquo(truth),
     estimate = !!estimate,
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...,
     metric_fn_options = list(options = options)
   )
@@ -99,7 +99,7 @@ roc_auc.data.frame  <- function(data, truth, ..., options = list(),
 #' @importFrom rlang call2
 #' @importFrom pROC roc auc
 roc_auc_vec <- function(truth, estimate, options = list(),
-                        estimator = NULL, na.rm = TRUE, ...) {
+                        estimator = NULL, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, estimator, "roc_auc")
 
@@ -112,7 +112,7 @@ roc_auc_vec <- function(truth, estimate, options = list(),
     truth = truth,
     estimate = estimate,
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = c("factor", "numeric"),
     ...
   )

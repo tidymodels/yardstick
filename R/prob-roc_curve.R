@@ -76,7 +76,7 @@ roc_curve <- function(data, ...)
 #' @importFrom dplyr arrange as_tibble %>%
 roc_curve.data.frame  <- function (data, truth, ...,
                                    options = list(),
-                                   na.rm = TRUE) {
+                                   na_rm = TRUE) {
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
   truth <- enquo(truth)
@@ -92,7 +92,7 @@ roc_curve.data.frame  <- function (data, truth, ...,
     roc_curve_vec(
       truth = rlang::eval_tidy(truth, data = .),
       estimate = rlang::eval_tidy(estimate, data = .),
-      na.rm = na.rm,
+      na_rm = na_rm,
       !!! list(options = options)
     )
   )
@@ -109,7 +109,7 @@ roc_curve.data.frame  <- function (data, truth, ...,
 
 roc_curve_vec <- function(truth, estimate,
                           options = list(),
-                          na.rm = TRUE,
+                          na_rm = TRUE,
                           ...) {
 
   estimator <- finalize_estimator(truth, metric_class = "roc_curve")
@@ -123,7 +123,7 @@ roc_curve_vec <- function(truth, estimate,
     metric_impl = roc_curve_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = c("factor", "numeric"),
     ...,

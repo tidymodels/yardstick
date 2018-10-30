@@ -46,7 +46,7 @@ class(ppv) <- c("class_metric", "function")
 #' @export
 ppv.data.frame <- function(data, truth, estimate,
                            prevalence = NULL,
-                           estimator = NULL, na.rm = TRUE, ...) {
+                           estimator = NULL, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "ppv",
@@ -55,7 +55,7 @@ ppv.data.frame <- function(data, truth, estimate,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...,
     metric_fn_options = list(prevalence = prevalence)
   )
@@ -91,7 +91,7 @@ ppv.matrix <- function(data, prevalence = NULL, estimator = NULL, ...) {
 #' @export
 #' @rdname ppv
 ppv_vec <- function(truth, estimate, prevalence = NULL,
-                    estimator = NULL, na.rm = TRUE, ...) {
+                    estimator = NULL, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, estimator)
 
@@ -110,7 +110,7 @@ ppv_vec <- function(truth, estimate, prevalence = NULL,
     metric_impl = ppv_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = "factor",
     ...,

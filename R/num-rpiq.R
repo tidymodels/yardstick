@@ -33,7 +33,7 @@ class(rpiq) <- c("numeric_metric", "function")
 
 #' @rdname rpiq
 #' @export
-rpiq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+rpiq.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "rpiq",
@@ -41,7 +41,7 @@ rpiq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -50,7 +50,7 @@ rpiq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 #' @export
 #' @rdname rpiq
 #' @importFrom stats IQR
-rpiq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+rpiq_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rpiq_impl <- function(truth, estimate) {
 
@@ -62,7 +62,7 @@ rpiq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = rpiq_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "numeric",
     ...
   )

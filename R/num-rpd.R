@@ -55,7 +55,7 @@ class(rpd) <- c("numeric_metric", "function")
 
 #' @rdname rpd
 #' @export
-rpd.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+rpd.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "rpd",
@@ -63,7 +63,7 @@ rpd.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -72,7 +72,7 @@ rpd.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 #' @export
 #' @rdname rpd
 #' @importFrom stats sd
-rpd_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+rpd_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rpd_impl <- function(truth, estimate) {
 
@@ -84,7 +84,7 @@ rpd_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = rpd_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "numeric",
     ...
   )

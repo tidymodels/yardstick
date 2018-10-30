@@ -28,7 +28,7 @@ class(accuracy) <- c("class_metric", "function")
 #' @export
 #' @rdname accuracy
 accuracy.data.frame <- function(data, truth, estimate,
-                                na.rm = TRUE, ...) {
+                                na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "accuracy",
@@ -36,7 +36,7 @@ accuracy.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm
+    na_rm = na_rm
     # do not pass dots through (could allow averaging to be set. unwanted!)
   )
 
@@ -61,7 +61,7 @@ accuracy.matrix <- function(data, ...) {
 
 #' @export
 #' @rdname accuracy
-accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+accuracy_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, metric_class = "accuracy")
 
@@ -80,7 +80,7 @@ accuracy_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = accuracy_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = "factor",
     ...

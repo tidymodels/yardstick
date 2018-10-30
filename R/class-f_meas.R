@@ -47,7 +47,7 @@ class(f_meas) <- c("class_metric", "function")
 #' @rdname f_meas
 #' @export
 f_meas.data.frame <- function(data, truth, estimate, beta = 1,
-                              estimator = NULL, na.rm = TRUE, ...) {
+                              estimator = NULL, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "f_meas",
@@ -56,7 +56,7 @@ f_meas.data.frame <- function(data, truth, estimate, beta = 1,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...,
     metric_fn_options = list(beta = beta)
   )
@@ -86,7 +86,7 @@ f_meas.matrix <- function(data, beta = 1, estimator = NULL, ...) {
 #' @export
 #' @rdname f_meas
 f_meas_vec <- function(truth, estimate, beta = 1,
-                       estimator = NULL, na.rm = TRUE, ...) {
+                       estimator = NULL, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, estimator)
 
@@ -105,7 +105,7 @@ f_meas_vec <- function(truth, estimate, beta = 1,
     metric_impl = f_meas_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = "factor",
     ...,

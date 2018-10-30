@@ -23,7 +23,7 @@ class(mae) <- c("numeric_metric", "function")
 
 #' @rdname mae
 #' @export
-mae.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+mae.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "mae",
@@ -31,7 +31,7 @@ mae.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -39,7 +39,7 @@ mae.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
 #' @export
 #' @rdname mae
-mae_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+mae_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   mae_impl <- function(truth, estimate) {
     mean( abs(truth - estimate) )
@@ -49,7 +49,7 @@ mae_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = mae_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "numeric",
     ...
   )

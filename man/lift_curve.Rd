@@ -8,7 +8,7 @@
 \usage{
 lift_curve(data, ...)
 
-\method{lift_curve}{data.frame}(data, truth, ..., na.rm = TRUE)
+\method{lift_curve}{data.frame}(data, truth, ..., na_rm = TRUE)
 
 autoplot.lift_df(object, ...)
 }
@@ -27,7 +27,7 @@ this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names). For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
 \item{object}{The \code{lift_df} data frame returned from \code{lift_curve()}.}

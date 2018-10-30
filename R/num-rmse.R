@@ -22,7 +22,7 @@
 #' specified different ways but the primary method is to use an
 #' unquoted variable name. For `_vec()` functions, a `numeric` vector.
 #'
-#' @param na.rm A `logical` value indicating whether `NA`
+#' @param na_rm A `logical` value indicating whether `NA`
 #' values should be stripped before the computation proceeds.
 #'
 #' @param ... Not currently used.
@@ -41,7 +41,7 @@ class(rmse) <- c("numeric_metric", "function")
 
 #' @rdname rmse
 #' @export
-rmse.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+rmse.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "rmse",
@@ -49,7 +49,7 @@ rmse.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -57,7 +57,7 @@ rmse.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
 #' @export
 #' @rdname rmse
-rmse_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+rmse_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rmse_impl <- function(truth, estimate) {
     sqrt( mean( (truth - estimate) ^ 2) )
@@ -67,7 +67,7 @@ rmse_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = rmse_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "numeric",
     ...
   )

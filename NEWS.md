@@ -29,6 +29,9 @@ consistent with other metric functions.
 * For naming consistency, `mnLogLoss` was renamed to `mn_log_loss` and now 
 returns the **negative** log loss for the multinomial distribution. 
 
+* The argument `na.rm` has been changed to `na_rm` in all metrics to align
+with the `tidymodels` model implementation principles.
+
 ### Features
 
 * Data frame metric functions now work on grouped data frames and produce

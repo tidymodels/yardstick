@@ -80,7 +80,7 @@ test_that('sensitivity', {
     231/258
   )
   expect_equal(
-    sens(pathology, pathology, scan_na, na.rm = FALSE)[[".estimate"]],
+    sens(pathology, pathology, scan_na, na_rm = FALSE)[[".estimate"]],
     NA_real_
   )
 })

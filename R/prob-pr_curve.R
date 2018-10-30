@@ -65,7 +65,7 @@ pr_curve <- function(data, ...) {
 #' @export
 #' @rdname pr_curve
 #' @importFrom stats relevel
-pr_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
+pr_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
   truth <- enquo(truth)
@@ -80,7 +80,7 @@ pr_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
     pr_curve_vec(
       truth = rlang::eval_tidy(truth, data = .),
       estimate = rlang::eval_tidy(estimate, data = .),
-      na.rm = na.rm
+      na_rm = na_rm
     )
   )
 
@@ -95,7 +95,7 @@ pr_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
 }
 
 # Undecided of whether to export this or not
-pr_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+pr_curve_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, metric_class = "pr_curve")
 
@@ -108,7 +108,7 @@ pr_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = pr_curve_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = c("factor", "numeric"),
     ...

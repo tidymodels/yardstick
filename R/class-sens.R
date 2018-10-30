@@ -38,7 +38,7 @@
 #' calculating multiclass metrics. The default will automatically choose `"binary"`
 #' or `"macro"` based on `estimate`.
 #'
-#' @param na.rm A `logical` value indicating whether `NA`
+#' @param na_rm A `logical` value indicating whether `NA`
 #'  values should be stripped before the computation proceeds.
 #'
 #' @param ... Not currently used.
@@ -65,7 +65,7 @@ class(sens) <- c("class_metric", "function")
 #' @export
 #' @rdname sens
 sens.data.frame <- function(data, truth, estimate,
-                            estimator = NULL, na.rm = TRUE, ...) {
+                            estimator = NULL, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "sens",
@@ -74,7 +74,7 @@ sens.data.frame <- function(data, truth, estimate,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -104,7 +104,7 @@ sens.matrix <- function(data, estimator = NULL, ...) {
 
 #' @export
 #' @rdname sens
-sens_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
+sens_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, estimator)
 
@@ -123,7 +123,7 @@ sens_vec <- function(truth, estimate, estimator = NULL, na.rm = TRUE, ...) {
     metric_impl = sens_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = "factor",
     ...

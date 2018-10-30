@@ -9,9 +9,9 @@
 ccc(data, ...)
 
 \method{ccc}{data.frame}(data, truth, estimate, bias = FALSE,
-  na.rm = TRUE, ...)
+  na_rm = TRUE, ...)
 
-ccc_vec(truth, estimate, bias = FALSE, na.rm = TRUE, ...)
+ccc_vec(truth, estimate, bias = FALSE, na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -33,7 +33,7 @@ unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
 \item{bias}{A \code{logical}; should the biased estimate of variance
 be used (as is Lin (1989))?}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 }
 \value{
