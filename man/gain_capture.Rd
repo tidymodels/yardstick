@@ -9,9 +9,9 @@
 gain_capture(data, ...)
 
 \method{gain_capture}{data.frame}(data, truth, ..., estimator = NULL,
-  na.rm = TRUE)
+  na_rm = TRUE)
 
-gain_capture_vec(truth, estimate, estimator = NULL, na.rm = TRUE, ...)
+gain_capture_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -34,7 +34,7 @@ the two class case. The other two are general methods for calculating
 multiclass metrics. The default will automatically choose \code{"binary"} or
 \code{"macro"} based on \code{truth}.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
 \item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities

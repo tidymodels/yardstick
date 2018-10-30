@@ -42,7 +42,7 @@ class(mcc) <- c("class_metric", "function")
 #' @export
 #' @rdname mcc
 mcc.data.frame <- function(data, truth, estimate,
-                           na.rm = TRUE, ...) {
+                           na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "mcc",
@@ -50,7 +50,7 @@ mcc.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm,
+    na_rm = na_rm,
     # do not pass dots through
     # (could allow estimator to be set. unwanted!)
   )
@@ -78,7 +78,7 @@ mcc.matrix <- function(data, ...) {
 
 #' @export
 #' @rdname mcc
-mcc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+mcc_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, metric_class = "mcc")
 
@@ -97,7 +97,7 @@ mcc_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = mcc_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = "factor",
     ...

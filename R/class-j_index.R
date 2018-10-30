@@ -23,7 +23,7 @@ class(j_index) <- c("class_metric", "function")
 #' @export
 j_index.data.frame <- function(data, truth, estimate,
                                estimator = NULL,
-                               na.rm = TRUE,
+                               na_rm = TRUE,
                                ...) {
 
   metric_summarizer(
@@ -33,7 +33,7 @@ j_index.data.frame <- function(data, truth, estimate,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -63,7 +63,7 @@ j_index.matrix <- function(data, estimator = NULL, ...) {
 #' @rdname j_index
 #' @export
 j_index_vec <- function(truth, estimate, estimator = NULL,
-                        na.rm = TRUE, ...) {
+                        na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, estimator)
 
@@ -82,7 +82,7 @@ j_index_vec <- function(truth, estimate, estimator = NULL,
     metric_impl = j_index_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "factor",
     estimator = estimator,
     ...

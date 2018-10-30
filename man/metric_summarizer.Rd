@@ -5,7 +5,7 @@
 \title{Developer function for summarizing new metrics}
 \usage{
 metric_summarizer(metric_nm, metric_fn, data, truth, estimate,
-  estimator = NULL, na.rm = TRUE, ..., metric_fn_options = list())
+  estimator = NULL, na_rm = TRUE, ..., metric_fn_options = list())
 }
 \arguments{
 \item{metric_nm}{A single character representing the name of the metric to
@@ -13,7 +13,7 @@ use in the \code{tibble} output. This will be modified to include the type
 of averaging if appropriate.}
 
 \item{metric_fn}{The vector version of your custom metric function. It
-generally takes \code{truth}, \code{estimate}, \code{na.rm}, and any other extra arguments
+generally takes \code{truth}, \code{estimate}, \code{na_rm}, and any other extra arguments
 needed to calculate the metric.}
 
 \item{data}{The data frame with \code{truth} and \code{estimate} columns passed
@@ -32,7 +32,7 @@ metrics, this can either be \code{NULL} for the default auto-selection of
 averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along
 to the metric implementation describing the kind of averaging to use.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA} values should be
+\item{na_rm}{A \code{logical} value indicating whether \code{NA} values should be
 stripped before the computation proceeds. The removal is executed in
 \code{metric_vec_template()}.}
 

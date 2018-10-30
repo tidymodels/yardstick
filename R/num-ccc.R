@@ -42,7 +42,7 @@ class(ccc) <- c("numeric_metric", "function")
 
 #' @rdname ccc
 #' @export
-ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
+ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "ccc",
@@ -50,7 +50,7 @@ ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na.rm = TRUE, ..
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...,
     # Extra argument for ccc_impl()
     metric_fn_options = list(bias = bias)
@@ -61,7 +61,7 @@ ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na.rm = TRUE, ..
 #' @export
 #' @rdname ccc
 #' @importFrom stats var
-ccc_vec <- function(truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
+ccc_vec <- function(truth, estimate, bias = FALSE, na_rm = TRUE, ...) {
 
   ccc_impl <- function(truth, estimate, bias) {
 
@@ -87,7 +87,7 @@ ccc_vec <- function(truth, estimate, bias = FALSE, na.rm = TRUE, ...) {
     metric_impl = ccc_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "numeric",
     ...,
     bias = bias

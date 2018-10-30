@@ -3,9 +3,9 @@
 # AUC by trapezoidal rule:
 # https://en.wikipedia.org/wiki/Trapezoidal_rule
 # assumes x is a partition and that x & y are the same length
-auc <- function(x, y, na.rm = TRUE) {
+auc <- function(x, y, na_rm = TRUE) {
 
-  if(na.rm) {
+  if(na_rm) {
     comp <- complete.cases(x, y)
     x <- x[comp]
     y <- y[comp]

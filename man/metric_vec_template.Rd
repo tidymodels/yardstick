@@ -4,7 +4,7 @@
 \alias{metric_vec_template}
 \title{Developer function for calling new metrics}
 \usage{
-metric_vec_template(metric_impl, truth, estimate, na.rm = TRUE,
+metric_vec_template(metric_impl, truth, estimate, na_rm = TRUE,
   cls = "numeric", estimator = NULL, ...)
 }
 \arguments{
@@ -19,10 +19,10 @@ or a numeric.}
 vector, a factor vector, or a numeric matrix (in the case of multiple
 class probability columns) depending on your metric function.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA} values should be
+\item{na_rm}{A \code{logical} value indicating whether \code{NA} values should be
 stripped before the computation proceeds. \code{NA} values are removed
 before getting to your core implementation function so you do not have to
-worry about handling them yourself. If \code{na.rm=FALSE} and any \code{NA} values
+worry about handling them yourself. If \code{na_rm=FALSE} and any \code{NA} values
 exist, then \code{NA} is automatically returned.}
 
 \item{cls}{A character vector of length 1 or 2 corresponding to the

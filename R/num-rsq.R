@@ -45,7 +45,7 @@ class(rsq) <- c("numeric_metric", "function")
 
 #' @rdname rsq
 #' @export
-rsq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+rsq.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "rsq",
@@ -53,7 +53,7 @@ rsq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -62,7 +62,7 @@ rsq.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 #' @export
 #' @rdname rsq
 #' @importFrom stats cor
-rsq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+rsq_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rsq_impl <- function(truth, estimate) {
     cor(truth, estimate)^2
@@ -72,7 +72,7 @@ rsq_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = rsq_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "numeric",
     ...
   )

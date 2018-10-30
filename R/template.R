@@ -19,7 +19,7 @@
 #' of averaging if appropriate.
 #'
 #' @param metric_fn The vector version of your custom metric function. It
-#' generally takes `truth`, `estimate`, `na.rm`, and any other extra arguments
+#' generally takes `truth`, `estimate`, `na_rm`, and any other extra arguments
 #' needed to calculate the metric.
 #'
 #' @param data The data frame with `truth` and `estimate` columns passed
@@ -38,7 +38,7 @@
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along
 #' to the metric implementation describing the kind of averaging to use.
 #'
-#' @param na.rm A `logical` value indicating whether `NA` values should be
+#' @param na_rm A `logical` value indicating whether `NA` values should be
 #' stripped before the computation proceeds. The removal is executed in
 #' `metric_vec_template()`.
 #'
@@ -57,7 +57,7 @@
 metric_summarizer <- function(metric_nm, metric_fn,
                               data, truth, estimate,
                               estimator = NULL,
-                              na.rm = TRUE,
+                              na_rm = TRUE,
                               ...,
                               metric_fn_options = list()) {
 
@@ -83,7 +83,7 @@ metric_summarizer <- function(metric_nm, metric_fn,
       truth = !! truth,
       estimate = !! estimate,
       !!! spliceable_estimator(estimator),
-      na.rm = na.rm,
+      na_rm = na_rm,
       !!! metric_fn_options
     )
   )
@@ -110,10 +110,10 @@ metric_summarizer <- function(metric_nm, metric_fn,
 #' vector, a factor vector, or a numeric matrix (in the case of multiple
 #' class probability columns) depending on your metric function.
 #'
-#' @param na.rm A `logical` value indicating whether `NA` values should be
+#' @param na_rm A `logical` value indicating whether `NA` values should be
 #' stripped before the computation proceeds. `NA` values are removed
 #' before getting to your core implementation function so you do not have to
-#' worry about handling them yourself. If `na.rm=FALSE` and any `NA` values
+#' worry about handling them yourself. If `na_rm=FALSE` and any `NA` values
 #' exist, then `NA` is automatically returned.
 #'
 #' @param cls A character vector of length 1 or 2 corresponding to the
@@ -148,14 +148,14 @@ metric_summarizer <- function(metric_nm, metric_fn,
 metric_vec_template <- function(metric_impl,
                                 truth,
                                 estimate,
-                                na.rm = TRUE,
+                                na_rm = TRUE,
                                 cls = "numeric",
                                 estimator = NULL,
                                 ...) {
 
   validate_truth_estimate_checks(truth, estimate, cls, estimator)
 
-  if (na.rm) {
+  if (na_rm) {
     complete_cases <- complete.cases(truth, estimate)
     truth <- truth[complete_cases]
 
@@ -167,7 +167,7 @@ metric_vec_template <- function(metric_impl,
     }
 
   }
-  # na.rm = FALSE
+  # na_rm = FALSE
   # return NA if any NA
   else {
 

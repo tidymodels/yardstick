@@ -8,9 +8,9 @@
 \usage{
 mae(data, ...)
 
-\method{mae}{data.frame}(data, truth, estimate, na.rm = TRUE, ...)
+\method{mae}{data.frame}(data, truth, estimate, na_rm = TRUE, ...)
 
-mae_vec(truth, estimate, na.rm = TRUE, ...)
+mae_vec(truth, estimate, na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -29,7 +29,7 @@ results (that is also \code{numeric}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 }
 \value{

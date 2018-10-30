@@ -9,10 +9,10 @@
 roc_auc(data, ...)
 
 \method{roc_auc}{data.frame}(data, truth, ..., options = list(),
-  estimator = NULL, na.rm = TRUE)
+  estimator = NULL, na_rm = TRUE)
 
 roc_auc_vec(truth, estimate, options = list(), estimator = NULL,
-  na.rm = TRUE, ...)
+  na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -39,7 +39,7 @@ is only relevant for the two class case. The others are general methods for
 calculating multiclass metrics. The default will automatically choose
 \code{"binary"} or \code{"hand_till"} based on \code{truth}.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
 \item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities

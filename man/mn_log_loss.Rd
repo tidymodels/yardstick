@@ -8,10 +8,10 @@
 \usage{
 mn_log_loss(data, ...)
 
-\method{mn_log_loss}{data.frame}(data, truth, ..., na.rm = TRUE,
+\method{mn_log_loss}{data.frame}(data, truth, ..., na_rm = TRUE,
   sum = FALSE)
 
-mn_log_loss_vec(truth, estimate, na.rm = TRUE, sum = FALSE, ...)
+mn_log_loss_vec(truth, estimate, na_rm = TRUE, sum = FALSE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -28,7 +28,7 @@ this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names). For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
 \item{sum}{A \code{logical}. Should the sum of the likelihood contributions be

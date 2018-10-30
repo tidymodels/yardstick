@@ -33,7 +33,7 @@ class(kap) <- c("class_metric", "function")
 #' @export
 #' @rdname kap
 kap.data.frame  <- function(data, truth, estimate,
-                            na.rm = TRUE, ...) {
+                            na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "kap",
@@ -41,7 +41,7 @@ kap.data.frame  <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm
+    na_rm = na_rm
     # do not pass dots through (could allow averaging to be set. unwanted!)
   )
 
@@ -65,7 +65,7 @@ kap.matrix <- function(data, ...) {
 
 #' @export
 #' @rdname kap
-kap_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+kap_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, metric_class = "kap")
 
@@ -84,7 +84,7 @@ kap_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = kap_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = "factor",
     ...

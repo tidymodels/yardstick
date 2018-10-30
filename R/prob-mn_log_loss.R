@@ -79,7 +79,7 @@ class(mn_log_loss) <- c("prob_metric", "function")
 #' @rdname mn_log_loss
 #' @importFrom rlang quo
 mn_log_loss.data.frame <- function(data, truth, ...,
-                                   na.rm = TRUE, sum = FALSE) {
+                                   na_rm = TRUE, sum = FALSE) {
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
@@ -89,7 +89,7 @@ mn_log_loss.data.frame <- function(data, truth, ...,
     data = data,
     truth = !!enquo(truth),
     estimate = !!estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     # Extra argument for mn_log_loss_impl()
     metric_fn_options = list(sum = sum)
   )
@@ -99,7 +99,7 @@ mn_log_loss.data.frame <- function(data, truth, ...,
 #' @rdname mn_log_loss
 #' @importFrom stats model.matrix
 #' @export
-mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
+mn_log_loss_vec <- function(truth, estimate, na_rm = TRUE, sum = FALSE, ...) {
 
   estimator <- finalize_estimator(truth, metric_class = "mn_log_loss")
 
@@ -112,7 +112,7 @@ mn_log_loss_vec <- function(truth, estimate, na.rm = TRUE, sum = FALSE, ...) {
     metric_impl = mn_log_loss_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = c("factor", "numeric"),
     ...,

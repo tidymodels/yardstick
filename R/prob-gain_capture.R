@@ -42,7 +42,7 @@ class(gain_capture) <- c("prob_metric", "function")
 #' @export
 gain_capture.data.frame <- function(data, truth, ...,
                                     estimator = NULL,
-                                    na.rm = TRUE) {
+                                    na_rm = TRUE) {
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
@@ -53,7 +53,7 @@ gain_capture.data.frame <- function(data, truth, ...,
     truth = !! enquo(truth),
     estimate = !! estimate,
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -63,7 +63,7 @@ gain_capture.data.frame <- function(data, truth, ...,
 #' @rdname gain_capture
 gain_capture_vec <- function(truth, estimate,
                              estimator = NULL,
-                             na.rm = TRUE,
+                             na_rm = TRUE,
                              ...) {
 
   estimator <- finalize_estimator(truth, estimator, "gain_capture")
@@ -76,7 +76,7 @@ gain_capture_vec <- function(truth, estimate,
     metric_impl = gain_capture_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = c("factor", "numeric"),
     ...

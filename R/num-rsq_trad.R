@@ -45,7 +45,7 @@ class(rsq_trad) <- c("numeric_metric", "function")
 
 #' @rdname rsq_trad
 #' @export
-rsq_trad.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+rsq_trad.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "rsq_trad",
@@ -53,7 +53,7 @@ rsq_trad.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -62,7 +62,7 @@ rsq_trad.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 #' @export
 #' @rdname rsq_trad
 #' @importFrom stats var
-rsq_trad_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+rsq_trad_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rsq_trad_impl <- function(truth, estimate) {
     n <- length(truth)
@@ -74,7 +74,7 @@ rsq_trad_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = rsq_trad_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "numeric",
     ...
   )

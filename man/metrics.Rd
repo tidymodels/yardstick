@@ -8,7 +8,7 @@
 metrics(data, ...)
 
 \method{metrics}{data.frame}(data, truth, estimate, ...,
-  options = list(), na.rm = TRUE)
+  options = list(), na_rm = TRUE)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -34,7 +34,7 @@ unquoted variable name.}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 }
 \value{

@@ -49,7 +49,7 @@ class(pr_auc) <- c("prob_metric", "function")
 #' @rdname pr_auc
 pr_auc.data.frame  <- function(data, truth, ...,
                                estimator = NULL,
-                               na.rm = TRUE) {
+                               na_rm = TRUE) {
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
@@ -60,7 +60,7 @@ pr_auc.data.frame  <- function(data, truth, ...,
     truth = !!enquo(truth),
     estimate = !!estimate,
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -69,7 +69,7 @@ pr_auc.data.frame  <- function(data, truth, ...,
 #' @export
 #' @rdname pr_auc
 pr_auc_vec <- function(truth, estimate,
-                       estimator = NULL, na.rm = TRUE, ...) {
+                       estimator = NULL, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, estimator, "pr_auc")
 
@@ -81,7 +81,7 @@ pr_auc_vec <- function(truth, estimate,
     metric_impl = pr_auc_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = c("factor", "numeric"),
     ...

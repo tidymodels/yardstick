@@ -70,7 +70,7 @@ metrics <- function(data, ...) {
 #' @rdname metrics
 #' @importFrom dplyr bind_rows
 metrics.data.frame <- function(data, truth, estimate, ...,
-                               options = list(), na.rm = TRUE) {
+                               options = list(), na_rm = TRUE) {
 
   # Get set of character vars
   vars <- all_select(
@@ -103,8 +103,8 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 
       res <- bind_rows(
         res,
-        mn_log_loss(data, !! vars$truth, !! vars$probs, na.rm = na.rm),
-        roc_auc(data, !! vars$truth, !! vars$probs, na.rm = na.rm, options = options)
+        mn_log_loss(data, !! vars$truth, !! vars$probs, na_rm = na_rm),
+        roc_auc(data, !! vars$truth, !! vars$probs, na_rm = na_rm, options = options)
       )
 
     } # end has_probs
@@ -123,7 +123,7 @@ metrics.data.frame <- function(data, truth, estimate, ...,
       data = data,
       truth = !! vars$truth,
       estimate = !! vars$estimate,
-      na.rm = na.rm
+      na_rm = na_rm
     )
 
   } # end regression
@@ -155,10 +155,10 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' passed in.
 #'
 #' Numeric metrics will have a signature like:
-#' `fn(data, truth, estimate, na.rm = TRUE, ...)`.
+#' `fn(data, truth, estimate, na_rm = TRUE, ...)`.
 #'
 #' Class/prob metrics have a signature of
-#' `fn(data, truth, ..., estimate, na.rm = TRUE)`. When mixing class and
+#' `fn(data, truth, ..., estimate, na_rm = TRUE)`. When mixing class and
 #' class prob metrics, pass in the hard predictions (the factor column) as
 #' the named argument `estimate`, and the soft predictions (the class probability
 #' columns) as bare column names or `tidyselect` selectors to `...`.
@@ -171,7 +171,7 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' multi_metric <- metric_set(rmse, rsq, ccc)
 #'
 #' # The returned function has arguments:
-#' # fn(data, truth, estimate, na.rm = TRUE, ...)
+#' # fn(data, truth, estimate, na_rm = TRUE, ...)
 #' multi_metric(solubility_test, truth = solubility, estimate = prediction)
 #'
 #' # Groups are respected on the new metric function
@@ -187,14 +187,14 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' # do so by wrapping the metric and setting the options inside the wrapper,
 #' # passing along truth and estimate as quoted arguments.
 #' # Then add on the function class of the underlying wrapped function.
-#' ccc_with_bias <- function(data, truth, estimate, na.rm = TRUE, ...) {
+#' ccc_with_bias <- function(data, truth, estimate, na_rm = TRUE, ...) {
 #'   ccc(
 #'     data = data,
 #'     truth = !! rlang::enquo(truth),
 #'     estimate = !! rlang::enquo(estimate),
 #'     # set bias = TRUE
 #'     bias = TRUE,
-#'     na.rm = na.rm,
+#'     na_rm = na_rm,
 #'     ...
 #'   )
 #' }
@@ -250,7 +250,7 @@ metric_set <- function(...) {
   # signature of the function is different depending on input functions
   if (fn_cls == "numeric_metric") {
 
-    function(data, truth, estimate, na.rm = TRUE, ...) {
+    function(data, truth, estimate, na_rm = TRUE, ...) {
 
       # Construct common argument set for each metric call
       # Doing this dynamically inside the generated function means
@@ -259,7 +259,7 @@ metric_set <- function(...) {
         data = data,
         truth = !!enquo(truth),
         estimate = !!enquo(estimate),
-        na.rm = na.rm,
+        na_rm = na_rm,
         ... = ...
       )
 
@@ -281,7 +281,7 @@ metric_set <- function(...) {
   }
   else if (fn_cls %in% c("prob_metric", "class_metric")) {
 
-    function(data, truth, ..., estimate, estimator = NULL, na.rm = TRUE) {
+    function(data, truth, ..., estimate, estimator = NULL, na_rm = TRUE) {
 
       # Find class vs prob metrics
       are_class_metrics <- vapply(fns, inherits, logical(1), what = "class_metric")
@@ -298,7 +298,7 @@ metric_set <- function(...) {
           truth = !!enquo(truth),
           estimate = !!enquo(estimate),
           estimator = estimator,
-          na.rm = na.rm
+          na_rm = na_rm
         )
 
         class_calls <- lapply(class_fns, call2, !!! class_args)
@@ -330,7 +330,7 @@ metric_set <- function(...) {
           truth = !!enquo(truth),
           ... = ...,
           estimator = prob_estimator,
-          na.rm = na.rm
+          na_rm = na_rm
         )
 
         prob_calls <- lapply(prob_fns, call2, !!! prob_args)

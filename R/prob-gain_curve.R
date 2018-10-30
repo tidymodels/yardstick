@@ -89,7 +89,7 @@ gain_curve <- function(data, ...) {
 
 #' @rdname gain_curve
 #' @export
-gain_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
+gain_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
   truth <- enquo(truth)
@@ -104,7 +104,7 @@ gain_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
     gain_curve_vec(
       truth = rlang::eval_tidy(truth, data = .),
       estimate = rlang::eval_tidy(estimate, data = .),
-      na.rm = na.rm
+      na_rm = na_rm
     )
   )
 
@@ -123,7 +123,7 @@ gain_curve.data.frame <- function(data, truth, ..., na.rm = TRUE) {
 # maybe it could return the tibble?
 
 #' @importFrom stats relevel complete.cases
-gain_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+gain_curve_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, metric_class = "gain_curve")
 
@@ -136,7 +136,7 @@ gain_curve_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = gain_curve_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = c("factor", "numeric"),
     ...

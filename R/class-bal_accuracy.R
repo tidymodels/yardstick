@@ -22,7 +22,7 @@ class(bal_accuracy) <- c("class_metric", "function")
 #' @export
 #' @rdname bal_accuracy
 bal_accuracy.data.frame <- function(data, truth, estimate,
-                                    estimator = NULL, na.rm = TRUE, ...) {
+                                    estimator = NULL, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "bal_accuracy",
@@ -31,7 +31,7 @@ bal_accuracy.data.frame <- function(data, truth, estimate,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     estimator = estimator,
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -62,7 +62,7 @@ bal_accuracy.matrix <- function(data, estimator = NULL, ...) {
 #' @export
 #' @rdname bal_accuracy
 bal_accuracy_vec <- function(truth, estimate, estimator = NULL,
-                             na.rm = TRUE, ...) {
+                             na_rm = TRUE, ...) {
 
   estimator <- finalize_estimator(truth, estimator)
 
@@ -81,7 +81,7 @@ bal_accuracy_vec <- function(truth, estimate, estimator = NULL,
     metric_impl = bal_accuracy_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     estimator = estimator,
     cls = "factor",
     ...

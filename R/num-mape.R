@@ -27,7 +27,7 @@ class(mape) <- c("numeric_metric", "function")
 
 #' @rdname mape
 #' @export
-mape.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
+mape.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "mape",
@@ -35,7 +35,7 @@ mape.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na.rm = na.rm,
+    na_rm = na_rm,
     ... = ...
   )
 
@@ -43,7 +43,7 @@ mape.data.frame <- function(data, truth, estimate, na.rm = TRUE, ...) {
 
 #' @export
 #' @rdname mape
-mape_vec <- function(truth, estimate, na.rm = TRUE, ...) {
+mape_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   mape_impl <- function(truth, estimate) {
     mean( abs( (truth - estimate) / truth ) ) * 100
@@ -53,7 +53,7 @@ mape_vec <- function(truth, estimate, na.rm = TRUE, ...) {
     metric_impl = mape_impl,
     truth = truth,
     estimate = estimate,
-    na.rm = na.rm,
+    na_rm = na_rm,
     cls = "numeric",
     ...
   )
