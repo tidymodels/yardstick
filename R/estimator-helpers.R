@@ -1,3 +1,12 @@
+#' @section Weight Calculation:
+#' `get_weights()` accepts a confusion matrix and an `estimator` of type
+#' `"macro"`, `"micro"`, or `"macro_weighted"` and returns the correct weights.
+#' It is useful when creating multiclass metrics.
+#'
+#' @export
+#' @rdname developer-helpers
+#' @param data A table with truth values as columns and predicted values
+#' as rows.
 get_weights <- function(data, estimator) {
 
   if (estimator == "macro") {

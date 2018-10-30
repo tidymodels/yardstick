@@ -5,6 +5,7 @@
 #' function inside `dplyr::summarise()`. `metric_vec_template()` is a
 #' generalized function that calls the core implementation of a metric function,
 #' and includes a number of checks on the types, lengths, and argument inputs.
+#' See `vignette("custom-metrics", "yardstick")` for more information.
 #'
 #' @details
 #'

@@ -190,6 +190,11 @@ validate_not_missing <- function(x, nm) {
 
 # Validate estimator type is allowed -------------------------------------------
 
+#' @section Estimator Validation:
+#' `validate_estimator()` is called from your metric specific method of
+#' `finalize_estimator_internal()` and ensures that a user provided estimator
+#' is of the right format and is one of the allowed values.
+#'
 #' @param estimator_override A character vector overriding the default allowed
 #' estimator list of `c("binary", "macro", "micro", "macro_weighted")`. Set
 #' this is your classification estimator does not support all of these methods.

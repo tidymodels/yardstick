@@ -35,7 +35,8 @@ auc <- function(x, y, na.rm = TRUE) {
 #' Developer helpers
 #'
 #' Helpers to be used alongside [metric_vec_template()] and [metric_summarizer()]
-#' when creating new metrics.
+#' when creating new metrics. See `vignette("custom-metrics", "yardstick")` for
+#' more information.
 #'
 #' @section Dots -> Estimate:
 #'
