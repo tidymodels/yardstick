@@ -30,7 +30,7 @@ names).}
 specified different ways but the primary method is to use an
 unquoted variable name.}
 
-\item{options}{A \code{list} of named options to pass to \code{\link[=roc]{roc()}}
+\item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
 
@@ -40,22 +40,22 @@ values should be stripped before the computation proceeds.}
 \value{
 A two column tibble.
 \itemize{
-\item When \code{truth} is a factor, there are columns for \code{\link[=accuracy]{accuracy()}} and the
+\item When \code{truth} is a factor, there are rows for \code{\link[=accuracy]{accuracy()}} and the
 Kappa statistic (\code{\link[=kap]{kap()}}).
-\item When \code{truth} has two levels, and 1 column of class probabilities is
-passed to \code{...}, there are columns for the two class versions of
+\item When \code{truth} has two levels and 1 column of class probabilities is
+passed to \code{...}, there are rows for the two class versions of
 \code{\link[=mn_log_loss]{mn_log_loss()}} and \code{\link[=roc_auc]{roc_auc()}}.
-\item When \code{truth} has more than two levels, and a full set of class probabilities
-are passed to \code{...}, there are columns for the multiclass version of
-\code{\link[=mn_log_loss]{mn_log_loss()}} and macro averaged \code{\link[=roc_auc]{roc_auc()}}.
-\item When \code{truth} is numeric, there are columns for \code{\link[=rmse]{rmse()}}, \code{\link[=rsq]{rsq()}},
+\item When \code{truth} has more than two levels and a full set of class probabilities
+are passed to \code{...}, there are rows for the multiclass version of
+\code{\link[=mn_log_loss]{mn_log_loss()}} and the Hand Till generalization of \code{\link[=roc_auc]{roc_auc()}}.
+\item When \code{truth} is numeric, there are rows for \code{\link[=rmse]{rmse()}}, \code{\link[=rsq]{rsq()}},
 and \code{\link[=mae]{mae()}}.
 }
 }
 \description{
 This function estimates one or more common performance
 estimates depending on the class of \code{truth} (see \strong{Value}
-below) and returns them in a two column tibble.
+below) and returns them in a three column tibble.
 }
 \examples{
 
@@ -69,7 +69,7 @@ metrics(two_class_example, truth, predicted, Class1)
 metrics(solubility_test, truth = solubility, estimate = prediction)
 
 # Multiclass metrics work, but you cannot specify any averaging
-# for roc_auc() besides the default, macro. Use the specific function
+# for roc_auc() besides the default, hand_till. Use the specific function
 # if you need more customization
 library(dplyr)
 

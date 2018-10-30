@@ -26,17 +26,16 @@ or \code{"macro"} based on \code{estimate}.}
 \item{...}{Not currently used.}
 }
 \value{
-A tibble. Note that if the argument \code{prevalence} was
-used, the value reported in the tibble reflects the argument
-value and not the observed rate of events.
+A tibble containing various classification metrics.
 }
 \description{
 Various statistical summaries of confusion matrices are
-produced and returned in a easily used format. These potentially
-include those shown in the help pages for \code{\link[=sens]{sens()}}, \code{\link[=recall]{recall()}},
-and \code{\link[=accuracy]{accuracy()}}.
+produced and returned in a tibble. These include those shown in the help
+pages for \code{\link[=sens]{sens()}}, \code{\link[=recall]{recall()}}, and \code{\link[=accuracy]{accuracy()}}, among others.
 }
-\details{
+\section{Relevant level}{
+
+
 There is no common convention on which factor level should
 automatically be considered the "event" or "positive" results.
 In \code{yardstick}, the default is to use the \emph{first} level. To
@@ -45,6 +44,7 @@ set to \code{TRUE} when the package is loaded. This can be changed
 to \code{FALSE} if the last level of the factor is considered the
 level of interest.
 }
+
 \examples{
 data("two_class_example")
 
@@ -71,4 +71,8 @@ all_metrics \%>\%
     sd = sd(.estimate, na.rm = TRUE)
   )
 
+
+}
+\seealso{
+\code{\link[=conf_mat]{conf_mat()}}
 }
