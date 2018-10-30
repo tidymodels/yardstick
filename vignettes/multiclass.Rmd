@@ -21,7 +21,8 @@ knitr::opts_chunk$set(
 Classification metrics in `yardstick` where both the `truth` and `estimate` 
 columns are factors are implemented for the binary and the
 multiclass case. The multiclass implementations use `micro`, `macro`,
-and `macro_weighted` averaging. 
+and `macro_weighted` averaging where applicable, and some metrics have their
+own specialized multiclass implementations. 
 
 ## Macro averaging
 
@@ -53,7 +54,7 @@ down to just `class 1` and `other`.
 Note that in macro averaging, all classes get equal weight when contributing
 their portion of the precision value to the total (here `1/4`). This might not
 be a realistic calculation when you have a large amount of class imbalance. In
-that case, a weighted macro average might make more sense, where the weights
+that case, a _weighted macro average_ might make more sense, where the weights
 are calculated by the frequency of that class in the `truth` column.
 
 $$
@@ -77,6 +78,29 @@ In this case, rather than each _class_ having equal weight, each _observation_
 gets equal weight. This gives the classes with the most observations more 
 power.
 
+
+## Specialized multiclass implementations
+
+Some metrics have known analytical multiclass extensions, and do not need to
+use averaging to get an estimate of multiclass performance. 
+
+Accuracy and Kappa use the same definitions as their binary counterpart,
+with accuracy counting up the number of correctly predicted true values out of the total 
+number of true values, and kappa being a linear combination of two accuracy 
+values.
+
+Matthews correlation coefficient (MCC) has a known multiclass generalization
+as well, sometimes called the $R_K$ statistic. Refer to [this page](https://en.wikipedia.org/wiki/Matthews_correlation_coefficient#Multiclass_case) 
+for more details.
+
+ROC AUC is an interesting metric in that it intuitively makes sense to perform 
+macro averaging, which computes a multiclass AUC as the average of the 
+area under multiple binary ROC curves. However, this loses an important 
+property of the ROC AUC statistic in that its binary case is insensitive to 
+class distribution. To combat this, a multiclass metric was created that retains
+insensitivity to class distribution, but does not have an easy visual interpretation
+like macro averaging. This is implemented as the `"hand_till"` method, and is
+the default for this metric.
 
 
 
