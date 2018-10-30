@@ -1,11 +1,6 @@
 get_weights <- function(data, estimator) {
 
-  if (estimator == "binary") {
-
-    NULL
-
-  }
-  else if (estimator == "macro") {
+  if (estimator == "macro") {
 
     n <- ncol(data)
     rep(1 / n, times = n)
