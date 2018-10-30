@@ -1,5 +1,5 @@
 
-# yardstick <img src="yardstick_hex_thumb.png" align="right" height = "80px"/>
+# yardstick <img src="man/figures/yardstick_hex.png" align="right" height = "80px"/>
 
 [![Build
 Status](https://travis-ci.org/tidymodels/yardstick.svg?branch=master)](https://travis-ci.org/tidymodels/yardstick)
