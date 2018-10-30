@@ -44,7 +44,8 @@ two_class_example %>% roc_auc(truth, Class1)
 # probability columns:
 lvl <- levels(two_class_example$truth)
 
-two_class_example %>% mn_log_loss(truth, !! lvl)
+two_class_example %>% 
+  mn_log_loss(truth, !! lvl[1])
 ```
 
 ## Installation

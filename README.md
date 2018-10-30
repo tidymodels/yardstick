@@ -10,8 +10,8 @@ Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
 `yardstick` is a package to estimate how well models are working using
-[tidy data](https://www.jstatsoft.org/article/view/v059i10) principles.
-The package webpage is <https://tidymodels.github.io/yardstick/> for
+[tidy data](https://www.jstatsoft.org/article/view/v059i10) principals.
+See the [package webpage](https://tidymodels.github.io/yardstick/) for
 more information.
 
 For example, suppose you create a classification model and predict a
@@ -39,11 +39,11 @@ characteristics of the model and get them back in a data frame:
 metrics(two_class_example, truth, predicted)
 ```
 
-    ## # A tibble: 2 x 2
-    ##   .metric  .estimate
-    ##   <chr>        <dbl>
-    ## 1 accuracy     0.838
-    ## 2 kap          0.675
+    ## # A tibble: 2 x 3
+    ##   .metric  .estimator .estimate
+    ##   <chr>    <chr>          <dbl>
+    ## 1 accuracy binary         0.838
+    ## 2 kap      binary         0.675
 
 ``` r
 # or 
@@ -51,10 +51,10 @@ metrics(two_class_example, truth, predicted)
 two_class_example %>% roc_auc(truth, Class1)
 ```
 
-    ## # A tibble: 1 x 2
-    ##   .metric .estimate
-    ##   <chr>       <dbl>
-    ## 1 roc_auc     0.939
+    ## # A tibble: 1 x 3
+    ##   .metric .estimator .estimate
+    ##   <chr>   <chr>          <dbl>
+    ## 1 roc_auc binary         0.939
 
 [Quasiquotation](http://rlang.tidyverse.org/reference/quasiquotation.html)
 can also be used:
@@ -63,13 +63,14 @@ can also be used:
 # probability columns:
 lvl <- levels(two_class_example$truth)
 
-two_class_example %>% mn_log_loss(truth, !! lvl)
+two_class_example %>% 
+  mn_log_loss(truth, !! lvl[1])
 ```
 
-    ## # A tibble: 1 x 2
-    ##   .metric   .estimate
-    ##   <chr>         <dbl>
-    ## 1 mn_log_loss    -0.328
+    ## # A tibble: 1 x 3
+    ##   .metric     .estimator .estimate
+    ##   <chr>       <chr>          <dbl>
+    ## 1 mn_log_loss binary         0.328
 
 ## Installation
 
