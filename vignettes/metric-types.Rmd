@@ -1,0 +1,121 @@
+---
+title: "Metric types"
+author: "Davis Vaughan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Metric types}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Metric types
+
+There are three main metric types in `yardstick`: class, class probability, and
+numeric. Each type of metric has standardized argument syntax, and all metrics 
+return the same kind of output (a tibble with 3 columns). This standardization 
+allows metrics to easily be grouped together and used with grouped data frames 
+for computing on multiple resamples at once. Below are the three types of metrics, along with the
+types of the inputs they take.
+
+1) **Class metrics** (hard predictions)
+
+    - `truth` - factor
+    
+    - `estimate` - factor
+  
+2) **Class probability metrics** (soft predictions)
+    - `truth` - factor
+    
+    - `estimate / ...` - multiple numeric columns containing class probabilities
+  
+3) **Numeric metrics**
+
+    - `truth` - numeric
+    
+    - `estimate` - numeric
+
+## Example
+
+In the following example, the `hpc_cv` data set is used. It contains class
+probabilities and class predictions for a linear discriminant analysis fit to
+the HPC data set of Kuhn and Johnson (2013). It is fit with 10 fold cross-validation,
+and the predictions for all folds are included.
+
+```{r, warning = FALSE, message = FALSE}
+library(yardstick)
+library(dplyr)
+data("hpc_cv")
+
+hpc_cv %>%
+  group_by(Resample) %>%
+  slice(1:3)
+```
+
+1 metric, 1 resample
+
+```{r}
+hpc_cv %>%
+  filter(Resample == "Fold01") %>%
+  accuracy(obs, pred)
+
+```
+
+1 metric, 10 resamples
+
+```{r}
+hpc_cv %>%
+  group_by(Resample) %>%
+  accuracy(obs, pred)
+```
+
+2 metrics, 10 resamples
+
+```{r}
+class_metrics <- metric_set(accuracy, kap)
+
+hpc_cv %>%
+  group_by(Resample) %>%
+  class_metrics(obs, estimate = pred)
+```
+
+## Metrics
+
+Below is a table of all of the metrics available in `yardstick`, grouped
+by type.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
+library(kableExtra)
+library(knitr)
+library(dplyr)
+
+yardns <- asNamespace("yardstick")
+fns <- lapply(names(yardns), get, envir = yardns)
+names(fns) <- names(yardns)
+
+get_metrics <- function(fns, type) {
+  where <- vapply(fns, inherits, what = type, FUN.VALUE = logical(1))
+  paste0("`", sort(names(fns[where])), "()`")
+}
+
+all_metrics <- bind_rows(
+  tibble(type = "class", metric = get_metrics(fns, "class_metric")),
+  tibble(type = "class prob", metric = get_metrics(fns, "prob_metric")),
+  tibble(type = "numeric", metric = get_metrics(fns, "numeric_metric"))
+)
+
+all_metrics %>%
+  knitr::kable(format = "html") %>%
+  kable_styling(full_width = FALSE) %>%
+  collapse_rows(columns = 1)
+```
+

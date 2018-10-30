@@ -23,6 +23,7 @@ Suggests:
     tidyr,
     ggplot2,
     knitr,
+    kableExtra,
     rmarkdown
 Imports:
     dplyr,
