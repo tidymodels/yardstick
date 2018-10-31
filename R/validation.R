@@ -237,3 +237,10 @@ validate_estimator <- function(estimator, estimator_override = NULL) {
 
 }
 
+validate_type_combination <- function(x, estimator) {
+  if (estimator == "binary") {
+    if (! (is.factor(x) && !is_multiclass(x)) ) {
+      abort("`estimator` is binary, only two class factors are allowed.")
+    }
+  }
+}

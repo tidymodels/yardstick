@@ -179,6 +179,7 @@ finalize_estimator_internal.gain_capture <- finalize_estimator_internal.pr_auc
 finalize_estimator_default <- function(x, estimator) {
   if (!is.null(estimator)) {
     validate_estimator(estimator)
+    validate_type_combination(x, estimator)
     return(estimator)
   }
   UseMethod("finalize_estimator_default")
