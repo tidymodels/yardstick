@@ -115,7 +115,8 @@ gain_capture_binary <- function(truth, estimate) {
 
   # perfect = value at the elbow of the perfect gain chart
   .n_events <- gain_list[[".n_events"]]
-  slope <- 1 / (max(.n_events) / length(.n_events))
+  .n <- gain_list[[".n"]]
+  slope <- 1 / (max(.n_events) / dplyr::last(.n))
   perfect <- height / slope
 
   # perfect triangle
