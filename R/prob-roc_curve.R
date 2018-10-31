@@ -51,6 +51,8 @@
 #' # Or use autoplot
 #' autoplot(roc_curve(two_class_example, truth, Class1))
 #'
+#' \dontrun{
+#'
 #' # Multiclass one-vs-all approach
 #' # One curve per level
 #' hpc_cv %>%
@@ -63,6 +65,7 @@
 #'   group_by(Resample) %>%
 #'   roc_curve(obs, VF:L) %>%
 #'   autoplot()
+#' }
 #'
 #' @export
 #'
