@@ -2,8 +2,13 @@
 output: github_document
 ---
 
-<img src="yardstick_hex_thumb.png" align="center" height = "80px" align = "middle"/> 
+```{r load, include = FALSE, message = FALSE, warning = FALSE}
+library(yardstick)
+library(dplyr)
+options(width = 100, digits = 3)
+```
 
+# yardstick <img src="man/figures/yardstick_hex.png" align="right" height = "80px"/> 
 
 [![Build Status](https://travis-ci.org/tidymodels/yardstick.svg?branch=master)](https://travis-ci.org/tidymodels/yardstick)
 [![Coverage Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)](https://codecov.io/github/tidymodels/yardstick?branch=master)
@@ -11,15 +16,24 @@ output: github_document
 [![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](http://cran.rstudio.com/package=yardstick)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
-```{r load, include = FALSE, message = FALSE, warning = FALSE}
-library(yardstick)
-library(dplyr)
-options(width = 100, digits = 3)
-```
+## Overview
 
 `yardstick` is a package to estimate how well models are working using [tidy data](https://www.jstatsoft.org/article/view/v059i10) principals. See the [package webpage](https://tidymodels.github.io/yardstick/) for more information.
 
-For example, suppose you create a classification model and predict a data set. You might have data that look like this:
+## Installation
+
+To install the package:
+
+```{r install, eval = FALSE}
+install.packages("yardstick")
+
+# Development version:
+devtools::install_github("tidymodels/yardstick")
+```
+
+## Two class metric
+
+For example, suppose you create a classification model and predict on a new data set. You might have data that looks like this:
 
 ```{r class-data}
 library(yardstick)
@@ -35,10 +49,62 @@ metrics(two_class_example, truth, predicted)
 
 # or 
 
-two_class_example %>% roc_auc(truth, Class1)
+two_class_example %>% 
+  roc_auc(truth, Class1)
 ```
 
-[Quasiquotation](http://rlang.tidyverse.org/reference/quasiquotation.html) can also be used:
+## Multiclass metrics
+
+All classification metrics have at least one multiclass extension, with many
+of them having multiple ways to calculate multiclass metrics.
+
+```{r}
+data("hpc_cv")
+hpc_cv <- as_tibble(hpc_cv)
+hpc_cv
+```
+
+```{r}
+# Macro averaged multiclass precision
+precision(hpc_cv, obs, pred)
+
+# Micro averaged multiclass precision
+precision(hpc_cv, obs, pred, estimator = "micro")
+```
+
+## Calculating metrics on resamples
+
+If you have multiple resamples of a model, you can use a metric on a grouped
+data frame to calculate the metric across all resamples at once.
+
+This calculates multiclass ROC AUC using the method described in Hand, Till (2001),
+and does it across all 10 resamples at once.
+
+```{r}
+hpc_cv %>%
+  group_by(Resample) %>%
+  roc_auc(obs, VF:L)
+```
+
+## Autoplot methods for easy visualization
+
+Curve based methods such as `roc_curve()`, `pr_curve()` and `gain_curve()` all
+have `ggplot2::autoplot()` methods that allow for powerful and easy visualization.
+
+```{r}
+library(ggplot2)
+
+hpc_cv %>%
+  group_by(Resample) %>%
+  roc_curve(obs, VF:L) %>%
+  autoplot()
+```
+
+
+## Quasiquotation
+
+[Quasiquotation](http://rlang.tidyverse.org/reference/quasiquotation.html) can also be used
+to supply inputs.
 
 ```{r quasi}
 # probability columns:
@@ -46,16 +112,4 @@ lvl <- levels(two_class_example$truth)
 
 two_class_example %>% 
   mn_log_loss(truth, !! lvl[1])
-```
-
-## Installation
-
-To install the package:
-
-```{r install, eval = FALSE}
-install.packages("yardstick")
-
-## for development version:
-require("devtools")
-install_github("tidymodels/yardstick")
 ```

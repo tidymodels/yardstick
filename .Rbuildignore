@@ -5,11 +5,9 @@
 ^docs$
 README.Rmd
 README.html
+^README_files$
 ^_pkgdown\.yml$
 contributors.md
 .github
 ^pkgdown$
-yardstick_hex.png
-yardstick_hex_thumb.png
-yardstick.svg
 ^man-roxygen$

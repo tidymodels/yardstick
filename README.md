@@ -1,5 +1,5 @@
 
-<img src="yardstick_hex_thumb.png" align="center" height = "80px" align = "middle"/>
+# yardstick <img src="man/figures/yardstick_hex.png" align="right" height = "80px"/>
 
 [![Build
 Status](https://travis-ci.org/tidymodels/yardstick.svg?branch=master)](https://travis-ci.org/tidymodels/yardstick)
@@ -9,13 +9,28 @@ Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](http://cran.rstudio.com/package=yardstick)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
+## Overview
+
 `yardstick` is a package to estimate how well models are working using
 [tidy data](https://www.jstatsoft.org/article/view/v059i10) principals.
 See the [package webpage](https://tidymodels.github.io/yardstick/) for
 more information.
 
-For example, suppose you create a classification model and predict a
-data set. You might have data that look like this:
+## Installation
+
+To install the package:
+
+``` r
+install.packages("yardstick")
+
+# Development version:
+devtools::install_github("tidymodels/yardstick")
+```
+
+## Two class metric
+
+For example, suppose you create a classification model and predict on a
+new data set. You might have data that looks like this:
 
 ``` r
 library(yardstick)
@@ -48,7 +63,8 @@ metrics(two_class_example, truth, predicted)
 ``` r
 # or 
 
-two_class_example %>% roc_auc(truth, Class1)
+two_class_example %>% 
+  roc_auc(truth, Class1)
 ```
 
     ## # A tibble: 1 x 3
@@ -56,8 +72,101 @@ two_class_example %>% roc_auc(truth, Class1)
     ##   <chr>   <chr>          <dbl>
     ## 1 roc_auc binary         0.939
 
+## Multiclass metrics
+
+All classification metrics have at least one multiclass extension, with
+many of them having multiple ways to calculate multiclass metrics.
+
+``` r
+data("hpc_cv")
+hpc_cv <- as_tibble(hpc_cv)
+hpc_cv
+```
+
+    ## # A tibble: 3,467 x 7
+    ##    obs   pred     VF      F       M          L Resample
+    ##    <fct> <fct> <dbl>  <dbl>   <dbl>      <dbl> <chr>   
+    ##  1 VF    VF    0.914 0.0779 0.00848 0.0000199  Fold01  
+    ##  2 VF    VF    0.938 0.0571 0.00482 0.0000101  Fold01  
+    ##  3 VF    VF    0.947 0.0495 0.00316 0.00000500 Fold01  
+    ##  4 VF    VF    0.929 0.0653 0.00579 0.0000156  Fold01  
+    ##  5 VF    VF    0.942 0.0543 0.00381 0.00000729 Fold01  
+    ##  6 VF    VF    0.951 0.0462 0.00272 0.00000384 Fold01  
+    ##  7 VF    VF    0.914 0.0782 0.00767 0.0000354  Fold01  
+    ##  8 VF    VF    0.918 0.0744 0.00726 0.0000157  Fold01  
+    ##  9 VF    VF    0.843 0.128  0.0296  0.000192   Fold01  
+    ## 10 VF    VF    0.920 0.0728 0.00703 0.0000147  Fold01  
+    ## # ... with 3,457 more rows
+
+``` r
+# Macro averaged multiclass precision
+precision(hpc_cv, obs, pred)
+```
+
+    ## # A tibble: 1 x 3
+    ##   .metric   .estimator .estimate
+    ##   <chr>     <chr>          <dbl>
+    ## 1 precision macro          0.631
+
+``` r
+# Micro averaged multiclass precision
+precision(hpc_cv, obs, pred, estimator = "micro")
+```
+
+    ## # A tibble: 1 x 3
+    ##   .metric   .estimator .estimate
+    ##   <chr>     <chr>          <dbl>
+    ## 1 precision micro          0.709
+
+## Calculating metrics on resamples
+
+If you have multiple resamples of a model, you can use a metric on a
+grouped data frame to calculate the metric across all resamples at once.
+
+This calculates multiclass ROC AUC using the method described in Hand,
+Till (2001), and does it across all 10 resamples at once.
+
+``` r
+hpc_cv %>%
+  group_by(Resample) %>%
+  roc_auc(obs, VF:L)
+```
+
+    ## # A tibble: 10 x 4
+    ##    Resample .metric .estimator .estimate
+    ##    <chr>    <chr>   <chr>          <dbl>
+    ##  1 Fold01   roc_auc hand_till      0.831
+    ##  2 Fold02   roc_auc hand_till      0.817
+    ##  3 Fold03   roc_auc hand_till      0.869
+    ##  4 Fold04   roc_auc hand_till      0.849
+    ##  5 Fold05   roc_auc hand_till      0.811
+    ##  6 Fold06   roc_auc hand_till      0.836
+    ##  7 Fold07   roc_auc hand_till      0.825
+    ##  8 Fold08   roc_auc hand_till      0.846
+    ##  9 Fold09   roc_auc hand_till      0.836
+    ## 10 Fold10   roc_auc hand_till      0.820
+
+## Autoplot methods for easy visualization
+
+Curve based methods such as `roc_curve()`, `pr_curve()` and
+`gain_curve()` all have `ggplot2::autoplot()` methods that allow for
+powerful and easy visualization.
+
+``` r
+library(ggplot2)
+
+hpc_cv %>%
+  group_by(Resample) %>%
+  roc_curve(obs, VF:L) %>%
+  autoplot()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+## Quasiquotation
+
 [Quasiquotation](http://rlang.tidyverse.org/reference/quasiquotation.html)
-can also be used:
+can also be used to supply inputs.
 
 ``` r
 # probability columns:
@@ -71,15 +180,3 @@ two_class_example %>%
     ##   .metric     .estimator .estimate
     ##   <chr>       <chr>          <dbl>
     ## 1 mn_log_loss binary         0.328
-
-## Installation
-
-To install the package:
-
-``` r
-install.packages("yardstick")
-
-## for development version:
-require("devtools")
-install_github("tidymodels/yardstick")
-```
