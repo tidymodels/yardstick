@@ -169,21 +169,6 @@ test_that('recall', {
 })
 
 
-test_that('precision', {
-  expect_equal(
-    precision(df_2_1, truth = "truth", estimate = "prediction")[[".estimate"]],
-    30/42
-  )
-  expect_equal(
-    precision(tbl_2_1)[[".estimate"]],
-    30/42
-  )
-  expect_equal(
-    precision(df_2_1, truth = truth, estimate = pred_na)[[".estimate"]],
-    26/37
-  )
-})
-
 
 test_that('F1', {
   expect_equal(
