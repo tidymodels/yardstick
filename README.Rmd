@@ -2,6 +2,14 @@
 output: github_document
 ---
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
+
 ```{r load, include = FALSE, message = FALSE, warning = FALSE}
 library(yardstick)
 library(dplyr)
@@ -91,7 +99,7 @@ hpc_cv %>%
 Curve based methods such as `roc_curve()`, `pr_curve()` and `gain_curve()` all
 have `ggplot2::autoplot()` methods that allow for powerful and easy visualization.
 
-```{r}
+```{r roc-curves}
 library(ggplot2)
 
 hpc_cv %>%

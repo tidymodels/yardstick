@@ -5,7 +5,6 @@
 ^docs$
 README.Rmd
 README.html
-^README_files$
 ^_pkgdown\.yml$
 contributors.md
 .github
