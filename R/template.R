@@ -68,8 +68,9 @@ metric_summarizer <- function(metric_nm, metric_fn,
   validate_not_missing(estimate, "estimate")
 
   # Explicit handling of length 1 character vectors as column names
-  truth <- handle_chr_names(truth)
-  estimate <- handle_chr_names(estimate)
+  nms <- colnames(data)
+  truth <- handle_chr_names(truth, nms)
+  estimate <- handle_chr_names(estimate, nms)
 
   finalize_estimator_expr <- rlang::expr(
     finalize_estimator(!! truth, estimator, metric_nm)
@@ -181,12 +182,15 @@ metric_vec_template <- function(metric_impl,
 }
 
 #' @importFrom rlang get_expr set_expr
-handle_chr_names <- function(x) {
+handle_chr_names <- function(x, nms) {
   x_expr <- get_expr(x)
 
   # Replace character with bare name
   if(is.character(x_expr) && length(x_expr) == 1) {
-    x <- set_expr(x, as.name(x_expr))
+    # Only replace if it is actually a column name in `data`
+    if(x_expr %in% nms) {
+      x <- set_expr(x, as.name(x_expr))
+    }
   }
 
   x

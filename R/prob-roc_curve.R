@@ -87,8 +87,9 @@ roc_curve.data.frame  <- function (data, truth, ...,
   validate_not_missing(truth, "truth")
 
   # Explicit handling of length 1 character vectors as column names
-  truth <- handle_chr_names(truth)
-  estimate <- handle_chr_names(estimate)
+  nms <- colnames(data)
+  truth <- handle_chr_names(truth, nms)
+  estimate <- handle_chr_names(estimate, nms)
 
   res <- dplyr::do(
     data,

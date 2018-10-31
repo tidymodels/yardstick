@@ -97,7 +97,7 @@ gain_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
   validate_not_missing(truth, "truth")
 
   # Explicit handling of length 1 character vectors as column names
-  truth <- handle_chr_names(truth)
+  truth <- handle_chr_names(truth, colnames(data))
 
   res <- dplyr::do(
     data,

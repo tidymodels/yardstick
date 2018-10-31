@@ -1,4 +1,4 @@
-context("Regression Metrics")
+context("Numeric metrics")
 
 library(testthat)
 library(yardstick)
@@ -129,6 +129,33 @@ test_that('Concordance Correlation Coefficient', {
     tol = 0.001
   )
 })
+
+###################################################################
+
+test_that('rpd', {
+  expect_equal(
+    rpd(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
+    sd(ex_dat$obs) / (sqrt(mean((ex_dat$obs - ex_dat$pred)^2)))
+  )
+  expect_equal(
+    rpd(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
+    sd(ex_dat$obs[-ind]) / (sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2)))
+  )
+})
+
+###################################################################
+
+test_that('rpiq', {
+  expect_equal(
+    rpiq(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
+    IQR(ex_dat$obs) / sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
+  )
+  expect_equal(
+    rpiq(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
+    IQR(ex_dat$obs[-ind]) / sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2))
+  )
+})
+
 
 ###################################################################
 

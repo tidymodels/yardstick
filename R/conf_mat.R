@@ -138,21 +138,20 @@ conf_mat.grouped_df <- function(data, truth, estimate,
 #' @export
 conf_mat.table <- function(data, ...) {
 
-  if (length(dim(data)) != 2)
-    stop("`data` must have two dimensions", call. = FALSE)
-
   check_table(data)
 
   class_lev <- rownames(data)
   num_lev <- length(class_lev)
 
-  if (num_lev < 2)
-    stop("there must be at least 2 factors levels in the `data`",
-         call. = FALSE)
+  if (num_lev < 2) {
+    abort("There must be at least 2 factors levels in the `data`")
+  }
 
-  structure(list(table = data,
-                 dots = list(...)),
-            class = "conf_mat")
+  structure(
+    list(table = data, dots = list(...)),
+    class = "conf_mat"
+  )
+
 }
 
 #' @export
@@ -179,6 +178,14 @@ tidy.conf_mat <- function(x, ...) {
   )
 }
 
+flatten <- function(xtab) {
+  p <- ncol(xtab)
+  if(nrow(xtab) != p)
+    stop("table must have equal dimensions")
+  flat <- as.vector(xtab)
+  names(flat) <- paste("cell", rep(1:p, p), rep(1:p, each = p), sep = "_")
+  flat
+}
 
 #' Summary Statistics for Confusion Matrices
 #'

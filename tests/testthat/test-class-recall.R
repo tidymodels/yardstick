@@ -1,10 +1,10 @@
 context("Recall")
 
+# ------------------------------------------------------------------------------
+
 lst <- data_powers()
 tabl_2_1 <- lst$tabl_2_1
 df_2_1 <- lst$df_2_1
-
-# ------------------------------------------------------------------------------
 
 test_that('Two class - Powers paper', {
   expect_equal(
@@ -23,7 +23,7 @@ test_that('Two class - Powers paper', {
 
 # sklearn compare --------------------------------------------------------------
 
-py_res <- readRDS("../pycompare/py-recall")
+py_res <- read_pydata("py-recall")
 r_metric <- recall
 
 test_that('Two class - sklearn equivalent', {
