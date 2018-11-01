@@ -185,12 +185,7 @@ finalize_estimator_default <- function(x, estimator) {
 }
 
 finalize_estimator_default.default <- function(x, estimator) {
-  cls <- class(x)[[1]]
-  abort(paste0(
-    "estimator cannot be automatically determined from object of class `",
-    cls,
-    "`."
-  ))
+  "binary"
 }
 
 finalize_estimator_default.matrix <- function(x, estimator) {

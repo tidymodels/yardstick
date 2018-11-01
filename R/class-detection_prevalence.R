@@ -1,5 +1,8 @@
 #' Detection prevalence
 #'
+#' Detection prevalence is defined as the number of _predicted_ positive events (both
+#' true positive and false positive) divided by the total number of predictions.
+#'
 #' @family class metrics
 #' @templateVar metric_fn detection_prevalence
 #' @template event_first

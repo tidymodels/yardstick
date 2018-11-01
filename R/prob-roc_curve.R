@@ -51,6 +51,8 @@
 #' # Or use autoplot
 #' autoplot(roc_curve(two_class_example, truth, Class1))
 #'
+#' \dontrun{
+#'
 #' # Multiclass one-vs-all approach
 #' # One curve per level
 #' hpc_cv %>%
@@ -63,6 +65,7 @@
 #'   group_by(Resample) %>%
 #'   roc_curve(obs, VF:L) %>%
 #'   autoplot()
+#' }
 #'
 #' @export
 #'
@@ -84,8 +87,9 @@ roc_curve.data.frame  <- function (data, truth, ...,
   validate_not_missing(truth, "truth")
 
   # Explicit handling of length 1 character vectors as column names
-  truth <- handle_chr_names(truth)
-  estimate <- handle_chr_names(estimate)
+  nms <- colnames(data)
+  truth <- handle_chr_names(truth, nms)
+  estimate <- handle_chr_names(estimate, nms)
 
   res <- dplyr::do(
     data,

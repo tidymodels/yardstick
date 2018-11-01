@@ -50,7 +50,19 @@ the number of groups.
 For \code{j_index_vec()}, a single \code{numeric} value (or \code{NA}).
 }
 \description{
-J-index
+Youden's J statistic is defined as:
+
+\code{\link[=sens]{sens()}} + \code{\link[=spec]{spec()}} - 1
+
+A related metric is Informedness, see the Details section for the relationship.
+}
+\details{
+The value of the J-index ranges from [0, 1] and is \code{1} when there are
+no false positives and no false negatives.
+
+The binary version of J-index is equivalent to the binary concept of
+Informedness. Macro-weighted J-index is equivalent to multiclass informedness
+as defined in Powers, David M W (2011), equation (42).
 }
 \section{Relevant level}{
 
@@ -104,6 +116,11 @@ options(yardstick.event_first = FALSE)
 j_index_vec(two_class_example$truth, two_class_example$predicted)
 options(yardstick.event_first = TRUE)
 
+}
+\references{
+Youden, W.J. (1950). "Index for rating diagnostic tests". Cancer. 3: 32–35.
+
+Powers, David M W (2011). "Evaluation: From Precision, Recall and F-Score to ROC, Informedness, Markedness & Correlation". Journal of Machine Learning Technologies. 2 (1): 37–63.
 }
 \seealso{
 Other class metrics: \code{\link{accuracy}},

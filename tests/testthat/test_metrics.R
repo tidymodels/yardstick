@@ -1,4 +1,4 @@
-context("Multiple Metrics")
+context("metrics() and metric_set()")
 
 library(testthat)
 library(yardstick)

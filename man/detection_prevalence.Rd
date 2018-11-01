@@ -51,7 +51,8 @@ the number of groups.
 For \code{detection_prevalence_vec()}, a single \code{numeric} value (or \code{NA}).
 }
 \description{
-Detection prevalence
+Detection prevalence is defined as the number of \emph{predicted} positive events (both
+true positive and false positive) divided by the total number of predictions.
 }
 \section{Relevant level}{
 

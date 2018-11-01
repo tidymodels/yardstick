@@ -36,6 +36,12 @@ validate_truth_estimate_types.numeric <- function(truth, estimate, estimator) {
       "`estimate` should be a numeric vector, not a numeric matrix."
     ))
   }
+
+  if (is.matrix(truth)) {
+    abort(paste0(
+      "`truth` should be a numeric vector, not a numeric matrix."
+    ))
+  }
 }
 
 
@@ -72,6 +78,14 @@ binary_checks.factor <- function(truth, estimate) {
     )
   }
 
+  lvls <- levels(truth)
+  if (length(lvls) != 2) {
+    abort(paste0(
+      "`estimator` is binary, only two class `truth` factors are allowed. ",
+      "A factor with ", length(lvls), " levels was provided."
+    ))
+  }
+
 }
 
 # factor / numeric
@@ -100,7 +114,20 @@ multiclass_checks.default <- function(truth, estimate) {
 
 # factor / factor, >2 classes each
 multiclass_checks.factor <- function(truth, estimate) {
-  binary_checks.factor(truth, estimate)
+  lvls_t <- levels(truth)
+  lvls_e <- levels(estimate)
+
+  if (!identical(lvls_t, lvls_e)) {
+    lvls_t <- paste0(lvls_t, collapse = ", ")
+    lvls_e <- paste0(lvls_e, collapse = ", ")
+    abort(
+      paste0(
+        "`truth` and `estimate` levels must be equivalent.\n",
+        "`truth`: ",    lvls_t, "\n",
+        "`estimate`: ", lvls_e, "\n"
+      )
+    )
+  }
 }
 
 # factor / numeric, but should be matrix
@@ -236,4 +263,3 @@ validate_estimator <- function(estimator, estimator_override = NULL) {
   }
 
 }
-

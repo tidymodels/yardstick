@@ -2,7 +2,7 @@ library(testthat)
 library(dplyr)
 library(ggplot2)
 
-context("Testing autoplot methods")
+context("Autoplot")
 
 set.seed(123)
 

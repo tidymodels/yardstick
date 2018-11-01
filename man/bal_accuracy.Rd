@@ -50,7 +50,7 @@ the number of groups.
 For \code{bal_accuracy_vec()}, a single \code{numeric} value (or \code{NA}).
 }
 \description{
-Balanced accuracy
+Balanced accuracy is computed here as the average of \code{\link[=sens]{sens()}} and \code{\link[=spec]{spec()}}.
 }
 \section{Relevant level}{
 

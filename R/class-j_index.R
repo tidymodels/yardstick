@@ -1,5 +1,21 @@
 #' J-index
 #'
+#' @description
+#' Youden's J statistic is defined as:
+#'
+#' [sens()] + [spec()] - 1
+#'
+#' A related metric is Informedness, see the Details section for the relationship.
+#'
+#' @details
+#'
+#' The value of the J-index ranges from \[0, 1\] and is `1` when there are
+#' no false positives and no false negatives.
+#'
+#' The binary version of J-index is equivalent to the binary concept of
+#' Informedness. Macro-weighted J-index is equivalent to multiclass informedness
+#' as defined in Powers, David M W (2011), equation (42).
+#'
 #' @family class metrics
 #' @templateVar metric_fn j_index
 #' @template event_first
@@ -9,6 +25,12 @@
 #' @inheritParams sens
 #'
 #' @author Max Kuhn
+#'
+#' @references
+#'
+#' Youden, W.J. (1950). "Index for rating diagnostic tests". Cancer. 3: 32–35.
+#'
+#' Powers, David M W (2011). "Evaluation: From Precision, Recall and F-Score to ROC, Informedness, Markedness & Correlation". Journal of Machine Learning Technologies. 2 (1): 37–63.
 #'
 #' @template examples-class
 #'

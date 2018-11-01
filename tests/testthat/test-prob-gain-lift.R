@@ -1,5 +1,6 @@
-library(testthat)
 context("Gain and lift curves")
+
+library(dplyr)
 
 # Basic tests ------------------------------------------------------------------
 
@@ -65,5 +66,30 @@ test_that("duplicates are removed", {
 })
 
 
+# Multiclass -------------------------------------------------------------------
 
+test_that("Multiclass structure is correct", {
 
+  res_gain <- gain_curve(hpc_cv, obs, VF:L)
+  res_lift <- lift_curve(hpc_cv, obs, VF:L)
+
+  expect_true(".level" %in% colnames(res_gain))
+  expect_true(".level" %in% colnames(res_lift))
+
+  expect_is(res_gain, "gain_df")
+  expect_is(res_lift, "lift_df")
+})
+
+test_that("Grouped structure is correct", {
+
+  hpc_g <- group_by(hpc_cv, Resample)
+
+  res_gain <- gain_curve(hpc_g, obs, VF:L)
+  res_lift <- lift_curve(hpc_g, obs, VF:L)
+
+  expect_true("Resample" %in% colnames(res_gain))
+  expect_true("Resample" %in% colnames(res_lift))
+
+  expect_is(res_gain, "grouped_gain_df")
+  expect_is(res_lift, "grouped_lift_df")
+})
