@@ -2,30 +2,40 @@
 #'
 #' This function estimates one or more common performance
 #'  estimates depending on the class of `truth` (see **Value**
-#'  below) and returns them in a two column tibble.
-#'
+#'  below) and returns them in a three column tibble.
 #'
 #' @inheritParams roc_auc
+#'
 #' @param data A `data.frame` containing the `truth` and `estimate`
 #' columns and any columns specified by `...`.
-#' @param truth The column identifier for the true results (that
-#'  is `numeric` or `factor`). This should be an unquoted column name
-#'  although this argument is passed by expression and support
-#'  [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'  names).
-#' @param estimate The column identifier for the predicted results
-#'  (that is also `numeric` or `factor`). As with `truth` this can be
-#'  specified different ways but the primary method is to use an
-#'  unquoted variable name.
 #'
-#' @return A two column tibble.
-#' * When `truth` is a factor, there are columns for [accuracy()] and the
+#' @param truth The column identifier for the true results (that
+#' is `numeric` or `factor`). This should be an unquoted column name
+#' although this argument is passed by expression and support
+#' [quasiquotation][rlang::quasiquotation] (you can unquote column
+#' names).
+#'
+#' @param estimate The column identifier for the predicted results
+#' (that is also `numeric` or `factor`). As with `truth` this can be
+#' specified different ways but the primary method is to use an
+#' unquoted variable name.
+#'
+#' @return
+#'
+#' A two column tibble.
+#'
+#' * When `truth` is a factor, there are rows for [accuracy()] and the
 #' Kappa statistic ([kap()]).
-#' * If a full set of class probability columns are passed to `...`, then
-#' there is also a column for [mn_log_loss()].
-#' * When `truth` has two levels and there are class probabilities, [roc_auc()]
-#' is appended.
-#' * When `truth` is numeric, there are columns for [rmse()], [rsq()],
+#'
+#' * When `truth` has two levels and 1 column of class probabilities is
+#' passed to `...`, there are rows for the two class versions of
+#' [mn_log_loss()] and [roc_auc()].
+#'
+#' * When `truth` has more than two levels and a full set of class probabilities
+#' are passed to `...`, there are rows for the multiclass version of
+#' [mn_log_loss()] and the Hand Till generalization of [roc_auc()].
+#'
+#' * When `truth` is numeric, there are rows for [rmse()], [rsq()],
 #' and [mae()].
 #'
 #' @seealso [metric_set()]
@@ -36,21 +46,31 @@
 #' metrics(two_class_example, truth, predicted)
 #'
 #' # Add on multinomal log loss and ROC AUC by specifying class prob columns
-#' metrics(two_class_example, truth, predicted, Class1, Class2)
+#' metrics(two_class_example, truth, predicted, Class1)
 #'
 #' # Regression metrics
 #' metrics(solubility_test, truth = solubility, estimate = prediction)
 #'
-
+#' # Multiclass metrics work, but you cannot specify any averaging
+#' # for roc_auc() besides the default, hand_till. Use the specific function
+#' # if you need more customization
+#' library(dplyr)
+#'
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   metrics(obs, pred, VF:L) %>%
+#'   print(n = 40)
+#'
 #' @export metrics
-metrics <- function(data, ...)
+metrics <- function(data, ...) {
   UseMethod("metrics")
+}
 
 #' @export
 #' @rdname metrics
 #' @importFrom dplyr bind_rows
 metrics.data.frame <- function(data, truth, estimate, ...,
-                               options = list(), na.rm = TRUE) {
+                               options = list(), na_rm = TRUE) {
 
   # Get set of character vars
   vars <- all_select(
@@ -68,45 +88,24 @@ metrics.data.frame <- function(data, truth, estimate, ...,
       stop("`estimate` should be a factor", call. = FALSE)
     }
 
-    # Precompute the table for speed
-    xtab <- vec2table(
-      truth = data[[ vars$truth ]],
-      estimate = data[[ vars$estimate ]],
-      na.rm = na.rm,
-      dnn = c("Prediction", "Truth")
-    )
-
     metrics_class <- metric_set(accuracy, kap)
 
-    res <- metrics_class(xtab)
+    res <- metrics_class(data, !! vars$truth, estimate = !!vars$estimate)
 
     # truth=factor. Any ... ?
     has_probs <- !all(is.na(vars$probs))
 
     if (has_probs) {
 
-      res <- bind_rows(
-        res,
-        mn_log_loss(data, !! vars$truth, !! vars$probs, na.rm = na.rm)
-      )
-
       # truth=factor and there are ...
       # Is truth a 2 level factor?
       lvl <- levels(data[[ vars$truth ]])
 
-      if (length(lvl) == 2) {
-
-        col <- if (getOption("yardstick.event_first"))
-          lvl[1]
-        else
-          lvl[2]
-
-        res <- bind_rows(
-          res,
-          roc_auc(data, !! vars$truth, !! col, na.rm = na.rm, options = options)
-        )
-
-      } # end two_classes
+      res <- bind_rows(
+        res,
+        mn_log_loss(data, !! vars$truth, !! vars$probs, na_rm = na_rm),
+        roc_auc(data, !! vars$truth, !! vars$probs, na_rm = na_rm, options = options)
+      )
 
     } # end has_probs
 
@@ -114,8 +113,9 @@ metrics.data.frame <- function(data, truth, estimate, ...,
   } else {
 
     # Assume only regression for now
-    if(!is.numeric(data[[ vars$estimate ]]))
+    if (!is.numeric(data[[ vars$estimate ]])) {
       stop("`estimate` should be numeric", call. = FALSE)
+    }
 
     metrics_regression <- metric_set(rmse, rsq, mae)
 
@@ -123,7 +123,7 @@ metrics.data.frame <- function(data, truth, estimate, ...,
       data = data,
       truth = !! vars$truth,
       estimate = !! vars$estimate,
-      na.rm = na.rm
+      na_rm = na_rm
     )
 
   } # end regression
@@ -131,6 +131,7 @@ metrics.data.frame <- function(data, truth, estimate, ...,
   res
 }
 
+# Metric set -------------------------------------------------------------------
 
 #' Combine metric functions
 #'
@@ -141,8 +142,26 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #'
 #' @details
 #'
-#' There are currently no checks in place to ensure that all of the metric
-#' functions calculate the same kind of metric (regression vs classification).
+#' All functions must be either:
+#' - Only numeric metrics
+#' - A mix of class metrics or class prob metrics
+#'
+#' For instance, `rmse()` can be used with `mae()` because they
+#' are numeric metrics, but not with `accuracy()` because it is a classification
+#' metric. But `accuracy()` can be used with `roc_auc()`.
+#'
+#' The returned metric function will have a different argument list
+#' depending on whether numeric metrics or a mix of class/prob metrics were
+#' passed in.
+#'
+#' Numeric metrics will have a signature like:
+#' `fn(data, truth, estimate, na_rm = TRUE, ...)`.
+#'
+#' Class/prob metrics have a signature of
+#' `fn(data, truth, ..., estimate, na_rm = TRUE)`. When mixing class and
+#' class prob metrics, pass in the hard predictions (the factor column) as
+#' the named argument `estimate`, and the soft predictions (the class probability
+#' columns) as bare column names or `tidyselect` selectors to `...`.
 #'
 #' @examples
 #'
@@ -151,6 +170,8 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' # Multiple regression metrics
 #' multi_metric <- metric_set(rmse, rsq, ccc)
 #'
+#' # The returned function has arguments:
+#' # fn(data, truth, estimate, na_rm = TRUE, ...)
 #' multi_metric(solubility_test, truth = solubility, estimate = prediction)
 #'
 #' # Groups are respected on the new metric function
@@ -158,16 +179,49 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #'
 #' hpc_cv %>%
 #'   group_by(Resample) %>%
-#'   class_metrics(obs, pred)
+#'   class_metrics(obs, estimate = pred)
+#'
+#' # ---------------------------------------------------------------------------
 #'
 #' # If you need to set options for certain metrics,
-#' # do so ahead of time with purrr::partial()
-#' library(purrr)
-#' ccc_with_bias <- partial(ccc, bias = TRUE)
+#' # do so by wrapping the metric and setting the options inside the wrapper,
+#' # passing along truth and estimate as quoted arguments.
+#' # Then add on the function class of the underlying wrapped function.
+#' ccc_with_bias <- function(data, truth, estimate, na_rm = TRUE, ...) {
+#'   ccc(
+#'     data = data,
+#'     truth = !! rlang::enquo(truth),
+#'     estimate = !! rlang::enquo(estimate),
+#'     # set bias = TRUE
+#'     bias = TRUE,
+#'     na_rm = na_rm,
+#'     ...
+#'   )
+#' }
+#'
+#' # Add on the underlying function class (here, "numeric_metric")
+#' class(ccc_with_bias) <- class(ccc)
 #'
 #' multi_metric2 <- metric_set(rmse, rsq, ccc_with_bias)
 #'
 #' multi_metric2(solubility_test, truth = solubility, estimate = prediction)
+#'
+#' # ---------------------------------------------------------------------------
+#' # A class probability example:
+#'
+#' # Note that, when given class or class prob functions,
+#' # metric_set() returns a function with signature:
+#' # fn(data, truth, ..., estimate)
+#' # to be able to mix class and class prob metrics.
+#'
+#' # You must provide the `estimate` column by explicitly naming
+#' # the argument
+#'
+#' class_and_probs_metrics <- metric_set(roc_auc, pr_auc, accuracy)
+#'
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   class_and_probs_metrics(obs, VF:L, estimate = pred)
 #'
 #' @seealso [metrics()]
 #'
@@ -179,43 +233,137 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' @importFrom rlang quo_name
 metric_set <- function(...) {
 
-  # Capture functions in their environment
   quo_fns <- enquos(...)
-  fns <- lapply(quo_fns, eval_tidy)
+  validate_not_empty(quo_fns)
 
+  # Get values and check that they are fns
+  fns <- lapply(quo_fns, eval_tidy)
   validate_inputs_are_functions(fns)
 
+  # Add on names, and then check that
+  # all fns are of the same function class
   names(fns) <- vapply(quo_fns, quo_name, character(1))
+  validate_function_class(fns)
 
-  function(data, truth, estimate, na.rm = TRUE, ...) {
+  fn_cls <- class(fns[[1]])[1]
 
-    # Construct common argument set for each metric call
-    # Doing this dynamically inside the generated function means
-    # we capture the correct arguments
-    call_args <- quos(
-      data = data,
-      truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
-      na.rm = na.rm,
-      ... = ...
-    )
+  # signature of the function is different depending on input functions
+  if (fn_cls == "numeric_metric") {
 
-    # Construct calls from the functions + arguments
-    calls <- lapply(fns, call2, !!! call_args)
+    function(data, truth, estimate, na_rm = TRUE, ...) {
 
-    # Evaluate
-    metric_list <- mapply(
-      FUN = eval_safely,
-      calls, # .x
-      names(calls), # .y
-      SIMPLIFY = FALSE,
-      USE.NAMES = FALSE
-    )
+      # Construct common argument set for each metric call
+      # Doing this dynamically inside the generated function means
+      # we capture the correct arguments
+      call_args <- quos(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        na_rm = na_rm,
+        ... = ...
+      )
 
-    bind_rows(metric_list)
+      # Construct calls from the functions + arguments
+      calls <- lapply(fns, call2, !!! call_args)
+
+      # Evaluate
+      metric_list <- mapply(
+        FUN = eval_safely,
+        calls, # .x
+        names(calls), # .y
+        SIMPLIFY = FALSE,
+        USE.NAMES = FALSE
+      )
+
+      bind_rows(metric_list)
+    }
+
   }
+  else if (fn_cls %in% c("prob_metric", "class_metric")) {
+
+    function(data, truth, ..., estimate, estimator = NULL, na_rm = TRUE) {
+
+      # Find class vs prob metrics
+      are_class_metrics <- vapply(fns, inherits, logical(1), what = "class_metric")
+      class_fns <- fns[are_class_metrics]
+      prob_fns <- fns[!are_class_metrics]
+
+      metric_list <- list()
+
+      # Evaluate class metrics
+      if(!rlang::is_empty(class_fns)) {
+
+        class_args <- quos(
+          data = data,
+          truth = !!enquo(truth),
+          estimate = !!enquo(estimate),
+          estimator = estimator,
+          na_rm = na_rm
+        )
+
+        class_calls <- lapply(class_fns, call2, !!! class_args)
+
+        class_list <- mapply(
+          FUN = eval_safely,
+          class_calls, # .x
+          names(class_calls), # .y
+          SIMPLIFY = FALSE,
+          USE.NAMES = FALSE
+        )
+
+        metric_list <- c(metric_list, class_list)
+      }
+
+      # Evaluate prob metrics
+      if(!rlang::is_empty(prob_fns)) {
+
+        # TODO - If prob metrics can all do micro, we can remove this
+        if (!is.null(estimator) && estimator == "micro") {
+          prob_estimator <- NULL
+        }
+        else {
+          prob_estimator <- estimator
+        }
+
+        prob_args <- quos(
+          data = data,
+          truth = !!enquo(truth),
+          ... = ...,
+          estimator = prob_estimator,
+          na_rm = na_rm
+        )
+
+        prob_calls <- lapply(prob_fns, call2, !!! prob_args)
+
+        prob_list <- mapply(
+          FUN = eval_safely,
+          prob_calls, # .x
+          names(prob_calls), # .y
+          SIMPLIFY = FALSE,
+          USE.NAMES = FALSE
+        )
+
+        metric_list <- c(metric_list, prob_list)
+      }
+
+      bind_rows(metric_list)
+    }
+
+  }
+  else {
+    abort(paste0(
+      "No `metric_set()` implementation available for functions of class: ",
+      fn_cls, "."
+    ))
+  }
+
 }
 
+validate_not_empty <- function(x) {
+  if (rlang::is_empty(x)) {
+    abort("`metric_set()` requires at least 1 function supplied to `...`.")
+  }
+}
 
 #' @importFrom rlang is_function
 validate_inputs_are_functions <- function(fns) {
@@ -236,6 +384,61 @@ validate_inputs_are_functions <- function(fns) {
 
 }
 
+# Validate that all metric functions inherit from the same function class
+validate_function_class <- function(fns) {
+  fn_cls <- vapply(fns, function(fn) class(fn)[1], character(1))
+
+  fn_cls_unique <- unique(fn_cls)
+
+  # Special case of ONLY class and prob functions together
+  # These are allowed to be together
+  if (length(fn_cls_unique) == 2) {
+    if (fn_cls_unique[1] %in% c("class_metric", "prob_metric") &
+        fn_cls_unique[2] %in% c("class_metric", "prob_metric")) {
+      return()
+    }
+  }
+
+  if (length(fn_cls_unique) > 1) {
+
+    # Each element of the list contains the names of the fns
+    # that inherit that specific class
+    fn_bad_names <- lapply(fn_cls_unique, function(x) {
+      x <- unique(c(x, "function"))
+      fn_nms <- names(fns)
+      where <- vapply(fns, rlang::inherits_only, logical(1), class = x)
+      fn_nms[where]
+    })
+
+    # clean up for nicer printing
+    fn_cls_unique <- gsub("_metric", "", fn_cls_unique)
+    fn_cls_unique <- gsub("function", "other", fn_cls_unique)
+
+    # Prints as:
+    # - fn_type1 (fn_name1, fn_name2)
+    # - fn_type2 (fn_name1)
+    fn_pastable <- mapply(
+      FUN = function(fn_type, fn_names) {
+        fn_names <- paste0(fn_names, collapse = ", ")
+        paste0("- ", fn_type, " (", fn_names, ")")
+      },
+      fn_type = fn_cls_unique,
+      fn_names = fn_bad_names,
+      USE.NAMES = FALSE
+    )
+
+    fn_pastable <- paste0(fn_pastable, collapse = "\n")
+
+    abort(paste0(
+      "\nThe combination of metric functions must be:\n",
+      "- only numeric metrics\n",
+      "- a mix of class metrics and class probability metrics\n",
+      "The following metric function types are being mixed:\n",
+      fn_pastable
+    ))
+  }
+}
+
 # Safely evaluate metrics in such a way that we can capture the
 # error and inform the user of the metric that failed
 
@@ -247,7 +450,10 @@ eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
       eval_tidy(expr, data = data, env = env)
     },
     error = function(e) {
-      stop("In metric: `", expr_nm, "`\n", e$message, call. = FALSE)
+      abort(paste0(
+        "In metric: `", expr_nm, "`\n",
+        e$message
+      ))
     }
   )
 }

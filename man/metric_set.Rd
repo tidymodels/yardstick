@@ -14,8 +14,28 @@ metric_set(...)
 into a new function that calculates all of them at once.
 }
 \details{
-There are currently no checks in place to ensure that all of the metric
-functions calculate the same kind of metric (regression vs classification).
+All functions must be either:
+\itemize{
+\item Only numeric metrics
+\item A mix of class metrics or class prob metrics
+}
+
+For instance, \code{rmse()} can be used with \code{mae()} because they
+are numeric metrics, but not with \code{accuracy()} because it is a classification
+metric. But \code{accuracy()} can be used with \code{roc_auc()}.
+
+The returned metric function will have a different argument list
+depending on whether numeric metrics or a mix of class/prob metrics were
+passed in.
+
+Numeric metrics will have a signature like:
+\code{fn(data, truth, estimate, na_rm = TRUE, ...)}.
+
+Class/prob metrics have a signature of
+\code{fn(data, truth, ..., estimate, na_rm = TRUE)}. When mixing class and
+class prob metrics, pass in the hard predictions (the factor column) as
+the named argument \code{estimate}, and the soft predictions (the class probability
+columns) as bare column names or \code{tidyselect} selectors to \code{...}.
 }
 \examples{
 
@@ -24,6 +44,8 @@ library(dplyr)
 # Multiple regression metrics
 multi_metric <- metric_set(rmse, rsq, ccc)
 
+# The returned function has arguments:
+# fn(data, truth, estimate, na_rm = TRUE, ...)
 multi_metric(solubility_test, truth = solubility, estimate = prediction)
 
 # Groups are respected on the new metric function
@@ -31,16 +53,49 @@ class_metrics <- metric_set(accuracy, kap)
 
 hpc_cv \%>\%
   group_by(Resample) \%>\%
-  class_metrics(obs, pred)
+  class_metrics(obs, estimate = pred)
+
+# ---------------------------------------------------------------------------
 
 # If you need to set options for certain metrics,
-# do so ahead of time with purrr::partial()
-library(purrr)
-ccc_with_bias <- partial(ccc, bias = TRUE)
+# do so by wrapping the metric and setting the options inside the wrapper,
+# passing along truth and estimate as quoted arguments.
+# Then add on the function class of the underlying wrapped function.
+ccc_with_bias <- function(data, truth, estimate, na_rm = TRUE, ...) {
+  ccc(
+    data = data,
+    truth = !! rlang::enquo(truth),
+    estimate = !! rlang::enquo(estimate),
+    # set bias = TRUE
+    bias = TRUE,
+    na_rm = na_rm,
+    ...
+  )
+}
+
+# Add on the underlying function class (here, "numeric_metric")
+class(ccc_with_bias) <- class(ccc)
 
 multi_metric2 <- metric_set(rmse, rsq, ccc_with_bias)
 
 multi_metric2(solubility_test, truth = solubility, estimate = prediction)
+
+# ---------------------------------------------------------------------------
+# A class probability example:
+
+# Note that, when given class or class prob functions,
+# metric_set() returns a function with signature:
+# fn(data, truth, ..., estimate)
+# to be able to mix class and class prob metrics.
+
+# You must provide the `estimate` column by explicitly naming
+# the argument
+
+class_and_probs_metrics <- metric_set(roc_auc, pr_auc, accuracy)
+
+hpc_cv \%>\%
+  group_by(Resample) \%>\%
+  class_and_probs_metrics(obs, VF:L, estimate = pred)
 
 }
 \seealso{

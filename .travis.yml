@@ -5,12 +5,13 @@
 language: r
 sudo: false
 cache: packages
-warnings_are_errors: false
-r:
-  - release
 
-r_packages: 
-  - covr
- 
-after_success:
-- Rscript -e 'covr::codecov()'
+matrix:
+  include:
+  - r: devel
+  - r: release
+    after_success:
+    - Rscript -e 'covr::codecov()'
+  - r: oldrel
+  - r: 3.2
+  - r: 3.1

@@ -1,17 +1,13 @@
 # converts two vectors to a common table format and checks the
 # class levels in various ways
 
-vec2table <-
-  function(truth,
-           estimate,
-           na.rm = TRUE,
-           dnn = c("Prediction", "Truth"),
-           two_class  = FALSE,
-           ...) {
+vec2table <- function(truth, estimate, dnn = c("Prediction", "Truth"), ...) {
+
     if (!is.factor(truth)) {
       truth <- factor(truth)
       warning("`truth` was converted to a factor", call. = TRUE)
     }
+
     if (!is.factor(estimate)) {
       if (!isTRUE(all.equal(sort(unique(estimate)), sort(levels(truth)))))
         stop("There are different possible values in `truth` and `estimate`")
@@ -19,16 +15,6 @@ vec2table <-
       warning("`estimate` was converted to a factor", call. = TRUE)
     }
 
-    if (na.rm) {
-      cc <- complete.cases(estimate) & complete.cases(truth)
-      if (any(!cc)) {
-        estimate <- estimate[cc]
-        truth <- truth[cc]
-        if(all(!cc))
-          stop("All rows have at least one missing value",
-               call. = FALSE)
-      }
-    }
     est_lev <- levels(estimate)
     tru_lev <- levels(truth)
 

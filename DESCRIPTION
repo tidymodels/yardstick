@@ -21,10 +21,12 @@ Suggests:
     covr,
     purrr,
     tidyr,
-    ggplot2
+    ggplot2,
+    knitr,
+    kableExtra,
+    rmarkdown
 Imports:
     dplyr,
-    tibble,
     utils,
     pROC,
     rlang,
@@ -33,5 +35,4 @@ Imports:
     generics
 LinkingTo: 
     Rcpp
-Remotes:
-    r-lib/generics
+VignetteBuilder: knitr

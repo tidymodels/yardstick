@@ -5,7 +5,7 @@
 \alias{conf_mat.table}
 \alias{conf_mat.default}
 \alias{conf_mat.data.frame}
-\alias{conf_mat.grouped_df}
+\alias{tidy.conf_mat}
 \title{Confusion Matrix for Categorical Data}
 \usage{
 conf_mat(data, ...)
@@ -13,10 +13,7 @@ conf_mat(data, ...)
 \method{conf_mat}{data.frame}(data, truth, estimate,
   dnn = c("Prediction", "Truth"), ...)
 
-\method{conf_mat}{grouped_df}(data, truth, estimate,
-  dnn = c("Prediction", "Truth"), ...)
-
-\method{conf_mat}{table}(data, ...)
+\method{tidy}{conf_mat}(x, ...)
 }
 \arguments{
 \item{data}{A data frame or a \code{\link[base:table]{base::table()}}.}
@@ -36,25 +33,31 @@ results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{dnn}{a character vector of dimnames for the table}
+\item{dnn}{A character vector of dimnames for the table.}
+
+\item{x}{A \code{conf_mat} object.}
 }
 \value{
-\code{conf_mat} produces a object with class \code{conf_mat}.
-This contains the table and other objects. \code{tidy.conf_mat}
-generates a tibble with columns \code{name} (the cell identifier) and
-\code{value} (the cell count).
+\code{conf_mat()} produces an object with class \code{conf_mat}. This contains the
+table and other objects. \code{tidy.conf_mat()} generates a tibble with columns
+\code{name} (the cell identifier) and \code{value} (the cell count).
+
+When used on a grouped data frame, \code{conf_mat()} returns a tibble containing
+columns for the groups along with \code{conf_mat}, a list-column
+where each element is a \code{conf_mat} object.
 }
 \description{
-Calculates a cross-tabulation of observed and predicted
-classes.
+Calculates a cross-tabulation of observed and predicted classes.
 }
 \details{
-For \code{\link[=conf_mat]{conf_mat()}} objects, a \code{\link[broom:tidy]{broom::tidy()}} method has been created
+For \code{\link[=conf_mat]{conf_mat()}} objects, a \code{broom} \code{tidy()} method has been created
 that collapses the cell counts by cell into a data frame for
 easy manipulation.
 
-The function requires that the factors have exactly the same
-levels.
+There is also a \code{summary()} method that computes various classification
+metrics at once. See \code{\link[=summary.conf_mat]{summary.conf_mat()}}
+
+The function requires that the factors have exactly the same levels.
 }
 \examples{
 library(dplyr)
@@ -68,9 +71,14 @@ hpc_cv \%>\%
 # Now compute the average confusion matrix across all folds in
 # terms of the proportion of the data contained in each cell.
 # First get the raw cell counts per fold using the `tidy` method
+library(purrr)
+library(tidyr)
+
 cells_per_resample <- hpc_cv \%>\%
   group_by(Resample) \%>\%
-  do(tidy(conf_mat(., obs, pred)))
+  conf_mat(obs, pred) \%>\%
+  mutate(tidied = map(conf_mat, tidy)) \%>\%
+  unnest(tidied)
 
 # Get the totals per resample
 counts_per_resample <- hpc_cv \%>\%
@@ -91,4 +99,8 @@ rownames(mean_cmat) <- levels(hpc_cv$obs)
 colnames(mean_cmat) <- levels(hpc_cv$obs)
 
 round(mean_cmat, 3)
+}
+\seealso{
+\code{\link[=summary.conf_mat]{summary.conf_mat()}} for computing a large number of metrics from one
+confusion matrix.
 }

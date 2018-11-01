@@ -9,6 +9,4 @@ README.html
 contributors.md
 .github
 ^pkgdown$
-yardstick_hex.png
-yardstick_hex_thumb.png
-yardstick.svg
+^man-roxygen$

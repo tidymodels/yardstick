@@ -8,17 +8,16 @@
 metrics(data, ...)
 
 \method{metrics}{data.frame}(data, truth, estimate, ...,
-  options = list(), na.rm = TRUE)
+  options = list(), na_rm = TRUE)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
 columns and any columns specified by \code{...}.}
 
-\item{...}{For \code{mn_log_loss()}, a set of unquoted column names or one or more
+\item{...}{A set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
-class probabilities. There should be as many columns as
-factor levels of \code{truth}. It is \strong{assumed} that they are in the
-same order as the factor levels. Otherwise, unused.}
+class probabilities. If \code{truth} is binary, only 1 column should be selected.
+Otherwise, there should be as many columns as factor levels of \code{truth}.}
 
 \item{truth}{The column identifier for the true results (that
 is \code{numeric} or \code{factor}). This should be an unquoted column name
@@ -31,30 +30,32 @@ names).}
 specified different ways but the primary method is to use an
 unquoted variable name.}
 
-\item{options}{A \code{list} of named options to pass to \code{\link[=roc]{roc()}}
+\item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
 \code{predictor}, or \code{levels}.}
 
-\item{na.rm}{A \code{logical} value indicating whether \code{NA}
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 }
 \value{
 A two column tibble.
 \itemize{
-\item When \code{truth} is a factor, there are columns for \code{\link[=accuracy]{accuracy()}} and the
+\item When \code{truth} is a factor, there are rows for \code{\link[=accuracy]{accuracy()}} and the
 Kappa statistic (\code{\link[=kap]{kap()}}).
-\item If a full set of class probability columns are passed to \code{...}, then
-there is also a column for \code{\link[=mn_log_loss]{mn_log_loss()}}.
-\item When \code{truth} has two levels and there are class probabilities, \code{\link[=roc_auc]{roc_auc()}}
-is appended.
-\item When \code{truth} is numeric, there are columns for \code{\link[=rmse]{rmse()}}, \code{\link[=rsq]{rsq()}},
+\item When \code{truth} has two levels and 1 column of class probabilities is
+passed to \code{...}, there are rows for the two class versions of
+\code{\link[=mn_log_loss]{mn_log_loss()}} and \code{\link[=roc_auc]{roc_auc()}}.
+\item When \code{truth} has more than two levels and a full set of class probabilities
+are passed to \code{...}, there are rows for the multiclass version of
+\code{\link[=mn_log_loss]{mn_log_loss()}} and the Hand Till generalization of \code{\link[=roc_auc]{roc_auc()}}.
+\item When \code{truth} is numeric, there are rows for \code{\link[=rmse]{rmse()}}, \code{\link[=rsq]{rsq()}},
 and \code{\link[=mae]{mae()}}.
 }
 }
 \description{
 This function estimates one or more common performance
 estimates depending on the class of \code{truth} (see \strong{Value}
-below) and returns them in a two column tibble.
+below) and returns them in a three column tibble.
 }
 \examples{
 
@@ -62,10 +63,20 @@ below) and returns them in a two column tibble.
 metrics(two_class_example, truth, predicted)
 
 # Add on multinomal log loss and ROC AUC by specifying class prob columns
-metrics(two_class_example, truth, predicted, Class1, Class2)
+metrics(two_class_example, truth, predicted, Class1)
 
 # Regression metrics
 metrics(solubility_test, truth = solubility, estimate = prediction)
+
+# Multiclass metrics work, but you cannot specify any averaging
+# for roc_auc() besides the default, hand_till. Use the specific function
+# if you need more customization
+library(dplyr)
+
+hpc_cv \%>\%
+  group_by(Resample) \%>\%
+  metrics(obs, pred, VF:L) \%>\%
+  print(n = 40)
 
 }
 \seealso{

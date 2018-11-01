@@ -1,4 +1,4 @@
-context("Multiple Metrics")
+context("metrics() and metric_set()")
 
 library(testthat)
 library(yardstick)
@@ -21,12 +21,16 @@ test_that('correct metrics returned', {
     c("accuracy", "kap")
   )
   expect_equal(
-    metrics(two_class_example, truth, predicted, starts_with("Class"))[[".metric"]],
+    metrics(two_class_example, truth, predicted, Class1)[[".metric"]],
     c("accuracy", "kap", "mn_log_loss", "roc_auc")
   )
   expect_equal(
     metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[".metric"]],
-    c("accuracy", "kap", "mn_log_loss")
+    c("accuracy", "kap", "mn_log_loss", "roc_auc")
+  )
+  expect_equal(
+    metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[".estimator"]],
+    c("multiclass", "multiclass", "multiclass", "hand_till")
   )
   expect_equal(
     metrics(solubility_test, solubility, "prediction")[[".metric"]],
@@ -46,9 +50,6 @@ test_that('bad args', {
   expect_error(
     metrics(three_class, "obs", "pred", setosa, versicolor)
   )
-  expect_error(
-    metrics(two_class_example, truth, predicted, Class1)
-  )
 })
 
 ###################################################################
@@ -56,7 +57,7 @@ test_that('bad args', {
 class_res_1 <- bind_rows(
   accuracy(two_class_example, truth, predicted),
   kap(two_class_example, truth, predicted),
-  mn_log_loss(two_class_example, truth, Class1, Class2),
+  mn_log_loss(two_class_example, truth, Class1),
   roc_auc(two_class_example, truth, Class1)
 )
 
@@ -76,7 +77,7 @@ test_that('correct results', {
     class_res_1[class_idx,][[".estimate"]]
   )
   expect_equal(
-    metrics(two_class_example, truth, predicted, Class1, Class2)[[".estimate"]],
+    metrics(two_class_example, truth, predicted, Class1)[[".estimate"]],
     class_res_1[[".estimate"]]
   )
   expect_equal(
@@ -87,10 +88,9 @@ test_that('correct results', {
 
 ###################################################################
 
-test_that('custom metric sets', {
+test_that('numeric metric sets', {
 
   reg_set <- metric_set(rmse, rsq, mae)
-  mixed_set <- metric_set(rmse, accuracy)
 
   expect_equal(
     reg_set(solubility_test, solubility, prediction),
@@ -100,7 +100,28 @@ test_that('custom metric sets', {
   expect_error(
     metric_set(rmse, "x")
   )
+
+  # Can mix class and class prob together
+  mixed_set <- metric_set(accuracy, roc_auc)
   expect_error(
-    mixed_set(solubility_test, solubility, prediction),
+    mixed_set(two_class_example, truth, Class1, estimate = predicted),
+    NA
+  )
+})
+
+test_that('mixing bad metric sets', {
+  expect_error(
+    metric_set(rmse, accuracy)
+  )
+})
+
+test_that('can mix class and class prob metrics together', {
+  expect_error(
+    mixed_set <- metric_set(accuracy, roc_auc),
+    NA
+  )
+  expect_error(
+    mixed_set(two_class_example, truth, Class1, estimate = predicted),
+    NA
   )
 })
