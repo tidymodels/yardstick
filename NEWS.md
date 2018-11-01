@@ -1,4 +1,4 @@
-# yardstick 0.0.2.9000
+# yardstick 0.0.1.9000
 
 ## Breaking changes
 
@@ -47,6 +47,19 @@ techniques.
 
 ## New metrics and functionality
 
+* `mape()` calculates the mean absolute percent error.
+
+* `kap()` is a metric similar to `accuracy()` that calculates Cohen's kappa.
+
+* `detection_prevalence()` calculates the number of predicted positive events
+relative to the total number of predictions.
+
+* `bal_accuracy()` calculates balanced accuracy as the average of sensitivity
+and specificity.
+
+* `roc_curve()` calculates receiver operator curves and returns the results as 
+a tibble.
+
 * `pr_curve()` calculates precision recall curves.
 
 * `gain_curve()` and `lift_curve()` calculate the information used
@@ -93,15 +106,7 @@ in Suggests.
 
 * `MLmetrics` has been removed as a dependency.
 
-# yardstick 0.0.2
 
-* Unweighted Kappa (via `kap`) is availible and is also returned by `metrics`. 
-* Detection prevalence and balanced accuracy were added. 
-* `roc_curve` is a tidy method for getting the points on an ROC curve. 
-* Mean absolute error was added to `metrics` for regression data sets. 
-* Mean absolute percent error (`mape`) was added. 
-
-
-# `yardstick` 0.0.1
+# yardstick 0.0.1
 
 * First CRAN release
