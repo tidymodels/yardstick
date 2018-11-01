@@ -26,6 +26,7 @@ test_that('Two class', {
 # ------------------------------------------------------------------------------
 
 multi_ex <- data_three_by_three()
+micro <- data_three_by_three_micro()
 
 test_that('Three class', {
 
@@ -37,5 +38,8 @@ test_that('Three class', {
     bal_accuracy(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(bal_accuracy_binary)
   )
-  # good micro test?
+  expect_equal(
+    bal_accuracy(multi_ex, estimator = "micro")[[".estimate"]],
+    with(micro, (sum(tp) / sum(p) + sum(tn) / sum(n)) / 2)
+  )
 })

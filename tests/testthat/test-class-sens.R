@@ -46,6 +46,7 @@ test_that('Two class', {
 # ------------------------------------------------------------------------------
 
 multi_ex <- data_three_by_three()
+micro <- data_three_by_three_micro()
 
 test_that('Three class', {
   # sens = recall
@@ -57,6 +58,8 @@ test_that('Three class', {
     sens(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(recall_binary)
   )
-
-  # Micro?
+  expect_equal(
+    sens(multi_ex, estimator = "micro")[[".estimate"]],
+    with(micro, sum(tp) / sum(tp + fp))
+  )
 })

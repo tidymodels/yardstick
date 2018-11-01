@@ -30,6 +30,7 @@ test_that('Two class', {
 # ------------------------------------------------------------------------------
 
 multi_ex <- data_three_by_three()
+micro <- data_three_by_three_micro()
 
 test_that('Three class', {
   expect_equal(
@@ -40,6 +41,8 @@ test_that('Three class', {
     spec(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(spec_binary)
   )
-
-  # Micro?
+  expect_equal(
+    spec(multi_ex, estimator = "micro")[[".estimate"]],
+    with(micro, sum(tn) / sum(tn + fn))
+  )
 })

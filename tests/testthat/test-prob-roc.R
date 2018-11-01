@@ -75,4 +75,16 @@ test_that("Hand Till multiclass", {
 
 # ------------------------------------------------------------------------------
 
-# macro, macro weighted, micro?
+hpc_f1 <- data_hpc_fold1()
+
+test_that("Multiclass ROC AUC", {
+  expect_equal(
+    roc_auc(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
+    prob_macro_metric(roc_auc_binary, options = list())
+  )
+  expect_equal(
+    roc_auc(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
+    prob_macro_weighted_metric(roc_auc_binary, options = list())
+  )
+})
+

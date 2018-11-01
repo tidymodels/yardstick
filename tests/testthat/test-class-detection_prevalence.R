@@ -26,6 +26,7 @@ test_that('Two class', {
 # ------------------------------------------------------------------------------
 
 multi_ex <- data_three_by_three()
+micro <- data_three_by_three_micro()
 
 test_that('Three class', {
 
@@ -37,5 +38,8 @@ test_that('Three class', {
     detection_prevalence(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(detection_prevalence_binary)
   )
-  # good micro test?
+  expect_equal(
+    detection_prevalence(multi_ex, estimator = "micro")[[".estimate"]],
+    with(micro, sum(tp + fp) / sum(n + p))
+  )
 })

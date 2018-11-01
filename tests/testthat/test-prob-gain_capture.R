@@ -59,4 +59,15 @@ test_that('Anti 1 out of order', {
 
 # Multiclass ---------------------------------------------------------------
 
-# macro, macro weighted?
+hpc_f1 <- data_hpc_fold1()
+
+test_that("Multiclass gain capture", {
+  expect_equal(
+    gain_capture(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
+    prob_macro_metric(gain_capture_binary)
+  )
+  expect_equal(
+    gain_capture(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
+    prob_macro_weighted_metric(gain_capture_binary)
+  )
+})

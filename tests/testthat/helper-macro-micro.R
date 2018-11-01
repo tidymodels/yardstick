@@ -48,3 +48,23 @@ macro_metric <- function(binary_metric, ...) {
 macro_weighted_metric <- function(binary_metric, ...) {
   weighted.mean(vapply(multi_submats, binary_metric, numeric(1), ...), weighted_macro_weights)
 }
+
+# For micro examples, we calculate the pieces by hand and use them individually
+data_three_by_three_micro <- function() {
+  res <- list(
+    tp  = vapply(multi_submats, function(x) {x[1,1]}, double(1)),
+    p   = vapply(multi_submats, function(x) {colSums(x)[1]}, double(1)),
+    tn  = vapply(multi_submats, function(x) {x[2,2]}, double(1)),
+    n   = vapply(multi_submats, function(x) {colSums(x)[2]}, double(1))
+  )
+
+  res <- c(
+    res,
+    list(
+      fp = res$p - res$tp,
+      fn = res$n - res$tn
+    )
+  )
+
+  res
+}

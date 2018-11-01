@@ -34,6 +34,8 @@ test_that('npv', {
 # ------------------------------------------------------------------------------
 
 multi_ex <- data_three_by_three()
+micro <- data_three_by_three_micro()
+micro$prev <- (micro$tp + micro$fn) / (micro$p + micro$n)
 
 test_that('Three class', {
 
@@ -45,5 +47,19 @@ test_that('Three class', {
     npv(multi_ex, estimator = "macro_weighted")[[".estimate"]],
     macro_weighted_metric(npv_binary)
   )
-  # good micro test?
+  expect_equal(
+    npv(multi_ex, estimator = "micro")[[".estimate"]],
+    with(micro,
+         (sum(tn) / sum(n) * sum((1 - prev))) /
+         ( (1 - sum(tp) / sum(p)) * sum(prev) + (sum(tn) / sum(n) * sum((1 - prev))) )
+        )
+  )
+  # Prevalence defined by the user. Defined once for all levels?
+  expect_equal(
+    npv(multi_ex, estimator = "micro", prevalence = .4)[[".estimate"]],
+    with(micro,
+         (sum(tn) / sum(n) * sum((1 - .4))) /
+           ( (1 - sum(tp) / sum(p)) * sum(.4) + (sum(tn) / sum(n) * sum((1 - .4))) )
+    )
+  )
 })

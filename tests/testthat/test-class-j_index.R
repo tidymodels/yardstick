@@ -22,3 +22,24 @@ test_that('Two class', {
     (231/258) + (54/86)  - 1
   )
 })
+
+# ------------------------------------------------------------------------------
+
+multi_ex <- data_three_by_three()
+micro <- data_three_by_three_micro()
+
+test_that('Three class', {
+
+  expect_equal(
+    j_index(multi_ex, estimator = "macro")[[".estimate"]],
+    macro_metric(j_index_binary)
+  )
+  expect_equal(
+    j_index(multi_ex, estimator = "macro_weighted")[[".estimate"]],
+    macro_weighted_metric(j_index_binary)
+  )
+  expect_equal(
+    j_index(multi_ex, estimator = "micro")[[".estimate"]],
+    with(micro, sum(tp) / sum(p) + sum(tn) / sum(n) - 1)
+  )
+})

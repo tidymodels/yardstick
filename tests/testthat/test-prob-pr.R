@@ -55,4 +55,16 @@ test_that('Multiclass PR Curve', {
 
 # ------------------------------------------------------------------------------
 
-# macro, macro weighted, micro?
+
+hpc_f1 <- data_hpc_fold1()
+
+test_that("Multiclass PR AUC", {
+  expect_equal(
+    pr_auc(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
+    prob_macro_metric(pr_auc_binary)
+  )
+  expect_equal(
+    pr_auc(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
+    prob_macro_weighted_metric(pr_auc_binary)
+  )
+})
