@@ -7,7 +7,7 @@ Status](https://travis-ci.org/tidymodels/yardstick.svg?branch=master)](https://t
 Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)](https://codecov.io/github/tidymodels/yardstick?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/yardstick)](http://cran.rstudio.com/package=yardstick)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](http://cran.rstudio.com/package=yardstick)
-![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 ## Overview
 
