@@ -45,18 +45,6 @@ For \code{accuracy_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Accuracy is the proportion of the data that are predicted correctly.
 }
-\section{Relevant level}{
-
-
-There is no common convention on which factor level should
-automatically be considered the "event" or "positive" results.
-In \code{yardstick}, the default is to use the \emph{first} level. To
-change this, a global option called \code{yardstick.event_first} is
-set to \code{TRUE} when the package is loaded. This can be changed
-to \code{FALSE} if the last level of the factor is considered the
-level of interest.
-}
-
 \section{Multiclass}{
 
 

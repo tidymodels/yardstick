@@ -47,18 +47,6 @@ Kappa is a similar measure to \code{\link[=accuracy]{accuracy()}}, but is normal
 the accuracy that would be expected by chance alone and is very useful
 when one or more classes have large frequency distributions.
 }
-\section{Relevant level}{
-
-
-There is no common convention on which factor level should
-automatically be considered the "event" or "positive" results.
-In \code{yardstick}, the default is to use the \emph{first} level. To
-change this, a global option called \code{yardstick.event_first} is
-set to \code{TRUE} when the package is loaded. This can be changed
-to \code{FALSE} if the last level of the factor is considered the
-level of interest.
-}
-
 \section{Multiclass}{
 
 

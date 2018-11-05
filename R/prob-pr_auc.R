@@ -8,6 +8,7 @@
 #' @templateVar metric_fn pr_auc
 #' @template return
 #' @template multiclass-prob
+#' @template event_first
 #'
 #' @inheritParams sens
 #'

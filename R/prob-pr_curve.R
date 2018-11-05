@@ -13,6 +13,7 @@
 #'
 #' @family curve metrics
 #' @template multiclass-curve
+#' @template event_first
 #'
 #' @inheritParams pr_auc
 #' @param object The `pr_df` data frame returned from `pr_curve()`.

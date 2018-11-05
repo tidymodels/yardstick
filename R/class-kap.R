@@ -6,7 +6,6 @@
 #'
 #' @family class metrics
 #' @templateVar metric_fn kap
-#' @template event_first
 #' @template return
 #'
 #' @section Multiclass:

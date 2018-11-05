@@ -18,6 +18,7 @@
 #' @family class probability metrics
 #' @templateVar metric_fn roc_auc
 #' @template return
+#' @template event_first
 #'
 #' @section Multiclass:
 #' The default multiclass method for computing `roc_auc()` is to use the
@@ -163,6 +164,11 @@ roc_auc_multiclass <- function(truth, estimate, options) {
 }
 
 roc_auc_hand_till <- function(truth, estimate, options) {
+
+  # Hand Till method ignores yardstick.event_first (like macro-average)
+  old_opt <- getOption("yardstick.event_first", TRUE)
+  options(yardstick.event_first = TRUE)
+  on.exit(options(yardstick.event_first = old_opt))
 
   lvls <- levels(truth)
   C <- length(lvls)

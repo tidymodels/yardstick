@@ -4,7 +4,6 @@
 #'
 #' @family class metrics
 #' @templateVar metric_fn accuracy
-#' @template event_first
 #' @template return
 #'
 #' @section Multiclass:

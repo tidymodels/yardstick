@@ -17,6 +17,7 @@
 #'
 #' @family curve metrics
 #' @template multiclass-curve
+#' @template event_first
 #'
 #' @inheritParams roc_auc
 #' @param object The `roc_df` data frame returned from `roc_curve()`.
