@@ -68,7 +68,7 @@ in gain and lift curves.
 * `gain_capture()` is a measure of performance similar in spirit to AUC
 but applied to a gain curve.
 
-* `pr_curve()`, `roc_curve()`, `gain_curve()` and `lift_curve()` now have 
+* `pr_curve()`, `roc_curve()`, `gain_curve()` and `lift_curve()` all have 
 `ggplot2::autoplot()` methods for easy visualization.
 
 * `metric_set()` constructs functions that calculate 
