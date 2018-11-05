@@ -137,8 +137,8 @@ metric_summarizer <- function(metric_nm, metric_fn,
 #' @details
 #'
 #' `metric_vec_template()` is called from the vector implementation of your
-#' metric. Also defined inside your vector implemenation is a separate
-#' function performing the core implemenation of the metric function. This
+#' metric. Also defined inside your vector implementation is a separate
+#' function performing the core implementation of the metric function. This
 #' core function is passed along to `metric_vec_template()` as `metric_impl`.
 #'
 #' @seealso [metric_summarizer()] [finalize_estimator()] [dots_to_estimate()]

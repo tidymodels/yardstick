@@ -36,7 +36,7 @@ Pr = \frac{TP}{TP + FP}
 $$
 
 In the multiclass case, if there were levels `A`, `B`, `C` and `D`, macro averaging
-reduces the problem to multiple one-vs-all comparisions. The `truth` and
+reduces the problem to multiple one-vs-all comparisons. The `truth` and
 `estimate` columns are recoded such that the only two levels are `A` and `other`,
 and then precision is calculated based on those recoded columns, with `A` being
 the "relevant" column. This process is repeated for the other 3 levels to get

@@ -56,7 +56,7 @@ Log loss is a measure of the performance of a classification model. A
 perfect model has a log loss of \code{0}.
 
 Compared with \code{\link[=accuracy]{accuracy()}}, log loss
-takes into account the uncertaintly in the prediction and gives a more
+takes into account the uncertainty in the prediction and gives a more
 detailed view into the actual performance. For example, given two input
 probabilities of \code{.6} and \code{.9} where both are classified as predicting
 a positive value, say, \code{"Yes"}, the accuracy metric would interpret them

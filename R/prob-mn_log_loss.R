@@ -6,7 +6,7 @@
 #' perfect model has a log loss of `0`.
 #'
 #' Compared with [accuracy()], log loss
-#' takes into account the uncertaintly in the prediction and gives a more
+#' takes into account the uncertainty in the prediction and gives a more
 #' detailed view into the actual performance. For example, given two input
 #' probabilities of `.6` and `.9` where both are classified as predicting
 #' a positive value, say, `"Yes"`, the accuracy metric would interpret them
