@@ -4,7 +4,7 @@
 #' [roc_curve()] for the full curve.
 #'
 #' For most methods, `roc_auc()` makes no effort to ensure that the supplied
-#' class probabilites result in a AUC value above `0.5` (random guessing).
+#' class probabilities result in a AUC value above `0.5` (random guessing).
 #' However, the Hand, Till (2001) method assumes that the individual AUCs are
 #' all above `0.5`, so if an AUC value below `0.5` is computed, then `1` is
 #' subtracted from it to get the correct result.

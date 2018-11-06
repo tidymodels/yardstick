@@ -1,4 +1,4 @@
-# yardstick 0.0.1.9000
+# yardstick 0.0.2
 
 ## Breaking changes
 

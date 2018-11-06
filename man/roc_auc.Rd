@@ -62,7 +62,7 @@ For \code{roc_auc_vec()}, a single \code{numeric} value (or \code{NA}).
 }
 \details{
 For most methods, \code{roc_auc()} makes no effort to ensure that the supplied
-class probabilites result in a AUC value above \code{0.5} (random guessing).
+class probabilities result in a AUC value above \code{0.5} (random guessing).
 However, the Hand, Till (2001) method assumes that the individual AUCs are
 all above \code{0.5}, so if an AUC value below \code{0.5} is computed, then \code{1} is
 subtracted from it to get the correct result.

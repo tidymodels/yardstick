@@ -278,7 +278,7 @@ This isn't great, as currently multiclass `miss_rate()` isn't supported and it
 would have been better to throw an error if the `estimator` was not `"binary"`.
 Currently, `finalize_estimator()` uses its default implementation which selected
 `"macro"` as the `estimator` since `truth` was a factor with more than 2 classes.
-When we implement multiclass avearging, this is what you want, but if your metric
+When we implement multiclass averaging, this is what you want, but if your metric
 only works with a binary implementation (or has other specialized multiclass
 versions), you might want to guard against this.
 
