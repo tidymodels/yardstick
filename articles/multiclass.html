@@ -48,10 +48,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -61,15 +64,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/multiclass.html">Multiclass averaging</a>
+      <a href="../articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
       <a href="../articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="../articles/custom-metrics.html">Custom metrics</a>
+      <a href="../articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
@@ -92,9 +98,9 @@
       <h1>Multiclass averaging</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2018-11-06</h4>
+            <h4 class="date">2018-11-15</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/multiclass.Rmd"><code>vignettes/multiclass.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/multiclass.Rmd"><code><a href="https://www.rdocumentation.org/packages/base/topics/Arithmetic">vignettes/multiclass.Rmd</a></code></a></small>
       <div class="hidden name"><code>multiclass.Rmd</code></div>
 
     </div>
@@ -119,7 +125,7 @@ Pr = \frac{TP}{TP + FP}
 Pr_{macro} = \frac{Pr_1 + Pr_2 + \ldots + Pr_k}{k} = Pr_1 \frac{1}{k} + Pr_2 \frac{1}{k} + \ldots + Pr_k \frac{1}{k}
 \]</span></p>
 <p>where <span class="math inline">\(PR_1\)</span> is the precision calculated from recoding the multiclass predictions down to just <code>class 1</code> and <code>other</code>.</p>
-<p>Note that in macro averaging, all classes get equal weight when contributing their portion of the precision value to the total (here <code>1/4</code>). This might not be a realistic calculation when you have a large amount of class imbalance. In that case, a <em>weighted macro average</em> might make more sense, where the weights are calculated by the frequency of that class in the <code>truth</code> column.</p>
+<p>Note that in macro averaging, all classes get equal weight when contributing their portion of the precision value to the total (here <code><a href="https://www.rdocumentation.org/packages/base/topics/Arithmetic">1/4</a></code>). This might not be a realistic calculation when you have a large amount of class imbalance. In that case, a <em>weighted macro average</em> might make more sense, where the weights are calculated by the frequency of that class in the <code>truth</code> column.</p>
 <p><span class="math display">\[
 Pr_{weighted-macro} = Pr_1 \frac{\#Obs_1}{N} + Pr_2 \frac{\#Obs_2}{N} + \ldots + Pr_k \frac{\#Obs_k}{N}
 \]</span></p>

@@ -82,10 +82,13 @@ tibble. See gain_curve() for a closely related concept." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -95,15 +98,18 @@ tibble. See gain_curve() for a closely related concept." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/multiclass.html">Multiclass averaging</a>
+      <a href="../articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
       <a href="../articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="../articles/custom-metrics.html">Custom metrics</a>
+      <a href="../articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
@@ -247,8 +253,8 @@ the "one" level is always the relevant result.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>ggplot2</span>)
-<span class='fu'>library</span>(<span class='no'>dplyr</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='co'># Two class - a tibble is returned</span>
 <span class='fu'>lift_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 501 x 4
@@ -301,9 +307,7 @@ the "one" level is always the relevant result.</p>
     </ul>
 
     <h2>Author</h2>
-    
-Max Kuhn
-
+    <p>Max Kuhn</p>
   </div>
 </div>
 

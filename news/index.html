@@ -79,10 +79,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -92,15 +95,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/multiclass.html">Multiclass averaging</a>
+      <a href="../articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
       <a href="../articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="../articles/custom-metrics.html">Custom metrics</a>
+      <a href="../articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
@@ -135,7 +141,7 @@
 <ul>
 <li><p>All metrics now return a tibble rather than a single numeric value. This format allows metrics to work with grouped data frames (for resamples). It also allows you to bundle multiple metrics together with a new function, <code><a href="../reference/metric_set.html">metric_set()</a></code>.</p></li>
 <li><p>For all class probability metrics, now only 1 column can be passed to <code>...</code> when a binary implementation is used. Those metrics will no longer select only the first column when multiple columns are supplied, and will instead throw an error.</p></li>
-<li><p>The <code>summary()</code> method for <code>conf_mat</code> objects now returns a tibble to be consistent with the change to the metric functions.</p></li>
+<li><p>The <code><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary()</a></code> method for <code>conf_mat</code> objects now returns a tibble to be consistent with the change to the metric functions.</p></li>
 <li><p>For naming consistency, <code>mnLogLoss()</code> was renamed to <code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code></p></li>
 <li><p><code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code> now returns the <strong>negative</strong> log loss for the multinomial distribution.</p></li>
 <li><p>The argument <code>na.rm</code> has been changed to <code>na_rm</code> in all metrics to align with the <code>tidymodels</code> model implementation principles.</p></li>

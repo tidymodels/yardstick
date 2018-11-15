@@ -81,10 +81,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,15 +97,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/multiclass.html">Multiclass averaging</a>
+      <a href="../articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
       <a href="../articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="../articles/custom-metrics.html">Custom metrics</a>
+      <a href="../articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
@@ -201,20 +207,20 @@ of this, macro and micro averaging are not implemented.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
-<span class='fu'>data</span>(<span class='st'>"two_class_example"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"two_class_example"</span>)
 <span class='fu'>accuracy</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   .metric  .estimator .estimate
 #&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
 #&gt; 1 accuracy binary         0.838</div><div class='input'>
 <span class='co'># Multiclass</span>
-<span class='fu'>library</span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'>data</span>(<span class='no'>hpc_cv</span>)
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>hpc_cv</span>)
 
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
@@ -257,8 +263,8 @@ of this, macro and micro averaging are not implemented.</p>
 <span class='co'># Vector version</span>
 <span class='fu'>accuracy_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.838</div><div class='input'>
 <span class='co'># Making Class2 the "relevant" level</span>
-<span class='fu'>options</span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'>accuracy_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.838</div><div class='input'><span class='fu'>options</span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>accuracy_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.838</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -275,9 +281,7 @@ of this, macro and micro averaging are not implemented.</p>
     </ul>
 
     <h2>Author</h2>
-    
-Max Kuhn
-
+    <p>Max Kuhn</p>
   </div>
 </div>
 

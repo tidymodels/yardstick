@@ -85,10 +85,13 @@ and includes a number of checks on the types, lengths, and argument inputs." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -98,15 +101,18 @@ and includes a number of checks on the types, lengths, and argument inputs." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/multiclass.html">Multiclass averaging</a>
+      <a href="../articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
       <a href="../articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="../articles/custom-metrics.html">Custom metrics</a>
+      <a href="../articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
@@ -169,7 +175,7 @@ class probability columns) depending on your metric function.</p></td>
       <td><p>A <code>logical</code> value indicating whether <code>NA</code> values should be
 stripped before the computation proceeds. <code>NA</code> values are removed
 before getting to your core implementation function so you do not have to
-worry about handling them yourself. If <code>na_rm=FALSE</code> and any <code>NA</code> values
+worry about handling them yourself. If <code><a href='https://www.rdocumentation.org/packages/base/topics/assignOps'>na_rm=FALSE</a></code> and any <code>NA</code> values
 exist, then <code>NA</code> is automatically returned.</p></td>
     </tr>
     <tr>

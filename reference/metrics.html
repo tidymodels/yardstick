@@ -83,10 +83,13 @@ below) and returns them in a three column tibble." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -96,15 +99,18 @@ below) and returns them in a three column tibble." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/multiclass.html">Multiclass averaging</a>
+      <a href="../articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
       <a href="../articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="../articles/custom-metrics.html">Custom metrics</a>
+      <a href="../articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
@@ -141,7 +147,7 @@ below) and returns them in a three column tibble.</p>
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>metrics</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='no'>...</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,7 +181,7 @@ unquoted variable name.</p></td>
     </tr>
     <tr>
       <th>options</th>
-      <td><p>A <code>list</code> of named options to pass to <code><a href='http://www.rdocumentation.org/packages/pROC/topics/roc'>pROC::roc()</a></code>
+      <td><p>A <code>list</code> of named options to pass to <code><a href='https://www.rdocumentation.org/packages/pROC/topics/roc'>pROC::roc()</a></code>
 such as <code>direction</code> or <code>smooth</code>. These options should not include <code>response</code>,
 <code>predictor</code>, or <code>levels</code>.</p></td>
     </tr>
@@ -233,12 +239,12 @@ and <code><a href='mae.html'>mae()</a></code>.</p></li>
 <span class='co'># Multiclass metrics work, but you cannot specify any averaging</span>
 <span class='co'># for roc_auc() besides the default, hand_till. Use the specific function</span>
 <span class='co'># if you need more customization</span>
-<span class='fu'>library</span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>metrics</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>print</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>40</span>)</div><div class='output co'>#&gt; # A tibble: 40 x 4
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>40</span>)</div><div class='output co'>#&gt; # A tibble: 40 x 4
 #&gt;    Resample .metric     .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
 #&gt;  1 Fold01   accuracy    multiclass     0.726

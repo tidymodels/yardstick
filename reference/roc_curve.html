@@ -82,10 +82,13 @@ tibble. See roc_auc() for the area under the ROC curve." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -95,15 +98,18 @@ tibble. See roc_auc() for the area under the ROC curve." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/multiclass.html">Multiclass averaging</a>
+      <a href="../articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
       <a href="../articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="../articles/custom-metrics.html">Custom metrics</a>
+      <a href="../articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
@@ -138,7 +144,7 @@ tibble. See <code><a href='roc_auc.html'>roc_auc()</a></code> for the area under
     <pre class="usage"><span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
+<span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
   <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='fu'>autoplot.roc_df</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
@@ -168,7 +174,7 @@ names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td
     </tr>
     <tr>
       <th>options</th>
-      <td><p>A <code>list</code> of named options to pass to <code><a href='http://www.rdocumentation.org/packages/pROC/topics/roc'>pROC::roc()</a></code>
+      <td><p>A <code>list</code> of named options to pass to <code><a href='https://www.rdocumentation.org/packages/pROC/topics/roc'>pROC::roc()</a></code>
 such as <code>direction</code> or <code>smooth</code>. These options should not include <code>response</code>,
 <code>predictor</code>, or <code>levels</code>.</p></td>
     </tr>
@@ -232,8 +238,8 @@ the "one" level is always the relevant result.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>ggplot2</span>)
-<span class='fu'>library</span>(<span class='no'>dplyr</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='co'># Two class - a tibbble is returned</span>
 <span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 502 x 3
@@ -259,18 +265,20 @@ the "one" level is always the relevant result.</p>
   <span class='fu'><a href='ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='roc_curve-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Or use autoplot</span>
 <span class='fu'><a href='ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>))</div><div class='img'><img src='roc_curve-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'># Multiclass one-vs-all approach</span>
 <span class='co'># One curve per level</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>roc_curve</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()</div><div class='img'><img src='roc_curve-3.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()
+
 <span class='co'># Same as above, but will all of the resamples</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>roc_curve</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()</div><div class='img'><img src='roc_curve-4.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -292,9 +300,7 @@ the "one" level is always the relevant result.</p>
     </ul>
 
     <h2>Author</h2>
-    
-Max Kuhn
-
+    <p>Max Kuhn</p>
   </div>
 </div>
 

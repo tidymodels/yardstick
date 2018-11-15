@@ -26,7 +26,7 @@
 </script>
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -48,10 +48,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="news/index.html">News</a>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -61,15 +64,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/multiclass.html">Multiclass averaging</a>
+      <a href="articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
       <a href="articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="articles/custom-metrics.html">Custom metrics</a>
+      <a href="articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
@@ -87,11 +93,7 @@
 
       
       </header><div class="row">
-  <div class="col-md-9 contents">
-    
-
-    
-    
+  <div class="contents col-md-9">
 <div id="yardstick" class="section level1">
 
 
@@ -104,19 +106,19 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install the package:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"yardstick"</span>)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"yardstick"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># Development version:</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"tidymodels/yardstick"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-4" data-line-number="4">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"tidymodels/yardstick"</span>)</a></code></pre></div>
 </div>
 <div id="two-class-metric" class="section level2">
 <h2 class="hasAnchor">
 <a href="#two-class-metric" class="anchor"></a>Two class metric</h2>
 <p>For example, suppose you create a classification model and predict on a new data set. You might have data that looks like this:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(yardstick)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(yardstick)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">head</span>(two_class_example)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(two_class_example)</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;    truth  Class1   Class2 predicted</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 1 Class2 0.00359 0.996411    Class2</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 2 Class1 0.67862 0.321379    Class1</span></a>
@@ -145,7 +147,7 @@
 <h2 class="hasAnchor">
 <a href="#multiclass-metrics" class="anchor"></a>Multiclass metrics</h2>
 <p>All classification metrics have at least one multiclass extension, with many of them having multiple ways to calculate multiclass metrics.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">data</span>(<span class="st">"hpc_cv"</span>)</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"hpc_cv"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">hpc_cv &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">as_tibble</a></span>(hpc_cv)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">hpc_cv</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3,467 x 7</span></a>
@@ -202,7 +204,7 @@
 <h2 class="hasAnchor">
 <a href="#autoplot-methods-for-easy-visualization" class="anchor"></a>Autoplot methods for easy visualization</h2>
 <p>Curve based methods such as <code><a href="reference/roc_curve.html">roc_curve()</a></code>, <code><a href="reference/pr_curve.html">pr_curve()</a></code> and <code><a href="reference/gain_curve.html">gain_curve()</a></code> all have <code><a href="ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods that allow for powerful and easy visualization.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">hpc_cv <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
@@ -215,7 +217,7 @@
 <a href="#quasiquotation" class="anchor"></a>Quasiquotation</h2>
 <p><a href="http://rlang.tidyverse.org/reference/quasiquotation.html">Quasiquotation</a> can also be used to supply inputs.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># probability columns:</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">lvl &lt;-<span class="st"> </span><span class="kw">levels</span>(two_class_example<span class="op">$</span>truth)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">lvl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/levels">levels</a></span>(two_class_example<span class="op">$</span>truth)</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4">two_class_example <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/mn_log_loss.html">mn_log_loss</a></span>(truth, <span class="op">!!</span><span class="st"> </span>lvl[<span class="dv">1</span>])</a>
@@ -227,7 +229,7 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3" id="sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
@@ -254,7 +256,7 @@
 </ul>
 </div>
 
-      <div class="dev-status">
+  <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/tidymodels/yardstick"><img src="https://travis-ci.org/tidymodels/yardstick.svg?branch=master" alt="Build Status"></a></li>
@@ -265,7 +267,6 @@
 </ul>
 </div>
 </div>
-
 </div>
 
 

@@ -82,10 +82,13 @@ traditional measure of R squared, see rsq_trad()." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -95,15 +98,18 @@ traditional measure of R squared, see rsq_trad()." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/multiclass.html">Multiclass averaging</a>
+      <a href="../articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
       <a href="../articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="../articles/custom-metrics.html">Custom metrics</a>
+      <a href="../articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
@@ -216,15 +222,15 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 #&gt;   .metric .estimator .estimate
 #&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
 #&gt; 1 rsq     standard       0.879</div><div class='input'>
-<span class='fu'>library</span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 
-<span class='fu'>set.seed</span>(<span class='fl'>1234</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1234</span>)
 <span class='no'>size</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
 <span class='no'>times</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
 
 <span class='co'># create 10 resamples</span>
 <span class='no'>solubility_resampled</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(
-  <span class='fu'>replicate</span>(
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>replicate</a></span>(
     <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>times</span>,
     <span class='kw'>expr</span> <span class='kw'>=</span> <span class='fu'><a href='http://dplyr.tidyverse.org/reference/sample.html'>sample_n</a></span>(<span class='no'>solubility_test</span>, <span class='no'>size</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
     <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
@@ -252,12 +258,12 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 #&gt; 10 9        rsq     standard       0.906</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
 #&gt; 1        0.882</div><div class='input'><span class='co'># With uninformitive data, the traditional version of R^2 can return</span>
 <span class='co'># negative values.</span>
-<span class='fu'>set.seed</span>(<span class='fl'>2291</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>2291</span>)
 <span class='no'>solubility_test</span>$<span class='no'>randomized</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://dplyr.tidyverse.org/reference/sample.html'>sample</a></span>(<span class='no'>solubility_test</span>$<span class='no'>prediction</span>)
 <span class='fu'>rsq</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   .metric .estimator .estimate
@@ -285,9 +291,7 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
     </ul>
 
     <h2>Author</h2>
-    
-Max Kuhn
-
+    <p>Max Kuhn</p>
   </div>
 </div>
 
