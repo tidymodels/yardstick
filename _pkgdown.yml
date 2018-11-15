@@ -73,18 +73,3 @@ reference:
     - solubility_test
     - two_class_example
 
-navbar:
-  left:
-  - text: Reference
-    href: reference/index.html
-  - text: News
-    href: news/index.html
-  - text: Articles
-    menu:
-    - text: Multiclass averaging
-      href: articles/multiclass.html
-    - text: Metric types
-      href: articles/metric-types.html
-    - text: Custom metrics
-      href: articles/custom-metrics.html
-
