@@ -31,6 +31,10 @@ test_that('Two class', {
     as.numeric(smooth_curv$auc),
     tol = 0.001
   )
+  expect_equal(
+    gini(two_class_example, truth, Class1)[[".estimate"]],
+    roc_val * 2 - 1
+  )
 })
 
 test_that('ROC Curve', {
@@ -71,6 +75,10 @@ test_that("Hand Till multiclass", {
     roc_auc(hpc_cv2, obs, VF:L)[[".estimate"]],
     0.827387699597311
   )
+  expect_equal(
+    gini(hpc_cv2, obs, VF:L)[[".estimate"]],
+    0.827387699597311 * 2 - 1
+  )
 })
 
 # ------------------------------------------------------------------------------
@@ -85,6 +93,10 @@ test_that("Multiclass ROC AUC", {
   expect_equal(
     roc_auc(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
     prob_macro_weighted_metric(roc_auc_binary, options = list())
+  )
+  expect_equal(
+    gini(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
+    prob_macro_weighted_metric(roc_auc_binary, options = list()) * 2 - 1
   )
 })
 
