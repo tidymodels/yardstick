@@ -32,6 +32,7 @@
 #'
 #' @template examples-prob
 #' @examples
+#' two_class_example %>% gini(truth, Class1)
 #'
 #' @export
 gini <- function(data, ...) {
