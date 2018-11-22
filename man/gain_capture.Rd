@@ -132,8 +132,9 @@ autoplot(gain_curve(two_class_example, truth, Class1))
 \seealso{
 \code{\link[=gain_curve]{gain_curve()}} to compute the full gain curve.
 
-Other class probability metrics: \code{\link{mn_log_loss}},
-  \code{\link{pr_auc}}, \code{\link{roc_auc}}
+Other class probability metrics: \code{\link{gini}},
+  \code{\link{mn_log_loss}}, \code{\link{pr_auc}},
+  \code{\link{roc_auc}}
 }
 \author{
 Max Kuhn
