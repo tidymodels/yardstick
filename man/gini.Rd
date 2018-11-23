@@ -116,6 +116,7 @@ gini_vec(
    )
 )
 
+two_class_example \%>\% gini(truth, Class1)
 
 }
 \references{
@@ -133,8 +134,5 @@ Vol 45, Iss 2, pp 171-186.
 Other class probability metrics: \code{\link{gain_capture}},
   \code{\link{mn_log_loss}}, \code{\link{pr_auc}},
   \code{\link{roc_auc}}
-}
-\author{
-Max Kuhn
 }
 \concept{class probability metrics}

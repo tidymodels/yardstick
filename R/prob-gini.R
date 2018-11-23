@@ -28,8 +28,6 @@
 #'
 #' [roc_auc()] for computing the area under the ROC curve.
 #'
-#' @author Max Kuhn
-#'
 #' @template examples-prob
 #' @examples
 #' two_class_example %>% gini(truth, Class1)
