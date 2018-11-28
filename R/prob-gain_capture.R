@@ -8,6 +8,11 @@
 #' but _above_ the baseline. It is meant to represent the amount of potential
 #' gain "captured" by the model.
 #'
+#' The `gain_capture()` metric is identical to the _accuracy ratio (AR)_, which
+#' is also sometimes called the _gini coefficient_. These two are generally
+#' calculated on a cumulative accuracy profile curve, but this is the same as
+#' a gain curve. See the Engelmann reference for more information.
+#'
 #' @family class probability metrics
 #' @templateVar metric_fn gain_capture
 #' @template event_first
@@ -17,6 +22,13 @@
 #' @inheritParams pr_auc
 #'
 #' @author Max Kuhn
+#'
+#' @references
+#'
+#' Engelmann, Bernd & Hayden, Evelyn & Tasche, Dirk (2003).
+#' "Measuring the Discriminative Power of Rating Systems,"
+#' Discussion Paper Series 2: Banking and Financial Studies 2003,01,
+#' Deutsche Bundesbank.
 #'
 #' @seealso
 #'
