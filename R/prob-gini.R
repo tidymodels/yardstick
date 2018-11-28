@@ -66,10 +66,10 @@ gini.data.frame  <- function(data, truth, ..., options = list(),
 gini_vec <- function(truth, estimate, options = list(),
                         estimator = NULL, na_rm = TRUE, ...) {
 
-  estimator <- finalize_estimator(truth, estimator, "roc_auc")
+  estimator <- finalize_estimator(truth, estimator, "gain_capture")
 
   gini_impl <- function(truth, estimate) {
-    2 * roc_auc_estimator_impl(truth, estimate, options, estimator) - 1
+    gini_estimator_impl(truth, estimate, options, estimator)
   }
 
   metric_vec_template(
@@ -81,4 +81,25 @@ gini_vec <- function(truth, estimate, options = list(),
     cls = c("factor", "numeric"),
     ...
   )
+}
+
+gini_estimator_impl <- function(truth, estimate, options, estimator) {
+
+  if(is_binary(estimator)) {
+    gini_binary(truth, estimate, options)
+  } else {
+    truth_table <- matrix(table(truth), nrow = 1)
+    w <- get_weights(truth_table, estimator)
+    out_vec <- gini_multiclass(truth, estimate, options)
+    weighted.mean(out_vec, w)
+  }
+
+}
+
+gini_binary <- function(truth, estimate, options) {
+  2 * roc_auc_binary(truth, estimate, options) - 1
+}
+
+gini_multiclass <- function(truth, estimate, options) {
+  2 * roc_auc_multiclass(truth, estimate, options) - 1
 }
