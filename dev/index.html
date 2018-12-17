@@ -27,7 +27,7 @@
 </script>
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -94,7 +94,11 @@
 
       
       </header><div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
+    
+
+    
+    
 <div id="yardstick" class="section level1">
 
 
@@ -204,13 +208,13 @@
 <div id="autoplot-methods-for-easy-visualization" class="section level2">
 <h2 class="hasAnchor">
 <a href="#autoplot-methods-for-easy-visualization" class="anchor"></a>Autoplot methods for easy visualization</h2>
-<p>Curve based methods such as <code><a href="reference/roc_curve.html">roc_curve()</a></code>, <code><a href="reference/pr_curve.html">pr_curve()</a></code> and <code><a href="reference/gain_curve.html">gain_curve()</a></code> all have <code><a href="ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods that allow for powerful and easy visualization.</p>
+<p>Curve based methods such as <code><a href="reference/roc_curve.html">roc_curve()</a></code>, <code><a href="reference/pr_curve.html">pr_curve()</a></code> and <code><a href="reference/gain_curve.html">gain_curve()</a></code> all have <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods that allow for powerful and easy visualization.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">hpc_cv <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/roc_curve.html">roc_curve</a></span>(obs, VF<span class="op">:</span>L) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>()</a></code></pre></div>
 <p><img src="reference/figures/README-roc-curves-1.png" width="700"></p>
 </div>
 <div id="quasiquotation" class="section level2">
@@ -230,7 +234,7 @@
 </div>
   </div>
 
-  <div class="col-md-3" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
@@ -257,7 +261,7 @@
 </ul>
 </div>
 
-  <div class="dev-status">
+      <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/tidymodels/yardstick"><img src="https://travis-ci.org/tidymodels/yardstick.svg?branch=master" alt="Build Status"></a></li>
@@ -268,6 +272,7 @@
 </ul>
 </div>
 </div>
+
 </div>
 
 

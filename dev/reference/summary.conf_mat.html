@@ -245,7 +245,7 @@ the "one" level is always the relevant result.</p>
 <span class='no'>all_metrics</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='conf_mat.html'>conf_mat</a></span>(<span class='no'>obs</span>, <span class='no'>pred</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>summary_tbl</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/purrr/topics/map'>map</a></span>(<span class='no'>conf_mat</span>, <span class='no'>summary</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>summary_tbl</span> <span class='kw'>=</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>conf_mat</span>, <span class='no'>summary</span>)) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unnest.html'>unnest</a></span>(<span class='no'>summary_tbl</span>)
 
 <span class='no'>all_metrics</span> <span class='kw'>%&gt;%</span>

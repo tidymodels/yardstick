@@ -234,7 +234,7 @@ confusion matrix.</p></div>
 <span class='no'>cells_per_resample</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>conf_mat</span>(<span class='no'>obs</span>, <span class='no'>pred</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>tidied</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/purrr/topics/map'>map</a></span>(<span class='no'>conf_mat</span>, <span class='no'>tidy</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>tidied</span> <span class='kw'>=</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>conf_mat</span>, <span class='no'>tidy</span>)) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://tidyr.tidyverse.org/reference/unnest.html'>unnest</a></span>(<span class='no'>tidied</span>)
 
 <span class='co'># Get the totals per resample</span>

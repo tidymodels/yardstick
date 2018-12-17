@@ -208,6 +208,10 @@ the number of groups.</p>
 the baseline, and then divides that by the area <em>under</em> a perfect gain curve,
 but <em>above</em> the baseline. It is meant to represent the amount of potential
 gain "captured" by the model.</p>
+<p>The <code>gain_capture()</code> metric is identical to the <em>accuracy ratio (AR)</em>, which
+is also sometimes called the <em>gini coefficient</em>. These two are generally
+calculated on a cumulative accuracy profile curve, but this is the same as
+a gain curve. See the Engelmann reference for more information.</p>
     
     <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant level</h2>
 
@@ -229,6 +233,13 @@ the "one" level is always the relevant result.</p>
 The default is to select macro averaging if a <code>truth</code> factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Engelmann, Bernd &amp; Hayden, Evelyn &amp; Tasche, Dirk (2003).
+"Measuring the Discriminative Power of Rating Systems,"
+Discussion Paper Series 2: Banking and Financial Studies 2003,01,
+Deutsche Bundesbank.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -304,7 +315,7 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
 <span class='co'># Visually, this represents the area under the black curve, but above the</span>
 <span class='co'># 45 degree line, divided by the area of the shaded triangle.</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='fu'><a href='gain_curve.html'>gain_curve</a></span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>))</div><div class='img'><img src='gain_capture-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='fu'><a href='gain_curve.html'>gain_curve</a></span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>))</div><div class='img'><img src='gain_capture-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -319,6 +330,8 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
       <li><a href="#relevant-level">Relevant level</a></li>
 
       <li><a href="#multiclass">Multiclass</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

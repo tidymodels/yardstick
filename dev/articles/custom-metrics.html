@@ -99,10 +99,10 @@
       <h1>Custom metrics</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2018-11-15</h4>
+            <h4 class="date">2018-12-17</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/custom-metrics.Rmd"><code><a href="https://www.rdocumentation.org/packages/base/topics/Arithmetic">vignettes/custom-metrics.Rmd</a></code></a></small>
-      <div class="hidden name"><code><a href="https://www.rdocumentation.org/packages/base/topics/Arithmetic">custom-metrics.Rmd</a></code></div>
+      <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/custom-metrics.Rmd"><code>vignettes/custom-metrics.Rmd</code></a></small>
+      <div class="hidden name"><code>custom-metrics.Rmd</code></div>
 
     </div>
 
@@ -172,7 +172,7 @@
 <a class="sourceLine" id="cb4-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">mse_vec</span>(<span class="dt">truth =</span> <span class="dv">1</span>, <span class="dt">estimate =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="st">"xyz"</span>))</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Error: `estimate` should be a numeric but a factor was supplied.</span></a></code></pre></div>
-<p><code>NA</code> values are removed if <code><a href="https://www.rdocumentation.org/packages/base/topics/assignOps">na_rm = TRUE</a></code> (the default). If <code><a href="https://www.rdocumentation.org/packages/base/topics/assignOps">na_rm = FALSE</a></code> and any <code>NA</code> values are detected, then the metric automatically returns <code>NA</code>.</p>
+<p><code>NA</code> values are removed if <code>na_rm = TRUE</code> (the default). If <code>na_rm = FALSE</code> and any <code>NA</code> values are detected, then the metric automatically returns <code>NA</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># NA values removed</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">mse_vec</span>(<span class="dt">truth =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="ot">NA</span>, <span class="fl">.5</span>, <span class="fl">.4</span>), <span class="dt">estimate =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="fl">.6</span>, <span class="fl">.5</span>))</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; [1] 0.01</span></a>
