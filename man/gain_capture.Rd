@@ -60,6 +60,11 @@ but applied to a gain curve.
 the baseline, and then divides that by the area \emph{under} a perfect gain curve,
 but \emph{above} the baseline. It is meant to represent the amount of potential
 gain "captured" by the model.
+
+The \code{gain_capture()} metric is identical to the \emph{accuracy ratio (AR)}, which
+is also sometimes called the \emph{gini coefficient}. These two are generally
+calculated on a cumulative accuracy profile curve, but this is the same as
+a gain curve. See the Engelmann reference for more information.
 }
 \section{Relevant level}{
 
@@ -128,6 +133,12 @@ gain_capture_vec(
 library(ggplot2)
 autoplot(gain_curve(two_class_example, truth, Class1))
 
+}
+\references{
+Engelmann, Bernd & Hayden, Evelyn & Tasche, Dirk (2003).
+"Measuring the Discriminative Power of Rating Systems,"
+Discussion Paper Series 2: Banking and Financial Studies 2003,01,
+Deutsche Bundesbank.
 }
 \seealso{
 \code{\link[=gain_curve]{gain_curve()}} to compute the full gain curve.

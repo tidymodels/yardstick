@@ -71,3 +71,32 @@ test_that("Multiclass gain capture", {
     prob_macro_weighted_metric(gain_capture_binary)
   )
 })
+
+# Relationship with ROC AUC ----------------------------------------------------
+
+hpc_f1 <- data_hpc_fold1()
+
+test_that("gain_capture = 2 * ROCAUC - 1", {
+
+  # Binary case
+  expect_equal(
+    gain_capture(two_class_example, truth, Class1)[[".estimate"]],
+    2 * roc_auc(two_class_example, truth, Class1)[[".estimate"]] - 1
+  )
+
+  # must be careful to weight appropriately in the multiclass case
+  # must do (2 * ROCAUC - 1) BEFORE weighting
+  roc_auc_unweighted <- yardstick:::roc_auc_multiclass(
+    hpc_f1$obs,
+    as.matrix(hpc_f1[,c("VF", "F", "M", "L")]),
+    list()
+  )
+
+  truth_table <- matrix(table(hpc_f1$obs), nrow = 1)
+  w <- yardstick:::get_weights(truth_table, "macro")
+
+  expect_equal(
+    gain_capture(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
+    weighted.mean(2 * roc_auc_unweighted - 1, w)
+  )
+})
