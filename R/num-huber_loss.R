@@ -1,18 +1,25 @@
 #' Huber loss
 #'
-#' Calculate the Huber loss
+#' Calculate the Huber loss, a loss function used in robust regression. This
+#' loss function is less sensitive to outliers than [rmse()]. This function is
+#' quadratic for small residual values and linear for large residual values.
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
 #' @templateVar metric_fn huber_loss
 #' @template return
 #'
+#' @inheritParams rmse
+#'
+#' @param delta A `numeric` value; Defines the boundary where the function
+#' transitions from quadratic to linear.
+#'
 #' @author James Blair
 #'
 #' @references
 #'
 #' Huber, P. (1964). Robust Estimation of a Location Parameter.
-#' _Annals of Statistics_, 53 (1), 73-101
+#' _Annals of Statistics_, 53 (1), 73-101.
 #'
 #' @template examples-numeric
 #'
