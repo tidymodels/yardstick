@@ -9,6 +9,11 @@
 #'
 #' @author James Blair
 #'
+#' @references
+#'
+#' Huber, P. (1964). Robust Estimation of a Location Parameter.
+#' _Annals of Statistics_, 53 (1), 73-101
+#'
 #' @template examples-numeric
 #'
 #' @export
