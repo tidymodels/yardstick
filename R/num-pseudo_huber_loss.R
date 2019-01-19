@@ -1,6 +1,6 @@
 #' Psuedo-Huber loss
 #'
-#' Calculate the Pseudo-Huber loss, smooth approximation of [huber_loss()].
+#' Calculate the Pseudo-Huber loss, a smooth approximation of [huber_loss()].
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
@@ -53,9 +53,7 @@ huber_loss_pseudo_vec <- function(truth, estimate, delta = 1, na_rm = TRUE, ...)
   huber_loss_pseudo_impl <- function(truth, estimate, delta) {
     # Logic for Huber loss formula
     a <- truth - estimate
-    mean(
-      delta^2 * (sqrt(1 + (a / delta)^2) - 1)
-    )
+    mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
   }
 
   metric_vec_template(
