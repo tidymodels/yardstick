@@ -167,3 +167,23 @@ test_that('Integer columns are allowed', {
     sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
   )
 })
+
+###################################################################
+
+test_that('Pseudo-Huber Loss', {
+  delta <- 2
+  expect_equal(
+    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred", delta = delta)[[".estimate"]],
+    {
+      a <- ex_dat$obs - ex_dat$pred
+      mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
+    }
+  )
+  expect_equal(
+    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = delta)[[".estimate"]],
+    {
+      a <- ex_dat$obs[-ind] - ex_dat$pred[-ind]
+      mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
+    }
+  )
+})
