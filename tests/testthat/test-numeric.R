@@ -171,11 +171,11 @@ test_that('Integer columns are allowed', {
 ###################################################################
 
 test_that('Huber Loss', {
+  delta <- 2
   expect_equal(
-    huber_loss(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
+    huber_loss(ex_dat, truth = "obs", estimate = "pred", delta = delta)[[".estimate"]],
     {
       a <- ex_dat$obs - ex_dat$pred
-      delta <- 1
       mean(
         ifelse(abs(a) <= delta,
                0.5 * a^2,
@@ -184,10 +184,9 @@ test_that('Huber Loss', {
     }
   )
   expect_equal(
-    huber_loss(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
+    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = delta)[[".estimate"]],
     {
       a <- ex_dat$obs[-ind] - ex_dat$pred[-ind]
-      delta <- 1
       mean(
         ifelse(abs(a) <= delta,
                0.5 * a^2,
