@@ -30,7 +30,7 @@ results (that is also \code{numeric}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
 
-\item{delta}{A \code{numeric} value; Defines the boundary where the loss function
+\item{delta}{A single \code{numeric} value. Defines the boundary where the loss function
 transitions from quadratic to linear. Defaults to 1.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}

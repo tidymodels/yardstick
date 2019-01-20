@@ -11,7 +11,7 @@
 #'
 #' @inheritParams rmse
 #'
-#' @param delta A `numeric` value; Defines the boundary where the loss function
+#' @param delta A single `numeric` value. Defines the boundary where the loss function
 #' transitions from quadratic to linear. Defaults to 1.
 #'
 #' @author James Blair
