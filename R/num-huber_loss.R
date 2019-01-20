@@ -54,6 +54,15 @@ huber_loss_vec <- function(truth, estimate, delta = 1, na_rm = TRUE, ...) {
 
   # Logic for Huber loss formula
   huber_loss_impl <- function(truth, estimate, delta) {
+
+    if (!rlang::is_bare_numeric(delta, n = 1L)) {
+      abort("`delta` must be a single numeric value.")
+    }
+
+    if (!(delta >= 0)) {
+      abort("`delta` must be a positive value.")
+    }
+
     a <- truth - estimate
     abs_a <- abs(a)
 

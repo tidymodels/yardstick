@@ -172,6 +172,7 @@ test_that('Integer columns are allowed', {
 
 test_that('Huber Loss', {
   delta <- 2
+
   expect_equal(
     huber_loss(ex_dat, truth = "obs", estimate = "pred", delta = delta)[[".estimate"]],
     {
@@ -183,6 +184,7 @@ test_that('Huber Loss', {
       )
     }
   )
+
   expect_equal(
     huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = delta)[[".estimate"]],
     {
@@ -194,4 +196,15 @@ test_that('Huber Loss', {
       )
     }
   )
+
+  expect_error(
+    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = -1),
+    "`delta` must be a positive value."
+  )
+
+  expect_error(
+    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1,2)),
+    "`delta` must be a single numeric value."
+  )
+
 })
