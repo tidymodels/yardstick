@@ -98,9 +98,9 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.
 }
 \seealso{
 Other numeric metrics: \code{\link{ccc}},
-  \code{\link{mae}}, \code{\link{mape}},
-  \code{\link{rmse}}, \code{\link{rpd}},
-  \code{\link{rpiq}}, \code{\link{rsq}}
+  \code{\link{huber_loss}}, \code{\link{mae}},
+  \code{\link{mape}}, \code{\link{rmse}},
+  \code{\link{rpd}}, \code{\link{rpiq}}, \code{\link{rsq}}
 
 Other consistency metrics: \code{\link{ccc}},
   \code{\link{rpd}}, \code{\link{rpiq}}, \code{\link{rsq}}

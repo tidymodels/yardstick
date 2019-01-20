@@ -78,12 +78,14 @@ metric_results \%>\%
 }
 \seealso{
 Other numeric metrics: \code{\link{ccc}},
-  \code{\link{mape}}, \code{\link{rmse}},
-  \code{\link{rpd}}, \code{\link{rpiq}},
-  \code{\link{rsq_trad}}, \code{\link{rsq}}
+  \code{\link{huber_loss}}, \code{\link{mape}},
+  \code{\link{rmse}}, \code{\link{rpd}},
+  \code{\link{rpiq}}, \code{\link{rsq_trad}},
+  \code{\link{rsq}}
 
 Other accuracy metrics: \code{\link{ccc}},
-  \code{\link{mape}}, \code{\link{rmse}}
+  \code{\link{huber_loss}}, \code{\link{mape}},
+  \code{\link{rmse}}
 }
 \author{
 Max Kuhn
