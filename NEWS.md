@@ -1,6 +1,9 @@
 # Development version
 
-## Changes
+## New metrics and functionality
+
+* `huber_loss()` is a numeric metric that is less sensitive to outliers than
+`rmse()`, but is more sensitive than `mae()` for small errors (@blairj09, #71).
 
 # yardstick 0.0.2
 
