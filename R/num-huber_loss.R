@@ -52,15 +52,18 @@ huber_loss.data.frame <- function(data, truth, estimate, delta = 1, na_rm = TRUE
 #' @rdname huber_loss
 huber_loss_vec <- function(truth, estimate, delta = 1, na_rm = TRUE, ...) {
 
+  # Logic for Huber loss formula
   huber_loss_impl <- function(truth, estimate, delta) {
-    # Logic for Huber loss formula
     a <- truth - estimate
-    mean(
-      ifelse(abs(a) <= delta,
-             0.5 * a^2,
-             delta * (abs(a) - 0.5 * delta)
-      )
+    abs_a <- abs(a)
+
+    loss <- ifelse(
+      abs_a <= delta,
+      0.5 * a^2,
+      delta * (abs_a - 0.5 * delta)
     )
+
+    mean(loss)
   }
 
   metric_vec_template(
