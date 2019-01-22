@@ -12,7 +12,7 @@
 #'
 #' @inheritParams rmse
 #'
-#' @author Max Kuhn
+#' @author Max Kuhn, Riaz Hedayati
 #'
 #' @template examples-numeric
 #'

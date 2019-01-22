@@ -80,10 +80,11 @@ metric_results \%>\%
 Other numeric metrics: \code{\link{ccc}},
   \code{\link{mae}}, \code{\link{mape}}, \code{\link{rpd}},
   \code{\link{rpiq}}, \code{\link{rsq_trad}},
-  \code{\link{rsq}}
+  \code{\link{rsq}}, \code{\link{smape}}
 
 Other accuracy metrics: \code{\link{ccc}},
-  \code{\link{mae}}, \code{\link{mape}}
+  \code{\link{mae}}, \code{\link{mape}},
+  \code{\link{smape}}
 }
 \author{
 Max Kuhn

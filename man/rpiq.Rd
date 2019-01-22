@@ -110,7 +110,8 @@ The closely related deviation metric: \code{\link[=rpd]{rpd()}}
 Other numeric metrics: \code{\link{ccc}},
   \code{\link{mae}}, \code{\link{mape}},
   \code{\link{rmse}}, \code{\link{rpd}},
-  \code{\link{rsq_trad}}, \code{\link{rsq}}
+  \code{\link{rsq_trad}}, \code{\link{rsq}},
+  \code{\link{smape}}
 
 Other consistency metrics: \code{\link{ccc}},
   \code{\link{rpd}}, \code{\link{rsq_trad}},

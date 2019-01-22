@@ -87,7 +87,7 @@ Other accuracy metrics: \code{\link{ccc}},
   \code{\link{mae}}, \code{\link{mape}}, \code{\link{rmse}}
 }
 \author{
-Max Kuhn
+Max Kuhn, Riaz Hedayati
 }
 \concept{accuracy metrics}
 \concept{numeric metrics}
