@@ -211,7 +211,8 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
     <div class='dont-index'><p>Other numeric metrics: <code><a href='ccc.html'>ccc</a></code>,
   <code><a href='mae.html'>mae</a></code>, <code><a href='mape.html'>mape</a></code>,
   <code><a href='rmse.html'>rmse</a></code>, <code><a href='rpd.html'>rpd</a></code>,
-  <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq.html'>rsq</a></code></p>
+  <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq.html'>rsq</a></code>,
+  <code><a href='smape.html'>smape</a></code></p>
 <p>Other consistency metrics: <code><a href='ccc.html'>ccc</a></code>,
   <code><a href='rpd.html'>rpd</a></code>, <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq.html'>rsq</a></code></p></div>
     
@@ -229,10 +230,10 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 <span class='no'>times</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
 
 <span class='co'># create 10 resamples</span>
-<span class='no'>solubility_resampled</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(
+<span class='no'>solubility_resampled</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>replicate</a></span>(
     <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>times</span>,
-    <span class='kw'>expr</span> <span class='kw'>=</span> <span class='fu'><a href='http://dplyr.tidyverse.org/reference/sample.html'>sample_n</a></span>(<span class='no'>solubility_test</span>, <span class='no'>size</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+    <span class='kw'>expr</span> <span class='kw'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample.html'>sample_n</a></span>(<span class='no'>solubility_test</span>, <span class='no'>size</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
     <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
   ),
   <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"resample"</span>
@@ -240,7 +241,7 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 
 <span class='co'># Compute the metric by group</span>
 <span class='no'>metric_results</span> <span class='kw'>&lt;-</span> <span class='no'>solubility_resampled</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>rsq_trad</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
 
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
@@ -258,13 +259,13 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 #&gt; 10 9        rsq_trad standard       0.906</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
 #&gt; 1        0.879</div><div class='input'><span class='co'># With uninformitive data, the traditional version of R^2 can return</span>
 <span class='co'># negative values.</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>2291</span>)
-<span class='no'>solubility_test</span>$<span class='no'>randomized</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://dplyr.tidyverse.org/reference/sample.html'>sample</a></span>(<span class='no'>solubility_test</span>$<span class='no'>prediction</span>)
+<span class='no'>solubility_test</span>$<span class='no'>randomized</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample.html'>sample</a></span>(<span class='no'>solubility_test</span>$<span class='no'>prediction</span>)
 <span class='fu'><a href='rsq.html'>rsq</a></span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   .metric .estimator .estimate
 #&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;

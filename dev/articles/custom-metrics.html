@@ -99,7 +99,7 @@
       <h1>Custom metrics</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2018-12-17</h4>
+            <h4 class="date">2019-01-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/custom-metrics.Rmd"><code>vignettes/custom-metrics.Rmd</code></a></small>
       <div class="hidden name"><code>custom-metrics.Rmd</code></div>
@@ -204,7 +204,7 @@
 <a class="sourceLine" id="cb6-17" data-line-number="17">  )</a>
 <a class="sourceLine" id="cb6-18" data-line-number="18">  </a>
 <a class="sourceLine" id="cb6-19" data-line-number="19">}</a></code></pre></div>
-<p>And that’s it. <code>yardstick</code> handles the rest with an internal call to <code><a href="http://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>.</p>
+<p>And that’s it. <code>yardstick</code> handles the rest with an internal call to <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">mse</span>(solubility_test, <span class="dt">truth =</span> solubility, <span class="dt">estimate =</span> prediction)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;   .metric .estimator .estimate</span></a>
@@ -222,17 +222,17 @@
 <a class="sourceLine" id="cb8-5" data-line-number="5">times &lt;-<span class="st"> </span><span class="dv">10</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co"># create 10 resamples</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">solubility_resampled &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">solubility_resampled &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">replicate</a></span>(</a>
 <a class="sourceLine" id="cb8-10" data-line-number="10">    <span class="dt">n =</span> times,</a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">    <span class="dt">expr =</span> <span class="kw"><a href="http://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(solubility_test, size, <span class="dt">replace =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">    <span class="dt">expr =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(solubility_test, size, <span class="dt">replace =</span> <span class="ot">TRUE</span>),</a>
 <a class="sourceLine" id="cb8-12" data-line-number="12">    <span class="dt">simplify =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb8-13" data-line-number="13">  ),</a>
 <a class="sourceLine" id="cb8-14" data-line-number="14">  <span class="dt">.id =</span> <span class="st">"resample"</span></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15">)</a>
 <a class="sourceLine" id="cb8-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb8-17" data-line-number="17">solubility_resampled <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(resample) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(resample) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-19" data-line-number="19"><span class="st">  </span><span class="kw">mse</span>(solubility, prediction)</a>
 <a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; # A tibble: 10 x 4</span></a>
 <a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt;    resample .metric .estimator .estimate</span></a>
@@ -278,7 +278,7 @@
 <a class="sourceLine" id="cb9-16" data-line-number="16">    <span class="co"># Create </span></a>
 <a class="sourceLine" id="cb9-17" data-line-number="17">    xtab &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(estimate, truth)</a>
 <a class="sourceLine" id="cb9-18" data-line-number="18">    col &lt;-<span class="st"> </span><span class="kw">relevant_col</span>(xtab)</a>
-<a class="sourceLine" id="cb9-19" data-line-number="19">    col2 &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/setops.html">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(xtab), col)</a>
+<a class="sourceLine" id="cb9-19" data-line-number="19">    col2 &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/setops.html">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(xtab), col)</a>
 <a class="sourceLine" id="cb9-20" data-line-number="20">    </a>
 <a class="sourceLine" id="cb9-21" data-line-number="21">    tp &lt;-<span class="st"> </span>xtab[col, col]</a>
 <a class="sourceLine" id="cb9-22" data-line-number="22">    fn &lt;-<span class="st"> </span>xtab[col2, col]</a>
@@ -304,7 +304,7 @@
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; [1] 0.120155</span></a></code></pre></div>
 <p>What happens if you try and pass in a multiclass result?</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"hpc_cv"</span>)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">fold1 &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(hpc_cv, Resample <span class="op">==</span><span class="st"> "Fold01"</span>)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">fold1 &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(hpc_cv, Resample <span class="op">==</span><span class="st"> "Fold01"</span>)</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">miss_rate_vec</span>(fold1<span class="op">$</span>obs, fold1<span class="op">$</span>pred)</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;          F          M          L </span></a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; 0.06214689 0.00000000 0.00000000</span></a></code></pre></div>
@@ -336,7 +336,7 @@
 <a class="sourceLine" id="cb12-22" data-line-number="22">    <span class="co"># Create </span></a>
 <a class="sourceLine" id="cb12-23" data-line-number="23">    xtab &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(estimate, truth)</a>
 <a class="sourceLine" id="cb12-24" data-line-number="24">    col &lt;-<span class="st"> </span><span class="kw">relevant_col</span>(xtab)</a>
-<a class="sourceLine" id="cb12-25" data-line-number="25">    col2 &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/setops.html">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(xtab), col)</a>
+<a class="sourceLine" id="cb12-25" data-line-number="25">    col2 &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/setops.html">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(xtab), col)</a>
 <a class="sourceLine" id="cb12-26" data-line-number="26">    </a>
 <a class="sourceLine" id="cb12-27" data-line-number="27">    tp &lt;-<span class="st"> </span>xtab[col, col]</a>
 <a class="sourceLine" id="cb12-28" data-line-number="28">    fn &lt;-<span class="st"> </span>xtab[col2, col]</a>
@@ -417,7 +417,7 @@
 <a class="sourceLine" id="cb14-37" data-line-number="37"></a>
 <a class="sourceLine" id="cb14-38" data-line-number="38">miss_rate_binary &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
 <a class="sourceLine" id="cb14-39" data-line-number="39">  col &lt;-<span class="st"> </span><span class="kw">relevant_col</span>(data)</a>
-<a class="sourceLine" id="cb14-40" data-line-number="40">  col2 &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/setops.html">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(data), col)</a>
+<a class="sourceLine" id="cb14-40" data-line-number="40">  col2 &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/setops.html">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">colnames</a></span>(data), col)</a>
 <a class="sourceLine" id="cb14-41" data-line-number="41">  </a>
 <a class="sourceLine" id="cb14-42" data-line-number="42">  tp &lt;-<span class="st"> </span>data[col, col]</a>
 <a class="sourceLine" id="cb14-43" data-line-number="43">  fn &lt;-<span class="st"> </span>data[col2, col]</a>
@@ -468,8 +468,8 @@
 <a class="sourceLine" id="cb16-8" data-line-number="8">    <span class="dt">metric_nm =</span> <span class="st">"miss_rate"</span>,</a>
 <a class="sourceLine" id="cb16-9" data-line-number="9">    <span class="dt">metric_fn =</span> miss_rate_vec,</a>
 <a class="sourceLine" id="cb16-10" data-line-number="10">    <span class="dt">data =</span> data,</a>
-<a class="sourceLine" id="cb16-11" data-line-number="11">    <span class="dt">truth =</span> <span class="op">!!</span><span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/tidyeval.html">enquo</a></span>(truth),</a>
-<a class="sourceLine" id="cb16-12" data-line-number="12">    <span class="dt">estimate =</span> <span class="op">!!</span><span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/tidyeval.html">enquo</a></span>(estimate), </a>
+<a class="sourceLine" id="cb16-11" data-line-number="11">    <span class="dt">truth =</span> <span class="op">!!</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tidyeval.html">enquo</a></span>(truth),</a>
+<a class="sourceLine" id="cb16-12" data-line-number="12">    <span class="dt">estimate =</span> <span class="op">!!</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/tidyeval.html">enquo</a></span>(estimate), </a>
 <a class="sourceLine" id="cb16-13" data-line-number="13">    <span class="dt">estimator =</span> estimator,</a>
 <a class="sourceLine" id="cb16-14" data-line-number="14">    <span class="dt">na_rm =</span> na_rm,</a>
 <a class="sourceLine" id="cb16-15" data-line-number="15">    ...</a>
@@ -494,7 +494,7 @@
 <a class="sourceLine" id="cb17-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb17-17" data-line-number="17"><span class="co"># Macro weighted by resample</span></a>
 <a class="sourceLine" id="cb17-18" data-line-number="18">hpc_cv <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-19" data-line-number="19"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-19" data-line-number="19"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb17-20" data-line-number="20"><span class="st">  </span><span class="kw">miss_rate</span>(obs, pred, <span class="dt">estimator =</span> <span class="st">"macro_weighted"</span>)</a>
 <a class="sourceLine" id="cb17-21" data-line-number="21"><span class="co">#&gt; # A tibble: 10 x 4</span></a>
 <a class="sourceLine" id="cb17-22" data-line-number="22"><span class="co">#&gt;    Resample .metric   .estimator     .estimate</span></a>

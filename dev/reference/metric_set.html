@@ -196,7 +196,7 @@ columns) as bare column names or <code>tidyselect</code> selectors to <code>...<
 <span class='no'>class_metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>accuracy</span>, <span class='no'>kap</span>)
 
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>class_metrics</span>(<span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 20 x 4
 #&gt;    Resample .metric  .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
@@ -263,7 +263,7 @@ columns) as bare column names or <code>tidyselect</code> selectors to <code>...<
 <span class='no'>class_and_probs_metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>roc_auc</span>, <span class='no'>pr_auc</span>, <span class='no'>accuracy</span>)
 
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>class_and_probs_metrics</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 30 x 4
 #&gt;    Resample .metric  .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
@@ -277,7 +277,7 @@ columns) as bare column names or <code>tidyselect</code> selectors to <code>...<
 #&gt;  8 Fold08   accuracy multiclass     0.721
 #&gt;  9 Fold09   accuracy multiclass     0.673
 #&gt; 10 Fold10   accuracy multiclass     0.699
-#&gt; # ... with 20 more rows</div><div class='input'>
+#&gt; # … with 20 more rows</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

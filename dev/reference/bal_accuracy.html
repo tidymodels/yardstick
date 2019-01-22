@@ -241,14 +241,14 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>hpc_cv</span>)
 
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>bal_accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   .metric      .estimator .estimate
 #&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt;
 #&gt; 1 bal_accuracy macro          0.717</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>bal_accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    Resample .metric      .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt;
@@ -264,7 +264,7 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
 #&gt; 10 Fold10   bal_accuracy macro          0.706</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>bal_accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    Resample .metric      .estimator     .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;              &lt;dbl&gt;

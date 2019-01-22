@@ -255,7 +255,7 @@ the "one" level is always the relevant result.</p>
 #&gt;  8    1.43e-5     0.0248            1
 #&gt;  9    2.38e-5     0.0289            1
 #&gt; 10    3.30e-5     0.0331            1
-#&gt; # ... with 492 more rows</div><div class='input'>
+#&gt; # … with 492 more rows</div><div class='input'>
 <span class='co'># Visualize the curve using ggplot2 manually</span>
 <span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span> - <span class='no'>specificity</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>sensitivity</span>)) +
@@ -269,12 +269,12 @@ the "one" level is always the relevant result.</p>
 <span class='co'># Multiclass one-vs-all approach</span>
 <span class='co'># One curve per level</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>roc_curve</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()</div><div class='img'><img src='roc_curve-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Same as above, but will all of the resamples</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>roc_curve</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()</div><div class='img'><img src='roc_curve-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>

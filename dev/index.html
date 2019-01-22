@@ -153,7 +153,7 @@
 <a href="#multiclass-metrics" class="anchor"></a>Multiclass metrics</h2>
 <p>All classification metrics have at least one multiclass extension, with many of them having multiple ways to calculate multiclass metrics.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"hpc_cv"</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">hpc_cv &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">as_tibble</a></span>(hpc_cv)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">hpc_cv &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">as_tibble</a></span>(hpc_cv)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">hpc_cv</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3,467 x 7</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;    obs   pred     VF      F       M          L Resample</span></a>
@@ -168,7 +168,7 @@
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  8 VF    VF    0.918 0.0744 0.00726 0.0000157  Fold01  </span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  9 VF    VF    0.843 0.128  0.0296  0.000192   Fold01  </span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 10 VF    VF    0.920 0.0728 0.00703 0.0000147  Fold01  </span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; # ... with 3,457 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; # … with 3,457 more rows</span></a></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Macro averaged multiclass precision</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="reference/precision.html">precision</a></span>(hpc_cv, obs, pred)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
@@ -189,7 +189,7 @@
 <p>If you have multiple resamples of a model, you can use a metric on a grouped data frame to calculate the metric across all resamples at once.</p>
 <p>This calculates multiclass ROC AUC using the method described in Hand, Till (2001), and does it across all 10 resamples at once.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">hpc_cv <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/roc_auc.html">roc_auc</a></span>(obs, VF<span class="op">:</span>L)</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; # A tibble: 10 x 4</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;    Resample .metric .estimator .estimate</span></a>
@@ -212,7 +212,7 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">hpc_cv <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/roc_curve.html">roc_curve</a></span>(obs, VF<span class="op">:</span>L) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>()</a></code></pre></div>
 <p><img src="reference/figures/README-roc-curves-1.png" width="700"></p>
