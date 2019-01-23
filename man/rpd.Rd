@@ -108,9 +108,11 @@ in Analytical Chemistry, 29(9), pp.1073-1081.
 The closely related inter-quartile metric: \code{\link[=rpiq]{rpiq()}}
 
 Other numeric metrics: \code{\link{ccc}},
-  \code{\link{mae}}, \code{\link{mape}},
-  \code{\link{rmse}}, \code{\link{rpiq}},
-  \code{\link{rsq_trad}}, \code{\link{rsq}}
+  \code{\link{huber_loss_pseudo}},
+  \code{\link{huber_loss}}, \code{\link{mae}},
+  \code{\link{mape}}, \code{\link{rmse}},
+  \code{\link{rpiq}}, \code{\link{rsq_trad}},
+  \code{\link{rsq}}, \code{\link{smape}}
 
 Other consistency metrics: \code{\link{ccc}},
   \code{\link{rpiq}}, \code{\link{rsq_trad}},

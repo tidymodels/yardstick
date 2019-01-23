@@ -101,7 +101,7 @@ test_that('Mean Abs Deviation', {
 
 ###################################################################
 
-test_that('Mean Abs % Error', {
+test_that('Mean Absolute Percentage Error', {
   expect_equal(
     mape(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
     100 * mean(abs((ex_dat$obs - ex_dat$pred)/ex_dat$obs))
@@ -112,6 +112,19 @@ test_that('Mean Abs % Error', {
   )
 })
 
+
+###################################################################
+
+test_that('Symmetric Mean Absolute Percentage Error', {
+  expect_equal(
+    smape(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
+    100 * mean(abs((ex_dat$obs - ex_dat$pred)/((abs(ex_dat$obs) + abs(ex_dat$pred))/2)))
+  )
+  expect_equal(
+    smape(ex_dat, obs, pred_na)[[".estimate"]],
+    100 * mean(abs((ex_dat$obs[-ind] - ex_dat$pred[-ind])/((abs(ex_dat$obs[-ind]) + abs(ex_dat$pred[-ind]))/2)))
+  )
+})
 
 ###################################################################
 
@@ -166,6 +179,47 @@ test_that('Integer columns are allowed', {
     rmse(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
     sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
   )
+})
+
+###################################################################
+
+test_that('Huber Loss', {
+  delta <- 2
+
+  expect_equal(
+    huber_loss(ex_dat, truth = "obs", estimate = "pred", delta = delta)[[".estimate"]],
+    {
+      a <- ex_dat$obs - ex_dat$pred
+      mean(
+        ifelse(abs(a) <= delta,
+               0.5 * a^2,
+               delta * (abs(a) - 0.5 * delta))
+      )
+    }
+  )
+
+  expect_equal(
+    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = delta)[[".estimate"]],
+    {
+      a <- ex_dat$obs[-ind] - ex_dat$pred[-ind]
+      mean(
+        ifelse(abs(a) <= delta,
+               0.5 * a^2,
+               delta * (abs(a) - 0.5 * delta))
+      )
+    }
+  )
+
+  expect_error(
+    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = -1),
+    "`delta` must be a positive value."
+  )
+
+  expect_error(
+    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1,2)),
+    "`delta` must be a single numeric value."
+  )
+
 })
 
 ###################################################################
