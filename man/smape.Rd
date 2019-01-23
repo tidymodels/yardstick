@@ -82,12 +82,14 @@ metric_results \%>\%
 }
 \seealso{
 Other numeric metrics: \code{\link{ccc}},
+  \code{\link{huber_loss_pseudo}},
   \code{\link{huber_loss}}, \code{\link{mae}},
   \code{\link{mape}}, \code{\link{rmse}},
   \code{\link{rpd}}, \code{\link{rpiq}},
   \code{\link{rsq_trad}}, \code{\link{rsq}}
 
 Other accuracy metrics: \code{\link{ccc}},
+  \code{\link{huber_loss_pseudo}},
   \code{\link{huber_loss}}, \code{\link{mae}},
   \code{\link{mape}}, \code{\link{rmse}}
 }
