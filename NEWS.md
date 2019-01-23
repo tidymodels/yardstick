@@ -5,6 +5,8 @@
 * `huber_loss()` is a numeric metric that is less sensitive to outliers than
 `rmse()`, but is more sensitive than `mae()` for small errors (@blairj09, #71).
 
+* `huber_loss_pseudo()` is a smoothed form of `huber_loss()` (@blairj09, #71).
+
 * `smape()` is a numeric metric that is based on percentage errors 
 (@riazhedayati, #67).
 
