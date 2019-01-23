@@ -1,9 +1,10 @@
-#' Symmetric mean absolute percent error
+#' Symmetric mean absolute percentage error
 #'
-#' Calculate the symmetric mean absolute percentage error. This metric is in _relative
-#' units_.
+#' Calculate the symmetric mean absolute percentage error. This metric is in
+#' _relative units_.
 #'
-#'
+#' This implementation of `smape()` is the "usual definition" where the
+#' denominator is divided by two.
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
@@ -45,7 +46,12 @@ smape.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 smape_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   smape_impl <- function(truth, estimate) {
-    mean(abs(estimate - truth)/((abs(truth) + abs(estimate))/2)) * 100
+
+    percent_scale <- 100
+    numer <- abs(estimate - truth)
+    denom <- (abs(truth) + abs(estimate)) / 2
+    mean(numer / denom) * percent_scale
+
   }
 
   metric_vec_template(

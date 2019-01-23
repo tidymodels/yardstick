@@ -101,7 +101,7 @@ test_that('Mean Abs Deviation', {
 
 ###################################################################
 
-test_that('Mean Abs % Error', {
+test_that('Mean Absolute Percentage Error', {
   expect_equal(
     mape(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
     100 * mean(abs((ex_dat$obs - ex_dat$pred)/ex_dat$obs))
@@ -115,7 +115,7 @@ test_that('Mean Abs % Error', {
 
 ###################################################################
 
-test_that('Symmetric Mean Abs % Error', {
+test_that('Symmetric Mean Absolute Percentage Error', {
   expect_equal(
     smape(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
     100 * mean(abs((ex_dat$obs - ex_dat$pred)/((abs(ex_dat$obs) + abs(ex_dat$pred))/2)))

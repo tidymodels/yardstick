@@ -4,7 +4,7 @@
 \alias{smape}
 \alias{smape.data.frame}
 \alias{smape_vec}
-\title{Symmetric mean absolute percent error}
+\title{Symmetric mean absolute percentage error}
 \usage{
 smape(data, ...)
 
@@ -42,8 +42,12 @@ the number of groups.
 For \code{smape_vec()}, a single \code{numeric} value (or \code{NA}).
 }
 \description{
-Calculate the symmetric mean absolute percentage error. This metric is in \emph{relative
-units}.
+Calculate the symmetric mean absolute percentage error. This metric is in
+\emph{relative units}.
+}
+\details{
+This implementation of \code{smape()} is the "usual definition" where the
+denominator is divided by two.
 }
 \examples{
 # Supply truth and predictions as bare column names
