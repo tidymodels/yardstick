@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mean absolute percent error — mape • yardstick</title>
+<title>Huber loss — huber_loss • yardstick</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -29,10 +29,11 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<meta property="og:title" content="Mean absolute percent error — mape" />
+<meta property="og:title" content="Huber loss — huber_loss" />
 
-<meta property="og:description" content="Calculate the mean absolute percentage error. This metric is in relative
-units." />
+<meta property="og:description" content="Calculate the Huber loss, a loss function used in robust regression. This
+loss function is less sensitive to outliers than rmse(). This function is
+quadratic for small residual values and linear for large residual values." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -129,24 +130,26 @@ units." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean absolute percent error</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-mape.R'><code>R/num-mape.R</code></a></small>
-    <div class="hidden name"><code>mape.Rd</code></div>
+    <h1>Huber loss</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-huber_loss.R'><code>R/num-huber_loss.R</code></a></small>
+    <div class="hidden name"><code>huber_loss.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Calculate the mean absolute percentage error. This metric is in <em>relative
-units</em>.</p>
+    <p>Calculate the Huber loss, a loss function used in robust regression. This
+loss function is less sensitive to outliers than <code><a href='rmse.html'>rmse()</a></code>. This function is
+quadratic for small residual values and linear for large residual values.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mape</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>huber_loss</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>mape</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>huber_loss</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>mape_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>huber_loss_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,6 +179,11 @@ specified different ways but the primary method is to use an
 unquoted variable name. For <code>_vec()</code> functions, a <code>numeric</code> vector.</p></td>
     </tr>
     <tr>
+      <th>delta</th>
+      <td><p>A single <code>numeric</code> value. Defines the boundary where the loss function
+transitions from quadratic to linear. Defaults to 1.</p></td>
+    </tr>
+    <tr>
       <th>na_rm</th>
       <td><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></td>
@@ -188,31 +196,31 @@ values should be stripped before the computation proceeds.</p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>mape_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>huber_loss_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Note that a value of <code>Inf</code> is returned for <code>mape()</code> when the
-observed value is negative.</p>
+    <p>Huber, P. (1964). Robust Estimation of a Location Parameter.
+<em>Annals of Statistics</em>, 53 (1), 73-101.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other numeric metrics: <code><a href='ccc.html'>ccc</a></code>,
-  <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='mae.html'>mae</a></code>,
+  <code><a href='mae.html'>mae</a></code>, <code><a href='mape.html'>mape</a></code>,
   <code><a href='rmse.html'>rmse</a></code>, <code><a href='rpd.html'>rpd</a></code>,
   <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq_trad.html'>rsq_trad</a></code>,
   <code><a href='rsq.html'>rsq</a></code>, <code><a href='smape.html'>smape</a></code></p>
 <p>Other accuracy metrics: <code><a href='ccc.html'>ccc</a></code>,
-  <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='mae.html'>mae</a></code>,
+  <code><a href='mae.html'>mae</a></code>, <code><a href='mape.html'>mape</a></code>,
   <code><a href='rmse.html'>rmse</a></code>, <code><a href='smape.html'>smape</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'>mape</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mape    standard         Inf</div><div class='input'>
+<span class='fu'>huber_loss</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric    .estimator .estimate
+#&gt;   &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 huber_loss standard       0.234</div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1234</span>)
@@ -232,27 +240,27 @@ observed value is negative.</p>
 <span class='co'># Compute the metric by group</span>
 <span class='no'>metric_results</span> <span class='kw'>&lt;-</span> <span class='no'>solubility_resampled</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mape</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
+  <span class='fu'>huber_loss</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
 
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
-#&gt;    resample .metric .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        mape    standard       Inf  
-#&gt;  2 10       mape    standard       Inf  
-#&gt;  3 2        mape    standard        38.6
-#&gt;  4 3        mape    standard       Inf  
-#&gt;  5 4        mape    standard        44.7
-#&gt;  6 5        mape    standard       113. 
-#&gt;  7 6        mape    standard       109. 
-#&gt;  8 7        mape    standard       162. 
-#&gt;  9 8        mape    standard       104. 
-#&gt; 10 9        mape    standard        32.1</div><div class='input'>
+#&gt;    resample .metric    .estimator .estimate
+#&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;
+#&gt;  1 1        huber_loss standard       0.212
+#&gt;  2 10       huber_loss standard       0.309
+#&gt;  3 2        huber_loss standard       0.259
+#&gt;  4 3        huber_loss standard       0.235
+#&gt;  5 4        huber_loss standard       0.230
+#&gt;  6 5        huber_loss standard       0.223
+#&gt;  7 6        huber_loss standard       0.269
+#&gt;  8 7        huber_loss standard       0.227
+#&gt;  9 8        huber_loss standard       0.195
+#&gt; 10 9        huber_loss standard       0.208</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1          Inf</div></pre>
+#&gt; 1        0.237</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -261,7 +269,7 @@ observed value is negative.</p>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
@@ -269,7 +277,7 @@ observed value is negative.</p>
     </ul>
 
     <h2>Author</h2>
-    <p>Max Kuhn</p>
+    <p>James Blair</p>
   </div>
 </div>
 
