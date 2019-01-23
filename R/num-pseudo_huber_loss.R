@@ -8,10 +8,7 @@
 #' @templateVar metric_fn huber_loss_pseudo
 #' @template return
 #'
-#' @inheritParams rmse
-#'
-#' @param delta A `numeric` value; Defines the boundary where the loss function
-#' transitions from quadratic to linear. Defaults to 1.
+#' @inheritParams huber_loss
 #'
 #' @author James Blair
 #'
