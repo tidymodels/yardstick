@@ -34,7 +34,8 @@ class(huber_loss_pseudo) <- c("numeric_metric", "function")
 
 #' @rdname huber_loss_pseudo
 #' @export
-huber_loss_pseudo.data.frame <- function(data, truth, estimate, delta = 1, na_rm = TRUE, ...) {
+huber_loss_pseudo.data.frame <- function(data, truth, estimate,
+                                         delta = 1, na_rm = TRUE, ...) {
 
   metric_summarizer(
     metric_nm = "huber_loss_pseudo",
@@ -52,12 +53,22 @@ huber_loss_pseudo.data.frame <- function(data, truth, estimate, delta = 1, na_rm
 
 #' @export
 #' @rdname huber_loss_pseudo
-huber_loss_pseudo_vec <- function(truth, estimate, delta = 1, na_rm = TRUE, ...) {
+huber_loss_pseudo_vec <- function(truth, estimate,
+                                  delta = 1, na_rm = TRUE, ...) {
 
   huber_loss_pseudo_impl <- function(truth, estimate, delta) {
-    # Logic for Huber loss formula
+
+    if (!rlang::is_bare_numeric(delta, n = 1L)) {
+      abort("`delta` must be a single numeric value.")
+    }
+
+    if (!(delta >= 0)) {
+      abort("`delta` must be a positive value.")
+    }
+
     a <- truth - estimate
     mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
+
   }
 
   metric_vec_template(
