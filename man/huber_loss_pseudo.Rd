@@ -4,7 +4,7 @@
 \alias{huber_loss_pseudo}
 \alias{huber_loss_pseudo.data.frame}
 \alias{huber_loss_pseudo_vec}
-\title{Psuedo-Huber loss}
+\title{Psuedo-Huber Loss}
 \usage{
 huber_loss_pseudo(data, ...)
 
@@ -46,7 +46,8 @@ the number of groups.
 For \code{huber_loss_pseudo_vec()}, a single \code{numeric} value (or \code{NA}).
 }
 \description{
-Calculate the Pseudo-Huber loss, a smooth approximation of \code{\link[=huber_loss]{huber_loss()}}.
+Calculate the Pseudo-Huber Loss, a smooth approximation of \code{\link[=huber_loss]{huber_loss()}}.
+Like \code{\link[=huber_loss]{huber_loss()}}, this is less sensitive to outliers than \code{\link[=rmse]{rmse()}}.
 }
 \examples{
 # Supply truth and predictions as bare column names
@@ -82,6 +83,9 @@ metric_results \%>\%
 \references{
 Huber, P. (1964). Robust Estimation of a Location Parameter.
 \emph{Annals of Statistics}, 53 (1), 73-101.
+
+Hartley, Richard (2004). Multiple View Geometry in Computer Vision.
+(Second Edition). Page 619.
 }
 \seealso{
 Other numeric metrics: \code{\link{ccc}},
