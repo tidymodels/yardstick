@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Symmetric mean absolute percent error — smape • yardstick</title>
+<title>Symmetric mean absolute percentage error — smape • yardstick</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -29,10 +29,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<meta property="og:title" content="Symmetric mean absolute percent error — smape" />
+<meta property="og:title" content="Symmetric mean absolute percentage error — smape" />
 
-<meta property="og:description" content="Calculate the symmetric mean absolute percentage error. This metric is in relative
-units." />
+<meta property="og:description" content="Calculate the symmetric mean absolute percentage error. This metric is in
+relative units." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -129,15 +129,15 @@ units." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Symmetric mean absolute percent error</h1>
+    <h1>Symmetric mean absolute percentage error</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-smape.R'><code>R/num-smape.R</code></a></small>
     <div class="hidden name"><code>smape.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Calculate the symmetric mean absolute percentage error. This metric is in <em>relative
-units</em>.</p>
+    <p>Calculate the symmetric mean absolute percentage error. This metric is in
+<em>relative units</em>.</p>
     
     </div>
 
@@ -189,6 +189,11 @@ and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
 <p>For <code>smape_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This implementation of <code>smape()</code> is the "usual definition" where the
+denominator is divided by two.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -255,6 +260,8 @@ the number of groups.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
