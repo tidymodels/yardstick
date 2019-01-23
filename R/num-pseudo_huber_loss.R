@@ -1,6 +1,7 @@
-#' Psuedo-Huber loss
+#' Psuedo-Huber Loss
 #'
-#' Calculate the Pseudo-Huber loss, a smooth approximation of [huber_loss()].
+#' Calculate the Pseudo-Huber Loss, a smooth approximation of [huber_loss()].
+#' Like [huber_loss()], this is less sensitive to outliers than [rmse()].
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
@@ -18,6 +19,9 @@
 #'
 #' Huber, P. (1964). Robust Estimation of a Location Parameter.
 #' _Annals of Statistics_, 53 (1), 73-101.
+#'
+#' Hartley, Richard (2004). Multiple View Geometry in Computer Vision.
+#' (Second Edition). Page 619.
 #'
 #' @template examples-numeric
 #'
