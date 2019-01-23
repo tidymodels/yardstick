@@ -186,4 +186,14 @@ test_that('Pseudo-Huber Loss', {
       mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
     }
   )
+
+  expect_error(
+    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = -1),
+    "`delta` must be a positive value."
+  )
+
+  expect_error(
+    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1,2)),
+    "`delta` must be a single numeric value."
+  )
 })
