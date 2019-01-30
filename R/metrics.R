@@ -72,11 +72,17 @@ metrics <- function(data, ...) {
 metrics.data.frame <- function(data, truth, estimate, ...,
                                options = list(), na_rm = TRUE) {
 
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+
+  validate_not_missing(truth, "truth")
+  validate_not_missing(estimate, "estimate")
+
   # Get set of character vars
   vars <- all_select(
     data = data,
-    truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
+    truth = !!truth,
+    estimate = !!estimate,
     ...
   )
 
