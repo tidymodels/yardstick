@@ -9,6 +9,10 @@
 #' There is also a `summary()` method that computes various classification
 #' metrics at once. See [summary.conf_mat()]
 #'
+#' There is a [ggplot2::autoplot()]
+#' method for quickly visualizing the matrix. Both a heatmap and mosaic type
+#' is implemented.
+#'
 #' The function requires that the factors have exactly the same levels.
 #'
 #' @aliases conf_mat.table conf_mat.default conf_mat
@@ -42,9 +46,10 @@
 #' data("hpc_cv")
 #'
 #' # The confusion matrix from a single assessment set (i.e. fold)
-#' hpc_cv %>%
+#' cm <- hpc_cv %>%
 #'   filter(Resample == "Fold01") %>%
 #'   conf_mat(obs, pred)
+#' cm
 #'
 #' # Now compute the average confusion matrix across all folds in
 #' # terms of the proportion of the data contained in each cell.
@@ -77,6 +82,13 @@
 #' colnames(mean_cmat) <- levels(hpc_cv$obs)
 #'
 #' round(mean_cmat, 3)
+#'
+#' # The confusion matrix can quickly be vizualized using autoplot()
+#' library(ggplot2)
+#'
+#' autoplot(cm, type = "mosaic")
+#' autoplot(cm, type = "heatmap")
+#'
 #' @export
 conf_mat <- function(data, ...) {
   UseMethod("conf_mat")
@@ -273,4 +285,91 @@ summary.conf_mat <- function(object,
   )
 
   stats
+}
+
+conf_mat_plot_types <- c("mosaic", "heatmap")
+
+# Dynamically exported
+#' @rdname conf_mat
+#' @param type Type of plot desired, must be "mosaic" or "heatmap",
+#'   defaults to "mosaic".
+#' @param object The `conf_mat` data frame returned from `conf_mat()`.
+autoplot.conf_mat <- function(object, type = "mosaic", ...) {
+
+  if (!(type %in% conf_mat_plot_types)) {
+    stop("`type` must be one of: ",
+         paste(conf_mat_plot_types, collapse = ", "), call. = FALSE)
+  }
+
+  switch(type,
+         mosaic = cm_mosaic(object),
+         heatmap = cm_heat(object))
+}
+
+
+
+cm_heat <- function(x) {
+
+  `%+%` <- ggplot2::`%+%`
+
+  data <- as.data.frame.matrix(x$table)
+
+  data$Prediction <- rownames(data)
+
+  data %>%
+    tidyr::gather(key = "Truth", value = "Count", -Prediction) %>%
+    ggplot2::ggplot(ggplot2::aes(Prediction, Truth, fill = Count)) %+%
+    ggplot2::geom_tile() %+%
+    ggplot2::scale_fill_gradient(low = "white", high = "black") %+%
+    ggplot2::theme_bw()
+}
+
+space_fun <- function(x, adjustment, rescale = FALSE) {
+
+  if(rescale) {
+    x <- x / sum(x)
+  }
+
+  adjustment <- sum(x) / adjustment
+
+  xmax <- cumsum(x) + seq(0, length(x) - 1) * adjustment
+  xmin <- cumsum(x) - x + seq(0, length(x) - 1) * adjustment
+  dplyr::tibble(xmin = xmin,
+         xmax = xmax)
+}
+
+space_y_fun <- function(data, id, x_data) {
+  out <- (space_fun(data[, id], 100, rescale = TRUE) * -1)
+  names(out) <- c("ymin", "ymax")
+  out$xmin = x_data[[id, 1]]
+  out$xmax = x_data[[id, 2]]
+  out
+}
+
+cm_mosaic <- function(x) {
+
+  `%+%` <- ggplot2::`%+%`
+
+  cm_zero <- (as.numeric(x$table == 0) / 2) + x$table
+
+  x_data <- space_fun(rowSums(cm_zero), 200)
+
+  full_data_list <- purrr::map(seq_len(ncol(cm_zero)),
+                        ~ space_y_fun(cm_zero, .x, x_data))
+
+  full_data <- dplyr::bind_rows(full_data_list)
+
+  y1_data <- full_data_list[[1]]
+
+  tick_labels <- colnames(cm_zero)
+
+  ggplot2::ggplot(full_data) %+%
+    ggplot2::geom_rect(ggplot2::aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)) %+%
+    ggplot2::scale_x_continuous(breaks = (x_data$xmin + x_data$xmax) / 2,
+                       labels = tick_labels) %+%
+    ggplot2::scale_y_continuous(breaks = (y1_data$ymin + y1_data$ymax) / 2,
+                       labels = tick_labels) %+%
+    ggplot2::labs(x = "Predicted",
+         y = "Truth") %+%
+    ggplot2::theme(panel.background = ggplot2::element_blank())
 }
