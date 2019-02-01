@@ -11,7 +11,7 @@
 (@riazhedayati, #67).
 
 * `conf_mat()` got two `ggplot2::autoplot()` methods for easy visualization 
-(@EmilHvitfeldt, $10).
+(@EmilHvitfeldt, #10).
 
 # yardstick 0.0.2
 
