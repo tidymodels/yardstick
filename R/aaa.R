@@ -25,7 +25,14 @@ utils::globalVariables(
     "perfect",
     "sensitivity",
     ".percent_found",
-    ".percent_tested"
+    ".percent_tested",
+    "Prediction",
+    "Truth",
+    "Freq",
+    "xmin",
+    "xmax",
+    "ymin",
+    "ymax"
   )
 )
 
@@ -48,6 +55,7 @@ utils::globalVariables(
   s3_register("ggplot2::autoplot", "lift_df")
   s3_register("ggplot2::autoplot", "roc_df")
   s3_register("ggplot2::autoplot", "pr_df")
+  s3_register("ggplot2::autoplot", "conf_mat")
 
   invisible()
 }

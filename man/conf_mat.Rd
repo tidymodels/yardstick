@@ -6,6 +6,7 @@
 \alias{conf_mat.default}
 \alias{conf_mat.data.frame}
 \alias{tidy.conf_mat}
+\alias{autoplot.conf_mat}
 \title{Confusion Matrix for Categorical Data}
 \usage{
 conf_mat(data, ...)
@@ -14,6 +15,8 @@ conf_mat(data, ...)
   dnn = c("Prediction", "Truth"), ...)
 
 \method{tidy}{conf_mat}(x, ...)
+
+autoplot.conf_mat(object, type = "mosaic", ...)
 }
 \arguments{
 \item{data}{A data frame or a \code{\link[base:table]{base::table()}}.}
@@ -36,6 +39,11 @@ unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 \item{dnn}{A character vector of dimnames for the table.}
 
 \item{x}{A \code{conf_mat} object.}
+
+\item{object}{The \code{conf_mat} data frame returned from \code{conf_mat()}.}
+
+\item{type}{Type of plot desired, must be "mosaic" or "heatmap",
+defaults to "mosaic".}
 }
 \value{
 \code{conf_mat()} produces an object with class \code{conf_mat}. This contains the
@@ -57,6 +65,10 @@ easy manipulation.
 There is also a \code{summary()} method that computes various classification
 metrics at once. See \code{\link[=summary.conf_mat]{summary.conf_mat()}}
 
+There is a \code{\link[ggplot2:autoplot]{ggplot2::autoplot()}}
+method for quickly visualizing the matrix. Both a heatmap and mosaic type
+is implemented.
+
 The function requires that the factors have exactly the same levels.
 }
 \examples{
@@ -64,9 +76,10 @@ library(dplyr)
 data("hpc_cv")
 
 # The confusion matrix from a single assessment set (i.e. fold)
-hpc_cv \%>\%
+cm <- hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
   conf_mat(obs, pred)
+cm
 
 # Now compute the average confusion matrix across all folds in
 # terms of the proportion of the data contained in each cell.
@@ -99,6 +112,13 @@ rownames(mean_cmat) <- levels(hpc_cv$obs)
 colnames(mean_cmat) <- levels(hpc_cv$obs)
 
 round(mean_cmat, 3)
+
+# The confusion matrix can quickly be visualized using autoplot()
+library(ggplot2)
+
+autoplot(cm, type = "mosaic")
+autoplot(cm, type = "heatmap")
+
 }
 \seealso{
 \code{\link[=summary.conf_mat]{summary.conf_mat()}} for computing a large number of metrics from one

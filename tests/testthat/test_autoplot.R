@@ -303,3 +303,67 @@ test_that("Lift Curve - multi class, with resamples", {
   # 5 resamples
   expect_equal(length(unique(.plot_data$data[[1]]$colour)), 5)
 })
+
+# Confusion Matrix  ------------------------------------------------------------
+test_that("Confusion Matrix - type argument", {
+  res <- conf_mat(two_class_example, truth, predicted)
+
+  expect_error(.plot <- autoplot(res, type = "wrong"), "type")
+})
+
+test_that("Confusion Matrix - two class - heatmap", {
+  res <- conf_mat(two_class_example, truth, predicted)
+
+  expect_error(.plot <- autoplot(res, type = "heatmap"), NA)
+  expect_is(.plot, "gg")
+
+  .plot_data <- ggplot_build(.plot)
+
+
+  # 4 panes
+  expect_equal(nrow(.plot_data$data[[1]]), length(res$table))
+})
+
+test_that("Confusion Matrix - multi class - heatmap", {
+  res <- hpc_cv %>%
+    filter(Resample == "Fold01") %>%
+    conf_mat(obs, pred)
+
+  expect_error(.plot <- autoplot(res, type = "heatmap"), NA)
+  expect_is(.plot, "gg")
+
+  .plot_data <- ggplot_build(.plot)
+
+
+  # panes
+  expect_equal(nrow(.plot_data$data[[1]]), length(res$table))
+})
+
+test_that("Confusion Matrix - two class - mosaic", {
+  res <- conf_mat(two_class_example, truth, predicted)
+
+  expect_error(.plot <- autoplot(res, type = "mosaic"), NA)
+  expect_is(.plot, "gg")
+
+  .plot_data <- ggplot_build(.plot)
+
+
+  # 4 panes
+  expect_equal(nrow(.plot_data$data[[1]]), length(res$table))
+})
+
+test_that("Confusion Matrix - multi class - mosaic", {
+  res <- hpc_cv %>%
+    filter(Resample == "Fold01") %>%
+    conf_mat(obs, pred)
+
+  expect_error(.plot <- autoplot(res, type = "mosaic"), NA)
+  expect_is(.plot, "gg")
+
+  .plot_data <- ggplot_build(.plot)
+
+  # panes
+  expect_equal(nrow(.plot_data$data[[1]]), length(res$table))
+
+})
+

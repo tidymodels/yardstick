@@ -10,6 +10,9 @@
 * `smape()` is a numeric metric that is based on percentage errors 
 (@riazhedayati, #67).
 
+* `conf_mat` objects now have two  `ggplot2::autoplot()`methods for easy visualization
+of the confusion matrix as either a heat map or a mosaic plot (@EmilHvitfeldt, #10).
+
 # yardstick 0.0.2
 
 ## Breaking changes
