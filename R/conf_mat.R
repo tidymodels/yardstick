@@ -316,7 +316,7 @@ cm_heat <- function(x) {
     ggplot2::ggplot(ggplot2::aes(Prediction, Truth, fill = Freq)) %+%
     ggplot2::geom_tile() %+%
     ggplot2::scale_fill_gradient(low = "white", high = "black") %+%
-    ggplot2::theme_bw()
+    ggplot2::theme(panel.background = ggplot2::element_blank())
 }
 
 space_fun <- function(x, adjustment, rescale = FALSE) {
