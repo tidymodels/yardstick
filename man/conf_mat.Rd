@@ -113,7 +113,7 @@ colnames(mean_cmat) <- levels(hpc_cv$obs)
 
 round(mean_cmat, 3)
 
-# The confusion matrix can quickly be vizualized using autoplot()
+# The confusion matrix can quickly be visualized using autoplot()
 library(ggplot2)
 
 autoplot(cm, type = "mosaic")
