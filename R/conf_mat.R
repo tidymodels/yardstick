@@ -313,14 +313,12 @@ cm_heat <- function(x) {
   `%+%` <- ggplot2::`%+%`
 
   as.data.frame.table(x$table) %>%
-    ggplot2::ggplot(ggplot2::aes(x = Prediction,
-                                 y = factor(Truth, levels = rev(levels(Truth))),
-                                 fill = Freq)) %+%
+    dplyr::mutate(Truth = factor(Truth, levels = rev(levels(Truth)))) %>%
+    ggplot2::ggplot(ggplot2::aes(Prediction, Truth, fill = Freq)) %+%
     ggplot2::geom_tile() %+%
     ggplot2::scale_fill_gradient(low = "grey90", high = "grey40") %+%
     ggplot2::theme(panel.background = ggplot2::element_blank(), legend.position = "none") %+%
-    ggplot2::geom_text(ggplot2::aes(label = Freq)) %+%
-    ggplot2::labs(y = "Truth")
+    ggplot2::geom_text(ggplot2::aes(label = Freq))
 }
 
 space_fun <- function(x, adjustment, rescale = FALSE) {
