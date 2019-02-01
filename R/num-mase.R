@@ -9,6 +9,8 @@
 #' @templateVar metric_fn mase
 #' @template return
 #'
+#' @inheritParams rmse
+#'
 #' @param is_insample A logical vector indicating if an observation is considered insample (TRUE)
 #' or outsample (FALSE)
 #'
@@ -87,3 +89,7 @@ mase_vec <- function(truth, estimate, is_insample, m = 1, na_rm = TRUE, ...) {
     m = m
   )
 }
+
+
+
+
