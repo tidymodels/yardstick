@@ -312,13 +312,8 @@ cm_heat <- function(x) {
 
   `%+%` <- ggplot2::`%+%`
 
-  data <- as.data.frame.matrix(x$table)
-
-  data$Prediction <- rownames(data)
-
-  data %>%
-    tidyr::gather(key = "Truth", value = "Count", -Prediction) %>%
-    ggplot2::ggplot(ggplot2::aes(Prediction, Truth, fill = Count)) %+%
+  as.data.frame.table(x$table) %>%
+    ggplot2::ggplot(ggplot2::aes(Prediction, Truth, fill = Freq)) %+%
     ggplot2::geom_tile() %+%
     ggplot2::scale_fill_gradient(low = "white", high = "black") %+%
     ggplot2::theme_bw()

@@ -28,7 +28,7 @@ utils::globalVariables(
     ".percent_tested",
     "Prediction",
     "Truth",
-    "Count",
+    "Freq",
     "xmin",
     "xmax",
     "ymin",
