@@ -251,3 +251,28 @@ test_that('Pseudo-Huber Loss', {
     "`delta` must be a single numeric value."
   )
 })
+
+###################################################################
+
+
+test_that('Mean Absolute Scaled Error', {
+
+  # data from Hyndman's paper
+  sales <- data.frame(list(y = c(0, 2, 0, 1, 0, 10, 0, 0, 0, 2, 0, 6, 3, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 0, 1, 0, 1, 0, 0),
+       y_hat = c(NA, 0, 2, 0, 1, 0, 10, 0, 0, 0, 2, 0, 6, 3, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+       insample = c(T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,T, T, T, T, T, T, T, F, F, F, F, F, F, F, F, F, F, F, F)))
+
+  expect_equal(
+    mase(sales, truth = y, estimate = y_hat, is_insample = is_insample, m = 1),  0.1964286
+  )
+
+#  expect_error(
+#    mase(truth = mase_impl$y, estimate = mase_impl$y_hat, is_insample = "wrong", m = 1),
+#    "`is_insample` must be a logical vector."
+#  )
+#
+#  expect_error(
+#    mase(sales, truth = y, estimate = y_hat, is_insample = is_insample, m = 6.9),
+#    "`m` must be a single integer value."
+#  )
+})
