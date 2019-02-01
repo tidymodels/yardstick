@@ -146,7 +146,9 @@
   <span class='kw'>dnn</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Prediction"</span>, <span class='st'>"Truth"</span>), <span class='no'>...</span>)
 
 <span class='co'># S3 method for conf_mat</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/generics/topics/tidy'>tidy</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/generics/topics/tidy'>tidy</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>autoplot.conf_mat</span>(<span class='no'>object</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mosaic"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,6 +186,15 @@ unquoted variable name. For <code>_vec()</code> functions, a <code>factor</code>
       <th>x</th>
       <td><p>A <code>conf_mat</code> object.</p></td>
     </tr>
+    <tr>
+      <th>object</th>
+      <td><p>The <code>conf_mat</code> data frame returned from <code>conf_mat()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>Type of plot desired, must be "mosaic" or "heatmap",
+defaults to "mosaic".</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -202,6 +213,9 @@ that collapses the cell counts by cell into a data frame for
 easy manipulation.</p>
 <p>There is also a <code><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary()</a></code> method that computes various classification
 metrics at once. See <code><a href='summary.conf_mat.html'>summary.conf_mat()</a></code></p>
+<p>There is a <code><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>ggplot2::autoplot()</a></code>
+method for quickly visualizing the matrix. Both a heatmap and mosaic type
+is implemented.</p>
 <p>The function requires that the factors have exactly the same levels.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -215,9 +229,10 @@ confusion matrix.</p></div>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"hpc_cv"</span>)
 
 <span class='co'># The confusion matrix from a single assessment set (i.e. fold)</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+<span class='no'>cm</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>conf_mat</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt;           Truth
+  <span class='fu'>conf_mat</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)
+<span class='no'>cm</span></div><div class='output co'>#&gt;           Truth
 #&gt; Prediction  VF   F   M   L
 #&gt;         VF 166  33   8   1
 #&gt;         F   11  71  24   7
@@ -276,7 +291,12 @@ confusion matrix.</p></div>
 #&gt; VF 0.467 0.107 0.018 0.003
 #&gt; F  0.041 0.187 0.063 0.017
 #&gt; M  0.002 0.007 0.023 0.008
-#&gt; L  0.001 0.010 0.014 0.032</div></pre>
+#&gt; L  0.001 0.010 0.014 0.032</div><div class='input'>
+<span class='co'># The confusion matrix can quickly be visualized using autoplot()</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='no'>cm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mosaic"</span>)</div><div class='img'><img src='conf_mat-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='no'>cm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"heatmap"</span>)</div><div class='img'><img src='conf_mat-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
