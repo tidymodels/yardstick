@@ -315,8 +315,9 @@ cm_heat <- function(x) {
   as.data.frame.table(x$table) %>%
     ggplot2::ggplot(ggplot2::aes(Prediction, Truth, fill = Freq)) %+%
     ggplot2::geom_tile() %+%
-    ggplot2::scale_fill_gradient(low = "white", high = "black") %+%
-    ggplot2::theme(panel.background = ggplot2::element_blank())
+    ggplot2::scale_fill_gradient(low = "grey90", high = "grey40") %+%
+    ggplot2::theme(panel.background = ggplot2::element_blank(), legend.position = "none") %+%
+    ggplot2::geom_text(ggplot2::aes(label = Freq))
 }
 
 space_fun <- function(x, adjustment, rescale = FALSE) {
