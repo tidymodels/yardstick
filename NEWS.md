@@ -10,6 +10,9 @@
 * `smape()` is a numeric metric that is based on percentage errors 
 (@riazhedayati, #67).
 
+* `conf_mat()` got two `ggplot2::autoplot()` methods for easy visualization 
+(@EmilHvitfeldt, $10).
+
 # yardstick 0.0.2
 
 ## Breaking changes
