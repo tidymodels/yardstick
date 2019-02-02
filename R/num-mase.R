@@ -38,7 +38,7 @@ class(mase) <- c("numeric_metric", "function")
 
 #' @rdname mase
 #' @export
-mase.data.frame <- function(data, truth, estimate, is_insample, m = 1, na_rm = TRUE, ...) {
+mase.data.frame <- function(data, truth, estimate, m = 1, mae_train = NULL, na_rm = TRUE, ...) {
   metric_summarizer(
     metric_nm = "mase",
     metric_fn = mase_vec,
@@ -48,36 +48,33 @@ mase.data.frame <- function(data, truth, estimate, is_insample, m = 1, na_rm = T
     na_rm = na_rm,
     ... = ...,
     # Extra argument for huber_loss_impl()
-    metric_fn_options = list(is_insample = !!enquo(is_insample), m = 1)
+    metric_fn_options = list(mae_train = mae_train, m = 1)
   )
 }
 
 #' @export
 #' @rdname mase
-mase_vec <- function(truth, estimate, is_insample, m = 1, na_rm = TRUE, ...) {
-  mase_impl <- function(truth, estimate, is_insample, m = 1) {
-    if (!rlang::is_bare_logical(is_insample, n = length(truth))) {
-      abort("`is_insample` must be a logical vector.")
-    }
+mase_vec <- function(truth, estimate, m = 1, mae_train = NULL, na_rm = TRUE, ...) {
+  mase_impl <- function(truth, estimate, m = 1, mae_train = NULL) {
 
     if (!rlang::is_bare_numeric(m, n = 1L)) {
       abort("`m` must be a single integer value.")
     }
 
-    mase_tibble <- tibble(truth, estimate, is_insample)
+    # use out-sample snaive if mae_train is not provided
+    if (rlang::is_null(mae_train)){
+    snaive <- lag(truth, m)
+    }else{
+    snaive <- mae_train
+    }
 
-    out_truth <- mase_tibble[mase_tibble$is_insample == FALSE, ]$truth
-    out_estimate <- mase_tibble[mase_tibble$is_insample == FALSE, ]$estimate
-
-    in_truth <- mase_tibble[mase_tibble$is_insample == TRUE, ]$truth
-    in_snaive <- lag(in_truth, m)
-
-    out_mae <- mean(abs(out_truth - out_estimate))
-    in_snaive_mae <- mean(abs(in_truth - in_snaive), na.rm = TRUE) # removes the na values from m lags
-
-    mase <- out_mae / in_snaive_mae
+    e <- truth - estimate
+    snaive_mae <- mean(abs(truth - snaive), na.rm = TRUE)
+    q <- e / snaive_mae
+    mase <- mean(abs(q), na.rm = TRUE)
     mase
   }
+
   metric_vec_template(
     metric_impl = mase_impl,
     truth = truth,
@@ -85,11 +82,8 @@ mase_vec <- function(truth, estimate, is_insample, m = 1, na_rm = TRUE, ...) {
     na_rm = na_rm,
     cls = "numeric",
     ...,
-    is_insample = is_insample,
+    mae_train = mae_train,
     m = m
   )
 }
-
-
-
 

@@ -258,12 +258,11 @@ test_that('Pseudo-Huber Loss', {
 test_that('Mean Absolute Scaled Error', {
 
   # data from Hyndman's paper
-  sales <- data.frame(list(y = c(0, 2, 0, 1, 0, 10, 0, 0, 0, 2, 0, 6, 3, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 3, 1, 0, 0, 1, 0, 1, 0, 0),
-       y_hat = c(NA, 0, 2, 0, 1, 0, 10, 0, 0, 0, 2, 0, 6, 3, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-       insample = c(T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,T, T, T, T, T, T, T, F, F, F, F, F, F, F, F, F, F, F, F)))
+  s <- data.frame(list(y = c(5,4,3,2,1),
+                       y_hat = c(1, 1, 1, 1, 1)))
 
   expect_equal(
-    mase(sales, truth = y, estimate = y_hat, is_insample = is_insample, m = 1),  0.1964286
+    mase(s, truth = y, estimate = y_hat, m = 1),  2
   )
 
 #  expect_error(
