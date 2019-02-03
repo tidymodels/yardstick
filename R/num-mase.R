@@ -11,8 +11,8 @@
 #'
 #' @inheritParams rmse
 #'
-#' @param is_insample A logical vector indicating if an observation is considered insample (TRUE)
-#' or outsample (FALSE)
+#' @param mae_train A numerica value which allows the user to provide the in sample seasonal naive
+#' mae. If this value is not provided then the out-of-sample seasonal naive mae will be calculated.
 #'
 #' @param m An integer value of lags used to calculate the insample seasonal/nonseasonal naive error.
 #' For example m = 1L for non seasonal time series. If each observation was at the daily level and
@@ -38,7 +38,7 @@ class(mase) <- c("numeric_metric", "function")
 
 #' @rdname mase
 #' @export
-mase.data.frame <- function(data, truth, estimate, m = 1, mae_train = NULL, na_rm = TRUE, ...) {
+mase.data.frame <- function(data, truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE, ...) {
   metric_summarizer(
     metric_nm = "mase",
     metric_fn = mase_vec,
@@ -48,22 +48,26 @@ mase.data.frame <- function(data, truth, estimate, m = 1, mae_train = NULL, na_r
     na_rm = na_rm,
     ... = ...,
     # Extra argument for huber_loss_impl()
-    metric_fn_options = list(mae_train = mae_train, m = 1)
+    metric_fn_options = list(mae_train = mae_train, m = m)
   )
 }
 
 #' @export
 #' @rdname mase
-mase_vec <- function(truth, estimate, m = 1, mae_train = NULL, na_rm = TRUE, ...) {
-  mase_impl <- function(truth, estimate, m = 1, mae_train = NULL) {
+mase_vec <- function(truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE, ...) {
+  mase_impl <- function(truth, estimate, m = 1L, mae_train = NULL) {
 
-    if (!rlang::is_bare_numeric(m, n = 1L)) {
+    if (!is.integer(m)) {
       abort("`m` must be a single integer value.")
+    }
+
+    if (!(m >= 0)) {
+      abort("`delta` must be a positive value.")
     }
 
     # use out-sample snaive if mae_train is not provided
     if (rlang::is_null(mae_train)){
-    snaive <- lag(truth, m)
+    snaive <- dplyr::lag(truth, m)
     }else{
     snaive <- mae_train
     }
@@ -86,4 +90,3 @@ mase_vec <- function(truth, estimate, m = 1, mae_train = NULL, na_rm = TRUE, ...
     m = m
   )
 }
-
