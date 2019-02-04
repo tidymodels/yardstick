@@ -1,8 +1,9 @@
 #' Mean absolute scaled error
 #'
-#' Calculate the mean absolute scaled error. This metric is _scale independent_ and _symmetric_.
-#' It is ideal for comparing forecast error in time series settings. Due to the time series nature
-#' of this error metric it is neccesary to order observation ascending by time.
+#' Calculate the mean absolute scaled error. This metric is _scale independent_
+#' and _symmetric_. It is ideal for comparing forecast error in time series
+#' settings. Due to the time series nature of this error metric it is neccesary
+#' to order observation ascending by time.
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
@@ -11,20 +12,22 @@
 #'
 #' @inheritParams rmse
 #'
-#' @param mae_train A numerica value which allows the user to provide the in sample seasonal naive
-#' mae. If this value is not provided then the out-of-sample seasonal naive mae will be calculated.
+#' @param mae_train A numerica value which allows the user to provide the in
+#' sample seasonal naive mae. If this value is not provided then the
+#' out-of-sample seasonal naive mae will be calculated.
 #'
-#' @param m An integer value of lags used to calculate the insample seasonal/nonseasonal naive error.
-#' For example m = 1L for non seasonal time series. If each observation was at the daily level and
-#' the data should weekly seasonality then m = 7L would be a reasonable choice for a 7-day seasonal
+#' @param m An integer value of lags used to calculate the insample
+#' seasonal/nonseasonal naive error. For example m = 1L for non seasonal time
+#' series. If each observation was at the daily level and the data should weekly
+#' seasonality then m = 7L would be a reasonable choice for a 7-day seasonal
 #' naive calculation.
 #'
 #' @author Alex Hallam
 #'
 #' #' @references
 #'
-#' Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS OR INTERMITTENT DEMAND.
-#' _Foresight_, 4, 46.
+#' Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS OR
+#' INTERMITTENT DEMAND. _Foresight_, 4, 46.
 #'
 #' @template examples-numeric
 #'
@@ -38,7 +41,9 @@ class(mase) <- c("numeric_metric", "function")
 
 #' @rdname mase
 #' @export
-mase.data.frame <- function(data, truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE, ...) {
+mase.data.frame <- function(data, truth, estimate, m = 1L,
+                            mae_train = NULL, na_rm = TRUE, ...) {
+
   metric_summarizer(
     metric_nm = "mase",
     metric_fn = mase_vec,
@@ -50,11 +55,14 @@ mase.data.frame <- function(data, truth, estimate, m = 1L, mae_train = NULL, na_
     # Extra argument for huber_loss_impl()
     metric_fn_options = list(mae_train = mae_train, m = m)
   )
+
 }
 
 #' @export
 #' @rdname mase
-mase_vec <- function(truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE, ...) {
+mase_vec <- function(truth, estimate, m = 1L,
+                     mae_train = NULL, na_rm = TRUE, ...) {
+
   mase_impl <- function(truth, estimate, m = 1L, mae_train = NULL) {
 
     if (!is.integer(m)) {
@@ -89,4 +97,5 @@ mase_vec <- function(truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE, ..
     mae_train = mae_train,
     m = m
   )
+
 }
