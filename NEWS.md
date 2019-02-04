@@ -2,6 +2,9 @@
 
 ## New metrics and functionality
 
+* `mase()` is a numeric metric for the mean absolute scaled error. It is 
+generally useful when forecasting with time series (@alexhallam, #68).
+
 * `huber_loss()` is a numeric metric that is less sensitive to outliers than
 `rmse()`, but is more sensitive than `mae()` for small errors (@blairj09, #71).
 
