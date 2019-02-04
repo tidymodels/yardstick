@@ -41,9 +41,13 @@ reference:
     - rsq_trad
     - mae
     - mape
+    - smape
+    - mase
     - ccc
     - rpiq
     - rpd
+    - huber_loss
+    - pseudo_huber_loss
 
   - title: Curve Functions
     contents:
