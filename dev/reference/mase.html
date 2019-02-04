@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>R squared - traditional — rsq_trad • yardstick</title>
+<title>Mean absolute scaled error — mase • yardstick</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,11 +31,12 @@
 
 
 
-<meta property="og:title" content="R squared - traditional — rsq_trad" />
+<meta property="og:title" content="Mean absolute scaled error — mase" />
 
-<meta property="og:description" content="Calculate the coefficient of determination using the traditional definition
-of R squared using sum of squares. For a measure of R squared that is
-strictly between (0, 1), see rsq()." />
+<meta property="og:description" content="Calculate the mean absolute scaled error. This metric is scale independent
+and symmetric. It is generally used for comparing forecast error in
+time series settings. Due to the time series nature of this metric, it
+is neccesary to order observations in ascending order by time." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -132,25 +133,28 @@ strictly between (0, 1), see rsq()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>R squared - traditional</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-rsq_trad.R'><code>R/num-rsq_trad.R</code></a></small>
-    <div class="hidden name"><code>rsq_trad.Rd</code></div>
+    <h1>Mean absolute scaled error</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-mase.R'><code>R/num-mase.R</code></a></small>
+    <div class="hidden name"><code>mase.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Calculate the coefficient of determination using the traditional definition
-of R squared using sum of squares. For a measure of R squared that is
-strictly between (0, 1), see <code><a href='rsq.html'>rsq()</a></code>.</p>
+    <p>Calculate the mean absolute scaled error. This metric is <em>scale independent</em>
+and <em>symmetric</em>. It is generally used for comparing forecast error in
+time series settings. Due to the time series nature of this metric, it
+is neccesary to order observations in ascending order by time.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>rsq_trad</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>mase</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>rsq_trad</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>mase</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
+  <span class='kw'>mae_train</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>rsq_trad_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>mase_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>mae_train</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,6 +184,21 @@ specified different ways but the primary method is to use an
 unquoted variable name. For <code>_vec()</code> functions, a <code>numeric</code> vector.</p></td>
     </tr>
     <tr>
+      <th>m</th>
+      <td><p>An integer value of the number of lags used to calculate the
+in-sample seasonal naive error. The default is used for non-seasonal time
+series. If each observation was at the daily level and the data showed weekly
+seasonality, then <code>m = 7L</code> would be a reasonable choice for a 7-day seasonal
+naive calculation.</p></td>
+    </tr>
+    <tr>
+      <th>mae_train</th>
+      <td><p>A numeric value which allows the user to provide the
+in-sample seasonal naive mean absolute error. If this value is not provided,
+then the out-of-sample seasonal naive mean absolute error will be calculated
+from <code>truth</code> and will be used instead.</p></td>
+    </tr>
+    <tr>
       <th>na_rm</th>
       <td><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></td>
@@ -192,41 +211,50 @@ values should be stripped before the computation proceeds.</p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>rsq_trad_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>mase_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The two estimates for the
-coefficient of determination, <code><a href='rsq.html'>rsq()</a></code> and <code>rsq_trad()</code>, differ by
-their formula. The former guarantees a value on (0, 1) while the
-latter can generate inaccurate values when the model is
-non-informative (see the examples). Both are measures of
-consistency/correlation and not of accuracy.</p>
+    <p><code>mase()</code> is different from most numeric metrics. The original implementation
+of <code>mase()</code> calls for using the <em>in-sample</em> naive mean absolute error to
+compute scaled errors with. It uses this instead of the out-of-sample error
+because there is a chance that the out-of-sample error cannot be computed
+when forecasting a very short horizon (i.e. the out of sample size is only
+1 or 2). However, <code>yardstick</code> only knows about the out-of-sample <code>truth</code> and
+<code>estimate</code> values. Because of this, the out-of-sample error is used in the
+computation by default. If the in-sample naive mean absolute error is
+required and known, it can be passed through in the <code>mae_train</code> argument
+and it will be used instead. If the in-sample data is available, the
+naive mean absolute error can easily be computed with
+<code><a href='mae.html'>mae(data, truth, lagged_truth)</a></code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Kvalseth. Cautionary note about \(R^2\).
-American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
+    <p>Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS FOR
+INTERMITTENT DEMAND. <em>Foresight</em>, 4, 46.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other numeric metrics: <code><a href='ccc.html'>ccc</a></code>,
   <code><a href='huber_loss_pseudo.html'>huber_loss_pseudo</a></code>,
   <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='mae.html'>mae</a></code>,
-  <code><a href='mape.html'>mape</a></code>, <code><a href='mase.html'>mase</a></code>,
-  <code><a href='rmse.html'>rmse</a></code>, <code><a href='rpd.html'>rpd</a></code>,
-  <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq.html'>rsq</a></code>,
+  <code><a href='mape.html'>mape</a></code>, <code><a href='rmse.html'>rmse</a></code>,
+  <code><a href='rpd.html'>rpd</a></code>, <code><a href='rpiq.html'>rpiq</a></code>,
+  <code><a href='rsq_trad.html'>rsq_trad</a></code>, <code><a href='rsq.html'>rsq</a></code>,
   <code><a href='smape.html'>smape</a></code></p>
-<p>Other consistency metrics: <code><a href='ccc.html'>ccc</a></code>,
-  <code><a href='rpd.html'>rpd</a></code>, <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq.html'>rsq</a></code></p></div>
+<p>Other accuracy metrics: <code><a href='ccc.html'>ccc</a></code>,
+  <code><a href='huber_loss_pseudo.html'>huber_loss_pseudo</a></code>,
+  <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='mae.html'>mae</a></code>,
+  <code><a href='mape.html'>mape</a></code>, <code><a href='rmse.html'>rmse</a></code>,
+  <code><a href='smape.html'>smape</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'>rsq_trad</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric  .estimator .estimate
-#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 rsq_trad standard       0.879</div><div class='input'>
+<span class='fu'>mase</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric .estimator .estimate
+#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 mase    standard        3.56</div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1234</span>)
@@ -246,38 +274,27 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 <span class='co'># Compute the metric by group</span>
 <span class='no'>metric_results</span> <span class='kw'>&lt;-</span> <span class='no'>solubility_resampled</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>rsq_trad</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
+  <span class='fu'>mase</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
 
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
-#&gt;    resample .metric  .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        rsq_trad standard       0.858
-#&gt;  2 10       rsq_trad standard       0.857
-#&gt;  3 2        rsq_trad standard       0.867
-#&gt;  4 3        rsq_trad standard       0.866
-#&gt;  5 4        rsq_trad standard       0.901
-#&gt;  6 5        rsq_trad standard       0.888
-#&gt;  7 6        rsq_trad standard       0.894
-#&gt;  8 7        rsq_trad standard       0.829
-#&gt;  9 8        rsq_trad standard       0.929
-#&gt; 10 9        rsq_trad standard       0.906</div><div class='input'>
+#&gt;    resample .metric .estimator .estimate
+#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+#&gt;  1 1        mase    standard       0.240
+#&gt;  2 10       mase    standard       0.268
+#&gt;  3 2        mase    standard       0.235
+#&gt;  4 3        mase    standard       0.255
+#&gt;  5 4        mase    standard       0.213
+#&gt;  6 5        mase    standard       0.216
+#&gt;  7 6        mase    standard       0.215
+#&gt;  8 7        mase    standard       0.266
+#&gt;  9 8        mase    standard       0.165
+#&gt; 10 9        mase    standard       0.215</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1        0.879</div><div class='input'><span class='co'># With uninformitive data, the traditional version of R^2 can return</span>
-<span class='co'># negative values.</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>2291</span>)
-<span class='no'>solubility_test</span>$<span class='no'>randomized</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample.html'>sample</a></span>(<span class='no'>solubility_test</span>$<span class='no'>prediction</span>)
-<span class='fu'><a href='rsq.html'>rsq</a></span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 rsq     standard    0.000246</div><div class='input'><span class='fu'>rsq_trad</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric  .estimator .estimate
-#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 rsq_trad standard      -0.951</div><div class='input'>
-</div></pre>
+#&gt; 1        0.229</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -296,7 +313,7 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
     </ul>
 
     <h2>Author</h2>
-    <p>Max Kuhn</p>
+    <p>Alex Hallam</p>
   </div>
 </div>
 
