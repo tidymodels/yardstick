@@ -1,9 +1,9 @@
 #' Mean absolute scaled error
 #'
 #' Calculate the mean absolute scaled error. This metric is _scale independent_
-#' and _symmetric_. It is ideal for comparing forecast error in time series
-#' settings. Due to the time series nature of this error metric it is neccesary
-#' to order observation ascending by time.
+#' and _symmetric_. It is generally used for comparing forecast error in
+#' time series settings. Due to the time series nature of this metric, it
+#' is neccesary to order observations in ascending order by time.
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
@@ -12,19 +12,20 @@
 #'
 #' @inheritParams rmse
 #'
-#' @param mae_train A numerica value which allows the user to provide the in
-#' sample seasonal naive mae. If this value is not provided then the
-#' out-of-sample seasonal naive mae will be calculated.
+#' @param mae_train A numeric value which allows the user to provide the
+#' in-sample seasonal naive mean absolute error. If this value is not provided,
+#' then the out-of-sample seasonal naive mean absolute error will be calculated
+#' from `truth` and will be used instead.
 #'
-#' @param m An integer value of lags used to calculate the insample
-#' seasonal/nonseasonal naive error. For example m = 1L for non seasonal time
-#' series. If each observation was at the daily level and the data should weekly
-#' seasonality then m = 7L would be a reasonable choice for a 7-day seasonal
+#' @param m An integer value of the number of lags used to calculate the
+#' in-sample seasonal naive error. The default is used for non-seasonal time
+#' series. If each observation was at the daily level and the data showed weekly
+#' seasonality, then `m = 7L` would be a reasonable choice for a 7-day seasonal
 #' naive calculation.
 #'
 #' @author Alex Hallam
 #'
-#' #' @references
+#' @references
 #'
 #' Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS OR
 #' INTERMITTENT DEMAND. _Foresight_, 4, 46.
