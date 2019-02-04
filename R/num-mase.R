@@ -5,6 +5,19 @@
 #' time series settings. Due to the time series nature of this metric, it
 #' is neccesary to order observations in ascending order by time.
 #'
+#' `mase()` is different from most numeric metrics. The original implementation
+#' of `mase()` calls for using the _in-sample_ naive mean absolute error to
+#' compute scaled errors with. It uses this instead of the out-of-sample error
+#' because there is a chance that the out-of-sample error cannot be computed
+#' when forecasting a very short horizon (i.e. the out of sample size is only
+#' 1 or 2). However, `yardstick` only knows about the out-of-sample `truth` and
+#' `estimate` values. Because of this, the out-of-sample error is used in the
+#' computation by default. If the in-sample naive mean absolute error is
+#' required and known, it can be passed through in the `mae_train` argument
+#' and it will be used instead. If the in-sample data is available, the
+#' naive mean absolute error can easily be computed with
+#' `mae(data, truth, lagged_truth)`.
+#'
 #' @family numeric metrics
 #' @family accuracy metrics
 #' @templateVar metric_fn mase
@@ -27,7 +40,7 @@
 #'
 #' @references
 #'
-#' Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS OR
+#' Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS FOR
 #' INTERMITTENT DEMAND. _Foresight_, 4, 46.
 #'
 #' @template examples-numeric
