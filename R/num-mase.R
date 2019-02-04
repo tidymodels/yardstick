@@ -53,7 +53,7 @@ mase.data.frame <- function(data, truth, estimate, m = 1L,
     estimate = !!enquo(estimate),
     na_rm = na_rm,
     ... = ...,
-    # Extra argument for huber_loss_impl()
+    # Extra argument for mase_impl()
     metric_fn_options = list(mae_train = mae_train, m = m)
   )
 
@@ -64,27 +64,36 @@ mase.data.frame <- function(data, truth, estimate, m = 1L,
 mase_vec <- function(truth, estimate, m = 1L,
                      mae_train = NULL, na_rm = TRUE, ...) {
 
-  mase_impl <- function(truth, estimate, m = 1L, mae_train = NULL) {
+  mase_impl <- function(truth, estimate, m, mae_train) {
 
-    if (!is.integer(m)) {
-      abort("`m` must be a single integer value.")
+    validate_m(m)
+    validate_mae_train(mae_train)
+
+    if (is.null(mae_train)) {
+      validate_truth_m(truth, m)
     }
 
-    if (!(m >= 0)) {
-      abort("`delta` must be a positive value.")
+    # use out-of-sample snaive if mae_train is not provided
+    if (rlang::is_null(mae_train)) {
+
+      truth_lag <- dplyr::lag(truth, m)
+      naive_error <- truth - truth_lag
+      mae_denom <- mean(abs(naive_error), na.rm = TRUE)
+
+    }
+    else {
+
+      mae_denom <- mae_train
+
     }
 
-    # use out-sample snaive if mae_train is not provided
-    if (rlang::is_null(mae_train)){
-    snaive <- dplyr::lag(truth, m)
-    }else{
-    snaive <- mae_train
-    }
+    error <- truth - estimate
 
-    e <- truth - estimate
-    snaive_mae <- mean(abs(truth - snaive), na.rm = TRUE)
-    q <- e / snaive_mae
-    mase <- mean(abs(q), na.rm = TRUE)
+    # scaled errors
+    q <- error / mae_denom
+
+    mase <- mean(abs(q))
+
     mase
   }
 
@@ -99,4 +108,51 @@ mase_vec <- function(truth, estimate, m = 1L,
     m = m
   )
 
+}
+
+validate_m <- function(m) {
+
+  abort_msg <- "`m` must be a single positive integer value."
+
+  if (!rlang::is_integerish(m, n = 1L)) {
+    abort(abort_msg)
+  }
+
+  if (!(m > 0)) {
+    abort(abort_msg)
+  }
+
+  invisible(m)
+}
+
+validate_mae_train <- function(mae_train) {
+
+  if (is.null(mae_train)) {
+    return(invisible(mae_train))
+  }
+
+  is_single_numeric <- rlang::is_bare_numeric(mae_train, n = 1L)
+  abort_msg <- "`mae_train` must be a single positive numeric value."
+
+  if (!is_single_numeric) {
+    abort(abort_msg)
+  }
+
+  if (!(mae_train > 0)) {
+    abort(abort_msg)
+  }
+
+  invisible(mae_train)
+}
+
+validate_truth_m <- function(truth, m) {
+
+  if (length(truth) <= m) {
+    abort(paste0(
+      "`truth` must have a length greater than `m` ",
+      "to compute the out-of-sample naive mean absolute error."
+    ))
+  }
+
+  invisible(truth)
 }
