@@ -101,9 +101,10 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.
 Other numeric metrics: \code{\link{ccc}},
   \code{\link{huber_loss_pseudo}},
   \code{\link{huber_loss}}, \code{\link{mae}},
-  \code{\link{mape}}, \code{\link{rmse}},
-  \code{\link{rpd}}, \code{\link{rpiq}},
-  \code{\link{rsq_trad}}, \code{\link{smape}}
+  \code{\link{mape}}, \code{\link{mase}},
+  \code{\link{rmse}}, \code{\link{rpd}},
+  \code{\link{rpiq}}, \code{\link{rsq_trad}},
+  \code{\link{smape}}
 
 Other consistency metrics: \code{\link{ccc}},
   \code{\link{rpd}}, \code{\link{rpiq}},
