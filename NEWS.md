@@ -16,6 +16,12 @@ generally useful when forecasting with time series (@alexhallam, #68).
 * `conf_mat` objects now have two  `ggplot2::autoplot()`methods for easy visualization
 of the confusion matrix as either a heat map or a mosaic plot (@EmilHvitfeldt, #10).
 
+## Other improvements
+
+* `metric_set()` now returns a classed function. If numeric metrics are used,
+a `"numeric_metric_set"` function is returned. If class or probability metrics
+are used, a `"class_prob_metric_set"` is returned.
+
 # yardstick 0.0.2
 
 ## Breaking changes
