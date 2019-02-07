@@ -250,7 +250,7 @@ metric_set <- function(...) {
   # signature of the function is different depending on input functions
   if (fn_cls == "numeric_metric") {
 
-    function(data, truth, estimate, na_rm = TRUE, ...) {
+    metric_fn <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
       # Construct common argument set for each metric call
       # Doing this dynamically inside the generated function means
@@ -278,10 +278,14 @@ metric_set <- function(...) {
       bind_rows(metric_list)
     }
 
+    class(metric_fn) <- c("numeric_metric_set", class(metric_fn))
+
+    metric_fn
+
   }
   else if (fn_cls %in% c("prob_metric", "class_metric")) {
 
-    function(data, truth, ..., estimate, estimator = NULL, na_rm = TRUE) {
+    metric_fn <- function(data, truth, ..., estimate, estimator = NULL, na_rm = TRUE) {
 
       # Find class vs prob metrics
       are_class_metrics <- vapply(fns, inherits, logical(1), what = "class_metric")
@@ -348,6 +352,10 @@ metric_set <- function(...) {
 
       bind_rows(metric_list)
     }
+
+    class(metric_fn) <- c("class_prob_metric_set", class(metric_fn))
+
+    metric_fn
 
   }
   else {
