@@ -125,3 +125,14 @@ test_that('can mix class and class prob metrics together', {
     NA
   )
 })
+
+test_that('metric set functions are classed', {
+  expect_is(
+    metric_set(accuracy, roc_auc),
+    "class_prob_metric_set"
+  )
+  expect_is(
+    metric_set(mae),
+    "numeric_metric_set"
+  )
+})
