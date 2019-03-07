@@ -16,7 +16,7 @@ conf_mat(data, ...)
 
 \method{tidy}{conf_mat}(x, ...)
 
-autoplot.conf_mat(object, type = "mosaic", ...)
+\method{autoplot}{conf_mat}(object, type = "mosaic", ...)
 }
 \arguments{
 \item{data}{A data frame or a \code{\link[base:table]{base::table()}}.}

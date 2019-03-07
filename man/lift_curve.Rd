@@ -10,7 +10,7 @@ lift_curve(data, ...)
 
 \method{lift_curve}{data.frame}(data, truth, ..., na_rm = TRUE)
 
-autoplot.lift_df(object, ...)
+\method{autoplot}{lift_df}(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}

@@ -10,7 +10,7 @@ gain_curve(data, ...)
 
 \method{gain_curve}{data.frame}(data, truth, ..., na_rm = TRUE)
 
-autoplot.gain_df(object, ...)
+\method{autoplot}{gain_df}(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
