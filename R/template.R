@@ -189,7 +189,10 @@ handle_chr_names <- function(x, nms) {
   if(is.character(x_expr) && length(x_expr) == 1) {
     # Only replace if it is actually a column name in `data`
     if(x_expr %in% nms) {
-      x <- set_expr(x, as.name(x_expr))
+      # Replace the quosure with just the name
+      # Don't replace the quosure expression, this
+      # breaks with dplyr 0.8.0.1 and R <= 3.4.4
+      x <- as.name(x_expr)
     }
   }
 
