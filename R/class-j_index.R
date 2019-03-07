@@ -28,9 +28,11 @@
 #'
 #' @references
 #'
-#' Youden, W.J. (1950). "Index for rating diagnostic tests". Cancer. 3: 32–35.
+#' Youden, W.J. (1950). "Index for rating diagnostic tests". Cancer. 3: 32-35.
 #'
-#' Powers, David M W (2011). "Evaluation: From Precision, Recall and F-Score to ROC, Informedness, Markedness & Correlation". Journal of Machine Learning Technologies. 2 (1): 37–63.
+#' Powers, David M W (2011). "Evaluation: From Precision, Recall and F-Score to
+#' ROC, Informedness, Markedness and Correlation". Journal of Machine Learning
+#' Technologies. 2 (1): 37-63.
 #'
 #' @template examples-class
 #'

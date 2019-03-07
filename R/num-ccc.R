@@ -23,7 +23,7 @@
 #'
 #' Lin, L. (1989). A concordance correlation
 #'  coefficient to evaluate reproducibility. _Biometrics_, 45 (1),
-#'  255–268.
+#'  255-268.
 #'
 #' Nickerson, C. (1997). A note on "A concordance correlation
 #'  coefficient to evaluate reproducibility". _Biometrics_, 53(4),

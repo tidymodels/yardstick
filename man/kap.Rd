@@ -88,7 +88,7 @@ options(yardstick.event_first = TRUE)
 }
 \references{
 Cohen, J. (1960). "A coefficient of agreement for nominal
-scales". \emph{Educational and Psychological Measurement}. 20 (1): 37–46.
+scales". \emph{Educational and Psychological Measurement}. 20 (1): 37-46.
 }
 \seealso{
 Other class metrics: \code{\link{accuracy}},

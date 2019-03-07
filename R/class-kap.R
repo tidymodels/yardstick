@@ -18,7 +18,7 @@
 #' @author Max Kuhn
 #'
 #' @references Cohen, J. (1960). "A coefficient of agreement for nominal
-#'  scales". _Educational and Psychological Measurement_. 20 (1): 37–46.
+#'  scales". _Educational and Psychological Measurement_. 20 (1): 37-46.
 #'
 #' @template examples-class
 #'

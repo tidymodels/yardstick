@@ -87,7 +87,7 @@ metric_results \%>\%
 \references{
 Lin, L. (1989). A concordance correlation
 coefficient to evaluate reproducibility. \emph{Biometrics}, 45 (1),
-255–268.
+255-268.
 
 Nickerson, C. (1997). A note on "A concordance correlation
 coefficient to evaluate reproducibility". \emph{Biometrics}, 53(4),
