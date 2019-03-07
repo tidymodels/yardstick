@@ -1,8 +1,8 @@
+context("Autoplot")
+
 library(testthat)
 library(dplyr)
 library(ggplot2)
-
-context("Autoplot")
 
 set.seed(123)
 
