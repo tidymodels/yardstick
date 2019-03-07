@@ -4,10 +4,26 @@ library(testthat)
 library(dplyr)
 library(ggplot2)
 
-set.seed(123)
+# As of R 3.6, cannot rely on old sample() results to be the same.
+# Pre R 3.6, they were generated like this, and we have saved them
+# as static values to be more reproducible
+
+# set.seed(123)
+# resample_idx <- replicate(
+#   n = 10,
+#   expr = sample.int(
+#     n = nrow(two_class_example),
+#     size = 300,
+#     replace = TRUE
+#   ),
+#   simplify = FALSE
+# )
+
+# saveRDS(object = resample_idx, file = testthat::test_path("test_autoplot.rds"))
+resample_idx <- readRDS(testthat::test_path("test_autoplot.rds"))
 
 two_class_resamples <- bind_rows(
-  replicate(10, sample_n(two_class_example, 300, TRUE), simplify = FALSE),
+  lapply(resample_idx, function(idx) two_class_example[idx,]),
   .id = "Resample"
 ) %>%
   group_by(Resample)
