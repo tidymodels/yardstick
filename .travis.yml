@@ -24,3 +24,8 @@ matrix:
   - r: oldrel
   - r: 3.2
   - r: 3.1
+
+# To prevent "unable to verify current time" on travis R-devel
+env:
+  global:
+  - _R_CHECK_SYSTEM_CLOCK_=FALSE
