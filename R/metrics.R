@@ -104,7 +104,10 @@ metrics.data.frame <- function(data, truth, estimate, ...,
       res <- bind_rows(
         res,
         mn_log_loss(data, !! vars$truth, !! vars$probs, na_rm = na_rm),
-        roc_auc(data, !! vars$truth, !! vars$probs, na_rm = na_rm, options = options)
+        roc_auc(
+          data, !! vars$truth, !! vars$probs,
+          na_rm = na_rm, options = options
+        )
       )
 
     } # end has_probs
@@ -160,8 +163,8 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' Class/prob metrics have a signature of
 #' `fn(data, truth, ..., estimate, na_rm = TRUE)`. When mixing class and
 #' class prob metrics, pass in the hard predictions (the factor column) as
-#' the named argument `estimate`, and the soft predictions (the class probability
-#' columns) as bare column names or `tidyselect` selectors to `...`.
+#' the named argument `estimate`, and the soft predictions (the class
+#' probability columns) as bare column names or `tidyselect` selectors to `...`.
 #'
 #' @examples
 #'
@@ -250,7 +253,7 @@ metric_set <- function(...) {
   # signature of the function is different depending on input functions
   if (fn_cls == "numeric_metric") {
 
-    metric_fn <- function(data, truth, estimate, na_rm = TRUE, ...) {
+    metric_fn_numeric <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
       # Construct common argument set for each metric call
       # Doing this dynamically inside the generated function means
@@ -278,17 +281,27 @@ metric_set <- function(...) {
       bind_rows(metric_list)
     }
 
-    class(metric_fn) <- c("numeric_metric_set", class(metric_fn))
+    class(metric_fn_numeric) <- c(
+      "numeric_metric_set",
+      class(metric_fn_numeric)
+    )
 
-    metric_fn
+    metric_fn_numeric
 
   }
   else if (fn_cls %in% c("prob_metric", "class_metric")) {
 
-    metric_fn <- function(data, truth, ..., estimate, estimator = NULL, na_rm = TRUE) {
+    metric_fn_class_prob <- function(data, truth, ..., estimate,
+                                     estimator = NULL, na_rm = TRUE) {
 
       # Find class vs prob metrics
-      are_class_metrics <- vapply(fns, inherits, logical(1), what = "class_metric")
+      are_class_metrics <- vapply(
+        X = fns,
+        FUN = inherits,
+        FUN.VALUE = logical(1),
+        what = "class_metric"
+      )
+
       class_fns <- fns[are_class_metrics]
       prob_fns <- fns[!are_class_metrics]
 
@@ -353,9 +366,12 @@ metric_set <- function(...) {
       bind_rows(metric_list)
     }
 
-    class(metric_fn) <- c("class_prob_metric_set", class(metric_fn))
+    class(metric_fn_class_prob) <- c(
+      "class_prob_metric_set",
+      class(metric_fn_class_prob)
+    )
 
-    metric_fn
+    metric_fn_class_prob
 
   }
   else {

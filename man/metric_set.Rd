@@ -34,8 +34,8 @@ Numeric metrics will have a signature like:
 Class/prob metrics have a signature of
 \code{fn(data, truth, ..., estimate, na_rm = TRUE)}. When mixing class and
 class prob metrics, pass in the hard predictions (the factor column) as
-the named argument \code{estimate}, and the soft predictions (the class probability
-columns) as bare column names or \code{tidyselect} selectors to \code{...}.
+the named argument \code{estimate}, and the soft predictions (the class
+probability columns) as bare column names or \code{tidyselect} selectors to \code{...}.
 }
 \examples{
 
