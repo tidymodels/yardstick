@@ -22,6 +22,10 @@ of the confusion matrix as either a heat map or a mosaic plot (@EmilHvitfeldt, #
 a `"numeric_metric_set"` function is returned. If class or probability metrics
 are used, a `"class_prob_metric_set"` is returned.
 
+## Bug fixes
+
+* Tests related to the fixed R 3.6 `sample()` function have been fixed.
+
 # yardstick 0.0.2
 
 ## Breaking changes
