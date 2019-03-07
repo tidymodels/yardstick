@@ -36,15 +36,36 @@ data_altman <- function() {
   list(pathology = pathology, path_tbl = path_tbl)
 }
 
+# Helper data for 3 class example generation i.e. data_three_class().
+# Static results since we cannot rely on sample()
+# to give us the same values post R 3.6. In <3.6 they were generated with:
+
+# set.seed(1311)
+# three_class_helpers <- list(
+#   pred = sample(iris$Species, replace = TRUE),
+#   pred_na = sample(iris$Species),
+#   where_na = sample.int(150, 10)
+# )
+# saveRDS(three_class_helpers, testthat::test_path("helper-data.rds"))
+
+three_class_helpers <- readRDS(testthat::test_path("helper-data.rds"))
+
 data_three_class <- function() {
-  set.seed(1311)
-  three_class <- data.frame(obs = iris$Species,
-                            pred = sample(iris$Species, replace = TRUE),
-                            pred_na = sample(iris$Species))
-  three_class$pred_na[sample.int(150, 10)] <- NA
+
+  three_class <- data.frame(
+    obs = iris$Species,
+    pred = three_class_helpers$pred,
+    pred_na = three_class_helpers$pred_na
+  )
+
+  three_class$pred_na[three_class_helpers$where_na] <- NA
   three_class$pred_ch <- as.character(three_class$pred)
-  three_class$pred_lvl <- factor(as.character(three_class$pred),
-                                 levels = rev(levels(iris$Species)))
+
+  three_class$pred_lvl <- factor(
+    as.character(three_class$pred),
+    levels = rev(levels(iris$Species))
+  )
+
   three_class$pred_val <- three_class$pred_ch
   three_class$pred_val[1] <- "wrong_value"
 
