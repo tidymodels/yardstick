@@ -73,6 +73,24 @@ test_that("Hand Till multiclass", {
   )
 })
 
+test_that("can calculate Hand Till when prob matrix column names are different from level values", {
+
+  hpc_cv_renamed_cols <- hpc_cv2
+
+  # Mimic how parsnip returns names
+  colnames(hpc_cv_renamed_cols) <- c(
+    "obs", "pred",
+    ".pred_VF", ".pred_F", ".pred_M", ".pred_L",
+    "Resample"
+  )
+
+  expect_equal(
+    roc_auc(hpc_cv_renamed_cols, obs, .pred_VF:.pred_L)[[".estimate"]],
+    0.827387699597311
+  )
+
+})
+
 # ------------------------------------------------------------------------------
 
 hpc_f1 <- data_hpc_fold1()
