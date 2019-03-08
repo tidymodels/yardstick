@@ -28,6 +28,8 @@ are used, a `"class_prob_metric_set"` is returned.
 
 * `f_meas()` propagates `NA` values from `precision()` and `recall()` correctly.
 
+* All `"micro"` estimators now propagate `NA` values through correctly.
+
 # yardstick 0.0.2
 
 ## Breaking changes
