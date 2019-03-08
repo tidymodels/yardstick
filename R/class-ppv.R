@@ -168,10 +168,7 @@ ppv_multiclass <- function(data, estimator, prevalence = NULL) {
   numer <- .sens_vec * prevalence
   denom <- .sens_vec * prevalence + (1 - .spec_vec) * (1 - prevalence)
 
-  if(any(denom <= 0)) {
-    res <- rep(NA_real_, times = nrow(data))
-    return(res)
-  }
+  denom[denom <= 0] <- NA_real_
 
   numer / denom
 }

@@ -122,8 +122,10 @@ recall_binary <- function(data) {
   positive <- pos_val(data)
   numer <- sum(data[positive, positive])
   denom <- sum(data[, positive])
-  rec <- ifelse(denom > 0, numer / denom, NA_real_)
-  rec
+
+  denom[denom <= 0] <- NA_real_
+
+  numer / denom
 
 }
 
@@ -132,10 +134,7 @@ recall_multiclass <- function(data, estimator) {
   numer <- diag(data)
   denom <- colSums(data)
 
-  if(any(denom <= 0)) {
-    res <- rep(NA_real_, times = nrow(data))
-    return(res)
-  }
+  denom[denom <= 0] <- NA_real_
 
   if(is_micro(estimator)) {
     numer <- sum(numer)

@@ -128,8 +128,10 @@ precision_binary <- function(data) {
   relevant <- pos_val(data)
   numer <- data[relevant, relevant]
   denom <- sum(data[relevant, ])
-  precision <- ifelse(denom > 0, numer / denom, NA_real_)
-  precision
+
+  denom[denom <= 0] <- NA_real_
+
+  numer / denom
 
 }
 
@@ -138,10 +140,7 @@ precision_multiclass <- function(data, estimator) {
   numer <- diag(data)
   denom <- rowSums(data)
 
-  if(any(denom <= 0)) {
-    res <- rep(NA_real_, times = nrow(data))
-    return(res)
-  }
+  denom[denom <= 0] <- NA_real_
 
   if(is_micro(estimator)) {
     numer <- sum(numer)

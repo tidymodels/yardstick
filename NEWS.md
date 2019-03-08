@@ -13,7 +13,7 @@ generally useful when forecasting with time series (@alexhallam, #68).
 * `smape()` is a numeric metric that is based on percentage errors 
 (@riazhedayati, #67).
 
-* `conf_mat` objects now have two  `ggplot2::autoplot()`methods for easy visualization
+* `conf_mat` objects now have two `ggplot2::autoplot()` methods for easy visualization
 of the confusion matrix as either a heat map or a mosaic plot (@EmilHvitfeldt, #10).
 
 ## Other improvements
@@ -27,6 +27,8 @@ are used, a `"class_prob_metric_set"` is returned.
 * Tests related to the fixed R 3.6 `sample()` function have been fixed.
 
 * `f_meas()` propagates `NA` values from `precision()` and `recall()` correctly.
+
+* All `"micro"` estimators now propagate `NA` values through correctly.
 
 # yardstick 0.0.2
 

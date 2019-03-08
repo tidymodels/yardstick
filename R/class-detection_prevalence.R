@@ -117,10 +117,7 @@ detection_prevalence_multiclass <- function(data, estimator) {
   numer <- rowSums(data)
   denom <- rep(sum(data), times = nrow(data))
 
-  if(any(denom <= 0)) {
-    res <- rep(NA_real_, times = nrow(data))
-    return(res)
-  }
+  denom[denom <= 0] <- NA_real_
 
   if(is_micro(estimator)) {
     numer <- sum(numer)

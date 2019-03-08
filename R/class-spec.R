@@ -124,8 +124,10 @@ spec_binary <- function(data) {
 
   numer <- sum(data[negative, negative])
   denom <- sum(data[, negative])
-  spec <- ifelse(denom > 0, numer / denom, NA_real_)
-  spec
+
+  denom[denom <= 0] <- NA_real_
+
+  numer / denom
 
 }
 
@@ -142,10 +144,7 @@ spec_multiclass <- function(data, estimator) {
   numer <- tn
   denom <- tn + fp
 
-  if(any(denom <= 0)) {
-    res <- rep(NA_real_, times = nrow(data))
-    return(res)
-  }
+  denom[denom <= 0] <- NA_real_
 
   if(is_micro(estimator)) {
     numer <- sum(numer)
