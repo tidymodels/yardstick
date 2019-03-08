@@ -26,6 +26,8 @@ are used, a `"class_prob_metric_set"` is returned.
 
 * Tests related to the fixed R 3.6 `sample()` function have been fixed.
 
+* `f_meas()` propagates `NA` values from `precision()` and `recall()` correctly.
+
 # yardstick 0.0.2
 
 ## Breaking changes
