@@ -74,7 +74,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
         </div>
       </div>
     </div>
@@ -132,6 +132,40 @@
       <small>Source: <a href='https://github.com/tidymodels/yardstick/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="yardstick-0-0-3" class="section level1">
+<h1 class="page-header">
+<a href="#yardstick-0-0-3" class="anchor"></a>yardstick 0.0.3<small> Unreleased </small>
+</h1>
+<div id="new-metrics-and-functionality" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-metrics-and-functionality" class="anchor"></a>New metrics and functionality</h2>
+<ul>
+<li><p><code><a href="../reference/mase.html">mase()</a></code> is a numeric metric for the mean absolute scaled error. It is generally useful when forecasting with time series (<a href='https://github.com/alexhallam'>@alexhallam</a>, <a href='https://github.com/tidymodels/yardstick/issues/68'>#68</a>).</p></li>
+<li><p><code><a href="../reference/huber_loss.html">huber_loss()</a></code> is a numeric metric that is less sensitive to outliers than <code><a href="../reference/rmse.html">rmse()</a></code>, but is more sensitive than <code><a href="../reference/mae.html">mae()</a></code> for small errors (<a href='https://github.com/blairj09'>@blairj09</a>, <a href='https://github.com/tidymodels/yardstick/issues/71'>#71</a>).</p></li>
+<li><p><code><a href="../reference/huber_loss_pseudo.html">huber_loss_pseudo()</a></code> is a smoothed form of <code><a href="../reference/huber_loss.html">huber_loss()</a></code> (<a href='https://github.com/blairj09'>@blairj09</a>, <a href='https://github.com/tidymodels/yardstick/issues/71'>#71</a>).</p></li>
+<li><p><code><a href="../reference/smape.html">smape()</a></code> is a numeric metric that is based on percentage errors (<a href='https://github.com/riazhedayati'>@riazhedayati</a>, <a href='https://github.com/tidymodels/yardstick/issues/67'>#67</a>).</p></li>
+<li><p><code>conf_mat</code> objects now have two <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods for easy visualization of the confusion matrix as either a heat map or a mosaic plot (<a href='https://github.com/EmilHvitfeldt'>@EmilHvitfeldt</a>, <a href='https://github.com/tidymodels/yardstick/issues/10'>#10</a>).</p></li>
+</ul>
+</div>
+<div id="other-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-improvements" class="anchor"></a>Other improvements</h2>
+<ul>
+<li>
+<code><a href="../reference/metric_set.html">metric_set()</a></code> now returns a classed function. If numeric metrics are used, a <code>"numeric_metric_set"</code> function is returned. If class or probability metrics are used, a <code>"class_prob_metric_set"</code> is returned.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li><p>Tests related to the fixed R 3.6 <code><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample()</a></code> function have been fixed.</p></li>
+<li><p><code><a href="../reference/f_meas.html">f_meas()</a></code> propagates <code>NA</code> values from <code><a href="../reference/precision.html">precision()</a></code> and <code><a href="../reference/recall.html">recall()</a></code> correctly (<a href='https://github.com/tidymodels/yardstick/issues/77'>#77</a>).</p></li>
+<li><p>All <code>"micro"</code> estimators now propagate <code>NA</code> values through correctly.</p></li>
+<li><p><code><a href="../reference/roc_auc.html">roc_auc(estimator = "hand_till")</a></code> now correctly computes the metric when the column names of the probability matrix are not the exact same as the levels of <code>truth</code>. Note that the computation still assumes that the order of the supplied probability matrix columns still matches the order of <code><a href="https://www.rdocumentation.org/packages/base/topics/levels">levels(truth)</a></code>, like other multiclass metrics (<a href='https://github.com/tidymodels/yardstick/issues/86'>#86</a>).</p></li>
+</ul>
+</div>
+</div>
     <div id="yardstick-0-0-2" class="section level1">
 <h1 class="page-header">
 <a href="#yardstick-0-0-2" class="anchor"></a>yardstick 0.0.2<small> 2018-11-05 </small>
@@ -209,6 +243,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#yardstick-0-0-3">0.0.3</a></li>
         <li><a href="#yardstick-0-0-2">0.0.2</a></li>
         <li><a href="#yardstick-0-0-1">0.0.1</a></li>
       </ul>
