@@ -19,7 +19,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -28,6 +28,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
+
+
 
 <meta property="og:title" content="Changelog" />
 
@@ -72,7 +74,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
         </div>
       </div>
     </div>
@@ -130,6 +132,40 @@
       <small>Source: <a href='https://github.com/tidymodels/yardstick/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="yardstick-0-0-3" class="section level1">
+<h1 class="page-header">
+<a href="#yardstick-0-0-3" class="anchor"></a>yardstick 0.0.3<small> Unreleased </small>
+</h1>
+<div id="new-metrics-and-functionality" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-metrics-and-functionality" class="anchor"></a>New metrics and functionality</h2>
+<ul>
+<li><p><code><a href="../reference/mase.html">mase()</a></code> is a numeric metric for the mean absolute scaled error. It is generally useful when forecasting with time series (<a href='https://github.com/alexhallam'>@alexhallam</a>, <a href='https://github.com/tidymodels/yardstick/issues/68'>#68</a>).</p></li>
+<li><p><code><a href="../reference/huber_loss.html">huber_loss()</a></code> is a numeric metric that is less sensitive to outliers than <code><a href="../reference/rmse.html">rmse()</a></code>, but is more sensitive than <code><a href="../reference/mae.html">mae()</a></code> for small errors (<a href='https://github.com/blairj09'>@blairj09</a>, <a href='https://github.com/tidymodels/yardstick/issues/71'>#71</a>).</p></li>
+<li><p><code><a href="../reference/huber_loss_pseudo.html">huber_loss_pseudo()</a></code> is a smoothed form of <code><a href="../reference/huber_loss.html">huber_loss()</a></code> (<a href='https://github.com/blairj09'>@blairj09</a>, <a href='https://github.com/tidymodels/yardstick/issues/71'>#71</a>).</p></li>
+<li><p><code><a href="../reference/smape.html">smape()</a></code> is a numeric metric that is based on percentage errors (<a href='https://github.com/riazhedayati'>@riazhedayati</a>, <a href='https://github.com/tidymodels/yardstick/issues/67'>#67</a>).</p></li>
+<li><p><code>conf_mat</code> objects now have two <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods for easy visualization of the confusion matrix as either a heat map or a mosaic plot (<a href='https://github.com/EmilHvitfeldt'>@EmilHvitfeldt</a>, <a href='https://github.com/tidymodels/yardstick/issues/10'>#10</a>).</p></li>
+</ul>
+</div>
+<div id="other-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-improvements" class="anchor"></a>Other improvements</h2>
+<ul>
+<li>
+<code><a href="../reference/metric_set.html">metric_set()</a></code> now returns a classed function. If numeric metrics are used, a <code>"numeric_metric_set"</code> function is returned. If class or probability metrics are used, a <code>"class_prob_metric_set"</code> is returned.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li><p>Tests related to the fixed R 3.6 <code><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample()</a></code> function have been fixed.</p></li>
+<li><p><code><a href="../reference/f_meas.html">f_meas()</a></code> propagates <code>NA</code> values from <code><a href="../reference/precision.html">precision()</a></code> and <code><a href="../reference/recall.html">recall()</a></code> correctly (<a href='https://github.com/tidymodels/yardstick/issues/77'>#77</a>).</p></li>
+<li><p>All <code>"micro"</code> estimators now propagate <code>NA</code> values through correctly.</p></li>
+<li><p><code><a href="../reference/roc_auc.html">roc_auc(estimator = "hand_till")</a></code> now correctly computes the metric when the column names of the probability matrix are not the exact same as the levels of <code>truth</code>. Note that the computation still assumes that the order of the supplied probability matrix columns still matches the order of <code><a href="https://www.rdocumentation.org/packages/base/topics/levels">levels(truth)</a></code>, like other multiclass metrics (<a href='https://github.com/tidymodels/yardstick/issues/86'>#86</a>).</p></li>
+</ul>
+</div>
+</div>
     <div id="yardstick-0-0-2" class="section level1">
 <h1 class="page-header">
 <a href="#yardstick-0-0-2" class="anchor"></a>yardstick 0.0.2<small> 2018-11-05 </small>
@@ -156,9 +192,9 @@
 <li><p>All metrics now work with grouped data frames. This produces a tibble with as many rows as there are groups, and is useful when used alongside resampling techniques.</p></li>
 </ul>
 </div>
-<div id="new-metrics-and-functionality" class="section level2">
+<div id="new-metrics-and-functionality-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-metrics-and-functionality" class="anchor"></a>New metrics and functionality</h2>
+<a href="#new-metrics-and-functionality-1" class="anchor"></a>New metrics and functionality</h2>
 <ul>
 <li><p><code><a href="../reference/mape.html">mape()</a></code> calculates the mean absolute percent error.</p></li>
 <li><p><code><a href="../reference/kap.html">kap()</a></code> is a metric similar to <code><a href="../reference/accuracy.html">accuracy()</a></code> that calculates Cohen’s kappa.</p></li>
@@ -168,13 +204,13 @@
 <li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code> calculates precision recall curves.</p></li>
 <li><p><code><a href="../reference/gain_curve.html">gain_curve()</a></code> and <code><a href="../reference/lift_curve.html">lift_curve()</a></code> calculate the information used in gain and lift curves.</p></li>
 <li><p><code><a href="../reference/gain_capture.html">gain_capture()</a></code> is a measure of performance similar in spirit to AUC but applied to a gain curve.</p></li>
-<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code>, <code><a href="../reference/roc_curve.html">roc_curve()</a></code>, <code><a href="../reference/gain_curve.html">gain_curve()</a></code> and <code><a href="../reference/lift_curve.html">lift_curve()</a></code> all have <code><a href="ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods for easy visualization.</p></li>
+<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code>, <code><a href="../reference/roc_curve.html">roc_curve()</a></code>, <code><a href="../reference/gain_curve.html">gain_curve()</a></code> and <code><a href="../reference/lift_curve.html">lift_curve()</a></code> all have <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods for easy visualization.</p></li>
 <li><p><code><a href="../reference/metric_set.html">metric_set()</a></code> constructs functions that calculate multiple metrics at once.</p></li>
 </ul>
 </div>
-<div id="other-improvements" class="section level2">
+<div id="other-improvements-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-improvements" class="anchor"></a>Other improvements</h2>
+<a href="#other-improvements-1" class="anchor"></a>Other improvements</h2>
 <ul>
 <li><p>The infrastructure for creating metrics has been exposed to allow users to extend yardstick to work with their own metrics. You might want to do this if you want your metrics to work with grouped data frames out of the box, or if you want the standardization and error checking that yardstick already provides. See <code><a href="../articles/custom-metrics.html">vignette("custom-metrics", "yardstick")</a></code> for a few examples.</p></li>
 <li><p>A vignette describing the three classes of metrics used in yardstick has been added. It also includes a list of every metric available, grouped by class. See <code><a href="../articles/metric-types.html">vignette("metric-types", "yardstick")</a></code>.</p></li>
@@ -207,6 +243,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#yardstick-0-0-3">0.0.3</a></li>
         <li><a href="#yardstick-0-0-2">0.0.2</a></li>
         <li><a href="#yardstick-0-0-1">0.0.1</a></li>
       </ul>

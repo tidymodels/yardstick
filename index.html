@@ -8,7 +8,7 @@
 <title>Tidy Characterizations of Model Performance • yardstick</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="tidyverse-2.css" rel="stylesheet">
 <meta property="og:title" content="Tidy Characterizations of Model Performance">
 <meta property="og:description" content="Tidy tools for quantifying how well model fits to a data set such as confusion matrices, class probability curve summaries, and regression metrics (e.g., RMSE). ">
@@ -26,7 +26,7 @@
 </script>
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -41,7 +41,7 @@
         <a class="navbar-brand" href="index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
         </div>
       </div>
     </div>
@@ -93,7 +93,11 @@
 
       
       </header><div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
+    
+
+    
+    
 <div id="yardstick" class="section level1">
 
 
@@ -148,7 +152,7 @@
 <a href="#multiclass-metrics" class="anchor"></a>Multiclass metrics</h2>
 <p>All classification metrics have at least one multiclass extension, with many of them having multiple ways to calculate multiclass metrics.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"hpc_cv"</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">hpc_cv &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">as_tibble</a></span>(hpc_cv)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">hpc_cv &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">as_tibble</a></span>(hpc_cv)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">hpc_cv</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3,467 x 7</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;    obs   pred     VF      F       M          L Resample</span></a>
@@ -163,7 +167,7 @@
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  8 VF    VF    0.918 0.0744 0.00726 0.0000157  Fold01  </span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  9 VF    VF    0.843 0.128  0.0296  0.000192   Fold01  </span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 10 VF    VF    0.920 0.0728 0.00703 0.0000147  Fold01  </span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; # ... with 3,457 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; # … with 3,457 more rows</span></a></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Macro averaged multiclass precision</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="reference/precision.html">precision</a></span>(hpc_cv, obs, pred)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
@@ -184,7 +188,7 @@
 <p>If you have multiple resamples of a model, you can use a metric on a grouped data frame to calculate the metric across all resamples at once.</p>
 <p>This calculates multiclass ROC AUC using the method described in Hand, Till (2001), and does it across all 10 resamples at once.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">hpc_cv <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/roc_auc.html">roc_auc</a></span>(obs, VF<span class="op">:</span>L)</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; # A tibble: 10 x 4</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;    Resample .metric .estimator .estimate</span></a>
@@ -203,13 +207,13 @@
 <div id="autoplot-methods-for-easy-visualization" class="section level2">
 <h2 class="hasAnchor">
 <a href="#autoplot-methods-for-easy-visualization" class="anchor"></a>Autoplot methods for easy visualization</h2>
-<p>Curve based methods such as <code><a href="reference/roc_curve.html">roc_curve()</a></code>, <code><a href="reference/pr_curve.html">pr_curve()</a></code> and <code><a href="reference/gain_curve.html">gain_curve()</a></code> all have <code><a href="ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods that allow for powerful and easy visualization.</p>
+<p>Curve based methods such as <code><a href="reference/roc_curve.html">roc_curve()</a></code>, <code><a href="reference/pr_curve.html">pr_curve()</a></code> and <code><a href="reference/gain_curve.html">gain_curve()</a></code> all have <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods that allow for powerful and easy visualization.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">hpc_cv <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/roc_curve.html">roc_curve</a></span>(obs, VF<span class="op">:</span>L) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>()</a></code></pre></div>
 <p><img src="reference/figures/README-roc-curves-1.png" width="700"></p>
 </div>
 <div id="quasiquotation" class="section level2">
@@ -229,7 +233,7 @@
 </div>
   </div>
 
-  <div class="col-md-3" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
@@ -256,7 +260,7 @@
 </ul>
 </div>
 
-  <div class="dev-status">
+      <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/tidymodels/yardstick"><img src="https://travis-ci.org/tidymodels/yardstick.svg?branch=master" alt="Build Status"></a></li>
@@ -267,6 +271,7 @@
 </ul>
 </div>
 </div>
+
 </div>
 
 

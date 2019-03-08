@@ -1,6 +1,6 @@
 pandoc: '2.2'
-pkgdown: 1.1.0.9000
-pkgdown_sha: 33c059119873eb94656ec119f5ba62e86b3e7977
+pkgdown: 1.3.0.9000
+pkgdown_sha: 59cc923c953d483091aae2b6b626b195674efb5f
 articles:
   custom-metrics: custom-metrics.html
   metric-types: metric-types.html

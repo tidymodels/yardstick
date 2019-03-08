@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Root mean squared error — rmse • yardstick</title>
+<title>Psuedo-Huber Loss — huber_loss_pseudo • yardstick</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,10 +31,10 @@
 
 
 
-<meta property="og:title" content="Root mean squared error — rmse" />
+<meta property="og:title" content="Psuedo-Huber Loss — huber_loss_pseudo" />
 
-<meta property="og:description" content="Calculate the root mean squared error. rmse() is a metric that is in
-the same units as the original data." />
+<meta property="og:description" content="Calculate the Pseudo-Huber Loss, a smooth approximation of huber_loss().
+Like huber_loss(), this is less sensitive to outliers than rmse()." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -131,24 +131,25 @@ the same units as the original data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Root mean squared error</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-rmse.R'><code>R/num-rmse.R</code></a></small>
-    <div class="hidden name"><code>rmse.Rd</code></div>
+    <h1>Psuedo-Huber Loss</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-pseudo_huber_loss.R'><code>R/num-pseudo_huber_loss.R</code></a></small>
+    <div class="hidden name"><code>huber_loss_pseudo.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Calculate the root mean squared error. <code>rmse()</code> is a metric that is in
-the same units as the original data.</p>
+    <p>Calculate the Pseudo-Huber Loss, a smooth approximation of <code><a href='huber_loss.html'>huber_loss()</a></code>.
+Like <code><a href='huber_loss.html'>huber_loss()</a></code>, this is less sensitive to outliers than <code><a href='rmse.html'>rmse()</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>rmse</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>huber_loss_pseudo</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>rmse</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>huber_loss_pseudo</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>rmse_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>huber_loss_pseudo_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,6 +179,11 @@ specified different ways but the primary method is to use an
 unquoted variable name. For <code>_vec()</code> functions, a <code>numeric</code> vector.</p></td>
     </tr>
     <tr>
+      <th>delta</th>
+      <td><p>A single <code>numeric</code> value. Defines the boundary where the loss function
+transitions from quadratic to linear. Defaults to 1.</p></td>
+    </tr>
+    <tr>
       <th>na_rm</th>
       <td><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></td>
@@ -190,30 +196,35 @@ values should be stripped before the computation proceeds.</p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>rmse_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>huber_loss_pseudo_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Huber, P. (1964). Robust Estimation of a Location Parameter.
+<em>Annals of Statistics</em>, 53 (1), 73-101.</p>
+<p>Hartley, Richard (2004). Multiple View Geometry in Computer Vision.
+(Second Edition). Page 619.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other numeric metrics: <code><a href='ccc.html'>ccc</a></code>,
-  <code><a href='huber_loss_pseudo.html'>huber_loss_pseudo</a></code>,
   <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='mae.html'>mae</a></code>,
   <code><a href='mape.html'>mape</a></code>, <code><a href='mase.html'>mase</a></code>,
-  <code><a href='rpd.html'>rpd</a></code>, <code><a href='rpiq.html'>rpiq</a></code>,
-  <code><a href='rsq_trad.html'>rsq_trad</a></code>, <code><a href='rsq.html'>rsq</a></code>,
-  <code><a href='smape.html'>smape</a></code></p>
+  <code><a href='rmse.html'>rmse</a></code>, <code><a href='rpd.html'>rpd</a></code>,
+  <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq_trad.html'>rsq_trad</a></code>,
+  <code><a href='rsq.html'>rsq</a></code>, <code><a href='smape.html'>smape</a></code></p>
 <p>Other accuracy metrics: <code><a href='ccc.html'>ccc</a></code>,
-  <code><a href='huber_loss_pseudo.html'>huber_loss_pseudo</a></code>,
   <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='mae.html'>mae</a></code>,
   <code><a href='mape.html'>mape</a></code>, <code><a href='mase.html'>mase</a></code>,
-  <code><a href='smape.html'>smape</a></code></p></div>
+  <code><a href='rmse.html'>rmse</a></code>, <code><a href='smape.html'>smape</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'>rmse</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 rmse    standard       0.722</div><div class='input'>
+<span class='fu'>huber_loss_pseudo</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric           .estimator .estimate
+#&gt;   &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 huber_loss_pseudo standard       0.199</div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1234</span>)
@@ -233,27 +244,27 @@ the number of groups.</p>
 <span class='co'># Compute the metric by group</span>
 <span class='no'>metric_results</span> <span class='kw'>&lt;-</span> <span class='no'>solubility_resampled</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>rmse</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
+  <span class='fu'>huber_loss_pseudo</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
 
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
-#&gt;    resample .metric .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        rmse    standard       0.694
-#&gt;  2 10       rmse    standard       0.853
-#&gt;  3 2        rmse    standard       0.786
-#&gt;  4 3        rmse    standard       0.711
-#&gt;  5 4        rmse    standard       0.732
-#&gt;  6 5        rmse    standard       0.709
-#&gt;  7 6        rmse    standard       0.764
-#&gt;  8 7        rmse    standard       0.700
-#&gt;  9 8        rmse    standard       0.636
-#&gt; 10 9        rmse    standard       0.672</div><div class='input'>
+#&gt;    resample .metric           .estimator .estimate
+#&gt;    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
+#&gt;  1 1        huber_loss_pseudo standard       0.181
+#&gt;  2 10       huber_loss_pseudo standard       0.261
+#&gt;  3 2        huber_loss_pseudo standard       0.219
+#&gt;  4 3        huber_loss_pseudo standard       0.200
+#&gt;  5 4        huber_loss_pseudo standard       0.197
+#&gt;  6 5        huber_loss_pseudo standard       0.193
+#&gt;  7 6        huber_loss_pseudo standard       0.226
+#&gt;  8 7        huber_loss_pseudo standard       0.192
+#&gt;  9 8        huber_loss_pseudo standard       0.165
+#&gt; 10 9        huber_loss_pseudo standard       0.178</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1        0.726</div></pre>
+#&gt; 1        0.201</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -262,13 +273,15 @@ the number of groups.</p>
       
       <li><a href="#value">Value</a></li>
 
+      <li><a href="#references">References</a></li>
+
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
 
     <h2>Author</h2>
-    <p>Max Kuhn</p>
+    <p>James Blair</p>
   </div>
 </div>
 
