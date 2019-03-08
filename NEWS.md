@@ -30,6 +30,8 @@ are used, a `"class_prob_metric_set"` is returned.
 
 * All `"micro"` estimators now propagate `NA` values through correctly.
 
+* `roc_auc(estimator = "hand_till")` now correctly computes the metric when the column names of the probability matrix are not the exact same as the levels of `truth`. Note that the computation still assumes that the order of the supplied probability matrix columns still matches the order of `levels(truth)`, like other multiclass metrics.
+
 # yardstick 0.0.2
 
 ## Breaking changes
