@@ -47,7 +47,7 @@ reference:
     - rpiq
     - rpd
     - huber_loss
-    - pseudo_huber_loss
+    - huber_loss_pseudo
 
   - title: Curve Functions
     contents:
