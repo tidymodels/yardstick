@@ -175,12 +175,11 @@ roc_auc_hand_till <- function(truth, estimate, options) {
 
   multiplier <- 2 / (C * (C - 1))
 
-  # A user could pass in a matrix with no names
-  # we need to reference by name in the function below, so we
-  # ensure some are added (and assume probs are given in order of levels)
-  if (is.null(colnames(estimate))) {
-    colnames(estimate) <- lvls
-  }
+  # We want to reference the levels by name in the function below, so we
+  # force the column names to be the same as the levels
+  # (and assume the prob matrix columns are given in the same
+  # order as the levels of `truth`)
+  colnames(estimate) <- lvls
 
   # A_hat(i | j) in the paper
   roc_auc_subset <- function(lvl1, lvl2) {
@@ -190,7 +189,7 @@ roc_auc_hand_till <- function(truth, estimate, options) {
     # Use estimate based on lvl1 being the relevant level
     # Estimate for lvl2 is just 1-lvl1 rather than the value that
     # is actually there for the multiclass case
-    estimate_lvl1 <- estimate[,lvl1]
+    estimate_lvl1 <- estimate[, lvl1, drop = TRUE]
 
     # subset and recode truth to only have 2 levels
     truth_subset <- factor(truth[subset_idx], levels = c(lvl1, lvl2))
