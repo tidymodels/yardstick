@@ -24,6 +24,57 @@ test_that('Two class - Powers paper', {
   )
 })
 
+# ------------------------------------------------------------------------------
+# Issue #77
+
+test_that("`NA` values propagate from binary `precision()`", {
+
+  truth <- factor(c(rep("a", 2), rep("b", 2)))
+  estimate <- factor(rep("b", length(truth)), levels(truth))
+
+  expect_equal(
+    precision_vec(truth, estimate),
+    f_meas_vec(truth, estimate)
+  )
+
+})
+
+test_that("`NA` values propagate from binary `recall()`", {
+
+  estimate <- factor(c(rep("a", 2), rep("b", 2)))
+  truth <- factor(rep("b", length(estimate)), levels(estimate))
+
+  expect_equal(
+    recall_vec(truth, estimate),
+    f_meas_vec(truth, estimate)
+  )
+
+})
+
+test_that("`NA` values propagate from multiclass `precision()`", {
+
+  truth <- factor(c(rep("a", 2), rep("b", 2)))
+  estimate <- factor(rep("b", length(truth)), levels(truth))
+
+  expect_equal(
+    precision_vec(truth, estimate, estimator = "macro"),
+    f_meas_vec(truth, estimate, estimator = "macro")
+  )
+
+})
+
+test_that("`NA` values propagate from multiclass `recall()`", {
+
+  estimate <- factor(c(rep("a", 2), rep("b", 2)))
+  truth <- factor(rep("b", length(estimate)), levels(estimate))
+
+  expect_equal(
+    recall_vec(truth, estimate, estimator = "macro"),
+    f_meas_vec(truth, estimate, estimator = "macro")
+  )
+
+})
+
 # sklearn compare --------------------------------------------------------------
 
 py_res <- read_pydata("py-f_meas")
