@@ -21,6 +21,20 @@ test_that('Two class - Powers paper', {
   )
 })
 
+# ------------------------------------------------------------------------------
+
+test_that("'micro' `NA` case is handled correctly", {
+
+  estimate <- factor(c(rep("a", 2), rep("b", 2)))
+  truth <- factor(rep("b", length(estimate)), levels(estimate))
+
+  expect_equal(
+    recall_vec(truth, estimate, estimator = "micro"),
+    NA_real_
+  )
+
+})
+
 # sklearn compare --------------------------------------------------------------
 
 py_res <- read_pydata("py-recall")

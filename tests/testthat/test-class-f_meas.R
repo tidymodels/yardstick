@@ -75,6 +75,20 @@ test_that("`NA` values propagate from multiclass `recall()`", {
 
 })
 
+# ------------------------------------------------------------------------------
+
+test_that("'micro' `NA` case is handled correctly", {
+
+  truth <- factor(c(rep("a", 2), rep("b", 2)))
+  estimate <- factor(rep("b", length(truth)), levels(truth))
+
+  expect_equal(
+    f_meas_vec(truth, estimate, estimator = "micro"),
+    NA_real_
+  )
+
+})
+
 # sklearn compare --------------------------------------------------------------
 
 py_res <- read_pydata("py-f_meas")
