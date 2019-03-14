@@ -25,23 +25,23 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
 
   // algorithm skips repeated probabilities
   // (must re-sort because unique doesnt respect order)
-  NumericVector unique_estimate = unique(estimate).sort(true);
+  NumericVector thresholds = unique(estimate).sort(true);
 
   int n = truth.size();
   int n_positive = sum(truth == 1);
-  int n_out = unique_estimate.size();
+  int n_out = thresholds.size();
 
   NumericVector x_recall = NumericVector(n_out);
   NumericVector y_precision = NumericVector(n_out);
 
   // j is only incremented when there are no duplicates
   int j = 0;
-  double estimate_i = 0;
+  double threshold_i = 0;
 
   // Initialize with first case. Must be done ahead of time because the
   // algorithm increments AFTER the `estimate_i != estimate_previous` check
   // but we need to increment the initial value ahead of time
-  double estimate_previous = unique_estimate[0];
+  double threshold_previous = thresholds[0];
 
   if(truth[0] == 1) {
     tp++;
@@ -54,9 +54,9 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
   // because we have dealt with the first case
   for(int i = 1; i < n; i++) {
 
-    estimate_i = estimate[i];
+    threshold_i = estimate[i];
 
-    if(estimate_i != estimate_previous) {
+    if(threshold_i != threshold_previous) {
 
       x_recall[j] = tp / n_positive;
 
@@ -64,7 +64,7 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
       // the initial increment
       y_precision[j] = tp / (tp + fp);
 
-      estimate_previous = estimate_i;
+      threshold_previous = threshold_i;
       j = j + 1;
     }
 
@@ -77,8 +77,6 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
     }
 
   }
-
-  NumericVector thresholds = unique_estimate;
 
   // Add end cases
 
