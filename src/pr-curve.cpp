@@ -1,15 +1,47 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+// Algorithm modified from page 866 of
+// http://people.inf.elte.hu/kiss/12dwhdm/roc.pdf
+
+// Details:
+// - Sort unique class probabilities in descending order.
+//   These are your thresholds.
+//
+// - Initialize the "previous" threshold with the first threshold value.
+//
+// - Iterate through all of the class probability values (including duplicates)
+//   For each:
+//
+//    - Check if the current class prob value is the same as the previous one.
+//
+//    - If different, we have a unique threshold so append to the
+//      recall and precision. This actually updates the _previous_ threshold's
+//      recall and precision value. It does it this way to correct capture any
+//      duplicate probability values.
+//
+//    - After the check, bump the tp or fp counter, depending on whether or not
+//      this iteration was a "success"
+//
+//    - By design, since we always update the previous threshold when we hit a
+//      new threshold, the last threshold value never gets updated. So we
+//      manually add that value afterwards outside the loop.
+//
+// Notes:
+// - We always prepend recall = 0, precision = 1 at the very end
+//   to start the curve in the right spot. This is _necessary_ for PR AUC
+//   values to be computed right.
+//
+// - Since we initialize the "previous" value with the first threshold, we never
+//   run the risk of computing an undefined precision (tp=0, fp=0). The first
+//   iteration always skips straight to the incrementing of tp and fp.
+
 IntegerVector order_cpp(NumericVector x, bool decreasing) {
   // sort(true) = sort decreasing
   NumericVector sorted = clone(x).sort(decreasing);
   // return the cpp order not the r order (0 index based)
   return match(sorted, x) - 1;
 }
-
-// Algorithm modified from page 866 of
-// http://people.inf.elte.hu/kiss/12dwhdm/roc.pdf
 
 // [[Rcpp::export]]
 List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
@@ -36,23 +68,13 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
 
   // j is only incremented when there are no duplicates
   int j = 0;
-  double threshold_i = 0;
 
-  // Initialize with first case. Must be done ahead of time because the
-  // algorithm increments AFTER the `estimate_i != estimate_previous` check
-  // but we need to increment the initial value ahead of time
+  // Initialize with first case.
   double threshold_previous = thresholds[0];
 
-  if(truth[0] == 1) {
-    tp++;
-  }
-  else if (truth[0] == 2) {
-    fp++;
-  }
+  double threshold_i;
 
-  // Start at position 1 (2 in R index world)
-  // because we have dealt with the first case
-  for(int i = 1; i < n; i++) {
+  for(int i = 0; i < n; i++) {
 
     threshold_i = estimate[i];
 
@@ -60,11 +82,10 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
 
       x_recall[j] = tp / n_positive;
 
-      // Never undefined because of
-      // the initial increment
       y_precision[j] = tp / (tp + fp);
 
       threshold_previous = threshold_i;
+
       j = j + 1;
     }
 
@@ -81,9 +102,8 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
   // Add end cases
 
   // Last row:
-  // threshold = last `thresholds` value (by design, it is never used in the
-  //  algorithm but already exists in `thresholds`)
-  // recall = TP/P = 1 if length(P) > 0
+  // threshold = taken care of already. Exists as last value of `thresholds`.
+  // recall    = TP/P = 1 if length(P) > 0
   // precision = TP / (TP + FP) = P / N = #positives / #elements
   // ensure double division!
   x_recall[n_out - 1] = 1;
@@ -91,10 +111,10 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
 
   // First row:
   // threshold = infinity
-  // recall = TP/P = 0 if length(P) > 0
-  // precision = TP / (TP + FP) = undefined b/c no value was estimated as P
-  //  but the general convention seems to be to put 1 here so we can
-  //  start the graph in the top left corner
+  // recall    = TP/P = 0 if length(P) > 0
+  // precision = TP / (TP + FP) = undefined b/c we haven't seen any values yet
+  //  but we need to put 1 here so we can start the graph in the top left corner
+  //  and compute PR AUC correctly
   thresholds.push_front(R_PosInf);
   x_recall.push_front(0);
   y_precision.push_front(1);
