@@ -95,9 +95,11 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
   // threshold = infinity
   // recall = TP/P = 0 if length(P) > 0
   // precision = TP / (TP + FP) = undefined b/c no value was estimated as P
+  //  but the general convention seems to be to put 1 here so we can
+  //  start the graph in the top left corner
   thresholds.push_front(R_PosInf);
   x_recall.push_front(0);
-  y_precision.push_front(NA_REAL);
+  y_precision.push_front(1);
 
   return List::create(
     Named(".threshold") = thresholds,
