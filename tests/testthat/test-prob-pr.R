@@ -69,7 +69,6 @@ test_that('Multiclass PR Curve', {
 
 # ------------------------------------------------------------------------------
 
-
 hpc_f1 <- data_hpc_fold1()
 
 test_that("Multiclass PR AUC", {
@@ -81,4 +80,103 @@ test_that("Multiclass PR AUC", {
     pr_auc(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
     prob_macro_weighted_metric(pr_auc_binary)
   )
+})
+
+
+# ------------------------------------------------------------------------------
+# More tests involving issue #93
+
+# These are worked out examples with hand written known answers
+
+test_that("PR - perfect separation", {
+
+  truth <- factor(c("x", "x", "y", "y"))
+  prob <- c(.9, .8, .4, .3)
+
+  data <- data.frame(truth, prob)
+  val_curve <- pr_curve(data, truth, prob)
+  val_auc <- pr_auc(data, truth, prob)
+
+  expect_equal(
+    val_curve$recall,
+    c(0, .5, 1, 1, 1)
+  )
+
+  expect_equal(
+    val_curve$precision,
+    c(1, 1, 1, 2/3, 1/2)
+  )
+
+  expect_equal(
+    val_curve$.threshold,
+    c(Inf, .9, .8, .4, .3)
+  )
+
+  expect_equal(
+    val_auc$.estimate,
+    1
+  )
+
+})
+
+test_that("PR - perfect separation - duplicates probs at the end", {
+
+  truth <- factor(c("x", "x", "y", "y"))
+  prob <- c(.9, .8, .3, .3)
+
+  data <- data.frame(truth, prob)
+  val_curve <- pr_curve(data, truth, prob)
+  val_auc <- pr_auc(data, truth, prob)
+
+  expect_equal(
+    val_curve$recall,
+    c(0, .5, 1, 1)
+  )
+
+  expect_equal(
+    val_curve$precision,
+    c(1, 1, 1, 1/2)
+  )
+
+  expect_equal(
+    val_curve$.threshold,
+    c(Inf, .9, .8, .3)
+  )
+
+  expect_equal(
+    val_auc$.estimate,
+    1
+  )
+
+})
+
+test_that("PR - perfect separation - duplicates probs at the start", {
+
+  truth <- factor(c("x", "x", "y", "y"))
+  prob <- c(.9, .9, .4, .3)
+
+  data <- data.frame(truth, prob)
+  val_curve <- pr_curve(data, truth, prob)
+  val_auc <- pr_auc(data, truth, prob)
+
+  expect_equal(
+    val_curve$recall,
+    c(0, 1, 1, 1)
+  )
+
+  expect_equal(
+    val_curve$precision,
+    c(1, 1, 2/3, 1/2)
+  )
+
+  expect_equal(
+    val_curve$.threshold,
+    c(Inf, .9, .4, .3)
+  )
+
+  expect_equal(
+    val_auc$.estimate,
+    1
+  )
+
 })
