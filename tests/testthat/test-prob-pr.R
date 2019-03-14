@@ -1,9 +1,23 @@
 context("PR Curve/AUC")
 
-# from:
-# MLmetrics::PRAUC(two_class_example$Class1,
-#                  ifelse(two_class_example$truth == lvls[1], 1, 0))
-pr_val <- 0.942570731650901
+# originally this test checked against:
+# MLmetrics::PRAUC(two_class_example$Class1, ifelse(two_class_example$truth == lvls[1], 1, 0))
+# 0.942570731650901
+# but I think that this is actually incorrect after dealing with issue #93 and
+# it has to do with the way end points are handled and how duplicates are handled
+# scikit learn does it the correct way, so now we use that
+
+# library(reticulate)
+# skmetrics <- import("sklearn.metrics")
+# sk_pr_curve <- skmetrics$precision_recall_curve(
+#   y_true = two_class_example$truth,
+#   probas_pred = two_class_example$Class1,
+#   pos_label = "Class1"
+# )
+# names(sk_pr_curve) <- c("precision", "recall", "thresholds")
+# yardstick:::auc(sk_pr_curve$recall, sk_pr_curve$precision)
+
+pr_val <- 0.946446700643149
 
 test_that('PR AUC', {
   expect_equal(
@@ -27,7 +41,7 @@ pr_example <- data.frame(
 pr_result <- list(
   .threshold = c(Inf, 0.9, 0.7, 0.4, 0.35),
   recall = c(0, 1/3, 2/3, 1, 1),
-  precision = c(NA, 1, 1, 1, 0.75)
+  precision = c(1, 1, 1, 1, 0.75)
 )
 
 test_that('PR Curve', {
