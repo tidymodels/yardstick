@@ -1,5 +1,20 @@
 # yardstick development
 
+## Other improvements
+
+* The `autoplot()` method for `pr_curve()` has been improved to always set the
+axis limits to `c(0, 1)`.
+
+## Bug fixes
+
+* `pr_curve()` now places a `1` as the first precision value, rather than a
+`NA`. While `NA` is technically correct as precision is undefined here, `1` is
+practically more correct because it generates a correct PR Curve graph and, 
+more importantly, allows `pr_auc()` to compute the correct AUC.
+
+* `pr_curve()` (and subsequently `pr_auc()`) now generates the correct curve
+when there are duplicate class probability values (reported by @dariyasydykova, #93).
+
 # yardstick 0.0.3
 
 ## New metrics and functionality
