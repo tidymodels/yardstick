@@ -23,8 +23,6 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
   double fp = 0;
   double tp = 0;
 
-  double estimate_previous = -INFINITY;
-
   // algorithm skips repeated probabilities
   // (must re-sort because unique doesnt respect order)
   NumericVector unique_estimate = unique(estimate).sort(true);
@@ -40,33 +38,42 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
   int j = 0;
   double estimate_i = 0;
 
-  for(int i = 0; i < n; i++) {
+  // Initialize with first case. Must be done ahead of time because the
+  // algorithm increments AFTER the `estimate_i != estimate_previous` check
+  // but we need to increment the initial value ahead of time
+  double estimate_previous = unique_estimate[0];
+
+  if(truth[0] == 1) {
+    tp++;
+  }
+  else if (truth[0] == 2) {
+    fp++;
+  }
+
+  // Start at position 1 (2 in R index world)
+  // because we have dealt with the first case
+  for(int i = 1; i < n; i++) {
 
     estimate_i = estimate[i];
 
-    // increment tp and fp as necessary
-    // incrementing before the appending step is the equivalent of the
-    // >= case when comparing to the threshold value (incrementing after
-    // would be the > case) This is consistent with ROCR but different from
-    // the paper.
-    if(truth[i] == 1) {
-      tp = tp + 1;
-    }
-    else if (truth[i] == 2) {
-      fp = fp + 1;
-    }
-
-    // append to recall and precision vectors
     if(estimate_i != estimate_previous) {
 
       x_recall[j] = tp / n_positive;
 
-      // as long as incrementing of tp and fp is done before this,
-      // then this is never undefined
+      // Never undefined because of
+      // the initial increment
       y_precision[j] = tp / (tp + fp);
 
       estimate_previous = estimate_i;
       j = j + 1;
+    }
+
+    // increment tp / fp
+    if(truth[i] == 1) {
+      tp++;
+    }
+    else if (truth[i] == 2) {
+      fp++;
     }
 
   }
@@ -75,23 +82,22 @@ List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
 
   // Add end cases
 
+  // Last row:
+  // threshold = last `thresholds` value (by design, it is never used in the
+  //  algorithm but already exists in `thresholds`)
+  // recall = TP/P = 1 if length(P) > 0
+  // precision = TP / (TP + FP) = P / N = #positives / #elements
+  // ensure double division!
+  x_recall[n_out - 1] = 1;
+  y_precision[n_out - 1] = n_positive / (double)n;
+
+  // First row:
   // threshold = infinity
   // recall = TP/P = 0 if length(P) > 0
   // precision = TP / (TP + FP) = undefined b/c no value was estimated as P
   thresholds.push_front(R_PosInf);
   x_recall.push_front(0);
   y_precision.push_front(NA_REAL);
-
-  // This case is not needed b/c it does not add any extra info. The last
-  // iteration captures the all positive case. This is also consistent with
-  // ROCR
-  // // threshold = -infinity
-  // // recall = TP/P = 1 if length(P) > 0
-  // // precision = TP / (TP + FP) = P / N = #positives / #elements
-  // thresholds.push_back(R_NegInf);
-  // x_recall.push_back(1);
-  // // ensure double division
-  // y_precision.push_back(n_positive /(double)n);
 
   return List::create(
     Named(".threshold") = thresholds,
