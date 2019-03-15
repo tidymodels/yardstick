@@ -111,8 +111,9 @@ mn_log_loss(two_class_example, truth, !! prob_cols[1])
 
 }
 \seealso{
-Other class probability metrics: \code{\link{gain_capture}},
-  \code{\link{pr_auc}}, \code{\link{roc_auc}}
+Other class probability metrics: \code{\link{average_precision}},
+  \code{\link{gain_capture}}, \code{\link{pr_auc}},
+  \code{\link{roc_auc}}
 }
 \author{
 Max Kuhn
