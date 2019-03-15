@@ -180,3 +180,36 @@ test_that("PR - perfect separation - duplicates probs at the start", {
   )
 
 })
+
+test_that("PR - same class prob, different prediction value", {
+
+  # x class prob .9
+  # y class prob .9
+  truth <- factor(c("x", "y", "y", "x", "x"))
+  prob <- c(.9, .9, .8, .4, .3)
+
+  data <- data.frame(truth, prob)
+  val_curve <- pr_curve(data, truth, prob)
+  val_auc <- pr_auc(data, truth, prob)
+
+  expect_equal(
+    val_curve$recall,
+    c(0, 1/3, 1/3, 2/3, 1)
+  )
+
+  expect_equal(
+    val_curve$precision,
+    c(1, 1/2, 1/3, 1/2, 3/5)
+  )
+
+  expect_equal(
+    val_curve$.threshold,
+    c(Inf, .9, .8, .4, .3)
+  )
+
+  expect_equal(
+    val_auc$.estimate,
+    0.572222222222222
+  )
+
+})
