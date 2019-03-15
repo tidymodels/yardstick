@@ -6,7 +6,7 @@ using namespace Rcpp;
 
 // Details:
 // - Sort unique class probabilities in descending order.
-//   These are your thresholds.
+//   These are your thresholds (Done at the R level).
 //
 // - Initialize the "previous" threshold with the first threshold value.
 //
@@ -36,28 +36,13 @@ using namespace Rcpp;
 //   run the risk of computing an undefined precision (tp=0, fp=0). The first
 //   iteration always skips straight to the incrementing of tp and fp.
 
-IntegerVector order_cpp(NumericVector x, bool decreasing) {
-  // sort(true) = sort decreasing
-  NumericVector sorted = clone(x).sort(decreasing);
-  // return the cpp order not the r order (0 index based)
-  return match(sorted, x) - 1;
-}
-
 // [[Rcpp::export]]
-List pr_curve_cpp(IntegerVector truth, NumericVector estimate) {
-
-  // descending order sort based on estimate order
-  IntegerVector estimate_order = order_cpp(estimate, true);
-
-  truth = truth[estimate_order];
-  estimate = estimate[estimate_order];
+List pr_curve_cpp(IntegerVector truth,
+                  NumericVector estimate,
+                  NumericVector thresholds) {
 
   double fp = 0;
   double tp = 0;
-
-  // algorithm skips repeated probabilities
-  // (must re-sort because unique doesnt respect order)
-  NumericVector thresholds = unique(estimate).sort(true);
 
   int n = truth.size();
   int n_positive = sum(truth == 1);

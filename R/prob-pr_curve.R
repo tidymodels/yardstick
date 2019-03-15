@@ -143,7 +143,17 @@ pr_curve_binary <- function(truth, estimate) {
   # 1=good, 2=bad
   truth <- as.integer(truth)
 
-  pr_list <- pr_curve_cpp(truth, estimate)
+  # Sort at the R level as there is no order() Rcpp sugar.
+  ord <- order(estimate, decreasing = TRUE)
+  truth <- truth[ord]
+  estimate <- estimate[ord]
+
+  # Algorithm skips repeated probabilities
+  # Call unique() from the R level because Rcpp::unique()
+  # doesn't respect the order and sort_unique() doesn't do descending
+  thresholds <- unique(estimate)
+
+  pr_list <- pr_curve_cpp(truth, estimate, thresholds)
 
   dplyr::tibble(!!!pr_list)
 }
