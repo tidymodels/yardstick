@@ -48,8 +48,14 @@ List pr_curve_cpp(IntegerVector truth,
   int n_positive = sum(truth == 1);
   int n_out = thresholds.size();
 
-  NumericVector x_recall = NumericVector(n_out);
-  NumericVector y_precision = NumericVector(n_out);
+  if (n_positive == 0) {
+    Rcpp::warning(
+      "There are `0` event cases in `truth`, results will be meaningless."
+    );
+  }
+
+  NumericVector x_recall = NumericVector(n_out, NA_REAL);
+  NumericVector y_precision = NumericVector(n_out, NA_REAL);
 
   // j is only incremented when there are no duplicates
   int j = 0;
@@ -91,7 +97,10 @@ List pr_curve_cpp(IntegerVector truth,
   // recall    = TP/P = 1 if length(P) > 0
   // precision = TP / (TP + FP) = P / N = #positives / #elements
   // ensure double division!
-  x_recall[n_out - 1] = 1;
+  if (n_positive > 0) {
+    x_recall[n_out - 1] = 1;
+  }
+
   y_precision[n_out - 1] = n_positive / (double)n;
 
   // First row:
