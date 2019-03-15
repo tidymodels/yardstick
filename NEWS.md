@@ -1,5 +1,9 @@
 # yardstick development
 
+## New metrics and functionality
+
+* `average_precision()` is a probability metric that can be used as an alternative to `pr_auc()`. It has the benefit of avoiding any issues of ambiguity in the case where `recall == 0` and the current number of false positives is `0`.
+
 ## Other improvements
 
 * The `autoplot()` method for `pr_curve()` has been improved to always set the
@@ -11,6 +15,10 @@ axis limits to `c(0, 1)`.
 `NA`. While `NA` is technically correct as precision is undefined here, `1` is
 practically more correct because it generates a correct PR Curve graph and, 
 more importantly, allows `pr_auc()` to compute the correct AUC.
+
+* `pr_curve()` could generate the wrong results in the somewhat rare case 
+when two class probability estimates were the same, but had different 
+truth values.
 
 * `pr_curve()` (and subsequently `pr_auc()`) now generates the correct curve
 when there are duplicate class probability values (reported by @dariyasydykova, #93).
