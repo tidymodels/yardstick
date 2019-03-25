@@ -64,6 +64,72 @@ test_that("Multiclass ROC Curve", {
 })
 
 # ------------------------------------------------------------------------------
+# Partial AUC tests
+# https://github.com/tidymodels/yardstick/issues/97
+
+test_that("pROC::auc() arguments are passed through", {
+
+  # levels = c(<control>, <event>)
+  curv <- pROC::roc(
+    response = two_class_example$truth,
+    predictor = two_class_example$Class1,
+    levels = c("Class2", "Class1")
+  )
+
+  proc_auc <- as.numeric(pROC::auc(curv, partial.auc = c(1, 0.75)))
+
+  ys_auc <- roc_auc(
+    two_class_example,
+    truth,
+    Class1,
+    options = list(partial.auc = c(1, 0.75))
+  )
+
+  expect_equal(
+    ys_auc[[".estimate"]],
+    proc_auc
+  )
+
+})
+
+test_that("pROC::auc() arguments are passed through - corrected and focused args", {
+
+  # From `?pROC::auc`
+  data("aSAH", package = "pROC")
+
+  curv <- roc(aSAH$outcome, aSAH$s100b)
+
+  proc_auc <- as.numeric(pROC::auc(
+    curv,
+    partial.auc = c(1, .8),
+    partial.auc.focus = "se",
+    partial.auc.correct = TRUE)
+  )
+
+  ys_auc <- rlang::with_options(
+    .expr = {
+      roc_auc(
+        aSAH,
+        outcome,
+        s100b,
+        options = list(
+          partial.auc = c(1, .8),
+          partial.auc.focus = "se",
+          partial.auc.correct = TRUE
+        )
+      )
+    },
+    yardstick.event_first = FALSE
+  )
+
+  expect_equal(
+    ys_auc[[".estimate"]],
+    proc_auc
+  )
+
+})
+
+# ------------------------------------------------------------------------------
 
 # HandTill2001::auc(HandTill2001::multcap(hpc_cv2$obs, as.matrix(select(hpc_cv2, VF:L))))
 test_that("Hand Till multiclass", {
