@@ -9,6 +9,9 @@
 * The `autoplot()` method for `pr_curve()` has been improved to always set the
 axis limits to `c(0, 1)`.
 
+* All valid arguments to `pROC::roc()` are now utilized, including those passed
+on to `pROC::auc()`.
+
 ## Bug fixes
 
 * `pr_curve()` now places a `1` as the first precision value, rather than a

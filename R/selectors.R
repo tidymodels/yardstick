@@ -24,8 +24,15 @@ prob_select <- function(data, truth, ...) {
 }
 
 all_select <- function(data, truth, estimate, ...) {
-  truth_var <- tidyselect::vars_pull(names(data), !! enquo(truth))
-  est_var <- tidyselect::vars_pull(names(data), !! enquo(estimate))
+
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+
+  validate_not_missing(truth, "truth")
+  validate_not_missing(estimate, "estimate")
+
+  truth_var <- tidyselect::vars_pull(names(data), !! truth)
+  est_var <- tidyselect::vars_pull(names(data), !! estimate)
 
   dot_vars <- tidyselect::vars_select(names(data), !!! quos(...))
 

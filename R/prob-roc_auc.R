@@ -150,11 +150,9 @@ roc_auc_binary <- function(truth, estimate, options) {
 
   args <- quos(response = truth, predictor = estimate, levels = lvl)
 
-  curv <- eval_tidy(call2("roc", !!! args, !!! options, .ns = "pROC"))
+  pROC_auc <- eval_tidy(call2("auc", !!! args, !!! options, .ns = "pROC"))
 
-  res <- unname(pROC::auc(curv))
-
-  as.numeric(res)
+  as.numeric(pROC_auc)
 
 }
 
