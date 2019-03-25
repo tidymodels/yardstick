@@ -1,5 +1,10 @@
 # yardstick development
 
+## Other improvements
+
+* All valid arguments to `pROC::roc()` are now utilized, including those passed
+on to `pROC::auc()`.
+
 # yardstick 0.0.3
 
 ## New metrics and functionality
