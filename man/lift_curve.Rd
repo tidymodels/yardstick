@@ -104,13 +104,20 @@ the "one" level is always the relevant result.
 }
 
 \examples{
-library(ggplot2)
-library(dplyr)
+# Two class example: truth variable is a two-level factor with the first
+# level set to be "Class1" and thus truth == "Class1" is the event of
+# interest (see "Relevant level" section above)
+data("two_class_example")
+levels(two_class_example$truth)
 
-# Two class - a tibble is returned
+# Since "Class1" is the event of interest, the third argument of function
+# are the "Class1" probabilities stored in Class1 variable. A tibble is
+# returned.
 lift_curve(two_class_example, truth, Class1)
 
 # Use autoplot to visualize
+library(ggplot2)
+library(dplyr)
 autoplot(lift_curve(two_class_example, truth, Class1))
 
 # Multiclass one-vs-all approach

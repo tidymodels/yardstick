@@ -33,7 +33,8 @@ Imports:
     rlang,
     tidyselect,
     Rcpp,
-    generics
+    generics,
+    forcats
 LinkingTo: 
     Rcpp
 VignetteBuilder: knitr

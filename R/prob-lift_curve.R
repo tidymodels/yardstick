@@ -34,6 +34,7 @@
 #' y-axis of the lift chart.
 #'
 #' @family curve metrics
+#' @templateVar metric_fn lift_curve
 #' @template multiclass-curve
 #' @template event_first
 #'
@@ -53,14 +54,12 @@
 #'
 #' @author Max Kuhn
 #'
+#' @template examples-two-class-example
+#' @template examples-two-class-prob
 #' @examples
+#' # Use autoplot to visualize
 #' library(ggplot2)
 #' library(dplyr)
-#'
-#' # Two class - a tibble is returned
-#' lift_curve(two_class_example, truth, Class1)
-#'
-#' # Use autoplot to visualize
 #' autoplot(lift_curve(two_class_example, truth, Class1))
 #'
 #' # Multiclass one-vs-all approach

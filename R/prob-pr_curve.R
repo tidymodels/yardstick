@@ -12,6 +12,7 @@
 #'  resamples). See the examples.
 #'
 #' @family curve metrics
+#' @templateVar metric_fn pr_curve
 #' @template multiclass-curve
 #' @template event_first
 #'
@@ -26,15 +27,12 @@
 #' Compute the area under the precision recall curve with [pr_auc()].
 #'
 #' @author Max Kuhn
-#'
+#' @template examples-two-class-example
+#' @template examples-two-class-prob
 #' @examples
+#' # Visualize the curve using ggplot2 manually
 #' library(ggplot2)
 #' library(dplyr)
-#'
-#' # Two class - a tibble is returned
-#' pr_curve(two_class_example, truth, Class1)
-#'
-#' # Visualize the curve using ggplot2 manually
 #' pr_curve(two_class_example, truth, Class1) %>%
 #'   ggplot(aes(x = recall, y = precision)) +
 #'   geom_path() +

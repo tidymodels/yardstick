@@ -99,17 +99,33 @@ definition of multiclass AUC given by Provost and Domingos (2001).
 }
 
 \examples{
-# Two class
+# Two class example: truth variable is a two-level factor with the first
+# level set to be "Class1" and thus truth == "Class1" is the event of
+# interest (see "Relevant level" section above)
 data("two_class_example")
+levels(two_class_example$truth)
+
+# Since "Class1" is the event of interest, the third argument of function
+# are the "Class1" probabilities stored in Class1 variable. A tibble is
+# returned.
 roc_auc(two_class_example, truth, Class1)
 
-# Multiclass
-library(dplyr)
+# Multiclass example: obs variable is a four-level factor with the first
+# level set to be "VF" and thus obs == "VF" is the event of interest.
 data(hpc_cv)
+levels(hpc_cv$obs)
 
 # You can use the col1:colN tidyselect syntax
 hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
+  roc_auc(obs, VF:L)
+
+# Change the first level of obs variable from "VF" to "M" and thus the
+# event of interest is now "obs" == "M".
+library(forcats)
+hpc_cv \%>\%
+  filter(Resample == "Fold01") \%>\%
+  mutate(obs = fct_relevel(obs, "M")) \%>\%
   roc_auc(obs, VF:L)
 
 # Groups are respected

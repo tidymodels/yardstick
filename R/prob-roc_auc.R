@@ -60,7 +60,10 @@
 #'
 #' @author Max Kuhn
 #'
-#' @template examples-prob
+#' @template examples-two-class-example
+#' @template examples-two-class-prob
+#' @template examples-multiclass-example
+#' @template examples-multiclass-prob
 #' @examples
 #' # passing options via a list and _not_ `...`
 #' roc_auc(two_class_example, truth = truth, Class1,

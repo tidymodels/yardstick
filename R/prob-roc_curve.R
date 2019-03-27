@@ -16,6 +16,7 @@
 #'  resamples). See the examples.
 #'
 #' @family curve metrics
+#' @templateVar metric_fn roc_curve
 #' @template multiclass-curve
 #' @template event_first
 #'
@@ -33,15 +34,12 @@
 #' Compute the area under the ROC curve with [roc_auc()].
 #'
 #' @author Max Kuhn
-#'
+#' @template examples-two-class-example
+#' @template examples-two-class-prob
 #' @examples
+#' # Visualize the curve using ggplot2 manually
 #' library(ggplot2)
 #' library(dplyr)
-#'
-#' # Two class - a tibbble is returned
-#' roc_curve(two_class_example, truth, Class1)
-#'
-#' # Visualize the curve using ggplot2 manually
 #' roc_curve(two_class_example, truth, Class1) %>%
 #'   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
 #'   geom_path() +

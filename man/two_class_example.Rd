@@ -19,5 +19,10 @@ class.
 \examples{
 data(two_class_example)
 str(two_class_example)
+
+# truth variable is a two-level factor with the first level set to be
+# "Class1" and thus truth == "Class1" is the event of interest for binary
+# classification.
+levels(hpc_cv$obs)
 }
 \keyword{datasets}

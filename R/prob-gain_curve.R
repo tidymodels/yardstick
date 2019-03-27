@@ -36,6 +36,7 @@
 #' entire number of true results are found. This is the y-axis in a gain chart.
 #'
 #' @family curve metrics
+#' @templateVar metric_fn gain_curve
 #' @template multiclass-curve
 #' @template event_first
 #'
@@ -65,15 +66,13 @@
 #'
 #' @author Max Kuhn
 #'
+#' @template examples-two-class-example
+#' @template examples-two-class-prob
 #' @examples
-#' library(ggplot2)
-#' library(dplyr)
-#'
-#' # Two class - a tibble is returned
-#' gain_curve(two_class_example, truth, Class1)
-#'
 #' # Use autoplot to visualize
 #' # The top left hand corner of the grey triangle is a "perfect" gain curve
+#' library(ggplot2)
+#' library(dplyr)
 #' autoplot(gain_curve(two_class_example, truth, Class1))
 #'
 #' # Multiclass one-vs-all approach

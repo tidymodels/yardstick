@@ -37,7 +37,10 @@
 #'
 #' @author Max Kuhn
 #'
-#' @template examples-prob
+#' @template examples-two-class-example
+#' @template examples-two-class-prob
+#' @template examples-multiclass-example
+#' @template examples-multiclass-prob
 #'
 #' @export
 pr_auc <- function(data, ...) {
