@@ -98,7 +98,8 @@ In \code{yardstick}, the default is to use the \emph{first} level. To
 change this, a global option called \code{yardstick.event_first} is
 set to \code{TRUE} when the package is loaded. This can be changed
 to \code{FALSE} if the last level of the factor is considered the
-level of interest. For multiclass extensions involving one-vs-all
+level of interest by running: \code{options(yardstick.event_first = FALSE)}.
+For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.
 }
