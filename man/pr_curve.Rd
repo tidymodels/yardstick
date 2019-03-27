@@ -10,7 +10,7 @@ pr_curve(data, ...)
 
 \method{pr_curve}{data.frame}(data, truth, ..., na_rm = TRUE)
 
-\method{autoplot}{pr_df}(object, ...)
+autoplot.pr_df(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}

@@ -11,7 +11,7 @@ roc_curve(data, ...)
 \method{roc_curve}{data.frame}(data, truth, ..., options = list(),
   na_rm = TRUE)
 
-\method{autoplot}{roc_df}(object, ...)
+autoplot.roc_df(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}

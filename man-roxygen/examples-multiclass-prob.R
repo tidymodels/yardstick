@@ -1,5 +1,6 @@
 #' @examples
 #' # You can use the col1:colN tidyselect syntax
+#' library(dplyr)
 #' hpc_cv %>%
 #'   filter(Resample == "Fold01") %>%
 #'   <%=metric_fn %>(obs, VF:L)
