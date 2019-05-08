@@ -76,6 +76,18 @@ test_that("`NA` values propagate from multiclass `recall()`", {
 })
 
 # ------------------------------------------------------------------------------
+# Issue #104
+test_that("f_meas work when input is a matrix", {
+
+  data <- matrix(c(35, 22, 14, 118), nrow = 2)
+
+  expect_equal(
+    nrow(f_meas(data)),
+    1
+  )
+})
+
+# ------------------------------------------------------------------------------
 
 test_that("'micro' `NA` case is handled correctly", {
 
