@@ -5,6 +5,11 @@
 * All valid arguments to `pROC::roc()` are now utilized, including those passed
 on to `pROC::auc()`.
 
+## Bug fixes
+
+* Binary `mcc()` now avoids integer overflow when the confusion matrix 
+elements are large (#108).
+
 # yardstick 0.0.3
 
 ## New metrics and functionality
