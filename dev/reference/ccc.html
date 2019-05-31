@@ -258,22 +258,22 @@ coefficient to evaluate reproducibility". <em>Biometrics</em>, 53(4),
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    resample .metric .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        ccc     standard       0.919
-#&gt;  2 10       ccc     standard       0.912
-#&gt;  3 2        ccc     standard       0.919
-#&gt;  4 3        ccc     standard       0.924
-#&gt;  5 4        ccc     standard       0.941
-#&gt;  6 5        ccc     standard       0.931
-#&gt;  7 6        ccc     standard       0.935
-#&gt;  8 7        ccc     standard       0.901
-#&gt;  9 8        ccc     standard       0.954
-#&gt; 10 9        ccc     standard       0.942</div><div class='input'>
+#&gt;  1 1        ccc     standard       0.926
+#&gt;  2 10       ccc     standard       0.928
+#&gt;  3 2        ccc     standard       0.934
+#&gt;  4 3        ccc     standard       0.947
+#&gt;  5 4        ccc     standard       0.934
+#&gt;  6 5        ccc     standard       0.916
+#&gt;  7 6        ccc     standard       0.924
+#&gt;  8 7        ccc     standard       0.913
+#&gt;  9 8        ccc     standard       0.945
+#&gt; 10 9        ccc     standard       0.930</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1        0.928</div></pre>
+#&gt; 1        0.930</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

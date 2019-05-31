@@ -99,7 +99,7 @@
       <h1>Custom metrics</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2019-03-25</h4>
+            <h4 class="date">2019-05-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/custom-metrics.Rmd"><code>vignettes/custom-metrics.Rmd</code></a></small>
       <div class="hidden name"><code>custom-metrics.Rmd</code></div>
@@ -168,92 +168,10 @@
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; [1] 0.5214438</span></a></code></pre></div>
 <p>Intelligent error handling is immediately available.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">mse_vec</span>(<span class="dt">truth =</span> <span class="st">"apple"</span>, <span class="dt">estimate =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Error: `truth` should be a numeric but a character was supplied.</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Backtrace:</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;      █</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;   1. ├─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   2. │ └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   3. │   ├─base:::tryCatchOne(...)</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;   4. │   │ └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;   5. │   └─base:::tryCatchList(expr, names[-nh], parentenv, handlers[-nh])</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;   6. │     └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;   7. │       └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;   8. ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;   9. ├─base::saveRDS(...)</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  10. ├─base::do.call(...)</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  11. ├─(function (what, args, quote = FALSE, envir = parent.frame()) ...</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;  12. ├─(function (...) ...</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt;  13. │ └─rmarkdown::render(...)</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;  14. │   └─knitr::knit(...)</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;  15. │     └─knitr:::process_file(text, output)</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;  16. │       ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;  17. │       ├─knitr:::process_group(group)</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt;  18. │       └─knitr:::process_group.block(group)</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt;  19. │         └─knitr:::call_block(x)</span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt;  20. │           └─knitr:::block_exec(params)</span></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt;  21. │             ├─knitr:::in_dir(...)</span></a>
-<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt;  22. │             └─knitr:::evaluate(...)</span></a>
-<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt;  23. │               └─evaluate::evaluate(...)</span></a>
-<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt;  24. │                 └─evaluate:::evaluate_call(...)</span></a>
-<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt;  25. │                   ├─evaluate:::timing_fn(...)</span></a>
-<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt;  26. │                   ├─evaluate:::handle(...)</span></a>
-<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">#&gt;  27. │                   │ └─base::try(f, silent = TRUE)</span></a>
-<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">#&gt;  28. │                   │   └─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">#&gt;  29. │                   │     └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">#&gt;  30. │                   │       └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">#&gt;  31. │                   │         └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#&gt;  32. │                   ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">#&gt;  33. │                   ├─base::withVisible(eval(expr, envir, enclos))</span></a>
-<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">#&gt;  34. │                   └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb4-39" data-line-number="39"><span class="co">#&gt;  35. │                     └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="co">#&gt;  36. └─global::mse_vec(truth = "apple", estimate = 1)</span></a>
-<a class="sourceLine" id="cb4-41" data-line-number="41"><span class="co">#&gt;  37.   └─yardstick::metric_vec_template(...)</span></a>
-<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="co">#&gt;  38.     └─yardstick:::validate_truth_estimate_checks(...)</span></a>
-<a class="sourceLine" id="cb4-43" data-line-number="43"><span class="co">#&gt;  39.       └─yardstick:::validate_class(truth, "truth", cls[1])</span></a>
-<a class="sourceLine" id="cb4-44" data-line-number="44"></a>
-<a class="sourceLine" id="cb4-45" data-line-number="45"><span class="kw">mse_vec</span>(<span class="dt">truth =</span> <span class="dv">1</span>, <span class="dt">estimate =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="st">"xyz"</span>))</a>
-<a class="sourceLine" id="cb4-46" data-line-number="46"><span class="co">#&gt; Error: `estimate` should be a numeric but a factor was supplied.</span></a>
-<a class="sourceLine" id="cb4-47" data-line-number="47"><span class="co">#&gt; Backtrace:</span></a>
-<a class="sourceLine" id="cb4-48" data-line-number="48"><span class="co">#&gt;      █</span></a>
-<a class="sourceLine" id="cb4-49" data-line-number="49"><span class="co">#&gt;   1. ├─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb4-50" data-line-number="50"><span class="co">#&gt;   2. │ └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb4-51" data-line-number="51"><span class="co">#&gt;   3. │   ├─base:::tryCatchOne(...)</span></a>
-<a class="sourceLine" id="cb4-52" data-line-number="52"><span class="co">#&gt;   4. │   │ └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb4-53" data-line-number="53"><span class="co">#&gt;   5. │   └─base:::tryCatchList(expr, names[-nh], parentenv, handlers[-nh])</span></a>
-<a class="sourceLine" id="cb4-54" data-line-number="54"><span class="co">#&gt;   6. │     └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb4-55" data-line-number="55"><span class="co">#&gt;   7. │       └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb4-56" data-line-number="56"><span class="co">#&gt;   8. ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb4-57" data-line-number="57"><span class="co">#&gt;   9. ├─base::saveRDS(...)</span></a>
-<a class="sourceLine" id="cb4-58" data-line-number="58"><span class="co">#&gt;  10. ├─base::do.call(...)</span></a>
-<a class="sourceLine" id="cb4-59" data-line-number="59"><span class="co">#&gt;  11. ├─(function (what, args, quote = FALSE, envir = parent.frame()) ...</span></a>
-<a class="sourceLine" id="cb4-60" data-line-number="60"><span class="co">#&gt;  12. ├─(function (...) ...</span></a>
-<a class="sourceLine" id="cb4-61" data-line-number="61"><span class="co">#&gt;  13. │ └─rmarkdown::render(...)</span></a>
-<a class="sourceLine" id="cb4-62" data-line-number="62"><span class="co">#&gt;  14. │   └─knitr::knit(...)</span></a>
-<a class="sourceLine" id="cb4-63" data-line-number="63"><span class="co">#&gt;  15. │     └─knitr:::process_file(text, output)</span></a>
-<a class="sourceLine" id="cb4-64" data-line-number="64"><span class="co">#&gt;  16. │       ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb4-65" data-line-number="65"><span class="co">#&gt;  17. │       ├─knitr:::process_group(group)</span></a>
-<a class="sourceLine" id="cb4-66" data-line-number="66"><span class="co">#&gt;  18. │       └─knitr:::process_group.block(group)</span></a>
-<a class="sourceLine" id="cb4-67" data-line-number="67"><span class="co">#&gt;  19. │         └─knitr:::call_block(x)</span></a>
-<a class="sourceLine" id="cb4-68" data-line-number="68"><span class="co">#&gt;  20. │           └─knitr:::block_exec(params)</span></a>
-<a class="sourceLine" id="cb4-69" data-line-number="69"><span class="co">#&gt;  21. │             ├─knitr:::in_dir(...)</span></a>
-<a class="sourceLine" id="cb4-70" data-line-number="70"><span class="co">#&gt;  22. │             └─knitr:::evaluate(...)</span></a>
-<a class="sourceLine" id="cb4-71" data-line-number="71"><span class="co">#&gt;  23. │               └─evaluate::evaluate(...)</span></a>
-<a class="sourceLine" id="cb4-72" data-line-number="72"><span class="co">#&gt;  24. │                 └─evaluate:::evaluate_call(...)</span></a>
-<a class="sourceLine" id="cb4-73" data-line-number="73"><span class="co">#&gt;  25. │                   ├─evaluate:::timing_fn(...)</span></a>
-<a class="sourceLine" id="cb4-74" data-line-number="74"><span class="co">#&gt;  26. │                   ├─evaluate:::handle(...)</span></a>
-<a class="sourceLine" id="cb4-75" data-line-number="75"><span class="co">#&gt;  27. │                   │ └─base::try(f, silent = TRUE)</span></a>
-<a class="sourceLine" id="cb4-76" data-line-number="76"><span class="co">#&gt;  28. │                   │   └─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb4-77" data-line-number="77"><span class="co">#&gt;  29. │                   │     └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb4-78" data-line-number="78"><span class="co">#&gt;  30. │                   │       └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb4-79" data-line-number="79"><span class="co">#&gt;  31. │                   │         └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb4-80" data-line-number="80"><span class="co">#&gt;  32. │                   ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb4-81" data-line-number="81"><span class="co">#&gt;  33. │                   ├─base::withVisible(eval(expr, envir, enclos))</span></a>
-<a class="sourceLine" id="cb4-82" data-line-number="82"><span class="co">#&gt;  34. │                   └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb4-83" data-line-number="83"><span class="co">#&gt;  35. │                     └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb4-84" data-line-number="84"><span class="co">#&gt;  36. └─global::mse_vec(truth = 1, estimate = factor("xyz"))</span></a>
-<a class="sourceLine" id="cb4-85" data-line-number="85"><span class="co">#&gt;  37.   └─yardstick::metric_vec_template(...)</span></a>
-<a class="sourceLine" id="cb4-86" data-line-number="86"><span class="co">#&gt;  38.     └─yardstick:::validate_truth_estimate_checks(...)</span></a>
-<a class="sourceLine" id="cb4-87" data-line-number="87"><span class="co">#&gt;  39.       └─yardstick:::validate_class(estimate, "estimate", cls[2])</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; `truth` should be a numeric but a character was supplied.</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">mse_vec</span>(<span class="dt">truth =</span> <span class="dv">1</span>, <span class="dt">estimate =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="st">"xyz"</span>))</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; `estimate` should be a numeric but a factor was supplied.</span></a></code></pre></div>
 <p><code>NA</code> values are removed if <code>na_rm = TRUE</code> (the default). If <code>na_rm = FALSE</code> and any <code>NA</code> values are detected, then the metric automatically returns <code>NA</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># NA values removed</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">mse_vec</span>(<span class="dt">truth =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="ot">NA</span>, <span class="fl">.5</span>, <span class="fl">.4</span>), <span class="dt">estimate =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="fl">.6</span>, <span class="fl">.5</span>))</a>
@@ -295,57 +213,7 @@
 <a class="sourceLine" id="cb7-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co"># Error handling</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw">mse</span>(solubility_test, <span class="dt">truth =</span> solubility, <span class="dt">estimate =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="st">"xyz"</span>))</a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; Error: `estimate` should be a numeric but a factor was supplied.</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; Backtrace:</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt;      █</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;   1. ├─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;   2. │ └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt;   3. │   ├─base:::tryCatchOne(...)</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt;   4. │   │ └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt;   5. │   └─base:::tryCatchList(expr, names[-nh], parentenv, handlers[-nh])</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt;   6. │     └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt;   7. │       └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt;   8. ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt;   9. ├─base::saveRDS(...)</span></a>
-<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt;  10. ├─base::do.call(...)</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt;  11. ├─(function (what, args, quote = FALSE, envir = parent.frame()) ...</span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt;  12. ├─(function (...) ...</span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt;  13. │ └─rmarkdown::render(...)</span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt;  14. │   └─knitr::knit(...)</span></a>
-<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt;  15. │     └─knitr:::process_file(text, output)</span></a>
-<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt;  16. │       ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt;  17. │       ├─knitr:::process_group(group)</span></a>
-<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">#&gt;  18. │       └─knitr:::process_group.block(group)</span></a>
-<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt;  19. │         └─knitr:::call_block(x)</span></a>
-<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt;  20. │           └─knitr:::block_exec(params)</span></a>
-<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt;  21. │             ├─knitr:::in_dir(...)</span></a>
-<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt;  22. │             └─knitr:::evaluate(...)</span></a>
-<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt;  23. │               └─evaluate::evaluate(...)</span></a>
-<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt;  24. │                 └─evaluate:::evaluate_call(...)</span></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;  25. │                   ├─evaluate:::timing_fn(...)</span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt;  26. │                   ├─evaluate:::handle(...)</span></a>
-<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt;  27. │                   │ └─base::try(f, silent = TRUE)</span></a>
-<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt;  28. │                   │   └─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt;  29. │                   │     └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb7-41" data-line-number="41"><span class="co">#&gt;  30. │                   │       └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb7-42" data-line-number="42"><span class="co">#&gt;  31. │                   │         └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb7-43" data-line-number="43"><span class="co">#&gt;  32. │                   ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb7-44" data-line-number="44"><span class="co">#&gt;  33. │                   ├─base::withVisible(eval(expr, envir, enclos))</span></a>
-<a class="sourceLine" id="cb7-45" data-line-number="45"><span class="co">#&gt;  34. │                   └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb7-46" data-line-number="46"><span class="co">#&gt;  35. │                     └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb7-47" data-line-number="47"><span class="co">#&gt;  36. ├─global::mse(solubility_test, truth = solubility, estimate = factor("xyz"))</span></a>
-<a class="sourceLine" id="cb7-48" data-line-number="48"><span class="co">#&gt;  37. ├─global::mse.data.frame(solubility_test, truth = solubility, estimate = factor("xyz"))</span></a>
-<a class="sourceLine" id="cb7-49" data-line-number="49"><span class="co">#&gt;  38. │ └─yardstick::metric_summarizer(...)</span></a>
-<a class="sourceLine" id="cb7-50" data-line-number="50"><span class="co">#&gt;  39. │   ├─dplyr::summarise(...)</span></a>
-<a class="sourceLine" id="cb7-51" data-line-number="51"><span class="co">#&gt;  40. │   └─dplyr:::summarise.data.frame(...)</span></a>
-<a class="sourceLine" id="cb7-52" data-line-number="52"><span class="co">#&gt;  41. │     ├─base::as.data.frame(summarise(tbl_df(.data), ...))</span></a>
-<a class="sourceLine" id="cb7-53" data-line-number="53"><span class="co">#&gt;  42. │     ├─dplyr::summarise(tbl_df(.data), ...)</span></a>
-<a class="sourceLine" id="cb7-54" data-line-number="54"><span class="co">#&gt;  43. │     └─dplyr:::summarise.tbl_df(tbl_df(.data), ...)</span></a>
-<a class="sourceLine" id="cb7-55" data-line-number="55"><span class="co">#&gt;  44. │       └─dplyr:::summarise_impl(.data, dots, environment(), caller_env())</span></a>
-<a class="sourceLine" id="cb7-56" data-line-number="56"><span class="co">#&gt;  45. └─global::metric_fn(...)</span></a>
-<a class="sourceLine" id="cb7-57" data-line-number="57"><span class="co">#&gt;  46.   └─yardstick::metric_vec_template(...)</span></a>
-<a class="sourceLine" id="cb7-58" data-line-number="58"><span class="co">#&gt;  47.     └─yardstick:::validate_truth_estimate_checks(...)</span></a>
-<a class="sourceLine" id="cb7-59" data-line-number="59"><span class="co">#&gt;  48.       └─yardstick:::validate_class(estimate, "estimate", cls[2])</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; `estimate` should be a numeric but a factor was supplied.</span></a></code></pre></div>
 <p>Let’s test it out on a grouped data frame.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"></a>
@@ -369,16 +237,16 @@
 <a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; # A tibble: 10 x 4</span></a>
 <a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt;    resample .metric .estimator .estimate</span></a>
 <a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt;  1 1        mse     standard       0.481</span></a>
-<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt;  2 10       mse     standard       0.727</span></a>
-<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt;  3 2        mse     standard       0.617</span></a>
-<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt;  4 3        mse     standard       0.505</span></a>
-<a class="sourceLine" id="cb8-27" data-line-number="27"><span class="co">#&gt;  5 4        mse     standard       0.535</span></a>
-<a class="sourceLine" id="cb8-28" data-line-number="28"><span class="co">#&gt;  6 5        mse     standard       0.502</span></a>
-<a class="sourceLine" id="cb8-29" data-line-number="29"><span class="co">#&gt;  7 6        mse     standard       0.583</span></a>
-<a class="sourceLine" id="cb8-30" data-line-number="30"><span class="co">#&gt;  8 7        mse     standard       0.491</span></a>
-<a class="sourceLine" id="cb8-31" data-line-number="31"><span class="co">#&gt;  9 8        mse     standard       0.405</span></a>
-<a class="sourceLine" id="cb8-32" data-line-number="32"><span class="co">#&gt; 10 9        mse     standard       0.452</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt;  1 1        mse     standard       0.512</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt;  2 10       mse     standard       0.454</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt;  3 2        mse     standard       0.513</span></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt;  4 3        mse     standard       0.414</span></a>
+<a class="sourceLine" id="cb8-27" data-line-number="27"><span class="co">#&gt;  5 4        mse     standard       0.543</span></a>
+<a class="sourceLine" id="cb8-28" data-line-number="28"><span class="co">#&gt;  6 5        mse     standard       0.456</span></a>
+<a class="sourceLine" id="cb8-29" data-line-number="29"><span class="co">#&gt;  7 6        mse     standard       0.652</span></a>
+<a class="sourceLine" id="cb8-30" data-line-number="30"><span class="co">#&gt;  8 7        mse     standard       0.642</span></a>
+<a class="sourceLine" id="cb8-31" data-line-number="31"><span class="co">#&gt;  9 8        mse     standard       0.404</span></a>
+<a class="sourceLine" id="cb8-32" data-line-number="32"><span class="co">#&gt; 10 9        mse     standard       0.479</span></a></code></pre></div>
 </div>
 </div>
 <div id="class-example---miss-rate" class="section level2">
@@ -495,49 +363,7 @@
 <a class="sourceLine" id="cb12-49" data-line-number="49"></a>
 <a class="sourceLine" id="cb12-50" data-line-number="50"><span class="co"># Error thrown by validate_estimator()</span></a>
 <a class="sourceLine" id="cb12-51" data-line-number="51"><span class="kw">miss_rate_vec</span>(fold1<span class="op">$</span>obs, fold1<span class="op">$</span>pred, <span class="dt">estimator =</span> <span class="st">"macro"</span>)</a>
-<a class="sourceLine" id="cb12-52" data-line-number="52"><span class="co">#&gt; Error: `estimator` must be one of: "binary". Not "macro".</span></a>
-<a class="sourceLine" id="cb12-53" data-line-number="53"><span class="co">#&gt; Backtrace:</span></a>
-<a class="sourceLine" id="cb12-54" data-line-number="54"><span class="co">#&gt;      █</span></a>
-<a class="sourceLine" id="cb12-55" data-line-number="55"><span class="co">#&gt;   1. ├─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb12-56" data-line-number="56"><span class="co">#&gt;   2. │ └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb12-57" data-line-number="57"><span class="co">#&gt;   3. │   ├─base:::tryCatchOne(...)</span></a>
-<a class="sourceLine" id="cb12-58" data-line-number="58"><span class="co">#&gt;   4. │   │ └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb12-59" data-line-number="59"><span class="co">#&gt;   5. │   └─base:::tryCatchList(expr, names[-nh], parentenv, handlers[-nh])</span></a>
-<a class="sourceLine" id="cb12-60" data-line-number="60"><span class="co">#&gt;   6. │     └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb12-61" data-line-number="61"><span class="co">#&gt;   7. │       └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb12-62" data-line-number="62"><span class="co">#&gt;   8. ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb12-63" data-line-number="63"><span class="co">#&gt;   9. ├─base::saveRDS(...)</span></a>
-<a class="sourceLine" id="cb12-64" data-line-number="64"><span class="co">#&gt;  10. ├─base::do.call(...)</span></a>
-<a class="sourceLine" id="cb12-65" data-line-number="65"><span class="co">#&gt;  11. ├─(function (what, args, quote = FALSE, envir = parent.frame()) ...</span></a>
-<a class="sourceLine" id="cb12-66" data-line-number="66"><span class="co">#&gt;  12. ├─(function (...) ...</span></a>
-<a class="sourceLine" id="cb12-67" data-line-number="67"><span class="co">#&gt;  13. │ └─rmarkdown::render(...)</span></a>
-<a class="sourceLine" id="cb12-68" data-line-number="68"><span class="co">#&gt;  14. │   └─knitr::knit(...)</span></a>
-<a class="sourceLine" id="cb12-69" data-line-number="69"><span class="co">#&gt;  15. │     └─knitr:::process_file(text, output)</span></a>
-<a class="sourceLine" id="cb12-70" data-line-number="70"><span class="co">#&gt;  16. │       ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb12-71" data-line-number="71"><span class="co">#&gt;  17. │       ├─knitr:::process_group(group)</span></a>
-<a class="sourceLine" id="cb12-72" data-line-number="72"><span class="co">#&gt;  18. │       └─knitr:::process_group.block(group)</span></a>
-<a class="sourceLine" id="cb12-73" data-line-number="73"><span class="co">#&gt;  19. │         └─knitr:::call_block(x)</span></a>
-<a class="sourceLine" id="cb12-74" data-line-number="74"><span class="co">#&gt;  20. │           └─knitr:::block_exec(params)</span></a>
-<a class="sourceLine" id="cb12-75" data-line-number="75"><span class="co">#&gt;  21. │             ├─knitr:::in_dir(...)</span></a>
-<a class="sourceLine" id="cb12-76" data-line-number="76"><span class="co">#&gt;  22. │             └─knitr:::evaluate(...)</span></a>
-<a class="sourceLine" id="cb12-77" data-line-number="77"><span class="co">#&gt;  23. │               └─evaluate::evaluate(...)</span></a>
-<a class="sourceLine" id="cb12-78" data-line-number="78"><span class="co">#&gt;  24. │                 └─evaluate:::evaluate_call(...)</span></a>
-<a class="sourceLine" id="cb12-79" data-line-number="79"><span class="co">#&gt;  25. │                   ├─evaluate:::timing_fn(...)</span></a>
-<a class="sourceLine" id="cb12-80" data-line-number="80"><span class="co">#&gt;  26. │                   ├─evaluate:::handle(...)</span></a>
-<a class="sourceLine" id="cb12-81" data-line-number="81"><span class="co">#&gt;  27. │                   │ └─base::try(f, silent = TRUE)</span></a>
-<a class="sourceLine" id="cb12-82" data-line-number="82"><span class="co">#&gt;  28. │                   │   └─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb12-83" data-line-number="83"><span class="co">#&gt;  29. │                   │     └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb12-84" data-line-number="84"><span class="co">#&gt;  30. │                   │       └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb12-85" data-line-number="85"><span class="co">#&gt;  31. │                   │         └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb12-86" data-line-number="86"><span class="co">#&gt;  32. │                   ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb12-87" data-line-number="87"><span class="co">#&gt;  33. │                   ├─base::withVisible(eval(expr, envir, enclos))</span></a>
-<a class="sourceLine" id="cb12-88" data-line-number="88"><span class="co">#&gt;  34. │                   └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb12-89" data-line-number="89"><span class="co">#&gt;  35. │                     └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb12-90" data-line-number="90"><span class="co">#&gt;  36. └─global::miss_rate_vec(fold1$obs, fold1$pred, estimator = "macro")</span></a>
-<a class="sourceLine" id="cb12-91" data-line-number="91"><span class="co">#&gt;  37.   └─yardstick::finalize_estimator(truth, estimator, metric_class = "miss_rate")</span></a>
-<a class="sourceLine" id="cb12-92" data-line-number="92"><span class="co">#&gt;  38.     ├─yardstick::finalize_estimator_internal(...)</span></a>
-<a class="sourceLine" id="cb12-93" data-line-number="93"><span class="co">#&gt;  39.     └─global::finalize_estimator_internal.miss_rate(...)</span></a>
-<a class="sourceLine" id="cb12-94" data-line-number="94"><span class="co">#&gt;  40.       └─yardstick::validate_estimator(estimator, estimator_override = "binary")</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-52" data-line-number="52"><span class="co">#&gt; `estimator` must be one of: "binary". Not "macro".</span></a></code></pre></div>
 </div>
 <div id="supporting-multiclass-miss-rate" class="section level3">
 <h3 class="hasAnchor">
@@ -686,57 +512,7 @@
 <a class="sourceLine" id="cb17-34" data-line-number="34"></a>
 <a class="sourceLine" id="cb17-35" data-line-number="35"><span class="co"># Error handling</span></a>
 <a class="sourceLine" id="cb17-36" data-line-number="36"><span class="kw">miss_rate</span>(hpc_cv, obs, VF)</a>
-<a class="sourceLine" id="cb17-37" data-line-number="37"><span class="co">#&gt; Error: `estimate` should be a factor but a numeric was supplied.</span></a>
-<a class="sourceLine" id="cb17-38" data-line-number="38"><span class="co">#&gt; Backtrace:</span></a>
-<a class="sourceLine" id="cb17-39" data-line-number="39"><span class="co">#&gt;      █</span></a>
-<a class="sourceLine" id="cb17-40" data-line-number="40"><span class="co">#&gt;   1. ├─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb17-41" data-line-number="41"><span class="co">#&gt;   2. │ └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb17-42" data-line-number="42"><span class="co">#&gt;   3. │   ├─base:::tryCatchOne(...)</span></a>
-<a class="sourceLine" id="cb17-43" data-line-number="43"><span class="co">#&gt;   4. │   │ └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb17-44" data-line-number="44"><span class="co">#&gt;   5. │   └─base:::tryCatchList(expr, names[-nh], parentenv, handlers[-nh])</span></a>
-<a class="sourceLine" id="cb17-45" data-line-number="45"><span class="co">#&gt;   6. │     └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb17-46" data-line-number="46"><span class="co">#&gt;   7. │       └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb17-47" data-line-number="47"><span class="co">#&gt;   8. ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb17-48" data-line-number="48"><span class="co">#&gt;   9. ├─base::saveRDS(...)</span></a>
-<a class="sourceLine" id="cb17-49" data-line-number="49"><span class="co">#&gt;  10. ├─base::do.call(...)</span></a>
-<a class="sourceLine" id="cb17-50" data-line-number="50"><span class="co">#&gt;  11. ├─(function (what, args, quote = FALSE, envir = parent.frame()) ...</span></a>
-<a class="sourceLine" id="cb17-51" data-line-number="51"><span class="co">#&gt;  12. ├─(function (...) ...</span></a>
-<a class="sourceLine" id="cb17-52" data-line-number="52"><span class="co">#&gt;  13. │ └─rmarkdown::render(...)</span></a>
-<a class="sourceLine" id="cb17-53" data-line-number="53"><span class="co">#&gt;  14. │   └─knitr::knit(...)</span></a>
-<a class="sourceLine" id="cb17-54" data-line-number="54"><span class="co">#&gt;  15. │     └─knitr:::process_file(text, output)</span></a>
-<a class="sourceLine" id="cb17-55" data-line-number="55"><span class="co">#&gt;  16. │       ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb17-56" data-line-number="56"><span class="co">#&gt;  17. │       ├─knitr:::process_group(group)</span></a>
-<a class="sourceLine" id="cb17-57" data-line-number="57"><span class="co">#&gt;  18. │       └─knitr:::process_group.block(group)</span></a>
-<a class="sourceLine" id="cb17-58" data-line-number="58"><span class="co">#&gt;  19. │         └─knitr:::call_block(x)</span></a>
-<a class="sourceLine" id="cb17-59" data-line-number="59"><span class="co">#&gt;  20. │           └─knitr:::block_exec(params)</span></a>
-<a class="sourceLine" id="cb17-60" data-line-number="60"><span class="co">#&gt;  21. │             ├─knitr:::in_dir(...)</span></a>
-<a class="sourceLine" id="cb17-61" data-line-number="61"><span class="co">#&gt;  22. │             └─knitr:::evaluate(...)</span></a>
-<a class="sourceLine" id="cb17-62" data-line-number="62"><span class="co">#&gt;  23. │               └─evaluate::evaluate(...)</span></a>
-<a class="sourceLine" id="cb17-63" data-line-number="63"><span class="co">#&gt;  24. │                 └─evaluate:::evaluate_call(...)</span></a>
-<a class="sourceLine" id="cb17-64" data-line-number="64"><span class="co">#&gt;  25. │                   ├─evaluate:::timing_fn(...)</span></a>
-<a class="sourceLine" id="cb17-65" data-line-number="65"><span class="co">#&gt;  26. │                   ├─evaluate:::handle(...)</span></a>
-<a class="sourceLine" id="cb17-66" data-line-number="66"><span class="co">#&gt;  27. │                   │ └─base::try(f, silent = TRUE)</span></a>
-<a class="sourceLine" id="cb17-67" data-line-number="67"><span class="co">#&gt;  28. │                   │   └─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb17-68" data-line-number="68"><span class="co">#&gt;  29. │                   │     └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb17-69" data-line-number="69"><span class="co">#&gt;  30. │                   │       └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb17-70" data-line-number="70"><span class="co">#&gt;  31. │                   │         └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb17-71" data-line-number="71"><span class="co">#&gt;  32. │                   ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb17-72" data-line-number="72"><span class="co">#&gt;  33. │                   ├─base::withVisible(eval(expr, envir, enclos))</span></a>
-<a class="sourceLine" id="cb17-73" data-line-number="73"><span class="co">#&gt;  34. │                   └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb17-74" data-line-number="74"><span class="co">#&gt;  35. │                     └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb17-75" data-line-number="75"><span class="co">#&gt;  36. ├─global::miss_rate(hpc_cv, obs, VF)</span></a>
-<a class="sourceLine" id="cb17-76" data-line-number="76"><span class="co">#&gt;  37. ├─global::miss_rate.data.frame(hpc_cv, obs, VF)</span></a>
-<a class="sourceLine" id="cb17-77" data-line-number="77"><span class="co">#&gt;  38. │ └─yardstick::metric_summarizer(...)</span></a>
-<a class="sourceLine" id="cb17-78" data-line-number="78"><span class="co">#&gt;  39. │   ├─dplyr::summarise(...)</span></a>
-<a class="sourceLine" id="cb17-79" data-line-number="79"><span class="co">#&gt;  40. │   └─dplyr:::summarise.data.frame(...)</span></a>
-<a class="sourceLine" id="cb17-80" data-line-number="80"><span class="co">#&gt;  41. │     ├─base::as.data.frame(summarise(tbl_df(.data), ...))</span></a>
-<a class="sourceLine" id="cb17-81" data-line-number="81"><span class="co">#&gt;  42. │     ├─dplyr::summarise(tbl_df(.data), ...)</span></a>
-<a class="sourceLine" id="cb17-82" data-line-number="82"><span class="co">#&gt;  43. │     └─dplyr:::summarise.tbl_df(tbl_df(.data), ...)</span></a>
-<a class="sourceLine" id="cb17-83" data-line-number="83"><span class="co">#&gt;  44. │       └─dplyr:::summarise_impl(.data, dots, environment(), caller_env())</span></a>
-<a class="sourceLine" id="cb17-84" data-line-number="84"><span class="co">#&gt;  45. └─global::metric_fn(truth = obs, estimate = VF, na_rm = na_rm)</span></a>
-<a class="sourceLine" id="cb17-85" data-line-number="85"><span class="co">#&gt;  46.   └─yardstick::metric_vec_template(...)</span></a>
-<a class="sourceLine" id="cb17-86" data-line-number="86"><span class="co">#&gt;  47.     └─yardstick:::validate_truth_estimate_checks(...)</span></a>
-<a class="sourceLine" id="cb17-87" data-line-number="87"><span class="co">#&gt;  48.       └─yardstick:::validate_class(estimate, "estimate", cls[2])</span></a></code></pre></div>
+<a class="sourceLine" id="cb17-37" data-line-number="37"><span class="co">#&gt; `estimate` should be a factor but a numeric was supplied.</span></a></code></pre></div>
 </div>
 </div>
 <div id="using-custom-metrics-in-metric_set" class="section level2">
@@ -754,63 +530,24 @@
 </ul>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># This errors because the class has not been set</span></a>
 <a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="../reference/metric_set.html">metric_set</a></span>(mse, rmse)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt; Error: </span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt; The combination of metric functions must be:</span></a>
 <a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt; - only numeric metrics</span></a>
 <a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; - a mix of class metrics and class probability metrics</span></a>
 <a class="sourceLine" id="cb18-7" data-line-number="7"><span class="co">#&gt; The following metric function types are being mixed:</span></a>
 <a class="sourceLine" id="cb18-8" data-line-number="8"><span class="co">#&gt; - other (mse)</span></a>
 <a class="sourceLine" id="cb18-9" data-line-number="9"><span class="co">#&gt; - numeric (rmse)</span></a>
-<a class="sourceLine" id="cb18-10" data-line-number="10"><span class="co">#&gt; Backtrace:</span></a>
-<a class="sourceLine" id="cb18-11" data-line-number="11"><span class="co">#&gt;      █</span></a>
-<a class="sourceLine" id="cb18-12" data-line-number="12"><span class="co">#&gt;   1. ├─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb18-13" data-line-number="13"><span class="co">#&gt;   2. │ └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb18-14" data-line-number="14"><span class="co">#&gt;   3. │   ├─base:::tryCatchOne(...)</span></a>
-<a class="sourceLine" id="cb18-15" data-line-number="15"><span class="co">#&gt;   4. │   │ └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb18-16" data-line-number="16"><span class="co">#&gt;   5. │   └─base:::tryCatchList(expr, names[-nh], parentenv, handlers[-nh])</span></a>
-<a class="sourceLine" id="cb18-17" data-line-number="17"><span class="co">#&gt;   6. │     └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb18-18" data-line-number="18"><span class="co">#&gt;   7. │       └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb18-19" data-line-number="19"><span class="co">#&gt;   8. ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb18-20" data-line-number="20"><span class="co">#&gt;   9. ├─base::saveRDS(...)</span></a>
-<a class="sourceLine" id="cb18-21" data-line-number="21"><span class="co">#&gt;  10. ├─base::do.call(...)</span></a>
-<a class="sourceLine" id="cb18-22" data-line-number="22"><span class="co">#&gt;  11. ├─(function (what, args, quote = FALSE, envir = parent.frame()) ...</span></a>
-<a class="sourceLine" id="cb18-23" data-line-number="23"><span class="co">#&gt;  12. ├─(function (...) ...</span></a>
-<a class="sourceLine" id="cb18-24" data-line-number="24"><span class="co">#&gt;  13. │ └─rmarkdown::render(...)</span></a>
-<a class="sourceLine" id="cb18-25" data-line-number="25"><span class="co">#&gt;  14. │   └─knitr::knit(...)</span></a>
-<a class="sourceLine" id="cb18-26" data-line-number="26"><span class="co">#&gt;  15. │     └─knitr:::process_file(text, output)</span></a>
-<a class="sourceLine" id="cb18-27" data-line-number="27"><span class="co">#&gt;  16. │       ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb18-28" data-line-number="28"><span class="co">#&gt;  17. │       ├─knitr:::process_group(group)</span></a>
-<a class="sourceLine" id="cb18-29" data-line-number="29"><span class="co">#&gt;  18. │       └─knitr:::process_group.block(group)</span></a>
-<a class="sourceLine" id="cb18-30" data-line-number="30"><span class="co">#&gt;  19. │         └─knitr:::call_block(x)</span></a>
-<a class="sourceLine" id="cb18-31" data-line-number="31"><span class="co">#&gt;  20. │           └─knitr:::block_exec(params)</span></a>
-<a class="sourceLine" id="cb18-32" data-line-number="32"><span class="co">#&gt;  21. │             ├─knitr:::in_dir(...)</span></a>
-<a class="sourceLine" id="cb18-33" data-line-number="33"><span class="co">#&gt;  22. │             └─knitr:::evaluate(...)</span></a>
-<a class="sourceLine" id="cb18-34" data-line-number="34"><span class="co">#&gt;  23. │               └─evaluate::evaluate(...)</span></a>
-<a class="sourceLine" id="cb18-35" data-line-number="35"><span class="co">#&gt;  24. │                 └─evaluate:::evaluate_call(...)</span></a>
-<a class="sourceLine" id="cb18-36" data-line-number="36"><span class="co">#&gt;  25. │                   ├─evaluate:::timing_fn(...)</span></a>
-<a class="sourceLine" id="cb18-37" data-line-number="37"><span class="co">#&gt;  26. │                   ├─evaluate:::handle(...)</span></a>
-<a class="sourceLine" id="cb18-38" data-line-number="38"><span class="co">#&gt;  27. │                   │ └─base::try(f, silent = TRUE)</span></a>
-<a class="sourceLine" id="cb18-39" data-line-number="39"><span class="co">#&gt;  28. │                   │   └─base::tryCatch(...)</span></a>
-<a class="sourceLine" id="cb18-40" data-line-number="40"><span class="co">#&gt;  29. │                   │     └─base:::tryCatchList(expr, classes, parentenv, handlers)</span></a>
-<a class="sourceLine" id="cb18-41" data-line-number="41"><span class="co">#&gt;  30. │                   │       └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])</span></a>
-<a class="sourceLine" id="cb18-42" data-line-number="42"><span class="co">#&gt;  31. │                   │         └─base:::doTryCatch(return(expr), name, parentenv, handler)</span></a>
-<a class="sourceLine" id="cb18-43" data-line-number="43"><span class="co">#&gt;  32. │                   ├─base::withCallingHandlers(...)</span></a>
-<a class="sourceLine" id="cb18-44" data-line-number="44"><span class="co">#&gt;  33. │                   ├─base::withVisible(eval(expr, envir, enclos))</span></a>
-<a class="sourceLine" id="cb18-45" data-line-number="45"><span class="co">#&gt;  34. │                   └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb18-46" data-line-number="46"><span class="co">#&gt;  35. │                     └─base::eval(expr, envir, enclos)</span></a>
-<a class="sourceLine" id="cb18-47" data-line-number="47"><span class="co">#&gt;  36. └─yardstick::metric_set(mse, rmse)</span></a>
-<a class="sourceLine" id="cb18-48" data-line-number="48"><span class="co">#&gt;  37.   └─yardstick:::validate_function_class(fns)</span></a>
-<a class="sourceLine" id="cb18-49" data-line-number="49"></a>
-<a class="sourceLine" id="cb18-50" data-line-number="50"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(mse) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"numeric_metric"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(mse))</a>
-<a class="sourceLine" id="cb18-51" data-line-number="51"></a>
-<a class="sourceLine" id="cb18-52" data-line-number="52">numeric_mets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/metric_set.html">metric_set</a></span>(mse, rmse)</a>
-<a class="sourceLine" id="cb18-53" data-line-number="53"></a>
-<a class="sourceLine" id="cb18-54" data-line-number="54"><span class="kw">numeric_mets</span>(solubility_test, solubility, prediction)</a>
-<a class="sourceLine" id="cb18-55" data-line-number="55"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb18-56" data-line-number="56"><span class="co">#&gt;   .metric .estimator .estimate</span></a>
-<a class="sourceLine" id="cb18-57" data-line-number="57"><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb18-58" data-line-number="58"><span class="co">#&gt; 1 mse     standard       0.521</span></a>
-<a class="sourceLine" id="cb18-59" data-line-number="59"><span class="co">#&gt; 2 rmse    standard       0.722</span></a></code></pre></div>
+<a class="sourceLine" id="cb18-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb18-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(mse) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"numeric_metric"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(mse))</a>
+<a class="sourceLine" id="cb18-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb18-13" data-line-number="13">numeric_mets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/metric_set.html">metric_set</a></span>(mse, rmse)</a>
+<a class="sourceLine" id="cb18-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb18-15" data-line-number="15"><span class="kw">numeric_mets</span>(solubility_test, solubility, prediction)</a>
+<a class="sourceLine" id="cb18-16" data-line-number="16"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
+<a class="sourceLine" id="cb18-17" data-line-number="17"><span class="co">#&gt;   .metric .estimator .estimate</span></a>
+<a class="sourceLine" id="cb18-18" data-line-number="18"><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb18-19" data-line-number="19"><span class="co">#&gt; 1 mse     standard       0.521</span></a>
+<a class="sourceLine" id="cb18-20" data-line-number="20"><span class="co">#&gt; 2 rmse    standard       0.722</span></a></code></pre></div>
 </div>
   </div>
 

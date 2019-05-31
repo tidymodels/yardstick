@@ -249,22 +249,22 @@ the number of groups.</p>
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    resample .metric           .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        huber_loss_pseudo standard       0.181
-#&gt;  2 10       huber_loss_pseudo standard       0.261
-#&gt;  3 2        huber_loss_pseudo standard       0.219
-#&gt;  4 3        huber_loss_pseudo standard       0.200
-#&gt;  5 4        huber_loss_pseudo standard       0.197
-#&gt;  6 5        huber_loss_pseudo standard       0.193
-#&gt;  7 6        huber_loss_pseudo standard       0.226
-#&gt;  8 7        huber_loss_pseudo standard       0.192
-#&gt;  9 8        huber_loss_pseudo standard       0.165
-#&gt; 10 9        huber_loss_pseudo standard       0.178</div><div class='input'>
+#&gt;  1 1        huber_loss_pseudo standard       0.185
+#&gt;  2 10       huber_loss_pseudo standard       0.179
+#&gt;  3 2        huber_loss_pseudo standard       0.196
+#&gt;  4 3        huber_loss_pseudo standard       0.168
+#&gt;  5 4        huber_loss_pseudo standard       0.212
+#&gt;  6 5        huber_loss_pseudo standard       0.177
+#&gt;  7 6        huber_loss_pseudo standard       0.246
+#&gt;  8 7        huber_loss_pseudo standard       0.227
+#&gt;  9 8        huber_loss_pseudo standard       0.161
+#&gt; 10 9        huber_loss_pseudo standard       0.188</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1        0.201</div></pre>
+#&gt; 1        0.194</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -269,16 +269,16 @@ in Analytical Chemistry, 29(9), pp.1073-1081.</p>
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    resample .metric .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        rpd     standard        2.67
-#&gt;  2 10       rpd     standard        2.66
-#&gt;  3 2        rpd     standard        2.75
-#&gt;  4 3        rpd     standard        2.74
-#&gt;  5 4        rpd     standard        3.20
-#&gt;  6 5        rpd     standard        3.00
-#&gt;  7 6        rpd     standard        3.08
-#&gt;  8 7        rpd     standard        2.43
-#&gt;  9 8        rpd     standard        3.76
-#&gt; 10 9        rpd     standard        3.28</div><div class='input'>
+#&gt;  1 1        rpd     standard        2.78
+#&gt;  2 10       rpd     standard        2.87
+#&gt;  3 2        rpd     standard        3.04
+#&gt;  4 3        rpd     standard        3.41
+#&gt;  5 4        rpd     standard        3.02
+#&gt;  6 5        rpd     standard        2.66
+#&gt;  7 6        rpd     standard        2.81
+#&gt;  8 7        rpd     standard        2.61
+#&gt;  9 8        rpd     standard        3.45
+#&gt; 10 9        rpd     standard        2.93</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1

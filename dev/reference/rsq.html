@@ -251,32 +251,32 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    resample .metric .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        rsq     standard       0.862
-#&gt;  2 10       rsq     standard       0.858
-#&gt;  3 2        rsq     standard       0.867
-#&gt;  4 3        rsq     standard       0.872
-#&gt;  5 4        rsq     standard       0.903
-#&gt;  6 5        rsq     standard       0.891
-#&gt;  7 6        rsq     standard       0.894
-#&gt;  8 7        rsq     standard       0.832
-#&gt;  9 8        rsq     standard       0.930
-#&gt; 10 9        rsq     standard       0.906</div><div class='input'>
+#&gt;  1 1        rsq     standard       0.874
+#&gt;  2 10       rsq     standard       0.879
+#&gt;  3 2        rsq     standard       0.891
+#&gt;  4 3        rsq     standard       0.916
+#&gt;  5 4        rsq     standard       0.892
+#&gt;  6 5        rsq     standard       0.858
+#&gt;  7 6        rsq     standard       0.873
+#&gt;  8 7        rsq     standard       0.852
+#&gt;  9 8        rsq     standard       0.915
+#&gt; 10 9        rsq     standard       0.884</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1        0.882</div><div class='input'><span class='co'># With uninformitive data, the traditional version of R^2 can return</span>
+#&gt; 1        0.883</div><div class='input'><span class='co'># With uninformitive data, the traditional version of R^2 can return</span>
 <span class='co'># negative values.</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>2291</span>)
 <span class='no'>solubility_test</span>$<span class='no'>randomized</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample.html'>sample</a></span>(<span class='no'>solubility_test</span>$<span class='no'>prediction</span>)
 <span class='fu'>rsq</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   .metric .estimator .estimate
 #&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 rsq     standard    0.000246</div><div class='input'><span class='fu'><a href='rsq_trad.html'>rsq_trad</a></span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt; 1 rsq     standard     0.00199</div><div class='input'><span class='fu'><a href='rsq_trad.html'>rsq_trad</a></span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   .metric  .estimator .estimate
 #&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 rsq_trad standard      -0.951</div><div class='input'>
+#&gt; 1 rsq_trad standard       -1.01</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -279,22 +279,22 @@ INTERMITTENT DEMAND. <em>Foresight</em>, 4, 46.</p>
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    resample .metric .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        mase    standard       0.240
-#&gt;  2 10       mase    standard       0.268
-#&gt;  3 2        mase    standard       0.235
-#&gt;  4 3        mase    standard       0.255
-#&gt;  5 4        mase    standard       0.213
-#&gt;  6 5        mase    standard       0.216
-#&gt;  7 6        mase    standard       0.215
-#&gt;  8 7        mase    standard       0.266
-#&gt;  9 8        mase    standard       0.165
-#&gt; 10 9        mase    standard       0.215</div><div class='input'>
+#&gt;  1 1        mase    standard       0.256
+#&gt;  2 10       mase    standard       0.240
+#&gt;  3 2        mase    standard       0.238
+#&gt;  4 3        mase    standard       0.219
+#&gt;  5 4        mase    standard       0.229
+#&gt;  6 5        mase    standard       0.261
+#&gt;  7 6        mase    standard       0.217
+#&gt;  8 7        mase    standard       0.267
+#&gt;  9 8        mase    standard       0.216
+#&gt; 10 9        mase    standard       0.251</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1        0.229</div></pre>
+#&gt; 1        0.240</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

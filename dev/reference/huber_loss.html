@@ -249,22 +249,22 @@ the number of groups.</p>
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    resample .metric    .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        huber_loss standard       0.212
-#&gt;  2 10       huber_loss standard       0.309
-#&gt;  3 2        huber_loss standard       0.259
-#&gt;  4 3        huber_loss standard       0.235
-#&gt;  5 4        huber_loss standard       0.230
-#&gt;  6 5        huber_loss standard       0.223
-#&gt;  7 6        huber_loss standard       0.269
-#&gt;  8 7        huber_loss standard       0.227
-#&gt;  9 8        huber_loss standard       0.195
-#&gt; 10 9        huber_loss standard       0.208</div><div class='input'>
+#&gt;  1 1        huber_loss standard       0.215
+#&gt;  2 10       huber_loss standard       0.212
+#&gt;  3 2        huber_loss standard       0.229
+#&gt;  4 3        huber_loss standard       0.197
+#&gt;  5 4        huber_loss standard       0.249
+#&gt;  6 5        huber_loss standard       0.208
+#&gt;  7 6        huber_loss standard       0.293
+#&gt;  8 7        huber_loss standard       0.268
+#&gt;  9 8        huber_loss standard       0.190
+#&gt; 10 9        huber_loss standard       0.218</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1        0.237</div></pre>
+#&gt; 1        0.228</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

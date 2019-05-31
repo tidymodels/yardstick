@@ -243,22 +243,22 @@ denominator is divided by two.</p>
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    resample .metric .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        smape   standard        42.3
-#&gt;  2 10       smape   standard        47.6
-#&gt;  3 2        smape   standard        28.6
-#&gt;  4 3        smape   standard        39.6
-#&gt;  5 4        smape   standard        34.8
-#&gt;  6 5        smape   standard        31.6
-#&gt;  7 6        smape   standard        36.0
-#&gt;  8 7        smape   standard        32.2
-#&gt;  9 8        smape   standard        40.5
-#&gt; 10 9        smape   standard        30.3</div><div class='input'>
+#&gt;  1 1        smape   standard        33.5
+#&gt;  2 10       smape   standard        28.9
+#&gt;  3 2        smape   standard        41.6
+#&gt;  4 3        smape   standard        28.4
+#&gt;  5 4        smape   standard        37.0
+#&gt;  6 5        smape   standard        31.8
+#&gt;  7 6        smape   standard        48.3
+#&gt;  8 7        smape   standard        27.8
+#&gt;  9 8        smape   standard        35.6
+#&gt; 10 9        smape   standard        30.2</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1         36.3</div></pre>
+#&gt; 1         34.3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

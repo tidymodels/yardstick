@@ -238,22 +238,22 @@ the number of groups.</p>
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    resample .metric .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        mae     standard       0.510
-#&gt;  2 10       mae     standard       0.650
-#&gt;  3 2        mae     standard       0.557
-#&gt;  4 3        mae     standard       0.557
-#&gt;  5 4        mae     standard       0.533
-#&gt;  6 5        mae     standard       0.556
-#&gt;  7 6        mae     standard       0.589
-#&gt;  8 7        mae     standard       0.534
-#&gt;  9 8        mae     standard       0.492
-#&gt; 10 9        mae     standard       0.512</div><div class='input'>
+#&gt;  1 1        mae     standard       0.512
+#&gt;  2 10       mae     standard       0.504
+#&gt;  3 2        mae     standard       0.545
+#&gt;  4 3        mae     standard       0.496
+#&gt;  5 4        mae     standard       0.587
+#&gt;  6 5        mae     standard       0.500
+#&gt;  7 6        mae     standard       0.627
+#&gt;  8 7        mae     standard       0.566
+#&gt;  9 8        mae     standard       0.473
+#&gt; 10 9        mae     standard       0.540</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1        0.549</div></pre>
+#&gt; 1        0.535</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
