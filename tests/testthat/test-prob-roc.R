@@ -35,10 +35,10 @@ test_that('Two class', {
 
 test_that('ROC Curve', {
   library(pROC)
-  points <- coords(roc_curv, x = unique(c(-Inf, two_class_example$Class1, Inf)), input = "threshold")
-  points <- dplyr::as_tibble(t(points)) %>% dplyr::arrange(threshold) %>% dplyr::rename(.threshold = threshold)
-  s_points <- coords(smooth_curv, x = unique(c(0, smooth_curv$specificities, 1)), input = "specificity")
-  s_points <- dplyr::as_tibble(t(s_points)) %>% dplyr::arrange(specificity)
+  points <- coords(roc_curv, x = unique(c(-Inf, two_class_example$Class1, Inf)), input = "threshold", transpose = FALSE)
+  points <- dplyr::as_tibble(points) %>% dplyr::arrange(threshold) %>% dplyr::rename(.threshold = threshold)
+  s_points <- coords(smooth_curv, x = unique(c(0, smooth_curv$specificities, 1)), input = "specificity", transpose = FALSE)
+  s_points <- dplyr::as_tibble(s_points) %>% dplyr::arrange(specificity)
 
   expect_equal(
     as.data.frame(roc_curve(two_class_example, truth, Class1)),

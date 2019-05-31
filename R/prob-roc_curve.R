@@ -166,18 +166,20 @@ roc_curve_binary <- function(truth, estimate, options) {
     res <- coords(
       curv,
       x = unique(c(-Inf, options$predictor, Inf)),
-      input = "threshold"
+      input = "threshold",
+      transpose = FALSE
     )
   }
   else {
     res <- coords(
       curv,
       x = unique(c(0, curv$specificities, 1)),
-      input = "specificity"
+      input = "specificity",
+      transpose = FALSE
     )
   }
 
-  res <- dplyr::as_tibble(t(res))
+  res <- dplyr::as_tibble(res)
 
   if (!inherits(curv, "smooth.roc")) {
     res <- dplyr::arrange(res, threshold)
