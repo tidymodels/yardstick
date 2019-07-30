@@ -143,11 +143,10 @@
 <a class="sourceLine" id="cb3-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10">two_class_example <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="reference/roc_auc.html">roc_auc</a></span>(truth, Class1)</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;   .metric .estimator .estimate</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; 1 roc_auc binary         0.939</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;   .metric .estimator .estimate</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; 1 roc_auc binary         0.939</span></a></code></pre></div>
 </div>
 <div id="multiclass-metrics" class="section level2">
 <h2 class="hasAnchor">
@@ -192,139 +191,19 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">hpc_cv <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/roc_auc.html">roc_auc</a></span>(obs, VF<span class="op">:</span>L)</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; Setting direction: controls &gt; cases</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; Setting direction: controls &gt; cases</span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-38" data-line-number="38"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-39" data-line-number="39"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-40" data-line-number="40"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-41" data-line-number="41"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-42" data-line-number="42"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-43" data-line-number="43"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-44" data-line-number="44"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-46" data-line-number="46"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-47" data-line-number="47"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-48" data-line-number="48"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-49" data-line-number="49"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-50" data-line-number="50"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-51" data-line-number="51"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-52" data-line-number="52"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-53" data-line-number="53"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-54" data-line-number="54"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-55" data-line-number="55"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-56" data-line-number="56"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-57" data-line-number="57"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-58" data-line-number="58"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-59" data-line-number="59"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-60" data-line-number="60"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-61" data-line-number="61"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-62" data-line-number="62"><span class="co">#&gt; Setting direction: controls &gt; cases</span></a>
-<a class="sourceLine" id="cb6-63" data-line-number="63"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-64" data-line-number="64"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-65" data-line-number="65"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-66" data-line-number="66"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-67" data-line-number="67"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-68" data-line-number="68"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-69" data-line-number="69"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-70" data-line-number="70"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-71" data-line-number="71"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-72" data-line-number="72"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-73" data-line-number="73"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-74" data-line-number="74"><span class="co">#&gt; Setting direction: controls &gt; cases</span></a>
-<a class="sourceLine" id="cb6-75" data-line-number="75"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-76" data-line-number="76"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-77" data-line-number="77"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-78" data-line-number="78"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-79" data-line-number="79"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-80" data-line-number="80"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-81" data-line-number="81"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-82" data-line-number="82"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-83" data-line-number="83"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-84" data-line-number="84"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-85" data-line-number="85"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-86" data-line-number="86"><span class="co">#&gt; Setting direction: controls &gt; cases</span></a>
-<a class="sourceLine" id="cb6-87" data-line-number="87"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-88" data-line-number="88"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-89" data-line-number="89"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-90" data-line-number="90"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-91" data-line-number="91"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-92" data-line-number="92"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-93" data-line-number="93"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-94" data-line-number="94"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-95" data-line-number="95"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-96" data-line-number="96"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-97" data-line-number="97"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-98" data-line-number="98"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-99" data-line-number="99"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-100" data-line-number="100"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-101" data-line-number="101"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-102" data-line-number="102"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-103" data-line-number="103"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-104" data-line-number="104"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-105" data-line-number="105"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-106" data-line-number="106"><span class="co">#&gt; Setting direction: controls &gt; cases</span></a>
-<a class="sourceLine" id="cb6-107" data-line-number="107"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-108" data-line-number="108"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-109" data-line-number="109"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-110" data-line-number="110"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-111" data-line-number="111"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-112" data-line-number="112"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-113" data-line-number="113"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-114" data-line-number="114"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-115" data-line-number="115"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-116" data-line-number="116"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-117" data-line-number="117"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-118" data-line-number="118"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-119" data-line-number="119"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-120" data-line-number="120"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-121" data-line-number="121"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-122" data-line-number="122"><span class="co">#&gt; Setting direction: controls &gt; cases</span></a>
-<a class="sourceLine" id="cb6-123" data-line-number="123"><span class="co">#&gt; Setting direction: controls &lt; cases</span></a>
-<a class="sourceLine" id="cb6-124" data-line-number="124"><span class="co">#&gt; # A tibble: 10 x 4</span></a>
-<a class="sourceLine" id="cb6-125" data-line-number="125"><span class="co">#&gt;    Resample .metric .estimator .estimate</span></a>
-<a class="sourceLine" id="cb6-126" data-line-number="126"><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb6-127" data-line-number="127"><span class="co">#&gt;  1 Fold01   roc_auc hand_till      0.831</span></a>
-<a class="sourceLine" id="cb6-128" data-line-number="128"><span class="co">#&gt;  2 Fold02   roc_auc hand_till      0.817</span></a>
-<a class="sourceLine" id="cb6-129" data-line-number="129"><span class="co">#&gt;  3 Fold03   roc_auc hand_till      0.869</span></a>
-<a class="sourceLine" id="cb6-130" data-line-number="130"><span class="co">#&gt;  4 Fold04   roc_auc hand_till      0.849</span></a>
-<a class="sourceLine" id="cb6-131" data-line-number="131"><span class="co">#&gt;  5 Fold05   roc_auc hand_till      0.811</span></a>
-<a class="sourceLine" id="cb6-132" data-line-number="132"><span class="co">#&gt;  6 Fold06   roc_auc hand_till      0.836</span></a>
-<a class="sourceLine" id="cb6-133" data-line-number="133"><span class="co">#&gt;  7 Fold07   roc_auc hand_till      0.825</span></a>
-<a class="sourceLine" id="cb6-134" data-line-number="134"><span class="co">#&gt;  8 Fold08   roc_auc hand_till      0.846</span></a>
-<a class="sourceLine" id="cb6-135" data-line-number="135"><span class="co">#&gt;  9 Fold09   roc_auc hand_till      0.836</span></a>
-<a class="sourceLine" id="cb6-136" data-line-number="136"><span class="co">#&gt; 10 Fold10   roc_auc hand_till      0.820</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; # A tibble: 10 x 4</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;    Resample .metric .estimator .estimate</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;  1 Fold01   roc_auc hand_till      0.831</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;  2 Fold02   roc_auc hand_till      0.817</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  3 Fold03   roc_auc hand_till      0.869</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;  4 Fold04   roc_auc hand_till      0.849</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;  5 Fold05   roc_auc hand_till      0.811</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  6 Fold06   roc_auc hand_till      0.836</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  7 Fold07   roc_auc hand_till      0.825</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  8 Fold08   roc_auc hand_till      0.846</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;  9 Fold09   roc_auc hand_till      0.836</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 10 Fold10   roc_auc hand_till      0.820</span></a></code></pre></div>
 </div>
 <div id="autoplot-methods-for-easy-visualization" class="section level2">
 <h2 class="hasAnchor">
