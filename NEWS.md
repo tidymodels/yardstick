@@ -5,6 +5,9 @@
 * All valid arguments to `pROC::roc()` are now utilized, including those passed
 on to `pROC::auc()`.
 
+* Documentation for class probability metrics has been improved with
+more informative examples (@rudeboybert, #100).
+
 # yardstick 0.0.3
 
 ## New metrics and functionality
