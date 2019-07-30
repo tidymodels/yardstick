@@ -34,7 +34,6 @@
 #' Compute the area under the ROC curve with [roc_auc()].
 #'
 #' @author Max Kuhn
-#' @template examples-binary-data
 #' @template examples-binary-prob
 #' @examples
 #' # ---------------------------------------------------------------------------

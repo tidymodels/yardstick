@@ -54,7 +54,6 @@
 #'
 #' @author Max Kuhn
 #'
-#' @template examples-binary-data
 #' @template examples-binary-prob
 #' @examples
 #' # ---------------------------------------------------------------------------

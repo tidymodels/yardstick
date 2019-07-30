@@ -27,7 +27,6 @@
 #' Compute the area under the precision recall curve with [pr_auc()].
 #'
 #' @author Max Kuhn
-#' @template examples-binary-data
 #' @template examples-binary-prob
 #' @examples
 #' # ---------------------------------------------------------------------------

@@ -34,9 +34,7 @@
 #'
 #' [gain_curve()] to compute the full gain curve.
 #'
-#' @template examples-binary-data
 #' @template examples-binary-prob
-#' @template examples-multiclass-data
 #' @template examples-multiclass-prob
 #' @examples
 #' # ---------------------------------------------------------------------------
