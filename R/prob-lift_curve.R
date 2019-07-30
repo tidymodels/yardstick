@@ -57,9 +57,10 @@
 #' @template examples-binary-data
 #' @template examples-binary-prob
 #' @examples
-#' # Use autoplot to visualize
 #' library(ggplot2)
 #' library(dplyr)
+#'
+#' # Use autoplot to visualize
 #' autoplot(lift_curve(two_class_example, truth, Class1))
 #'
 #' # Multiclass one-vs-all approach

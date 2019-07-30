@@ -117,9 +117,10 @@ data("two_class_example")
 # `"truth"`, it is the event of interest and we pass in probabilities for it.
 lift_curve(two_class_example, truth, Class1)
 
-# Use autoplot to visualize
 library(ggplot2)
 library(dplyr)
+
+# Use autoplot to visualize
 autoplot(lift_curve(two_class_example, truth, Class1))
 
 # Multiclass one-vs-all approach
