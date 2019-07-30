@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mean log loss — mn_log_loss • yardstick</title>
+<title>Area under the precision recall curve — average_precision • yardstick</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,9 +31,15 @@
 
 
 
-<meta property="og:title" content="Mean log loss — mn_log_loss" />
+<meta property="og:title" content="Area under the precision recall curve — average_precision" />
 
-<meta property="og:description" content="Compute the logarithmic loss of a classification model." />
+<meta property="og:description" content="average_precision() is an alternative to pr_auc() that avoids any
+ambiguity about what the value of precision should be when recall == 0
+and there are not yet any false positive values (some say it should be 0,
+others say 1, others say undefined).
+It computes a weighted average of the precision values returned from
+pr_curve(), where the weights are the increase in recall from the previous
+threshold. See pr_curve() for the full curve." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -130,24 +136,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean log loss</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/prob-mn_log_loss.R'><code>R/prob-mn_log_loss.R</code></a></small>
-    <div class="hidden name"><code>mn_log_loss.Rd</code></div>
+    <h1>Area under the precision recall curve</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/prob-average_precision.R'><code>R/prob-average_precision.R</code></a></small>
+    <div class="hidden name"><code>average_precision.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Compute the logarithmic loss of a classification model.</p>
+    <p><code>average_precision()</code> is an alternative to <code><a href='pr_auc.html'>pr_auc()</a></code> that avoids any
+ambiguity about what the value of <code>precision</code> should be when <code>recall == 0</code>
+and there are not yet any false positive values (some say it should be <code>0</code>,
+others say <code>1</code>, others say undefined).</p>
+<p>It computes a weighted average of the precision values returned from
+<code><a href='pr_curve.html'>pr_curve()</a></code>, where the weights are the increase in recall from the previous
+threshold. See <code><a href='pr_curve.html'>pr_curve()</a></code> for the full curve.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mn_log_loss</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>average_precision</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>mn_log_loss</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>sum</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>average_precision</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>mn_log_loss_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sum</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>average_precision_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,14 +186,17 @@ this argument is passed by expression and supports
 names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
+      <th>estimator</th>
+      <td><p>One of <code>"binary"</code>, <code>"macro"</code>, or <code>"macro_weighted"</code> to
+specify the type of averaging to be done. <code>"binary"</code> is only relevant for
+the two class case. The other two are general methods for calculating
+multiclass metrics. The default will automatically choose <code>"binary"</code> or
+<code>"macro"</code> based on <code>truth</code>.</p></td>
+    </tr>
+    <tr>
       <th>na_rm</th>
       <td><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></td>
-    </tr>
-    <tr>
-      <th>sum</th>
-      <td><p>A <code>logical</code>. Should the sum of the likelihood contributions be
-returned (instead of the mean value)?</p></td>
     </tr>
     <tr>
       <th>estimate</th>
@@ -197,42 +213,62 @@ same order as the levels of <code>truth</code>.</em></p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>mn_log_loss_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>average_precision_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Log loss is a measure of the performance of a classification model. A
-perfect model has a log loss of <code>0</code>.</p>
-<p>Compared with <code><a href='accuracy.html'>accuracy()</a></code>, log loss
-takes into account the uncertainty in the prediction and gives a more
-detailed view into the actual performance. For example, given two input
-probabilities of <code>.6</code> and <code>.9</code> where both are classified as predicting
-a positive value, say, <code>"Yes"</code>, the accuracy metric would interpret them
-as having the same value. If the true output is <code>"Yes"</code>, log loss penalizes
-<code>.6</code> because it is "less sure" of it's result compared to the probability
-of <code>.9</code>.</p>
+    <p>The computation for average precision is a weighted average of the precision
+values. Assuming you have <code>n</code> rows returned from <code><a href='pr_curve.html'>pr_curve()</a></code>, it is a sum
+from <code>2</code> to <code>n</code>, multiplying the precision value <code>p_i</code> by the increase in
+recall over the previous threshold, <code>r_i - r_(i-1)</code>.</p>
+<p>$$AP = \sum (r_{i} - r_{i-1}) * p_i$$</p>
+<p>By summing from <code>2</code> to <code>n</code>, the precision value <code>p_1</code> is never used. While
+<code><a href='pr_curve.html'>pr_curve()</a></code> returns a value for <code>p_1</code>, it is technically undefined as
+<code>tp / (tp + fp)</code> with <code>tp = 0</code> and <code>fp = 0</code>. A common convention is to use
+<code>1</code> for <code>p_1</code>, but this metric has the nice property of avoiding the
+ambiguity. On the other hand, <code>r_1</code> is well defined as long as there are
+some events (<code>p</code>), and it is <code>tp / p</code> with <code>tp = 0</code>, so <code>r_1 = 0</code>.</p>
+<p>When <code>p_1</code> is defined as <code>1</code>, the <code>average_precision()</code> and <code><a href='roc_auc.html'>roc_auc()</a></code>
+values are often very close to one another.</p>
     
     <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
 
     
-    <p>Log loss has a known multiclass extension, and is simply the sum of the
-log loss values for each class prediction. Because of this, no averaging
-types are supported.</p>
+    <p>Macro and macro-weighted averaging is available for this metric.
+The default is to select macro averaging if a <code>truth</code> factor with more
+than 2 levels is provided. Otherwise, a standard binary calculation is done.
+See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
+    
+    <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant level</h2>
+
+    
+    <p>There is no common convention on which factor level should
+automatically be considered the "event" or "positive" result.
+In <code>yardstick</code>, the default is to use the <em>first</em> level. To
+change this, a global option called <code>yardstick.event_first</code> is
+set to <code>TRUE</code> when the package is loaded. This can be changed
+to <code>FALSE</code> if the last level of the factor is considered the
+level of interest. For multiclass extensions involving one-vs-all
+comparisons (such as macro averaging), this option is ignored and
+the "one" level is always the relevant result.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other class probability metrics: <code><a href='average_precision.html'>average_precision</a></code>,
-  <code><a href='gain_capture.html'>gain_capture</a></code>, <code><a href='pr_auc.html'>pr_auc</a></code>,
+    <div class='dont-index'><p><code><a href='pr_curve.html'>pr_curve()</a></code> for computing the full precision recall curve.</p>
+<p><code><a href='pr_auc.html'>pr_auc()</a></code> for computing the area under the precision recall curve using
+the trapezoidal rule.</p>
+<p>Other class probability metrics: <code><a href='gain_capture.html'>gain_capture</a></code>,
+  <code><a href='mn_log_loss.html'>mn_log_loss</a></code>, <code><a href='pr_auc.html'>pr_auc</a></code>,
   <code><a href='roc_auc.html'>roc_auc</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"two_class_example"</span>)
-<span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mn_log_loss binary         0.328</div><div class='input'>
+<span class='fu'>average_precision</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric           .estimator .estimate
+#&gt;   &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 average_precision binary         0.947</div><div class='input'>
 <span class='co'># Multiclass</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>hpc_cv</span>)
@@ -240,48 +276,54 @@ types are supported.</p>
 <span class='co'># You can use the col1:colN tidyselect syntax</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mn_log_loss</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mn_log_loss multiclass     0.734</div><div class='input'>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric           .estimator .estimate
+#&gt;   &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 average_precision macro          0.617</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mn_log_loss</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
-#&gt;    Resample .metric     .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   mn_log_loss multiclass     0.734
-#&gt;  2 Fold02   mn_log_loss multiclass     0.808
-#&gt;  3 Fold03   mn_log_loss multiclass     0.705
-#&gt;  4 Fold04   mn_log_loss multiclass     0.747
-#&gt;  5 Fold05   mn_log_loss multiclass     0.799
-#&gt;  6 Fold06   mn_log_loss multiclass     0.766
-#&gt;  7 Fold07   mn_log_loss multiclass     0.927
-#&gt;  8 Fold08   mn_log_loss multiclass     0.855
-#&gt;  9 Fold09   mn_log_loss multiclass     0.861
-#&gt; 10 Fold10   mn_log_loss multiclass     0.821</div><div class='input'>
-
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+#&gt;    Resample .metric           .estimator .estimate
+#&gt;    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
+#&gt;  1 Fold01   average_precision macro          0.617
+#&gt;  2 Fold02   average_precision macro          0.625
+#&gt;  3 Fold03   average_precision macro          0.699
+#&gt;  4 Fold04   average_precision macro          0.685
+#&gt;  5 Fold05   average_precision macro          0.625
+#&gt;  6 Fold06   average_precision macro          0.656
+#&gt;  7 Fold07   average_precision macro          0.617
+#&gt;  8 Fold08   average_precision macro          0.659
+#&gt;  9 Fold09   average_precision macro          0.632
+#&gt; 10 Fold10   average_precision macro          0.611</div><div class='input'>
+<span class='co'># Weighted macro averaging</span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+#&gt;    Resample .metric           .estimator     .estimate
+#&gt;    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;              &lt;dbl&gt;
+#&gt;  1 Fold01   average_precision macro_weighted     0.750
+#&gt;  2 Fold02   average_precision macro_weighted     0.745
+#&gt;  3 Fold03   average_precision macro_weighted     0.794
+#&gt;  4 Fold04   average_precision macro_weighted     0.757
+#&gt;  5 Fold05   average_precision macro_weighted     0.740
+#&gt;  6 Fold06   average_precision macro_weighted     0.747
+#&gt;  7 Fold07   average_precision macro_weighted     0.751
+#&gt;  8 Fold08   average_precision macro_weighted     0.759
+#&gt;  9 Fold09   average_precision macro_weighted     0.714
+#&gt; 10 Fold10   average_precision macro_weighted     0.742</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
 <span class='no'>fold1</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>)
 
-<span class='fu'>mn_log_loss_vec</span>(
+<span class='fu'>average_precision_vec</span>(
    <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>fold1</span>$<span class='no'>obs</span>,
    <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(
      <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>fold1</span>$<span class='no'>VF</span>, <span class='no'>fold1</span>$<span class='no'>F</span>, <span class='no'>fold1</span>$<span class='no'>M</span>, <span class='no'>fold1</span>$<span class='no'>L</span>),
      <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>
    )
-)</div><div class='output co'>#&gt; [1] 0.7338423</div><div class='input'>
-<span class='co'># Supply `...` with quasiquotation</span>
-<span class='no'>prob_cols</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels</a></span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>)
-<span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mn_log_loss binary         0.328</div><div class='input'><span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>[<span class='fl'>1</span>])</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mn_log_loss binary         0.328</div><div class='input'>
+)</div><div class='output co'>#&gt; [1] 0.6173363</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -295,13 +337,13 @@ types are supported.</p>
 
       <li><a href="#multiclass">Multiclass</a></li>
 
+      <li><a href="#relevant-level">Relevant level</a></li>
+
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
 
-    <h2>Author</h2>
-    <p>Max Kuhn</p>
   </div>
 </div>
 
