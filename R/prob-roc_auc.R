@@ -61,7 +61,7 @@
 #' @author Max Kuhn
 #'
 #' @template examples-binary-data
-#' @template examples-two-class-prob
+#' @template examples-binary-prob
 #' @template examples-multiclass-example
 #' @template examples-multiclass-prob
 #' @examples

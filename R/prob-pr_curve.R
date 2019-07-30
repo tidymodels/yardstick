@@ -28,7 +28,7 @@
 #'
 #' @author Max Kuhn
 #' @template examples-binary-data
-#' @template examples-two-class-prob
+#' @template examples-binary-prob
 #' @examples
 #' # Visualize the curve using ggplot2 manually
 #' library(ggplot2)

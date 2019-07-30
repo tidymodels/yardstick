@@ -106,9 +106,10 @@ definition of multiclass AUC given by Provost and Domingos (2001).
 # section above.
 data("two_class_example")
 
-# Since "Class1" is the event of interest, the third argument of function
-# are the "Class1" probabilities stored in Class1 variable. A tibble is
-# returned.
+# Binary metrics using class probabilities take a factor `truth` column,
+# and a single class probability column containing the probabilities of
+# the event of interest. Here, since `"Class1"` is the first level of
+# `"truth"`, it is the event of interest and we pass in probabilities for it.
 roc_auc(two_class_example, truth, Class1)
 
 # Multiclass example: obs variable is a four-level factor with the first

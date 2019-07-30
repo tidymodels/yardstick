@@ -111,9 +111,10 @@ the "one" level is always the relevant result.
 # section above.
 data("two_class_example")
 
-# Since "Class1" is the event of interest, the third argument of function
-# are the "Class1" probabilities stored in Class1 variable. A tibble is
-# returned.
+# Binary metrics using class probabilities take a factor `truth` column,
+# and a single class probability column containing the probabilities of
+# the event of interest. Here, since `"Class1"` is the first level of
+# `"truth"`, it is the event of interest and we pass in probabilities for it.
 lift_curve(two_class_example, truth, Class1)
 
 # Use autoplot to visualize

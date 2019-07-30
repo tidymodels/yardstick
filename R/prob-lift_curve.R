@@ -55,7 +55,7 @@
 #' @author Max Kuhn
 #'
 #' @template examples-binary-data
-#' @template examples-two-class-prob
+#' @template examples-binary-prob
 #' @examples
 #' # Use autoplot to visualize
 #' library(ggplot2)
