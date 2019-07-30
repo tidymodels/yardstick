@@ -20,9 +20,10 @@ class.
 data(two_class_example)
 str(two_class_example)
 
-# truth variable is a two-level factor with the first level set to be
-# "Class1" and thus truth == "Class1" is the event of interest for binary
-# classification.
+# `truth` is a 2 level factor. The first level is `"Class1"`, which is the
+# "event of interest" by default in yardstick. See the Relevant Level
+# section in any classification function (such as `?pr_auc`) to see how
+# to change this.
 levels(hpc_cv$obs)
 }
 \keyword{datasets}
