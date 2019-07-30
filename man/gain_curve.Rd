@@ -120,10 +120,11 @@ data("two_class_example")
 # `"truth"`, it is the event of interest and we pass in probabilities for it.
 gain_curve(two_class_example, truth, Class1)
 
-# Use autoplot to visualize
-# The top left hand corner of the grey triangle is a "perfect" gain curve
 library(ggplot2)
 library(dplyr)
+
+# Use autoplot to visualize
+# The top left hand corner of the grey triangle is a "perfect" gain curve
 autoplot(gain_curve(two_class_example, truth, Class1))
 
 # Multiclass one-vs-all approach
