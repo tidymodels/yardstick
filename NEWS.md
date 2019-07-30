@@ -12,6 +12,9 @@ axis limits to `c(0, 1)`.
 * All valid arguments to `pROC::roc()` are now utilized, including those passed
 on to `pROC::auc()`.
 
+* Documentation for class probability metrics has been improved with
+more informative examples (@rudeboybert, #100).
+
 ## Bug fixes
 
 * `pr_curve()` now places a `1` as the first precision value, rather than a

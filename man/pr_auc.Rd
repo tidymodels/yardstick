@@ -64,7 +64,7 @@ than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See \code{vignette("multiclass", "yardstick")} for more information.
 }
 
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should
@@ -72,25 +72,49 @@ automatically be considered the "event" or "positive" result.
 In \code{yardstick}, the default is to use the \emph{first} level. To
 change this, a global option called \code{yardstick.event_first} is
 set to \code{TRUE} when the package is loaded. This can be changed
-to \code{FALSE} if the last level of the factor is considered the
-level of interest. For multiclass extensions involving one-vs-all
+to \code{FALSE} if the \emph{last} level of the factor is considered the
+level of interest by running: \code{options(yardstick.event_first = FALSE)}.
+For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.
 }
 
 \examples{
-# Two class
-data("two_class_example")
+# ---------------------------------------------------------------------------
+# Two class example
+
+# `truth` is a 2 level factor. The first level is `"Class1"`, which is the
+# "event of interest" by default in yardstick. See the Relevant Level
+# section above.
+data(two_class_example)
+
+# Binary metrics using class probabilities take a factor `truth` column,
+# and a single class probability column containing the probabilities of
+# the event of interest. Here, since `"Class1"` is the first level of
+# `"truth"`, it is the event of interest and we pass in probabilities for it.
 pr_auc(two_class_example, truth, Class1)
 
-# Multiclass
-library(dplyr)
+# ---------------------------------------------------------------------------
+# Multiclass example
+
+# `obs` is a 4 level factor. The first level is `"VF"`, which is the
+# "event of interest" by default in yardstick. See the Relevant Level
+# section above.
 data(hpc_cv)
 
 # You can use the col1:colN tidyselect syntax
+library(dplyr)
 hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
   pr_auc(obs, VF:L)
+
+# Change the first level of `obs` from `"VF"` to `"M"` to alter the
+# event of interest. The class probability columns should be supplied
+# in the same order as the levels.
+hpc_cv \%>\%
+  filter(Resample == "Fold01") \%>\%
+  mutate(obs = relevel(obs, "M")) \%>\%
+  pr_auc(obs, M, VF:L)
 
 # Groups are respected
 hpc_cv \%>\%

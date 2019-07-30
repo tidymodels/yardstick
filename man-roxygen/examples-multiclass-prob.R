@@ -1,16 +1,25 @@
 #' @examples
-#' # Two class
-#' data("two_class_example")
-#' <%=metric_fn %>(two_class_example, truth, Class1)
+#' # ---------------------------------------------------------------------------
+#' # Multiclass example
 #'
-#' # Multiclass
-#' library(dplyr)
+#' # `obs` is a 4 level factor. The first level is `"VF"`, which is the
+#' # "event of interest" by default in yardstick. See the Relevant Level
+#' # section above.
 #' data(hpc_cv)
 #'
 #' # You can use the col1:colN tidyselect syntax
+#' library(dplyr)
 #' hpc_cv %>%
 #'   filter(Resample == "Fold01") %>%
 #'   <%=metric_fn %>(obs, VF:L)
+#'
+#' # Change the first level of `obs` from `"VF"` to `"M"` to alter the
+#' # event of interest. The class probability columns should be supplied
+#' # in the same order as the levels.
+#' hpc_cv %>%
+#'   filter(Resample == "Fold01") %>%
+#'   mutate(obs = relevel(obs, "M")) %>%
+#'   <%=metric_fn %>(obs, M, VF:L)
 #'
 #' # Groups are respected
 #' hpc_cv %>%

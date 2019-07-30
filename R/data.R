@@ -23,17 +23,17 @@ NULL
 
 #' Solubility Predictions from MARS Model
 #'
-#' @details For the solubility data in Kuhn and Johnson (2013), 
+#' @details For the solubility data in Kuhn and Johnson (2013),
 #'  these data are the test set results for the MARS model. The
 #'  observed solubility (in column `solubility`) and the model
-#'  results (`prediction`) are contained in the data. 
+#'  results (`prediction`) are contained in the data.
 #'
 #' @name solubility_test
 #' @aliases solubility_test
 #' @docType data
 #' @return \item{solubility_test}{a data frame}
 #'
-#' @source Kuhn, M., Johnson, K. (2013) *Applied Predictive 
+#' @source Kuhn, M., Johnson, K. (2013) *Applied Predictive
 #'  Modeling*, Springer
 #'
 #' @keywords datasets
@@ -43,7 +43,7 @@ NULL
 NULL
 
 
-#' Class Probability Predictions
+#' Multiclass Probability Predictions
 #'
 #' @details This data frame contains the predicted classes and
 #'  class probabilities for a linear discriminant analysis model fit
@@ -59,13 +59,19 @@ NULL
 #' @docType data
 #' @return \item{hpc_cv}{a data frame}
 #'
-#' @source Kuhn, M., Johnson, K. (2013) *Applied Predictive 
+#' @source Kuhn, M., Johnson, K. (2013) *Applied Predictive
 #'  Modeling*, Springer
 #'
 #' @keywords datasets
 #' @examples
 #' data(hpc_cv)
 #' str(hpc_cv)
+#'
+#' # `obs` is a 4 level factor. The first level is `"VF"`, which is the
+#' # "event of interest" by default in yardstick. See the Relevant Level
+#' # section in any classification function (such as `?pr_auc`) to see how
+#' # to change this.
+#' levels(hpc_cv$obs)
 NULL
 
 
@@ -85,5 +91,11 @@ NULL
 #' @examples
 #' data(two_class_example)
 #' str(two_class_example)
+#'
+#' # `truth` is a 2 level factor. The first level is `"Class1"`, which is the
+#' # "event of interest" by default in yardstick. See the Relevant Level
+#' # section in any classification function (such as `?pr_auc`) to see how
+#' # to change this.
+#' levels(hpc_cv$obs)
 NULL
 

@@ -34,9 +34,11 @@
 #'
 #' [gain_curve()] to compute the full gain curve.
 #'
-#' @template examples-prob
+#' @template examples-binary-prob
+#' @template examples-multiclass-prob
 #' @examples
-#' # Visualize gain_capture() --------------------------------------------------
+#' # ---------------------------------------------------------------------------
+#' # Visualize gain_capture()
 #'
 #' # Visually, this represents the area under the black curve, but above the
 #' # 45 degree line, divided by the area of the shaded triangle.

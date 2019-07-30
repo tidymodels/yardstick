@@ -66,7 +66,7 @@ is also sometimes called the \emph{gini coefficient}. These two are generally
 calculated on a cumulative accuracy profile curve, but this is the same as
 a gain curve. See the Engelmann reference for more information.
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should
@@ -74,8 +74,9 @@ automatically be considered the "event" or "positive" result.
 In \code{yardstick}, the default is to use the \emph{first} level. To
 change this, a global option called \code{yardstick.event_first} is
 set to \code{TRUE} when the package is loaded. This can be changed
-to \code{FALSE} if the last level of the factor is considered the
-level of interest. For multiclass extensions involving one-vs-all
+to \code{FALSE} if the \emph{last} level of the factor is considered the
+level of interest by running: \code{options(yardstick.event_first = FALSE)}.
+For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.
 }
@@ -90,18 +91,41 @@ See \code{vignette("multiclass", "yardstick")} for more information.
 }
 
 \examples{
-# Two class
-data("two_class_example")
+# ---------------------------------------------------------------------------
+# Two class example
+
+# `truth` is a 2 level factor. The first level is `"Class1"`, which is the
+# "event of interest" by default in yardstick. See the Relevant Level
+# section above.
+data(two_class_example)
+
+# Binary metrics using class probabilities take a factor `truth` column,
+# and a single class probability column containing the probabilities of
+# the event of interest. Here, since `"Class1"` is the first level of
+# `"truth"`, it is the event of interest and we pass in probabilities for it.
 gain_capture(two_class_example, truth, Class1)
 
-# Multiclass
-library(dplyr)
+# ---------------------------------------------------------------------------
+# Multiclass example
+
+# `obs` is a 4 level factor. The first level is `"VF"`, which is the
+# "event of interest" by default in yardstick. See the Relevant Level
+# section above.
 data(hpc_cv)
 
 # You can use the col1:colN tidyselect syntax
+library(dplyr)
 hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
   gain_capture(obs, VF:L)
+
+# Change the first level of `obs` from `"VF"` to `"M"` to alter the
+# event of interest. The class probability columns should be supplied
+# in the same order as the levels.
+hpc_cv \%>\%
+  filter(Resample == "Fold01") \%>\%
+  mutate(obs = relevel(obs, "M")) \%>\%
+  gain_capture(obs, M, VF:L)
 
 # Groups are respected
 hpc_cv \%>\%
@@ -126,7 +150,8 @@ gain_capture_vec(
    )
 )
 
-# Visualize gain_capture() --------------------------------------------------
+# ---------------------------------------------------------------------------
+# Visualize gain_capture()
 
 # Visually, this represents the area under the black curve, but above the
 # 45 degree line, divided by the area of the shaded triangle.

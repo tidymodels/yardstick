@@ -10,7 +10,7 @@ gain_curve(data, ...)
 
 \method{gain_curve}{data.frame}(data, truth, ..., na_rm = TRUE)
 
-\method{autoplot}{gain_df}(object, ...)
+autoplot.gain_df(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -92,7 +92,7 @@ In this case, there will be an additional column, \code{.level},
 identifying the "one" column in the one-vs-all calculation.
 }
 
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should
@@ -100,18 +100,33 @@ automatically be considered the "event" or "positive" result.
 In \code{yardstick}, the default is to use the \emph{first} level. To
 change this, a global option called \code{yardstick.event_first} is
 set to \code{TRUE} when the package is loaded. This can be changed
-to \code{FALSE} if the last level of the factor is considered the
-level of interest. For multiclass extensions involving one-vs-all
+to \code{FALSE} if the \emph{last} level of the factor is considered the
+level of interest by running: \code{options(yardstick.event_first = FALSE)}.
+For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.
 }
 
 \examples{
+# ---------------------------------------------------------------------------
+# Two class example
+
+# `truth` is a 2 level factor. The first level is `"Class1"`, which is the
+# "event of interest" by default in yardstick. See the Relevant Level
+# section above.
+data(two_class_example)
+
+# Binary metrics using class probabilities take a factor `truth` column,
+# and a single class probability column containing the probabilities of
+# the event of interest. Here, since `"Class1"` is the first level of
+# `"truth"`, it is the event of interest and we pass in probabilities for it.
+gain_curve(two_class_example, truth, Class1)
+
+# ---------------------------------------------------------------------------
+# `autoplot()`
+
 library(ggplot2)
 library(dplyr)
-
-# Two class - a tibble is returned
-gain_curve(two_class_example, truth, Class1)
 
 # Use autoplot to visualize
 # The top left hand corner of the grey triangle is a "perfect" gain curve
