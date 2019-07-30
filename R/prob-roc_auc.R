@@ -65,9 +65,16 @@
 #' @template examples-multiclass-data
 #' @template examples-multiclass-prob
 #' @examples
-#' # passing options via a list and _not_ `...`
-#' roc_auc(two_class_example, truth = truth, Class1,
-#'         options = list(smooth = TRUE))
+#' # ---------------------------------------------------------------------------
+#' # Options for `pROC::roc()`
+#'
+#' # Pass options via a named list and not through `...`!
+#' roc_auc(
+#'   two_class_example,
+#'   truth = truth,
+#'   Class1,
+#'   options = list(smooth = TRUE)
+#' )
 #'
 #' @export
 roc_auc <- function(data, ...) {
