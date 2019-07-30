@@ -143,7 +143,17 @@ pr_curve_binary <- function(truth, estimate) {
   # 1=good, 2=bad
   truth <- as.integer(truth)
 
-  pr_list <- pr_curve_cpp(truth, estimate)
+  # Sort at the R level as there is no order() Rcpp sugar.
+  ord <- order(estimate, decreasing = TRUE)
+  truth <- truth[ord]
+  estimate <- estimate[ord]
+
+  # Algorithm skips repeated probabilities
+  # Call unique() from the R level because Rcpp::unique()
+  # doesn't respect the order and sort_unique() doesn't do descending
+  thresholds <- unique(estimate)
+
+  pr_list <- pr_curve_cpp(truth, estimate, thresholds)
 
   dplyr::tibble(!!!pr_list)
 }
@@ -194,7 +204,8 @@ autoplot.pr_df <- function(object, ...) {
   # build the graph
   pr_chart <- pr_chart %+%
     ggplot2::geom_path(mapping = aes_spliced) %+%
-    ggplot2::coord_equal() %+%
+    ggplot2::lims(x = c(0, 1), y = c(0, 1)) %+%
+    ggplot2::coord_equal(ratio = .75) %+%
     ggplot2::theme_bw()
 
   # If we have .level, that means this was multiclass

@@ -155,8 +155,9 @@ New York University, NY, NY 10012.
 \seealso{
 \code{\link[=roc_curve]{roc_curve()}} for computing the full ROC curve.
 
-Other class probability metrics: \code{\link{gain_capture}},
-  \code{\link{mn_log_loss}}, \code{\link{pr_auc}}
+Other class probability metrics: \code{\link{average_precision}},
+  \code{\link{gain_capture}}, \code{\link{mn_log_loss}},
+  \code{\link{pr_auc}}
 }
 \author{
 Max Kuhn
