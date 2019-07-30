@@ -37,7 +37,7 @@
 #'
 #' @author Max Kuhn
 #'
-#' @template examples-two-class-example
+#' @template examples-binary-data
 #' @template examples-two-class-prob
 #' @template examples-multiclass-example
 #' @template examples-multiclass-prob

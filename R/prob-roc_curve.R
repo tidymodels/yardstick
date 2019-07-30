@@ -34,7 +34,7 @@
 #' Compute the area under the ROC curve with [roc_auc()].
 #'
 #' @author Max Kuhn
-#' @template examples-two-class-example
+#' @template examples-binary-data
 #' @template examples-two-class-prob
 #' @examples
 #' # Visualize the curve using ggplot2 manually

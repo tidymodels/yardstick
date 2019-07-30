@@ -108,11 +108,11 @@ the "one" level is always the relevant result.
 }
 
 \examples{
-# Two class example: truth variable is a two-level factor with the first
-# level set to be "Class1" and thus truth == "Class1" is the event of
-# interest (see "Relevant level" section above)
+# Two class example:
+# `truth` is a 2 level factor. The first level is `"Class1"`, which is the
+# "event of interest" by default in yardstick. See the Relevant Level
+# section above.
 data("two_class_example")
-levels(two_class_example$truth)
 
 # Since "Class1" is the event of interest, the third argument of function
 # are the "Class1" probabilities stored in Class1 variable. A tibble is

@@ -66,7 +66,7 @@
 #'
 #' @author Max Kuhn
 #'
-#' @template examples-two-class-example
+#' @template examples-binary-data
 #' @template examples-two-class-prob
 #' @examples
 #' # Use autoplot to visualize
