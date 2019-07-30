@@ -30,6 +30,9 @@
 #' @template examples-binary-data
 #' @template examples-binary-prob
 #' @examples
+#' # ---------------------------------------------------------------------------
+#' # `autoplot()`
+#'
 #' # Visualize the curve using ggplot2 manually
 #' library(ggplot2)
 #' library(dplyr)
