@@ -149,8 +149,7 @@ tibble. See <code><a href='roc_auc.html'>roc_auc()</a></code> for the area under
 <span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
   <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='co'># S3 method for roc_df</span>
-<span class='fu'>autoplot</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>autoplot.roc_df</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,7 +219,7 @@ approach will be taken to calculate multiple curves, one per level.
 In this case, there will be an additional column, <code>.level</code>,
 identifying the "one" column in the one-vs-all calculation.</p>
     
-    <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant level</h2>
+    <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
     
     <p>There is no common convention on which factor level should
@@ -228,8 +227,9 @@ automatically be considered the "event" or "positive" result.
 In <code>yardstick</code>, the default is to use the <em>first</em> level. To
 change this, a global option called <code>yardstick.event_first</code> is
 set to <code>TRUE</code> when the package is loaded. This can be changed
-to <code>FALSE</code> if the last level of the factor is considered the
-level of interest. For multiclass extensions involving one-vs-all
+to <code>FALSE</code> if the <em>last</em> level of the factor is considered the
+level of interest by running: <code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options(yardstick.event_first = FALSE)</a></code>.
+For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
     
@@ -241,10 +241,18 @@ the "one" level is always the relevant result.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
+    <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
+<span class='co'># Two class example</span>
 
-<span class='co'># Two class - a tibbble is returned</span>
+<span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
+<span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
+<span class='co'># section above.</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>two_class_example</span>)
+
+<span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span>
+<span class='co'># and a single class probability column containing the probabilities of</span>
+<span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
+<span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
 <span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; <span class='message'>Setting direction: controls &lt; cases</span></div><div class='output co'>#&gt; # A tibble: 502 x 3
 #&gt;    .threshold specificity sensitivity
 #&gt;         &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -259,7 +267,12 @@ the "one" level is always the relevant result.</p>
 #&gt;  9    2.38e-5     0.0289            1
 #&gt; 10    3.30e-5     0.0331            1
 #&gt; # … with 492 more rows</div><div class='input'>
+<span class='co'># ---------------------------------------------------------------------------</span>
+<span class='co'># `autoplot()`</span>
+
 <span class='co'># Visualize the curve using ggplot2 manually</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span> - <span class='no'>specificity</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>sensitivity</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_path</a></span>() +
@@ -293,7 +306,7 @@ the "one" level is always the relevant result.</p>
 
       <li><a href="#multiclass">Multiclass</a></li>
 
-      <li><a href="#relevant-level">Relevant level</a></li>
+      <li><a href="#relevant-level">Relevant Level</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

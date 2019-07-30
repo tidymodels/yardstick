@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Class Probability Predictions — hpc_cv • yardstick</title>
+<title>Multiclass Probability Predictions — hpc_cv • yardstick</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,9 +31,9 @@
 
 
 
-<meta property="og:title" content="Class Probability Predictions — hpc_cv" />
+<meta property="og:title" content="Multiclass Probability Predictions — hpc_cv" />
 
-<meta property="og:description" content="Class Probability Predictions" />
+<meta property="og:description" content="Multiclass Probability Predictions" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -130,14 +130,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Class Probability Predictions</h1>
+    <h1>Multiclass Probability Predictions</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>hpc_cv.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Class Probability Predictions</p>
+    <p>Multiclass Probability Predictions</p>
     
     </div>
 
@@ -175,7 +175,12 @@ the resample indicator is included.</p>
 #&gt;  $ F       : num  0.0779 0.0571 0.0495 0.0653 0.0543 ...
 #&gt;  $ M       : num  0.00848 0.00482 0.00316 0.00579 0.00381 ...
 #&gt;  $ L       : num  1.99e-05 1.01e-05 5.00e-06 1.56e-05 7.29e-06 ...
-#&gt;  $ Resample: chr  "Fold01" "Fold01" "Fold01" "Fold01" ...</div></pre>
+#&gt;  $ Resample: chr  "Fold01" "Fold01" "Fold01" "Fold01" ...</div><div class='input'>
+<span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span>
+<span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
+<span class='co'># section in any classification function (such as `?pr_auc`) to see how</span>
+<span class='co'># to change this.</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels</a></span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)</div><div class='output co'>#&gt; [1] "VF" "F"  "M"  "L" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -211,7 +211,7 @@ results out of the number of samples which were actually
 positive. When there are no positive results, sensitivity is not
 defined and a value of <code>NA</code> is returned.</p>
     
-    <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant level</h2>
+    <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
     
     <p>There is no common convention on which factor level should
@@ -219,8 +219,9 @@ automatically be considered the "event" or "positive" result.
 In <code>yardstick</code>, the default is to use the <em>first</em> level. To
 change this, a global option called <code>yardstick.event_first</code> is
 set to <code>TRUE</code> when the package is loaded. This can be changed
-to <code>FALSE</code> if the last level of the factor is considered the
-level of interest. For multiclass extensions involving one-vs-all
+to <code>FALSE</code> if the <em>last</em> level of the factor is considered the
+level of interest by running: <code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options(yardstick.event_first = FALSE)</a></code>.
+For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
     
@@ -334,7 +335,7 @@ vol 308, 1552.</p>
 
       <li><a href="#details">Details</a></li>
 
-      <li><a href="#relevant-level">Relevant level</a></li>
+      <li><a href="#relevant-level">Relevant Level</a></li>
 
       <li><a href="#multiclass">Multiclass</a></li>
 

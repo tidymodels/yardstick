@@ -163,7 +163,12 @@ class.</p>
 #&gt;  $ truth    : Factor w/ 2 levels "Class1","Class2": 2 1 2 1 2 1 1 1 2 2 ...
 #&gt;  $ Class1   : num  0.00359 0.67862 0.11089 0.73516 0.01624 ...
 #&gt;  $ Class2   : num  0.996 0.321 0.889 0.265 0.984 ...
-#&gt;  $ predicted: Factor w/ 2 levels "Class1","Class2": 2 1 2 1 2 1 1 1 2 2 ...</div></pre>
+#&gt;  $ predicted: Factor w/ 2 levels "Class1","Class2": 2 1 2 1 2 1 1 1 2 2 ...</div><div class='input'>
+<span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
+<span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
+<span class='co'># section in any classification function (such as `?pr_auc`) to see how</span>
+<span class='co'># to change this.</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels</a></span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)</div><div class='output co'>#&gt; [1] "VF" "F"  "M"  "L" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
