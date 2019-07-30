@@ -79,7 +79,7 @@ f_meas.table <- function (data, beta = 1, estimator = NULL, ...) {
 f_meas.matrix <- function(data, beta = 1, estimator = NULL, ...) {
 
   data <- as.table(data)
-  f_meas.table(data, estimator)
+  f_meas.table(data, beta, estimator)
 
 }
 

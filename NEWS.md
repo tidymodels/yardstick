@@ -26,6 +26,9 @@ truth values.
 * `pr_curve()` (and subsequently `pr_auc()`) now generates the correct curve
 when there are duplicate class probability values (reported by @dariyasydykova, #93).
 
+* Binary `mcc()` now avoids integer overflow when the confusion matrix 
+elements are large (#108).
+
 # yardstick 0.0.3
 
 ## New metrics and functionality
