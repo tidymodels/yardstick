@@ -45,7 +45,8 @@
 #' [pr_auc()] for computing the area under the precision recall curve using
 #' the trapezoidal rule.
 #'
-#' @template examples-prob
+#' @template examples-binary-prob
+#' @template examples-multiclass-prob
 #'
 #' @export
 average_precision <- function(data, ...) {
