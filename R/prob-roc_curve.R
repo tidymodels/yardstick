@@ -159,6 +159,7 @@ roc_curve_binary <- function(truth, estimate, options) {
   options$response <- truth
   options$predictor <- estimate
   options$levels <- lvls
+  options$quiet <- TRUE
 
   curv <- invoke(pROC::roc, options)
 
