@@ -29,7 +29,7 @@ Suggests:
 Imports:
     dplyr,
     utils,
-    pROC,
+    pROC (>= 1.15.0),
     rlang,
     tidyselect,
     Rcpp,
