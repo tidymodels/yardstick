@@ -100,6 +100,9 @@ data(two_class_example)
 # `"truth"`, it is the event of interest and we pass in probabilities for it.
 roc_curve(two_class_example, truth, Class1)
 
+# ---------------------------------------------------------------------------
+# `autoplot()`
+
 # Visualize the curve using ggplot2 manually
 library(ggplot2)
 library(dplyr)
