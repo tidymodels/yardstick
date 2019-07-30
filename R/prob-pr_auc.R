@@ -107,9 +107,11 @@ pr_auc_estimator_impl <- function(truth, estimate, estimator) {
 
 }
 
+# Don't remove NA values so any errors propagate
+# (i.e. no if `truth` has no "events")
 pr_auc_binary <- function(truth, estimate) {
   pr_list <- pr_curve_vec(truth, estimate)
-  auc(pr_list[["recall"]], pr_list[["precision"]])
+  auc(pr_list[["recall"]], pr_list[["precision"]], na_rm = FALSE)
 }
 
 pr_auc_multiclass <- function(truth, estimate) {

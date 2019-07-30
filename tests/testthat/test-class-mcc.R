@@ -23,6 +23,14 @@ test_that('Two class', {
   )
 })
 
+test_that("doesn't integer overflow (#108)", {
+  x <- matrix(c(50122L, 50267L, 49707L, 49904L), ncol = 2L, nrow = 2L)
+  expect_equal(
+    mcc(x)[[".estimate"]],
+    0.00026665430738672
+  )
+})
+
 # sklearn compare --------------------------------------------------------------
 
 py_res <- read_pydata("py-mcc")

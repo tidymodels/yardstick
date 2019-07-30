@@ -5,7 +5,7 @@ mcc_multiclass_cpp <- function(x) {
     .Call(`_yardstick_mcc_multiclass_cpp`, x)
 }
 
-pr_curve_cpp <- function(truth, estimate) {
-    .Call(`_yardstick_pr_curve_cpp`, truth, estimate)
+pr_curve_cpp <- function(truth, estimate, thresholds) {
+    .Call(`_yardstick_pr_curve_cpp`, truth, estimate, thresholds)
 }
 
