@@ -1,4 +1,4 @@
-#' @section Relevant level:
+#' @section Relevant Level:
 #'
 #' There is no common convention on which factor level should
 #' automatically be considered the "event" or "positive" result.

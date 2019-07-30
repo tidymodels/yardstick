@@ -70,7 +70,7 @@ In this case, there will be an additional column, \code{.level},
 identifying the "one" column in the one-vs-all calculation.
 }
 
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

@@ -64,7 +64,7 @@ The binary version of J-index is equivalent to the binary concept of
 Informedness. Macro-weighted J-index is equivalent to multiclass informedness
 as defined in Powers, David M W (2011), equation (42).
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

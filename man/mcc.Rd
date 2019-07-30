@@ -45,7 +45,7 @@ For \code{mcc_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Matthews correlation coefficient
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

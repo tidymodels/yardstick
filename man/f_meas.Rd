@@ -64,7 +64,7 @@ and \code{\link[=precision]{precision()}}.
 \details{
 The measure "F" is a combination of precision and recall (see below).
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

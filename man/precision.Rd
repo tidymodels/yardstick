@@ -61,7 +61,7 @@ of the total number of predicted relevant results and
 characterizes the "purity in retrieval performance" (Buckland
 and Gey, 1994).
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

@@ -61,7 +61,7 @@ relevant results out of the number of samples which were
 actually relevant. When there are no relevant results, recall is
 not defined and a value of \code{NA} is returned.
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

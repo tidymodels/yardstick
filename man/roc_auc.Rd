@@ -73,7 +73,7 @@ this implies that you have meaningful information in your model, but it
 is being applied incorrectly because doing the opposite of what the model
 predicts would result in an AUC \code{>0.5}.
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

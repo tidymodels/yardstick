@@ -64,7 +64,7 @@ than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See \code{vignette("multiclass", "yardstick")} for more information.
 }
 
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

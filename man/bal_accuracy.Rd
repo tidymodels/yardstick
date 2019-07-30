@@ -52,7 +52,7 @@ For \code{bal_accuracy_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Balanced accuracy is computed here as the average of \code{\link[=sens]{sens()}} and \code{\link[=spec]{spec()}}.
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

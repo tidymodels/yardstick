@@ -66,7 +66,7 @@ is also sometimes called the \emph{gini coefficient}. These two are generally
 calculated on a cumulative accuracy profile curve, but this is the same as
 a gain curve. See the Engelmann reference for more information.
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

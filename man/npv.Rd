@@ -64,7 +64,7 @@ predicted positives that are actually positive while the
 negative predictive value (\code{\link[=npv]{npv()}}) is defined as the percent of negative
 positives that are actually negative.
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

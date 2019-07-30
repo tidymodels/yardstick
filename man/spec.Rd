@@ -59,7 +59,7 @@ The specificity measures the proportion of negatives that are correctly
 identified as negatives. When there are no negative results, specificity
 is not defined and a value of \code{NA} is returned.
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should

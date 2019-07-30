@@ -33,7 +33,7 @@ Various statistical summaries of confusion matrices are
 produced and returned in a tibble. These include those shown in the help
 pages for \code{\link[=sens]{sens()}}, \code{\link[=recall]{recall()}}, and \code{\link[=accuracy]{accuracy()}}, among others.
 }
-\section{Relevant level}{
+\section{Relevant Level}{
 
 
 There is no common convention on which factor level should
