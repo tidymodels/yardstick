@@ -112,10 +112,13 @@ data("two_class_example")
 # `"truth"`, it is the event of interest and we pass in probabilities for it.
 roc_auc(two_class_example, truth, Class1)
 
-# Multiclass example: obs variable is a four-level factor with the first
-# level set to be "VF" and thus obs == "VF" is the event of interest.
+# ---------------------------------------------------------------------------
+# Multiclass example
+
+# `obs` is a 4 level factor. The first level is `"VF"`, which is the
+# "event of interest" by default in yardstick. See the Relevant Level
+# section above.
 data(hpc_cv)
-levels(hpc_cv$obs)
 
 # You can use the col1:colN tidyselect syntax
 library(dplyr)

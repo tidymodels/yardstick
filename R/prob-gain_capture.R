@@ -36,7 +36,7 @@
 #'
 #' @template examples-binary-data
 #' @template examples-binary-prob
-#' @template examples-multiclass-example
+#' @template examples-multiclass-data
 #' @template examples-multiclass-prob
 #' @examples
 #' # Visualize gain_capture() --------------------------------------------------
