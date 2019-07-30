@@ -39,7 +39,8 @@
 #' @template examples-multiclass-data
 #' @template examples-multiclass-prob
 #' @examples
-#' # Visualize gain_capture() --------------------------------------------------
+#' # ---------------------------------------------------------------------------
+#' # Visualize gain_capture()
 #'
 #' # Visually, this represents the area under the black curve, but above the
 #' # 45 degree line, divided by the area of the shaded triangle.

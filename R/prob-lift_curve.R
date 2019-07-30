@@ -57,6 +57,9 @@
 #' @template examples-binary-data
 #' @template examples-binary-prob
 #' @examples
+#' # ---------------------------------------------------------------------------
+#' # `autoplot()`
+#'
 #' library(ggplot2)
 #' library(dplyr)
 #'
