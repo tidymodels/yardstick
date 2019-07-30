@@ -128,13 +128,13 @@ hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
   roc_auc(obs, VF:L)
 
-# Change the first level of obs variable from "VF" to "M" and thus the
-# event of interest is now "obs" == "M".
-library(forcats)
+# Change the first level of `obs` from `"VF"` to `"M"` to alter the
+# event of interest. The class probability columns should be supplied
+# in the same order as the levels.
 hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
-  mutate(obs = fct_relevel(obs, "M")) \%>\%
-  roc_auc(obs, VF:L)
+  mutate(obs = relevel(obs, "M")) \%>\%
+  roc_auc(obs, M, VF:L)
 
 # Groups are respected
 hpc_cv \%>\%
