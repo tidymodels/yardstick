@@ -118,7 +118,8 @@ precision_table_impl <- function(data, estimator) {
   } else {
     w <- get_weights(data, estimator)
     out_vec <- precision_multiclass(data, estimator)
-    weighted.mean(out_vec, w)
+    # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
+    weighted.mean(out_vec, w, na.rm = TRUE)
   }
 
 }
@@ -129,7 +130,13 @@ precision_binary <- function(data) {
   numer <- data[relevant, relevant]
   denom <- sum(data[relevant, ])
 
-  denom[denom <= 0] <- NA_real_
+  undefined <- denom <= 0
+  if (undefined) {
+    not_relevant <- setdiff(colnames(data), relevant)
+    count <- data[not_relevant, relevant]
+    warn_precision_undefined_binary(relevant, count)
+    return(NA_real_)
+  }
 
   numer / denom
 
@@ -140,13 +147,71 @@ precision_multiclass <- function(data, estimator) {
   numer <- diag(data)
   denom <- rowSums(data)
 
-  denom[denom <= 0] <- NA_real_
+  undefined <- denom <= 0
+  if (any(undefined)) {
+    counts <- colSums(data) - numer
+    counts <- counts[undefined]
+    events <- colnames(data)[undefined]
+    warn_precision_undefined_multiclass(events, counts)
+    numer[undefined] <- NA_real_
+    denom[undefined] <- NA_real_
+  }
 
+  # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
   if(is_micro(estimator)) {
-    numer <- sum(numer)
-    denom <- sum(denom)
+    numer <- sum(numer, na.rm = TRUE)
+    denom <- sum(denom, na.rm = TRUE)
   }
 
   numer / denom
 
+}
+
+warn_precision_undefined_binary <- function(event, count) {
+  message <- paste0(
+    "While computing binary `precision()`, no predicted events were detected ",
+    "(i.e. `true_positive + false_positive = 0`). ",
+    "\n",
+    "Precision is undefined in this case, and `NA` will be returned.",
+    "\n",
+    "Note that ", count, " true event(s) actually occured for the problematic ",
+    "event level, '", event, "'."
+  )
+
+  warn_precision_undefined(
+    message = message,
+    events = event,
+    counts = count,
+    .subclass = "yardstick_warning_precision_undefined_binary"
+  )
+}
+
+warn_precision_undefined_multiclass <- function(events, counts) {
+  message <- paste0(
+    "While computing multiclass `precision()`, some levels had no predicted events ",
+    "(i.e. `true_positive + false_positive = 0`). ",
+    "\n",
+    "Precision is undefined in this case, and those levels will be removed from the averaged result.",
+    "\n",
+    "Note that the following number of true events actually occured for each problematic event level:",
+    "\n",
+    paste0("'", events, "': ", counts, collapse = "\n")
+  )
+
+  warn_precision_undefined(
+    message = message,
+    events = events,
+    counts = counts,
+    .subclass = "yardstick_warning_precision_undefined_multiclass"
+  )
+}
+
+warn_precision_undefined <- function(message, events, counts, ..., .subclass = character()) {
+  rlang::warn(
+    message = message,
+    .subclass = c(.subclass, "yardstick_warning_precision_undefined"),
+    events = events,
+    counts = counts,
+    ...
+  )
 }
