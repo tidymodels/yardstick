@@ -320,3 +320,45 @@ test_that('Mean Absolute Scaled Error', {
   )
 
 })
+
+###################################################################
+
+test_that('Index of Ideality of Correlation', {
+
+  deltas <- ex_dat$obs - ex_dat$pred
+  neg_mae <- mean(abs(deltas[deltas < 0]))
+  pos_mae <- mean(abs(deltas[deltas >= 0]))
+  expect_equal(
+    iic(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
+    cor(ex_dat$obs, ex_dat$pred) *
+      min(neg_mae, pos_mae) /
+      max(neg_mae, pos_mae)
+  )
+
+  new_deltas <- ex_dat$obs[-ind] - ex_dat$pred[-ind]
+  neg_mae <- mean(abs(new_deltas[new_deltas < 0]))
+  pos_mae <- mean(abs(new_deltas[new_deltas >= 0]))
+  expect_equal(
+    iic(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
+    cor(ex_dat$obs[-ind], ex_dat$pred[-ind]) *
+      min(neg_mae, pos_mae) /
+      max(neg_mae, pos_mae)
+  )
+
+  expect_gt(
+    iic(ex_dat, truth = "obs", estimate = "rand_na")[[".estimate"]],
+    cor(ex_dat$obs, ex_dat$rand)
+  )
+
+  expect_error(
+    iic(ex_dat, truth = "obs", estimate = "obs")
+  )
+
+  toy_dat <- data.frame(obs = c(1, 2, 3, 4))
+  toy_dat$pred <- c(1, 3, 2, 4)
+  expect_warning(
+    iic(toy_dat, truth = "obs", estimate = "pred")
+  )
+})
+
+###################################################################
