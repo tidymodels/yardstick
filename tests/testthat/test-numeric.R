@@ -345,11 +345,6 @@ test_that('Index of Ideality of Correlation', {
       max(neg_mae, pos_mae)
   )
 
-  expect_gt(
-    iic(ex_dat, truth = "obs", estimate = "rand_na")[[".estimate"]],
-    cor(ex_dat$obs, ex_dat$rand)
-  )
-
   expect_error(
     iic(ex_dat, truth = "obs", estimate = "obs")
   )
