@@ -5,8 +5,14 @@
 #' Highly related functions are [sens()], [ppv()], and [npv()].
 #'
 #' The specificity measures the proportion of negatives that are correctly
-#' identified as negatives. When there are no negative results, specificity
-#' is not defined and a value of `NA` is returned.
+#' identified as negatives.
+#'
+#' When the denominator of the calculation is `0`, specificity is undefined.
+#' This happens when both `# true_negative = 0` and `# false_positive = 0`
+#' are true, which mean that there were no true negatives. When computing binary
+#' specificity, a `NA` value will be returned with a warning. When computing
+#' multiclass specificity, the individual `NA` values will be removed, and the
+#' computation will procede, with a warning.
 #'
 #' @family class metrics
 #' @family sensitivity metrics
@@ -113,7 +119,8 @@ spec_table_impl <- function(data, estimator) {
   } else {
     w <- get_weights(data, estimator)
     out_vec <- spec_multiclass(data, estimator)
-    weighted.mean(out_vec, w)
+    # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
+    weighted.mean(out_vec, w, na.rm = TRUE)
   }
 
 }
@@ -125,7 +132,13 @@ spec_binary <- function(data) {
   numer <- sum(data[negative, negative])
   denom <- sum(data[, negative])
 
-  denom[denom <= 0] <- NA_real_
+  undefined <- denom <= 0
+  if (undefined) {
+    positive <- setdiff(colnames(data), negative)
+    count <- data[negative, positive]
+    warn_spec_undefined_binary(positive, count)
+    return(NA_real_)
+  }
 
   numer / denom
 
@@ -144,12 +157,72 @@ spec_multiclass <- function(data, estimator) {
   numer <- tn
   denom <- tn + fp
 
-  denom[denom <= 0] <- NA_real_
+  undefined <- denom <= 0
+  if (any(undefined)) {
+    counts <- tpfn - tp
+    counts <- counts[undefined]
+    events <- colnames(data)[undefined]
+    warn_spec_undefined_multiclass(events, counts)
+    numer[undefined] <- NA_real_
+    denom[undefined] <- NA_real_
+  }
 
+  # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
   if(is_micro(estimator)) {
-    numer <- sum(numer)
-    denom <- sum(denom)
+    numer <- sum(numer, na.rm = TRUE)
+    denom <- sum(denom, na.rm = TRUE)
   }
 
   numer / denom
 }
+
+
+warn_spec_undefined_binary <- function(event, count) {
+  message <- paste0(
+    "While computing binary `spec()`, no true negatives were detected ",
+    "(i.e. `true_negative + false_positive = 0`). ",
+    "\n",
+    "Specificity is undefined in this case, and `NA` will be returned.",
+    "\n",
+    "Note that ", count, " predicted negatives(s) actually occured for the problematic ",
+    "event level, '", event, "'."
+  )
+
+  warn_spec_undefined(
+    message = message,
+    events = event,
+    counts = count,
+    .subclass = "yardstick_warning_spec_undefined_binary"
+  )
+}
+
+warn_spec_undefined_multiclass <- function(events, counts) {
+  message <- paste0(
+    "While computing multiclass `spec()`, some levels had no true negatives ",
+    "(i.e. `true_negative + false_positive = 0`). ",
+    "\n",
+    "Specificity is undefined in this case, and those levels will be removed from the averaged result.",
+    "\n",
+    "Note that the following number of predicted negatives actually occured for each problematic event level:",
+    "\n",
+    paste0("'", events, "': ", counts, collapse = "\n")
+  )
+
+  warn_spec_undefined(
+    message = message,
+    events = events,
+    counts = counts,
+    .subclass = "yardstick_warning_spec_undefined_multiclass"
+  )
+}
+
+warn_spec_undefined <- function(message, events, counts, ..., .subclass = character()) {
+  rlang::warn(
+    message = message,
+    .subclass = c(.subclass, "yardstick_warning_spec_undefined"),
+    events = events,
+    counts = counts,
+    ...
+  )
+}
+
