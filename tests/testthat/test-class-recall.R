@@ -40,7 +40,7 @@ test_that("Binary `recall()` returns `NA` with a warning when undefined (tp + fn
   expect_s3_class(cnd, "yardstick_warning_recall_undefined_binary")
 })
 
-test_that("Multiclass `recall()` returns averaged value with `NA`s removed + a warning when undefined (tp + fp = 0) (#98)", {
+test_that("Multiclass `recall()` returns averaged value with `NA`s removed + a warning when undefined (tp + fn = 0) (#98)", {
   levels <- c("a", "b", "c", "d")
 
   # When `d` is the event we get recall    = 0.5 = (tp = 1, fn = 1)
