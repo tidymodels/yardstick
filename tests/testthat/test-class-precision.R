@@ -35,7 +35,7 @@ test_that("Binary `precision()` returns `NA` with a warning when undefined (tp +
   )
 
   cnd <- rlang::catch_cnd(precision_vec(truth, estimate))
-  expect_known_output(cat(cnd$message), "test-class-precision-warning-binary", print = TRUE)
+  expect_known_output(cat(cnd$message), test_path("test-class-precision-warning-binary.txt"), print = TRUE)
   expect_s3_class(cnd, "yardstick_warning_precision_undefined_binary")
 })
 

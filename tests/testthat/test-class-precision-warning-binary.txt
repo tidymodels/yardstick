@@ -1,0 +1,3 @@
+While computing binary `precision()`, no predicted events were detected (i.e. `true_positive + false_positive = 0`). 
+Precision is undefined in this case, and `NA` will be returned.
+Note that 1 true event(s) actually occured for the problematic event level, 'a'.
