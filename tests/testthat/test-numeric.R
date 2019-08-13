@@ -326,44 +326,12 @@ test_that('Mean Absolute Scaled Error', {
 # All tests confirmed against the software:
 # http://www.insilico.eu/coral/SOFTWARECORAL.html
 
-test_that('Index of Ideality of Correlation', {
-
-  deltas <- ex_dat$obs - ex_dat$pred
-  neg_mae <- mean(abs(deltas[deltas < 0]))
-  pos_mae <- mean(abs(deltas[deltas >= 0]))
-  expect_equal(
-    iic(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    cor(ex_dat$obs, ex_dat$pred) *
-      min(neg_mae, pos_mae) /
-      max(neg_mae, pos_mae)
-  )
-
-  new_deltas <- ex_dat$obs[-ind] - ex_dat$pred[-ind]
-  neg_mae <- mean(abs(new_deltas[new_deltas < 0]))
-  pos_mae <- mean(abs(new_deltas[new_deltas >= 0]))
-  expect_equal(
-    iic(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    cor(ex_dat$obs[-ind], ex_dat$pred[-ind]) *
-      min(neg_mae, pos_mae) /
-      max(neg_mae, pos_mae)
-  )
-
-  expect_error(
-    iic(ex_dat, truth = "obs", estimate = "obs")
-  )
-
-  toy_dat <- data.frame(obs = c(1, 2, 3, 4))
-  toy_dat$pred <- c(1, 3, 2, 4)
-  expect_warning(
-    iic(toy_dat, truth = "obs", estimate = "pred")
-  )
+test_that("iic() returns known correct results", {
+  expect_equal(iic(ex_dat, obs, pred)[[".estimate"]], 0.43306222006167)
 })
 
 test_that("iic() can be negative", {
-  expect_equal(
-    iic_vec(c(1, 2, 3), c(2, 1, 1)),
-    -0.577350269189626
-  )
+  expect_equal(iic_vec(c(1, 2, 3), c(2, 1, 1)), -0.577350269189626)
 })
 
 test_that("iic() is NaN if truth/estimate are equivalent", {
@@ -372,11 +340,10 @@ test_that("iic() is NaN if truth/estimate are equivalent", {
 
 test_that("yardstick correlation warnings are thrown", {
   cnd <- rlang::catch_cnd(iic_vec(c(1, 2), c(1, 1)))
+  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
 
-  expect_warning(
-    expect_equal(iic_vec(c(1, 2), c(1, 1)), NA_real_),
-
-  )
+  cnd <- rlang::catch_cnd(iic_vec(c(1, 1), c(1, 2)))
+  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_truth")
 })
 
 ###################################################################
