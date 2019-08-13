@@ -64,22 +64,28 @@ iic_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   iic_impl <- function(truth, estimate) {
     deltas <- truth - estimate
-    neg_mae <- mean(abs(deltas[deltas < 0]))
-    pos_mae <- mean(abs(deltas[deltas >= 0]))
+
+    delta_neg <- deltas[deltas < 0]
+    delta_pos <- deltas[deltas >= 0]
+
+    mae_neg <- mean(abs(delta_neg))
+    mae_pos <- mean(abs(delta_pos))
+
     symmetry_check <- mean(abs(deltas[deltas > 0]))
-    if (neg_mae == 0 & pos_mae == 0) {
+
+    # Will be dividing by 0
+    if (mae_neg == 0 && mae_pos == 0) {
       stop("Index of ideality of correlation cannot be provided.")
-    } else {
-      if (neg_mae == symmetry_check) {
-        warning("Index of ideality of correlation is useless when
-          outliers are symmetric.")
-      }
-      return(
-        cor(truth, estimate) *
-          min(neg_mae, pos_mae) /
-          max(neg_mae, pos_mae)
-      )
     }
+
+    if (mae_neg == symmetry_check) {
+      warning("Index of ideality of correlation is useless when
+          outliers are symmetric.")
+    }
+
+    adjustment <- min(mae_neg, mae_pos) / max(mae_neg, mae_pos)
+
+    cor(truth, estimate) * adjustment
   }
 
   metric_vec_template(
