@@ -212,6 +212,12 @@ the number of groups.</p>
 relevant results out of the number of samples which were
 actually relevant. When there are no relevant results, recall is
 not defined and a value of <code>NA</code> is returned.</p>
+<p>When the denominator of the calculation is <code>0</code>, recall is undefined. This
+happens when both <code># true_positive = 0</code> and <code># false_negative = 0</code> are true,
+which mean that there were no true events. When computing binary
+recall, a <code>NA</code> value will be returned with a warning. When computing
+multiclass recall, the individual <code>NA</code> values will be removed, and the
+computation will procede, with a warning.</p>
     
     <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 

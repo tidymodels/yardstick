@@ -208,8 +208,13 @@ the number of groups.</p>
 
     <p>The sensitivity (<code>sens()</code>) is defined as the proportion of positive
 results out of the number of samples which were actually
-positive. When there are no positive results, sensitivity is not
-defined and a value of <code>NA</code> is returned.</p>
+positive.</p>
+<p>When the denominator of the calculation is <code>0</code>, sensitivity is undefined.
+This happens when both <code># true_positive = 0</code> and <code># false_negative = 0</code>
+are true, which mean that there were no true events. When computing binary
+sensitivity, a <code>NA</code> value will be returned with a warning. When computing
+multiclass sensitivity, the individual <code>NA</code> values will be removed, and the
+computation will procede, with a warning.</p>
     
     <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
