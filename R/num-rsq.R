@@ -65,7 +65,7 @@ rsq.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 rsq_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rsq_impl <- function(truth, estimate) {
-    cor(truth, estimate)^2
+    try_cor(truth, estimate) ^ 2
   }
 
   metric_vec_template(
