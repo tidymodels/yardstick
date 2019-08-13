@@ -76,7 +76,7 @@ roc_curve <- function(data, ...)
 #' @export
 #' @rdname roc_curve
 #' @importFrom pROC coords
-#' @importFrom rlang invoke
+#' @importFrom rlang exec
 #' @importFrom dplyr arrange as_tibble %>%
 roc_curve.data.frame  <- function (data, truth, ...,
                                    options = list(),
@@ -161,7 +161,7 @@ roc_curve_binary <- function(truth, estimate, options) {
   options$levels <- lvls
   options$quiet <- TRUE
 
-  curv <- invoke(pROC::roc, options)
+  curv <- exec(pROC::roc, !!!options)
 
   if (!inherits(curv, "smooth.roc")) {
     res <- coords(
