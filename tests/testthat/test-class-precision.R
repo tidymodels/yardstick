@@ -59,7 +59,7 @@ test_that("Multiclass `precision()` returns averaged value with `NA`s removed + 
   expect_warning(expect_equal(precision_vec(truth, estimate), 1/3))
 
   cnd <- rlang::catch_cnd(precision_vec(truth, estimate))
-  expect_known_output(cat(cnd$message), "test-class-precision-warning-multiclass", print = TRUE)
+  expect_known_output(cat(cnd$message), test_path("test-class-precision-warning-multiclass.txt"), print = TRUE)
   expect_s3_class(cnd, "yardstick_warning_precision_undefined_multiclass")
 })
 
