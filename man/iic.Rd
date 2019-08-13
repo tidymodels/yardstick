@@ -4,7 +4,7 @@
 \alias{iic}
 \alias{iic.data.frame}
 \alias{iic_vec}
-\title{Ideality of correlation statistic}
+\title{Index of ideality of correlation}
 \usage{
 iic(data, ...)
 
@@ -45,8 +45,9 @@ For \code{iic_vec()}, a single \code{numeric} value (or \code{NA}).
 Calculate the index of ideality of correlation. This metric has been
 studied in QSPR/QSAR models as a good criterion for the predictive
 potential of these models. It is highly dependent on the correlation
-coefficient as well as the mean absolute error. Note the application
-of IIC is useless under two conditions:
+coefficient as well as the mean absolute error.
+
+Note the application of IIC is useless under two conditions:
 \itemize{
 \item When the negative mean absolute error and positive mean absolute
 error are both zero.
@@ -54,9 +55,10 @@ error are both zero.
 dependent, please use your own checks to validate whether this
 restriction holds and whether the resulting IIC has
 interpretative value.
+}
+
 The IIC is seen as an alternative to the traditional correlation
 coefficient and is in the same units as the original data.
-}
 }
 \examples{
 # Supply truth and predictions as bare column names
