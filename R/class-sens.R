@@ -6,8 +6,14 @@
 #'
 #' The sensitivity (`sens()`) is defined as the proportion of positive
 #' results out of the number of samples which were actually
-#' positive. When there are no positive results, sensitivity is not
-#' defined and a value of `NA` is returned.
+#' positive.
+#'
+#' When the denominator of the calculation is `0`, sensitivity is undefined.
+#' This happens when both `# true_positive = 0` and `# false_negative = 0`
+#' are true, which mean that there were no true events. When computing binary
+#' sensitivity, a `NA` value will be returned with a warning. When computing
+#' multiclass sensitivity, the individual `NA` values will be removed, and the
+#' computation will procede, with a warning.
 #'
 #' @family class metrics
 #' @family sensitivity metrics
@@ -131,5 +137,111 @@ sens_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
 
 }
 
-# sensitivity = recall
-sens_table_impl <- recall_table_impl
+# sens() == recall(), so this is a copy paste from there, with altered warning
+# classes
+
+sens_table_impl <- function(data, estimator) {
+
+  if(is_binary(estimator)) {
+    sens_binary(data)
+  } else {
+    w <- get_weights(data, estimator)
+    out_vec <- sens_multiclass(data, estimator)
+    # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
+    weighted.mean(out_vec, w, na.rm = TRUE)
+  }
+
+}
+
+sens_binary <- function(data) {
+
+  relevant <- pos_val(data)
+  numer <- sum(data[relevant, relevant])
+  denom <- sum(data[, relevant])
+
+  undefined <- denom <= 0
+  if (undefined) {
+    not_relevant <- setdiff(colnames(data), relevant)
+    count <- data[relevant, not_relevant]
+    warn_sens_undefined_binary(relevant, count)
+    return(NA_real_)
+  }
+
+  numer / denom
+
+}
+
+sens_multiclass <- function(data, estimator) {
+
+  numer <- diag(data)
+  denom <- colSums(data)
+
+  undefined <- denom <= 0
+  if (any(undefined)) {
+    counts <- rowSums(data) - numer
+    counts <- counts[undefined]
+    events <- colnames(data)[undefined]
+    warn_sens_undefined_multiclass(events, counts)
+    numer[undefined] <- NA_real_
+    denom[undefined] <- NA_real_
+  }
+
+  # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
+  if(is_micro(estimator)) {
+    numer <- sum(numer, na.rm = TRUE)
+    denom <- sum(denom, na.rm = TRUE)
+  }
+
+  numer / denom
+
+}
+
+
+warn_sens_undefined_binary <- function(event, count) {
+  message <- paste0(
+    "While computing binary `sens()`, no true events were detected ",
+    "(i.e. `true_positive + false_negative = 0`). ",
+    "\n",
+    "Sensitivity is undefined in this case, and `NA` will be returned.",
+    "\n",
+    "Note that ", count, " predicted event(s) actually occured for the problematic ",
+    "event level, '", event, "'."
+  )
+
+  warn_sens_undefined(
+    message = message,
+    events = event,
+    counts = count,
+    .subclass = "yardstick_warning_sens_undefined_binary"
+  )
+}
+
+warn_sens_undefined_multiclass <- function(events, counts) {
+  message <- paste0(
+    "While computing multiclass `sens()`, some levels had no true events ",
+    "(i.e. `true_positive + false_negative = 0`). ",
+    "\n",
+    "Sensitivity is undefined in this case, and those levels will be removed from the averaged result.",
+    "\n",
+    "Note that the following number of predicted events actually occured for each problematic event level:",
+    "\n",
+    paste0("'", events, "': ", counts, collapse = "\n")
+  )
+
+  warn_sens_undefined(
+    message = message,
+    events = events,
+    counts = counts,
+    .subclass = "yardstick_warning_sens_undefined_multiclass"
+  )
+}
+
+warn_sens_undefined <- function(message, events, counts, ..., .subclass = character()) {
+  rlang::warn(
+    message = message,
+    .subclass = c(.subclass, "yardstick_warning_sens_undefined"),
+    events = events,
+    counts = counts,
+    ...
+  )
+}

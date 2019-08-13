@@ -57,8 +57,14 @@ Highly related functions are \code{\link[=spec]{spec()}}, \code{\link[=ppv]{ppv(
 \details{
 The sensitivity (\code{sens()}) is defined as the proportion of positive
 results out of the number of samples which were actually
-positive. When there are no positive results, sensitivity is not
-defined and a value of \code{NA} is returned.
+positive.
+
+When the denominator of the calculation is \code{0}, sensitivity is undefined.
+This happens when both \code{# true_positive = 0} and \code{# false_negative = 0}
+are true, which mean that there were no true events. When computing binary
+sensitivity, a \code{NA} value will be returned with a warning. When computing
+multiclass sensitivity, the individual \code{NA} values will be removed, and the
+computation will procede, with a warning.
 }
 \section{Relevant Level}{
 
