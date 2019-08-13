@@ -21,6 +21,8 @@ more informative examples (@rudeboybert, #100).
 
 ## Bug fixes
 
+* `mn_log_loss()` now uses the min/max rule before computing the log of the estimated probabilities to avoid problematic undefined log values (#103).
+
 * `pr_curve()` now places a `1` as the first precision value, rather than a
 `NA`. While `NA` is technically correct as precision is undefined here, `1` is
 practically more correct because it generates a correct PR Curve graph and, 
