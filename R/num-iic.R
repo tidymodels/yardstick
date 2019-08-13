@@ -73,13 +73,7 @@ iic_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
     symmetry_check <- mean(abs(deltas[deltas > 0]))
 
-    # Will be dividing by 0
-    if (mae_neg == 0 && mae_pos == 0) {
-      warn_iic_undefined()
-      return(NA_real_)
-    }
-
-    if (mae_neg == symmetry_check) {
+    if (isTRUE(mae_neg == symmetry_check)) {
       warning("Index of ideality of correlation is useless when
           outliers are symmetric.")
     }
@@ -98,16 +92,4 @@ iic_vec <- function(truth, estimate, na_rm = TRUE, ...) {
     ...
   )
 
-}
-
-warn_iic_undefined <- function() {
-  message <- paste0(
-    "Both negative MAE and positive MAE are 0. In this case, IIC is undefined ",
-    "because division by 0 would occur. `NA` will be returned."
-  )
-
-  rlang::warn(
-    message = message,
-    .subclass = "yardstick_warning_iic_undefined"
-  )
 }
