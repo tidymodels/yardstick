@@ -7,6 +7,11 @@ try_cor <- function(truth, estimate) {
   )
 }
 
+# Below, `!is.null(findRestart("muffleWarning"))` is to ensure that something
+# else has not already signaled the warning under a different protocol (like stop()).
+# This checks that a "restart" is actually on the stack before trying to muffle
+# and restart
+
 make_cor_handler <- function(truth, estimate) {
   handle_zero_variance <- function(cnd) {
     if (cnd$message != "the standard deviation is zero") {
@@ -16,12 +21,12 @@ make_cor_handler <- function(truth, estimate) {
     n_unique_truth <- length(unique(truth))
     n_unique_estimate <- length(unique(estimate))
 
-    if (n_unique_truth == 1L) {
+    if (n_unique_truth == 1L && !is.null(findRestart("muffleWarning"))) {
       warn_correlation_undefined_constant_truth(truth)
       rlang::cnd_muffle(cnd)
     }
 
-    if (n_unique_estimate == 1L) {
+    if (n_unique_estimate == 1L && !is.null(findRestart("muffleWarning"))) {
       warn_correlation_undefined_constant_estimate(estimate)
       rlang::cnd_muffle(cnd)
     }
