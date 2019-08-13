@@ -56,8 +56,14 @@ Highly related functions are \code{\link[=sens]{sens()}}, \code{\link[=ppv]{ppv(
 }
 \details{
 The specificity measures the proportion of negatives that are correctly
-identified as negatives. When there are no negative results, specificity
-is not defined and a value of \code{NA} is returned.
+identified as negatives.
+
+When the denominator of the calculation is \code{0}, specificity is undefined.
+This happens when both \code{# true_negative = 0} and \code{# false_positive = 0}
+are true, which mean that there were no true negatives. When computing binary
+specificity, a \code{NA} value will be returned with a warning. When computing
+multiclass specificity, the individual \code{NA} values will be removed, and the
+computation will procede, with a warning.
 }
 \section{Relevant Level}{
 

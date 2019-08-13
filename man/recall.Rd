@@ -60,6 +60,13 @@ The recall (aka sensitivity) is defined as the proportion of
 relevant results out of the number of samples which were
 actually relevant. When there are no relevant results, recall is
 not defined and a value of \code{NA} is returned.
+
+When the denominator of the calculation is \code{0}, recall is undefined. This
+happens when both \code{# true_positive = 0} and \code{# false_negative = 0} are true,
+which mean that there were no true events. When computing binary
+recall, a \code{NA} value will be returned with a warning. When computing
+multiclass recall, the individual \code{NA} values will be removed, and the
+computation will procede, with a warning.
 }
 \section{Relevant Level}{
 

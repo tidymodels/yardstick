@@ -121,7 +121,7 @@ f_meas_table_impl <- function(data, estimator, beta = 1) {
   } else {
     w <- get_weights(data, estimator)
     out_vec <- f_meas_multiclass(data, estimator, beta)
-    weighted.mean(out_vec, w)
+    weighted.mean(out_vec, w, na.rm = TRUE)
   }
 
 }
