@@ -2,6 +2,8 @@
 
 ## New metrics and functionality
 
+* `iic()` is a numeric metric for computing the index of ideality of correlation. It can be seen as a potential alternative to the traditional correlation coefficient, and has been used in QSAR models (@jyuu, #115).
+
 * `average_precision()` is a probability metric that can be used as an alternative to `pr_auc()`. It has the benefit of avoiding any issues of ambiguity in the case where `recall == 0` and the current number of false positives is `0`.
 
 ## Other improvements
