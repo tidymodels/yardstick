@@ -71,13 +71,6 @@ iic_vec <- function(truth, estimate, na_rm = TRUE, ...) {
     mae_neg <- mean(abs(delta_neg))
     mae_pos <- mean(abs(delta_pos))
 
-    delta_strictly_pos <- delta_pos[delta_pos > 0]
-    mae_strictly_pos <- mean(abs(delta_strictly_pos))
-
-    if (isTRUE(mae_neg == mae_strictly_pos)) {
-      warning("Index of ideality of correlation is useless when outliers are symmetric.")
-    }
-
     adjustment <- min(mae_neg, mae_pos) / max(mae_neg, mae_pos)
 
     try_cor(truth, estimate) * adjustment
