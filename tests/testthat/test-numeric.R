@@ -323,6 +323,9 @@ test_that('Mean Absolute Scaled Error', {
 
 ###################################################################
 
+# All tests confirmed against the software:
+# http://www.insilico.eu/coral/SOFTWARECORAL.html
+
 test_that('Index of Ideality of Correlation', {
 
   deltas <- ex_dat$obs - ex_dat$pred
@@ -353,6 +356,26 @@ test_that('Index of Ideality of Correlation', {
   toy_dat$pred <- c(1, 3, 2, 4)
   expect_warning(
     iic(toy_dat, truth = "obs", estimate = "pred")
+  )
+})
+
+test_that("iic() can be negative", {
+  expect_equal(
+    iic_vec(c(1, 2, 3), c(2, 1, 1)),
+    -0.577350269189626
+  )
+})
+
+test_that("iic() is NaN if truth/estimate are equivalent", {
+  expect_equal(iic_vec(c(1, 2), c(1, 2)), NaN)
+})
+
+test_that("yardstick correlation warnings are thrown", {
+  cnd <- rlang::catch_cnd(iic_vec(c(1, 2), c(1, 1)))
+
+  expect_warning(
+    expect_equal(iic_vec(c(1, 2), c(1, 1)), NA_real_),
+
   )
 })
 
