@@ -235,7 +235,6 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' @importFrom rlang enquos
 #' @importFrom rlang quo_name
 metric_set <- function(...) {
-
   quo_fns <- enquos(...)
   validate_not_empty(quo_fns)
 
@@ -252,135 +251,142 @@ metric_set <- function(...) {
 
   # signature of the function is different depending on input functions
   if (fn_cls == "numeric_metric") {
+    metric_function <- make_numeric_metric_function(fns)
+    return(metric_function)
+  }
 
-    metric_fn_numeric <- function(data, truth, estimate, na_rm = TRUE, ...) {
+  if(fn_cls %in% c("prob_metric", "class_metric")) {
+    metric_function <- make_prob_class_metric_function(fns)
+    return(metric_function)
+  }
 
-      # Construct common argument set for each metric call
-      # Doing this dynamically inside the generated function means
-      # we capture the correct arguments
-      call_args <- quos(
+  msg <- paste0(
+    "No `metric_set()` implementation available for functions of class: ",
+    fn_cls,
+    "."
+  )
+
+  abort(msg)
+}
+
+make_prob_class_metric_function <- function(fns) {
+  metric_function <- function(data, truth, ..., estimate, estimator = NULL, na_rm = TRUE) {
+
+    # Find class vs prob metrics
+    are_class_metrics <- vapply(
+      X = fns,
+      FUN = inherits,
+      FUN.VALUE = logical(1),
+      what = "class_metric"
+    )
+
+    class_fns <- fns[are_class_metrics]
+    prob_fns <- fns[!are_class_metrics]
+
+    metric_list <- list()
+
+    # Evaluate class metrics
+    if(!rlang::is_empty(class_fns)) {
+
+      class_args <- quos(
         data = data,
         truth = !!enquo(truth),
         estimate = !!enquo(estimate),
-        na_rm = na_rm,
-        ... = ...
+        estimator = estimator,
+        na_rm = na_rm
       )
 
-      # Construct calls from the functions + arguments
-      calls <- lapply(fns, call2, !!! call_args)
+      class_calls <- lapply(class_fns, call2, !!! class_args)
 
-      # Evaluate
-      metric_list <- mapply(
+      class_list <- mapply(
         FUN = eval_safely,
-        calls, # .x
-        names(calls), # .y
+        class_calls, # .x
+        names(class_calls), # .y
         SIMPLIFY = FALSE,
         USE.NAMES = FALSE
       )
 
-      bind_rows(metric_list)
+      metric_list <- c(metric_list, class_list)
     }
 
-    class(metric_fn_numeric) <- c(
-      "numeric_metric_set",
-      class(metric_fn_numeric)
-    )
+    # Evaluate prob metrics
+    if(!rlang::is_empty(prob_fns)) {
 
-    metric_fn_numeric
+      # TODO - If prob metrics can all do micro, we can remove this
+      if (!is.null(estimator) && estimator == "micro") {
+        prob_estimator <- NULL
+      }
+      else {
+        prob_estimator <- estimator
+      }
 
-  }
-  else if (fn_cls %in% c("prob_metric", "class_metric")) {
-
-    metric_fn_class_prob <- function(data, truth, ..., estimate,
-                                     estimator = NULL, na_rm = TRUE) {
-
-      # Find class vs prob metrics
-      are_class_metrics <- vapply(
-        X = fns,
-        FUN = inherits,
-        FUN.VALUE = logical(1),
-        what = "class_metric"
+      prob_args <- quos(
+        data = data,
+        truth = !!enquo(truth),
+        ... = ...,
+        estimator = prob_estimator,
+        na_rm = na_rm
       )
 
-      class_fns <- fns[are_class_metrics]
-      prob_fns <- fns[!are_class_metrics]
+      prob_calls <- lapply(prob_fns, call2, !!! prob_args)
 
-      metric_list <- list()
+      prob_list <- mapply(
+        FUN = eval_safely,
+        prob_calls, # .x
+        names(prob_calls), # .y
+        SIMPLIFY = FALSE,
+        USE.NAMES = FALSE
+      )
 
-      # Evaluate class metrics
-      if(!rlang::is_empty(class_fns)) {
-
-        class_args <- quos(
-          data = data,
-          truth = !!enquo(truth),
-          estimate = !!enquo(estimate),
-          estimator = estimator,
-          na_rm = na_rm
-        )
-
-        class_calls <- lapply(class_fns, call2, !!! class_args)
-
-        class_list <- mapply(
-          FUN = eval_safely,
-          class_calls, # .x
-          names(class_calls), # .y
-          SIMPLIFY = FALSE,
-          USE.NAMES = FALSE
-        )
-
-        metric_list <- c(metric_list, class_list)
-      }
-
-      # Evaluate prob metrics
-      if(!rlang::is_empty(prob_fns)) {
-
-        # TODO - If prob metrics can all do micro, we can remove this
-        if (!is.null(estimator) && estimator == "micro") {
-          prob_estimator <- NULL
-        }
-        else {
-          prob_estimator <- estimator
-        }
-
-        prob_args <- quos(
-          data = data,
-          truth = !!enquo(truth),
-          ... = ...,
-          estimator = prob_estimator,
-          na_rm = na_rm
-        )
-
-        prob_calls <- lapply(prob_fns, call2, !!! prob_args)
-
-        prob_list <- mapply(
-          FUN = eval_safely,
-          prob_calls, # .x
-          names(prob_calls), # .y
-          SIMPLIFY = FALSE,
-          USE.NAMES = FALSE
-        )
-
-        metric_list <- c(metric_list, prob_list)
-      }
-
-      bind_rows(metric_list)
+      metric_list <- c(metric_list, prob_list)
     }
 
-    class(metric_fn_class_prob) <- c(
-      "class_prob_metric_set",
-      class(metric_fn_class_prob)
+    bind_rows(metric_list)
+  }
+
+  class(metric_function) <- c(
+    "class_prob_metric_set",
+    class(metric_function)
+  )
+
+  metric_function
+}
+
+make_numeric_metric_function <- function(fns) {
+  numeric_metric_function <- function(data, truth, estimate, na_rm = TRUE, ...) {
+
+    # Construct common argument set for each metric call
+    # Doing this dynamically inside the generated function means
+    # we capture the correct arguments
+    call_args <- quos(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na_rm = na_rm,
+      ... = ...
     )
 
-    metric_fn_class_prob
+    # Construct calls from the functions + arguments
+    calls <- lapply(fns, call2, !!! call_args)
 
-  }
-  else {
-    abort(paste0(
-      "No `metric_set()` implementation available for functions of class: ",
-      fn_cls, "."
-    ))
+    # Evaluate
+    metric_list <- mapply(
+      FUN = eval_safely,
+      calls, # .x
+      names(calls), # .y
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE
+    )
+
+    bind_rows(metric_list)
   }
 
+  class(numeric_metric_function) <- c(
+    "numeric_metric_set",
+    class(numeric_metric_function)
+  )
+
+  numeric_metric_function
 }
 
 validate_not_empty <- function(x) {
