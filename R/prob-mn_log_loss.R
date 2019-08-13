@@ -132,22 +132,27 @@ mn_log_loss_estimator_impl <- function(truth, estimate, estimator, sum = FALSE) 
 }
 
 mn_log_loss_binary <- function(truth, estimate, sum) {
-  estimate <- matrix(c(estimate, 1-estimate), ncol = 2)
+  estimate <- matrix(c(estimate, 1 - estimate), ncol = 2)
   mn_log_loss_multiclass(truth, estimate, sum)
 }
 
+# We apply the min/max rule to avoid undefined log() values (#103)
+# (Standard seems to be to use `eps = 1e-15`, but base R uses
+# .Machine$double.eps in many places when they do this,
+# and it should be more precise)
+# https://github.com/wch/r-source/blob/582d94805aeee0c91f9bd9bdd63e421dd60e441f/src/library/stats/R/family.R#L83
+
 mn_log_loss_multiclass <- function(truth, estimate, sum) {
-
   y <- model.matrix(~ truth - 1)
-  res <- y * estimate
-  res[res <= .Machine$double.eps & res > 0] <- .Machine$double.eps
-  pos_log <- function(x)
-    log(x[x != 0])
-  res <- -sum(unlist(apply(res, 1, pos_log)))
 
-  if (!sum)
-    res <- res / length(truth)
+  eps <- .Machine$double.eps
+  estimate <- pmax(pmin(estimate, 1 - eps), eps)
 
-  res
+  out <- -sum(y * log(estimate))
 
+  if (!sum) {
+    out <- out / length(truth)
+  }
+
+  out
 }

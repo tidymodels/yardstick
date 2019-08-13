@@ -50,7 +50,31 @@ test_that("Issue #29", {
   )
   expect_equal(
     mn_log_loss(x, truth = truth, No)[[".estimate"]],
-    0.6562885,
+    12.6708396674381,
     tol = .0001
+  )
+})
+
+# ------------------------------------------------------------------------------
+
+test_that("mn_log_loss() applies the min/max rule when an 'event' has probability 0 (#103)", {
+  truth <- factor(c("Yes", "No", "Yes"), levels = c("Yes", "No"))
+  estimate <- c(.5, .5, 0)
+
+  expect_equal(
+    mn_log_loss_vec(truth, estimate),
+    12.476649250079,
+    tolerance = 0.0001
+  )
+})
+
+test_that("mn_log_loss() applies the min/max rule when a 'non-event' has probability 1 (#103)", {
+  truth <- factor(c("Yes", "No", "No"), levels = c("Yes", "No"))
+  estimate <- c(.5, .5, 1)
+
+  expect_equal(
+    mn_log_loss_vec(truth, estimate),
+    12.476649250079,
+    tolerance = 0.0001
   )
 })
