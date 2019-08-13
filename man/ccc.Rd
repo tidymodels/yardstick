@@ -95,20 +95,22 @@ coefficient to evaluate reproducibility". \emph{Biometrics}, 53(4),
 }
 \seealso{
 Other numeric metrics: \code{\link{huber_loss_pseudo}},
-  \code{\link{huber_loss}}, \code{\link{mae}},
-  \code{\link{mape}}, \code{\link{mase}},
-  \code{\link{rmse}}, \code{\link{rpd}},
-  \code{\link{rpiq}}, \code{\link{rsq_trad}},
-  \code{\link{rsq}}, \code{\link{smape}}
+  \code{\link{huber_loss}}, \code{\link{iic}},
+  \code{\link{mae}}, \code{\link{mape}},
+  \code{\link{mase}}, \code{\link{rmse}},
+  \code{\link{rpd}}, \code{\link{rpiq}},
+  \code{\link{rsq_trad}}, \code{\link{rsq}},
+  \code{\link{smape}}
 
 Other consistency metrics: \code{\link{rpd}},
   \code{\link{rpiq}}, \code{\link{rsq_trad}},
   \code{\link{rsq}}
 
 Other accuracy metrics: \code{\link{huber_loss_pseudo}},
-  \code{\link{huber_loss}}, \code{\link{mae}},
-  \code{\link{mape}}, \code{\link{mase}},
-  \code{\link{rmse}}, \code{\link{smape}}
+  \code{\link{huber_loss}}, \code{\link{iic}},
+  \code{\link{mae}}, \code{\link{mape}},
+  \code{\link{mase}}, \code{\link{rmse}},
+  \code{\link{smape}}
 }
 \author{
 Max Kuhn

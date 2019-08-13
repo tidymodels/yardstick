@@ -83,17 +83,17 @@ metric_results \%>\%
 \seealso{
 Other numeric metrics: \code{\link{ccc}},
   \code{\link{huber_loss_pseudo}},
-  \code{\link{huber_loss}}, \code{\link{mae}},
-  \code{\link{mase}}, \code{\link{rmse}},
-  \code{\link{rpd}}, \code{\link{rpiq}},
-  \code{\link{rsq_trad}}, \code{\link{rsq}},
-  \code{\link{smape}}
+  \code{\link{huber_loss}}, \code{\link{iic}},
+  \code{\link{mae}}, \code{\link{mase}},
+  \code{\link{rmse}}, \code{\link{rpd}},
+  \code{\link{rpiq}}, \code{\link{rsq_trad}},
+  \code{\link{rsq}}, \code{\link{smape}}
 
 Other accuracy metrics: \code{\link{ccc}},
   \code{\link{huber_loss_pseudo}},
-  \code{\link{huber_loss}}, \code{\link{mae}},
-  \code{\link{mase}}, \code{\link{rmse}},
-  \code{\link{smape}}
+  \code{\link{huber_loss}}, \code{\link{iic}},
+  \code{\link{mae}}, \code{\link{mase}},
+  \code{\link{rmse}}, \code{\link{smape}}
 }
 \author{
 Max Kuhn

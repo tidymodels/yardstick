@@ -320,3 +320,30 @@ test_that('Mean Absolute Scaled Error', {
   )
 
 })
+
+###################################################################
+
+# All tests confirmed against the software:
+# http://www.insilico.eu/coral/SOFTWARECORAL.html
+
+test_that("iic() returns known correct results", {
+  expect_equal(iic(ex_dat, obs, pred)[[".estimate"]], 0.43306222006167)
+})
+
+test_that("iic() can be negative", {
+  expect_equal(iic_vec(c(1, 2, 3), c(2, 1, 1)), -0.577350269189626)
+})
+
+test_that("iic() is NaN if truth/estimate are equivalent", {
+  expect_equal(iic_vec(c(1, 2), c(1, 2)), NaN)
+})
+
+test_that("yardstick correlation warnings are thrown", {
+  cnd <- rlang::catch_cnd(iic_vec(c(1, 2), c(1, 1)))
+  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
+
+  cnd <- rlang::catch_cnd(iic_vec(c(1, 1), c(1, 2)))
+  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_truth")
+})
+
+###################################################################
