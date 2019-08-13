@@ -6,6 +6,8 @@
 
 ## Other improvements
 
+* Classification metrics that can potentially have a `0` value denominator now throw an informative warning when this case occurs. These directly include `recall()`, `precision()`, `sens()`, and `spec()` (#98).
+
 * The `autoplot()` method for `pr_curve()` has been improved to always set the
 axis limits to `c(0, 1)`.
 
