@@ -10,6 +10,13 @@
 #' actually relevant. When there are no relevant results, recall is
 #' not defined and a value of `NA` is returned.
 #'
+#' When the denominator of the calculation is `0`, recall is undefined. This
+#' happens when both `# true_positive = 0` and `# false_negative = 0` are true,
+#' which mean that there were no true events. When computing binary
+#' recall, a `NA` value will be returned with a warning. When computing
+#' multiclass recall, the individual `NA` values will be removed, and the
+#' computation will procede, with a warning.
+#'
 #' @family class metrics
 #' @family relevance metrics
 #' @templateVar metric_fn recall

@@ -10,6 +10,13 @@
 #' characterizes the "purity in retrieval performance" (Buckland
 #' and Gey, 1994).
 #'
+#' When the denominator of the calculation is `0`, precision is undefined. This
+#' happens when both `# true_positive = 0` and `# false_positive = 0` are true,
+#' which mean that there were no predicted events. When computing binary
+#' precision, a `NA` value will be returned with a warning. When computing
+#' multiclass precision, the individual `NA` values will be removed, and the
+#' computation will procede, with a warning.
+#'
 #' @family class metrics
 #' @family relevance metrics
 #' @templateVar metric_fn precision
