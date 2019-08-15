@@ -42,6 +42,7 @@ rsq_trad <- function(data, ...) {
 }
 
 class(rsq_trad) <- c("numeric_metric", "function")
+attr(rsq_trad, "direction") <- "maximize"
 
 #' @rdname rsq_trad
 #' @export

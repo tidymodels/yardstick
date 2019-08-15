@@ -28,6 +28,7 @@ huber_loss_pseudo <- function(data, ...) {
 }
 
 class(huber_loss_pseudo) <- c("numeric_metric", "function")
+attr(huber_loss_pseudo, "direction") <- "minimize"
 
 #' @rdname huber_loss_pseudo
 #' @export

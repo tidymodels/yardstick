@@ -41,6 +41,7 @@ iic <- function(data, ...) {
 }
 
 class(iic) <- c("numeric_metric", "function")
+attr(iic, "direction") <- "maximize"
 
 #' @rdname iic
 #' @export

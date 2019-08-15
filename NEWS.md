@@ -8,6 +8,8 @@
 
 ## Other improvements
 
+* Each metric function now has a `direction` attribute attached to it, specifying whether to minimize or maximize the metric.
+
 * Classification metrics that can potentially have a `0` value denominator now throw an informative warning when this case occurs. These directly include `recall()`, `precision()`, `sens()`, and `spec()` (#98).
 
 * The `autoplot()` method for `pr_curve()` has been improved to always set the

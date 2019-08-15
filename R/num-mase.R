@@ -52,6 +52,7 @@ mase <- function(data, ...) {
 }
 
 class(mase) <- c("numeric_metric", "function")
+attr(mase, "direction") <- "minimize"
 
 #' @rdname mase
 #' @export

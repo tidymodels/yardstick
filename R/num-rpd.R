@@ -52,6 +52,7 @@ rpd <- function(data, ...) {
 }
 
 class(rpd) <- c("numeric_metric", "function")
+attr(rpd, "direction") <- "maximize"
 
 #' @rdname rpd
 #' @export

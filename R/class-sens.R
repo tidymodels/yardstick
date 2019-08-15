@@ -67,6 +67,7 @@ sens <- function(data, ...) {
 }
 
 class(sens) <- c("class_metric", "function")
+attr(sens, "direction") <- "maximize"
 
 #' @export
 #' @rdname sens

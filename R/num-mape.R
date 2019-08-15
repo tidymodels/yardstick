@@ -24,6 +24,7 @@ mape <- function(data, ...) {
 }
 
 class(mape) <- c("numeric_metric", "function")
+attr(mape, "direction") <- "minimize"
 
 #' @rdname mape
 #' @export

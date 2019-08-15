@@ -30,6 +30,7 @@ rpiq <- function(data, ...) {
 }
 
 class(rpiq) <- c("numeric_metric", "function")
+attr(rpiq, "direction") <- "maximize"
 
 #' @rdname rpiq
 #' @export

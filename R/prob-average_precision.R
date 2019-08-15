@@ -54,6 +54,7 @@ average_precision <- function(data, ...) {
 }
 
 class(average_precision) <- c("prob_metric", "function")
+attr(average_precision, "direction") <- "maximize"
 
 #' @export
 #' @rdname average_precision
