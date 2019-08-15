@@ -5,8 +5,8 @@
 Status](https://travis-ci.org/tidymodels/yardstick.svg?branch=master)](https://travis-ci.org/tidymodels/yardstick)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)](https://codecov.io/github/tidymodels/yardstick?branch=master)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/yardstick)](http://cran.rstudio.com/package=yardstick)
-[![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](http://cran.rstudio.com/package=yardstick)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/yardstick)](https://CRAN.R-project.org/package=yardstick)
+[![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 ## Overview
@@ -154,7 +154,7 @@ hpc_cv %>%
 
 ## Quasiquotation
 
-[Quasiquotation](http://rlang.tidyverse.org/reference/quasiquotation.html)
+[Quasiquotation](https://rlang.r-lib.org/reference/quasiquotation.html)
 can also be used to supply inputs.
 
 ``` r
