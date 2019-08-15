@@ -83,6 +83,7 @@ roc_auc <- function(data, ...) {
 }
 
 class(roc_auc) <- c("prob_metric", "function")
+attr(roc_auc, "direction") <- "maximize"
 
 #' @export
 #' @rdname roc_auc

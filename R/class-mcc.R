@@ -38,6 +38,7 @@ mcc <- function(data, ...) {
 }
 
 class(mcc) <- c("class_metric", "function")
+attr(mcc, "direction") <- "maximize"
 
 #' @export
 #' @rdname mcc

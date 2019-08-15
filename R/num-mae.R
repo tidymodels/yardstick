@@ -20,6 +20,7 @@ mae <- function(data, ...) {
 }
 
 class(mae) <- c("numeric_metric", "function")
+attr(mae, "direction") <- "minimize"
 
 #' @rdname mae
 #' @export

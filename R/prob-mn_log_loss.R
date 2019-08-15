@@ -74,6 +74,7 @@ mn_log_loss <- function(data, ...) {
 }
 
 class(mn_log_loss) <- c("prob_metric", "function")
+attr(mn_log_loss, "direction") <- "minimize"
 
 #' @export
 #' @rdname mn_log_loss

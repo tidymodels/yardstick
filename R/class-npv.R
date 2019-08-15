@@ -35,6 +35,7 @@ npv <- function(data, ...) {
 }
 
 class(npv) <- c("class_metric", "function")
+attr(npv, "direction") <- "maximize"
 
 #' @rdname npv
 #' @export

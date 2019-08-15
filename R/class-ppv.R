@@ -41,6 +41,7 @@ ppv <- function(data, ...) {
 }
 
 class(ppv) <- c("class_metric", "function")
+attr(ppv, "direction") <- "maximize"
 
 #' @rdname ppv
 #' @export

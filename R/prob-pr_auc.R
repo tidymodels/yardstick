@@ -46,6 +46,7 @@ pr_auc <- function(data, ...) {
 }
 
 class(pr_auc) <- c("prob_metric", "function")
+attr(pr_auc, "direction") <- "maximize"
 
 #' @export
 #' @rdname pr_auc

@@ -42,6 +42,7 @@ j_index <- function(data, ...) {
 }
 
 class(j_index) <- c("class_metric", "function")
+attr(j_index, "direction") <- "maximize"
 
 #' @rdname j_index
 #' @export

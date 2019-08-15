@@ -41,6 +41,7 @@ spec <-  function(data, ...) {
 }
 
 class(spec) <- c("class_metric", "function")
+attr(spec, "direction") <- "maximize"
 
 #' @export
 #' @rdname spec
