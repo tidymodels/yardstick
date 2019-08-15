@@ -31,6 +31,7 @@ reference:
     contents:
     - roc_auc
     - pr_auc
+    - average_precision
     - gain_capture
     - mn_log_loss
 
@@ -48,6 +49,7 @@ reference:
     - rpd
     - huber_loss
     - huber_loss_pseudo
+    - iic
 
   - title: Curve Functions
     contents:
