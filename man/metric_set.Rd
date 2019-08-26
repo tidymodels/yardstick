@@ -38,7 +38,6 @@ the named argument \code{estimate}, and the soft predictions (the class
 probability columns) as bare column names or \code{tidyselect} selectors to \code{...}.
 }
 \examples{
-
 library(dplyr)
 
 # Multiple regression metrics
@@ -60,7 +59,8 @@ hpc_cv \%>\%
 # If you need to set options for certain metrics,
 # do so by wrapping the metric and setting the options inside the wrapper,
 # passing along truth and estimate as quoted arguments.
-# Then add on the function class of the underlying wrapped function.
+# Then add on the function class of the underlying wrapped function,
+# and the direction of optimization.
 ccc_with_bias <- function(data, truth, estimate, na_rm = TRUE, ...) {
   ccc(
     data = data,
@@ -73,8 +73,10 @@ ccc_with_bias <- function(data, truth, estimate, na_rm = TRUE, ...) {
   )
 }
 
-# Add on the underlying function class (here, "numeric_metric")
+# Add on the underlying function class (here, "numeric_metric"), and the
+# direction to optimize the metric
 class(ccc_with_bias) <- class(ccc)
+attr(ccc_with_bias, "direction") <- attr(ccc, "direction")
 
 multi_metric2 <- metric_set(rmse, rsq, ccc_with_bias)
 

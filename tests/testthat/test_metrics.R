@@ -136,3 +136,51 @@ test_that('metric set functions are classed', {
     "numeric_metric_set"
   )
 })
+
+test_that('metric set functions retain class/prob metric functions', {
+  fns <- attr(metric_set(accuracy, roc_auc), "metrics")
+
+  expect_equal(
+    names(fns),
+    c("accuracy", "roc_auc")
+  )
+
+  expect_equal(
+    class(fns[[1]]),
+    c("class_metric", "function")
+  )
+
+  expect_equal(
+    class(fns[[2]]),
+    c("prob_metric", "function")
+  )
+
+  expect_equal(
+    vapply(fns, function(fn) attr(fn, "direction"), character(1)),
+    c(accuracy = "maximize", roc_auc = "maximize")
+  )
+})
+
+test_that('metric set functions retain numeric metric functions', {
+  fns <- attr(metric_set(mae, rmse), "metrics")
+
+  expect_equal(
+    names(fns),
+    c("mae", "rmse")
+  )
+
+  expect_equal(
+    class(fns[[1]]),
+    c("numeric_metric", "function")
+  )
+
+  expect_equal(
+    class(fns[[2]]),
+    c("numeric_metric", "function")
+  )
+
+  expect_equal(
+    vapply(fns, function(fn) attr(fn, "direction"), character(1)),
+    c(mae = "minimize", rmse = "minimize")
+  )
+})

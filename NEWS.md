@@ -8,6 +8,8 @@
 
 ## Other improvements
 
+* `metric_set()` output now includes a `metrics` attribute which contains a list of the original metric functions used to generate the metric set.
+
 * Each metric function now has a `direction` attribute attached to it, specifying whether to minimize or maximize the metric.
 
 * Classification metrics that can potentially have a `0` value denominator now throw an informative warning when this case occurs. These include `recall()`, `precision()`, `sens()`, and `spec()` (#98).
