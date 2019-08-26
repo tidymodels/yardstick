@@ -180,8 +180,7 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='co'># Multiple regression metrics</span>
 <span class='no'>multi_metric</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>rmse</span>, <span class='no'>rsq</span>, <span class='no'>ccc</span>)
@@ -227,7 +226,8 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
 <span class='co'># If you need to set options for certain metrics,</span>
 <span class='co'># do so by wrapping the metric and setting the options inside the wrapper,</span>
 <span class='co'># passing along truth and estimate as quoted arguments.</span>
-<span class='co'># Then add on the function class of the underlying wrapped function.</span>
+<span class='co'># Then add on the function class of the underlying wrapped function,</span>
+<span class='co'># and the direction of optimization.</span>
 <span class='no'>ccc_with_bias</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='no'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>) {
   <span class='fu'><a href='ccc.html'>ccc</a></span>(
     <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
@@ -240,8 +240,10 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
   )
 }
 
-<span class='co'># Add on the underlying function class (here, "numeric_metric")</span>
+<span class='co'># Add on the underlying function class (here, "numeric_metric"), and the</span>
+<span class='co'># direction to optimize the metric</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>ccc_with_bias</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>ccc</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>ccc_with_bias</span>, <span class='st'>"direction"</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>ccc</span>, <span class='st'>"direction"</span>)
 
 <span class='no'>multi_metric2</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>rmse</span>, <span class='no'>rsq</span>, <span class='no'>ccc_with_bias</span>)
 
