@@ -348,6 +348,7 @@ make_prob_class_metric_function <- function(fns) {
 
   class(metric_function) <- c(
     "class_prob_metric_set",
+    "metric_set",
     class(metric_function)
   )
 
@@ -387,6 +388,7 @@ make_numeric_metric_function <- function(fns) {
 
   class(metric_function) <- c(
     "numeric_metric_set",
+    "metric_set",
     class(metric_function)
   )
 

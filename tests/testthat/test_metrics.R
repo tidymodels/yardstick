@@ -135,6 +135,14 @@ test_that('metric set functions are classed', {
     metric_set(mae),
     "numeric_metric_set"
   )
+  expect_is(
+    metric_set(accuracy, roc_auc),
+    "metric_set"
+  )
+  expect_is(
+    metric_set(mae),
+    "metric_set"
+  )
 })
 
 test_that('metric set functions retain class/prob metric functions', {
