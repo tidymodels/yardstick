@@ -1,4 +1,4 @@
-# yardstick (development version)
+# yardstick 0.0.4
 
 ## New metrics and functionality
 

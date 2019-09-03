@@ -1,14 +1,9 @@
 ## Comments
 
-This is a small release mainly to resolve failing tests on CRAN. In particular, we have fixed:
-- "unable to re-encode" warnings
-- Failing tests due to R 3.6 `sample()` changes
-- An issue with an old release of R and dplyr 0.8.0.1 causing factors to be coerced to integers
-
-It also introduces a few new metrics, and squashes a few non-CRAN related bugs.
+This is a small release with a few new metrics, and a few squashed bugs.
 
 ## Test environments
-* local OS X install, R 3.5.2
+* local OS X install, R 3.6.0
 * ubuntu 14.04 (on travis-ci) (devel and release)
 * win-builder (devel and release)
 
