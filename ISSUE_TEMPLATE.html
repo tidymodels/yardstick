@@ -55,6 +55,7 @@
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -74,7 +75,7 @@
         <a class="navbar-brand" href="index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
         </div>
       </div>
     </div>
@@ -82,7 +83,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -112,7 +113,7 @@
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -123,6 +124,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -135,11 +137,11 @@
 <p>If you are filing a bug, make sure these boxes are checked before submitting your issue— thank you!</p>
 <ul>
 <li>[ ] Start a new R session</li>
-<li>[ ] Install the latest version of of the package: <code><a href="https://www.rdocumentation.org/packages/utils/topics/update.packages">update.packages(oldPkgs="yardstick", ask=FALSE)</a></code>
+<li>[ ] Install the latest version of of the package: <code><a href="https://rdrr.io/r/utils/update.packages.html">update.packages(oldPkgs="yardstick", ask=FALSE)</a></code>
 </li>
 <li>[ ] <a href="http://stackoverflow.com/a/5963610">Write a minimal reproducible example</a>
 </li>
-<li>[ ] run <code><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo()</a></code> and add the results to the issue. Even better would be to use the <a href="https://github.com/r-lib/sessioninfo"><code>sessioninfo</code></a> package’s <code>session_info()</code>.</li>
+<li>[ ] run <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code> and add the results to the issue. Even better would be to use the <a href="https://github.com/r-lib/sessioninfo"><code>sessioninfo</code></a> package’s <code>session_info()</code>.</li>
 </ul>
 <div id="minimal-reproducible-example" class="section level3">
 <h3 class="hasAnchor">
@@ -149,17 +151,17 @@
 <div id="minimal-reproducible-dataset" class="section level4">
 <h4 class="hasAnchor">
 <a href="#minimal-reproducible-dataset" class="anchor"></a><em>Minimal</em> Reproducible Dataset:</h4>
-<p>If you are not using a data set in a package then use e.g. <code><a href="https://www.rdocumentation.org/packages/base/topics/dput">dput()</a></code> to give us something that can be put in R immediately, e.g.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/dput">dput</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(iris,<span class="dv">4</span>))</a></code></pre></div>
+<p>If you are not using a data set in a package then use e.g. <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> to give us something that can be put in R immediately, e.g.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/dput.html">dput</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(iris,<span class="dv">4</span>))</a></code></pre></div>
 <p>Without a dataset, there usually isn’t much that we can do to help.</p>
-<p>If your data frame has a factor with many levels, the <code>dput</code> output can be unwieldy because it will still list all the possible factor levels even if they aren’t present in the the subset of your data. To solve this issue, you can use the <code><a href="https://www.rdocumentation.org/packages/base/topics/droplevels">droplevels()</a></code> function. Notice below how species is a factor with only one level: <code><a href="https://www.rdocumentation.org/packages/base/topics/dput">dput(droplevels(head(iris, 4)))</a></code>.</p>
+<p>If your data frame has a factor with many levels, the <code>dput</code> output can be unwieldy because it will still list all the possible factor levels even if they aren’t present in the the subset of your data. To solve this issue, you can use the <code><a href="https://rdrr.io/r/base/droplevels.html">droplevels()</a></code> function. Notice below how species is a factor with only one level: <code><a href="https://rdrr.io/r/base/dput.html">dput(droplevels(head(iris, 4)))</a></code>.</p>
 </div>
 <div id="minimal-runnable-code" class="section level4">
 <h4 class="hasAnchor">
 <a href="#minimal-runnable-code" class="anchor"></a>Minimal, runnable code:</h4>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(yardstick)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"hpc_cv"</span>)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(yardstick)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"hpc_cv"</span>)</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">hpc_cv <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(Resample <span class="op">==</span><span class="st"> "Fold01"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="reference/conf_mat.html">conf_mat</a></span>(obs, pred)</a></code></pre></div>
@@ -168,7 +170,7 @@
 <div id="session-info" class="section level3">
 <h3 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info:</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># or sessioninfo::session_info()</span></a></code></pre></div>
 <p>Be sure to test your chunks of code in an empty R session before submitting your issue!</p>
@@ -178,6 +180,7 @@
   </div>
 
 </div>
+
 
 
       <footer>
@@ -191,11 +194,14 @@
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

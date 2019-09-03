@@ -57,6 +57,7 @@
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -76,7 +77,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
         </div>
       </div>
     </div>
@@ -84,7 +85,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -114,7 +115,7 @@
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,6 +126,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -145,24 +147,23 @@
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>conf_mat</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>,
-  <span class='kw'>dnn</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Prediction"</span>, <span class='st'>"Truth"</span>), <span class='no'>...</span>)
+  <span class='kw'>dnn</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Prediction"</span>, <span class='st'>"Truth"</span>), <span class='no'>...</span>)
 
 <span class='co'># S3 method for conf_mat</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/generics/topics/tidy'>tidy</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for conf_mat</span>
-<span class='fu'>autoplot</span>(<span class='no'>object</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mosaic"</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>autoplot.conf_mat</span>(<span class='no'>object</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mosaic"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A data frame or a <code><a href='https://www.rdocumentation.org/packages/base/topics/table'>base::table()</a></code>.</p></td>
+      <td><p>A data frame or a <code><a href='https://rdrr.io/r/base/table.html'>base::table()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Options to pass to <code><a href='https://www.rdocumentation.org/packages/base/topics/table'>base::table()</a></code> (not including
+      <td><p>Options to pass to <code><a href='https://rdrr.io/r/base/table.html'>base::table()</a></code> (not including
 <code>dnn</code>). This argument is not currently used for the <code>tidy</code>
 method.</p></td>
     </tr>
@@ -211,10 +212,10 @@ where each element is a <code>conf_mat</code> object.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For <code>conf_mat()</code> objects, a <code>broom</code> <code><a href='https://www.rdocumentation.org/packages/generics/topics/tidy'>tidy()</a></code> method has been created
+    <p>For <code>conf_mat()</code> objects, a <code>broom</code> <code><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy()</a></code> method has been created
 that collapses the cell counts by cell into a data frame for
 easy manipulation.</p>
-<p>There is also a <code><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary()</a></code> method that computes various classification
+<p>There is also a <code><a href='https://rdrr.io/r/base/summary.html'>summary()</a></code> method that computes various classification
 metrics at once. See <code><a href='summary.conf_mat.html'>summary.conf_mat()</a></code></p>
 <p>There is a <code><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>ggplot2::autoplot()</a></code>
 method for quickly visualizing the matrix. Both a heatmap and mosaic type
@@ -228,8 +229,8 @@ confusion matrix.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"hpc_cv"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"hpc_cv"</span>)
 
 <span class='co'># The confusion matrix from a single assessment set (i.e. fold)</span>
 <span class='no'>cm</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
@@ -244,10 +245,8 @@ confusion matrix.</p></div>
 <span class='co'># Now compute the average confusion matrix across all folds in</span>
 <span class='co'># terms of the proportion of the data contained in each cell.</span>
 <span class='co'># First get the raw cell counts per fold using the `tidy` method</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>purrr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    is_null</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>tidyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>purrr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
 
 <span class='no'>cells_per_resample</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
@@ -264,7 +263,7 @@ confusion matrix.</p></div>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='no'>value</span>/<span class='no'>total</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>name</span>) <span class='kw'>%&gt;%</span>
   <span class='co'># Average</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>prop</span>))
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>prop</span>))
 
 <span class='no'>counts_per_resample</span></div><div class='output co'>#&gt; # A tibble: 16 x 2
 #&gt;    name         prop
@@ -286,17 +285,17 @@ confusion matrix.</p></div>
 #&gt; 15 cell_4_3 0.0144  
 #&gt; 16 cell_4_4 0.0320  </div><div class='input'>
 <span class='co'># Now reshape these into a matrix</span>
-<span class='no'>mean_cmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='no'>counts_per_resample</span>$<span class='no'>prop</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>mean_cmat</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels</a></span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>mean_cmat</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels</a></span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)
+<span class='no'>mean_cmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='no'>counts_per_resample</span>$<span class='no'>prop</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>mean_cmat</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>mean_cmat</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Round'>round</a></span>(<span class='no'>mean_cmat</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt;       VF     F     M     L
+<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>mean_cmat</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt;       VF     F     M     L
 #&gt; VF 0.467 0.107 0.018 0.003
 #&gt; F  0.041 0.187 0.063 0.017
 #&gt; M  0.002 0.007 0.023 0.008
 #&gt; L  0.001 0.010 0.014 0.032</div><div class='input'>
 <span class='co'># The confusion matrix can quickly be visualized using autoplot()</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
 
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='no'>cm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mosaic"</span>)</div><div class='img'><img src='conf_mat-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='no'>cm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"heatmap"</span>)</div><div class='img'><img src='conf_mat-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
@@ -318,6 +317,7 @@ confusion matrix.</p></div>
   </div>
 </div>
 
+
       <footer>
       <div class="tidyverse">
   <p>yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
@@ -329,11 +329,14 @@ confusion matrix.</p></div>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

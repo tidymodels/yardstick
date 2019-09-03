@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Area under the precision recall curve — pr_auc • yardstick</title>
+<title>Area under the precision recall curve — average_precision • yardstick</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,10 +31,15 @@
 
 
 
-<meta property="og:title" content="Area under the precision recall curve — pr_auc" />
+<meta property="og:title" content="Area under the precision recall curve — average_precision" />
 
-<meta property="og:description" content="pr_auc() is a metric that computes the area under the precision
-recall curve. See pr_curve() for the full curve." />
+<meta property="og:description" content="average_precision() is an alternative to pr_auc() that avoids any
+ambiguity about what the value of precision should be when recall == 0
+and there are not yet any false positive values (some say it should be 0,
+others say 1, others say undefined).
+It computes a weighted average of the precision values returned from
+pr_curve(), where the weights are the increase in recall from the previous
+threshold. See pr_curve() for the full curve." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -134,24 +139,30 @@ recall curve. See pr_curve() for the full curve." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Area under the precision recall curve</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/prob-pr_auc.R'><code>R/prob-pr_auc.R</code></a></small>
-    <div class="hidden name"><code>pr_auc.Rd</code></div>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/prob-average_precision.R'><code>R/prob-average_precision.R</code></a></small>
+    <div class="hidden name"><code>average_precision.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>pr_auc()</code> is a metric that computes the area under the precision
-recall curve. See <code><a href='pr_curve.html'>pr_curve()</a></code> for the full curve.</p>
+    <p><code>average_precision()</code> is an alternative to <code><a href='pr_auc.html'>pr_auc()</a></code> that avoids any
+ambiguity about what the value of <code>precision</code> should be when <code>recall == 0</code>
+and there are not yet any false positive values (some say it should be <code>0</code>,
+others say <code>1</code>, others say undefined).</p>
+<p>It computes a weighted average of the precision values returned from
+<code><a href='pr_curve.html'>pr_curve()</a></code>, where the weights are the increase in recall from the previous
+threshold. See <code><a href='pr_curve.html'>pr_curve()</a></code> for the full curve.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pr_auc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>average_precision</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>pr_auc</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>average_precision</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>pr_auc_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>average_precision_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,7 +215,23 @@ same order as the levels of <code>truth</code>.</em></p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>pr_auc_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>average_precision_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The computation for average precision is a weighted average of the precision
+values. Assuming you have <code>n</code> rows returned from <code><a href='pr_curve.html'>pr_curve()</a></code>, it is a sum
+from <code>2</code> to <code>n</code>, multiplying the precision value <code>p_i</code> by the increase in
+recall over the previous threshold, <code>r_i - r_(i-1)</code>.</p>
+<p>$$AP = \sum (r_{i} - r_{i-1}) * p_i$$</p>
+<p>By summing from <code>2</code> to <code>n</code>, the precision value <code>p_1</code> is never used. While
+<code><a href='pr_curve.html'>pr_curve()</a></code> returns a value for <code>p_1</code>, it is technically undefined as
+<code>tp / (tp + fp)</code> with <code>tp = 0</code> and <code>fp = 0</code>. A common convention is to use
+<code>1</code> for <code>p_1</code>, but this metric has the nice property of avoiding the
+ambiguity. On the other hand, <code>r_1</code> is well defined as long as there are
+some events (<code>p</code>), and it is <code>tp / p</code> with <code>tp = 0</code>, so <code>r_1 = 0</code>.</p>
+<p>When <code>p_1</code> is defined as <code>1</code>, the <code>average_precision()</code> and <code><a href='roc_auc.html'>roc_auc()</a></code>
+values are often very close to one another.</p>
     
     <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
 
@@ -235,8 +262,10 @@ the "one" level is always the relevant result.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='pr_curve.html'>pr_curve()</a></code> for computing the full precision recall curve.</p>
-<p>Other class probability metrics: <code><a href='average_precision.html'>average_precision</a></code>,
-  <code><a href='gain_capture.html'>gain_capture</a></code>, <code><a href='mn_log_loss.html'>mn_log_loss</a></code>,
+<p><code><a href='pr_auc.html'>pr_auc()</a></code> for computing the area under the precision recall curve using
+the trapezoidal rule.</p>
+<p>Other class probability metrics: <code><a href='gain_capture.html'>gain_capture</a></code>,
+  <code><a href='mn_log_loss.html'>mn_log_loss</a></code>, <code><a href='pr_auc.html'>pr_auc</a></code>,
   <code><a href='roc_auc.html'>roc_auc</a></code></p></div>
     
 
@@ -253,10 +282,10 @@ the "one" level is always the relevant result.</p>
 <span class='co'># and a single class probability column containing the probabilities of</span>
 <span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
 <span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
-<span class='fu'>pr_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 pr_auc  binary         0.946</div><div class='input'>
+<span class='fu'>average_precision</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric           .estimator .estimate
+#&gt;   &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 average_precision binary         0.947</div><div class='input'>
 <span class='co'># ---------------------------------------------------------------------------</span>
 <span class='co'># Multiclass example</span>
 
@@ -269,64 +298,64 @@ the "one" level is always the relevant result.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pr_auc</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 pr_auc  macro          0.611</div><div class='input'>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric           .estimator .estimate
+#&gt;   &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 average_precision macro          0.617</div><div class='input'>
 <span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
 <span class='co'># event of interest. The class probability columns should be supplied</span>
 <span class='co'># in the same order as the levels.</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='no'>obs</span>, <span class='st'>"M"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pr_auc</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 pr_auc  macro          0.611</div><div class='input'>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric           .estimator .estimate
+#&gt;   &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 average_precision macro          0.617</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pr_auc</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
-#&gt;    Resample .metric .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   pr_auc  macro          0.611
-#&gt;  2 Fold02   pr_auc  macro          0.620
-#&gt;  3 Fold03   pr_auc  macro          0.689
-#&gt;  4 Fold04   pr_auc  macro          0.680
-#&gt;  5 Fold05   pr_auc  macro          0.620
-#&gt;  6 Fold06   pr_auc  macro          0.650
-#&gt;  7 Fold07   pr_auc  macro          0.607
-#&gt;  8 Fold08   pr_auc  macro          0.650
-#&gt;  9 Fold09   pr_auc  macro          0.628
-#&gt; 10 Fold10   pr_auc  macro          0.603</div><div class='input'>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+#&gt;    Resample .metric           .estimator .estimate
+#&gt;    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;          &lt;dbl&gt;
+#&gt;  1 Fold01   average_precision macro          0.617
+#&gt;  2 Fold02   average_precision macro          0.625
+#&gt;  3 Fold03   average_precision macro          0.699
+#&gt;  4 Fold04   average_precision macro          0.685
+#&gt;  5 Fold05   average_precision macro          0.625
+#&gt;  6 Fold06   average_precision macro          0.656
+#&gt;  7 Fold07   average_precision macro          0.617
+#&gt;  8 Fold08   average_precision macro          0.659
+#&gt;  9 Fold09   average_precision macro          0.632
+#&gt; 10 Fold10   average_precision macro          0.611</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pr_auc</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
-#&gt;    Resample .metric .estimator     .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;
-#&gt;  1 Fold01   pr_auc  macro_weighted     0.746
-#&gt;  2 Fold02   pr_auc  macro_weighted     0.743
-#&gt;  3 Fold03   pr_auc  macro_weighted     0.789
-#&gt;  4 Fold04   pr_auc  macro_weighted     0.754
-#&gt;  5 Fold05   pr_auc  macro_weighted     0.737
-#&gt;  6 Fold06   pr_auc  macro_weighted     0.743
-#&gt;  7 Fold07   pr_auc  macro_weighted     0.748
-#&gt;  8 Fold08   pr_auc  macro_weighted     0.756
-#&gt;  9 Fold09   pr_auc  macro_weighted     0.711
-#&gt; 10 Fold10   pr_auc  macro_weighted     0.737</div><div class='input'>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+#&gt;    Resample .metric           .estimator     .estimate
+#&gt;    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;              &lt;dbl&gt;
+#&gt;  1 Fold01   average_precision macro_weighted     0.750
+#&gt;  2 Fold02   average_precision macro_weighted     0.745
+#&gt;  3 Fold03   average_precision macro_weighted     0.794
+#&gt;  4 Fold04   average_precision macro_weighted     0.757
+#&gt;  5 Fold05   average_precision macro_weighted     0.740
+#&gt;  6 Fold06   average_precision macro_weighted     0.747
+#&gt;  7 Fold07   average_precision macro_weighted     0.751
+#&gt;  8 Fold08   average_precision macro_weighted     0.759
+#&gt;  9 Fold09   average_precision macro_weighted     0.714
+#&gt; 10 Fold10   average_precision macro_weighted     0.742</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
 <span class='no'>fold1</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>)
 
-<span class='fu'>pr_auc_vec</span>(
+<span class='fu'>average_precision_vec</span>(
    <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>fold1</span>$<span class='no'>obs</span>,
    <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(
      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>fold1</span>$<span class='no'>VF</span>, <span class='no'>fold1</span>$<span class='no'>F</span>, <span class='no'>fold1</span>$<span class='no'>M</span>, <span class='no'>fold1</span>$<span class='no'>L</span>),
      <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>
    )
-)</div><div class='output co'>#&gt; [1] 0.6109931</div><div class='input'>
+)</div><div class='output co'>#&gt; [1] 0.6173363</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -335,6 +364,8 @@ the "one" level is always the relevant result.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#multiclass">Multiclass</a></li>
 
@@ -345,8 +376,6 @@ the "one" level is always the relevant result.</p>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
-    <h2>Author</h2>
-    <p>Max Kuhn</p>
   </div>
 </div>
 

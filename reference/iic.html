@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mean absolute percent error — mape • yardstick</title>
+<title>Index of ideality of correlation — iic • yardstick</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,10 +31,23 @@
 
 
 
-<meta property="og:title" content="Mean absolute percent error — mape" />
+<meta property="og:title" content="Index of ideality of correlation — iic" />
 
-<meta property="og:description" content="Calculate the mean absolute percentage error. This metric is in relative
-units." />
+<meta property="og:description" content="Calculate the index of ideality of correlation. This metric has been
+studied in QSPR/QSAR models as a good criterion for the predictive
+potential of these models. It is highly dependent on the correlation
+coefficient as well as the mean absolute error.
+Note the application of IIC is useless under two conditions:
+When the negative mean absolute error and positive mean absolute
+error are both zero.
+When the outliers are symmetric. Since outliers are context
+dependent, please use your own checks to validate whether this
+restriction holds and whether the resulting IIC has
+interpretative value.
+
+
+The IIC is seen as an alternative to the traditional correlation
+coefficient and is in the same units as the original data." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -133,24 +146,37 @@ units." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean absolute percent error</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-mape.R'><code>R/num-mape.R</code></a></small>
-    <div class="hidden name"><code>mape.Rd</code></div>
+    <h1>Index of ideality of correlation</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-iic.R'><code>R/num-iic.R</code></a></small>
+    <div class="hidden name"><code>iic.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Calculate the mean absolute percentage error. This metric is in <em>relative
-units</em>.</p>
+    <p>Calculate the index of ideality of correlation. This metric has been
+studied in QSPR/QSAR models as a good criterion for the predictive
+potential of these models. It is highly dependent on the correlation
+coefficient as well as the mean absolute error.</p>
+<p>Note the application of IIC is useless under two conditions:</p><ul>
+<li><p>When the negative mean absolute error and positive mean absolute
+error are both zero.</p></li>
+<li><p>When the outliers are symmetric. Since outliers are context
+dependent, please use your own checks to validate whether this
+restriction holds and whether the resulting IIC has
+interpretative value.</p></li>
+</ul>
+
+<p>The IIC is seen as an alternative to the traditional correlation
+coefficient and is in the same units as the original data.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mape</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>iic</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>mape</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>iic</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'>mape_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>iic_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,35 +218,36 @@ values should be stripped before the computation proceeds.</p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>mape_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>iic_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Note that a value of <code>Inf</code> is returned for <code>mape()</code> when the
-observed value is negative.</p>
+    <p>Toropova, A. and Toropov, A. (2017). "The index of ideality
+of correlation. A criterion of predictability of QSAR models for skin
+permeability?" <em>Science of the Total Environment</em>. 586: 466-472.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other numeric metrics: <code><a href='ccc.html'>ccc</a></code>,
   <code><a href='huber_loss_pseudo.html'>huber_loss_pseudo</a></code>,
-  <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='iic.html'>iic</a></code>,
-  <code><a href='mae.html'>mae</a></code>, <code><a href='mase.html'>mase</a></code>,
+  <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='mae.html'>mae</a></code>,
+  <code><a href='mape.html'>mape</a></code>, <code><a href='mase.html'>mase</a></code>,
   <code><a href='rmse.html'>rmse</a></code>, <code><a href='rpd.html'>rpd</a></code>,
   <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq_trad.html'>rsq_trad</a></code>,
   <code><a href='rsq.html'>rsq</a></code>, <code><a href='smape.html'>smape</a></code></p>
 <p>Other accuracy metrics: <code><a href='ccc.html'>ccc</a></code>,
   <code><a href='huber_loss_pseudo.html'>huber_loss_pseudo</a></code>,
-  <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='iic.html'>iic</a></code>,
-  <code><a href='mae.html'>mae</a></code>, <code><a href='mase.html'>mase</a></code>,
+  <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='mae.html'>mae</a></code>,
+  <code><a href='mape.html'>mape</a></code>, <code><a href='mase.html'>mase</a></code>,
   <code><a href='rmse.html'>rmse</a></code>, <code><a href='smape.html'>smape</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'>mape</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'>iic</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   .metric .estimator .estimate
 #&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mape    standard         Inf</div><div class='input'>
+#&gt; 1 iic     standard       0.890</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1234</span>)
@@ -240,27 +267,27 @@ observed value is negative.</p>
 <span class='co'># Compute the metric by group</span>
 <span class='no'>metric_results</span> <span class='kw'>&lt;-</span> <span class='no'>solubility_resampled</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mape</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
+  <span class='fu'>iic</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
 
 <span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
 #&gt;    resample .metric .estimator .estimate
 #&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        mape    standard       Inf  
-#&gt;  2 10       mape    standard       Inf  
-#&gt;  3 2        mape    standard       Inf  
-#&gt;  4 3        mape    standard        28.5
-#&gt;  5 4        mape    standard        95.3
-#&gt;  6 5        mape    standard       Inf  
-#&gt;  7 6        mape    standard        73.1
-#&gt;  8 7        mape    standard       Inf  
-#&gt;  9 8        mape    standard       Inf  
-#&gt; 10 9        mape    standard        37.9</div><div class='input'>
+#&gt;  1 1        iic     standard       0.730
+#&gt;  2 10       iic     standard       0.731
+#&gt;  3 2        iic     standard       0.906
+#&gt;  4 3        iic     standard       0.877
+#&gt;  5 4        iic     standard       0.732
+#&gt;  6 5        iic     standard       0.821
+#&gt;  7 6        iic     standard       0.896
+#&gt;  8 7        iic     standard       0.867
+#&gt;  9 8        iic     standard       0.881
+#&gt; 10 9        iic     standard       0.748</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
-#&gt; 1          Inf</div></pre>
+#&gt; 1        0.819</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -269,7 +296,7 @@ observed value is negative.</p>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
@@ -277,7 +304,7 @@ observed value is negative.</p>
     </ul>
 
     <h2>Author</h2>
-    <p>Max Kuhn</p>
+    <p>Joyce Cahoon</p>
   </div>
 </div>
 

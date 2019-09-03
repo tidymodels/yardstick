@@ -58,6 +58,7 @@ tibble. See gain_curve() for a closely related concept." />
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -77,7 +78,7 @@ tibble. See gain_curve() for a closely related concept." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
         </div>
       </div>
     </div>
@@ -85,7 +86,7 @@ tibble. See gain_curve() for a closely related concept." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -115,7 +116,7 @@ tibble. See gain_curve() for a closely related concept." />
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,6 +127,7 @@ tibble. See gain_curve() for a closely related concept." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -148,8 +150,7 @@ tibble. See <code><a href='gain_curve.html'>gain_curve()</a></code> for a closel
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>lift_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='co'># S3 method for lift_df</span>
-<span class='fu'>autoplot</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>autoplot.lift_df</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,7 +209,9 @@ resamples). See the examples.</p>
     <h2 class="hasAnchor" id="gain-and-lift-curves"><a class="anchor" href="#gain-and-lift-curves"></a>Gain and Lift Curves</h2>
 
     
-    <p>The motivation behind cumulative gain and lift charts is as a visual method to
+
+
+<p>The motivation behind cumulative gain and lift charts is as a visual method to
 determine the effectiveness of a model when compared to the results one
 might expect without a model. As an example, without a model, if you were
 to advertise to a random 10% of your customer base, then you might expect
@@ -227,25 +230,31 @@ to construct the lift value. This ratio represents the factor of improvement
 over an uninformed model. Values &gt;1 represent a valuable model. This is the
 y-axis of the lift chart.</p></li>
 </ol>
+
     
     <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
 
     
-    <p>If a multiclass <code>truth</code> column is provided, a one-vs-all
+
+
+<p>If a multiclass <code>truth</code> column is provided, a one-vs-all
 approach will be taken to calculate multiple curves, one per level.
 In this case, there will be an additional column, <code>.level</code>,
 identifying the "one" column in the one-vs-all calculation.</p>
     
-    <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant level</h2>
+    <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
     
-    <p>There is no common convention on which factor level should
+
+
+<p>There is no common convention on which factor level should
 automatically be considered the "event" or "positive" result.
 In <code>yardstick</code>, the default is to use the <em>first</em> level. To
 change this, a global option called <code>yardstick.event_first</code> is
 set to <code>TRUE</code> when the package is loaded. This can be changed
-to <code>FALSE</code> if the last level of the factor is considered the
-level of interest. For multiclass extensions involving one-vs-all
+to <code>FALSE</code> if the <em>last</em> level of the factor is considered the
+level of interest by running: <code><a href='https://rdrr.io/r/base/options.html'>options(yardstick.event_first = FALSE)</a></code>.
+For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
     
@@ -256,10 +265,18 @@ the "one" level is always the relevant result.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
+    <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
+<span class='co'># Two class example</span>
 
-<span class='co'># Two class - a tibble is returned</span>
+<span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
+<span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
+<span class='co'># section above.</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>two_class_example</span>)
+
+<span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span>
+<span class='co'># and a single class probability column containing the probabilities of</span>
+<span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
+<span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
 <span class='fu'>lift_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 501 x 4
 #&gt;       .n .n_events .percent_tested  .lift
 #&gt;    &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;  &lt;dbl&gt;
@@ -274,6 +291,12 @@ the "one" level is always the relevant result.</p>
 #&gt;  9     8         8             1.6   1.94
 #&gt; 10     9         9             1.8   1.94
 #&gt; # … with 491 more rows</div><div class='input'>
+<span class='co'># ---------------------------------------------------------------------------</span>
+<span class='co'># `autoplot()`</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+
 <span class='co'># Use autoplot to visualize</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='fu'>lift_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>))</div><div class='img'><img src='lift_curve-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Multiclass one-vs-all approach</span>
@@ -302,7 +325,7 @@ the "one" level is always the relevant result.</p>
 
       <li><a href="#multiclass">Multiclass</a></li>
 
-      <li><a href="#relevant-level">Relevant level</a></li>
+      <li><a href="#relevant-level">Relevant Level</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
@@ -313,6 +336,7 @@ the "one" level is always the relevant result.</p>
     <p>Max Kuhn</p>
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -325,11 +349,14 @@ the "one" level is always the relevant result.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
