@@ -55,6 +55,7 @@
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -74,7 +75,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.4.9000</span>
         </div>
       </div>
     </div>
@@ -82,7 +83,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -112,7 +113,7 @@
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -123,6 +124,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -132,6 +134,47 @@
       <small>Source: <a href='https://github.com/tidymodels/yardstick/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="yardstick-development-version" class="section level1">
+<h1 class="page-header">
+<a href="#yardstick-development-version" class="anchor"></a>yardstick (development version)<small> Unreleased </small>
+</h1>
+</div>
+    <div id="yardstick-0-0-4" class="section level1">
+<h1 class="page-header">
+<a href="#yardstick-0-0-4" class="anchor"></a>yardstick 0.0.4<small> 2019-08-26 </small>
+</h1>
+<div id="new-metrics-and-functionality" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-metrics-and-functionality" class="anchor"></a>New metrics and functionality</h2>
+<ul>
+<li><p><code><a href="../reference/iic.html">iic()</a></code> is a new numeric metric for computing the index of ideality of correlation. It can be seen as a potential alternative to the traditional correlation coefficient, and has been used in QSAR models (<a href='https://github.com/jyuu'>@jyuu</a>, <a href='https://github.com/tidymodels/yardstick/issues/115'>#115</a>).</p></li>
+<li><p><code><a href="../reference/average_precision.html">average_precision()</a></code> is a new probability metric that can be used as an alternative to <code><a href="../reference/pr_auc.html">pr_auc()</a></code>. It has the benefit of avoiding any issues of ambiguity in the case where <code>recall == 0</code> and the current number of false positives is <code>0</code>.</p></li>
+</ul>
+</div>
+<div id="other-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-improvements" class="anchor"></a>Other improvements</h2>
+<ul>
+<li><p><code><a href="../reference/metric_set.html">metric_set()</a></code> output now includes a <code>metrics</code> attribute which contains a list of the original metric functions used to generate the metric set.</p></li>
+<li><p>Each metric function now has a <code>direction</code> attribute attached to it, specifying whether to minimize or maximize the metric.</p></li>
+<li><p>Classification metrics that can potentially have a <code>0</code> value denominator now throw an informative warning when this case occurs. These include <code><a href="../reference/recall.html">recall()</a></code>, <code><a href="../reference/precision.html">precision()</a></code>, <code><a href="../reference/sens.html">sens()</a></code>, and <code><a href="../reference/spec.html">spec()</a></code> (<a href='https://github.com/tidymodels/yardstick/issues/98'>#98</a>).</p></li>
+<li><p>The <code>autoplot()</code> method for <code><a href="../reference/pr_curve.html">pr_curve()</a></code> has been improved to always set the axis limits to <code><a href="https://rdrr.io/r/base/c.html">c(0, 1)</a></code>.</p></li>
+<li><p>All valid arguments to <code><a href="https://rdrr.io/pkg/pROC/man/roc.html">pROC::roc()</a></code> are now utilized, including those passed on to <code><a href="https://rdrr.io/pkg/pROC/man/auc.html">pROC::auc()</a></code>.</p></li>
+<li><p>Documentation for class probability metrics has been improved with more informative examples (<a href='https://github.com/rudeboybert'>@rudeboybert</a>, <a href='https://github.com/tidymodels/yardstick/issues/100'>#100</a>).</p></li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li><p><code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code> now uses the min/max rule before computing the log of the estimated probabilities to avoid problematic undefined log values (<a href='https://github.com/tidymodels/yardstick/issues/103'>#103</a>).</p></li>
+<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code> now places a <code>1</code> as the first precision value, rather than <code>NA</code>. While <code>NA</code> is technically correct as precision is undefined here, <code>1</code> is practically more correct because it generates a correct PR Curve graph and, more importantly, allows <code><a href="../reference/pr_auc.html">pr_auc()</a></code> to compute the correct AUC.</p></li>
+<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code> could generate the wrong results in the somewhat rare case when two class probability estimates were the same, but had different truth values.</p></li>
+<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code> (and subsequently <code><a href="../reference/pr_auc.html">pr_auc()</a></code>) now generates the correct curve when there are duplicate class probability values (reported by <a href='https://github.com/dariyasydykova'>@dariyasydykova</a>, <a href='https://github.com/tidymodels/yardstick/issues/93'>#93</a>).</p></li>
+<li><p>Binary <code><a href="../reference/mcc.html">mcc()</a></code> now avoids integer overflow when the confusion matrix elements are large (<a href='https://github.com/tidymodels/yardstick/issues/108'>#108</a>).</p></li>
+</ul>
+</div>
+</div>
     <div id="yardstick-0-0-3" class="section level1">
 <h1 class="page-header">
 <a href="#yardstick-0-0-3" class="anchor"></a>yardstick 0.0.3<small> 2019-03-08 </small>
@@ -159,10 +202,10 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
-<li><p>Tests related to the fixed R 3.6 <code><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample()</a></code> function have been fixed.</p></li>
+<li><p>Tests related to the fixed R 3.6 <code><a href="https://rdrr.io/r/base/sample.html">sample()</a></code> function have been fixed.</p></li>
 <li><p><code><a href="../reference/f_meas.html">f_meas()</a></code> propagates <code>NA</code> values from <code><a href="../reference/precision.html">precision()</a></code> and <code><a href="../reference/recall.html">recall()</a></code> correctly (<a href='https://github.com/tidymodels/yardstick/issues/77'>#77</a>).</p></li>
 <li><p>All <code>"micro"</code> estimators now propagate <code>NA</code> values through correctly.</p></li>
-<li><p><code><a href="../reference/roc_auc.html">roc_auc(estimator = "hand_till")</a></code> now correctly computes the metric when the column names of the probability matrix are not the exact same as the levels of <code>truth</code>. Note that the computation still assumes that the order of the supplied probability matrix columns still matches the order of <code><a href="https://www.rdocumentation.org/packages/base/topics/levels">levels(truth)</a></code>, like other multiclass metrics (<a href='https://github.com/tidymodels/yardstick/issues/86'>#86</a>).</p></li>
+<li><p><code><a href="../reference/roc_auc.html">roc_auc(estimator = "hand_till")</a></code> now correctly computes the metric when the column names of the probability matrix are not the exact same as the levels of <code>truth</code>. Note that the computation still assumes that the order of the supplied probability matrix columns still matches the order of <code><a href="https://rdrr.io/r/base/levels.html">levels(truth)</a></code>, like other multiclass metrics (<a href='https://github.com/tidymodels/yardstick/issues/86'>#86</a>).</p></li>
 </ul>
 </div>
 </div>
@@ -177,7 +220,7 @@
 <ul>
 <li><p>All metrics now return a tibble rather than a single numeric value. This format allows metrics to work with grouped data frames (for resamples). It also allows you to bundle multiple metrics together with a new function, <code><a href="../reference/metric_set.html">metric_set()</a></code>.</p></li>
 <li><p>For all class probability metrics, now only 1 column can be passed to <code>...</code> when a binary implementation is used. Those metrics will no longer select only the first column when multiple columns are supplied, and will instead throw an error.</p></li>
-<li><p>The <code><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary()</a></code> method for <code>conf_mat</code> objects now returns a tibble to be consistent with the change to the metric functions.</p></li>
+<li><p>The <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> method for <code>conf_mat</code> objects now returns a tibble to be consistent with the change to the metric functions.</p></li>
 <li><p>For naming consistency, <code>mnLogLoss()</code> was renamed to <code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code></p></li>
 <li><p><code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code> now returns the <strong>negative</strong> log loss for the multinomial distribution.</p></li>
 <li><p>The argument <code>na.rm</code> has been changed to <code>na_rm</code> in all metrics to align with the <code>tidymodels</code> model implementation principles.</p></li>
@@ -243,6 +286,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#yardstick-development-version">development version</a></li>
+        <li><a href="#yardstick-0-0-4">0.0.4</a></li>
         <li><a href="#yardstick-0-0-3">0.0.3</a></li>
         <li><a href="#yardstick-0-0-2">0.0.2</a></li>
         <li><a href="#yardstick-0-0-1">0.0.1</a></li>
@@ -251,6 +296,7 @@
   </div>
 
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -263,11 +309,14 @@
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

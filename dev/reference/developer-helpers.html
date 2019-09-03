@@ -59,6 +59,7 @@ more information." />
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -78,7 +79,7 @@ more information." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.4.9000</span>
         </div>
       </div>
     </div>
@@ -86,7 +87,7 @@ more information." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -116,7 +117,7 @@ more information." />
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -127,6 +128,7 @@ more information." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -194,7 +196,7 @@ Otherwise, there should be as many columns as factor levels of <code>truth</code
     <tr>
       <th>estimator_override</th>
       <td><p>A character vector overriding the default allowed
-estimator list of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("binary", "macro", "micro", "macro_weighted")</a></code>. Set
+estimator list of <code><a href='https://rdrr.io/r/base/c.html'>c("binary", "macro", "micro", "macro_weighted")</a></code>. Set
 this is your classification estimator does not support all of these methods.</p></td>
     </tr>
     </table>
@@ -202,14 +204,17 @@ this is your classification estimator does not support all of these methods.</p>
     <h2 class="hasAnchor" id="weight-calculation"><a class="anchor" href="#weight-calculation"></a>Weight Calculation</h2>
 
     
-    <p><code>get_weights()</code> accepts a confusion matrix and an <code>estimator</code> of type
+
+<p><code>get_weights()</code> accepts a confusion matrix and an <code>estimator</code> of type
 <code>"macro"</code>, <code>"micro"</code>, or <code>"macro_weighted"</code> and returns the correct weights.
 It is useful when creating multiclass metrics.</p>
     
     <h2 class="hasAnchor" id="estimator-selection"><a class="anchor" href="#estimator-selection"></a>Estimator Selection</h2>
 
     
-    <p><code>finalize_estimator()</code> is the engine for auto-selection of <code>estimator</code> based
+
+
+<p><code>finalize_estimator()</code> is the engine for auto-selection of <code>estimator</code> based
 on the type of <code>x</code>. Generally <code>x</code> is the <code>truth</code> column. This function
 is called from the vector method of your metric.</p>
 <p><code>finalize_estimator_internal()</code> is an S3 generic that you should extend for
@@ -225,7 +230,8 @@ type of <code>x</code> and return a single character for the <code>estimator</co
 <li><p>If <code>estimator</code> is not <code>NULL</code>, validate that it is an allowed <code>estimator</code>
 for your metric and return it.</p></li>
 </ol>
-    <p>If you are using the default for <code>finalize_estimator_internal()</code>, the
+
+<p>If you are using the default for <code>finalize_estimator_internal()</code>, the
 <code>estimator</code> is selected using the following heuristics:</p><ol>
 <li><p>If <code>estimator</code> is not <code>NULL</code>, it is validated and returned immediately
 as no auto-selection is needed.</p></li>
@@ -238,11 +244,14 @@ as no auto-selection is needed.</p></li>
 <li><p><code>matrix</code> - Then <code>"macro"</code> is returned.</p></li>
 </ul></li>
 </ol>
+
     
     <h2 class="hasAnchor" id="dots-gt-estimate"><a class="anchor" href="#dots-gt-estimate"></a>Dots -&gt; Estimate</h2>
 
     
-    <p><code>dots_to_estimate()</code> is useful with class probability metrics that take
+
+
+<p><code>dots_to_estimate()</code> is useful with class probability metrics that take
 <code>...</code> rather than <code>estimate</code> as an argument. It constructs either a single
 name if 1 input is provided to <code>...</code> or it constructs a quosure where the
 expression constructs a matrix of as many columns as are provided to <code>...</code>.
@@ -253,7 +262,8 @@ use in the underlying vector functions.</p>
     <h2 class="hasAnchor" id="estimator-validation"><a class="anchor" href="#estimator-validation"></a>Estimator Validation</h2>
 
     
-    <p><code>validate_estimator()</code> is called from your metric specific method of
+
+<p><code>validate_estimator()</code> is called from your metric specific method of
 <code>finalize_estimator_internal()</code> and ensures that a user provided estimator
 is of the right format and is one of the allowed values.</p>
     
@@ -282,6 +292,7 @@ is of the right format and is one of the allowed values.</p>
   </div>
 </div>
 
+
       <footer>
       <div class="tidyverse">
   <p>yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
@@ -293,11 +304,14 @@ is of the right format and is one of the allowed values.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

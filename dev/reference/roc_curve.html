@@ -58,6 +58,7 @@ tibble. See roc_auc() for the area under the ROC curve." />
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -77,7 +78,7 @@ tibble. See roc_auc() for the area under the ROC curve." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.4.9000</span>
         </div>
       </div>
     </div>
@@ -85,7 +86,7 @@ tibble. See roc_auc() for the area under the ROC curve." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -115,7 +116,7 @@ tibble. See roc_auc() for the area under the ROC curve." />
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,6 +127,7 @@ tibble. See roc_auc() for the area under the ROC curve." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -146,7 +148,7 @@ tibble. See <code><a href='roc_auc.html'>roc_auc()</a></code> for the area under
     <pre class="usage"><span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
+<span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
   <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='fu'>autoplot.roc_df</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
@@ -176,7 +178,7 @@ names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td
     </tr>
     <tr>
       <th>options</th>
-      <td><p>A <code>list</code> of named options to pass to <code><a href='https://www.rdocumentation.org/packages/pROC/topics/roc'>pROC::roc()</a></code>
+      <td><p>A <code>list</code> of named options to pass to <code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code>
 such as <code>direction</code> or <code>smooth</code>. These options should not include <code>response</code>,
 <code>predictor</code>, <code>levels</code>, or <code>quiet</code>.</p></td>
     </tr>
@@ -214,7 +216,9 @@ resamples). See the examples.</p>
     <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
 
     
-    <p>If a multiclass <code>truth</code> column is provided, a one-vs-all
+
+
+<p>If a multiclass <code>truth</code> column is provided, a one-vs-all
 approach will be taken to calculate multiple curves, one per level.
 In this case, there will be an additional column, <code>.level</code>,
 identifying the "one" column in the one-vs-all calculation.</p>
@@ -222,13 +226,15 @@ identifying the "one" column in the one-vs-all calculation.</p>
     <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
     
-    <p>There is no common convention on which factor level should
+
+
+<p>There is no common convention on which factor level should
 automatically be considered the "event" or "positive" result.
 In <code>yardstick</code>, the default is to use the <em>first</em> level. To
 change this, a global option called <code>yardstick.event_first</code> is
 set to <code>TRUE</code> when the package is loaded. This can be changed
 to <code>FALSE</code> if the <em>last</em> level of the factor is considered the
-level of interest by running: <code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options(yardstick.event_first = FALSE)</a></code>.
+level of interest by running: <code><a href='https://rdrr.io/r/base/options.html'>options(yardstick.event_first = FALSE)</a></code>.
 For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
@@ -247,7 +253,7 @@ the "one" level is always the relevant result.</p>
 <span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section above.</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>two_class_example</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>two_class_example</span>)
 
 <span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span>
 <span class='co'># and a single class probability column containing the probabilities of</span>
@@ -271,8 +277,8 @@ the "one" level is always the relevant result.</p>
 <span class='co'># `autoplot()`</span>
 
 <span class='co'># Visualize the curve using ggplot2 manually</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span> - <span class='no'>specificity</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>sensitivity</span>)) +
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_path</a></span>() +
@@ -281,7 +287,8 @@ the "one" level is always the relevant result.</p>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='roc_curve-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Or use autoplot</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>))</div><div class='img'><img src='roc_curve-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div><div class='input'>
+<span class='co'># \dontrun{</span>
+
 <span class='co'># Multiclass one-vs-all approach</span>
 <span class='co'># One curve per level</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
@@ -292,7 +299,8 @@ the "one" level is always the relevant result.</p>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>roc_curve</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()</div><div class='img'><img src='roc_curve-4.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()</div><div class='img'><img src='roc_curve-4.png' alt='' width='700' height='433' /></div><div class='input'># }
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -318,6 +326,7 @@ the "one" level is always the relevant result.</p>
   </div>
 </div>
 
+
       <footer>
       <div class="tidyverse">
   <p>yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
@@ -329,11 +338,14 @@ the "one" level is always the relevant result.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

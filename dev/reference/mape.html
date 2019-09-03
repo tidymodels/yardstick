@@ -58,6 +58,7 @@ units." />
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -77,7 +78,7 @@ units." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.4.9000</span>
         </div>
       </div>
     </div>
@@ -85,7 +86,7 @@ units." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -115,7 +116,7 @@ units." />
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,6 +127,7 @@ units." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -219,15 +221,15 @@ observed value is negative.</p>
 #&gt;   .metric .estimator .estimate
 #&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
 #&gt; 1 mape    standard         Inf</div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1234</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1234</span>)
 <span class='no'>size</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
 <span class='no'>times</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
 
 <span class='co'># create 10 resamples</span>
 <span class='no'>solubility_resampled</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>replicate</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span>(
     <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>times</span>,
     <span class='kw'>expr</span> <span class='kw'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample.html'>sample_n</a></span>(<span class='no'>solubility_test</span>, <span class='no'>size</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
     <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
@@ -255,7 +257,7 @@ observed value is negative.</p>
 #&gt; 10 9        mape    standard        37.9</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;   avg_estimate
 #&gt;          &lt;dbl&gt;
 #&gt; 1          Inf</div></pre>
@@ -279,6 +281,7 @@ observed value is negative.</p>
   </div>
 </div>
 
+
       <footer>
       <div class="tidyverse">
   <p>yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
@@ -290,11 +293,14 @@ observed value is negative.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

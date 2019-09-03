@@ -58,6 +58,7 @@ into a new function that calculates all of them at once." />
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -77,7 +78,7 @@ into a new function that calculates all of them at once." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.4.9000</span>
         </div>
       </div>
     </div>
@@ -85,7 +86,7 @@ into a new function that calculates all of them at once." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -115,7 +116,7 @@ into a new function that calculates all of them at once." />
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,6 +127,7 @@ into a new function that calculates all of them at once." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -160,7 +162,8 @@ into a new function that calculates all of them at once.</p>
 <li><p>Only numeric metrics</p></li>
 <li><p>A mix of class metrics or class prob metrics</p></li>
 </ul>
-    <p>For instance, <code><a href='rmse.html'>rmse()</a></code> can be used with <code><a href='mae.html'>mae()</a></code> because they
+
+<p>For instance, <code><a href='rmse.html'>rmse()</a></code> can be used with <code><a href='mae.html'>mae()</a></code> because they
 are numeric metrics, but not with <code><a href='accuracy.html'>accuracy()</a></code> because it is a classification
 metric. But <code><a href='accuracy.html'>accuracy()</a></code> can be used with <code><a href='roc_auc.html'>roc_auc()</a></code>.</p>
 <p>The returned metric function will have a different argument list
@@ -180,7 +183,7 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='co'># Multiple regression metrics</span>
 <span class='no'>multi_metric</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>rmse</span>, <span class='no'>rsq</span>, <span class='no'>ccc</span>)
@@ -242,8 +245,8 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
 
 <span class='co'># Add on the underlying function class (here, "numeric_metric"), and the</span>
 <span class='co'># direction to optimize the metric</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>ccc_with_bias</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>ccc</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>ccc_with_bias</span>, <span class='st'>"direction"</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>ccc</span>, <span class='st'>"direction"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>ccc_with_bias</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>ccc</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>ccc_with_bias</span>, <span class='st'>"direction"</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>ccc</span>, <span class='st'>"direction"</span>)
 
 <span class='no'>multi_metric2</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>rmse</span>, <span class='no'>rsq</span>, <span class='no'>ccc_with_bias</span>)
 
@@ -299,6 +302,7 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
   </div>
 </div>
 
+
       <footer>
       <div class="tidyverse">
   <p>yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
@@ -310,11 +314,14 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

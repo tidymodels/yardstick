@@ -58,6 +58,7 @@ true positive and false positive) divided by the total number of predictions." /
 
  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -77,7 +78,7 @@ true positive and false positive) divided by the total number of predictions." /
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.4.9000</span>
         </div>
       </div>
     </div>
@@ -85,7 +86,7 @@ true positive and false positive) divided by the total number of predictions." /
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -115,7 +116,7 @@ true positive and false positive) divided by the total number of predictions." /
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,6 +127,7 @@ true positive and false positive) divided by the total number of predictions." /
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -206,13 +208,15 @@ the number of groups.</p>
     <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
     
-    <p>There is no common convention on which factor level should
+
+
+<p>There is no common convention on which factor level should
 automatically be considered the "event" or "positive" result.
 In <code>yardstick</code>, the default is to use the <em>first</em> level. To
 change this, a global option called <code>yardstick.event_first</code> is
 set to <code>TRUE</code> when the package is loaded. This can be changed
 to <code>FALSE</code> if the <em>last</em> level of the factor is considered the
-level of interest by running: <code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options(yardstick.event_first = FALSE)</a></code>.
+level of interest by running: <code><a href='https://rdrr.io/r/base/options.html'>options(yardstick.event_first = FALSE)</a></code>.
 For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
@@ -220,7 +224,9 @@ the "one" level is always the relevant result.</p>
     <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
 
     
-    <p>Macro, micro, and macro-weighted averaging is available for this metric.
+
+
+<p>Macro, micro, and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a <code>truth</code> factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
@@ -237,14 +243,14 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"two_class_example"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
 <span class='fu'>detection_prevalence</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   .metric              .estimator .estimate
 #&gt;   &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
 #&gt; 1 detection_prevalence binary         0.554</div><div class='input'>
 <span class='co'># Multiclass</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>hpc_cv</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
 
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
@@ -287,8 +293,8 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
 <span class='co'># Vector version</span>
 <span class='fu'>detection_prevalence_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.554</div><div class='input'>
 <span class='co'># Making Class2 the "relevant" level</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'>detection_prevalence_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.446</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>detection_prevalence_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.446</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -311,6 +317,7 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
   </div>
 </div>
 
+
       <footer>
       <div class="tidyverse">
   <p>yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
@@ -322,11 +329,14 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
