@@ -6,16 +6,17 @@
 \alias{conf_mat.default}
 \alias{conf_mat.data.frame}
 \alias{tidy.conf_mat}
+\alias{autoplot.conf_mat}
 \title{Confusion Matrix for Categorical Data}
 \usage{
 conf_mat(data, ...)
 
-\method{conf_mat}{data.frame}(data, truth, estimate, dnn = c("Prediction",
-  "Truth"), ...)
-
-\method{conf_mat}{table}(data, ...)
+\method{conf_mat}{data.frame}(data, truth, estimate,
+  dnn = c("Prediction", "Truth"), ...)
 
 \method{tidy}{conf_mat}(x, ...)
+
+\method{autoplot}{conf_mat}(object, type = "mosaic", ...)
 }
 \arguments{
 \item{data}{A data frame or a \code{\link[base:table]{base::table()}}.}
@@ -25,52 +26,72 @@ conf_mat(data, ...)
 method.}
 
 \item{truth}{The column identifier for the true class results
-(that is a factor). This should an unquoted column name although
-this argument is passed by expression and support
+(that is a \code{factor}). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names or column positions).}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
-results (that is also factor). As with \code{truth} this can be
+results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name.}
+unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
-\item{dnn}{a character vector of dimnames for the table}
+\item{dnn}{A character vector of dimnames for the table.}
 
-\item{x}{A object of class \code{\link[=conf_mat]{conf_mat()}}.}
+\item{x}{A \code{conf_mat} object.}
+
+\item{object}{The \code{conf_mat} data frame returned from \code{conf_mat()}.}
+
+\item{type}{Type of plot desired, must be "mosaic" or "heatmap",
+defaults to "mosaic".}
 }
 \value{
-\code{conf_mat} produces a object with class \code{conf_mat}.
-This contains the table and other objects. \code{tidy.conf_mat}
-generates a tibble with columns \code{name} (the cell identifier) and
-\code{value} (the cell count).
+\code{conf_mat()} produces an object with class \code{conf_mat}. This contains the
+table and other objects. \code{tidy.conf_mat()} generates a tibble with columns
+\code{name} (the cell identifier) and \code{value} (the cell count).
+
+When used on a grouped data frame, \code{conf_mat()} returns a tibble containing
+columns for the groups along with \code{conf_mat}, a list-column
+where each element is a \code{conf_mat} object.
 }
 \description{
-Calculates a cross-tabulation of observed and predicted
-classes.
-
-For \code{\link[=conf_mat]{conf_mat()}} objects, the \code{tidy} method collapses the cell
-counts by cell into a data frame for each manipulation.
+Calculates a cross-tabulation of observed and predicted classes.
 }
 \details{
-The function requires that the factors have exactly the same
-levels.
+For \code{\link[=conf_mat]{conf_mat()}} objects, a \code{broom} \code{tidy()} method has been created
+that collapses the cell counts by cell into a data frame for
+easy manipulation.
+
+There is also a \code{summary()} method that computes various classification
+metrics at once. See \code{\link[=summary.conf_mat]{summary.conf_mat()}}
+
+There is a \code{\link[ggplot2:autoplot]{ggplot2::autoplot()}}
+method for quickly visualizing the matrix. Both a heatmap and mosaic type
+is implemented.
+
+The function requires that the factors have exactly the same levels.
 }
 \examples{
 library(dplyr)
 data("hpc_cv")
 
 # The confusion matrix from a single assessment set (i.e. fold)
-hpc_cv \%>\%
+cm <- hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
   conf_mat(obs, pred)
+cm
 
 # Now compute the average confusion matrix across all folds in
-# terms of the proportion of the data contained in each cell. 
+# terms of the proportion of the data contained in each cell.
 # First get the raw cell counts per fold using the `tidy` method
+library(purrr)
+library(tidyr)
+
 cells_per_resample <- hpc_cv \%>\%
   group_by(Resample) \%>\%
-  do(tidy(conf_mat(., obs, pred)))
+  conf_mat(obs, pred) \%>\%
+  mutate(tidied = map(conf_mat, tidy)) \%>\%
+  unnest(tidied)
 
 # Get the totals per resample
 counts_per_resample <- hpc_cv \%>\%
@@ -81,7 +102,7 @@ counts_per_resample <- hpc_cv \%>\%
   mutate(prop = value/total) \%>\%
   group_by(name) \%>\%
   # Average
-  summarize(prop = mean(prop)) 
+  summarize(prop = mean(prop))
 
 counts_per_resample
 
@@ -91,4 +112,15 @@ rownames(mean_cmat) <- levels(hpc_cv$obs)
 colnames(mean_cmat) <- levels(hpc_cv$obs)
 
 round(mean_cmat, 3)
+
+# The confusion matrix can quickly be visualized using autoplot()
+library(ggplot2)
+
+autoplot(cm, type = "mosaic")
+autoplot(cm, type = "heatmap")
+
+}
+\seealso{
+\code{\link[=summary.conf_mat]{summary.conf_mat()}} for computing a large number of metrics from one
+confusion matrix.
 }

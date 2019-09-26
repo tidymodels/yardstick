@@ -2,12 +2,13 @@
 % Please edit documentation in R/concordance.R
 \name{concordance}
 \alias{concordance}
-\alias{concordance.Surv}
+\alias{concordance.data.frame}
 \title{Calculate concordance, censoring-adjusted concordance and censoring-adjusted AUC for survival models}
 \usage{
 concordance(data, ...)
 
-\method{concordance}{Surv}(x, y, invert = FALSE, training = NULL, ...)
+\method{concordance}{data.frame}(data, truth, estimate, training = NULL,
+  invert = FALSE, na.rm = TRUE, ...)
 }
 \arguments{
 \item{data}{For the default functions, a factor containing the
@@ -16,15 +17,6 @@ functions, a table or matrix object, respectively, where the
 true class results should be in the columns of the table.}
 
 \item{...}{Not currently used.}
-
-\item{invert}{A logical value, which controls whether or not the ordering of
-the "estimate" column is inverted before concordance or AUC is calculated.
-Importantly, this should be set to TRUE for predictions of hazard,
-and FALSE for predictions of survival time.}
-
-\item{training}{Surv object corresponding to the data used to train the
-model use to generate the predictions. Used to adjust the concordance
-statistic for the amount of censoring in the training data.}
 
 \item{truth}{The column identifier for the true class results
 (that is a Surv object). This should an unquoted column name although
@@ -36,6 +28,15 @@ names or column positions).}
 survival time (that is numeric). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name.}
+
+\item{training}{Surv object corresponding to the data used to train the
+model use to generate the predictions. Used to adjust the concordance
+statistic for the amount of censoring in the training data.}
+
+\item{invert}{A logical value, which controls whether or not the ordering of
+the "estimate" column is inverted before concordance or AUC is calculated.
+Importantly, this should be set to TRUE for predictions of hazard,
+and FALSE for predictions of survival time.}
 
 \item{na.rm}{A logical value indicating whether \code{NA}
 values should be stripped before the computation proceeds}

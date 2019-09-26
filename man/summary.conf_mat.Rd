@@ -5,7 +5,7 @@
 \title{Summary Statistics for Confusion Matrices}
 \usage{
 \method{summary}{conf_mat}(object, prevalence = NULL, beta = 1,
-  wide = FALSE, ...)
+  estimator = NULL, ...)
 }
 \arguments{
 \item{object}{An object of class \code{\link[=conf_mat]{conf_mat()}}.}
@@ -17,48 +17,65 @@ to derive this value.}
 \item{beta}{A numeric value used to weight precision and
 recall for \code{\link[=f_meas]{f_meas()}}.}
 
-\item{wide}{A single logical value: should there be one row and
-columns for each statistic (\code{wide = TRUE}) or a column for the
-statistic name (\code{name}) and the estimate (\code{value}).}
+\item{estimator}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
+or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
+only relevant for the two class case. The other three are general methods for
+calculating multiclass metrics. The default will automatically choose \code{"binary"}
+or \code{"macro"} based on \code{estimate}.}
 
 \item{...}{Not currently used.}
 }
 \value{
-A tibble. Note that if the argument \code{prevalence} was
-used, the value reported in the tibble reflects the argument
-value and not the observed rate of events.
+A tibble containing various classification metrics.
 }
 \description{
 Various statistical summaries of confusion matrices are
-produced and returned in a easily used format. These potentially
-include those shown in the help pages for \code{\link[=sens]{sens()}}, \code{\link[=recall]{recall()}},
-and \code{\link[=accuracy]{accuracy()}}.
+produced and returned in a tibble. These include those shown in the help
+pages for \code{\link[=sens]{sens()}}, \code{\link[=recall]{recall()}}, and \code{\link[=accuracy]{accuracy()}}, among others.
 }
-\details{
+\section{Relevant Level}{
+
+
 There is no common convention on which factor level should
-automatically be considered the "event" or "positive" results.
+automatically be considered the "event" or "positive" result.
 In \code{yardstick}, the default is to use the \emph{first} level. To
 change this, a global option called \code{yardstick.event_first} is
 set to \code{TRUE} when the package is loaded. This can be changed
-to \code{FALSE} if the last level of the factor is considered the
-level of interest.
+to \code{FALSE} if the \emph{last} level of the factor is considered the
+level of interest by running: \code{options(yardstick.event_first = FALSE)}.
+For multiclass extensions involving one-vs-all
+comparisons (such as macro averaging), this option is ignored and
+the "one" level is always the relevant result.
 }
+
 \examples{
 data("two_class_example")
 
 cmat <- conf_mat(two_class_example, truth = "truth", estimate = "predicted")
-summary(cmat, wide = TRUE)
-summary(cmat, wide = TRUE, prevalence = 0.70)
+summary(cmat)
+summary(cmat, prevalence = 0.70)
 
 library(dplyr)
+library(purrr)
+library(tidyr)
 data("hpc_cv")
 
 # Compute statistics per resample then summarize
-hpc_cv \%>\%
+all_metrics <- hpc_cv \%>\%
   group_by(Resample) \%>\%
-  do(summary(conf_mat(., truth = "obs", estimate = "pred"))) \%>\%
-  group_by(name) \%>\%
-  summarize(mean = mean(value, na.rm = TRUE),
-            sd = sd(value, na.rm = TRUE))
-            
+  conf_mat(obs, pred) \%>\%
+  mutate(summary_tbl = map(conf_mat, summary)) \%>\%
+  unnest(summary_tbl)
+
+all_metrics \%>\%
+  group_by(.metric) \%>\%
+  summarise(
+    mean = mean(.estimate, na.rm = TRUE),
+    sd = sd(.estimate, na.rm = TRUE)
+  )
+
+
+}
+\seealso{
+\code{\link[=conf_mat]{conf_mat()}}
 }

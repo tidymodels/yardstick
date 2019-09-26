@@ -5,12 +5,24 @@
 language: r
 sudo: false
 cache: packages
-warnings_are_errors: false
-r:
-  - release
 
-r_packages: 
-  - covr
- 
-after_success:
-- Rscript -e 'covr::codecov()'
+matrix:
+  include:
+  - r: devel
+  - r: release
+    after_success:
+    - Rscript -e 'covr::codecov()'
+    before_cache:
+    - Rscript -e 'remotes::install_cran("pkgdown")'
+    - Rscript -e 'remotes::install_github("tidyverse/tidytemplate")'
+    deploy:
+      provider: script
+      script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE, run_dont_run = TRUE)'
+      skip_cleanup: true
+  - r: oldrel
+  - r: 3.2
+
+# To prevent "unable to verify current time" on travis R-devel
+env:
+  global:
+  - _R_CHECK_SYSTEM_CLOCK_=FALSE

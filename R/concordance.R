@@ -79,15 +79,20 @@
 #'
 #' # But what if we think that Class 1 only occurs 40% of the time?
 #' ppv(two_class_example, truth, predicted, prevalence = 0.40)
-#' @export concordance
+#' @export
 concordance <- function(data, ...)
   UseMethod("concordance")
 
 #' @export
-#' @rdname sens
-concordance.data.frame <- function(data, truth,
-      estimate,
-      training = NULL, invert = FALSE, na.rm = TRUE, ...) {
+#' @rdname concordance
+concordance.data.frame <- function(data,
+                                   truth,
+                                   estimate,
+                                   training = NULL,
+                                   invert = FALSE,
+                                   na.rm = TRUE,
+                                   ...) {
+
   vars <- surv_select(
     data = data,
     truth = !!enquo(truth),
@@ -96,18 +101,21 @@ concordance.data.frame <- function(data, truth,
     ...
   )
   if (na.rm) {
-    ind_na <- sapply(seq_len(nrow(data)), function(i) {
-      any(is.na(as.vector(data[c(vars$truth, vars$estimate)])))
-    })
+    ind_na <- sapply(seq_len(nrow(data)),
+      function(i) {
+        any(is.na(as.vector(data[i, c(vars$truth, vars$estimate)])))
+      },
+      FUN.VALUE = logical(1)
+    )
     data <- data[!ind_na, ]
   }
-  concordance(data[[vars$truth]], data[[vars$estimate]],
-    training = training,
-    invert = invert,
-    ...)
+  concordance(data[[vars$truth]], 
+              data[[vars$estimate]],
+              training = training,
+              invert = invert,
+              ...)
 }
 
-#' @rdname concordance
 #' @export
 concordance.Surv <- function(x, y, invert = FALSE, training = NULL, ...) {
   if (invert) {
@@ -123,13 +131,21 @@ concordance.Surv <- function(x, y, invert = FALSE, training = NULL, ...) {
   }
 }
 
+#' Implements Uno's AUC.
+#' 
 #' @export
-auc <- function(data, ...)
+surv_auc <- function(data, ...)
   UseMethod("auc")
 
 #' @export
-auc.data.frame <- function(data, truth, estimate,
-    invert = FALSE, training = NULL, times, na.rm = TRUE, ...) {
+surv_auc.data.frame <- function(data,
+                                truth,
+                                estimate,
+                                invert = FALSE,
+                                training = NULL,
+                                times,
+                                na.rm = TRUE,
+                                ...) {
 
   vars <- surv_select(
     data = data,
@@ -139,26 +155,30 @@ auc.data.frame <- function(data, truth, estimate,
     ...
   )
   if (na.rm) {
-    ind_na <- sapply(seq_len(nrow(data)), function(i) {
-      any(is.na(as.vector(data[c(vars$truth, vars$estimate)])))
-    })
+    ind_na <- vapply(seq_len(nrow(data)),
+      function(i) {
+        any(is.na(as.vector(data[i, c(vars$truth, vars$estimate)])))
+      },
+      FUN.VALUE = logical(1)
+    )
     data <- data[!ind_na, ]
   }
-  auc(data[[vars$truth]],
-    data[[vars$estimate]],
-    training = training,
-    times = times,
-    invert = invert,
-    ...)
+  surv_auc(data[[vars$truth]],
+      data[[vars$estimate]],
+      training = training,
+      times = times,
+      invert = invert,
+      ...)
 }
 
 #' @export
-auc.Surv <- function(x, y, training, times, invert, ...) {
+surv_auc.Surv <- function(x, y, training, times, invert, ...) {
   if (invert) {
     y <- -y
   }
-  if (!inherits(training, "Surv"))
+  if (!inherits(training, "Surv")) {
     stop("training must be a Surv object")
+  }
 
   data.frame(times, auc = survAUC::AUC.uno(training, x, y, times)$iauc)
 }

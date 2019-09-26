@@ -3,7 +3,7 @@
 \docType{data}
 \name{hpc_cv}
 \alias{hpc_cv}
-\title{Class Probability Predictions}
+\title{Multiclass Probability Predictions}
 \source{
 Kuhn, M., Johnson, K. (2013) \emph{Applied Predictive
 Modeling}, Springer
@@ -12,7 +12,7 @@ Modeling}, Springer
 \item{hpc_cv}{a data frame}
 }
 \description{
-Class Probability Predictions
+Multiclass Probability Predictions
 }
 \details{
 This data frame contains the predicted classes and
@@ -27,5 +27,11 @@ the resample indicator is included.
 \examples{
 data(hpc_cv)
 str(hpc_cv)
+
+# `obs` is a 4 level factor. The first level is `"VF"`, which is the
+# "event of interest" by default in yardstick. See the Relevant Level
+# section in any classification function (such as `?pr_auc`) to see how
+# to change this.
+levels(hpc_cv$obs)
 }
 \keyword{datasets}

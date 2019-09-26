@@ -1,10 +1,14 @@
-# `yardstick`
+---
+output: github_document
+---
 
-[![Build Status](https://travis-ci.org/topepo/yardstick.svg?branch=master)](https://travis-ci.org/topepo/yardstick)
-[![Coverage Status](https://img.shields.io/codecov/c/github/topepo/yardstick/master.svg)](https://codecov.io/github/topepo/yardstick?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yardstick)](https://cran.rstudio.com/web/packages/yardstick/index.html)
-[![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](http://cran.rstudio.com/package=yardstick)
-![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
 
 ```{r load, include = FALSE, message = FALSE, warning = FALSE}
 library(yardstick)
@@ -12,9 +16,32 @@ library(dplyr)
 options(width = 100, digits = 3)
 ```
 
-`yardstick` is a package to estimate how well models are working using [tidy data](https://www.jstatsoft.org/article/view/v059i10) principals. The package webpage is [`https://topepo.github.io/yardstick/`](https://topepo.github.io/yardstick/) for more information.
+# yardstick <img src="man/figures/logo.png" align="right"/> 
 
-For example, suppose you create a classification model and predict a data set. You might have data that look like this:
+[![Build Status](https://travis-ci.org/tidymodels/yardstick.svg?branch=master)](https://travis-ci.org/tidymodels/yardstick)
+[![Coverage Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)](https://codecov.io/github/tidymodels/yardstick?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yardstick)](https://CRAN.R-project.org/package=yardstick)
+[![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](https://CRAN.R-project.org/package=yardstick)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+
+## Overview
+
+`yardstick` is a package to estimate how well models are working using [tidy data](https://www.jstatsoft.org/article/view/v059i10) principles. See the [package webpage](https://tidymodels.github.io/yardstick/) for more information.
+
+## Installation
+
+To install the package:
+
+```{r install, eval = FALSE}
+install.packages("yardstick")
+
+# Development version:
+devtools::install_github("tidymodels/yardstick")
+```
+
+## Two class metric
+
+For example, suppose you create a classification model and predict on a new data set. You might have data that looks like this:
 
 ```{r class-data}
 library(yardstick)
@@ -30,26 +57,67 @@ metrics(two_class_example, truth, predicted)
 
 # or 
 
-two_class_example %>% roc_auc(truth, Class1)
+two_class_example %>% 
+  roc_auc(truth, Class1)
 ```
 
-[Quasiquotation](http://rlang.tidyverse.org/reference/quasiquotation.html) can also be used:
+## Multiclass metrics
+
+All classification metrics have at least one multiclass extension, with many
+of them having multiple ways to calculate multiclass metrics.
+
+```{r}
+data("hpc_cv")
+hpc_cv <- as_tibble(hpc_cv)
+hpc_cv
+```
+
+```{r}
+# Macro averaged multiclass precision
+precision(hpc_cv, obs, pred)
+
+# Micro averaged multiclass precision
+precision(hpc_cv, obs, pred, estimator = "micro")
+```
+
+## Calculating metrics on resamples
+
+If you have multiple resamples of a model, you can use a metric on a grouped
+data frame to calculate the metric across all resamples at once.
+
+This calculates multiclass ROC AUC using the method described in Hand, Till (2001),
+and does it across all 10 resamples at once.
+
+```{r}
+hpc_cv %>%
+  group_by(Resample) %>%
+  roc_auc(obs, VF:L)
+```
+
+## Autoplot methods for easy visualization
+
+Curve based methods such as `roc_curve()`, `pr_curve()` and `gain_curve()` all
+have `ggplot2::autoplot()` methods that allow for powerful and easy visualization.
+
+```{r roc-curves}
+library(ggplot2)
+
+hpc_cv %>%
+  group_by(Resample) %>%
+  roc_curve(obs, VF:L) %>%
+  autoplot()
+```
+
+
+## Quasiquotation
+
+[Quasiquotation](https://rlang.r-lib.org/reference/quasiquotation.html) can also be used
+to supply inputs.
 
 ```{r quasi}
 # probability columns:
 lvl <- levels(two_class_example$truth)
 
-two_class_example %>% mnLogLoss(truth, !! lvl)
-```
-
-## Installation
-
-To install the package:
-
-```{r install, eval = FALSE}
-install.packages("yardstick")
-
-## for development version:
-require("devtools")
-install_github("topepo/yardstick")
+two_class_example %>% 
+  mn_log_loss(truth, !! lvl[1])
 ```

@@ -1,12 +1,18 @@
 template:
+  package: tidytemplate
   params:
-    bootswatch: united
+    part_of: <a href="https://github.com/tidymodels">tidymodels</a>
+    footer: yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
+
+development:
+  mode: auto
+
+home:
+  strip_header: true
 
 reference:
   - title: Classification Metrics
     contents:
-    - metrics
-    - conf_mat
     - sens
     - spec
     - recall
@@ -15,25 +21,61 @@ reference:
     - j_index
     - f_meas
     - accuracy
+    - kap
     - ppv
     - npv
-    - mnLogLoss
+    - bal_accuracy
+    - detection_prevalence
+
+  - title: Class Probability Metrics
+    contents:
     - roc_auc
     - pr_auc
+    - average_precision
+    - gain_capture
+    - mn_log_loss
+
   - title: Regression Metrics
     contents:
     - rmse
     - rsq
     - rsq_trad
     - mae
+    - mape
+    - smape
+    - mase
     - ccc
+    - rpiq
+    - rpd
+    - huber_loss
+    - huber_loss_pseudo
+    - iic
+
+  - title: Curve Functions
+    contents:
+    - roc_curve
+    - pr_curve
+    - gain_curve
+    - lift_curve
+
   - title: Other Functions
     contents:
-    - matches("tidy")  
+    - metrics
+    - metric_set
+    - conf_mat
+    - summary.conf_mat
+    - matches("tidy")
 
-navbar:
-  left:
-  - text: Reference
-    href: reference/index.html
-  - text: News
-    href: news/index.html
+  - title: Development Functions
+    contents:
+    - metric_summarizer
+    - metric_vec_template
+    - get_weights
+
+  - title: Data Sets
+    contents:
+    - hpc_cv
+    - pathology
+    - solubility_test
+    - two_class_example
+

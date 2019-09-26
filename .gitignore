@@ -1,5 +1,7 @@
+inst/doc
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-Makefile
+.DS_Store
+docs
