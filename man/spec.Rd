@@ -149,10 +149,10 @@ vol 308, 1552.
 Other class metrics: \code{\link{accuracy}},
   \code{\link{bal_accuracy}},
   \code{\link{detection_prevalence}}, \code{\link{f_meas}},
-  \code{\link{j_index}}, \code{\link{kap}},
-  \code{\link{mcc}}, \code{\link{npv}}, \code{\link{ppv}},
-  \code{\link{precision}}, \code{\link{recall}},
-  \code{\link{sens}}
+  \code{\link{j_index}}, \code{\link{kap_weighted}},
+  \code{\link{kap}}, \code{\link{mcc}}, \code{\link{npv}},
+  \code{\link{ppv}}, \code{\link{precision}},
+  \code{\link{recall}}, \code{\link{sens}}
 
 Other sensitivity metrics: \code{\link{npv}},
   \code{\link{ppv}}, \code{\link{sens}}

@@ -148,8 +148,8 @@ predictive values,'' \emph{British Medical Journal}, vol 309,
 Other class metrics: \code{\link{accuracy}},
   \code{\link{bal_accuracy}},
   \code{\link{detection_prevalence}}, \code{\link{f_meas}},
-  \code{\link{j_index}}, \code{\link{kap}},
-  \code{\link{mcc}}, \code{\link{ppv}},
+  \code{\link{j_index}}, \code{\link{kap_weighted}},
+  \code{\link{kap}}, \code{\link{mcc}}, \code{\link{ppv}},
   \code{\link{precision}}, \code{\link{recall}},
   \code{\link{sens}}, \code{\link{spec}}
 

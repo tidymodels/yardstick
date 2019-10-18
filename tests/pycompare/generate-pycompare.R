@@ -49,14 +49,27 @@ py_kap <- list(
 saveRDS(py_kap, "tests/pycompare/py-kap")
 
 # Kappa weighted
+
+# We can't send ordered factors into sklean (!), so this was effectively
+# generating random numbers at first. Tweaking to use as.integer of the factors
+# for true comparison.
+truth <- factor(
+  hpc_cv$pred, levels = levels(hpc_cv$pred), ordered = TRUE
+)
+estimate <- factor(
+  hpc_cv$obs, levels = levels(truth), ordered = TRUE
+)
+truth <- as.integer(truth)
+estimate <- as.integer(estimate)
+
 py_kap_weighted_linear <- list(
   binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, weights = "linear"),
-  multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, weights = "linear")
+  multiclass = skmetrics$cohen_kappa_score(truth, estimate, weights = "linear")
 )
 saveRDS(py_kap_weighted_linear, "tests/pycompare/py-kap-weighted-linear")
 
 py_kap_weighted_quadratic <- list(
   binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, weights = "quadratic"),
-  multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, weights = "quadratic")
+  multiclass = skmetrics$cohen_kappa_score(truth, estimate, weights = "quadratic")
 )
 saveRDS(py_kap_weighted_quadratic, "tests/pycompare/py-kap-weighted-quadratic")

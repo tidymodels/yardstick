@@ -154,10 +154,10 @@ Technical Report SIE-07-001, Flinders University
 Other class metrics: \code{\link{accuracy}},
   \code{\link{bal_accuracy}},
   \code{\link{detection_prevalence}}, \code{\link{f_meas}},
-  \code{\link{j_index}}, \code{\link{kap}},
-  \code{\link{mcc}}, \code{\link{npv}}, \code{\link{ppv}},
-  \code{\link{precision}}, \code{\link{sens}},
-  \code{\link{spec}}
+  \code{\link{j_index}}, \code{\link{kap_weighted}},
+  \code{\link{kap}}, \code{\link{mcc}}, \code{\link{npv}},
+  \code{\link{ppv}}, \code{\link{precision}},
+  \code{\link{sens}}, \code{\link{spec}}
 
 Other relevance metrics: \code{\link{f_meas}},
   \code{\link{precision}}
