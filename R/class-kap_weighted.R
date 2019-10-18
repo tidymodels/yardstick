@@ -91,7 +91,7 @@ kap_weighted_vec <- function(truth, estimate, weight = "linear", na_rm = TRUE,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
-    cls = c("ordered", "factor"),
+    cls = "ordered",
     weight = weight,
     ...
   )
