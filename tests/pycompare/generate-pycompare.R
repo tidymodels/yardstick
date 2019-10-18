@@ -48,3 +48,15 @@ py_kap <- list(
 )
 saveRDS(py_kap, "tests/pycompare/py-kap")
 
+# Kappa weighted
+py_kap_weighted_linear <- list(
+  binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, weights = "linear"),
+  multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, weights = "linear")
+)
+saveRDS(py_kap_weighted_linear, "tests/pycompare/py-kap-weighted-linear")
+
+py_kap_weighted_quadratic <- list(
+  binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, weights = "quadratic"),
+  multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, weights = "quadratic")
+)
+saveRDS(py_kap_weighted_quadratic, "tests/pycompare/py-kap-weighted-quadratic")
