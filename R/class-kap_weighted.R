@@ -22,7 +22,7 @@
 #'   provision for scaled disagreement or partial credit". _Psychological
 #'   Bulletin_. 70 (4): 213-220.
 #'
-#' @template examples-class
+#' @template examples-class-ordered
 #'
 #' @export
 kap_weighted <- function(data, ...) {
@@ -120,7 +120,6 @@ kap_weighted_binary <- function(data, weight) {
          "linear, quadratic", call. = FALSE)
   }
 
-  weight_power <- ifelse(weight == "linear", 1L, 2L)
   weight_matrix <- abs(outer(1:n_class, 1:n_class, "-"))^weight_power
 
   expected_matrix <- outer(.row_sums, .col_sums)/n

@@ -59,11 +59,23 @@ macro and micro averaging are not implemented.
 \examples{
 # Two class
 data("two_class_example")
+two_class_example$truth <- factor(
+  two_class_example$truth, levels(two_class_example$truth), ordered = TRUE
+)
+two_class_example$predicted <- factor(
+  two_class_example$predicted, levels(two_class_example$truth), ordered = TRUE
+)
 kap_weighted(two_class_example, truth, predicted)
 
 # Multiclass
 library(dplyr)
 data(hpc_cv)
+hpc_cv$obs <- factor(
+  hpc_cv$obs, levels(hpc_cv$obs), ordered = TRUE
+)
+hpc_cv$pred <- factor(
+  hpc_cv$pred, levels(hpc_cv$obs), ordered = TRUE
+)
 
 hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
