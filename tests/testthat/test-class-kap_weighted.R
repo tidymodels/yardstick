@@ -7,6 +7,7 @@ three_class_tb <- lst$three_class_tb
 # Fail for things other than ordered factors. -----------------------------
 
 test_that('Truth unordered', {
+  weight <- "linear"
   expect_error(
     kap_weighted(
       three_class, truth = "obs", estimate = "pred", weight = weight
@@ -20,6 +21,7 @@ three_class$pred <- factor(
 )
 
 test_that('Estimate unordered', {
+  weight <- "linear"
   expect_error(
     kap_weighted(
       three_class, truth = "pred", estimate = "obs", weight = weight
