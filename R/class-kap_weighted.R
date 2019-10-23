@@ -15,6 +15,8 @@
 #'   macro and micro averaging are not implemented.
 #'
 #' @inheritParams sens
+#' @param weight Whether to weight the kappa "linear" or "quadratic". If being
+#'   far away is extremely bad, use "quadratic".
 #'
 #' @author Jon Harmon
 #'
