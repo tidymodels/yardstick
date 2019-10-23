@@ -31,6 +31,9 @@ results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
+\item{weight}{Whether to weight the kappa "linear" or "quadratic". If being
+far away is extremely bad, use "quadratic".}
+
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 }
