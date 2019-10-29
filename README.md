@@ -8,6 +8,8 @@ Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![R build
+status](https://github.com/tidymodels/yardstick/workflows/R/badge.svg)](https://github.com/tidymodels/yardstick/actions?workflow=R)
 
 ## Overview
 
@@ -148,6 +150,8 @@ hpc_cv %>%
   group_by(Resample) %>%
   roc_curve(obs, VF:L) %>%
   autoplot()
+#> Warning: Row indexes must be between 0 and the number of rows (0). Use `NA` as row index to obtain a row full of `NA` values.
+#> This warning is displayed once per session.
 ```
 
 ![](man/figures/README-roc-curves-1.png)<!-- -->

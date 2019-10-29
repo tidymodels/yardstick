@@ -13,3 +13,5 @@ contributors.md
 .github
 ^pkgdown$
 ^man-roxygen$
+^\.github/workflows/R\.yaml$
+^\.github/workflows/pr-commands\.yaml$
