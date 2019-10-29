@@ -6,25 +6,26 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Custom metrics • yardstick</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../tidyverse.css" rel="stylesheet">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../tidyverse-2.css" rel="stylesheet">
 <meta property="og:title" content="Custom metrics">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
-<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- google analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script><script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
-
- gtag('config', 'UA-115082821-1');
-</script>
+<![endif]-->
 </head>
 <body>
     <div class="container template-article">
@@ -100,7 +101,7 @@
       <h1>Custom metrics</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2019-09-03</h4>
+            <h4 class="date">2019-10-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/custom-metrics.Rmd"><code>vignettes/custom-metrics.Rmd</code></a></small>
       <div class="hidden name"><code>custom-metrics.Rmd</code></div>
@@ -169,10 +170,10 @@
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; [1] 0.5214438</span></a></code></pre></div>
 <p>Intelligent error handling is immediately available.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">mse_vec</span>(<span class="dt">truth =</span> <span class="st">"apple"</span>, <span class="dt">estimate =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; `truth` should be a numeric but a character was supplied.</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Error: `truth` should be a numeric but a character was supplied.</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">mse_vec</span>(<span class="dt">truth =</span> <span class="dv">1</span>, <span class="dt">estimate =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="st">"xyz"</span>))</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; `estimate` should be a numeric but a factor was supplied.</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Error: `estimate` should be a numeric but a factor was supplied.</span></a></code></pre></div>
 <p><code>NA</code> values are removed if <code>na_rm = TRUE</code> (the default). If <code>na_rm = FALSE</code> and any <code>NA</code> values are detected, then the metric automatically returns <code>NA</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># NA values removed</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">mse_vec</span>(<span class="dt">truth =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">NA</span>, <span class="fl">.5</span>, <span class="fl">.4</span>), <span class="dt">estimate =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="fl">.6</span>, <span class="fl">.5</span>))</a>
@@ -214,7 +215,7 @@
 <a class="sourceLine" id="cb7-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co"># Error handling</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw">mse</span>(solubility_test, <span class="dt">truth =</span> solubility, <span class="dt">estimate =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="st">"xyz"</span>))</a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; `estimate` should be a numeric but a factor was supplied.</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; Error: `estimate` should be a numeric but a factor was supplied.</span></a></code></pre></div>
 <p>Let’s test it out on a grouped data frame.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"></a>
@@ -364,7 +365,7 @@
 <a class="sourceLine" id="cb12-49" data-line-number="49"></a>
 <a class="sourceLine" id="cb12-50" data-line-number="50"><span class="co"># Error thrown by validate_estimator()</span></a>
 <a class="sourceLine" id="cb12-51" data-line-number="51"><span class="kw">miss_rate_vec</span>(fold1<span class="op">$</span>obs, fold1<span class="op">$</span>pred, <span class="dt">estimator =</span> <span class="st">"macro"</span>)</a>
-<a class="sourceLine" id="cb12-52" data-line-number="52"><span class="co">#&gt; `estimator` must be one of: "binary". Not "macro".</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-52" data-line-number="52"><span class="co">#&gt; Error: `estimator` must be one of: "binary". Not "macro".</span></a></code></pre></div>
 </div>
 <div id="supporting-multiclass-miss-rate" class="section level3">
 <h3 class="hasAnchor">
@@ -513,7 +514,7 @@
 <a class="sourceLine" id="cb17-34" data-line-number="34"></a>
 <a class="sourceLine" id="cb17-35" data-line-number="35"><span class="co"># Error handling</span></a>
 <a class="sourceLine" id="cb17-36" data-line-number="36"><span class="kw">miss_rate</span>(hpc_cv, obs, VF)</a>
-<a class="sourceLine" id="cb17-37" data-line-number="37"><span class="co">#&gt; `estimate` should be a factor but a numeric was supplied.</span></a></code></pre></div>
+<a class="sourceLine" id="cb17-37" data-line-number="37"><span class="co">#&gt; Error: `estimate` should be a factor but a numeric was supplied.</span></a></code></pre></div>
 </div>
 </div>
 <div id="using-custom-metrics-in-metric_set" class="section level2">
@@ -531,7 +532,7 @@
 </ul>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># This errors because the class has not been set</span></a>
 <a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="../reference/metric_set.html">metric_set</a></span>(mse, rmse)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt; Error: </span></a>
 <a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt; The combination of metric functions must be:</span></a>
 <a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt; - only numeric metrics</span></a>
 <a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; - a mix of class metrics and class probability metrics</span></a>
@@ -553,6 +554,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>

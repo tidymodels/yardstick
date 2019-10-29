@@ -8,21 +8,31 @@
 
 <title>Area under the receiver operator curve — roc_auc • yardstick</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,32 +42,24 @@
 
 
 <meta property="og:title" content="Area under the receiver operator curve — roc_auc" />
-
 <meta property="og:description" content="roc_auc() is a metric that computes the area under the ROC curve. See
 roc_curve() for the full curve." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
-</script>
 
   </head>
 
@@ -139,10 +141,8 @@ roc_curve() for the full curve." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>roc_auc()</code> is a metric that computes the area under the ROC curve. See
 <code><a href='roc_curve.html'>roc_curve()</a></code> for the full curve.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>roc_auc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
@@ -153,7 +153,7 @@ roc_curve() for the full curve." />
 
 <span class='fu'>roc_auc_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -204,7 +204,7 @@ columns as factor levels of <code>truth</code>. <em>It is assumed that these are
 same order as the levels of <code>truth</code>.</em></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code>tibble</code> with columns <code>.metric</code>, <code>.estimator</code>,
@@ -212,7 +212,6 @@ and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
 <p>For <code>roc_auc_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>For most methods, <code>roc_auc()</code> defaults to allowing <code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code> control
@@ -228,7 +227,6 @@ perfect prediction model. If your value is between <code>0</code> and <code>0.5<
 this implies that you have meaningful information in your model, but it
 is being applied incorrectly because doing the opposite of what the model
 predicts would result in an AUC <code>&gt;0.5</code>.</p>
-    
     <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
     
@@ -244,7 +242,6 @@ level of interest by running: <code><a href='https://rdrr.io/r/base/options.html
 For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
-    
     <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
 
     
@@ -255,7 +252,6 @@ insensitive to class distributions like the binary ROC AUC case.</p>
 <p>Macro and macro-weighted averaging are still provided, even though they are
 not the default. In fact, macro-weighted averaging corresponds to the same
 definition of multiclass AUC given by Provost and Domingos (2001).</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Hand, Till (2001). "A Simple Generalisation of the Area Under the
@@ -266,14 +262,12 @@ Letters</em>. 27 (2006), pp 861-874.</p>
 <p>Provost, F., Domingos, P., 2001. "Well-trained PETs: Improving probability
 estimation trees", CeDER Working Paper #IS-00-04, Stern School of Business,
 New York University, NY, NY 10012.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='roc_curve.html'>roc_curve()</a></code> for computing the full ROC curve.</p>
 <p>Other class probability metrics: <code><a href='average_precision.html'>average_precision</a></code>,
   <code><a href='gain_capture.html'>gain_capture</a></code>, <code><a href='mn_log_loss.html'>mn_log_loss</a></code>,
   <code><a href='pr_auc.html'>pr_auc</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
@@ -381,19 +375,12 @@ New York University, NY, NY 10012.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#relevant-level">Relevant Level</a></li>
-
       <li><a href="#multiclass">Multiclass</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
