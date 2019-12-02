@@ -60,7 +60,15 @@ below) and returns them in a three column tibble." />
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-115082821-1');
+</script>
 
   </head>
 
@@ -173,7 +181,7 @@ Otherwise, there should be as many columns as factor levels of <code>truth</code
       <td><p>The column identifier for the true results (that
 is <code>numeric</code> or <code>factor</code>). This should be an unquoted column name
 although this argument is passed by expression and support
-<a href='https://rlang.r-lib.org/reference/quasiquotation.html'>quasiquotation</a> (you can unquote column
+<a href='https://rlang.r-lib.org/reference/nse-force.html'>quasiquotation</a> (you can unquote column
 names).</p></td>
     </tr>
     <tr>
@@ -198,7 +206,7 @@ values should be stripped before the computation proceeds.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A two column tibble.</p><ul>
+    <p>A three column tibble.</p><ul>
 <li><p>When <code>truth</code> is a factor, there are rows for <code><a href='accuracy.html'>accuracy()</a></code> and the
 Kappa statistic (<code><a href='kap.html'>kap()</a></code>).</p></li>
 <li><p>When <code>truth</code> has two levels and 1 column of class probabilities is

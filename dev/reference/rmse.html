@@ -59,7 +59,15 @@ the same units as the original data." />
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-115082821-1');
+</script>
 
   </head>
 
@@ -169,7 +177,7 @@ columns.</p></td>
       <td><p>The column identifier for the true results
 (that is <code>numeric</code>). This should be an unquoted column name although
 this argument is passed by expression and supports
-<a href='https://rlang.r-lib.org/reference/quasiquotation.html'>quasiquotation</a> (you can unquote column
+<a href='https://rlang.r-lib.org/reference/nse-force.html'>quasiquotation</a> (you can unquote column
 names). For <code>_vec()</code> functions, a <code>numeric</code> vector.</p></td>
     </tr>
     <tr>

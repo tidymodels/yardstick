@@ -59,7 +59,15 @@ into a new function that calculates all of them at once." />
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-115082821-1');
+</script>
 
   </head>
 
@@ -232,8 +240,8 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
 <span class='no'>ccc_with_bias</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='no'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>) {
   <span class='fu'><a href='ccc.html'>ccc</a></span>(
     <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-    <span class='kw'>truth</span> <span class='kw'>=</span> !! <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/quotation.html'>enquo</a></span>(<span class='no'>truth</span>),
-    <span class='kw'>estimate</span> <span class='kw'>=</span> !! <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/quotation.html'>enquo</a></span>(<span class='no'>estimate</span>),
+    <span class='kw'>truth</span> <span class='kw'>=</span> !! <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquo</a></span>(<span class='no'>truth</span>),
+    <span class='kw'>estimate</span> <span class='kw'>=</span> !! <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquo</a></span>(<span class='no'>estimate</span>),
     <span class='co'># set bias = TRUE</span>
     <span class='kw'>bias</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
     <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='no'>na_rm</span>,
