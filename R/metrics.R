@@ -22,7 +22,7 @@
 #'
 #' @return
 #'
-#' A two column tibble.
+#' A three column tibble.
 #'
 #' * When `truth` is a factor, there are rows for [accuracy()] and the
 #' Kappa statistic ([kap()]).
