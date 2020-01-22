@@ -347,7 +347,7 @@ cm_mosaic <- function(x) {
 
   `%+%` <- ggplot2::`%+%`
 
-  cm_zero <- (as.numeric(x$table == 0) / 2) + t(x$table)
+  cm_zero <- (as.numeric(x$table == 0) / 2) + x$table
 
   x_data <- space_fun(rowSums(cm_zero), 200)
 
