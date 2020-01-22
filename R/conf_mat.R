@@ -313,8 +313,8 @@ cm_heat <- function(x) {
   `%+%` <- ggplot2::`%+%`
 
   as.data.frame.table(x$table) %>%
-    dplyr::mutate(Truth = factor(Truth, levels = rev(levels(Truth)))) %>%
-    ggplot2::ggplot(ggplot2::aes(Prediction, Truth, fill = Freq)) %+%
+    dplyr::mutate(Prediction = factor(Prediction, levels = rev(levels(Prediction)))) %>%
+    ggplot2::ggplot(ggplot2::aes(x = Truth, y = Prediction, fill = Freq)) %+%
     ggplot2::geom_tile() %+%
     ggplot2::scale_fill_gradient(low = "grey90", high = "grey40") %+%
     ggplot2::theme(panel.background = ggplot2::element_blank(), legend.position = "none") %+%
@@ -347,7 +347,7 @@ cm_mosaic <- function(x) {
 
   `%+%` <- ggplot2::`%+%`
 
-  cm_zero <- (as.numeric(x$table == 0) / 2) + x$table
+  cm_zero <- (as.numeric(x$table == 0) / 2) + t(x$table)
 
   x_data <- space_fun(rowSums(cm_zero), 200)
 
@@ -366,7 +366,7 @@ cm_mosaic <- function(x) {
                        labels = tick_labels) %+%
     ggplot2::scale_y_continuous(breaks = (y1_data$ymin + y1_data$ymax) / 2,
                        labels = tick_labels) %+%
-    ggplot2::labs(x = "Predicted",
-         y = "Truth") %+%
+    ggplot2::labs(y = "Predicted",
+         x = "Truth") %+%
     ggplot2::theme(panel.background = ggplot2::element_blank())
 }
