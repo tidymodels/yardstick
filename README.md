@@ -9,7 +9,7 @@ Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build
-status](https://github.com/tidymodels/yardstick/workflows/R/badge.svg)](https://github.com/tidymodels/yardstick/actions?workflow=R)
+status](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/yardstick)
 
 ## Overview
 
