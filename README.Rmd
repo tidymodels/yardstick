@@ -109,7 +109,6 @@ hpc_cv %>%
   autoplot()
 ```
 
-
 ## Quasiquotation
 
 [Quasiquotation](https://rlang.r-lib.org/reference/quasiquotation.html) can also be used
