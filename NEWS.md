@@ -1,5 +1,9 @@
 # yardstick (development version)
 
+## Other improvements
+
+ * The `autoplot()` methods for confusion matrices is now consistent with the `print()` method such that the true values are in columns. 
+
 # yardstick 0.0.4
 
 ## New metrics and functionality
