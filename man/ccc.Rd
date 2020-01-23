@@ -8,8 +8,7 @@
 \usage{
 ccc(data, ...)
 
-\method{ccc}{data.frame}(data, truth, estimate, bias = FALSE,
-  na_rm = TRUE, ...)
+\method{ccc}{data.frame}(data, truth, estimate, bias = FALSE, na_rm = TRUE, ...)
 
 ccc_vec(truth, estimate, bias = FALSE, na_rm = TRUE, ...)
 }
@@ -23,12 +22,12 @@ columns.}
 (that is \code{numeric}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \code{_vec()} functions, a \code{numeric} vector.}
+names). For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{estimate}{The column identifier for the predicted
 results (that is also \code{numeric}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
+unquoted variable name. For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{bias}{A \code{logical}; should the biased estimate of variance
 be used (as is Lin (1989))?}
@@ -94,23 +93,35 @@ coefficient to evaluate reproducibility". \emph{Biometrics}, 53(4),
 1503-1507.
 }
 \seealso{
-Other numeric metrics: \code{\link{huber_loss_pseudo}},
-  \code{\link{huber_loss}}, \code{\link{iic}},
-  \code{\link{mae}}, \code{\link{mape}},
-  \code{\link{mase}}, \code{\link{rmse}},
-  \code{\link{rpd}}, \code{\link{rpiq}},
-  \code{\link{rsq_trad}}, \code{\link{rsq}},
-  \code{\link{smape}}
+Other numeric metrics: 
+\code{\link{huber_loss_pseudo}()},
+\code{\link{huber_loss}()},
+\code{\link{iic}()},
+\code{\link{mae}()},
+\code{\link{mape}()},
+\code{\link{mase}()},
+\code{\link{rmse}()},
+\code{\link{rpd}()},
+\code{\link{rpiq}()},
+\code{\link{rsq_trad}()},
+\code{\link{rsq}()},
+\code{\link{smape}()}
 
-Other consistency metrics: \code{\link{rpd}},
-  \code{\link{rpiq}}, \code{\link{rsq_trad}},
-  \code{\link{rsq}}
+Other consistency metrics: 
+\code{\link{rpd}()},
+\code{\link{rpiq}()},
+\code{\link{rsq_trad}()},
+\code{\link{rsq}()}
 
-Other accuracy metrics: \code{\link{huber_loss_pseudo}},
-  \code{\link{huber_loss}}, \code{\link{iic}},
-  \code{\link{mae}}, \code{\link{mape}},
-  \code{\link{mase}}, \code{\link{rmse}},
-  \code{\link{smape}}
+Other accuracy metrics: 
+\code{\link{huber_loss_pseudo}()},
+\code{\link{huber_loss}()},
+\code{\link{iic}()},
+\code{\link{mae}()},
+\code{\link{mape}()},
+\code{\link{mase}()},
+\code{\link{rmse}()},
+\code{\link{smape}()}
 }
 \author{
 Max Kuhn

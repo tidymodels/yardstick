@@ -11,8 +11,7 @@
 \usage{
 conf_mat(data, ...)
 
-\method{conf_mat}{data.frame}(data, truth, estimate,
-  dnn = c("Prediction", "Truth"), ...)
+\method{conf_mat}{data.frame}(data, truth, estimate, dnn = c("Prediction", "Truth"), ...)
 
 \method{tidy}{conf_mat}(x, ...)
 
@@ -29,12 +28,12 @@ method.}
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \code{_vec()} functions, a \code{factor} vector.}
+names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
 results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
+unquoted variable name. For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{dnn}{A character vector of dimnames for the table.}
 

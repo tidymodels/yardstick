@@ -8,8 +8,7 @@
 \usage{
 roc_curve(data, ...)
 
-\method{roc_curve}{data.frame}(data, truth, ..., options = list(),
-  na_rm = TRUE)
+\method{roc_curve}{data.frame}(data, truth, ..., options = list(), na_rm = TRUE)
 
 autoplot.roc_df(object, ...)
 }
@@ -26,7 +25,7 @@ Otherwise, there should be as many columns as factor levels of \code{truth}.}
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \code{_vec()} functions, a \code{factor} vector.}
+names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
@@ -136,8 +135,10 @@ hpc_cv \%>\%
 \seealso{
 Compute the area under the ROC curve with \code{\link[=roc_auc]{roc_auc()}}.
 
-Other curve metrics: \code{\link{gain_curve}},
-  \code{\link{lift_curve}}, \code{\link{pr_curve}}
+Other curve metrics: 
+\code{\link{gain_curve}()},
+\code{\link{lift_curve}()},
+\code{\link{pr_curve}()}
 }
 \author{
 Max Kuhn

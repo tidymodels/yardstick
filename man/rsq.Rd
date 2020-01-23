@@ -22,12 +22,12 @@ columns.}
 (that is \code{numeric}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \code{_vec()} functions, a \code{numeric} vector.}
+names). For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{estimate}{The column identifier for the predicted
 results (that is also \code{numeric}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
+unquoted variable name. For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
@@ -98,17 +98,25 @@ Kvalseth. Cautionary note about \eqn{R^2}.
 American Statistician (1985) vol. 39 (4) pp. 279-285.
 }
 \seealso{
-Other numeric metrics: \code{\link{ccc}},
-  \code{\link{huber_loss_pseudo}},
-  \code{\link{huber_loss}}, \code{\link{iic}},
-  \code{\link{mae}}, \code{\link{mape}},
-  \code{\link{mase}}, \code{\link{rmse}},
-  \code{\link{rpd}}, \code{\link{rpiq}},
-  \code{\link{rsq_trad}}, \code{\link{smape}}
+Other numeric metrics: 
+\code{\link{ccc}()},
+\code{\link{huber_loss_pseudo}()},
+\code{\link{huber_loss}()},
+\code{\link{iic}()},
+\code{\link{mae}()},
+\code{\link{mape}()},
+\code{\link{mase}()},
+\code{\link{rmse}()},
+\code{\link{rpd}()},
+\code{\link{rpiq}()},
+\code{\link{rsq_trad}()},
+\code{\link{smape}()}
 
-Other consistency metrics: \code{\link{ccc}},
-  \code{\link{rpd}}, \code{\link{rpiq}},
-  \code{\link{rsq_trad}}
+Other consistency metrics: 
+\code{\link{ccc}()},
+\code{\link{rpd}()},
+\code{\link{rpiq}()},
+\code{\link{rsq_trad}()}
 }
 \author{
 Max Kuhn
