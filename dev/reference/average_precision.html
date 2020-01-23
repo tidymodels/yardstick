@@ -166,11 +166,9 @@ threshold. See <code><a href='pr_curve.html'>pr_curve()</a></code> for the full 
     <pre class="usage"><span class='fu'>average_precision</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>average_precision</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>,
-  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>average_precision</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>average_precision_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>)</pre>
+<span class='fu'>average_precision_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -268,9 +266,11 @@ the "one" level is always the relevant result.</p>
     <div class='dont-index'><p><code><a href='pr_curve.html'>pr_curve()</a></code> for computing the full precision recall curve.</p>
 <p><code><a href='pr_auc.html'>pr_auc()</a></code> for computing the area under the precision recall curve using
 the trapezoidal rule.</p>
-<p>Other class probability metrics: <code><a href='gain_capture.html'>gain_capture</a></code>,
-  <code><a href='mn_log_loss.html'>mn_log_loss</a></code>, <code><a href='pr_auc.html'>pr_auc</a></code>,
-  <code><a href='roc_auc.html'>roc_auc</a></code></p></div>
+<p>Other class probability metrics: 
+<code><a href='gain_capture.html'>gain_capture</a>()</code>,
+<code><a href='mn_log_loss.html'>mn_log_loss</a>()</code>,
+<code><a href='pr_auc.html'>pr_auc</a>()</code>,
+<code><a href='roc_auc.html'>roc_auc</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>

@@ -159,8 +159,15 @@ generalized function that calls the core implementation of a metric function,
 and includes a number of checks on the types, lengths, and argument inputs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>metric_vec_template</span>(<span class='no'>metric_impl</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>cls</span> <span class='kw'>=</span> <span class='st'>"numeric"</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>metric_vec_template</span>(
+  <span class='no'>metric_impl</span>,
+  <span class='no'>truth</span>,
+  <span class='no'>estimate</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>cls</span> <span class='kw'>=</span> <span class='st'>"numeric"</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,7 +208,7 @@ to supply <code>"numeric"</code> as the class to check here.</p></td>
     <tr>
       <th>estimator</th>
       <td><p>The type of averaging to use. By this point, the averaging
-type should be finalized, so this should be a character vector of length 1.
+type should be finalized, so this should be a character vector of length 1\.
 By default, this character value is required to be one of: <code>"binary"</code>,
 <code>"macro"</code>, <code>"micro"</code>, or <code>"macro_weighted"</code>. If your metric allows more
 or less averaging methods, override this with <code>averaging_override</code>.</p></td>

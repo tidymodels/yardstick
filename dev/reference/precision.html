@@ -160,8 +160,7 @@ and <code><a href='f_meas.html'>f_meas()</a></code>.</p>
     <pre class="usage"><span class='fu'>precision</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>precision</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>precision</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>precision_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
@@ -280,15 +279,22 @@ Factor to ROC, Informedness, Markedness and Correlation.
 Technical Report SIE-07-001, Flinders University</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other class metrics: <code><a href='accuracy.html'>accuracy</a></code>,
-  <code><a href='bal_accuracy.html'>bal_accuracy</a></code>,
-  <code><a href='detection_prevalence.html'>detection_prevalence</a></code>, <code><a href='f_meas.html'>f_meas</a></code>,
-  <code><a href='j_index.html'>j_index</a></code>, <code><a href='kap.html'>kap</a></code>,
-  <code><a href='mcc.html'>mcc</a></code>, <code><a href='npv.html'>npv</a></code>, <code><a href='ppv.html'>ppv</a></code>,
-  <code><a href='recall.html'>recall</a></code>, <code><a href='sens.html'>sens</a></code>,
-  <code><a href='spec.html'>spec</a></code></p>
-<p>Other relevance metrics: <code><a href='f_meas.html'>f_meas</a></code>,
-  <code><a href='recall.html'>recall</a></code></p></div>
+    <div class='dont-index'><p>Other class metrics: 
+<code><a href='accuracy.html'>accuracy</a>()</code>,
+<code><a href='bal_accuracy.html'>bal_accuracy</a>()</code>,
+<code><a href='detection_prevalence.html'>detection_prevalence</a>()</code>,
+<code><a href='f_meas.html'>f_meas</a>()</code>,
+<code><a href='j_index.html'>j_index</a>()</code>,
+<code><a href='kap.html'>kap</a>()</code>,
+<code><a href='mcc.html'>mcc</a>()</code>,
+<code><a href='npv.html'>npv</a>()</code>,
+<code><a href='ppv.html'>ppv</a>()</code>,
+<code><a href='recall.html'>recall</a>()</code>,
+<code><a href='sens.html'>sens</a>()</code>,
+<code><a href='spec.html'>spec</a>()</code></p>
+<p>Other relevance metrics: 
+<code><a href='f_meas.html'>f_meas</a>()</code>,
+<code><a href='recall.html'>recall</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>

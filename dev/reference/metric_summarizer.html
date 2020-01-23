@@ -161,8 +161,17 @@ and includes a number of checks on the types, lengths, and argument inputs.
 See <code><a href='../articles/custom-metrics.html'>vignette("custom-metrics", "yardstick")</a></code> for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>metric_summarizer</span>(<span class='no'>metric_nm</span>, <span class='no'>metric_fn</span>, <span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>,
-  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>, <span class='kw'>metric_fn_options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
+    <pre class="usage"><span class='fu'>metric_summarizer</span>(
+  <span class='no'>metric_nm</span>,
+  <span class='no'>metric_fn</span>,
+  <span class='no'>data</span>,
+  <span class='no'>truth</span>,
+  <span class='no'>estimate</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>metric_fn_options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

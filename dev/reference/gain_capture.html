@@ -156,8 +156,7 @@ but applied to a gain curve.</p>
     <pre class="usage"><span class='fu'>gain_capture</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>gain_capture</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>gain_capture</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='fu'>gain_capture_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
@@ -256,9 +255,11 @@ Deutsche Bundesbank.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='gain_curve.html'>gain_curve()</a></code> to compute the full gain curve.</p>
-<p>Other class probability metrics: <code><a href='average_precision.html'>average_precision</a></code>,
-  <code><a href='mn_log_loss.html'>mn_log_loss</a></code>, <code><a href='pr_auc.html'>pr_auc</a></code>,
-  <code><a href='roc_auc.html'>roc_auc</a></code></p></div>
+<p>Other class probability metrics: 
+<code><a href='average_precision.html'>average_precision</a>()</code>,
+<code><a href='mn_log_loss.html'>mn_log_loss</a>()</code>,
+<code><a href='pr_auc.html'>pr_auc</a>()</code>,
+<code><a href='roc_auc.html'>roc_auc</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
