@@ -353,6 +353,11 @@ test_that("Confusion Matrix - multi class - heatmap", {
 
   # panes
   expect_equal(nrow(.plot_data$data[[1]]), length(res$table))
+
+  # check dimensions
+  expect_equal(rlang::expr_label(.plot$mapping[["x"]]), "`~Truth`")
+  expect_equal(rlang::expr_label(.plot$mapping[["y"]]), "`~Prediction`")
+  expect_equal(rlang::expr_label(.plot$mapping[["fill"]]), "`~Freq`")
 })
 
 test_that("Confusion Matrix - two class - mosaic", {
