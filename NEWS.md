@@ -2,7 +2,9 @@
 
 ## Other improvements
 
- * The `autoplot()` methods for confusion matrices is now consistent with the `print()` method such that the true values are in columns. 
+* The `autoplot()` heat map for confusion matrices now places the predicted values on the `x` axis and the truth values on the `y` axis to be more consistent with the confusion matrix `print()` method.
+
+* The `autoplot()` mosaic plot for confusion matrices had the `x` and `y` axis labels backwards. This has been corrected.
 
 # yardstick 0.0.4
 
