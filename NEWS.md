@@ -1,10 +1,10 @@
 # yardstick (development version)
 
+* Adds `sensitivity()` and `specificity()` as _aliases_ for `sens()` and `spec()` respectively, avoids conflict with other packages e.g. `readr::spec()`.
+
 # yardstick 0.0.5
 
 ## Other improvements
-
-* Adds `sensitivity()` and `specificity()` as _aliases_ for `sens()` and `spec()` respectively&mdash;avoids conflict with other packages e.g. `readr::spec()`.
 
 * The `autoplot()` heat map for confusion matrices now places the predicted values on the `x` axis and the truth values on the `y` axis to be more consistent with the confusion matrix `print()` method.
 
