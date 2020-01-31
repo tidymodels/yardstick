@@ -192,3 +192,10 @@ test_that('metric set functions retain numeric metric functions', {
     c(mae = "minimize", rmse = "minimize")
   )
 })
+
+test_that("print metric_set works", {
+  verify_output(test_path("test-print-metric_set.txt"), {
+    multi_metric <- metric_set(rmse, rsq, ccc)
+    print(multi_metric)
+  })
+})
