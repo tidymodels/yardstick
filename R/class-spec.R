@@ -83,6 +83,10 @@ spec.matrix <- function(data, estimator = NULL, ...) {
 
 }
 
+#' @rdname spec
+#' @export
+specificity <- spec
+
 #' @export
 #' @rdname spec
 spec_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,...) {
@@ -226,8 +230,3 @@ warn_spec_undefined <- function(message, events, counts, ..., .subclass = charac
     ...
   )
 }
-
-
-#' @rdname spec
-#' @export
-specificity <- spec

@@ -108,6 +108,10 @@ sens.matrix <- function(data, estimator = NULL, ...) {
 
 }
 
+#' @rdname sens
+#' @export
+sensitivity <- sens
+
 #' @export
 #' @rdname sens
 sens_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
@@ -245,8 +249,3 @@ warn_sens_undefined <- function(message, events, counts, ..., .subclass = charac
     ...
   )
 }
-
-
-#' @rdname sens
-#' @export
-sensitivity <- sens
