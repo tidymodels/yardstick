@@ -61,7 +61,8 @@
 #' @template examples-class
 #'
 #' @export
-#'
+# sensitivity <- sens
+
 sens <- function(data, ...) {
   UseMethod("sens")
 }
@@ -246,3 +247,8 @@ warn_sens_undefined <- function(message, events, counts, ..., .subclass = charac
     ...
   )
 }
+
+
+#' @rdname sens
+#' @export
+sensitivity <- sens

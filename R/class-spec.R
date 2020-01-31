@@ -227,3 +227,7 @@ warn_spec_undefined <- function(message, events, counts, ..., .subclass = charac
   )
 }
 
+
+#' @rdname spec
+#' @export
+specificity <- spec
