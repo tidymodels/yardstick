@@ -61,8 +61,6 @@
 #' @template examples-class
 #'
 #' @export
-# sensitivity <- sens
-
 sens <- function(data, ...) {
   UseMethod("sens")
 }
