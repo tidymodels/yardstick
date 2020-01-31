@@ -61,7 +61,6 @@
 #' @template examples-class
 #'
 #' @export
-#'
 sens <- function(data, ...) {
   UseMethod("sens")
 }
@@ -109,6 +108,10 @@ sens.matrix <- function(data, estimator = NULL, ...) {
 
 }
 
+#' @rdname sens
+#' @export
+sensitivity <- sens
+
 #' @export
 #' @rdname sens
 sens_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
@@ -137,6 +140,10 @@ sens_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
   )
 
 }
+
+#' @rdname sens
+#' @export
+sensitivity_vec <- sens_vec
 
 # sens() == recall(), so this is a copy paste from there, with altered warning
 # classes

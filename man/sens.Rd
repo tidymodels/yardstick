@@ -3,14 +3,20 @@
 \name{sens}
 \alias{sens}
 \alias{sens.data.frame}
+\alias{sensitivity}
 \alias{sens_vec}
+\alias{sensitivity_vec}
 \title{Sensitivity}
 \usage{
 sens(data, ...)
 
 \method{sens}{data.frame}(data, truth, estimate, estimator = NULL, na_rm = TRUE, ...)
 
+sensitivity(data, ...)
+
 sens_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
+
+sensitivity_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}

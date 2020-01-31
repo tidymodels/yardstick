@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* Adds `sensitivity()` and `specificity()` as _aliases_ for `sens()` and `spec()` respectively, avoids conflict with other packages e.g. `readr::spec()`.
+
 # yardstick 0.0.5
 
 ## Other improvements

@@ -83,6 +83,10 @@ spec.matrix <- function(data, estimator = NULL, ...) {
 
 }
 
+#' @rdname spec
+#' @export
+specificity <- spec
+
 #' @export
 #' @rdname spec
 spec_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,...) {
@@ -111,6 +115,10 @@ spec_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,...) {
   )
 
 }
+
+#' @rdname spec
+#' @export
+specificity_vec <- spec_vec
 
 #' @importFrom stats weighted.mean
 spec_table_impl <- function(data, estimator) {
@@ -226,4 +234,3 @@ warn_spec_undefined <- function(message, events, counts, ..., .subclass = charac
     ...
   )
 }
-
