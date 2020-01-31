@@ -271,6 +271,24 @@ metric_set <- function(...) {
   abort(msg)
 }
 
+map_chr <- function(x, f, ...) {
+  vapply(x, f, character(1), ...)
+}
+
+#' @export
+print.metric_set <- function(x, ...) {
+  metrics <- attributes(x)$metrics
+  metrics_names <- names(metrics)
+  metrics <- unname(metrics)
+  metrics_classes <- map_chr(x = metrics, f = function(i) attr(i, "class")[1])
+  metrics_directions <- map_chr(x = metrics, f = function(i) attr(i, "direction"))
+  df <- data.frame(metric = metrics_names, 
+                   class = metrics_classes, 
+                   direction = metrics_directions)
+  print(df)
+  invisible(x)
+}
+
 make_prob_class_metric_function <- function(fns) {
   metric_function <- function(data, truth, ..., estimate, estimator = NULL, na_rm = TRUE) {
 
