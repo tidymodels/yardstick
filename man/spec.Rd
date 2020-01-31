@@ -5,6 +5,7 @@
 \alias{spec.data.frame}
 \alias{specificity}
 \alias{spec_vec}
+\alias{specificity_vec}
 \title{Specificity}
 \usage{
 spec(data, ...)
@@ -14,6 +15,8 @@ spec(data, ...)
 specificity(data, ...)
 
 spec_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
+
+specificity_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}

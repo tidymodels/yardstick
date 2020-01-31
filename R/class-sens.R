@@ -141,6 +141,10 @@ sens_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
 
 }
 
+#' @rdname sens
+#' @export
+sensitivity_vec <- sens_vec
+
 # sens() == recall(), so this is a copy paste from there, with altered warning
 # classes
 

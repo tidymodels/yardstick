@@ -116,6 +116,10 @@ spec_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,...) {
 
 }
 
+#' @rdname spec
+#' @export
+specificity_vec <- spec_vec
+
 #' @importFrom stats weighted.mean
 spec_table_impl <- function(data, estimator) {
 
