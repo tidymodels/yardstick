@@ -8,7 +8,8 @@
 \usage{
 pr_auc(data, ...)
 
-\method{pr_auc}{data.frame}(data, truth, ..., estimator = NULL, na_rm = TRUE)
+\method{pr_auc}{data.frame}(data, truth, ..., estimator = NULL,
+  na_rm = TRUE)
 
 pr_auc_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
 }
@@ -25,7 +26,7 @@ Otherwise, there should be as many columns as factor levels of \code{truth}.}
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a \code{factor} vector.}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimator}{One of \code{"binary"}, \code{"macro"}, or \code{"macro_weighted"} to
 specify the type of averaging to be done. \code{"binary"} is only relevant for
@@ -142,11 +143,9 @@ pr_auc_vec(
 \seealso{
 \code{\link[=pr_curve]{pr_curve()}} for computing the full precision recall curve.
 
-Other class probability metrics: 
-\code{\link{average_precision}()},
-\code{\link{gain_capture}()},
-\code{\link{mn_log_loss}()},
-\code{\link{roc_auc}()}
+Other class probability metrics: \code{\link{average_precision}},
+  \code{\link{gain_capture}}, \code{\link{mn_log_loss}},
+  \code{\link{roc_auc}}
 }
 \author{
 Max Kuhn

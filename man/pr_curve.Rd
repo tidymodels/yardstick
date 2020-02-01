@@ -10,7 +10,7 @@ pr_curve(data, ...)
 
 \method{pr_curve}{data.frame}(data, truth, ..., na_rm = TRUE)
 
-autoplot.pr_df(object, ...)
+\method{autoplot}{pr_df}(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -25,7 +25,7 @@ Otherwise, there should be as many columns as factor levels of \code{truth}.}
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a \code{factor} vector.}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
@@ -120,10 +120,8 @@ hpc_cv \%>\%
 \seealso{
 Compute the area under the precision recall curve with \code{\link[=pr_auc]{pr_auc()}}.
 
-Other curve metrics: 
-\code{\link{gain_curve}()},
-\code{\link{lift_curve}()},
-\code{\link{roc_curve}()}
+Other curve metrics: \code{\link{gain_curve}},
+  \code{\link{lift_curve}}, \code{\link{roc_curve}}
 }
 \author{
 Max Kuhn

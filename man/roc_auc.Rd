@@ -8,16 +8,11 @@
 \usage{
 roc_auc(data, ...)
 
-\method{roc_auc}{data.frame}(data, truth, ..., options = list(), estimator = NULL, na_rm = TRUE)
+\method{roc_auc}{data.frame}(data, truth, ..., options = list(),
+  estimator = NULL, na_rm = TRUE)
 
-roc_auc_vec(
-  truth,
-  estimate,
-  options = list(),
-  estimator = NULL,
-  na_rm = TRUE,
-  ...
-)
+roc_auc_vec(truth, estimate, options = list(), estimator = NULL,
+  na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -32,7 +27,7 @@ Otherwise, there should be as many columns as factor levels of \code{truth}.}
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a \code{factor} vector.}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
@@ -79,7 +74,7 @@ Generally, an ROC AUC value is between \code{0.5} and \code{1}, with \code{1} be
 perfect prediction model. If your value is between \code{0} and \code{0.5}, then
 this implies that you have meaningful information in your model, but it
 is being applied incorrectly because doing the opposite of what the model
-predicts would result in an AUC \verb{>0.5}.
+predicts would result in an AUC \code{>0.5}.
 }
 \section{Relevant Level}{
 
@@ -194,11 +189,9 @@ New York University, NY, NY 10012.
 \seealso{
 \code{\link[=roc_curve]{roc_curve()}} for computing the full ROC curve.
 
-Other class probability metrics: 
-\code{\link{average_precision}()},
-\code{\link{gain_capture}()},
-\code{\link{mn_log_loss}()},
-\code{\link{pr_auc}()}
+Other class probability metrics: \code{\link{average_precision}},
+  \code{\link{gain_capture}}, \code{\link{mn_log_loss}},
+  \code{\link{pr_auc}}
 }
 \author{
 Max Kuhn

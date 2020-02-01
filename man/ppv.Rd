@@ -8,24 +8,11 @@
 \usage{
 ppv(data, ...)
 
-\method{ppv}{data.frame}(
-  data,
-  truth,
-  estimate,
-  prevalence = NULL,
-  estimator = NULL,
-  na_rm = TRUE,
-  ...
-)
+\method{ppv}{data.frame}(data, truth, estimate, prevalence = NULL,
+  estimator = NULL, na_rm = TRUE, ...)
 
-ppv_vec(
-  truth,
-  estimate,
-  prevalence = NULL,
-  estimator = NULL,
-  na_rm = TRUE,
-  ...
-)
+ppv_vec(truth, estimate, prevalence = NULL, estimator = NULL,
+  na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -38,12 +25,12 @@ in the columns of the table.}
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a \code{factor} vector.}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
 results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name. For \verb{_vec()} functions, a \code{factor} vector.}
+unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{prevalence}{A numeric value for the rate of the
 "positive" class of the data.}
@@ -161,24 +148,16 @@ predictive values,'' \emph{British Medical Journal}, vol 309,
 102.
 }
 \seealso{
-Other class metrics: 
-\code{\link{accuracy}()},
-\code{\link{bal_accuracy}()},
-\code{\link{detection_prevalence}()},
-\code{\link{f_meas}()},
-\code{\link{j_index}()},
-\code{\link{kap}()},
-\code{\link{mcc}()},
-\code{\link{npv}()},
-\code{\link{precision}()},
-\code{\link{recall}()},
-\code{\link{sens}()},
-\code{\link{spec}()}
+Other class metrics: \code{\link{accuracy}},
+  \code{\link{bal_accuracy}},
+  \code{\link{detection_prevalence}}, \code{\link{f_meas}},
+  \code{\link{j_index}}, \code{\link{kap}},
+  \code{\link{mcc}}, \code{\link{npv}},
+  \code{\link{precision}}, \code{\link{recall}},
+  \code{\link{sens}}, \code{\link{spec}}
 
-Other sensitivity metrics: 
-\code{\link{npv}()},
-\code{\link{sens}()},
-\code{\link{spec}()}
+Other sensitivity metrics: \code{\link{npv}},
+  \code{\link{sens}}, \code{\link{spec}}
 }
 \author{
 Max Kuhn

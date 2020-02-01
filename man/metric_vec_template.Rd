@@ -4,15 +4,8 @@
 \alias{metric_vec_template}
 \title{Developer function for calling new metrics}
 \usage{
-metric_vec_template(
-  metric_impl,
-  truth,
-  estimate,
-  na_rm = TRUE,
-  cls = "numeric",
-  estimator = NULL,
-  ...
-)
+metric_vec_template(metric_impl, truth, estimate, na_rm = TRUE,
+  cls = "numeric", estimator = NULL, ...)
 }
 \arguments{
 \item{metric_impl}{The core implementation function of your custom metric.
@@ -39,7 +32,7 @@ they are different, supply a vector of length 2. For matrices, it is best
 to supply \code{"numeric"} as the class to check here.}
 
 \item{estimator}{The type of averaging to use. By this point, the averaging
-type should be finalized, so this should be a character vector of length 1\.
+type should be finalized, so this should be a character vector of length 1.
 By default, this character value is required to be one of: \code{"binary"},
 \code{"macro"}, \code{"micro"}, or \code{"macro_weighted"}. If your metric allows more
 or less averaging methods, override this with \code{averaging_override}.}

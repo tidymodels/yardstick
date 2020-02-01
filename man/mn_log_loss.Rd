@@ -8,7 +8,8 @@
 \usage{
 mn_log_loss(data, ...)
 
-\method{mn_log_loss}{data.frame}(data, truth, ..., na_rm = TRUE, sum = FALSE)
+\method{mn_log_loss}{data.frame}(data, truth, ..., na_rm = TRUE,
+  sum = FALSE)
 
 mn_log_loss_vec(truth, estimate, na_rm = TRUE, sum = FALSE, ...)
 }
@@ -25,7 +26,7 @@ Otherwise, there should be as many columns as factor levels of \code{truth}.}
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a \code{factor} vector.}
+names). For \code{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
@@ -110,11 +111,9 @@ mn_log_loss(two_class_example, truth, !! prob_cols[1])
 
 }
 \seealso{
-Other class probability metrics: 
-\code{\link{average_precision}()},
-\code{\link{gain_capture}()},
-\code{\link{pr_auc}()},
-\code{\link{roc_auc}()}
+Other class probability metrics: \code{\link{average_precision}},
+  \code{\link{gain_capture}}, \code{\link{pr_auc}},
+  \code{\link{roc_auc}}
 }
 \author{
 Max Kuhn

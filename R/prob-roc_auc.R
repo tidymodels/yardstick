@@ -90,7 +90,6 @@ attr(roc_auc, "direction") <- "maximize"
 roc_auc.data.frame  <- function(data, truth, ..., options = list(),
                                 estimator = NULL, na_rm = TRUE) {
 
-
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -160,6 +159,16 @@ roc_auc_binary <- function(truth, estimate, options) {
     lvl <- lvl_values
   }
 
+  if (sum(truth == lvl[1]) == 0)
+  {
+    rlang::warn("No event obeservations in truth")
+    return(NA_real_)
+  }
+  if (sum(truth == lvl[2]) == 0)
+  {
+    rlang::warn("No control observations in truth")
+    return(NA_real_)
+  }
   args <- quos(response = truth, predictor = estimate, levels = lvl, quiet = TRUE)
 
   pROC_auc <- eval_tidy(call2("auc", !!! args, !!! options, .ns = "pROC"))
@@ -206,6 +215,8 @@ roc_auc_hand_till <- function(truth, estimate, options) {
     estimate_subset <- estimate_lvl1[subset_idx]
 
     auc_val <- roc_auc_binary(truth_subset, estimate_subset, options)
+
+    if (is.na(auc_val)) return(NA)
 
     # Hand Till 2001 uses an AUC calc that is always >0.5
     # Eq 3 of https://link.springer.com/content/pdf/10.1023%2FA%3A1010920819831.pdf

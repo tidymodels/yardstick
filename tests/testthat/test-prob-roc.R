@@ -172,3 +172,30 @@ test_that("Multiclass ROC AUC", {
   )
 })
 
+# ------------------------------------------------------------------------------
+
+test_that("Missing case or control returns NA", {
+  one_class <-
+    two_class_example %>%
+    dplyr::filter(truth == "Class1")
+
+  expect_true(
+    suppressWarnings(
+      is.na(roc_auc(one_class, truth, Class1)[[".estimate"]])
+    )
+  )
+   expect_warning(
+    roc_auc(one_class, truth, Class1)
+  )
+  expect_equal(
+    suppressWarnings(
+      roc_auc_multiclass(one_class[["truth"]], one_class[, 2:3])
+    ),
+      c(NA_real_, NA_real_)
+  )
+
+   expect_warning(
+     roc_auc_multiclass(one_class[["truth"]], one_class[, 2:3])
+   )
+})
+

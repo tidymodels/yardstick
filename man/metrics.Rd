@@ -7,7 +7,8 @@
 \usage{
 metrics(data, ...)
 
-\method{metrics}{data.frame}(data, truth, estimate, ..., options = list(), na_rm = TRUE)
+\method{metrics}{data.frame}(data, truth, estimate, ...,
+  options = list(), na_rm = TRUE)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
