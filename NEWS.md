@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `roc_auc()` now warns when there are no events or controls in the provided `truth` column, and returns `NA` (@dpastling, #132).
+
 * Adds `sensitivity()` and `specificity()` as _aliases_ for `sens()` and `spec()` respectively, avoids conflict with other packages e.g. `readr::spec()`.
 
 # yardstick 0.0.5
