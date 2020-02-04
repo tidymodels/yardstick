@@ -150,7 +150,8 @@
 <a href="#yardstick-development-version" class="anchor"></a>yardstick (development version)<small> Unreleased </small>
 </h1>
 <ul>
-<li>Adds <code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="../reference/sens.html">sens()</a></code> and <code><a href="../reference/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g. <code><a href="https://readr.tidyverse.org/reference/spec.html">readr::spec()</a></code>.</li>
+<li><p><code><a href="../reference/roc_auc.html">roc_auc()</a></code> now warns when there are no events or controls in the provided <code>truth</code> column, and returns <code>NA</code> (<a href='https://github.com/dpastling'>@dpastling</a>, <a href='https://github.com/tidymodels/yardstick/issues/132'>#132</a>).</p></li>
+<li><p>Adds <code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="../reference/sens.html">sens()</a></code> and <code><a href="../reference/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g. <code><a href="https://readr.tidyverse.org/reference/spec.html">readr::spec()</a></code>.</p></li>
 </ul>
 </div>
     <div id="yardstick-0-0-5" class="section level1">
