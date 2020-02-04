@@ -159,20 +159,26 @@ roc_auc_binary <- function(truth, estimate, options) {
     lvl <- lvl_values
   }
 
-  event <- lvl[[1]]
-  control <- lvl[[2]]
+  control <- lvl[[1]]
+  event <- lvl[[2]]
 
   # `NA` values have already been removed by `metric_vec_template()`
-  n_event <- sum(truth == event)
   n_control <- sum(truth == control)
+  n_event <- sum(truth == event)
 
-  if (n_event == 0L) {
-    rlang::warn("No event observations were detected in `truth`")
+  if (n_control == 0L) {
+    rlang::warn(glue::glue(
+      "No control observations were detected in `truth` ",
+      "with control level '{control}'"
+    ))
     return(NA_real_)
   }
 
-  if (n_control == 0L) {
-    rlang::warn("No control observations were detected in `truth`")
+  if (n_event == 0L) {
+    rlang::warn(glue::glue(
+      "No event observations were detected in `truth` ",
+      "with event level '{event}'"
+    ))
     return(NA_real_)
   }
 
