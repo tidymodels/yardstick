@@ -10,7 +10,7 @@ lift_curve(data, ...)
 
 \method{lift_curve}{data.frame}(data, truth, ..., na_rm = TRUE)
 
-\method{autoplot}{lift_df}(object, ...)
+autoplot.lift_df(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -25,7 +25,7 @@ Otherwise, there should be as many columns as factor levels of \code{truth}.}
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \code{_vec()} functions, a \code{factor} vector.}
+names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
@@ -60,12 +60,12 @@ resamples). See the examples.
 The motivation behind cumulative gain and lift charts is as a visual method to
 determine the effectiveness of a model when compared to the results one
 might expect without a model. As an example, without a model, if you were
-to advertise to a random 10\% of your customer base, then you might expect
-to capture 10\% of the of the total number of positive responses had you
+to advertise to a random 10\\% of your customer base, then you might expect
+to capture 10\\% of the of the total number of positive responses had you
 advertised to your entire customer base. Given a model that predicts
 which customers are more likely to respond, the hope is that you can more
-accurately target 10\% of your customer base and capture
->10\% of the total number of positive responses.
+accurately target 10\\% of your customer base and capture
+\>10\\% of the total number of positive responses.
 
 The calculation to construct lift curves is as follows:
 \enumerate{
@@ -73,7 +73,7 @@ The calculation to construct lift curves is as follows:
 values (\code{estimate} here is a single column supplied in \code{...}).
 \item The cumulative number of samples with true results relative to the
 entire number of true results are found.
-\item The cumulative \% found is divided by the cumulative \% tested
+\item The cumulative \\% found is divided by the cumulative \\% tested
 to construct the lift value. This ratio represents the factor of improvement
 over an uninformed model. Values >1 represent a valuable model. This is the
 y-axis of the lift chart.
@@ -143,8 +143,10 @@ hpc_cv \%>\%
 
 }
 \seealso{
-Other curve metrics: \code{\link{gain_curve}},
-  \code{\link{pr_curve}}, \code{\link{roc_curve}}
+Other curve metrics: 
+\code{\link{gain_curve}()},
+\code{\link{pr_curve}()},
+\code{\link{roc_curve}()}
 }
 \author{
 Max Kuhn

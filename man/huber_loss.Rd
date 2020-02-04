@@ -8,8 +8,7 @@
 \usage{
 huber_loss(data, ...)
 
-\method{huber_loss}{data.frame}(data, truth, estimate, delta = 1,
-  na_rm = TRUE, ...)
+\method{huber_loss}{data.frame}(data, truth, estimate, delta = 1, na_rm = TRUE, ...)
 
 huber_loss_vec(truth, estimate, delta = 1, na_rm = TRUE, ...)
 }
@@ -23,12 +22,12 @@ columns.}
 (that is \code{numeric}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \code{_vec()} functions, a \code{numeric} vector.}
+names). For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{estimate}{The column identifier for the predicted
 results (that is also \code{numeric}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
+unquoted variable name. For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{delta}{A single \code{numeric} value. Defines the boundary where the loss function
 transitions from quadratic to linear. Defaults to 1.}
@@ -86,19 +85,29 @@ Huber, P. (1964). Robust Estimation of a Location Parameter.
 \emph{Annals of Statistics}, 53 (1), 73-101.
 }
 \seealso{
-Other numeric metrics: \code{\link{ccc}},
-  \code{\link{huber_loss_pseudo}}, \code{\link{iic}},
-  \code{\link{mae}}, \code{\link{mape}},
-  \code{\link{mase}}, \code{\link{rmse}},
-  \code{\link{rpd}}, \code{\link{rpiq}},
-  \code{\link{rsq_trad}}, \code{\link{rsq}},
-  \code{\link{smape}}
+Other numeric metrics: 
+\code{\link{ccc}()},
+\code{\link{huber_loss_pseudo}()},
+\code{\link{iic}()},
+\code{\link{mae}()},
+\code{\link{mape}()},
+\code{\link{mase}()},
+\code{\link{rmse}()},
+\code{\link{rpd}()},
+\code{\link{rpiq}()},
+\code{\link{rsq_trad}()},
+\code{\link{rsq}()},
+\code{\link{smape}()}
 
-Other accuracy metrics: \code{\link{ccc}},
-  \code{\link{huber_loss_pseudo}}, \code{\link{iic}},
-  \code{\link{mae}}, \code{\link{mape}},
-  \code{\link{mase}}, \code{\link{rmse}},
-  \code{\link{smape}}
+Other accuracy metrics: 
+\code{\link{ccc}()},
+\code{\link{huber_loss_pseudo}()},
+\code{\link{iic}()},
+\code{\link{mae}()},
+\code{\link{mape}()},
+\code{\link{mase}()},
+\code{\link{rmse}()},
+\code{\link{smape}()}
 }
 \author{
 James Blair

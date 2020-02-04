@@ -8,11 +8,9 @@
 \usage{
 mase(data, ...)
 
-\method{mase}{data.frame}(data, truth, estimate, m = 1L,
-  mae_train = NULL, na_rm = TRUE, ...)
+\method{mase}{data.frame}(data, truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE, ...)
 
-mase_vec(truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE,
-  ...)
+mase_vec(truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -24,12 +22,12 @@ columns.}
 (that is \code{numeric}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \code{_vec()} functions, a \code{numeric} vector.}
+names). For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{estimate}{The column identifier for the predicted
 results (that is also \code{numeric}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name. For \code{_vec()} functions, a \code{numeric} vector.}
+unquoted variable name. For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{m}{An integer value of the number of lags used to calculate the
 in-sample seasonal naive error. The default is used for non-seasonal time
@@ -110,19 +108,29 @@ Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS FOR
 INTERMITTENT DEMAND. \emph{Foresight}, 4, 46.
 }
 \seealso{
-Other numeric metrics: \code{\link{ccc}},
-  \code{\link{huber_loss_pseudo}},
-  \code{\link{huber_loss}}, \code{\link{iic}},
-  \code{\link{mae}}, \code{\link{mape}},
-  \code{\link{rmse}}, \code{\link{rpd}},
-  \code{\link{rpiq}}, \code{\link{rsq_trad}},
-  \code{\link{rsq}}, \code{\link{smape}}
+Other numeric metrics: 
+\code{\link{ccc}()},
+\code{\link{huber_loss_pseudo}()},
+\code{\link{huber_loss}()},
+\code{\link{iic}()},
+\code{\link{mae}()},
+\code{\link{mape}()},
+\code{\link{rmse}()},
+\code{\link{rpd}()},
+\code{\link{rpiq}()},
+\code{\link{rsq_trad}()},
+\code{\link{rsq}()},
+\code{\link{smape}()}
 
-Other accuracy metrics: \code{\link{ccc}},
-  \code{\link{huber_loss_pseudo}},
-  \code{\link{huber_loss}}, \code{\link{iic}},
-  \code{\link{mae}}, \code{\link{mape}},
-  \code{\link{rmse}}, \code{\link{smape}}
+Other accuracy metrics: 
+\code{\link{ccc}()},
+\code{\link{huber_loss_pseudo}()},
+\code{\link{huber_loss}()},
+\code{\link{iic}()},
+\code{\link{mae}()},
+\code{\link{mape}()},
+\code{\link{rmse}()},
+\code{\link{smape}()}
 }
 \author{
 Alex Hallam

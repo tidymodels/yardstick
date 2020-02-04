@@ -4,8 +4,17 @@
 \alias{metric_summarizer}
 \title{Developer function for summarizing new metrics}
 \usage{
-metric_summarizer(metric_nm, metric_fn, data, truth, estimate,
-  estimator = NULL, na_rm = TRUE, ..., metric_fn_options = list())
+metric_summarizer(
+  metric_nm,
+  metric_fn,
+  data,
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  ...,
+  metric_fn_options = list()
+)
 }
 \arguments{
 \item{metric_nm}{A single character representing the name of the metric to
@@ -40,7 +49,7 @@ stripped before the computation proceeds. The removal is executed in
 through \code{metric_fn_options}.}
 
 \item{metric_fn_options}{A named list of metric specific options. These
-are spliced into the metric function call using \code{!!!} from \code{rlang}. The
+are spliced into the metric function call using \verb{!!!} from \code{rlang}. The
 default results in nothing being spliced into the call.}
 }
 \description{

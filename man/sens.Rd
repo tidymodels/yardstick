@@ -10,8 +10,7 @@
 \usage{
 sens(data, ...)
 
-\method{sens}{data.frame}(data, truth, estimate, estimator = NULL,
-  na_rm = TRUE, ...)
+\method{sens}{data.frame}(data, truth, estimate, estimator = NULL, na_rm = TRUE, ...)
 
 sensitivity(data, ...)
 
@@ -30,12 +29,12 @@ in the columns of the table.}
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
-names). For \code{_vec()} functions, a \code{factor} vector.}
+names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
 results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
-unquoted variable name. For \code{_vec()} functions, a \code{factor} vector.}
+unquoted variable name. For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{estimator}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
 or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
@@ -66,7 +65,7 @@ results out of the number of samples which were actually
 positive.
 
 When the denominator of the calculation is \code{0}, sensitivity is undefined.
-This happens when both \code{# true_positive = 0} and \code{# false_negative = 0}
+This happens when both \verb{# true_positive = 0} and \verb{# false_negative = 0}
 are true, which mean that there were no true events. When computing binary
 sensitivity, a \code{NA} value will be returned with a warning. When computing
 multiclass sensitivity, the individual \code{NA} values will be removed, and the
@@ -153,16 +152,24 @@ sensitivity and specificity,'' \emph{British Medical Journal},
 vol 308, 1552.
 }
 \seealso{
-Other class metrics: \code{\link{accuracy}},
-  \code{\link{bal_accuracy}},
-  \code{\link{detection_prevalence}}, \code{\link{f_meas}},
-  \code{\link{j_index}}, \code{\link{kap}},
-  \code{\link{mcc}}, \code{\link{npv}}, \code{\link{ppv}},
-  \code{\link{precision}}, \code{\link{recall}},
-  \code{\link{spec}}
+Other class metrics: 
+\code{\link{accuracy}()},
+\code{\link{bal_accuracy}()},
+\code{\link{detection_prevalence}()},
+\code{\link{f_meas}()},
+\code{\link{j_index}()},
+\code{\link{kap}()},
+\code{\link{mcc}()},
+\code{\link{npv}()},
+\code{\link{ppv}()},
+\code{\link{precision}()},
+\code{\link{recall}()},
+\code{\link{spec}()}
 
-Other sensitivity metrics: \code{\link{npv}},
-  \code{\link{ppv}}, \code{\link{spec}}
+Other sensitivity metrics: 
+\code{\link{npv}()},
+\code{\link{ppv}()},
+\code{\link{spec}()}
 }
 \author{
 Max Kuhn

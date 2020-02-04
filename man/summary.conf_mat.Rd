@@ -4,13 +4,12 @@
 \alias{summary.conf_mat}
 \title{Summary Statistics for Confusion Matrices}
 \usage{
-\method{summary}{conf_mat}(object, prevalence = NULL, beta = 1,
-  estimator = NULL, ...)
+\method{summary}{conf_mat}(object, prevalence = NULL, beta = 1, estimator = NULL, ...)
 }
 \arguments{
 \item{object}{An object of class \code{\link[=conf_mat]{conf_mat()}}.}
 
-\item{prevalence}{A number in \code{(0, 1)} for the prevalence (i.e.
+\item{prevalence}{A number in \verb{(0, 1)} for the prevalence (i.e.
 prior) of the event. If left to the default, the data are used
 to derive this value.}
 
