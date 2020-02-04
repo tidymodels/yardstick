@@ -172,3 +172,78 @@ test_that("Multiclass ROC AUC", {
   )
 })
 
+# ------------------------------------------------------------------------------
+
+test_that("warning is thrown when missing events", {
+  no_event <- dplyr::filter(two_class_example, truth == "Class2")
+
+  expect_identical(
+    expect_warning(roc_auc(no_event, truth, Class1)[[".estimate"]], "No event"),
+    NA_real_
+  )
+})
+
+test_that("warning is thrown when missing controls", {
+  no_control <- dplyr::filter(two_class_example, truth == "Class1")
+
+  expect_identical(
+    expect_warning(roc_auc(no_control, truth, Class1)[[".estimate"]], "No control"),
+    NA_real_
+  )
+})
+
+test_that("multiclass one-vs-all approach results in multiple warnings", {
+  no_event <- dplyr::filter(two_class_example, truth == "Class2")
+
+  expect_identical(
+    expect_warning(
+      roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[".estimate"]],
+      "No event observations were detected in `truth` with event level 'Class1'"
+    ),
+    NA_real_
+  )
+
+  expect_identical(
+    expect_warning(
+      roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[".estimate"]],
+      "No control observations were detected in `truth` with control level '..other'"
+    ),
+    NA_real_
+  )
+
+  expect_identical(
+    expect_warning(
+      roc_auc(no_event, truth, Class1, Class2, estimator = "macro_weighted")[[".estimate"]],
+      "No event observations were detected in `truth` with event level 'Class1'"
+    ),
+    NA_real_
+  )
+
+  expect_identical(
+    expect_warning(
+      roc_auc(no_event, truth, Class1, Class2, estimator = "macro_weighted")[[".estimate"]],
+      "No control observations were detected in `truth` with control level '..other'"
+    ),
+    NA_real_
+  )
+})
+
+test_that("multiclass hand till approach throws warning", {
+  no_control <- dplyr::filter(two_class_example, truth == "Class1")
+
+  expect_identical(
+    expect_warning(
+      roc_auc(no_control, truth, Class1, Class2, estimator = "hand_till")[[".estimate"]],
+      "No control observations were detected in `truth` with control level 'Class2'"
+    ),
+    NA_real_
+  )
+
+  expect_identical(
+    expect_warning(
+      roc_auc(no_control, truth, Class1, Class2, estimator = "hand_till")[[".estimate"]],
+      "No event observations were detected in `truth` with event level 'Class2'"
+    ),
+    NA_real_
+  )
+})
