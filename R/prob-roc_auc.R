@@ -167,17 +167,17 @@ roc_auc_binary <- function(truth, estimate, options) {
   n_event <- sum(truth == event)
 
   if (n_control == 0L) {
-    rlang::warn(glue::glue(
+    rlang::warn(paste0(
       "No control observations were detected in `truth` ",
-      "with control level '{control}'"
+      "with control level '", control, "'"
     ))
     return(NA_real_)
   }
 
   if (n_event == 0L) {
-    rlang::warn(glue::glue(
+    rlang::warn(paste0(
       "No event observations were detected in `truth` ",
-      "with event level '{event}'"
+      "with event level '", event, "'"
     ))
     return(NA_real_)
   }
