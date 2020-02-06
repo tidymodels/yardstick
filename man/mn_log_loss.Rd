@@ -114,7 +114,9 @@ Other class probability metrics:
 \code{\link{average_precision}()},
 \code{\link{gain_capture}()},
 \code{\link{pr_auc}()},
-\code{\link{roc_auc}()}
+\code{\link{roc_auc}()},
+\code{\link{roc_aunp}()},
+\code{\link{roc_aunu}()}
 }
 \author{
 Max Kuhn
