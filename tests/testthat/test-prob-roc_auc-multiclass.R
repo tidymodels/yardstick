@@ -347,14 +347,14 @@ measures_mlr <- c(multiclass.aunu = 0.963473055084008,
 test_that("AUNU is equivalent to macro estimator", {
   expect_equal(
     roc_auc(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
-    roc_aunu(hpc_f1, obs, VF:L)[[".estimate"]],
+    roc_aunu(hpc_f1, obs, VF:L)[[".estimate"]]
   )
 })
 
 test_that("AUNP is equivalent to macro_weighted estimator", {
   expect_equal(
     roc_auc(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
-    roc_aunp(hpc_f1, obs, VF:L)[[".estimate"]],
+    roc_aunp(hpc_f1, obs, VF:L)[[".estimate"]]
   )
 })
 
