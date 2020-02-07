@@ -1,7 +1,7 @@
 # yardstick (development version)
 
 * Adds `sensitivity()` and `specificity()` as _aliases_ for `sens()` and `spec()` respectively, avoids conflict with other packages e.g. `readr::spec()`.
-* `roc_aunu()` and `roc_anup()` are two new ROC AUC metrics for multiclass classifiers. These measure the AUC of each class against the rest, `roc_aunu()` using the uniform class distribution (#69) and `roc_anup()` using the a priori class distribution (#70.).
+* `roc_aunu()` and `roc_aunp()` are two new ROC AUC metrics for multiclass classifiers. These measure the AUC of each class against the rest, `roc_aunu()` using the uniform class distribution (#69) and `roc_aunp()` using the a priori class distribution (#70.).
 
 # yardstick 0.0.5
 
