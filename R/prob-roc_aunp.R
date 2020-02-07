@@ -24,7 +24,7 @@
 #'
 #' @section Multiclass:
 #' This multiclass method for computing the area under the ROC curve uses the
-#' uniform class distribution and is equivalent to
+#' a priori class distribution and is equivalent to
 #' `roc_auc(estimator = "macro_weighted")`.
 #'
 #' @inheritParams pr_auc
@@ -142,7 +142,6 @@ roc_aunp_vec <- function(truth, estimate, options = list(),
                          na_rm = TRUE, ...) {
 
   estimator <- "macro_weighted"
-  estimator <- finalize_estimator(truth, estimator, "roc_auc")
 
   roc_aunp_impl <- function(truth, estimate) {
     roc_auc_vec(truth, estimate, options, estimator)

@@ -142,7 +142,6 @@ roc_aunu_vec <- function(truth, estimate, options = list(),
                          na_rm = TRUE, ...) {
 
   estimator <- "macro"
-  estimator <- finalize_estimator(truth, estimator, "roc_auc")
 
   roc_aunu_impl <- function(truth, estimate) {
     roc_auc_vec(truth, estimate, options, estimator)

@@ -83,7 +83,7 @@ the "one" level is always the relevant result.
 \section{Multiclass}{
 
 This multiclass method for computing the area under the ROC curve uses the
-uniform class distribution and is equivalent to
+a priori class distribution and is equivalent to
 \code{roc_auc(estimator = "macro_weighted")}.
 }
 
