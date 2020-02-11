@@ -78,7 +78,7 @@ data_three_class <- function() {
 # library(mlr)
 # library(yardstick)
 # library(rsample)
-# library(stringr)
+# library(dplyr)
 # library(stringr)
 # library(mlbench)
 #
@@ -103,7 +103,8 @@ data_three_class <- function() {
 # dput(measures_mlr)
 # saveRDS(rename_at(pred$data, vars(starts_with("prob.")),
 #                   ~ str_remove_all(., "prob.")),
-#         testthat::test_path("data/helper-soybean.rds"))
+#         testthat::test_path("data/helper-soybean.rds"),
+#         version = 2, compress = "xz")
 
 soybean_helper <- readRDS(testthat::test_path("data/helper-soybean.rds"))
 
