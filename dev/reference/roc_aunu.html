@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Area under the precision recall curve — pr_auc • yardstick</title>
+<title>Area under the ROC curve of each class against the rest, using the uniform
+class distribution — roc_aunu • yardstick</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -41,9 +42,11 @@
 
 
 
-<meta property="og:title" content="Area under the precision recall curve — pr_auc" />
-<meta property="og:description" content="pr_auc() is a metric that computes the area under the precision
-recall curve. See pr_curve() for the full curve." />
+<meta property="og:title" content="Area under the ROC curve of each class against the rest, using the uniform
+class distribution — roc_aunu" />
+<meta property="og:description" content="roc_aunu() is a multiclass metric that computes the area under the ROC
+curve of each class against the rest, using the uniform class distribution.
+This is equivalent to roc_auc(estimator = &quot;macro&quot;)." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -143,22 +146,24 @@ recall curve. See pr_curve() for the full curve." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Area under the precision recall curve</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/prob-pr_auc.R'><code>R/prob-pr_auc.R</code></a></small>
-    <div class="hidden name"><code>pr_auc.Rd</code></div>
+    <h1>Area under the ROC curve of each class against the rest, using the uniform
+class distribution</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/prob-roc_aunu.R'><code>R/prob-roc_aunu.R</code></a></small>
+    <div class="hidden name"><code>roc_aunu.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>pr_auc()</code> is a metric that computes the area under the precision
-recall curve. See <code><a href='pr_curve.html'>pr_curve()</a></code> for the full curve.</p>
+    <p><code>roc_aunu()</code> is a multiclass metric that computes the area under the ROC
+curve of each class against the rest, using the uniform class distribution.
+This is equivalent to <code><a href='roc_auc.html'>roc_auc(estimator = "macro")</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pr_auc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>roc_aunu</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>pr_auc</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>roc_aunu</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>pr_auc_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>roc_aunu_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,10 +175,9 @@ columns.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>A set of unquoted column names or one or more
-<code>dplyr</code> selector functions to choose which variables contain the
-class probabilities. If <code>truth</code> is binary, only 1 column should be selected.
-Otherwise, there should be as many columns as factor levels of <code>truth</code>.</p></td>
+      <td><p>A set of unquoted column names or one or more <code>dplyr</code> selector
+functions to choose which variables contain the class probabilities. There
+should be as many columns as factor levels of <code>truth</code>.</p></td>
     </tr>
     <tr>
       <th>truth</th>
@@ -184,12 +188,10 @@ this argument is passed by expression and supports
 names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
-      <th>estimator</th>
-      <td><p>One of <code>"binary"</code>, <code>"macro"</code>, or <code>"macro_weighted"</code> to
-specify the type of averaging to be done. <code>"binary"</code> is only relevant for
-the two class case. The other two are general methods for calculating
-multiclass metrics. The default will automatically choose <code>"binary"</code> or
-<code>"macro"</code> based on <code>truth</code>.</p></td>
+      <th>options</th>
+      <td><p>A <code>list</code> of named options to pass to <code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code>
+such as <code>direction</code> or <code>smooth</code>. These options should not include <code>response</code>,
+<code>predictor</code>, <code>levels</code>, or <code>quiet</code>.</p></td>
     </tr>
     <tr>
       <th>na_rm</th>
@@ -198,8 +200,7 @@ values should be stripped before the computation proceeds.</p></td>
     </tr>
     <tr>
       <th>estimate</th>
-      <td><p>If <code>truth</code> is binary, a numeric vector of class probabilities
-corresponding to the "relevant" class. Otherwise, a matrix with as many
+      <td><p>A matrix with as many
 columns as factor levels of <code>truth</code>. <em>It is assumed that these are in the
 same order as the levels of <code>truth</code>.</em></p></td>
     </tr>
@@ -211,16 +212,19 @@ same order as the levels of <code>truth</code>.</em></p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>pr_auc_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
-    <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
+<p>For <code>roc_aunu_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    
-
-
-<p>Macro and macro-weighted averaging is available for this metric.
-The default is to select macro averaging if a <code>truth</code> factor with more
-than 2 levels is provided. Otherwise, a standard binary calculation is done.
-See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
+    <p>Like the other ROC AUC metrics, <code>roc_aunu()</code> defaults to allowing
+<code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code> control the direction of the computation, but allows you to
+control this by passing <code>options = list(direction = "&lt;")</code> or any other
+allowed direction value. pROC advises setting the <code>direction</code> when doing
+resampling so that the AUC values are not biased upwards.</p>
+<p>Generally, an ROC AUC value is between <code>0.5</code> and <code>1</code>, with <code>1</code> being a
+perfect prediction model. If your value is between <code>0</code> and <code>0.5</code>, then
+this implies that you have meaningful information in your model, but it
+is being applied incorrectly because doing the opposite of what the model
+predicts would result in an AUC <code>&gt;0.5</code>.</p>
     <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
     
@@ -236,36 +240,32 @@ level of interest by running: <code><a href='https://rdrr.io/r/base/options.html
 For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
+    <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
+
+    
+
+<p>This multiclass method for computing the area under the ROC curve uses the
+uniform class distribution and is equivalent to
+<code><a href='roc_auc.html'>roc_auc(estimator = "macro")</a></code>.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Ferri, C., Hernández-Orallo, J., &amp; Modroiu, R. (2009). "An experimental
+comparison of performance measures for classification". <em>Pattern Recognition
+Letters</em>. 30 (1), pp 27-38.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='pr_curve.html'>pr_curve()</a></code> for computing the full precision recall curve.</p>
+    <div class='dont-index'><p><code><a href='roc_aunp.html'>roc_aunp()</a></code> for computing the area under the ROC curve of each class against
+the rest, using the a priori class distribution.</p>
 <p>Other class probability metrics: 
 <code><a href='average_precision.html'>average_precision</a>()</code>,
 <code><a href='gain_capture.html'>gain_capture</a>()</code>,
 <code><a href='mn_log_loss.html'>mn_log_loss</a>()</code>,
+<code><a href='pr_auc.html'>pr_auc</a>()</code>,
 <code><a href='roc_auc.html'>roc_auc</a>()</code>,
-<code><a href='roc_aunp.html'>roc_aunp</a>()</code>,
-<code><a href='roc_aunu.html'>roc_aunu</a>()</code></p></div>
+<code><a href='roc_aunp.html'>roc_aunp</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
-<span class='co'># Two class example</span>
-
-<span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
-<span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
-<span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>two_class_example</span>)
-
-<span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span>
-<span class='co'># and a single class probability column containing the probabilities of</span>
-<span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
-<span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
-<span class='fu'>pr_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 pr_auc  binary         0.946</div><div class='input'>
-<span class='co'># ---------------------------------------------------------------------------</span>
-<span class='co'># Multiclass example</span>
+    <pre class="examples"><div class='input'><span class='co'># Multiclass example</span>
 
 <span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
@@ -276,64 +276,61 @@ the "one" level is always the relevant result.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pr_auc</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 pr_auc  macro          0.611</div><div class='input'>
+  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric  .estimator .estimate
+#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 roc_aunu macro          0.871</div><div class='input'>
 <span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
 <span class='co'># event of interest. The class probability columns should be supplied</span>
 <span class='co'># in the same order as the levels.</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='no'>obs</span>, <span class='st'>"M"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pr_auc</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 pr_auc  macro          0.611</div><div class='input'>
+  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric  .estimator .estimate
+#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 roc_aunu macro          0.871</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pr_auc</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
-#&gt;    Resample .metric .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   pr_auc  macro          0.611
-#&gt;  2 Fold02   pr_auc  macro          0.620
-#&gt;  3 Fold03   pr_auc  macro          0.689
-#&gt;  4 Fold04   pr_auc  macro          0.680
-#&gt;  5 Fold05   pr_auc  macro          0.620
-#&gt;  6 Fold06   pr_auc  macro          0.650
-#&gt;  7 Fold07   pr_auc  macro          0.607
-#&gt;  8 Fold08   pr_auc  macro          0.650
-#&gt;  9 Fold09   pr_auc  macro          0.628
-#&gt; 10 Fold10   pr_auc  macro          0.603</div><div class='input'>
-<span class='co'># Weighted macro averaging</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pr_auc</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
-#&gt;    Resample .metric .estimator     .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;
-#&gt;  1 Fold01   pr_auc  macro_weighted     0.746
-#&gt;  2 Fold02   pr_auc  macro_weighted     0.743
-#&gt;  3 Fold03   pr_auc  macro_weighted     0.789
-#&gt;  4 Fold04   pr_auc  macro_weighted     0.754
-#&gt;  5 Fold05   pr_auc  macro_weighted     0.737
-#&gt;  6 Fold06   pr_auc  macro_weighted     0.743
-#&gt;  7 Fold07   pr_auc  macro_weighted     0.748
-#&gt;  8 Fold08   pr_auc  macro_weighted     0.756
-#&gt;  9 Fold09   pr_auc  macro_weighted     0.711
-#&gt; 10 Fold10   pr_auc  macro_weighted     0.737</div><div class='input'>
+  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+#&gt;    Resample .metric  .estimator .estimate
+#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+#&gt;  1 Fold01   roc_aunu macro          0.871
+#&gt;  2 Fold02   roc_aunu macro          0.863
+#&gt;  3 Fold03   roc_aunu macro          0.898
+#&gt;  4 Fold04   roc_aunu macro          0.874
+#&gt;  5 Fold05   roc_aunu macro          0.865
+#&gt;  6 Fold06   roc_aunu macro          0.877
+#&gt;  7 Fold07   roc_aunu macro          0.865
+#&gt;  8 Fold08   roc_aunu macro          0.873
+#&gt;  9 Fold09   roc_aunu macro          0.855
+#&gt; 10 Fold10   roc_aunu macro          0.865</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
 <span class='no'>fold1</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>)
 
-<span class='fu'>pr_auc_vec</span>(
-   <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>fold1</span>$<span class='no'>obs</span>,
-   <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(
-     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>fold1</span>$<span class='no'>VF</span>, <span class='no'>fold1</span>$<span class='no'>F</span>, <span class='no'>fold1</span>$<span class='no'>M</span>, <span class='no'>fold1</span>$<span class='no'>L</span>),
-     <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>
-   )
-)</div><div class='output co'>#&gt; [1] 0.6109931</div><div class='input'>
+<span class='fu'>roc_aunu_vec</span>(
+  <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>fold1</span>$<span class='no'>obs</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(
+    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>fold1</span>$<span class='no'>VF</span>, <span class='no'>fold1</span>$<span class='no'>F</span>, <span class='no'>fold1</span>$<span class='no'>M</span>, <span class='no'>fold1</span>$<span class='no'>L</span>),
+    <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>
+  )
+)</div><div class='output co'>#&gt; [1] 0.8714461</div><div class='input'>
+<span class='co'># ---------------------------------------------------------------------------</span>
+<span class='co'># Options for `pROC::roc()`</span>
+
+<span class='co'># Pass options via a named list and not through `...`!</span>
+<span class='fu'>roc_aunu</span>(
+  <span class='no'>hpc_cv</span>,
+  <span class='no'>obs</span>,
+  <span class='no'>VF</span>:<span class='no'>L</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   .metric  .estimator .estimate
+#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+#&gt; 1 roc_aunu macro          0.868</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -341,14 +338,16 @@ the "one" level is always the relevant result.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#multiclass">Multiclass</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#relevant-level">Relevant Level</a></li>
+      <li><a href="#multiclass">Multiclass</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
     <h2>Author</h2>
-    <p>Max Kuhn</p>
+    <p>Julia Silge</p>
   </div>
 </div>
 
