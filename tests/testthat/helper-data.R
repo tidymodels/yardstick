@@ -46,9 +46,9 @@ data_altman <- function() {
 #   pred_na = sample(iris$Species),
 #   where_na = sample.int(150, 10)
 # )
-# saveRDS(three_class_helpers, testthat::test_path("helper-data.rds"))
+# saveRDS(three_class_helpers, testthat::test_path("data/helper-three-class-helpers.rds"))
 
-three_class_helpers <- readRDS(test_path("helper-data.rds"))
+three_class_helpers <- readRDS(test_path("data/helper-three-class-helpers.rds"))
 
 data_three_class <- function() {
 
