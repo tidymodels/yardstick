@@ -46,9 +46,9 @@ data_altman <- function() {
 #   pred_na = sample(iris$Species),
 #   where_na = sample.int(150, 10)
 # )
-# saveRDS(three_class_helpers, testthat::test_path("helper-data.rds"))
+# saveRDS(three_class_helpers, testthat::test_path("data/helper-three-class-helpers.rds"))
 
-three_class_helpers <- readRDS(testthat::test_path("helper-data.rds"))
+three_class_helpers <- readRDS(test_path("data/helper-three-class-helpers.rds"))
 
 data_three_class <- function() {
 
@@ -72,4 +72,42 @@ data_three_class <- function() {
   three_class_tb <- table(three_class$pred, three_class$obs)
 
   list(three_class = three_class, three_class_tb = three_class_tb)
+}
+
+## Build a small example with different class distributions, to test mlr result
+# library(mlr)
+# library(yardstick)
+# library(rsample)
+# library(dplyr)
+# library(stringr)
+# library(mlbench)
+#
+# data("Soybean")
+#
+# set.seed(123)
+# soybean_split <- initial_split(Soybean)
+#
+# soybean_task = makeClassifTask(data = training(soybean_split),
+#                                target = "Class")
+#
+# lrn <- makeLearner("classif.rpart", predict.type = "prob")
+# mlr_mod <- train(lrn, soybean_task)
+# mlr_mod
+#
+# pred <- predict(mlr_mod, newdata = testing(soybean_split))
+#
+# measures_mlr <- performance(pred,
+#                             measures = list(multiclass.aunu,
+#                                             multiclass.aunp))
+# measures_mlr
+# dput(measures_mlr)
+# saveRDS(rename_at(pred$data, vars(starts_with("prob.")),
+#                   ~ str_remove_all(., "prob.")),
+#         testthat::test_path("data/helper-soybean.rds"),
+#         version = 2, compress = "xz")
+
+soybean_helper <- readRDS(test_path("data/helper-soybean.rds"))
+
+data_soybean <- function() {
+  soybean_helper
 }

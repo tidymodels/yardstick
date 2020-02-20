@@ -171,7 +171,9 @@ Other class probability metrics:
 \code{\link{average_precision}()},
 \code{\link{mn_log_loss}()},
 \code{\link{pr_auc}()},
-\code{\link{roc_auc}()}
+\code{\link{roc_auc}()},
+\code{\link{roc_aunp}()},
+\code{\link{roc_aunu}()}
 }
 \author{
 Max Kuhn
