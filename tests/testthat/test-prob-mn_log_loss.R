@@ -4,7 +4,7 @@ context("Mean Log Loss")
 
 
 ll_dat <- data.frame(
-  obs  = c("A", "A", "A", "B", "B", "C"),
+  obs  = factor(c("A", "A", "A", "B", "B", "C")),
   A = c(1, .80, .51, .1, .2, .3),
   B = c(0, .05, .29, .8, .6, .3),
   C = c(0, .15, .20, .1, .2, .4)
