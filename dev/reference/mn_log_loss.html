@@ -239,10 +239,10 @@ types are supported.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
-<span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mn_log_loss binary         0.328</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mn_log_loss binary         0.328</div><div class='input'>
 <span class='co'># Multiclass</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
@@ -250,26 +250,26 @@ types are supported.</p>
 <span class='co'># You can use the col1:colN tidyselect syntax</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mn_log_loss</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+  <span class='fu'>mn_log_loss</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mn_log_loss multiclass     0.734</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mn_log_loss multiclass     0.734</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mn_log_loss</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+  <span class='fu'>mn_log_loss</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric     .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   mn_log_loss multiclass     0.734
-#&gt;  2 Fold02   mn_log_loss multiclass     0.808
-#&gt;  3 Fold03   mn_log_loss multiclass     0.705
-#&gt;  4 Fold04   mn_log_loss multiclass     0.747
-#&gt;  5 Fold05   mn_log_loss multiclass     0.799
-#&gt;  6 Fold06   mn_log_loss multiclass     0.766
-#&gt;  7 Fold07   mn_log_loss multiclass     0.927
-#&gt;  8 Fold08   mn_log_loss multiclass     0.855
-#&gt;  9 Fold09   mn_log_loss multiclass     0.861
-#&gt; 10 Fold10   mn_log_loss multiclass     0.821</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   mn_log_loss multiclass     0.734
+#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   mn_log_loss multiclass     0.808
+#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   mn_log_loss multiclass     0.705
+#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   mn_log_loss multiclass     0.747
+#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   mn_log_loss multiclass     0.799
+#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   mn_log_loss multiclass     0.766
+#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   mn_log_loss multiclass     0.927
+#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   mn_log_loss multiclass     0.855
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   mn_log_loss multiclass     0.861
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   mn_log_loss multiclass     0.821</div><div class='input'>
 
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
@@ -285,16 +285,16 @@ types are supported.</p>
 )</div><div class='output co'>#&gt; [1] 0.7338423</div><div class='input'>
 <span class='co'># Supply `...` with quasiquotation</span>
 <span class='no'>prob_cols</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>)
-<span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mn_log_loss binary         0.328</div><div class='input'><span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>[<span class='fl'>1</span>])</div><div class='output co'>#&gt; # A tibble: 1 x 3
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mn_log_loss binary         0.328</div><div class='input'><span class='fu'>mn_log_loss</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, !! <span class='no'>prob_cols</span>[<span class='fl'>1</span>])</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 mn_log_loss binary         0.328</div><div class='input'>
-</div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mn_log_loss binary         0.328</div><div class='input'>
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

@@ -276,36 +276,36 @@ the rest, using the a priori class distribution.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
-#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 roc_aunu macro          0.871</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> roc_aunu macro          0.871</div><div class='input'>
 <span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
 <span class='co'># event of interest. The class probability columns should be supplied</span>
 <span class='co'># in the same order as the levels.</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='no'>obs</span>, <span class='st'>"M"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
-#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 roc_aunu macro          0.871</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> roc_aunu macro          0.871</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric  .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   roc_aunu macro          0.871
-#&gt;  2 Fold02   roc_aunu macro          0.863
-#&gt;  3 Fold03   roc_aunu macro          0.898
-#&gt;  4 Fold04   roc_aunu macro          0.874
-#&gt;  5 Fold05   roc_aunu macro          0.865
-#&gt;  6 Fold06   roc_aunu macro          0.877
-#&gt;  7 Fold07   roc_aunu macro          0.865
-#&gt;  8 Fold08   roc_aunu macro          0.873
-#&gt;  9 Fold09   roc_aunu macro          0.855
-#&gt; 10 Fold10   roc_aunu macro          0.865</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   roc_aunu macro          0.871
+#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   roc_aunu macro          0.863
+#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   roc_aunu macro          0.898
+#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   roc_aunu macro          0.874
+#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   roc_aunu macro          0.865
+#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   roc_aunu macro          0.877
+#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   roc_aunu macro          0.865
+#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   roc_aunu macro          0.873
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   roc_aunu macro          0.855
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   roc_aunu macro          0.865</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
 <span class='no'>fold1</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
@@ -327,13 +327,13 @@ the rest, using the a priori class distribution.</p>
   <span class='no'>obs</span>,
   <span class='no'>VF</span>:<span class='no'>L</span>,
   <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
-#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 roc_aunu macro          0.868</div><div class='input'>
-</div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> roc_aunu macro          0.868</div><div class='input'>
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

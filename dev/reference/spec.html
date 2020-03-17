@@ -299,59 +299,59 @@ vol 308, 1552.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
-<span class='fu'>spec</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'>spec</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 spec    binary         0.793</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> spec    binary         0.793</div><div class='input'>
 <span class='co'># Multiclass</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
 
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>spec</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+  <span class='fu'>spec</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 spec    macro          0.886</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> spec    macro          0.886</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>spec</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+  <span class='fu'>spec</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   spec    macro          0.886
-#&gt;  2 Fold02   spec    macro          0.882
-#&gt;  3 Fold03   spec    macro          0.899
-#&gt;  4 Fold04   spec    macro          0.879
-#&gt;  5 Fold05   spec    macro          0.881
-#&gt;  6 Fold06   spec    macro          0.873
-#&gt;  7 Fold07   spec    macro          0.866
-#&gt;  8 Fold08   spec    macro          0.884
-#&gt;  9 Fold09   spec    macro          0.867
-#&gt; 10 Fold10   spec    macro          0.875</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   spec    macro          0.886
+#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   spec    macro          0.882
+#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   spec    macro          0.899
+#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   spec    macro          0.879
+#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   spec    macro          0.881
+#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   spec    macro          0.873
+#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   spec    macro          0.866
+#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   spec    macro          0.884
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   spec    macro          0.867
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   spec    macro          0.875</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>spec</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+  <span class='fu'>spec</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator     .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;
-#&gt;  1 Fold01   spec    macro_weighted     0.816
-#&gt;  2 Fold02   spec    macro_weighted     0.815
-#&gt;  3 Fold03   spec    macro_weighted     0.839
-#&gt;  4 Fold04   spec    macro_weighted     0.803
-#&gt;  5 Fold05   spec    macro_weighted     0.812
-#&gt;  6 Fold06   spec    macro_weighted     0.795
-#&gt;  7 Fold07   spec    macro_weighted     0.790
-#&gt;  8 Fold08   spec    macro_weighted     0.814
-#&gt;  9 Fold09   spec    macro_weighted     0.795
-#&gt; 10 Fold10   spec    macro_weighted     0.801</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   spec    macro_weighted     0.816
+#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   spec    macro_weighted     0.815
+#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   spec    macro_weighted     0.839
+#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   spec    macro_weighted     0.803
+#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   spec    macro_weighted     0.812
+#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   spec    macro_weighted     0.795
+#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   spec    macro_weighted     0.790
+#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   spec    macro_weighted     0.814
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   spec    macro_weighted     0.795
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   spec    macro_weighted     0.801</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='fu'>spec_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.7933884</div><div class='input'>
 <span class='co'># Making Class2 the "relevant" level</span>
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'>spec_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.879845</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
+<span class='fu'>spec_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.879845</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

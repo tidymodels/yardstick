@@ -255,10 +255,10 @@ in Analytical Chemistry, 29(9), pp.1073-1081.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'>rpd</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'>rpd</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 rpd     standard        2.88</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> rpd     standard        2.88</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1234</span>)
@@ -280,27 +280,27 @@ in Analytical Chemistry, 29(9), pp.1073-1081.</p>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>rpd</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
 
-<span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
+<span class='no'>metric_results</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    resample .metric .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        rpd     standard        2.78
-#&gt;  2 10       rpd     standard        2.87
-#&gt;  3 2        rpd     standard        3.04
-#&gt;  4 3        rpd     standard        3.41
-#&gt;  5 4        rpd     standard        3.02
-#&gt;  6 5        rpd     standard        2.66
-#&gt;  7 6        rpd     standard        2.81
-#&gt;  8 7        rpd     standard        2.61
-#&gt;  9 8        rpd     standard        3.45
-#&gt; 10 9        rpd     standard        2.93</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 1        rpd     standard        2.78
+#&gt; </span><span style='color: #555555;'> 2</span><span> 10       rpd     standard        2.87
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2        rpd     standard        3.04
+#&gt; </span><span style='color: #555555;'> 4</span><span> 3        rpd     standard        3.41
+#&gt; </span><span style='color: #555555;'> 5</span><span> 4        rpd     standard        3.02
+#&gt; </span><span style='color: #555555;'> 6</span><span> 5        rpd     standard        2.66
+#&gt; </span><span style='color: #555555;'> 7</span><span> 6        rpd     standard        2.81
+#&gt; </span><span style='color: #555555;'> 8</span><span> 7        rpd     standard        2.61
+#&gt; </span><span style='color: #555555;'> 9</span><span> 8        rpd     standard        3.45
+#&gt; </span><span style='color: #555555;'>10</span><span> 9        rpd     standard        2.93</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;   avg_estimate
-#&gt;          &lt;dbl&gt;
-#&gt; 1         2.96</div></pre>
+#&gt;          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>         2.96</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

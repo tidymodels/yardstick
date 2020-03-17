@@ -269,25 +269,25 @@ confusion matrix.</p></div>
   <span class='co'># Average</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span>(<span class='kw'>prop</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>prop</span>))
 
-<span class='no'>counts_per_resample</span></div><div class='output co'>#&gt; # A tibble: 16 x 2
+<span class='no'>counts_per_resample</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 16 x 2</span><span>
 #&gt;    name         prop
-#&gt;    &lt;chr&gt;       &lt;dbl&gt;
-#&gt;  1 cell_1_1 0.467   
-#&gt;  2 cell_1_2 0.107   
-#&gt;  3 cell_1_3 0.0185  
-#&gt;  4 cell_1_4 0.00259 
-#&gt;  5 cell_2_1 0.0407  
-#&gt;  6 cell_2_2 0.187   
-#&gt;  7 cell_2_3 0.0632  
-#&gt;  8 cell_2_4 0.0173  
-#&gt;  9 cell_3_1 0.00173 
-#&gt; 10 cell_3_2 0.00692 
-#&gt; 11 cell_3_3 0.0228  
-#&gt; 12 cell_3_4 0.00807 
-#&gt; 13 cell_4_1 0.000575
-#&gt; 14 cell_4_2 0.0104  
-#&gt; 15 cell_4_3 0.0144  
-#&gt; 16 cell_4_4 0.0320  </div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> cell_1_1 0.467   
+#&gt; </span><span style='color: #555555;'> 2</span><span> cell_1_2 0.107   
+#&gt; </span><span style='color: #555555;'> 3</span><span> cell_1_3 0.018</span><span style='text-decoration: underline;'>5</span><span>  
+#&gt; </span><span style='color: #555555;'> 4</span><span> cell_1_4 0.002</span><span style='text-decoration: underline;'>59</span><span> 
+#&gt; </span><span style='color: #555555;'> 5</span><span> cell_2_1 0.040</span><span style='text-decoration: underline;'>7</span><span>  
+#&gt; </span><span style='color: #555555;'> 6</span><span> cell_2_2 0.187   
+#&gt; </span><span style='color: #555555;'> 7</span><span> cell_2_3 0.063</span><span style='text-decoration: underline;'>2</span><span>  
+#&gt; </span><span style='color: #555555;'> 8</span><span> cell_2_4 0.017</span><span style='text-decoration: underline;'>3</span><span>  
+#&gt; </span><span style='color: #555555;'> 9</span><span> cell_3_1 0.001</span><span style='text-decoration: underline;'>73</span><span> 
+#&gt; </span><span style='color: #555555;'>10</span><span> cell_3_2 0.006</span><span style='text-decoration: underline;'>92</span><span> 
+#&gt; </span><span style='color: #555555;'>11</span><span> cell_3_3 0.022</span><span style='text-decoration: underline;'>8</span><span>  
+#&gt; </span><span style='color: #555555;'>12</span><span> cell_3_4 0.008</span><span style='text-decoration: underline;'>07</span><span> 
+#&gt; </span><span style='color: #555555;'>13</span><span> cell_4_1 0.000</span><span style='text-decoration: underline;'>575</span><span>
+#&gt; </span><span style='color: #555555;'>14</span><span> cell_4_2 0.010</span><span style='text-decoration: underline;'>4</span><span>  
+#&gt; </span><span style='color: #555555;'>15</span><span> cell_4_3 0.014</span><span style='text-decoration: underline;'>4</span><span>  
+#&gt; </span><span style='color: #555555;'>16</span><span> cell_4_4 0.032</span><span style='text-decoration: underline;'>0</span><span>  </div><div class='input'>
 <span class='co'># Now reshape these into a matrix</span>
 <span class='no'>mean_cmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='no'>counts_per_resample</span>$<span class='no'>prop</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>mean_cmat</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)
@@ -302,9 +302,9 @@ confusion matrix.</p></div>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
 
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='no'>cm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mosaic"</span>)</div><div class='img'><img src='conf_mat-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='no'>cm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"heatmap"</span>)</div><div class='img'><img src='conf_mat-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

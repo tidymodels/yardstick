@@ -147,12 +147,19 @@
 
 <p>If you are filing a bug, make sure these boxes are checked before submitting your issue— thank you!</p>
 <ul>
-<li>[ ] Start a new R session</li>
-<li>[ ] Install the latest version of of the package: <code><a href="https://rdrr.io/r/utils/update.packages.html">update.packages(oldPkgs="yardstick", ask=FALSE)</a></code>
+<li>
+<input type="checkbox" disabled>
+Start a new R session</li>
+<li>
+<input type="checkbox" disabled>
+Install the latest version of of the package: <code><a href="https://rdrr.io/r/utils/update.packages.html">update.packages(oldPkgs="yardstick", ask=FALSE)</a></code>
 </li>
-<li>[ ] <a href="http://stackoverflow.com/a/5963610">Write a minimal reproducible example</a>
+<li>
+<input type="checkbox" disabled><a href="http://stackoverflow.com/a/5963610">Write a minimal reproducible example</a>
 </li>
-<li>[ ] run <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code> and add the results to the issue. Even better would be to use the <a href="https://github.com/r-lib/sessioninfo"><code>sessioninfo</code></a> package’s <code>session_info()</code>.</li>
+<li>
+<input type="checkbox" disabled>
+run <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code> and add the results to the issue. Even better would be to use the <a href="https://github.com/r-lib/sessioninfo"><code>sessioninfo</code></a> package’s <code>session_info()</code>.</li>
 </ul>
 <div id="minimal-reproducible-example" class="section level3">
 <h3 class="hasAnchor">
@@ -162,28 +169,28 @@
 <div id="minimal-reproducible-dataset" class="section level4">
 <h4 class="hasAnchor">
 <a href="#minimal-reproducible-dataset" class="anchor"></a><em>Minimal</em> Reproducible Dataset:</h4>
-<p>If you are not using a data set in a package then use e.g. <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> to give us something that can be put in R immediately, e.g.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/dput.html">dput</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(iris,<span class="dv">4</span>))</a></code></pre></div>
+<p>If you are not using a data set in a package then use e.g. <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> to give us something that can be put in R immediately, e.g. </p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/dput.html">dput</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(iris,<span class="dv">4</span>))</span></code></pre></div>
 <p>Without a dataset, there usually isn’t much that we can do to help.</p>
 <p>If your data frame has a factor with many levels, the <code>dput</code> output can be unwieldy because it will still list all the possible factor levels even if they aren’t present in the the subset of your data. To solve this issue, you can use the <code><a href="https://rdrr.io/r/base/droplevels.html">droplevels()</a></code> function. Notice below how species is a factor with only one level: <code><a href="https://rdrr.io/r/base/dput.html">dput(droplevels(head(iris, 4)))</a></code>.</p>
 </div>
 <div id="minimal-runnable-code" class="section level4">
 <h4 class="hasAnchor">
 <a href="#minimal-runnable-code" class="anchor"></a>Minimal, runnable code:</h4>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(yardstick)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"hpc_cv"</span>)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">hpc_cv <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(Resample <span class="op">==</span><span class="st"> "Fold01"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="reference/conf_mat.html">conf_mat</a></span>(obs, pred)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(yardstick)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"hpc_cv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a>hpc_cv <span class="op">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(Resample <span class="op">==</span><span class="st"> "Fold01"</span>) <span class="op">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="st">  </span><span class="kw"><a href="reference/conf_mat.html">conf_mat</a></span>(obs, pred)</span></code></pre></div>
 </div>
 </div>
 <div id="session-info" class="section level3">
 <h3 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info:</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># or sessioninfo::session_info()</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># or sessioninfo::session_info()</span></span></code></pre></div>
 <p>Be sure to test your chunks of code in an empty R session before submitting your issue!</p>
 </div>
 

@@ -234,59 +234,59 @@ scales". <em>Educational and Psychological Measurement</em>. 20 (1): 37-46.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
-<span class='fu'>kap</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'>kap</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 kap     binary         0.675</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> kap     binary         0.675</div><div class='input'>
 <span class='co'># Multiclass</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
 
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>kap</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+  <span class='fu'>kap</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 kap     multiclass     0.533</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> kap     multiclass     0.533</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>kap</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+  <span class='fu'>kap</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   kap     multiclass     0.533
-#&gt;  2 Fold02   kap     multiclass     0.512
-#&gt;  3 Fold03   kap     multiclass     0.594
-#&gt;  4 Fold04   kap     multiclass     0.511
-#&gt;  5 Fold05   kap     multiclass     0.514
-#&gt;  6 Fold06   kap     multiclass     0.486
-#&gt;  7 Fold07   kap     multiclass     0.454
-#&gt;  8 Fold08   kap     multiclass     0.531
-#&gt;  9 Fold09   kap     multiclass     0.454
-#&gt; 10 Fold10   kap     multiclass     0.492</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   kap     multiclass     0.533
+#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   kap     multiclass     0.512
+#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   kap     multiclass     0.594
+#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   kap     multiclass     0.511
+#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   kap     multiclass     0.514
+#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   kap     multiclass     0.486
+#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   kap     multiclass     0.454
+#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   kap     multiclass     0.531
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   kap     multiclass     0.454
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   kap     multiclass     0.492</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>kap</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+  <span class='fu'>kap</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   kap     multiclass     0.533
-#&gt;  2 Fold02   kap     multiclass     0.512
-#&gt;  3 Fold03   kap     multiclass     0.594
-#&gt;  4 Fold04   kap     multiclass     0.511
-#&gt;  5 Fold05   kap     multiclass     0.514
-#&gt;  6 Fold06   kap     multiclass     0.486
-#&gt;  7 Fold07   kap     multiclass     0.454
-#&gt;  8 Fold08   kap     multiclass     0.531
-#&gt;  9 Fold09   kap     multiclass     0.454
-#&gt; 10 Fold10   kap     multiclass     0.492</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   kap     multiclass     0.533
+#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   kap     multiclass     0.512
+#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   kap     multiclass     0.594
+#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   kap     multiclass     0.511
+#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   kap     multiclass     0.514
+#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   kap     multiclass     0.486
+#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   kap     multiclass     0.454
+#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   kap     multiclass     0.531
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   kap     multiclass     0.454
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   kap     multiclass     0.492</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='fu'>kap_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6748764</div><div class='input'>
 <span class='co'># Making Class2 the "relevant" level</span>
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'>kap_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6748764</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
+<span class='fu'>kap_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6748764</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

@@ -225,26 +225,26 @@ and <code><a href='mae.html'>mae()</a></code>.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Accuracy and kappa</span>
-<span class='fu'>metrics</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
+<span class='fu'>metrics</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
-#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 accuracy binary         0.838
-#&gt; 2 kap      binary         0.675</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> accuracy binary         0.838
+#&gt; </span><span style='color: #555555;'>2</span><span> kap      binary         0.675</div><div class='input'>
 <span class='co'># Add on multinomal log loss and ROC AUC by specifying class prob columns</span>
-<span class='fu'>metrics</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 3
+<span class='fu'>metrics</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 accuracy    binary         0.838
-#&gt; 2 kap         binary         0.675
-#&gt; 3 mn_log_loss binary         0.328
-#&gt; 4 roc_auc     binary         0.939</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> accuracy    binary         0.838
+#&gt; </span><span style='color: #555555;'>2</span><span> kap         binary         0.675
+#&gt; </span><span style='color: #555555;'>3</span><span> mn_log_loss binary         0.328
+#&gt; </span><span style='color: #555555;'>4</span><span> roc_auc     binary         0.939</div><div class='input'>
 <span class='co'># Regression metrics</span>
-<span class='fu'>metrics</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
+<span class='fu'>metrics</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 rmse    standard       0.722
-#&gt; 2 rsq     standard       0.879
-#&gt; 3 mae     standard       0.545</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> rmse    standard       0.722
+#&gt; </span><span style='color: #555555;'>2</span><span> rsq     standard       0.879
+#&gt; </span><span style='color: #555555;'>3</span><span> mae     standard       0.545</div><div class='input'>
 <span class='co'># Multiclass metrics work, but you cannot specify any averaging</span>
 <span class='co'># for roc_auc() besides the default, hand_till. Use the specific function</span>
 <span class='co'># if you need more customization</span>
@@ -253,52 +253,52 @@ and <code><a href='mae.html'>mae()</a></code>.</p></li>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>metrics</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>40</span>)</div><div class='output co'>#&gt; # A tibble: 40 x 4
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>40</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 40 x 4</span><span>
 #&gt;    Resample .metric     .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   accuracy    multiclass     0.726
-#&gt;  2 Fold02   accuracy    multiclass     0.712
-#&gt;  3 Fold03   accuracy    multiclass     0.758
-#&gt;  4 Fold04   accuracy    multiclass     0.712
-#&gt;  5 Fold05   accuracy    multiclass     0.712
-#&gt;  6 Fold06   accuracy    multiclass     0.697
-#&gt;  7 Fold07   accuracy    multiclass     0.675
-#&gt;  8 Fold08   accuracy    multiclass     0.721
-#&gt;  9 Fold09   accuracy    multiclass     0.673
-#&gt; 10 Fold10   accuracy    multiclass     0.699
-#&gt; 11 Fold01   kap         multiclass     0.533
-#&gt; 12 Fold02   kap         multiclass     0.512
-#&gt; 13 Fold03   kap         multiclass     0.594
-#&gt; 14 Fold04   kap         multiclass     0.511
-#&gt; 15 Fold05   kap         multiclass     0.514
-#&gt; 16 Fold06   kap         multiclass     0.486
-#&gt; 17 Fold07   kap         multiclass     0.454
-#&gt; 18 Fold08   kap         multiclass     0.531
-#&gt; 19 Fold09   kap         multiclass     0.454
-#&gt; 20 Fold10   kap         multiclass     0.492
-#&gt; 21 Fold01   mn_log_loss multiclass     0.734
-#&gt; 22 Fold02   mn_log_loss multiclass     0.808
-#&gt; 23 Fold03   mn_log_loss multiclass     0.705
-#&gt; 24 Fold04   mn_log_loss multiclass     0.747
-#&gt; 25 Fold05   mn_log_loss multiclass     0.799
-#&gt; 26 Fold06   mn_log_loss multiclass     0.766
-#&gt; 27 Fold07   mn_log_loss multiclass     0.927
-#&gt; 28 Fold08   mn_log_loss multiclass     0.855
-#&gt; 29 Fold09   mn_log_loss multiclass     0.861
-#&gt; 30 Fold10   mn_log_loss multiclass     0.821
-#&gt; 31 Fold01   roc_auc     hand_till      0.831
-#&gt; 32 Fold02   roc_auc     hand_till      0.817
-#&gt; 33 Fold03   roc_auc     hand_till      0.869
-#&gt; 34 Fold04   roc_auc     hand_till      0.849
-#&gt; 35 Fold05   roc_auc     hand_till      0.811
-#&gt; 36 Fold06   roc_auc     hand_till      0.836
-#&gt; 37 Fold07   roc_auc     hand_till      0.825
-#&gt; 38 Fold08   roc_auc     hand_till      0.846
-#&gt; 39 Fold09   roc_auc     hand_till      0.836
-#&gt; 40 Fold10   roc_auc     hand_till      0.820</div><div class='input'>
-</div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   accuracy    multiclass     0.726
+#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   accuracy    multiclass     0.712
+#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   accuracy    multiclass     0.758
+#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   accuracy    multiclass     0.712
+#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   accuracy    multiclass     0.712
+#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   accuracy    multiclass     0.697
+#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   accuracy    multiclass     0.675
+#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   accuracy    multiclass     0.721
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   accuracy    multiclass     0.673
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   accuracy    multiclass     0.699
+#&gt; </span><span style='color: #555555;'>11</span><span> Fold01   kap         multiclass     0.533
+#&gt; </span><span style='color: #555555;'>12</span><span> Fold02   kap         multiclass     0.512
+#&gt; </span><span style='color: #555555;'>13</span><span> Fold03   kap         multiclass     0.594
+#&gt; </span><span style='color: #555555;'>14</span><span> Fold04   kap         multiclass     0.511
+#&gt; </span><span style='color: #555555;'>15</span><span> Fold05   kap         multiclass     0.514
+#&gt; </span><span style='color: #555555;'>16</span><span> Fold06   kap         multiclass     0.486
+#&gt; </span><span style='color: #555555;'>17</span><span> Fold07   kap         multiclass     0.454
+#&gt; </span><span style='color: #555555;'>18</span><span> Fold08   kap         multiclass     0.531
+#&gt; </span><span style='color: #555555;'>19</span><span> Fold09   kap         multiclass     0.454
+#&gt; </span><span style='color: #555555;'>20</span><span> Fold10   kap         multiclass     0.492
+#&gt; </span><span style='color: #555555;'>21</span><span> Fold01   mn_log_loss multiclass     0.734
+#&gt; </span><span style='color: #555555;'>22</span><span> Fold02   mn_log_loss multiclass     0.808
+#&gt; </span><span style='color: #555555;'>23</span><span> Fold03   mn_log_loss multiclass     0.705
+#&gt; </span><span style='color: #555555;'>24</span><span> Fold04   mn_log_loss multiclass     0.747
+#&gt; </span><span style='color: #555555;'>25</span><span> Fold05   mn_log_loss multiclass     0.799
+#&gt; </span><span style='color: #555555;'>26</span><span> Fold06   mn_log_loss multiclass     0.766
+#&gt; </span><span style='color: #555555;'>27</span><span> Fold07   mn_log_loss multiclass     0.927
+#&gt; </span><span style='color: #555555;'>28</span><span> Fold08   mn_log_loss multiclass     0.855
+#&gt; </span><span style='color: #555555;'>29</span><span> Fold09   mn_log_loss multiclass     0.861
+#&gt; </span><span style='color: #555555;'>30</span><span> Fold10   mn_log_loss multiclass     0.821
+#&gt; </span><span style='color: #555555;'>31</span><span> Fold01   roc_auc     hand_till      0.831
+#&gt; </span><span style='color: #555555;'>32</span><span> Fold02   roc_auc     hand_till      0.817
+#&gt; </span><span style='color: #555555;'>33</span><span> Fold03   roc_auc     hand_till      0.869
+#&gt; </span><span style='color: #555555;'>34</span><span> Fold04   roc_auc     hand_till      0.849
+#&gt; </span><span style='color: #555555;'>35</span><span> Fold05   roc_auc     hand_till      0.811
+#&gt; </span><span style='color: #555555;'>36</span><span> Fold06   roc_auc     hand_till      0.836
+#&gt; </span><span style='color: #555555;'>37</span><span> Fold07   roc_auc     hand_till      0.825
+#&gt; </span><span style='color: #555555;'>38</span><span> Fold08   roc_auc     hand_till      0.846
+#&gt; </span><span style='color: #555555;'>39</span><span> Fold09   roc_auc     hand_till      0.836
+#&gt; </span><span style='color: #555555;'>40</span><span> Fold10   roc_auc     hand_till      0.820</div><div class='input'>
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>

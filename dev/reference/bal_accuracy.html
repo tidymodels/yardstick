@@ -251,59 +251,59 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
-<span class='fu'>bal_accuracy</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'>bal_accuracy</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric      .estimator .estimate
-#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 bal_accuracy binary         0.837</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> bal_accuracy binary         0.837</div><div class='input'>
 <span class='co'># Multiclass</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
 
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>bal_accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+  <span class='fu'>bal_accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric      .estimator .estimate
-#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 bal_accuracy macro          0.717</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> bal_accuracy macro          0.717</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>bal_accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+  <span class='fu'>bal_accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric      .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 Fold01   bal_accuracy macro          0.717
-#&gt;  2 Fold02   bal_accuracy macro          0.711
-#&gt;  3 Fold03   bal_accuracy macro          0.767
-#&gt;  4 Fold04   bal_accuracy macro          0.724
-#&gt;  5 Fold05   bal_accuracy macro          0.715
-#&gt;  6 Fold06   bal_accuracy macro          0.707
-#&gt;  7 Fold07   bal_accuracy macro          0.699
-#&gt;  8 Fold08   bal_accuracy macro          0.734
-#&gt;  9 Fold09   bal_accuracy macro          0.717
-#&gt; 10 Fold10   bal_accuracy macro          0.706</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   bal_accuracy macro          0.717
+#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   bal_accuracy macro          0.711
+#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   bal_accuracy macro          0.767
+#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   bal_accuracy macro          0.724
+#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   bal_accuracy macro          0.715
+#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   bal_accuracy macro          0.707
+#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   bal_accuracy macro          0.699
+#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   bal_accuracy macro          0.734
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   bal_accuracy macro          0.717
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   bal_accuracy macro          0.706</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
 <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>bal_accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 4
+  <span class='fu'>bal_accuracy</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric      .estimator     .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;              &lt;dbl&gt;
-#&gt;  1 Fold01   bal_accuracy macro_weighted     0.771
-#&gt;  2 Fold02   bal_accuracy macro_weighted     0.763
-#&gt;  3 Fold03   bal_accuracy macro_weighted     0.799
-#&gt;  4 Fold04   bal_accuracy macro_weighted     0.758
-#&gt;  5 Fold05   bal_accuracy macro_weighted     0.762
-#&gt;  6 Fold06   bal_accuracy macro_weighted     0.746
-#&gt;  7 Fold07   bal_accuracy macro_weighted     0.733
-#&gt;  8 Fold08   bal_accuracy macro_weighted     0.768
-#&gt;  9 Fold09   bal_accuracy macro_weighted     0.734
-#&gt; 10 Fold10   bal_accuracy macro_weighted     0.750</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   bal_accuracy macro_weighted     0.771
+#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   bal_accuracy macro_weighted     0.763
+#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   bal_accuracy macro_weighted     0.799
+#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   bal_accuracy macro_weighted     0.758
+#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   bal_accuracy macro_weighted     0.762
+#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   bal_accuracy macro_weighted     0.746
+#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   bal_accuracy macro_weighted     0.733
+#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   bal_accuracy macro_weighted     0.768
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   bal_accuracy macro_weighted     0.734
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   bal_accuracy macro_weighted     0.750</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='fu'>bal_accuracy_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8366167</div><div class='input'>
 <span class='co'># Making Class2 the "relevant" level</span>
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'>bal_accuracy_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8366167</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
+<span class='fu'>bal_accuracy_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8366167</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
