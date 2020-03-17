@@ -36,3 +36,5 @@ Imports:
 LinkingTo: 
     Rcpp
 VignetteBuilder: knitr
+Remotes:
+    RcppCore/Rcpp#1049
