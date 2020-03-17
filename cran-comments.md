@@ -1,7 +1,7 @@
 ## Comments
 
-This is a small release that fixes a bug with the `autoplot()` method for
-confusion matrices.
+This release includes a fix to prepare for `stringsAsFactors = TRUE`, along
+with two new metrics and a few small bug fixes.
 
 ## Test environments
 * local OS X install, R 3.6.0
