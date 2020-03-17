@@ -139,7 +139,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="reference/metrics.html">metrics</a></span>(two_class_example, truth, predicted)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; # A tibble: 2 x 3</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;   .metric  .estimator .estimate</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; * &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span></span>
 <span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; 1 accuracy binary         0.838</span></span>
 <span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; 2 kap      binary         0.675</span></span>
 <span id="cb3-7"><a href="#cb3-7"></a></span>
@@ -218,9 +218,7 @@
 <span id="cb7-3"><a href="#cb7-3"></a>hpc_cv <span class="op">%&gt;%</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></span>
 <span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw"><a href="reference/roc_curve.html">roc_curve</a></span>(obs, VF<span class="op">:</span>L) <span class="op">%&gt;%</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>()</span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; Warning: Row indexes must be between 0 and the number of rows (0). Use `NA` as row index to obtain a row full of `NA` values.</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; This warning is displayed once per session.</span></span></code></pre></div>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>()</span></code></pre></div>
 <p><img src="reference/figures/README-roc-curves-1.png"><!-- --></p>
 </div>
 <div id="quasiquotation" class="section level2">
@@ -275,7 +273,7 @@
 <li><a href="https://CRAN.R-project.org/package=yardstick"><img src="http://www.r-pkg.org/badges/version/yardstick" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://CRAN.R-project.org/package=yardstick"><img src="http://cranlogs.r-pkg.org/badges/yardstick" alt="Downloads"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
-<li><a href="https://github.com/tidymodels/yardstick"><img src="https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/tidymodels/yardstick/actions"><img src="https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
 </div>
