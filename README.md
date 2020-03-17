@@ -9,7 +9,7 @@ Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build
-status](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/yardstick)
+status](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/yardstick/actions)
 
 ## Overview
 
@@ -55,7 +55,7 @@ characteristics of the model and get them back in a data frame:
 metrics(two_class_example, truth, predicted)
 #> # A tibble: 2 x 3
 #>   .metric  .estimator .estimate
-#>   <chr>    <chr>          <dbl>
+#> * <chr>    <chr>          <dbl>
 #> 1 accuracy binary         0.838
 #> 2 kap      binary         0.675
 
@@ -150,8 +150,6 @@ hpc_cv %>%
   group_by(Resample) %>%
   roc_curve(obs, VF:L) %>%
   autoplot()
-#> Warning: Row indexes must be between 0 and the number of rows (0). Use `NA` as row index to obtain a row full of `NA` values.
-#> This warning is displayed once per session.
 ```
 
 ![](man/figures/README-roc-curves-1.png)<!-- -->

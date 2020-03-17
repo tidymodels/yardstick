@@ -23,7 +23,7 @@ options(width = 100, digits = 3)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![R build status](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/yardstick)
+[![R build status](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/yardstick/actions)
 
 ## Overview
 
