@@ -8,21 +8,31 @@
 
 <title>Ratio of performance to deviation — rpd • yardstick</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,39 +42,39 @@
 
 
 <meta property="og:title" content="Ratio of performance to deviation — rpd" />
-
 <meta property="og:description" content="These functions are appropriate for cases where the model outcome is a
 numeric. The ratio of performance to deviation
 (rpd()) and the ratio of performance to inter-quartile (rpiq())
 are both measures of consistency/correlation between observed
 and predicted values (and not of accuracy)." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,7 +91,7 @@ and predicted values (and not of accuracy)." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
         </div>
       </div>
     </div>
@@ -118,7 +128,7 @@ and predicted values (and not of accuracy)." />
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/yardstick">
+  <a href="https://github.com/tidymodels/yardstick/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -142,13 +152,11 @@ and predicted values (and not of accuracy)." />
     </div>
 
     <div class="ref-description">
-    
     <p>These functions are appropriate for cases where the model outcome is a
 numeric. The ratio of performance to deviation
 (<code>rpd()</code>) and the ratio of performance to inter-quartile (<code><a href='rpiq.html'>rpiq()</a></code>)
 are both measures of consistency/correlation between observed
 and predicted values (and not of accuracy).</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>rpd</span>(<span class='no'>data</span>, <span class='no'>...</span>)
@@ -157,7 +165,7 @@ and predicted values (and not of accuracy).</p>
 <span class='fu'>rpd</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>rpd_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -175,7 +183,7 @@ columns.</p></td>
       <td><p>The column identifier for the true results
 (that is <code>numeric</code>). This should be an unquoted column name although
 this argument is passed by expression and supports
-<a href='https://rlang.r-lib.org/reference/quasiquotation.html'>quasiquotation</a> (you can unquote column
+<a href='https://rlang.r-lib.org/reference/nse-force.html'>quasiquotation</a> (you can unquote column
 names). For <code>_vec()</code> functions, a <code>numeric</code> vector.</p></td>
     </tr>
     <tr>
@@ -191,7 +199,7 @@ unquoted variable name. For <code>_vec()</code> functions, a <code>numeric</code
 values should be stripped before the computation proceeds.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code>tibble</code> with columns <code>.metric</code>, <code>.estimator</code>,
@@ -199,7 +207,6 @@ and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
 <p>For <code>rpd_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In the field of spectroscopy in particular, the ratio
@@ -213,7 +220,6 @@ variable can be misleading on skewed dataset. The ratio of
 performance to inter-quartile has been introduced by
 Bellon-Maurel et al. (2010) to address some of these issues, and
 generalise the RPD to non-normally distributed variables.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Williams, P.C. (1987) Variables affecting near-infrared
@@ -225,28 +231,34 @@ J.M. and McBratney, A., (2010). Critical review of chemometric
 indicators commonly used for assessing the quality of the
 prediction of soil attributes by NIR spectroscopy. TrAC Trends
 in Analytical Chemistry, 29(9), pp.1073-1081.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>The closely related inter-quartile metric: <code><a href='rpiq.html'>rpiq()</a></code></p>
-<p>Other numeric metrics: <code><a href='ccc.html'>ccc</a></code>,
-  <code><a href='huber_loss_pseudo.html'>huber_loss_pseudo</a></code>,
-  <code><a href='huber_loss.html'>huber_loss</a></code>, <code><a href='iic.html'>iic</a></code>,
-  <code><a href='mae.html'>mae</a></code>, <code><a href='mape.html'>mape</a></code>,
-  <code><a href='mase.html'>mase</a></code>, <code><a href='rmse.html'>rmse</a></code>,
-  <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq_trad.html'>rsq_trad</a></code>,
-  <code><a href='rsq.html'>rsq</a></code>, <code><a href='smape.html'>smape</a></code></p>
-<p>Other consistency metrics: <code><a href='ccc.html'>ccc</a></code>,
-  <code><a href='rpiq.html'>rpiq</a></code>, <code><a href='rsq_trad.html'>rsq_trad</a></code>,
-  <code><a href='rsq.html'>rsq</a></code></p></div>
-    
+<p>Other numeric metrics: 
+<code><a href='ccc.html'>ccc</a>()</code>,
+<code><a href='huber_loss_pseudo.html'>huber_loss_pseudo</a>()</code>,
+<code><a href='huber_loss.html'>huber_loss</a>()</code>,
+<code><a href='iic.html'>iic</a>()</code>,
+<code><a href='mae.html'>mae</a>()</code>,
+<code><a href='mape.html'>mape</a>()</code>,
+<code><a href='mase.html'>mase</a>()</code>,
+<code><a href='rmse.html'>rmse</a>()</code>,
+<code><a href='rpiq.html'>rpiq</a>()</code>,
+<code><a href='rsq_trad.html'>rsq_trad</a>()</code>,
+<code><a href='rsq.html'>rsq</a>()</code>,
+<code><a href='smape.html'>smape</a>()</code></p>
+<p>Other consistency metrics: 
+<code><a href='ccc.html'>ccc</a>()</code>,
+<code><a href='rpiq.html'>rpiq</a>()</code>,
+<code><a href='rsq_trad.html'>rsq_trad</a>()</code>,
+<code><a href='rsq.html'>rsq</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'>rpd</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='fu'>rpd</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 rpd     standard        2.88</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> rpd     standard        2.88</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1234</span>)
@@ -268,44 +280,30 @@ in Analytical Chemistry, 29(9), pp.1073-1081.</p>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>resample</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>rpd</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
 
-<span class='no'>metric_results</span></div><div class='output co'>#&gt; # A tibble: 10 x 4
+<span class='no'>metric_results</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    resample .metric .estimator .estimate
-#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt;  1 1        rpd     standard        2.78
-#&gt;  2 10       rpd     standard        2.87
-#&gt;  3 2        rpd     standard        3.04
-#&gt;  4 3        rpd     standard        3.41
-#&gt;  5 4        rpd     standard        3.02
-#&gt;  6 5        rpd     standard        2.66
-#&gt;  7 6        rpd     standard        2.81
-#&gt;  8 7        rpd     standard        2.61
-#&gt;  9 8        rpd     standard        3.45
-#&gt; 10 9        rpd     standard        2.93</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 1        rpd     standard        2.78
+#&gt; </span><span style='color: #555555;'> 2</span><span> 10       rpd     standard        2.87
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2        rpd     standard        3.04
+#&gt; </span><span style='color: #555555;'> 4</span><span> 3        rpd     standard        3.41
+#&gt; </span><span style='color: #555555;'> 5</span><span> 4        rpd     standard        3.02
+#&gt; </span><span style='color: #555555;'> 6</span><span> 5        rpd     standard        2.66
+#&gt; </span><span style='color: #555555;'> 7</span><span> 6        rpd     standard        2.81
+#&gt; </span><span style='color: #555555;'> 8</span><span> 7        rpd     standard        2.61
+#&gt; </span><span style='color: #555555;'> 9</span><span> 8        rpd     standard        3.45
+#&gt; </span><span style='color: #555555;'>10</span><span> 9        rpd     standard        2.93</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;   avg_estimate
-#&gt;          &lt;dbl&gt;
-#&gt; 1         2.96</div></pre>
+#&gt;          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>         2.96</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Pierre Roudier</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
