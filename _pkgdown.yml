@@ -30,6 +30,8 @@ reference:
   - title: Class Probability Metrics
     contents:
     - roc_auc
+    - roc_aunp
+    - roc_aunu
     - pr_auc
     - average_precision
     - gain_capture
