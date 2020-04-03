@@ -33,7 +33,7 @@
   gtag('config', 'UA-115082821-1');
 </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -49,7 +49,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/yardstick">
+  <a href="https://github.com/tidymodels/yardstick/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -104,10 +104,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Multiclass averaging</h1>
+      <h1 data-toc-skip>Multiclass averaging</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2020-03-17</h4>
+            <h4 class="date">2020-04-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/multiclass.Rmd"><code>vignettes/multiclass.Rmd</code></a></small>
       <div class="hidden name"><code>multiclass.Rmd</code></div>
@@ -160,17 +160,9 @@ Pr_{micro} = \frac{TP_1 + TP_2 + \ldots + TP_k}{(TP_1 + TP_2 + \ldots + TP_k) + 
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
-      <li><a href="#macro-averaging">Macro averaging</a></li>
-      <li><a href="#micro-averaging">Micro averaging</a></li>
-      <li><a href="#specialized-multiclass-implementations">Specialized multiclass implementations</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 

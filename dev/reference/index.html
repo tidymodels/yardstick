@@ -69,7 +69,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -86,7 +86,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -123,7 +123,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/yardstick">
+  <a href="https://github.com/tidymodels/yardstick/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -159,6 +159,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -245,12 +250,31 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
           <p><code><a href="roc_auc.html">roc_auc()</a></code> <code><a href="roc_auc.html">roc_auc_vec()</a></code> </p>
         </td>
         <td><p>Area under the receiver operator curve</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="roc_aunp.html">roc_aunp()</a></code> <code><a href="roc_aunp.html">roc_aunp_vec()</a></code> </p>
+        </td>
+        <td><p>Area under the ROC curve of each class against the rest, using the a priori
+class distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="roc_aunu.html">roc_aunu()</a></code> <code><a href="roc_aunu.html">roc_aunu_vec()</a></code> </p>
+        </td>
+        <td><p>Area under the ROC curve of each class against the rest, using the uniform
+class distribution</p></td>
       </tr><tr>
         
         <td>
@@ -283,6 +307,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -369,6 +398,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -401,6 +435,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -433,6 +472,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -459,6 +503,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -489,16 +538,9 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-classification-metrics">Classification Metrics</a></li>
-      <li><a href="#section-class-probability-metrics">Class Probability Metrics</a></li>
-      <li><a href="#section-regression-metrics">Regression Metrics</a></li>
-      <li><a href="#section-curve-functions">Curve Functions</a></li>
-      <li><a href="#section-other-functions">Other Functions</a></li>
-      <li><a href="#section-development-functions">Development Functions</a></li>
-      <li><a href="#section-data-sets">Data Sets</a></li>
-    </ul>
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 

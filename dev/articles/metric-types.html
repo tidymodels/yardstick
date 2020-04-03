@@ -33,7 +33,7 @@
   gtag('config', 'UA-115082821-1');
 </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -49,7 +49,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/yardstick">
+  <a href="https://github.com/tidymodels/yardstick/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -104,10 +104,10 @@
       </header><script src="metric-types_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Metric types</h1>
+      <h1 data-toc-skip>Metric types</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2020-03-17</h4>
+            <h4 class="date">2020-04-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/metric-types.Rmd"><code>vignettes/metric-types.Rmd</code></a></small>
       <div class="hidden name"><code>metric-types.Rmd</code></div>
@@ -148,82 +148,82 @@
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>In the following example, the <code>hpc_cv</code> data set is used. It contains class probabilities and class predictions for a linear discriminant analysis fit to the HPC data set of Kuhn and Johnson (2013). It is fit with 10 fold cross-validation, and the predictions for all folds are included.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(yardstick)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"hpc_cv"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>hpc_cv <span class="op">%&gt;%</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; # A tibble: 30 x 7</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; # Groups:   Resample [10]</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt;    obs   pred     VF      F       M          L Resample</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;    &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   </span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;  1 VF    VF    0.914 0.0779 0.00848 0.0000199  Fold01  </span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt;  2 VF    VF    0.938 0.0571 0.00482 0.0000101  Fold01  </span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt;  3 VF    VF    0.947 0.0495 0.00316 0.00000500 Fold01  </span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt;  4 VF    VF    0.941 0.0544 0.00441 0.0000123  Fold02  </span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt;  5 VF    VF    0.948 0.0483 0.00347 0.00000792 Fold02  </span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt;  6 VF    VF    0.958 0.0395 0.00236 0.00000310 Fold02  </span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt;  7 VF    VF    0.939 0.0556 0.00513 0.00000790 Fold03  </span></span>
-<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt;  8 VF    VF    0.928 0.0642 0.00777 0.0000148  Fold03  </span></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="co">#&gt;  9 VF    VF    0.927 0.0653 0.00786 0.0000150  Fold03  </span></span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="co">#&gt; 10 VF    VF    0.949 0.0469 0.00398 0.00000935 Fold04  </span></span>
-<span id="cb1-22"><a href="#cb1-22"></a><span class="co">#&gt; # … with 20 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">yardstick</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"hpc_cv"</span>)
+
+<span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">Resample</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(<span class="fl">1</span>:<span class="fl">3</span>)
+<span class="co">#&gt; # A tibble: 30 x 7</span>
+<span class="co">#&gt; # Groups:   Resample [10]</span>
+<span class="co">#&gt;    obs   pred     VF      F       M          L Resample</span>
+<span class="co">#&gt;    &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   </span>
+<span class="co">#&gt;  1 VF    VF    0.914 0.0779 0.00848 0.0000199  Fold01  </span>
+<span class="co">#&gt;  2 VF    VF    0.938 0.0571 0.00482 0.0000101  Fold01  </span>
+<span class="co">#&gt;  3 VF    VF    0.947 0.0495 0.00316 0.00000500 Fold01  </span>
+<span class="co">#&gt;  4 VF    VF    0.941 0.0544 0.00441 0.0000123  Fold02  </span>
+<span class="co">#&gt;  5 VF    VF    0.948 0.0483 0.00347 0.00000792 Fold02  </span>
+<span class="co">#&gt;  6 VF    VF    0.958 0.0395 0.00236 0.00000310 Fold02  </span>
+<span class="co">#&gt;  7 VF    VF    0.939 0.0556 0.00513 0.00000790 Fold03  </span>
+<span class="co">#&gt;  8 VF    VF    0.928 0.0642 0.00777 0.0000148  Fold03  </span>
+<span class="co">#&gt;  9 VF    VF    0.927 0.0653 0.00786 0.0000150  Fold03  </span>
+<span class="co">#&gt; 10 VF    VF    0.949 0.0469 0.00398 0.00000935 Fold04  </span>
+<span class="co">#&gt; # … with 20 more rows</span></pre></body></html></div>
 <p>1 metric, 1 resample</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>hpc_cv <span class="op">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(Resample <span class="op">==</span><span class="st"> "Fold01"</span>) <span class="op">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span><span class="kw"><a href="../reference/accuracy.html">accuracy</a></span>(obs, pred)</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; # A tibble: 1 x 3</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;   .metric  .estimator .estimate</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; 1 accuracy multiclass     0.726</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">Resample</span> <span class="kw">==</span> <span class="st">"Fold01"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span>(<span class="no">obs</span>, <span class="no">pred</span>)
+<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt;   .metric  .estimator .estimate</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 accuracy multiclass     0.726</span></pre></body></html></div>
 <p>1 metric, 10 resamples</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>hpc_cv <span class="op">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw"><a href="../reference/accuracy.html">accuracy</a></span>(obs, pred)</span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; # A tibble: 10 x 4</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt;    Resample .metric  .estimator .estimate</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt;  1 Fold01   accuracy multiclass     0.726</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt;  2 Fold02   accuracy multiclass     0.712</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt;  3 Fold03   accuracy multiclass     0.758</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;  4 Fold04   accuracy multiclass     0.712</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt;  5 Fold05   accuracy multiclass     0.712</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt;  6 Fold06   accuracy multiclass     0.697</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt;  7 Fold07   accuracy multiclass     0.675</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt;  8 Fold08   accuracy multiclass     0.721</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt;  9 Fold09   accuracy multiclass     0.673</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; 10 Fold10   accuracy multiclass     0.699</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">Resample</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span>(<span class="no">obs</span>, <span class="no">pred</span>)
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;    Resample .metric  .estimator .estimate</span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Fold01   accuracy multiclass     0.726</span>
+<span class="co">#&gt;  2 Fold02   accuracy multiclass     0.712</span>
+<span class="co">#&gt;  3 Fold03   accuracy multiclass     0.758</span>
+<span class="co">#&gt;  4 Fold04   accuracy multiclass     0.712</span>
+<span class="co">#&gt;  5 Fold05   accuracy multiclass     0.712</span>
+<span class="co">#&gt;  6 Fold06   accuracy multiclass     0.697</span>
+<span class="co">#&gt;  7 Fold07   accuracy multiclass     0.675</span>
+<span class="co">#&gt;  8 Fold08   accuracy multiclass     0.721</span>
+<span class="co">#&gt;  9 Fold09   accuracy multiclass     0.673</span>
+<span class="co">#&gt; 10 Fold10   accuracy multiclass     0.699</span></pre></body></html></div>
 <p>2 metrics, 10 resamples</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>class_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../reference/metric_set.html">metric_set</a></span>(accuracy, kap)</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a>hpc_cv <span class="op">%&gt;%</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Resample) <span class="op">%&gt;%</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw">class_metrics</span>(obs, <span class="dt">estimate =</span> pred)</span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; # A tibble: 20 x 4</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;    Resample .metric  .estimator .estimate</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;  1 Fold01   accuracy multiclass     0.726</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;  2 Fold02   accuracy multiclass     0.712</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt;  3 Fold03   accuracy multiclass     0.758</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;  4 Fold04   accuracy multiclass     0.712</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;  5 Fold05   accuracy multiclass     0.712</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;  6 Fold06   accuracy multiclass     0.697</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt;  7 Fold07   accuracy multiclass     0.675</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt;  8 Fold08   accuracy multiclass     0.721</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt;  9 Fold09   accuracy multiclass     0.673</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt; 10 Fold10   accuracy multiclass     0.699</span></span>
-<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt; 11 Fold01   kap      multiclass     0.533</span></span>
-<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt; 12 Fold02   kap      multiclass     0.512</span></span>
-<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt; 13 Fold03   kap      multiclass     0.594</span></span>
-<span id="cb4-22"><a href="#cb4-22"></a><span class="co">#&gt; 14 Fold04   kap      multiclass     0.511</span></span>
-<span id="cb4-23"><a href="#cb4-23"></a><span class="co">#&gt; 15 Fold05   kap      multiclass     0.514</span></span>
-<span id="cb4-24"><a href="#cb4-24"></a><span class="co">#&gt; 16 Fold06   kap      multiclass     0.486</span></span>
-<span id="cb4-25"><a href="#cb4-25"></a><span class="co">#&gt; 17 Fold07   kap      multiclass     0.454</span></span>
-<span id="cb4-26"><a href="#cb4-26"></a><span class="co">#&gt; 18 Fold08   kap      multiclass     0.531</span></span>
-<span id="cb4-27"><a href="#cb4-27"></a><span class="co">#&gt; 19 Fold09   kap      multiclass     0.454</span></span>
-<span id="cb4-28"><a href="#cb4-28"></a><span class="co">#&gt; 20 Fold10   kap      multiclass     0.492</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">class_metrics</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/metric_set.html">metric_set</a></span>(<span class="no">accuracy</span>, <span class="no">kap</span>)
+
+<span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">Resample</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">class_metrics</span>(<span class="no">obs</span>, <span class="kw">estimate</span> <span class="kw">=</span> <span class="no">pred</span>)
+<span class="co">#&gt; # A tibble: 20 x 4</span>
+<span class="co">#&gt;    Resample .metric  .estimator .estimate</span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Fold01   accuracy multiclass     0.726</span>
+<span class="co">#&gt;  2 Fold02   accuracy multiclass     0.712</span>
+<span class="co">#&gt;  3 Fold03   accuracy multiclass     0.758</span>
+<span class="co">#&gt;  4 Fold04   accuracy multiclass     0.712</span>
+<span class="co">#&gt;  5 Fold05   accuracy multiclass     0.712</span>
+<span class="co">#&gt;  6 Fold06   accuracy multiclass     0.697</span>
+<span class="co">#&gt;  7 Fold07   accuracy multiclass     0.675</span>
+<span class="co">#&gt;  8 Fold08   accuracy multiclass     0.721</span>
+<span class="co">#&gt;  9 Fold09   accuracy multiclass     0.673</span>
+<span class="co">#&gt; 10 Fold10   accuracy multiclass     0.699</span>
+<span class="co">#&gt; 11 Fold01   kap      multiclass     0.533</span>
+<span class="co">#&gt; 12 Fold02   kap      multiclass     0.512</span>
+<span class="co">#&gt; 13 Fold03   kap      multiclass     0.594</span>
+<span class="co">#&gt; 14 Fold04   kap      multiclass     0.511</span>
+<span class="co">#&gt; 15 Fold05   kap      multiclass     0.514</span>
+<span class="co">#&gt; 16 Fold06   kap      multiclass     0.486</span>
+<span class="co">#&gt; 17 Fold07   kap      multiclass     0.454</span>
+<span class="co">#&gt; 18 Fold08   kap      multiclass     0.531</span>
+<span class="co">#&gt; 19 Fold09   kap      multiclass     0.454</span>
+<span class="co">#&gt; 20 Fold10   kap      multiclass     0.492</span></pre></body></html></div>
 </div>
 <div id="metrics" class="section level2">
 <h2 class="hasAnchor">
@@ -430,16 +430,9 @@ numeric
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#metric-types">Metric types</a></li>
-      <li><a href="#example">Example</a></li>
-      <li><a href="#metrics">Metrics</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 

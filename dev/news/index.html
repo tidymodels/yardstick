@@ -69,7 +69,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -86,7 +86,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -123,7 +123,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/yardstick">
+  <a href="https://github.com/tidymodels/yardstick/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -141,22 +141,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/tidymodels/yardstick/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
     <div id="yardstick-development-version" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="development version">
 <a href="#yardstick-development-version" class="anchor"></a>yardstick (development version)<small> Unreleased </small>
+</h1>
+</div>
+    <div id="yardstick-006" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.6">
+<a href="#yardstick-006" class="anchor"></a>yardstick 0.0.6<small> 2020-03-17 </small>
 </h1>
 <ul>
 <li><p><code><a href="../reference/roc_auc.html">roc_auc()</a></code> now warns when there are no events or controls in the provided <code>truth</code> column, and returns <code>NA</code> (<a href='https://github.com/dpastling'>@dpastling</a>, <a href='https://github.com/tidymodels/yardstick/issues/132'>#132</a>).</p></li>
-<li><p>Adds <code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="../reference/sens.html">sens()</a></code> and <code><a href="../reference/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g. <code><a href="https://readr.tidyverse.org/reference/spec.html">readr::spec()</a></code>.</p></li>
+<li><p>Adds <code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="../reference/sens.html">sens()</a></code> and <code><a href="../reference/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g.Â <code><a href="https://readr.tidyverse.org/reference/spec.html">readr::spec()</a></code>.</p></li>
 <li><p><code><a href="../reference/roc_aunu.html">roc_aunu()</a></code> and <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code> are two new ROC AUC metrics for multiclass classifiers. These measure the AUC of each class against the rest, <code><a href="../reference/roc_aunu.html">roc_aunu()</a></code> using the uniform class distribution (<a href='https://github.com/tidymodels/yardstick/issues/69'>#69</a>) and <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code> using the a priori class distribution (<a href='https://github.com/tidymodels/yardstick/issues/70'>#70</a>).</p></li>
 </ul>
 </div>
     <div id="yardstick-005" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.5">
 <a href="#yardstick-005" class="anchor"></a>yardstick 0.0.5<small> 2020-01-23 </small>
 </h1>
 <div id="other-improvements" class="section level2">
@@ -169,7 +174,7 @@
 </div>
 </div>
     <div id="yardstick-004" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.4">
 <a href="#yardstick-004" class="anchor"></a>yardstick 0.0.4<small> 2019-08-26 </small>
 </h1>
 <div id="new-metrics-and-functionality" class="section level2">
@@ -205,7 +210,7 @@
 </div>
 </div>
     <div id="yardstick-003" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.3">
 <a href="#yardstick-003" class="anchor"></a>yardstick 0.0.3<small> 2019-03-08 </small>
 </h1>
 <div id="new-metrics-and-functionality-1" class="section level2">
@@ -239,7 +244,7 @@
 </div>
 </div>
     <div id="yardstick-002" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.2">
 <a href="#yardstick-002" class="anchor"></a>yardstick 0.0.2<small> 2018-11-05 </small>
 </h1>
 <div id="breaking-changes" class="section level2">
@@ -269,7 +274,7 @@
 <a href="#new-metrics-and-functionality-2" class="anchor"></a>New metrics and functionality</h2>
 <ul>
 <li><p><code><a href="../reference/mape.html">mape()</a></code> calculates the mean absolute percent error.</p></li>
-<li><p><code><a href="../reference/kap.html">kap()</a></code> is a metric similar to <code><a href="../reference/accuracy.html">accuracy()</a></code> that calculates Cohen’s kappa.</p></li>
+<li><p><code><a href="../reference/kap.html">kap()</a></code> is a metric similar to <code><a href="../reference/accuracy.html">accuracy()</a></code> that calculates Cohenâs kappa.</p></li>
 <li><p><code><a href="../reference/detection_prevalence.html">detection_prevalence()</a></code> calculates the number of predicted positive events relative to the total number of predictions.</p></li>
 <li><p><code><a href="../reference/bal_accuracy.html">bal_accuracy()</a></code> calculates balanced accuracy as the average of sensitivity and specificity.</p></li>
 <li><p><code><a href="../reference/roc_curve.html">roc_curve()</a></code> calculates receiver operator curves and returns the results as a tibble.</p></li>
@@ -286,7 +291,7 @@
 <ul>
 <li><p>The infrastructure for creating metrics has been exposed to allow users to extend yardstick to work with their own metrics. You might want to do this if you want your metrics to work with grouped data frames out of the box, or if you want the standardization and error checking that yardstick already provides. See <code><a href="../articles/custom-metrics.html">vignette("custom-metrics", "yardstick")</a></code> for a few examples.</p></li>
 <li><p>A vignette describing the three classes of metrics used in yardstick has been added. It also includes a list of every metric available, grouped by class. See <code><a href="../articles/metric-types.html">vignette("metric-types", "yardstick")</a></code>.</p></li>
-<li><p>The error messages in yardstick should now be much more informative, with better feedback about the types of input that each metric can use and about what kinds of metrics can be used together (i.e. in <code><a href="../reference/metric_set.html">metric_set()</a></code>).</p></li>
+<li><p>The error messages in yardstick should now be much more informative, with better feedback about the types of input that each metric can use and about what kinds of metrics can be used together (i.e.Â in <code><a href="../reference/metric_set.html">metric_set()</a></code>).</p></li>
 <li><p>There is now a <code>grouped_df</code> method for <code><a href="../reference/conf_mat.html">conf_mat()</a></code> that returns a tibble with a list column of <code>conf_mat</code> objects.</p></li>
 <li><p>Each metric now has its own help page. This allows us to better document the nuances of each metric without cluttering the help pages of other metrics.</p></li>
 </ul>
@@ -302,7 +307,7 @@
 </div>
 </div>
     <div id="yardstick-001" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.1">
 <a href="#yardstick-001" class="anchor"></a>yardstick 0.0.1<small> 2017-11-12 </small>
 </h1>
 <ul>
@@ -312,17 +317,9 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#yardstick-development-version">development version</a></li>
-        <li><a href="#yardstick-005">0.0.5</a></li>
-        <li><a href="#yardstick-004">0.0.4</a></li>
-        <li><a href="#yardstick-003">0.0.3</a></li>
-        <li><a href="#yardstick-002">0.0.2</a></li>
-        <li><a href="#yardstick-001">0.0.1</a></li>
-      </ul>
-    </div>
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
