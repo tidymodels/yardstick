@@ -1,3 +1,5 @@
+# yardstick (development version)
+
 # yardstick 0.0.6
 
 * `roc_auc()` now warns when there are no events or controls in the provided `truth` column, and returns `NA` (@dpastling, #132).
