@@ -123,6 +123,32 @@ test_that('Mean Absolute Percentage Error', {
 
 ###################################################################
 
+test_that('Mean Percentage Error', {
+  expect_equal(
+    mpe(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
+    100 * mean((ex_dat$obs - ex_dat$pred)/ex_dat$obs)
+  )
+  expect_equal(
+    mpe(ex_dat, obs, pred_na)[[".estimate"]],
+    100 * mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])/ex_dat$obs[-ind])
+  )
+  expect_equal(
+    mpe(data.frame(obs=0, pred=1), obs, pred)[[".estimate"]],
+    -Inf
+  )
+  expect_equal(
+    mpe(data.frame(obs=0, pred=-1), obs, pred)[[".estimate"]],
+    Inf
+  )
+  expect_equal(
+    mpe(data.frame(obs=0, pred=0), obs, pred)[[".estimate"]],
+    NaN
+  )
+})
+
+
+###################################################################
+
 test_that('Symmetric Mean Absolute Percentage Error', {
   expect_equal(
     smape(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
