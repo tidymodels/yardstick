@@ -246,7 +246,8 @@ metric_set <- function(...) {
 
   # Add on names, and then check that
   # all fns are of the same function class
-  names(fns) <- vapply(quo_fns, quo_name, character(1))
+  names(fns) <- sub("yardstick::", "",
+                    vapply(quo_fns, quo_name, character(1)))
   validate_function_class(fns)
 
   fn_cls <- class(fns[[1]])[1]
