@@ -3,7 +3,7 @@ url: https://yardstick.tidymodels.org
 template:
   package: tidytemplate
   params:
-    part_of: <a href="https://tidymodels.orgs">tidymodels</a>
+    part_of: <a href="https://tidymodels.org">tidymodels</a>
     footer: yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
 
 development:
