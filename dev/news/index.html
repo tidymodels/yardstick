@@ -17,22 +17,26 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -42,7 +46,7 @@
 
 
 <meta property="og:title" content="Changelog" />
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://yardstick.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -84,8 +88,8 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">yardstick</a>
-        <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
+        <div class="info hidden-xs hidden-sm">
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
         </div>
       </div>
@@ -156,7 +160,7 @@
 </h1>
 <ul>
 <li><p><code><a href="../reference/roc_auc.html">roc_auc()</a></code> now warns when there are no events or controls in the provided <code>truth</code> column, and returns <code>NA</code> (<a href='https://github.com/dpastling'>@dpastling</a>, <a href='https://github.com/tidymodels/yardstick/issues/132'>#132</a>).</p></li>
-<li><p>Adds <code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="../reference/sens.html">sens()</a></code> and <code><a href="../reference/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g.Â <code><a href="https://readr.tidyverse.org/reference/spec.html">readr::spec()</a></code>.</p></li>
+<li><p>Adds <code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="../reference/sens.html">sens()</a></code> and <code><a href="../reference/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g. <code><a href="https://readr.tidyverse.org/reference/spec.html">readr::spec()</a></code>.</p></li>
 <li><p><code><a href="../reference/roc_aunu.html">roc_aunu()</a></code> and <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code> are two new ROC AUC metrics for multiclass classifiers. These measure the AUC of each class against the rest, <code><a href="../reference/roc_aunu.html">roc_aunu()</a></code> using the uniform class distribution (<a href='https://github.com/tidymodels/yardstick/issues/69'>#69</a>) and <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code> using the a priori class distribution (<a href='https://github.com/tidymodels/yardstick/issues/70'>#70</a>).</p></li>
 </ul>
 </div>
@@ -274,7 +278,7 @@
 <a href="#new-metrics-and-functionality-2" class="anchor"></a>New metrics and functionality</h2>
 <ul>
 <li><p><code><a href="../reference/mape.html">mape()</a></code> calculates the mean absolute percent error.</p></li>
-<li><p><code><a href="../reference/kap.html">kap()</a></code> is a metric similar to <code><a href="../reference/accuracy.html">accuracy()</a></code> that calculates Cohenâs kappa.</p></li>
+<li><p><code><a href="../reference/kap.html">kap()</a></code> is a metric similar to <code><a href="../reference/accuracy.html">accuracy()</a></code> that calculates Cohen’s kappa.</p></li>
 <li><p><code><a href="../reference/detection_prevalence.html">detection_prevalence()</a></code> calculates the number of predicted positive events relative to the total number of predictions.</p></li>
 <li><p><code><a href="../reference/bal_accuracy.html">bal_accuracy()</a></code> calculates balanced accuracy as the average of sensitivity and specificity.</p></li>
 <li><p><code><a href="../reference/roc_curve.html">roc_curve()</a></code> calculates receiver operator curves and returns the results as a tibble.</p></li>
@@ -291,7 +295,7 @@
 <ul>
 <li><p>The infrastructure for creating metrics has been exposed to allow users to extend yardstick to work with their own metrics. You might want to do this if you want your metrics to work with grouped data frames out of the box, or if you want the standardization and error checking that yardstick already provides. See <code><a href="../articles/custom-metrics.html">vignette("custom-metrics", "yardstick")</a></code> for a few examples.</p></li>
 <li><p>A vignette describing the three classes of metrics used in yardstick has been added. It also includes a list of every metric available, grouped by class. See <code><a href="../articles/metric-types.html">vignette("metric-types", "yardstick")</a></code>.</p></li>
-<li><p>The error messages in yardstick should now be much more informative, with better feedback about the types of input that each metric can use and about what kinds of metrics can be used together (i.e.Â in <code><a href="../reference/metric_set.html">metric_set()</a></code>).</p></li>
+<li><p>The error messages in yardstick should now be much more informative, with better feedback about the types of input that each metric can use and about what kinds of metrics can be used together (i.e. in <code><a href="../reference/metric_set.html">metric_set()</a></code>).</p></li>
 <li><p>There is now a <code>grouped_df</code> method for <code><a href="../reference/conf_mat.html">conf_mat()</a></code> that returns a tibble with a list column of <code>conf_mat</code> objects.</p></li>
 <li><p>Each metric now has its own help page. This allows us to better document the nuances of each metric without cluttering the help pages of other metrics.</p></li>
 </ul>
