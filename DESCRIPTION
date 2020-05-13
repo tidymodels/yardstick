@@ -7,7 +7,7 @@ Authors@R: c(
     person("Davis", "Vaughan", , "davis@rstudio.com", c("aut", "cre")),
     person("RStudio", role = "cph"))
 Description: Tidy tools for quantifying how well model fits to a data set such as confusion matrices, class probability curve summaries, and regression metrics (e.g., RMSE). 
-URL: https://github.com/tidymodels/yardstick
+URL: https://github.com/tidymodels/yardstick, https://yardstick.tidymodels.org
 BugReports: https://github.com/tidymodels/yardstick/issues
 License: GPL-2
 Encoding: UTF-8
