@@ -349,7 +349,7 @@ cm_mosaic <- function(x) {
 
   cm_zero <- (as.numeric(x$table == 0) / 2) + x$table
 
-  x_data <- space_fun(rowSums(cm_zero), 200)
+  x_data <- space_fun(colSums(cm_zero), 200)
 
   full_data_list <- purrr::map(seq_len(ncol(cm_zero)),
                         ~ space_y_fun(cm_zero, .x, x_data))
