@@ -108,6 +108,7 @@ in Analytical Chemistry, 29(9), pp.1073-1081.
 The closely related deviation metric: \code{\link[=rpd]{rpd()}}
 
 Other numeric metrics: 
+\code{\link{c_index}()},
 \code{\link{ccc}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},

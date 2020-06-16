@@ -98,6 +98,7 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.
 }
 \seealso{
 Other numeric metrics: 
+\code{\link{c_index}()},
 \code{\link{ccc}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},

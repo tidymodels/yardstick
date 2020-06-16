@@ -88,6 +88,7 @@ Hartley, Richard (2004). Multiple View Geometry in Computer Vision.
 }
 \seealso{
 Other numeric metrics: 
+\code{\link{c_index}()},
 \code{\link{ccc}()},
 \code{\link{huber_loss}()},
 \code{\link{iic}()},

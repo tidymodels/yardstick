@@ -109,6 +109,7 @@ INTERMITTENT DEMAND. \emph{Foresight}, 4, 46.
 }
 \seealso{
 Other numeric metrics: 
+\code{\link{c_index}()},
 \code{\link{ccc}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},

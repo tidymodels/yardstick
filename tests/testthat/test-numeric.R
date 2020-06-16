@@ -153,6 +153,19 @@ test_that('Concordance Correlation Coefficient', {
 
 ###################################################################
 
+test_that('C-Index', {
+  expect_equal(
+    c_index(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
+    survival::concordance(obs ~ pred, data = ex_dat)$concordance,
+  )
+  expect_equal(
+    c_index(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
+    survival::concordance(obs ~ pred_na, data = ex_dat)$concordance,
+  )
+})
+
+###################################################################
+
 test_that('rpd', {
   expect_equal(
     rpd(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],

@@ -94,6 +94,7 @@ coefficient to evaluate reproducibility". \emph{Biometrics}, 53(4),
 }
 \seealso{
 Other numeric metrics: 
+\code{\link{c_index}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},
 \code{\link{iic}()},

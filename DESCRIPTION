@@ -32,7 +32,8 @@ Imports:
     rlang (>= 0.4.0),
     tidyselect,
     Rcpp,
-    generics
+    generics,
+    survival
 LinkingTo: 
     Rcpp
 VignetteBuilder: knitr
