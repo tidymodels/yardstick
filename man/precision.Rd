@@ -22,7 +22,7 @@ in the columns of the table.}
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
+\link[rlang:nse-force]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
@@ -103,7 +103,7 @@ The formulas used here are:
 
 \deqn{recall = A/(A+C)}
 \deqn{precision = A/(A+B)}
-\deqn{F_meas_\beta = (1+\beta^2) * precision * recall/((\beta^2 * precision)+recall)}
+\deqn{F_{meas} = (1+\beta^2) * precision * recall/((\beta^2 * precision)+recall)}
 
 See the references for discussions of the statistics.
 }
