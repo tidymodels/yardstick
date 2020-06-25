@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 
 <meta property="og:title" content="Combine metric functions — metric_set" />
@@ -153,11 +157,11 @@ into a new function that calculates all of them at once." />
     </div>
 
     <div class="ref-description">
-    <p><code>metric_set()</code> allows you to combine multiple metric functions together
+    <p><code><a href='https://rdrr.io/pkg/yardstick/man/metric_set.html'>metric_set()</a></code> allows you to combine multiple metric functions together
 into a new function that calculates all of them at once.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>metric_set</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metric_set.html'>metric_set</a></span>(<span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,9 +179,9 @@ into a new function that calculates all of them at once.</p>
 <li><p>A mix of class metrics or class prob metrics</p></li>
 </ul>
 
-<p>For instance, <code><a href='rmse.html'>rmse()</a></code> can be used with <code><a href='mae.html'>mae()</a></code> because they
-are numeric metrics, but not with <code><a href='accuracy.html'>accuracy()</a></code> because it is a classification
-metric. But <code><a href='accuracy.html'>accuracy()</a></code> can be used with <code><a href='roc_auc.html'>roc_auc()</a></code>.</p>
+<p>For instance, <code><a href='https://rdrr.io/pkg/yardstick/man/rmse.html'>rmse()</a></code> can be used with <code><a href='https://rdrr.io/pkg/yardstick/man/mae.html'>mae()</a></code> because they
+are numeric metrics, but not with <code><a href='https://rdrr.io/pkg/yardstick/man/accuracy.html'>accuracy()</a></code> because it is a classification
+metric. But <code><a href='https://rdrr.io/pkg/yardstick/man/accuracy.html'>accuracy()</a></code> can be used with <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code>.</p>
 <p>The returned metric function will have a different argument list
 depending on whether numeric metrics or a mix of class/prob metrics were
 passed in.</p>
@@ -190,28 +194,28 @@ the named argument <code>estimate</code>, and the soft predictions (the class
 probability columns) as bare column names or <code>tidyselect</code> selectors to <code>...</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='metrics.html'>metrics()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/yardstick/man/metrics.html'>metrics()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
 
 <span class='co'># Multiple regression metrics</span>
-<span class='no'>multi_metric</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>rmse</span>, <span class='no'>rsq</span>, <span class='no'>ccc</span>)
+<span class='kw'>multi_metric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metric_set.html'>metric_set</a></span>(<span class='kw'>rmse</span>, <span class='kw'>rsq</span>, <span class='kw'>ccc</span>)
 
 <span class='co'># The returned function has arguments:</span>
 <span class='co'># fn(data, truth, estimate, na_rm = TRUE, ...)</span>
-<span class='fu'>multi_metric</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
+<span class='fu'>multi_metric</span>(<span class='kw'>solubility_test</span>, truth = <span class='kw'>solubility</span>, estimate = <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> rmse    standard       0.722
 #&gt; </span><span style='color: #555555;'>2</span><span> rsq     standard       0.879
 #&gt; </span><span style='color: #555555;'>3</span><span> ccc     standard       0.934</div><div class='input'>
 <span class='co'># Groups are respected on the new metric function</span>
-<span class='no'>class_metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>accuracy</span>, <span class='no'>kap</span>)
+<span class='kw'>class_metrics</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metric_set.html'>metric_set</a></span>(<span class='kw'>accuracy</span>, <span class='kw'>kap</span>)
 
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>class_metrics</span>(<span class='no'>obs</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 20 x 4</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>class_metrics</span>(<span class='kw'>obs</span>, estimate = <span class='kw'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 20 x 4</span><span>
 #&gt;    Resample .metric  .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   accuracy multiclass     0.726
@@ -241,26 +245,26 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
 <span class='co'># passing along truth and estimate as quoted arguments.</span>
 <span class='co'># Then add on the function class of the underlying wrapped function,</span>
 <span class='co'># and the direction of optimization.</span>
-<span class='no'>ccc_with_bias</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='no'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>) {
-  <span class='fu'><a href='ccc.html'>ccc</a></span>(
-    <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>,
-    <span class='kw'>truth</span> <span class='kw'>=</span> !! <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquo</a></span>(<span class='no'>truth</span>),
-    <span class='kw'>estimate</span> <span class='kw'>=</span> !! <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquo</a></span>(<span class='no'>estimate</span>),
+<span class='kw'>ccc_with_bias</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>estimate</span>, <span class='kw'>na_rm</span> = <span class='fl'>TRUE</span>, <span class='kw'>...</span>) {
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/ccc.html'>ccc</a></span>(
+    data = <span class='kw'>data</span>,
+    truth = <span class='op'>!</span><span class='op'>!</span> <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquo</a></span>(<span class='kw'>truth</span>),
+    estimate = <span class='op'>!</span><span class='op'>!</span> <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/nse-defuse.html'>enquo</a></span>(<span class='kw'>estimate</span>),
     <span class='co'># set bias = TRUE</span>
-    <span class='kw'>bias</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-    <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='no'>na_rm</span>,
-    <span class='no'>...</span>
+    bias = <span class='fl'>TRUE</span>,
+    na_rm = <span class='kw'>na_rm</span>,
+    <span class='kw'>...</span>
   )
 }
 
 <span class='co'># Add on the underlying function class (here, "numeric_metric"), and the</span>
 <span class='co'># direction to optimize the metric</span>
-<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>ccc_with_bias</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>ccc</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>ccc_with_bias</span>, <span class='st'>"direction"</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>ccc</span>, <span class='st'>"direction"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>ccc_with_bias</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>ccc</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='kw'>ccc_with_bias</span>, <span class='st'>"direction"</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='kw'>ccc</span>, <span class='st'>"direction"</span>)
 
-<span class='no'>multi_metric2</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>rmse</span>, <span class='no'>rsq</span>, <span class='no'>ccc_with_bias</span>)
+<span class='kw'>multi_metric2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metric_set.html'>metric_set</a></span>(<span class='kw'>rmse</span>, <span class='kw'>rsq</span>, <span class='kw'>ccc_with_bias</span>)
 
-<span class='fu'>multi_metric2</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+<span class='fu'>multi_metric2</span>(<span class='kw'>solubility_test</span>, truth = <span class='kw'>solubility</span>, estimate = <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> rmse    standard       0.722
@@ -277,11 +281,11 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
 <span class='co'># You must provide the `estimate` column by explicitly naming</span>
 <span class='co'># the argument</span>
 
-<span class='no'>class_and_probs_metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>metric_set</span>(<span class='no'>roc_auc</span>, <span class='no'>pr_auc</span>, <span class='no'>accuracy</span>)
+<span class='kw'>class_and_probs_metrics</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metric_set.html'>metric_set</a></span>(<span class='kw'>roc_auc</span>, <span class='kw'>pr_auc</span>, <span class='kw'>accuracy</span>)
 
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>class_and_probs_metrics</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 30 x 4</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>class_and_probs_metrics</span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>, estimate = <span class='kw'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 30 x 4</span><span>
 #&gt;    Resample .metric  .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   accuracy multiclass     0.726
@@ -294,8 +298,7 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
 #&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   accuracy multiclass     0.721
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   accuracy multiclass     0.673
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   accuracy multiclass     0.699
-#&gt; </span><span style='color: #555555;'># … with 20 more rows</span><span></div><div class='input'>
-</div></span></pre>
+#&gt; </span><span style='color: #555555;'># … with 20 more rows</span><span></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

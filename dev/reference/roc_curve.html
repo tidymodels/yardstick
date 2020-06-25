@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 
 <meta property="og:title" content="Receiver operator curve — roc_curve" />
@@ -153,16 +157,16 @@ tibble. See roc_auc() for the area under the ROC curve." />
     </div>
 
     <div class="ref-description">
-    <p><code>roc_curve()</code> constructs the full ROC curve and returns a
-tibble. See <code><a href='roc_auc.html'>roc_auc()</a></code> for the area under the ROC curve.</p>
+    <p><code><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve()</a></code> constructs the full ROC curve and returns a
+tibble. See <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code> for the area under the ROC curve.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>roc_curve</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>...</span>, options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), na_rm = <span class='fl'>TRUE</span>)
 
-<span class='fu'>autoplot.roc_df</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>autoplot.roc_df</a></span>(<span class='kw'>object</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,7 +204,7 @@ values should be stripped before the computation proceeds.</p></td>
     </tr>
     <tr>
       <th>object</th>
-      <td><p>The <code>roc_df</code> data frame returned from <code>roc_curve()</code>.</p></td>
+      <td><p>The <code>roc_df</code> data frame returned from <code><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve()</a></code>.</p></td>
     </tr>
     </table>
 
@@ -212,7 +216,7 @@ columns <code>specificity</code> and <code>sensitivity</code>.</p>
 is used, there is also a column for <code>.threshold</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>roc_curve()</code> computes the sensitivity at every unique
+    <p><code><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve()</a></code> computes the sensitivity at every unique
 value of the probability column (in addition to infinity and
 minus infinity). If a smooth ROC curve was produced, the unique
 observed values of the specificity are used to create the curve
@@ -248,11 +252,14 @@ comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Compute the area under the ROC curve with <code><a href='roc_auc.html'>roc_auc()</a></code>.</p>
+    <div class='dont-index'><p>Compute the area under the ROC curve with <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code>.</p>
 <p>Other curve metrics: 
-<code><a href='gain_curve.html'>gain_curve</a>()</code>,
-<code><a href='lift_curve.html'>lift_curve</a>()</code>,
-<code><a href='pr_curve.html'>pr_curve</a>()</code></p></div>
+<code><a href='https://rdrr.io/pkg/yardstick/man/gain_curve.html'>gain_curve</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/lift_curve.html'>lift_curve</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/pr_curve.html'>pr_curve</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Max Kuhn</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
@@ -261,13 +268,13 @@ the "one" level is always the relevant result.</p>
 <span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>two_class_example</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>two_class_example</span>)
 
 <span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span>
 <span class='co'># and a single class probability column containing the probabilities of</span>
 <span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
 <span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
-<span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 502 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>Class1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 502 x 3</span><span>
 #&gt;    .threshold specificity sensitivity
 #&gt;         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> -</span><span style='color: #BB0000;'>Inf</span><span>   </span><span style='color: #555555;'> </span><span>       0                 1
@@ -285,30 +292,29 @@ the "one" level is always the relevant result.</p>
 <span class='co'># `autoplot()`</span>
 
 <span class='co'># Visualize the curve using ggplot2 manually</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span> - <span class='no'>specificity</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>sensitivity</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_path</a></span>() +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_abline</a></span>(<span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>3</span>) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_fixed.html'>coord_equal</a></span>() +
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>Class1</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(x = <span class='fl'>1</span> <span class='op'>-</span> <span class='kw'>specificity</span>, y = <span class='kw'>sensitivity</span>)) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_path</a></span>() <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_abline</a></span>(lty = <span class='fl'>3</span>) <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_fixed.html'>coord_equal</a></span>() <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='roc_curve-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Or use autoplot</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='fu'>roc_curve</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>))</div><div class='img'><img src='roc_curve-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>Class1</span>))</div><div class='img'><img src='roc_curve-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># \dontrun{</span>
 
 <span class='co'># Multiclass one-vs-all approach</span>
 <span class='co'># One curve per level</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>roc_curve</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()</div><div class='img'><img src='roc_curve-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Same as above, but will all of the resamples</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>roc_curve</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()</div><div class='img'><img src='roc_curve-4.png' alt='' width='700' height='433' /></div><div class='input'># }
-
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>()</div><div class='img'><img src='roc_curve-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

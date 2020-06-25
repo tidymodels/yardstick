@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 
 <meta property="og:title" content="Multiclass Probability Predictions — hpc_cv" />
@@ -179,8 +183,8 @@ prediction (<code>pred</code>) and columns for each class probability
 the resample indicator is included.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>hpc_cv</span>)</div><div class='output co'>#&gt; 'data.frame':	3467 obs. of  7 variables:
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hpc_cv</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='kw'>hpc_cv</span>)</div><div class='output co'>#&gt; 'data.frame':	3467 obs. of  7 variables:
 #&gt;  $ obs     : Factor w/ 4 levels "VF","F","M","L": 1 1 1 1 1 1 1 1 1 1 ...
 #&gt;  $ pred    : Factor w/ 4 levels "VF","F","M","L": 1 1 1 1 1 1 1 1 1 1 ...
 #&gt;  $ VF      : num  0.914 0.938 0.947 0.929 0.942 ...
@@ -192,7 +196,7 @@ the resample indicator is included.</p>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section in any classification function (such as `?pr_auc`) to see how</span>
 <span class='co'># to change this.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='no'>hpc_cv</span>$<span class='no'>obs</span>)</div><div class='output co'>#&gt; [1] "VF" "F"  "M"  "L" </div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='kw'>hpc_cv</span><span class='op'>$</span><span class='kw'>obs</span>)</div><div class='output co'>#&gt; [1] "VF" "F"  "M"  "L" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

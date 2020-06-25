@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 
 <meta property="og:title" content="Gain capture — gain_capture" />
@@ -153,16 +157,16 @@ but applied to a gain curve." />
     </div>
 
     <div class="ref-description">
-    <p><code>gain_capture()</code> is a measure of performance similar to an AUC calculation,
+    <p><code><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture()</a></code> is a measure of performance similar to an AUC calculation,
 but applied to a gain curve.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gain_capture</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>gain_capture</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>...</span>, estimator = <span class='kw'>NULL</span>, na_rm = <span class='fl'>TRUE</span>)
 
-<span class='fu'>gain_capture_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>, estimator = <span class='kw'>NULL</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -215,14 +219,14 @@ same order as the levels of <code>truth</code>.</em></p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>gain_capture_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>gain_capture()</code> calculates the area <em>under</em> the gain curve, but <em>above</em>
+    <p><code><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture()</a></code> calculates the area <em>under</em> the gain curve, but <em>above</em>
 the baseline, and then divides that by the area <em>under</em> a perfect gain curve,
 but <em>above</em> the baseline. It is meant to represent the amount of potential
 gain "captured" by the model.</p>
-<p>The <code>gain_capture()</code> metric is identical to the <em>accuracy ratio (AR)</em>, which
+<p>The <code><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture()</a></code> metric is identical to the <em>accuracy ratio (AR)</em>, which
 is also sometimes called the <em>gini coefficient</em>. These two are generally
 calculated on a cumulative accuracy profile curve, but this is the same as
 a gain curve. See the Engelmann reference for more information.</p>
@@ -249,7 +253,7 @@ the "one" level is always the relevant result.</p>
 <p>Macro and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a <code>truth</code> factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
-See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
+See <code><a href='https://cran.rstudio.com/web/packages/yardstick/vignettes/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Engelmann, Bernd &amp; Hayden, Evelyn &amp; Tasche, Dirk (2003).
@@ -258,14 +262,17 @@ Discussion Paper Series 2: Banking and Financial Studies 2003,01,
 Deutsche Bundesbank.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='gain_curve.html'>gain_curve()</a></code> to compute the full gain curve.</p>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/yardstick/man/gain_curve.html'>gain_curve()</a></code> to compute the full gain curve.</p>
 <p>Other class probability metrics: 
-<code><a href='average_precision.html'>average_precision</a>()</code>,
-<code><a href='mn_log_loss.html'>mn_log_loss</a>()</code>,
-<code><a href='pr_auc.html'>pr_auc</a>()</code>,
-<code><a href='roc_auc.html'>roc_auc</a>()</code>,
-<code><a href='roc_aunp.html'>roc_aunp</a>()</code>,
-<code><a href='roc_aunu.html'>roc_aunu</a>()</code></p></div>
+<code><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/pr_auc.html'>pr_auc</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunp.html'>roc_aunp</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Max Kuhn</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
@@ -274,13 +281,13 @@ Deutsche Bundesbank.</p>
 <span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>two_class_example</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>two_class_example</span>)
 
 <span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span>
 <span class='co'># and a single class probability column containing the probabilities of</span>
 <span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
 <span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
-<span class='fu'>gain_capture</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>Class1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric      .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> gain_capture binary         0.879</div><div class='input'>
@@ -290,30 +297,30 @@ Deutsche Bundesbank.</p>
 <span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hpc_cv</span>)
 
 <span class='co'># You can use the col1:colN tidyselect syntax</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>gain_capture</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric      .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> gain_capture macro          0.743</div><div class='input'>
 <span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
 <span class='co'># event of interest. The class probability columns should be supplied</span>
 <span class='co'># in the same order as the levels.</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='no'>obs</span>, <span class='st'>"M"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>gain_capture</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(obs = <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='kw'>obs</span>, <span class='st'>"M"</span>)) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a></span>(<span class='kw'>obs</span>, <span class='kw'>M</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric      .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> gain_capture macro          0.743</div><div class='input'>
 <span class='co'># Groups are respected</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>gain_capture</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric      .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   gain_capture macro          0.743
@@ -327,9 +334,9 @@ Deutsche Bundesbank.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   gain_capture macro          0.710
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   gain_capture macro          0.731</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>gain_capture</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>, estimator = <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric      .estimator     .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   gain_capture macro_weighted     0.759
@@ -344,14 +351,14 @@ Deutsche Bundesbank.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   gain_capture macro_weighted     0.737</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
-<span class='no'>fold1</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>)
+<span class='kw'>fold1</span> <span class='op'>&lt;-</span> <span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>)
 
-<span class='fu'>gain_capture_vec</span>(
-   <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>fold1</span>$<span class='no'>obs</span>,
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture_vec</a></span>(
+   truth = <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>obs</span>,
    <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(
-     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>fold1</span>$<span class='no'>VF</span>, <span class='no'>fold1</span>$<span class='no'>F</span>, <span class='no'>fold1</span>$<span class='no'>M</span>, <span class='no'>fold1</span>$<span class='no'>L</span>),
-     <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>
+     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>VF</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>F</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>M</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>L</span>),
+     ncol = <span class='fl'>4</span>
    )
 )</div><div class='output co'>#&gt; [1] 0.7428922</div><div class='input'>
 <span class='co'># ---------------------------------------------------------------------------</span>
@@ -359,9 +366,8 @@ Deutsche Bundesbank.</p>
 
 <span class='co'># Visually, this represents the area under the black curve, but above the</span>
 <span class='co'># 45 degree line, divided by the area of the shaded triangle.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='fu'><a href='gain_curve.html'>gain_curve</a></span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>))</div><div class='img'><img src='gain_capture-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_curve.html'>gain_curve</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>Class1</span>))</div><div class='img'><img src='gain_capture-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

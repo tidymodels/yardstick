@@ -43,6 +43,10 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 
 <meta property="og:title" content="Precision — precision" />
@@ -155,18 +159,18 @@ and f_meas()." />
     </div>
 
     <div class="ref-description">
-    <p>These functions calculate the <code>precision()</code> of a measurement system for
+    <p>These functions calculate the <code><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision()</a></code> of a measurement system for
 finding relevant documents compared to reference results
-(the truth regarding relevance). Highly related functions are <code><a href='recall.html'>recall()</a></code>
-and <code><a href='f_meas.html'>f_meas()</a></code>.</p>
+(the truth regarding relevance). Highly related functions are <code><a href='https://rdrr.io/pkg/yardstick/man/recall.html'>recall()</a></code>
+and <code><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>precision</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>precision</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>estimate</span>, estimator = <span class='kw'>NULL</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
 
-<span class='fu'>precision_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>, estimator = <span class='kw'>NULL</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -217,7 +221,7 @@ values should be stripped before the computation proceeds.</p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>precision_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The precision is the percentage of predicted truly relevant results
@@ -253,7 +257,7 @@ the "one" level is always the relevant result.</p>
 <p>Macro, micro, and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a <code>truth</code> factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
-See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
+See <code><a href='https://cran.rstudio.com/web/packages/yardstick/vignettes/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
     <h2 class="hasAnchor" id="implementation"><a class="anchor" href="#implementation"></a>Implementation</h2>
 
     
@@ -271,7 +275,7 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
 <p>The formulas used here are:</p>
 <p>$$recall = A/(A+C)$$
 $$precision = A/(A+B)$$
-$$F_meas_\beta = (1+\beta^2) * precision * recall/((\beta^2 * precision)+recall)$$</p>
+$$F_{meas} = (1+\beta^2) * precision * recall/((\beta^2 * precision)+recall)$$</p>
 <p>See the references for discussions of the statistics.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -284,43 +288,46 @@ Technical Report SIE-07-001, Flinders University</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other class metrics: 
-<code><a href='accuracy.html'>accuracy</a>()</code>,
-<code><a href='bal_accuracy.html'>bal_accuracy</a>()</code>,
-<code><a href='detection_prevalence.html'>detection_prevalence</a>()</code>,
-<code><a href='f_meas.html'>f_meas</a>()</code>,
-<code><a href='j_index.html'>j_index</a>()</code>,
-<code><a href='kap.html'>kap</a>()</code>,
-<code><a href='mcc.html'>mcc</a>()</code>,
-<code><a href='npv.html'>npv</a>()</code>,
-<code><a href='ppv.html'>ppv</a>()</code>,
-<code><a href='recall.html'>recall</a>()</code>,
-<code><a href='sens.html'>sens</a>()</code>,
-<code><a href='spec.html'>spec</a>()</code></p>
+<code><a href='https://rdrr.io/pkg/yardstick/man/accuracy.html'>accuracy</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/bal_accuracy.html'>bal_accuracy</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/detection_prevalence.html'>detection_prevalence</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/j_index.html'>j_index</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/mcc.html'>mcc</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/npv.html'>npv</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/ppv.html'>ppv</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/recall.html'>recall</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/sens.html'>sens</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec</a>()</code></p>
 <p>Other relevance metrics: 
-<code><a href='f_meas.html'>f_meas</a>()</code>,
-<code><a href='recall.html'>recall</a>()</code></p></div>
+<code><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/recall.html'>recall</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Max Kuhn</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
-<span class='fu'>precision</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric   .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> precision binary         0.819</div><div class='input'>
 <span class='co'># Multiclass</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hpc_cv</span>)
 
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>precision</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric   .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> precision macro          0.637</div><div class='input'>
 <span class='co'># Groups are respected</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>precision</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric   .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   precision macro          0.637
@@ -334,9 +341,9 @@ Technical Report SIE-07-001, Flinders University</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   precision macro          0.605
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   precision macro          0.625</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>precision</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>, estimator = <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric   .estimator     .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   precision macro_weighted     0.697
@@ -350,10 +357,11 @@ Technical Report SIE-07-001, Flinders University</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   precision macro_weighted     0.661
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   precision macro_weighted     0.683</div><div class='input'>
 <span class='co'># Vector version</span>
-<span class='fu'>precision_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8194946</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision_vec</a></span>(<span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>, <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8194946</div><div class='input'>
 <span class='co'># Making Class2 the "relevant" level</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'>precision_vec</span>(<span class='no'>two_class_example</span>$<span class='no'>truth</span>, <span class='no'>two_class_example</span>$<span class='no'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8609865</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>yardstick.event_first</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></span></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(yardstick.event_first = <span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision_vec</a></span>(<span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>, <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8609865</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(yardstick.event_first = <span class='fl'>TRUE</span>)
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

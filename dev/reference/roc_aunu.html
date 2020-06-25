@@ -44,6 +44,10 @@ class distribution — roc_aunu • yardstick</title>
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
+
 
 
 <meta property="og:title" content="Area under the ROC curve of each class against the rest, using the uniform
@@ -157,17 +161,17 @@ class distribution</h1>
     </div>
 
     <div class="ref-description">
-    <p><code>roc_aunu()</code> is a multiclass metric that computes the area under the ROC
+    <p><code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu()</a></code> is a multiclass metric that computes the area under the ROC
 curve of each class against the rest, using the uniform class distribution.
-This is equivalent to <code><a href='roc_auc.html'>roc_auc(estimator = "macro")</a></code>.</p>
+This is equivalent to <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc(estimator = "macro")</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>roc_aunu</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>roc_aunu</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>...</span>, options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), na_rm = <span class='fl'>TRUE</span>)
 
-<span class='fu'>roc_aunu_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>, options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -216,10 +220,10 @@ same order as the levels of <code>truth</code>.</em></p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>roc_aunu_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Like the other ROC AUC metrics, <code>roc_aunu()</code> defaults to allowing
+    <p>Like the other ROC AUC metrics, <code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu()</a></code> defaults to allowing
 <code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code> control the direction of the computation, but allows you to
 control this by passing <code>options = list(direction = "&lt;")</code> or any other
 allowed direction value. pROC advises setting the <code>direction</code> when doing
@@ -250,7 +254,7 @@ the "one" level is always the relevant result.</p>
 
 <p>This multiclass method for computing the area under the ROC curve uses the
 uniform class distribution and is equivalent to
-<code><a href='roc_auc.html'>roc_auc(estimator = "macro")</a></code>.</p>
+<code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc(estimator = "macro")</a></code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Ferri, C., Hernández-Orallo, J., &amp; Modroiu, R. (2009). "An experimental
@@ -258,15 +262,18 @@ comparison of performance measures for classification". <em>Pattern Recognition
 Letters</em>. 30 (1), pp 27-38.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='roc_aunp.html'>roc_aunp()</a></code> for computing the area under the ROC curve of each class against
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunp.html'>roc_aunp()</a></code> for computing the area under the ROC curve of each class against
 the rest, using the a priori class distribution.</p>
 <p>Other class probability metrics: 
-<code><a href='average_precision.html'>average_precision</a>()</code>,
-<code><a href='gain_capture.html'>gain_capture</a>()</code>,
-<code><a href='mn_log_loss.html'>mn_log_loss</a>()</code>,
-<code><a href='pr_auc.html'>pr_auc</a>()</code>,
-<code><a href='roc_auc.html'>roc_auc</a>()</code>,
-<code><a href='roc_aunp.html'>roc_aunp</a>()</code></p></div>
+<code><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/pr_auc.html'>pr_auc</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunp.html'>roc_aunp</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Julia Silge</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Multiclass example</span>
@@ -274,30 +281,30 @@ the rest, using the a priori class distribution.</p>
 <span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hpc_cv</span>)
 
 <span class='co'># You can use the col1:colN tidyselect syntax</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> roc_aunu macro          0.871</div><div class='input'>
 <span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
 <span class='co'># event of interest. The class probability columns should be supplied</span>
 <span class='co'># in the same order as the levels.</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='no'>obs</span>, <span class='st'>"M"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+ <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(obs = <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='kw'>obs</span>, <span class='st'>"M"</span>)) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu</a></span>(<span class='kw'>obs</span>, <span class='kw'>M</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> roc_aunu macro          0.871</div><div class='input'>
 <span class='co'># Groups are respected</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>roc_aunu</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric  .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   roc_aunu macro          0.871
@@ -312,30 +319,29 @@ the rest, using the a priori class distribution.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   roc_aunu macro          0.865</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
-<span class='no'>fold1</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>)
+<span class='kw'>fold1</span> <span class='op'>&lt;-</span> <span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>)
 
-<span class='fu'>roc_aunu_vec</span>(
-  <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>fold1</span>$<span class='no'>obs</span>,
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu_vec</a></span>(
+  truth = <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>obs</span>,
   <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>fold1</span>$<span class='no'>VF</span>, <span class='no'>fold1</span>$<span class='no'>F</span>, <span class='no'>fold1</span>$<span class='no'>M</span>, <span class='no'>fold1</span>$<span class='no'>L</span>),
-    <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>VF</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>F</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>M</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>L</span>),
+    ncol = <span class='fl'>4</span>
   )
 )</div><div class='output co'>#&gt; [1] 0.8714461</div><div class='input'>
 <span class='co'># ---------------------------------------------------------------------------</span>
 <span class='co'># Options for `pROC::roc()`</span>
 
 <span class='co'># Pass options via a named list and not through `...`!</span>
-<span class='fu'>roc_aunu</span>(
-  <span class='no'>hpc_cv</span>,
-  <span class='no'>obs</span>,
-  <span class='no'>VF</span>:<span class='no'>L</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu</a></span>(
+  <span class='kw'>hpc_cv</span>,
+  <span class='kw'>obs</span>,
+  <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>,
+  options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(smooth = <span class='fl'>TRUE</span>)
 )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> roc_aunu macro          0.868</div><div class='input'>
-</div></span></pre>
+#&gt; </span><span style='color: #555555;'>1</span><span> roc_aunu macro          0.868</div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
