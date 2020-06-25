@@ -9,6 +9,6 @@
 #'
 #' \deqn{recall = A/(A+C)}
 #' \deqn{precision = A/(A+B)}
-#' \deqn{F_{meas}_\beta = (1+\beta^2) * precision * recall/((\beta^2 * precision)+recall)}
+#' \deqn{F_{meas} = (1+\beta^2) * precision * recall/((\beta^2 * precision)+recall)}
 #'
 #' See the references for discussions of the statistics.
