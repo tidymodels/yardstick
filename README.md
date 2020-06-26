@@ -15,8 +15,8 @@ status](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)
 
 `yardstick` is a package to estimate how well models are working using
 [tidy data](https://www.jstatsoft.org/article/view/v059i10) principles.
-See the [package webpage](https://tidymodels.github.io/yardstick/) for
-more information.
+See the [package webpage](https://yardstick.tidymodels.org/) for more
+information.
 
 ## Installation
 
@@ -55,7 +55,7 @@ characteristics of the model and get them back in a data frame:
 metrics(two_class_example, truth, predicted)
 #> # A tibble: 2 x 3
 #>   .metric  .estimator .estimate
-#> * <chr>    <chr>          <dbl>
+#>   <chr>    <chr>          <dbl>
 #> 1 accuracy binary         0.838
 #> 2 kap      binary         0.675
 
@@ -170,3 +170,24 @@ two_class_example %>%
 #>   <chr>       <chr>          <dbl>
 #> 1 mn_log_loss binary         0.328
 ```
+
+## Contributing
+
+This project is released with a [Contributor Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
+
+  - For questions and discussions about tidymodels packages, modeling,
+    and machine learning, [join us on RStudio
+    Community](https://rstd.io/tidymodels-community).
+
+  - If you think you have encountered a bug, please [submit an
+    issue](https://github.com/tidymodels/yardstick/issues).
+
+  - Either way, learn how to create and share a
+    [reprex](https://rstd.io/reprex) (a minimal, reproducible example),
+    to clearly communicate about your code.
+
+  - Check out further details on [contributing guidelines for tidymodels
+    packages](https://www.tidymodels.org/contribute/) and [how to get
+    help](https://www.tidymodels.org/help/).
