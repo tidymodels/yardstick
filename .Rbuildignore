@@ -13,3 +13,4 @@ contributors.md
 ^pkgdown$
 ^man-roxygen$
 ^\.github$
+^CODE_OF_CONDUCT\.md$
