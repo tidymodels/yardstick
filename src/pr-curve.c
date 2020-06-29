@@ -1,6 +1,4 @@
-#define R_NO_REMAP
-#include <R.h>
-#include <Rinternals.h>
+#include "yardstick.h"
 
 // Algorithm modified from page 866 of
 // http://people.inf.elte.hu/kiss/12dwhdm/roc.pdf
@@ -44,7 +42,6 @@
 //   run the risk of computing an undefined precision (tp=0, fp=0). The first
 //   iteration always skips straight to the incrementing of tp and fp.
 
-// [[Rcpp::export]]
 SEXP yardstick_pr_curve_binary_impl(SEXP truth, SEXP estimate, SEXP thresholds) {
   const R_len_t n = Rf_length(truth);
   const R_len_t n_out = Rf_length(thresholds);

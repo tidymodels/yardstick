@@ -1,6 +1,4 @@
-#define R_NO_REMAP
-#include <R.h>
-#include <Rinternals.h>
+#include "yardstick.h"
 
 // This implementation most directly follows the bottom of page 2 of
 // https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0041882&type=printable
@@ -12,7 +10,6 @@
 
 static inline R_len_t compute_flat_index(int row, int col, R_len_t n_row);
 
-// [[Rcpp::export]]
 SEXP yardstick_mcc_multiclass_impl(SEXP C) {
   const int* p_C = INTEGER(C);
 

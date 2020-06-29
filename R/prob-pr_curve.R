@@ -139,26 +139,30 @@ pr_curve_binary <- function(truth, estimate) {
     truth <- relevel(truth, lvls[2])
   }
 
-  # quicker to convert to integer now rather than letting rcpp do it
-  # 1=good, 2=bad
+  # Quicker to convert to integer now
+  # 1 = event, 2 = non-event
   truth <- as.integer(truth)
 
-  # Sort at the R level as there is no order() Rcpp sugar.
+  # Sort at the R level
   ord <- order(estimate, decreasing = TRUE)
   truth <- truth[ord]
   estimate <- estimate[ord]
 
-  # Algorithm skips repeated probabilities
-  # Call unique() from the R level because Rcpp::unique()
-  # doesn't respect the order and sort_unique() doesn't do descending
+  # Algorithm skips repeated probabilities.
+  # Call unique() from the R level.
   thresholds <- unique(estimate)
 
-  # First row always has `threshold = Inf`
+  # First row always has `threshold = Inf`, we handle first
+  # row of `recall` and `precision` at the C level
   thresholds <- c(Inf,  thresholds)
 
-  pr_list <- yardstick_pr_curve_binary_impl(truth, estimate, thresholds)
+  pr_list <- pr_curve_binary_impl(truth, estimate, thresholds)
 
   dplyr::tibble(!!!pr_list)
+}
+
+pr_curve_binary_impl <- function(truth, estimate, thresholds) {
+  .Call(yardstick_pr_curve_binary_impl, truth, estimate, thresholds)
 }
 
 # One vs all approach
