@@ -1,5 +1,6 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+#define R_NO_REMAP
+#include <R.h>
+#include <Rinternals.h>
 
 // Algorithm modified from page 866 of
 // http://people.inf.elte.hu/kiss/12dwhdm/roc.pdf
@@ -28,94 +29,110 @@ using namespace Rcpp;
 //      manually add that value afterwards outside the loop.
 //
 // Notes:
-// - We always prepend recall = 0, precision = 1 at the very end
-//   to start the curve in the right spot. This is _necessary_ for PR AUC
-//   values to be computed right.
+// - We always prepend recall = 0, precision = 1 to start the curve.
+//   This is _necessary_ for PR AUC values to be computed right. We have
+//   already prepended `Inf` at the beginning of `thresholds` on the R side.
+//
+//   At the start of the curve:
+//   threshold = infinity
+//   recall    = TP/P = 0 if length(P) > 0
+//   precision = TP / (TP + FP) = undefined b/c we haven't seen any values yet
+//               but we need to put 1 here so we can start the graph in the top
+//               left corner and compute PR AUC correctly
 //
 // - Since we initialize the "previous" value with the first threshold, we never
 //   run the risk of computing an undefined precision (tp=0, fp=0). The first
 //   iteration always skips straight to the incrementing of tp and fp.
 
 // [[Rcpp::export]]
-List pr_curve_cpp(IntegerVector truth,
-                  NumericVector estimate,
-                  NumericVector thresholds) {
+SEXP yardstick_pr_curve_binary_impl(SEXP truth, SEXP estimate, SEXP thresholds) {
+  const R_len_t n = Rf_length(truth);
+  const R_len_t n_out = Rf_length(thresholds);
 
-  double fp = 0;
-  double tp = 0;
+  const int* p_truth = INTEGER(truth);
+  const double* p_estimate = REAL(estimate);
+  const double* p_thresholds = REAL(thresholds);
 
-  int n = truth.size();
-  int n_positive = sum(truth == 1);
-  int n_out = thresholds.size();
+  int n_positive = 0;
+  for(R_len_t i = 0; i < n; ++i) {
+    if (p_truth[i] == 1) {
+      ++n_positive;
+    }
+  }
 
   if (n_positive == 0) {
-    Rcpp::warning(
+    Rf_warningcall(
+      R_NilValue,
       "There are `0` event cases in `truth`, results will be meaningless."
     );
   }
 
-  NumericVector x_recall = NumericVector(n_out, NA_REAL);
-  NumericVector y_precision = NumericVector(n_out, NA_REAL);
+  SEXP recall = PROTECT(Rf_allocVector(REALSXP, n_out));
+  double* p_recall = REAL(recall);
 
-  // j is only incremented when there are no duplicates
-  int j = 0;
+  SEXP precision = PROTECT(Rf_allocVector(REALSXP, n_out));
+  double* p_precision =  REAL(precision);
 
-  // Initialize with first case.
-  double threshold_previous = thresholds[0];
+  // First recall is always `0`.
+  // First precision is always `1`.
+  p_recall[0] = 0;
+  p_precision[0] = 1;
 
-  double threshold_i;
+  // `j` is only incremented when there are no duplicates.
+  // Start at `1` because 0-th row is always the same.
+  R_len_t j = 1;
 
-  for(int i = 0; i < n; i++) {
+  // Initialize with first case
+  double threshold_previous = p_thresholds[j];
 
-    threshold_i = estimate[i];
+  double fp = 0;
+  double tp = 0;
 
-    if(threshold_i != threshold_previous) {
+  for(int i = 0; i < n; ++i) {
+    const double threshold_current = p_estimate[i];
 
-      x_recall[j] = tp / n_positive;
+    if(threshold_current != threshold_previous) {
+      p_recall[j] = tp / n_positive;
+      p_precision[j] = tp / (tp + fp);
+      ++j;
 
-      y_precision[j] = tp / (tp + fp);
-
-      threshold_previous = threshold_i;
-
-      j = j + 1;
+      threshold_previous = threshold_current;
     }
 
-    // increment tp / fp
-    if(truth[i] == 1) {
-      tp++;
-    }
-    else if (truth[i] == 2) {
-      fp++;
-    }
+    const int elt_truth = p_truth[i];
 
+    // Increment tp or fp
+    if(elt_truth == 1) {
+      ++tp;
+    } else if (elt_truth == 2) {
+      ++fp;
+    }
   }
-
-  // Add end cases
 
   // Last row:
   // threshold = taken care of already. Exists as last value of `thresholds`.
-  // recall    = TP/P = 1 if length(P) > 0
+  // recall    = TP / P = 1 if length(P) > 0
   // precision = TP / (TP + FP) = P / N = #positives / #elements
-  // ensure double division!
-  if (n_positive > 0) {
-    x_recall[n_out - 1] = 1;
+  // Ensure double division!
+  if (n > 0) {
+    p_recall[n_out - 1] = (n_positive > 0) ? 1 : R_NaN;
+    p_precision[n_out - 1] = n_positive / (double) n;
   }
 
-  y_precision[n_out - 1] = n_positive / (double)n;
+  SEXP out = PROTECT(Rf_allocVector(VECSXP, 3));
+  SET_VECTOR_ELT(out, 0, thresholds);
+  SET_VECTOR_ELT(out, 1, recall);
+  SET_VECTOR_ELT(out, 2, precision);
 
-  // First row:
-  // threshold = infinity
-  // recall    = TP/P = 0 if length(P) > 0
-  // precision = TP / (TP + FP) = undefined b/c we haven't seen any values yet
-  //  but we need to put 1 here so we can start the graph in the top left corner
-  //  and compute PR AUC correctly
-  thresholds.push_front(R_PosInf);
-  x_recall.push_front(0);
-  y_precision.push_front(1);
+  SEXP names = PROTECT(Rf_allocVector(STRSXP, 3));
+  SEXP* p_names = STRING_PTR(names);
 
-  return List::create(
-    Named(".threshold") = thresholds,
-    Named("recall")     = x_recall,
-    Named("precision")  = y_precision
-  );
+  p_names[0] = Rf_mkCharCE(".threshold", CE_UTF8);
+  p_names[1] = Rf_mkCharCE("recall", CE_UTF8);
+  p_names[2] = Rf_mkCharCE("precision", CE_UTF8);
+
+  Rf_setAttrib(out, R_NamesSymbol, names);
+
+  UNPROTECT(4);
+  return out;
 }

@@ -213,3 +213,35 @@ test_that("PR - same class prob, different prediction value", {
   )
 
 })
+
+# ------------------------------------------------------------------------------
+
+test_that("PR - zero row data frame works", {
+  df <- data.frame(y = factor(levels = c("a", "b")), x = double())
+
+  expect <- tibble::tibble(
+    .threshold = Inf,
+    recall = 0,
+    precision = 1
+  )
+
+  class(expect) <- c("pr_df", class(expect))
+
+  expect_identical(
+    expect_warning(pr_curve(df, y, x)),
+    expect
+  )
+})
+
+test_that("PR - No `truth` gives `NaN` recall values", {
+  df <- data.frame(
+    y = factor(c("b", "b"), levels = c("a", "b")),
+    x = c(.1, .2)
+  )
+
+  expect_warning({
+    curve <- pr_curve(df, y, x)
+  })
+
+  expect_identical(curve$recall, c(0, NaN, NaN))
+})

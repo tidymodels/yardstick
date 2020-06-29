@@ -16,23 +16,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// pr_curve_cpp
-List pr_curve_cpp(IntegerVector truth, NumericVector estimate, NumericVector thresholds);
-RcppExport SEXP _yardstick_pr_curve_cpp(SEXP truthSEXP, SEXP estimateSEXP, SEXP thresholdsSEXP) {
+// yardstick_pr_curve_binary_impl
+SEXP yardstick_pr_curve_binary_impl(SEXP truth, SEXP estimate, SEXP thresholds);
+RcppExport SEXP _yardstick_yardstick_pr_curve_binary_impl(SEXP truthSEXP, SEXP estimateSEXP, SEXP thresholdsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type truth(truthSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type estimate(estimateSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type thresholds(thresholdsSEXP);
-    rcpp_result_gen = Rcpp::wrap(pr_curve_cpp(truth, estimate, thresholds));
+    Rcpp::traits::input_parameter< SEXP >::type truth(truthSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type estimate(estimateSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type thresholds(thresholdsSEXP);
+    rcpp_result_gen = Rcpp::wrap(yardstick_pr_curve_binary_impl(truth, estimate, thresholds));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_yardstick_mcc_multiclass_cpp", (DL_FUNC) &_yardstick_mcc_multiclass_cpp, 1},
-    {"_yardstick_pr_curve_cpp", (DL_FUNC) &_yardstick_pr_curve_cpp, 3},
+    {"_yardstick_yardstick_pr_curve_binary_impl", (DL_FUNC) &_yardstick_yardstick_pr_curve_binary_impl, 3},
     {NULL, NULL, 0}
 };
 

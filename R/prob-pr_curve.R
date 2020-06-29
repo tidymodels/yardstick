@@ -153,7 +153,10 @@ pr_curve_binary <- function(truth, estimate) {
   # doesn't respect the order and sort_unique() doesn't do descending
   thresholds <- unique(estimate)
 
-  pr_list <- pr_curve_cpp(truth, estimate, thresholds)
+  # First row always has `threshold = Inf`
+  thresholds <- c(Inf,  thresholds)
+
+  pr_list <- yardstick_pr_curve_binary_impl(truth, estimate, thresholds)
 
   dplyr::tibble(!!!pr_list)
 }
