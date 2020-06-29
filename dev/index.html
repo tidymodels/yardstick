@@ -107,11 +107,12 @@
   <div class="contents col-md-9">
 <div id="yardstick-" class="section level1">
 
+<!-- badges: start -->
 
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p><code>yardstick</code> is a package to estimate how well models are working using <a href="https://www.jstatsoft.org/article/view/v059i10">tidy data</a> principles. See the <a href="https://tidymodels.github.io/yardstick/">package webpage</a> for more information.</p>
+<p><code>yardstick</code> is a package to estimate how well models are working using <a href="https://www.jstatsoft.org/article/view/v059i10">tidy data</a> principles. See the <a href="https://yardstick.tidymodels.org/">package webpage</a> for more information.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -146,7 +147,7 @@
 <span class="fu"><a href="reference/metrics.html">metrics</a></span>(<span class="kw">two_class_example</span>, <span class="kw">truth</span>, <span class="kw">predicted</span>)
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;   .metric  .estimator .estimate</span>
-<span class="co">#&gt; * &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 accuracy binary         0.838</span>
 <span class="co">#&gt; 2 kap      binary         0.675</span>
 
@@ -253,6 +254,17 @@
 <span class="co">#&gt; 1 mn_log_loss binary         0.328</span>
 </pre></div>
 </div>
+<div id="contributing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contributing" class="anchor"></a>Contributing</h2>
+<p>This project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<ul>
+<li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, please <a href="https://rstd.io/tidymodels-community">post on RStudio Community</a>.</p></li>
+<li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/yardstick/issues">submit an issue</a>.</p></li>
+<li><p>Either way, learn how to create and share a <a href="https://rstd.io/reprex">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
+<li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/">how to get help</a>.</p></li>
+</ul>
+</div>
 </div>
   </div>
 
@@ -274,6 +286,12 @@
 <li><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></li>
 </ul>
 </div>
+<div class="community">
+<h2>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+</ul>
+</div>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
@@ -286,7 +304,6 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/tidymodels/yardstick"><img src="https://travis-ci.org/tidymodels/yardstick.svg?branch=master" alt="Build Status"></a></li>
 <li><a href="https://codecov.io/github/tidymodels/yardstick?branch=master"><img src="https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg" alt="Coverage Status"></a></li>
 <li><a href="https://CRAN.R-project.org/package=yardstick"><img src="http://www.r-pkg.org/badges/version/yardstick" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://CRAN.R-project.org/package=yardstick"><img src="http://cranlogs.r-pkg.org/badges/yardstick" alt="Downloads"></a></li>
