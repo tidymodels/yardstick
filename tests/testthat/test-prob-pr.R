@@ -219,7 +219,7 @@ test_that("PR - same class prob, different prediction value", {
 test_that("PR - zero row data frame works", {
   df <- data.frame(y = factor(levels = c("a", "b")), x = double())
 
-  expect <- tibble::tibble(
+  expect <- dplyr::tibble(
     .threshold = Inf,
     recall = 0,
     precision = 1
