@@ -5,14 +5,14 @@
 
 using namespace Rcpp;
 
-// mcc_multiclass_cpp
-double mcc_multiclass_cpp(NumericMatrix x);
-RcppExport SEXP _yardstick_mcc_multiclass_cpp(SEXP xSEXP) {
+// yardstick_mcc_multiclass_impl
+SEXP yardstick_mcc_multiclass_impl(SEXP C);
+RcppExport SEXP _yardstick_yardstick_mcc_multiclass_impl(SEXP CSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(mcc_multiclass_cpp(x));
+    Rcpp::traits::input_parameter< SEXP >::type C(CSEXP);
+    rcpp_result_gen = Rcpp::wrap(yardstick_mcc_multiclass_impl(C));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -31,7 +31,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_yardstick_mcc_multiclass_cpp", (DL_FUNC) &_yardstick_mcc_multiclass_cpp, 1},
+    {"_yardstick_yardstick_mcc_multiclass_impl", (DL_FUNC) &_yardstick_yardstick_mcc_multiclass_impl, 1},
     {"_yardstick_yardstick_pr_curve_binary_impl", (DL_FUNC) &_yardstick_yardstick_pr_curve_binary_impl, 3},
     {NULL, NULL, 0}
 };
