@@ -31,8 +31,5 @@ Imports:
     pROC (>= 1.15.0),
     rlang (>= 0.4.0),
     tidyselect,
-    Rcpp,
     generics
-LinkingTo: 
-    Rcpp
 VignetteBuilder: knitr

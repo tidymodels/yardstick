@@ -147,5 +147,9 @@ mcc_binary <- function(data) {
 
 mcc_multiclass <- function(data) {
   stopifnot(is.table(data))
-  mcc_multiclass_cpp(data)
+  mcc_multiclass_impl(data)
+}
+
+mcc_multiclass_impl <- function(C) {
+  .Call(yardstick_mcc_multiclass_impl, C)
 }

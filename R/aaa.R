@@ -1,9 +1,6 @@
 # nocov start
 
-# Register cpp -----------------------------------------------------------------
-
 #' @useDynLib yardstick, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
 NULL
 
 # Global vars ------------------------------------------------------------------
