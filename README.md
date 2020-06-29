@@ -1,8 +1,8 @@
 
 # yardstick <img src="man/figures/logo.png" align="right"/>
 
-[![Build
-Status](https://travis-ci.org/tidymodels/yardstick.svg?branch=master)](https://travis-ci.org/tidymodels/yardstick)
+<!-- badges: start -->
+
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)](https://codecov.io/github/tidymodels/yardstick?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/yardstick)](https://CRAN.R-project.org/package=yardstick)
@@ -10,6 +10,7 @@ Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build
 status](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/yardstick/actions)
+<!-- badges: end -->
 
 ## Overview
 
