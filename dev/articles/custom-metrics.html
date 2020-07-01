@@ -109,7 +109,7 @@
       <h1 data-toc-skip>Custom metrics</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2020-06-29</h4>
+            <h4 class="date">2020-07-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/custom-metrics.Rmd"><code>vignettes/custom-metrics.Rmd</code></a></small>
       <div class="hidden name"><code>custom-metrics.Rmd</code></div>
@@ -204,13 +204,15 @@
 <div id="data-frame-implementation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-frame-implementation" class="anchor"></a>Data frame implementation</h3>
-<p>The data frame version of the metric should be fairly simple. It is a generic function with a <code>data.frame</code> method that calls the <code>yardstick</code> helper, <code><a href="../reference/metric_summarizer.html">metric_summarizer()</a></code>, and passes along the <code>mse_vec()</code> function to it along with versions of <code>truth</code> and <code>estimate</code> that have been wrapped in <code><a href="https://rlang.r-lib.org/reference/nse-defuse.html">rlang::enquo()</a></code> and then unquoted with <code>!!</code> so that non-standard evaluation can be supported.</p>
+<p>The data frame version of the metric should be fairly simple. It is a generic function with a <code>data.frame</code> method that calls the <code>yardstick</code> helper, <code><a href="../reference/metric_summarizer.html">metric_summarizer()</a></code>, and passes along the <code>mse_vec()</code> function to it along with versions of <code>truth</code> and <code>estimate</code> that have been wrapped in <code><a href="https://rlang.r-lib.org/reference/nse-defuse.html">rlang::enquo()</a></code> and then unquoted with <code>!!</code> so that non-standard evaluation can be supported. Additionally, the generic itself has been wrapped in <code><a href="../reference/new-metric.html">new_numeric_metric()</a></code> to formalize it as a numeric metric function. This allows the metric to work with <code><a href="../reference/metric_set.html">metric_set()</a></code> and the tune package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://rlang.r-lib.org">rlang</a></span>)
 
 <span class="kw">mse</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">data</span>, <span class="kw">...</span>) {
   <span class="fu"><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod</a></span>(<span class="st">"mse"</span>)
 }
+
+<span class="kw">mse</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new-metric.html">new_numeric_metric</a></span>(<span class="kw">mse</span>, direction = <span class="st">"minimize"</span>)
 
 <span class="kw">mse.data.frame</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">data</span>, <span class="kw">truth</span>, <span class="kw">estimate</span>, <span class="kw">na_rm</span> = <span class="fl">TRUE</span>, <span class="kw">...</span>) {
   
@@ -499,11 +501,13 @@
 <div id="data-frame-implementation-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-frame-implementation-1" class="anchor"></a>Data frame implementation</h3>
-<p>Luckily, the data frame implementation is as simple as the numeric case, we just need to add an extra <code>estimator</code> argument and pass that through.</p>
+<p>Luckily, the data frame implementation is as simple as the numeric case, we just need to add an extra <code>estimator</code> argument and pass that through. We’ll also use <code><a href="../reference/new-metric.html">new_class_metric()</a></code> to formalize <code>miss_rate()</code> as a class metric.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="kw">miss_rate</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">data</span>, <span class="kw">truth</span>, <span class="kw">estimate</span>, <span class="kw">estimator</span> = <span class="kw">NULL</span>, <span class="kw">na_rm</span> = <span class="fl">TRUE</span>, <span class="kw">...</span>) {
   <span class="fu"><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod</a></span>(<span class="st">"miss_rate"</span>)
 }
+
+<span class="kw">miss_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new-metric.html">new_class_metric</a></span>(<span class="kw">miss_rate</span>, direction = <span class="st">"minimize"</span>)
 
 <span class="kw">miss_rate.data.frame</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">data</span>, <span class="kw">truth</span>, <span class="kw">estimate</span>, <span class="kw">estimator</span> = <span class="kw">NULL</span>, <span class="kw">na_rm</span> = <span class="fl">TRUE</span>, <span class="kw">...</span>) {
   
@@ -567,28 +571,8 @@
 <h2 class="hasAnchor">
 <a href="#using-custom-metrics-in-metric_set" class="anchor"></a>Using custom metrics in <code>metric_set()</code>
 </h2>
-<p><code><a href="../reference/metric_set.html">metric_set()</a></code> validates that all metric functions are of the same metric type by checking the class of the function. If any metrics are not of the right class, <code><a href="../reference/metric_set.html">metric_set()</a></code> fails. This means that to use your function with <code><a href="../reference/metric_set.html">metric_set()</a></code>, you need to add the correct class.</p>
-<ul>
-<li>Numeric metrics - <code>"numeric_metric"</code>
-</li>
-<li>Class metrics - <code>"class_metric"</code>
-</li>
-<li>Class probability metrics - <code>"prob_metric"</code>
-</li>
-</ul>
+<p><code><a href="../reference/metric_set.html">metric_set()</a></code> validates that all metric functions are of the same metric type by checking the class of the function. If any metrics are not of the right class, <code><a href="../reference/metric_set.html">metric_set()</a></code> fails. By using <code><a href="../reference/new-metric.html">new_numeric_metric()</a></code> and <code><a href="../reference/new-metric.html">new_class_metric()</a></code> in the above custom metrics, they work out of the box without any additional adjustments.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="co"># This errors because the class has not been set</span>
-<span class="fu"><a href="../reference/metric_set.html">metric_set</a></span>(<span class="kw">mse</span>, <span class="kw">rmse</span>)
-<span class="co">#&gt; Error: </span>
-<span class="co">#&gt; The combination of metric functions must be:</span>
-<span class="co">#&gt; - only numeric metrics</span>
-<span class="co">#&gt; - a mix of class metrics and class probability metrics</span>
-<span class="co">#&gt; The following metric function types are being mixed:</span>
-<span class="co">#&gt; - other (mse)</span>
-<span class="co">#&gt; - numeric (rmse)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="kw">mse</span>) <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"numeric_metric"</span>, <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="kw">mse</span>))
-
 <span class="kw">numeric_mets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metric_set.html">metric_set</a></span>(<span class="kw">mse</span>, <span class="kw">rmse</span>)
 
 <span class="fu">numeric_mets</span>(<span class="kw">solubility_test</span>, <span class="kw">solubility</span>, <span class="kw">prediction</span>)

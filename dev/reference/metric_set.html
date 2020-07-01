@@ -257,10 +257,8 @@ probability columns) as bare column names or <code>tidyselect</code> selectors t
   )
 }
 
-<span class='co'># Add on the underlying function class (here, "numeric_metric"), and the</span>
-<span class='co'># direction to optimize the metric</span>
-<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>ccc_with_bias</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>ccc</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='kw'>ccc_with_bias</span>, <span class='st'>"direction"</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='kw'>ccc</span>, <span class='st'>"direction"</span>)
+<span class='co'># Use `new_numeric_metric()` to formalize this new metric function</span>
+<span class='kw'>ccc_with_bias</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/new-metric.html'>new_numeric_metric</a></span>(<span class='kw'>ccc_with_bias</span>, <span class='st'>"maximize"</span>)
 
 <span class='kw'>multi_metric2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metric_set.html'>metric_set</a></span>(<span class='kw'>rmse</span>, <span class='kw'>rsq</span>, <span class='kw'>ccc_with_bias</span>)
 
