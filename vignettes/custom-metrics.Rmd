@@ -26,8 +26,7 @@ library(yardstick)
 ## Custom metrics
 
 `yardstick` already includes a large number of metrics, but there's obviously
-a chance that you might have a custom metric that hasn't been implemented yet. In that case, you can use a few
-of the tools `yardstick` exposes to create custom metrics.
+a chance that you might have a custom metric that hasn't been implemented yet. In that case, you can use a few of the tools `yardstick` exposes to create custom metrics.
 
 Why create custom metrics? With the infrastructure `yardstick` provides, you
 get:
@@ -129,11 +128,7 @@ mse_vec(truth = c(NA, .5, .4), estimate = c(1, .6, .5), na_rm = FALSE)
 
 ### Data frame implementation
 
-The data frame version of the metric should be fairly simple. It is a generic 
-function with a `data.frame` method that calls the `yardstick` helper,
-`metric_summarizer()`, and passes along the `mse_vec()` function to it along
-with versions of `truth` and `estimate` that have been wrapped in `rlang::enquo()`
-and then unquoted with `!!` so that non-standard evaluation can be supported.
+The data frame version of the metric should be fairly simple. It is a generic function with a `data.frame` method that calls the `yardstick` helper, `metric_summarizer()`, and passes along the `mse_vec()` function to it along with versions of `truth` and `estimate` that have been wrapped in `rlang::enquo()` and then unquoted with `!!` so that non-standard evaluation can be supported. Additionally, the generic itself has been wrapped in `new_numeric_metric()` to formalize it as a numeric metric function. This allows the metric to work with `metric_set()` and the tune package.
 
 ```{r}
 library(rlang)
@@ -141,6 +136,8 @@ library(rlang)
 mse <- function(data, ...) {
   UseMethod("mse")
 }
+
+mse <- new_numeric_metric(mse, direction = "minimize")
 
 mse.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
   
@@ -476,12 +473,15 @@ miss_rate_vec(fold1$obs, fold1$pred)
 ### Data frame implementation
 
 Luckily, the data frame implementation is as simple as the numeric case,
-we just need to add an extra `estimator` argument and pass that through.
+we just need to add an extra `estimator` argument and pass that through. We'll
+also use `new_class_metric()` to formalize `miss_rate()` as a class metric.
 
 ```{r}
 miss_rate <- function(data, truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
   UseMethod("miss_rate")
 }
+
+miss_rate <- new_class_metric(miss_rate, direction = "minimize")
 
 miss_rate.data.frame <- function(data, truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
   
@@ -519,21 +519,9 @@ miss_rate(hpc_cv, obs, VF)
 
 ## Using custom metrics in `metric_set()`
 
-`metric_set()` validates that all metric functions are of the same metric type
-by checking the class of the function. If any metrics are not of the right class,
-`metric_set()` fails. This means that to use your function with `metric_set()`,
-you need to add the correct class.
+`metric_set()` validates that all metric functions are of the same metric type by checking the class of the function. If any metrics are not of the right class, `metric_set()` fails. By using `new_numeric_metric()` and `new_class_metric()` in the above custom metrics, they work out of the box without any additional adjustments.
 
-- Numeric metrics - `"numeric_metric"`
-- Class metrics - `"class_metric"`
-- Class probability metrics - `"prob_metric"`
-
-```{r, error=TRUE}
-# This errors because the class has not been set
-metric_set(mse, rmse)
-
-class(mse) <- c("numeric_metric", class(mse))
-
+```{r}
 numeric_mets <- metric_set(mse, rmse)
 
 numeric_mets(solubility_test, solubility, prediction)

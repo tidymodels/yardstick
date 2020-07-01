@@ -22,9 +22,10 @@
 mape <- function(data, ...) {
   UseMethod("mape")
 }
-
-class(mape) <- c("numeric_metric", "function")
-attr(mape, "direction") <- "minimize"
+mape <- new_numeric_metric(
+  mape,
+  direction = "minimize"
+)
 
 #' @rdname mape
 #' @export

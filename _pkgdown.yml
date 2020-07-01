@@ -75,6 +75,7 @@ reference:
     - metric_summarizer
     - metric_vec_template
     - get_weights
+    - new-metric
 
   - title: Data Sets
     contents:

@@ -45,9 +45,10 @@
 precision <- function(data, ...) {
   UseMethod("precision")
 }
-
-class(precision) <- c("class_metric", "function")
-attr(precision, "direction") <- "maximize"
+precision <- new_class_metric(
+  precision,
+  direction = "maximize"
+)
 
 #' @rdname precision
 #' @export

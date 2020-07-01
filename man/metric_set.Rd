@@ -73,10 +73,8 @@ ccc_with_bias <- function(data, truth, estimate, na_rm = TRUE, ...) {
   )
 }
 
-# Add on the underlying function class (here, "numeric_metric"), and the
-# direction to optimize the metric
-class(ccc_with_bias) <- class(ccc)
-attr(ccc_with_bias, "direction") <- attr(ccc, "direction")
+# Use `new_numeric_metric()` to formalize this new metric function
+ccc_with_bias <- new_numeric_metric(ccc_with_bias, "maximize")
 
 multi_metric2 <- metric_set(rmse, rsq, ccc_with_bias)
 

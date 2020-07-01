@@ -18,9 +18,10 @@
 bal_accuracy <- function(data, ...) {
   UseMethod("bal_accuracy")
 }
-
-class(bal_accuracy) <- c("class_metric", "function")
-attr(bal_accuracy, "direction") <- "maximize"
+bal_accuracy <- new_class_metric(
+  bal_accuracy,
+  direction = "maximize"
+)
 
 #' @export
 #' @rdname bal_accuracy

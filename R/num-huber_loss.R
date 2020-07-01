@@ -27,9 +27,10 @@
 huber_loss <- function(data, ...) {
   UseMethod("huber_loss")
 }
-
-class(huber_loss) <- c("numeric_metric", "function")
-attr(huber_loss, "direction") <- "minimize"
+huber_loss <- new_numeric_metric(
+  huber_loss,
+  direction = "minimize"
+)
 
 #' @rdname huber_loss
 #' @export

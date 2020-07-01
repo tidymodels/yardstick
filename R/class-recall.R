@@ -45,9 +45,10 @@
 recall <- function(data, ...) {
   UseMethod("recall")
 }
-
-class(recall) <- c("class_metric", "function")
-attr(recall, "direction") <- "maximize"
+recall <- new_class_metric(
+  recall,
+  direction = "maximize"
+)
 
 #' @rdname recall
 #' @export

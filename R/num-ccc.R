@@ -37,9 +37,10 @@
 ccc <- function(data, ...) {
   UseMethod("ccc")
 }
-
-class(ccc) <- c("numeric_metric", "function")
-attr(ccc, "direction") <- "maximize"
+ccc <- new_numeric_metric(
+  ccc,
+  direction = "maximize"
+)
 
 #' @rdname ccc
 #' @export

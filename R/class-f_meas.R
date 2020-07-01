@@ -41,9 +41,10 @@
 f_meas <- function(data, ...) {
   UseMethod("f_meas")
 }
-
-class(f_meas) <- c("class_metric", "function")
-attr(f_meas, "direction") <- "maximize"
+f_meas <- new_class_metric(
+  f_meas,
+  direction = "maximize"
+)
 
 #' @rdname f_meas
 #' @export
