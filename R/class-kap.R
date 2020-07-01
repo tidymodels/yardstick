@@ -26,9 +26,10 @@
 kap <- function(data, ...) {
   UseMethod("kap")
 }
-
-class(kap) <- c("class_metric", "function")
-attr(kap, "direction") <- "maximize"
+kap <- new_class_metric(
+  kap,
+  direction = "maximize"
+)
 
 #' @export
 #' @rdname kap

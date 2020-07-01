@@ -50,9 +50,10 @@
 mase <- function(data, ...) {
   UseMethod("mase")
 }
-
-class(mase) <- c("numeric_metric", "function")
-attr(mase, "direction") <- "minimize"
+mase <- new_numeric_metric(
+  mase,
+  direction = "minimize"
+)
 
 #' @rdname mase
 #' @export

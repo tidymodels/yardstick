@@ -155,12 +155,12 @@ test_that('metric set functions retain class/prob metric functions', {
 
   expect_equal(
     class(fns[[1]]),
-    c("class_metric", "function")
+    c("class_metric", "metric", "function")
   )
 
   expect_equal(
     class(fns[[2]]),
-    c("prob_metric", "function")
+    c("prob_metric", "metric", "function")
   )
 
   expect_equal(
@@ -179,12 +179,12 @@ test_that('metric set functions retain numeric metric functions', {
 
   expect_equal(
     class(fns[[1]]),
-    c("numeric_metric", "function")
+    c("numeric_metric", "metric", "function")
   )
 
   expect_equal(
     class(fns[[2]]),
-    c("numeric_metric", "function")
+    c("numeric_metric", "metric", "function")
   )
 
   expect_equal(

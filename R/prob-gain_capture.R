@@ -49,9 +49,10 @@
 gain_capture <- function(data, ...) {
   UseMethod("gain_capture")
 }
-
-class(gain_capture) <- c("prob_metric", "function")
-attr(gain_capture, "direction") <- "maximize"
+gain_capture <- new_prob_metric(
+  gain_capture,
+  direction = "maximize"
+)
 
 #' @rdname gain_capture
 #' @export

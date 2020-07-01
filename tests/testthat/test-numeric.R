@@ -220,12 +220,14 @@ test_that('Huber Loss', {
 
   expect_error(
     huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = -1),
-    "`delta` must be a positive value."
+    "`delta` must be a positive value.",
+    class = "dplyr_error"
   )
 
   expect_error(
     huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1,2)),
-    "`delta` must be a single numeric value."
+    "`delta` must be a single numeric value.",
+    class = "dplyr_error"
   )
 
 })
@@ -251,12 +253,14 @@ test_that('Pseudo-Huber Loss', {
 
   expect_error(
     huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = -1),
-    "`delta` must be a positive value."
+    "`delta` must be a positive value.",
+    class = "dplyr_error"
   )
 
   expect_error(
     huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1,2)),
-    "`delta` must be a single numeric value."
+    "`delta` must be a single numeric value.",
+    class = "dplyr_error"
   )
 })
 

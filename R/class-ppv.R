@@ -39,9 +39,10 @@
 ppv <- function(data, ...) {
   UseMethod("ppv")
 }
-
-class(ppv) <- c("class_metric", "function")
-attr(ppv, "direction") <- "maximize"
+ppv <- new_class_metric(
+  ppv,
+  direction = "maximize"
+)
 
 #' @rdname ppv
 #' @export

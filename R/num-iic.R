@@ -39,9 +39,10 @@
 iic <- function(data, ...) {
   UseMethod("iic")
 }
-
-class(iic) <- c("numeric_metric", "function")
-attr(iic, "direction") <- "maximize"
+iic <- new_numeric_metric(
+  iic,
+  direction = "maximize"
+)
 
 #' @rdname iic
 #' @export

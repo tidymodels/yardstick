@@ -52,9 +52,10 @@
 average_precision <- function(data, ...) {
   UseMethod("average_precision")
 }
-
-class(average_precision) <- c("prob_metric", "function")
-attr(average_precision, "direction") <- "maximize"
+average_precision <- new_prob_metric(
+  average_precision,
+  direction = "maximize"
+)
 
 #' @export
 #' @rdname average_precision

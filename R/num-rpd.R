@@ -50,9 +50,10 @@
 rpd <- function(data, ...) {
   UseMethod("rpd")
 }
-
-class(rpd) <- c("numeric_metric", "function")
-attr(rpd, "direction") <- "maximize"
+rpd <- new_numeric_metric(
+  rpd,
+  direction = "maximize"
+)
 
 #' @rdname rpd
 #' @export

@@ -1,5 +1,9 @@
 # yardstick (development version)
 
+* There are three new helper functions for more easily creating custom
+  metric functions: `new_class_metric()`, `new_prob_metric()`, and
+  `new_numeric_metric()`.
+
 * Rcpp has been removed as a direct dependency.
 
 # yardstick 0.0.6

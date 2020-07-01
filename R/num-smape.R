@@ -22,9 +22,10 @@
 smape <- function(data, ...) {
   UseMethod("smape")
 }
-
-class(smape) <- c("numeric_metric", "function")
-attr(smape, "direction") <- "minimize"
+smape <- new_numeric_metric(
+  smape,
+  direction = "minimize"
+)
 
 #' @rdname smape
 #' @export

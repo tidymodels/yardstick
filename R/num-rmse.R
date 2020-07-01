@@ -36,9 +36,10 @@
 rmse <- function(data, ...) {
   UseMethod("rmse")
 }
-
-class(rmse) <- c("numeric_metric", "function")
-attr(rmse, "direction") <- "minimize"
+rmse <- new_numeric_metric(
+  rmse,
+  direction = "minimize"
+)
 
 #' @rdname rmse
 #' @export

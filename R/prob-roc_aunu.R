@@ -109,9 +109,10 @@
 roc_aunu <- function(data, ...) {
   UseMethod("roc_aunu")
 }
-
-class(roc_aunu) <- c("prob_metric", "function")
-attr(roc_aunu, "direction") <- "maximize"
+roc_aunu <- new_prob_metric(
+  roc_aunu,
+  direction = "maximize"
+)
 
 #' @export
 #' @rdname roc_aunu

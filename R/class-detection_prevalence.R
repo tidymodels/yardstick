@@ -19,9 +19,10 @@
 detection_prevalence <- function(data, ...) {
   UseMethod("detection_prevalence")
 }
-
-class(detection_prevalence) <- c("class_metric", "function")
-attr(detection_prevalence, "direction") <- "maximize"
+detection_prevalence <- new_class_metric(
+  detection_prevalence,
+  direction = "maximize"
+)
 
 #' @export
 #' @rdname detection_prevalence

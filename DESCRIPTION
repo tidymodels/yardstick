@@ -23,7 +23,7 @@ BugReports: https://github.com/tidymodels/yardstick/issues
 Depends:
     R (>= 2.10)
 Imports:
-    dplyr,
+    dplyr (>= 0.8.5),
     generics,
     pROC (>= 1.15.0),
     rlang (>= 0.4.0),
