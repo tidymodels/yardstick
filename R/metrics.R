@@ -233,7 +233,6 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' @importFrom rlang call2
 #' @importFrom dplyr bind_rows
 #' @importFrom rlang enquos
-#' @importFrom rlang quo_name
 metric_set <- function(...) {
   quo_fns <- enquos(...)
   validate_not_empty(quo_fns)
@@ -244,7 +243,7 @@ metric_set <- function(...) {
 
   # Add on names, and then check that
   # all fns are of the same function class
-  names(fns) <- vapply(quo_fns, quo_name, character(1))
+  names(fns) <- vapply(quo_fns, get_quo_label, character(1))
   validate_function_class(fns)
 
   fn_cls <- class(fns[[1]])[1]
@@ -299,6 +298,24 @@ class1 <- function(x) {
 
 get_metric_fn_direction <- function(x) {
   attr(x, "direction")
+}
+
+get_quo_label <- function(quo) {
+  out <- rlang::as_label(quo)
+
+  if (length(out) != 1L) {
+    rlang::abort("Internal error: `as_label(quo)` resulted in a character vector of length >1.")
+  }
+
+  is_namespaced <- grepl("::", out, fixed = TRUE)
+
+  if (is_namespaced) {
+    # Split by `::` and take the second half
+    split <- strsplit(out, "::", fixed = TRUE)[[1]]
+    out <- split[[2]]
+  }
+
+  out
 }
 
 make_prob_class_metric_function <- function(fns) {

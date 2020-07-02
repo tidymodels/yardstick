@@ -193,6 +193,11 @@ test_that('metric set functions retain numeric metric functions', {
   )
 })
 
+test_that("`metric_set()` labeling remove namespaces", {
+  x <- metric_set(yardstick::mase, rmse)
+  expect_identical(names(attr(x, "metrics")), c("mase", "rmse"))
+})
+
 test_that("print metric_set works", {
   verify_output(test_path("test-print-metric_set.txt"), {
     multi_metric <- metric_set(rmse, rsq, ccc)
