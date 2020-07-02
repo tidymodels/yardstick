@@ -218,6 +218,12 @@ latter can generate inaccurate values when the model is
 non-informative (see the examples). Both are measures of
 consistency/correlation and not of accuracy.</p>
 <p><code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq()</a></code> is simply the squared correlation between <code>truth</code> and <code>estimate</code>.</p>
+<p>Because <code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq()</a></code> internally computes a correlation, if either <code>truth</code> or
+<code>estimate</code> are constant it can result in a divide by zero error. In these
+cases, a warning is thrown and <code>NA</code> is returned. This can occur when a model
+predicts a single value for all samples. For example, a regularized model
+that eliminates all predictors except for the intercept would do this.
+Another example would be a CART model that contains no splits.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Kvalseth. Cautionary note about \(R^2\).
@@ -301,7 +307,13 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 #&gt; </span><span style='color: #555555;'>1</span><span> rsq     standard     0.001</span><span style='text-decoration: underline;'>99</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>randomized</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> rsq_trad standard       -</span><span style='color: #BB0000;'>1.01</span><span></div><div class='input'></div></span></pre>
+#&gt; </span><span style='color: #555555;'>1</span><span> rsq_trad standard       -</span><span style='color: #BB0000;'>1.01</span><span></div><div class='input'>
+<span class='co'># A constant `truth` or `estimate` vector results in a warning from</span>
+<span class='co'># a divide by zero error in the correlation calculation.</span>
+<span class='co'># `NA` will be returned in these cases.</span>
+<span class='kw'>truth</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)
+<span class='kw'>estimate</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: A correlation computation is required, but `estimate` is constant and has 0 standard deviation, resulting in a divide by 0 error. `NA` will be returned.</span></div><div class='output co'>#&gt; [1] NA</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
