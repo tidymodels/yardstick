@@ -201,8 +201,8 @@ names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td
     <tr>
       <th>options</th>
       <td><p>A <code>list</code> of named options to pass to <code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code>
-such as <code>direction</code> or <code>smooth</code>. These options should not include <code>response</code>,
-<code>predictor</code>, <code>levels</code>, or <code>quiet</code>.</p></td>
+such as <code>smooth</code>. These options should not include <code>response</code>,
+<code>predictor</code>, <code>levels</code>, <code>quiet</code>, or <code>direction</code>.</p></td>
     </tr>
     <tr>
       <th>estimator</th>
@@ -235,14 +235,10 @@ the number of groups.</p>
 <p>For <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For most methods, <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code> defaults to allowing <code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code> control
-the direction of the computation, but allows you to control this by passing
-<code>options = list(direction = "&lt;")</code> or any other allowed direction value.
-However, the Hand, Till (2001) method assumes that the individual AUCs are
-all above <code>0.5</code>, so if an AUC value below <code>0.5</code> is computed, then <code>1</code> is
-subtracted from it to get the correct result. When not using the Hand, Till
-method, pROC advises setting the <code>direction</code> when doing resampling so that
-the AUC values are not biased upwards.</p>
+    <p>The underlying <code>direction</code> option in <code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code> is forced to
+<code>direction = "&lt;"</code>. This computes the ROC curve assuming that the <code>estimate</code>
+values are the probability that the "event" occurred, which is what they
+are always assumed to be in yardstick.</p>
 <p>Generally, an ROC AUC value is between <code>0.5</code> and <code>1</code>, with <code>1</code> being a
 perfect prediction model. If your value is between <code>0</code> and <code>0.5</code>, then
 this implies that you have meaningful information in your model, but it
@@ -269,7 +265,10 @@ the "one" level is always the relevant result.</p>
 
 <p>The default multiclass method for computing <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code> is to use the
 method from Hand, Till, (2001). Unlike macro-averaging, this method is
-insensitive to class distributions like the binary ROC AUC case.</p>
+insensitive to class distributions like the binary ROC AUC case.
+Additionally, while other multiclass techniques will return <code>NA</code> if any
+levels in <code>truth</code> occur zero times in the actual data, the Hand-Till method
+will simply ignore those levels in the averaging calculation, with a warning.</p>
 <p>Macro and macro-weighted averaging are still provided, even though they are
 not the default. In fact, macro-weighted averaging corresponds to the same
 definition of multiclass AUC given by Provost and Domingos (2001).</p>
@@ -329,7 +328,7 @@ New York University, NY, NY 10012.</p>
   <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> roc_auc hand_till      0.831</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span> roc_auc hand_till      0.813</div><div class='input'>
 <span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
 <span class='co'># event of interest. The class probability columns should be supplied</span>
 <span class='co'># in the same order as the levels.</span>
@@ -339,14 +338,14 @@ New York University, NY, NY 10012.</p>
   <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(<span class='kw'>obs</span>, <span class='kw'>M</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> roc_auc hand_till      0.831</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span> roc_auc hand_till      0.813</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   roc_auc hand_till      0.831
+#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   roc_auc hand_till      0.813
 #&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   roc_auc hand_till      0.817
 #&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   roc_auc hand_till      0.869
 #&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   roc_auc hand_till      0.849
@@ -354,8 +353,8 @@ New York University, NY, NY 10012.</p>
 #&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   roc_auc hand_till      0.836
 #&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   roc_auc hand_till      0.825
 #&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   roc_auc hand_till      0.846
-#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   roc_auc hand_till      0.836
-#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   roc_auc hand_till      0.820</div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   roc_auc hand_till      0.828
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   roc_auc hand_till      0.812</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
 <span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
@@ -383,7 +382,7 @@ New York University, NY, NY 10012.</p>
      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>VF</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>F</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>M</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>L</span>),
      ncol = <span class='fl'>4</span>
    )
-)</div><div class='output co'>#&gt; [1] 0.8305172</div><div class='input'>
+)</div><div class='output co'>#&gt; [1] 0.8131924</div><div class='input'>
 <span class='co'># ---------------------------------------------------------------------------</span>
 <span class='co'># Options for `pROC::roc()`</span>
 

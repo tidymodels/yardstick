@@ -198,8 +198,8 @@ names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td
     <tr>
       <th>options</th>
       <td><p>A <code>list</code> of named options to pass to <code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code>
-such as <code>direction</code> or <code>smooth</code>. These options should not include <code>response</code>,
-<code>predictor</code>, <code>levels</code>, or <code>quiet</code>.</p></td>
+such as <code>smooth</code>. These options should not include <code>response</code>,
+<code>predictor</code>, <code>levels</code>, <code>quiet</code>, or <code>direction</code>.</p></td>
     </tr>
     <tr>
       <th>na_rm</th>
@@ -221,18 +221,6 @@ and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
 <p>For <code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunp.html'>roc_aunp_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Like the other ROC AUC metrics, <code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunp.html'>roc_aunp()</a></code> defaults to allowing
-<code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code> control the direction of the computation, but allows you to
-control this by passing <code>options = list(direction = "&lt;")</code> or any other
-allowed direction value. pROC advises setting the <code>direction</code> when doing
-resampling so that the AUC values are not biased upwards.</p>
-<p>Generally, an ROC AUC value is between <code>0.5</code> and <code>1</code>, with <code>1</code> being a
-perfect prediction model. If your value is between <code>0</code> and <code>0.5</code>, then
-this implies that you have meaningful information in your model, but it
-is being applied incorrectly because doing the opposite of what the model
-predicts would result in an AUC <code>&gt;0.5</code>.</p>
     <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
     
