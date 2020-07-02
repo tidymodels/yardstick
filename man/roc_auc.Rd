@@ -35,7 +35,7 @@ this argument is passed by expression and supports
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
-such as \code{direction} or \code{smooth}. These options should not include \code{response},
+such as \code{smooth}. These options should not include \code{response},
 \code{predictor}, \code{levels}, \code{quiet}, or \code{direction}.}
 
 \item{estimator}{One of \code{"binary"}, \code{"hand_till"}, \code{"macro"}, or

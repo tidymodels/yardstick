@@ -31,7 +31,7 @@
 #' @inheritParams pr_auc
 #'
 #' @param options A `list` of named options to pass to [pROC::roc()]
-#' such as `direction` or `smooth`. These options should not include `response`,
+#' such as `smooth`. These options should not include `response`,
 #' `predictor`, `levels`, `quiet`, or `direction`.
 #'
 #' @param estimator One of `"binary"`, `"hand_till"`, `"macro"`, or
