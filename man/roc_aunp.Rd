@@ -28,8 +28,8 @@ this argument is passed by expression and supports
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
-such as \code{direction} or \code{smooth}. These options should not include \code{response},
-\code{predictor}, \code{levels}, or \code{quiet}.}
+such as \code{smooth}. These options should not include \code{response},
+\code{predictor}, \code{levels}, \code{quiet}, or \code{direction}.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
@@ -51,19 +51,6 @@ For \code{roc_aunp_vec()}, a single \code{numeric} value (or \code{NA}).
 \code{roc_aunp()} is a multiclass metric that computes the area under the ROC
 curve of each class against the rest, using the a priori class distribution.
 This is equivalent to \code{roc_auc(estimator = "macro_weighted")}.
-}
-\details{
-Like the other ROC AUC metrics, \code{roc_aunp()} defaults to allowing
-\code{pROC::roc()} control the direction of the computation, but allows you to
-control this by passing \code{options = list(direction = "<")} or any other
-allowed direction value. pROC advises setting the \code{direction} when doing
-resampling so that the AUC values are not biased upwards.
-
-Generally, an ROC AUC value is between \code{0.5} and \code{1}, with \code{1} being a
-perfect prediction model. If your value is between \code{0} and \code{0.5}, then
-this implies that you have meaningful information in your model, but it
-is being applied incorrectly because doing the opposite of what the model
-predicts would result in an AUC \verb{>0.5}.
 }
 \section{Relevant Level}{
 
