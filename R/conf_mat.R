@@ -306,9 +306,27 @@ conf_mat_plot_types <- c("mosaic", "heatmap")
 cm_heat <- function(x) {
   `%+%` <- ggplot2::`%+%`
 
-  as.data.frame.table(x$table) %>%
-    dplyr::mutate(Prediction = factor(Prediction, levels = rev(levels(Prediction)))) %>%
-    ggplot2::ggplot(ggplot2::aes(x = Truth, y = Prediction, fill = Freq)) %+%
+  table <- x$table
+
+  df <- as.data.frame.table(table)
+
+  # Force known column names, assuming that predictions are on the
+  # left hand side of the table (#157).
+  names(df) <- c("Prediction", "Truth", "Freq")
+
+  # Have prediction levels going from high to low so they plot in an
+  # order that matches the LHS of the confusion matrix
+  lvls <- levels(df$Prediction)
+  df$Prediction <- factor(df$Prediction, levels = rev(lvls))
+
+  df %>%
+    ggplot2::ggplot(
+      ggplot2::aes(
+        x = Truth,
+        y = Prediction,
+        fill = Freq
+      )
+    ) %+%
     ggplot2::geom_tile() %+%
     ggplot2::scale_fill_gradient(low = "grey90", high = "grey40") %+%
     ggplot2::theme(
