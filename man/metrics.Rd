@@ -31,7 +31,7 @@ unquoted variable name.}
 
 \item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
-\code{predictor}, \code{levels}, or \code{quiet}.}
+\code{predictor}, \code{levels}, \code{quiet}, or \code{direction}.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}

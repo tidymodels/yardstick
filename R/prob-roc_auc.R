@@ -3,14 +3,10 @@
 #' `roc_auc()` is a metric that computes the area under the ROC curve. See
 #' [roc_curve()] for the full curve.
 #'
-#' For most methods, `roc_auc()` defaults to allowing `pROC::roc()` control
-#' the direction of the computation, but allows you to control this by passing
-#' `options = list(direction = "<")` or any other allowed direction value.
-#' However, the Hand, Till (2001) method assumes that the individual AUCs are
-#' all above `0.5`, so if an AUC value below `0.5` is computed, then `1` is
-#' subtracted from it to get the correct result. When not using the Hand, Till
-#' method, pROC advises setting the `direction` when doing resampling so that
-#' the AUC values are not biased upwards.
+#' The underlying `direction` option in [pROC::roc()] is forced to
+#' `direction = "<"`. This computes the ROC curve assuming that the `estimate`
+#' values are the probability that the "event" occurred, which is what they
+#' are always assumed to be in yardstick.
 #'
 #' Generally, an ROC AUC value is between `0.5` and `1`, with `1` being a
 #' perfect prediction model. If your value is between `0` and `0.5`, then
@@ -36,7 +32,7 @@
 #'
 #' @param options A `list` of named options to pass to [pROC::roc()]
 #' such as `direction` or `smooth`. These options should not include `response`,
-#' `predictor`, `levels`, or `quiet`.
+#' `predictor`, `levels`, `quiet`, or `direction`.
 #'
 #' @param estimator One of `"binary"`, `"hand_till"`, `"macro"`, or
 #' `"macro_weighted"` to specify the type of averaging to be done. `"binary"`

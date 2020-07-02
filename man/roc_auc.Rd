@@ -36,7 +36,7 @@ names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
 such as \code{direction} or \code{smooth}. These options should not include \code{response},
-\code{predictor}, \code{levels}, or \code{quiet}.}
+\code{predictor}, \code{levels}, \code{quiet}, or \code{direction}.}
 
 \item{estimator}{One of \code{"binary"}, \code{"hand_till"}, \code{"macro"}, or
 \code{"macro_weighted"} to specify the type of averaging to be done. \code{"binary"}
@@ -66,14 +66,10 @@ For \code{roc_auc_vec()}, a single \code{numeric} value (or \code{NA}).
 \code{\link[=roc_curve]{roc_curve()}} for the full curve.
 }
 \details{
-For most methods, \code{roc_auc()} defaults to allowing \code{pROC::roc()} control
-the direction of the computation, but allows you to control this by passing
-\code{options = list(direction = "<")} or any other allowed direction value.
-However, the Hand, Till (2001) method assumes that the individual AUCs are
-all above \code{0.5}, so if an AUC value below \code{0.5} is computed, then \code{1} is
-subtracted from it to get the correct result. When not using the Hand, Till
-method, pROC advises setting the \code{direction} when doing resampling so that
-the AUC values are not biased upwards.
+The underlying \code{direction} option in \code{\link[pROC:roc]{pROC::roc()}} is forced to
+\code{direction = "<"}. This computes the ROC curve assuming that the \code{estimate}
+values are the probability that the "event" occurred, which is what they
+are always assumed to be in yardstick.
 
 Generally, an ROC AUC value is between \code{0.5} and \code{1}, with \code{1} being a
 perfect prediction model. If your value is between \code{0} and \code{0.5}, then
