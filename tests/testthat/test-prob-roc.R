@@ -7,15 +7,23 @@ hpc_cv2 <- filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09"
 
 # ------------------------------------------------------------------------------
 
-roc_curv <- pROC::roc(two_class_example$truth,
-                      two_class_example$Class1,
-                      levels = rev(levels(two_class_example$truth)))
+roc_curv <- pROC::roc(
+  two_class_example$truth,
+  two_class_example$Class1,
+  levels = rev(levels(two_class_example$truth)),
+  direction = "<"
+)
+
 lvls <- levels(two_class_example$truth)
 roc_val <- as.numeric(roc_curv$auc)
-smooth_curv <- pROC::roc(two_class_example$truth,
-                         two_class_example$Class1,
-                         levels = rev(levels(two_class_example$truth)),
-                         smooth = TRUE)
+
+smooth_curv <- pROC::roc(
+  two_class_example$truth,
+  two_class_example$Class1,
+  levels = rev(levels(two_class_example$truth)),
+  direction = "<",
+  smooth = TRUE
+)
 
 test_that('Two class', {
   expect_equal(
@@ -23,7 +31,7 @@ test_that('Two class', {
     roc_val
   )
   expect_equal(
-    roc_auc(two_class_example, truth = "truth", Class2)[[".estimate"]],
+    roc_auc(two_class_example, truth = "truth", Class1)[[".estimate"]],
     roc_val
   )
   expect_equal(
@@ -73,7 +81,8 @@ test_that("pROC::auc() arguments are passed through", {
   curv <- pROC::roc(
     response = two_class_example$truth,
     predictor = two_class_example$Class1,
-    levels = c("Class2", "Class1")
+    levels = c("Class2", "Class1"),
+    direction = "<"
   )
 
   proc_auc <- as.numeric(pROC::auc(curv, partial.auc = c(1, 0.75)))
@@ -97,7 +106,7 @@ test_that("pROC::auc() arguments are passed through - corrected and focused args
   # From `?pROC::auc`
   data("aSAH", package = "pROC")
 
-  curv <- roc(aSAH$outcome, aSAH$s100b)
+  curv <- roc(aSAH$outcome, aSAH$s100b, direction = "<")
 
   proc_auc <- as.numeric(pROC::auc(
     curv,
@@ -155,6 +164,31 @@ test_that("can calculate Hand Till when prob matrix column names are different f
     0.827387699597311
   )
 
+})
+
+test_that("`direction = <` is forced when binary AUCs are computed (#123)", {
+  truth <- factor(
+    c(
+      "c", "c", "c", "d", "d", "a", "d", "c", "a",
+      "a", "d", "b", "d", "a", "d", "a", "d", "d"
+    ),
+    levels = c("a", "b", "c", "d")
+  )
+
+  estimate <- c(
+    c(c(0.5, 0.4, 0.8, 0.5, 0.8, 1, 0.8, 0, 0.5, 2/3, 0, 1, 0.4, 1/6, 0.4, 0.8, 0.5, 0.6)),
+    c(0, 0.2, 0, 0, 0, 0, 0, 0.6, 0, 1/3, 0, 0, 0, 5/6, 0.6, 0, 0, 0),
+    c(0, 0.2, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    c(0.5, 0.2, 0.2, 0.5, 0.2, 0, 0.2, 0.2, 0.5, 0, 1, 0, 0.6, 0, 0, 0.2, 0.5, 0.4)
+  )
+
+  estimate <- matrix(estimate, ncol = 4, dimnames = list(NULL, c("a", "b", "c", "d")))
+
+  # HandTill2001::auc(HandTill2001::multcap(truth, estimate))
+  expect_equal(
+    roc_auc_vec(truth, estimate),
+    0.5890625
+  )
 })
 
 # ------------------------------------------------------------------------------

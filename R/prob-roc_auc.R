@@ -183,7 +183,13 @@ roc_auc_binary <- function(truth, estimate, options) {
     return(NA_real_)
   }
 
-  args <- quos(response = truth, predictor = estimate, levels = lvl, quiet = TRUE)
+  args <- quos(
+    response = truth,
+    predictor = estimate,
+    levels = lvl,
+    quiet = TRUE,
+    direction = "<"
+  )
 
   pROC_auc <- eval_tidy(call2("auc", !!! args, !!! options, .ns = "pROC"))
 
@@ -250,20 +256,6 @@ roc_auc_subset <- function(lvl1, lvl2, truth, estimate, options) {
   estimate_subset <- estimate_lvl1[subset_idx]
 
   auc_val <- roc_auc_binary(truth_subset, estimate_subset, options)
-
-  # Early return if NA to avoid error in downstream if statement
-  if (is.na(auc_val)) {
-    return(auc_val)
-  }
-
-  # Hand Till 2001 uses an AUC calc that is always >0.5
-  # Eq 3 of https://link.springer.com/content/pdf/10.1023%2FA%3A1010920819831.pdf
-  # This means their multiclass auc metric is made up of these >0.5 AUCs.
-  # To be consistent, we force <0.5 AUC values to be 1-AUC which is the
-  # same value that HandTill would get.
-  if(auc_val < 0.5) {
-    auc_val <- 1 - auc_val
-  }
 
   auc_val
 }
