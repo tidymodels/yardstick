@@ -41,8 +41,8 @@ unquoted variable name. For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{object}{The \code{conf_mat} data frame returned from \code{conf_mat()}.}
 
-\item{type}{Type of plot desired, must be "mosaic" or "heatmap",
-defaults to "mosaic".}
+\item{type}{Type of plot desired, must be \code{"mosaic"} or \code{"heatmap"},
+defaults to \code{"mosaic"}.}
 }
 \value{
 \code{conf_mat()} produces an object with class \code{conf_mat}. This contains the
