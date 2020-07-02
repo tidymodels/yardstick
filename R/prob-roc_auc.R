@@ -23,6 +23,9 @@
 #' The default multiclass method for computing `roc_auc()` is to use the
 #' method from Hand, Till, (2001). Unlike macro-averaging, this method is
 #' insensitive to class distributions like the binary ROC AUC case.
+#' Additionally, while other multiclass techniques will return `NA` if any
+#' levels in `truth` occur zero times in the actual data, the Hand-Till method
+#' will simply ignore those levels in the averaging calculation, with a warning.
 #'
 #' Macro and macro-weighted averaging are still provided, even though they are
 #' not the default. In fact, macro-weighted averaging corresponds to the same
@@ -205,15 +208,41 @@ roc_auc_hand_till <- function(truth, estimate, options) {
   on.exit(options(yardstick.event_first = old_opt))
 
   lvls <- levels(truth)
-  C <- length(lvls)
-
-  multiplier <- 2 / (C * (C - 1))
 
   # We want to reference the levels by name in the function below, so we
   # force the column names to be the same as the levels
   # (and assume the prob matrix columns are given in the same
   # order as the levels of `truth`)
   colnames(estimate) <- lvls
+
+  # Check for levels with no observations in `truth`. Generally this would
+  # return `NA`, but to match pROC and HandTill2001 we remove them with a
+  # warning and proceed with the remaining levels (#123)
+  lvls_loc <- match(lvls, truth)
+
+  if (anyNA(lvls_loc)) {
+    indicator_missing <- is.na(lvls_loc)
+
+    lvls_missing <- lvls[indicator_missing]
+    lvls_missing <- single_quote(lvls_missing)
+    lvls_missing <- paste0(lvls_missing, collapse = ", ")
+
+    msg <- paste0(
+      "No observations were detected in `truth` for level(s): ",
+      lvls_missing,
+      "\n",
+      "Computation will proceed by ignoring those levels."
+    )
+
+    rlang::warn(msg)
+
+    # Proceed with non-missing levels
+    lvls <- lvls[!indicator_missing]
+  }
+
+  C <- length(lvls)
+
+  multiplier <- 2 / (C * (C - 1))
 
   sum_val <- 0
 
@@ -254,4 +283,8 @@ roc_auc_subset <- function(lvl1, lvl2, truth, estimate, options) {
   auc_val <- roc_auc_binary(truth_subset, estimate_subset, options)
 
   auc_val
+}
+
+single_quote <- function(x) {
+  encodeString(x, quote = "'", na.encode = FALSE)
 }

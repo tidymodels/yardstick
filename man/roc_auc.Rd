@@ -97,6 +97,9 @@ the "one" level is always the relevant result.
 The default multiclass method for computing \code{roc_auc()} is to use the
 method from Hand, Till, (2001). Unlike macro-averaging, this method is
 insensitive to class distributions like the binary ROC AUC case.
+Additionally, while other multiclass techniques will return \code{NA} if any
+levels in \code{truth} occur zero times in the actual data, the Hand-Till method
+will simply ignore those levels in the averaging calculation, with a warning.
 
 Macro and macro-weighted averaging are still provided, even though they are
 not the default. In fact, macro-weighted averaging corresponds to the same

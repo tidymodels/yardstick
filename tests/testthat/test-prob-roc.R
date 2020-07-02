@@ -190,6 +190,28 @@ test_that("can calculate Hand Till when prob matrix column names are different f
 
 })
 
+test_that("`roc_auc()` hand-till method ignores levels with 0 observations with a warning (#123)", {
+  # Generally we return `NA_real_` for macro/macro-weighted/micro multiclass,
+  # but pROC and HandTill2001 both ignore levels with 0 observations, so we do
+  # too for consistency
+  truth <- factor(c("x", "x", "z"), levels = c("x", "y", "z"))
+
+  estimate <- c(
+    c(.8, .5, .6),
+    c(.1, .1, .1),
+    c(.1, .4, .3)
+  )
+
+  estimate <- matrix(estimate, ncol = 3)
+  colnames(estimate) <- c("x", "y", "z")
+
+  # HandTill2001::auc(HandTill2001::multcap(truth, estimate))
+  expect_warning(
+    expect_identical(roc_auc_vec(truth, estimate), 0.5),
+    "No observations were detected in `truth` for level[(]s[)]: 'y'"
+  )
+})
+
 # ------------------------------------------------------------------------------
 
 test_that("binary roc auc uses `direction = <`", {
@@ -311,22 +333,43 @@ test_that("multiclass one-vs-all approach results in multiple warnings", {
   )
 })
 
-test_that("multiclass hand till approach throws warning", {
-  no_control <- dplyr::filter(two_class_example, truth == "Class1")
+test_that("hand till approach throws warning and returns `NaN` when only 1 level has observations", {
+  x <- factor(c("x", "x", "x"), levels = c("x", "y"))
 
-  expect_identical(
-    expect_warning(
-      roc_auc(no_control, truth, Class1, Class2, estimator = "hand_till")[[".estimate"]],
-      "No control observations were detected in `truth` with control level 'Class2'"
-    ),
-    NA_real_
+  estimate <- c(
+    c(.8, .5, .6),
+    c(.2, .5, .4)
   )
 
+  estimate <- matrix(estimate, ncol = 2)
+  colnames(estimate) <- c("x", "y")
+
+  # With two levels -> one
   expect_identical(
     expect_warning(
-      roc_auc(no_control, truth, Class1, Class2, estimator = "hand_till")[[".estimate"]],
-      "No event observations were detected in `truth` with event level 'Class2'"
+      roc_auc_vec(x, estimate, estimator = "hand_till"),
+      "No observations were detected in `truth` for level[(]s[)]: 'y'"
     ),
-    NA_real_
+    NaN
+  )
+
+  x <- factor(c("x", "x", "x"), levels = c("x", "y", "z"))
+
+  estimate <- c(
+    c(.8, .5, .6),
+    c(.1, .1, .1),
+    c(.1, .4, .3)
+  )
+
+  estimate <- matrix(estimate, ncol = 3)
+  colnames(estimate) <- c("x", "y", "z")
+
+  # With three levels -> one
+  expect_identical(
+    expect_warning(
+      roc_auc_vec(x, estimate, estimator = "hand_till"),
+      "No observations were detected in `truth` for level[(]s[)]: 'y', 'z'"
+    ),
+    NaN
   )
 })
