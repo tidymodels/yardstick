@@ -41,6 +41,30 @@ test_that('Two class', {
   )
 })
 
+test_that("binary roc curve uses `direction = <`", {
+  # In yardstick we do events (or cases) as the first level
+  truth <- factor(c("control", "case", "case"), levels = c("case", "control"))
+
+  # Make really bad predictions
+  # This would force `direction = "auto"` to choose `>`,
+  # which would be incorrect. We are required to force `direction = <` for
+  # our purposes of having `estimate` match the event
+  estimate <- c(.8, .2, .1)
+
+  # pROC expects levels to be in the order of control, then event.
+  roc <- pROC::roc(
+    truth,
+    estimate,
+    levels = c("control", "case"),
+    direction = "<"
+  )
+
+  curve <- roc_curve_vec(truth, estimate)
+
+  expect_identical(curve$specificity, c(0, roc$specificities))
+  expect_identical(curve$sensitivity, c(1, roc$sensitivities))
+})
+
 test_that('ROC Curve', {
   library(pROC)
   points <- coords(roc_curv, x = unique(c(-Inf, two_class_example$Class1, Inf)), input = "threshold", transpose = FALSE)

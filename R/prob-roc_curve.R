@@ -160,6 +160,7 @@ roc_curve_binary <- function(truth, estimate, options) {
   options$predictor <- estimate
   options$levels <- lvls
   options$quiet <- TRUE
+  options$direction <- "<"
 
   curv <- exec(pROC::roc, !!!options)
 
