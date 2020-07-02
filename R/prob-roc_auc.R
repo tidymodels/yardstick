@@ -197,7 +197,6 @@ roc_auc_multiclass <- function(truth, estimate, options) {
 }
 
 roc_auc_hand_till <- function(truth, estimate, options) {
-
   # Hand Till method ignores yardstick.event_first (like macro-average)
   old_opt <- getOption("yardstick.event_first", TRUE)
   options(yardstick.event_first = TRUE)
@@ -214,55 +213,57 @@ roc_auc_hand_till <- function(truth, estimate, options) {
   # order as the levels of `truth`)
   colnames(estimate) <- lvls
 
-  # A_hat(i | j) in the paper
-  roc_auc_subset <- function(lvl1, lvl2) {
-    # Subset where truth is one of the two current levels
-    subset_idx <- which(truth == lvl1 | truth == lvl2)
-
-    # Use estimate based on lvl1 being the relevant level
-    # Estimate for lvl2 is just 1-lvl1 rather than the value that
-    # is actually there for the multiclass case
-    estimate_lvl1 <- estimate[, lvl1, drop = TRUE]
-
-    # subset and recode truth to only have 2 levels
-    truth_subset <- factor(truth[subset_idx], levels = c(lvl1, lvl2))
-    estimate_subset <- estimate_lvl1[subset_idx]
-
-    auc_val <- roc_auc_binary(truth_subset, estimate_subset, options)
-
-    # Early return if NA to avoid error in downstream if statement
-    if (is.na(auc_val)) {
-      return(auc_val)
-    }
-
-    # Hand Till 2001 uses an AUC calc that is always >0.5
-    # Eq 3 of https://link.springer.com/content/pdf/10.1023%2FA%3A1010920819831.pdf
-    # This means their multiclass auc metric is made up of these >0.5 AUCs.
-    # To be consistent, we force <0.5 AUC values to be 1-AUC which is the
-    # same value that HandTill would get.
-    if(auc_val < 0.5) {
-      auc_val <- 1 - auc_val
-    }
-
-    auc_val
-  }
-
   sum_val <- 0
 
   for(i_lvl in lvls) {
-
     # Double sum:
     # (sum i<j)
     cutpoint <- which(lvls == i_lvl)
     j_lvls <- lvls[-seq_len(cutpoint)]
 
     for(j_lvl in j_lvls) {
+      A_hat_i_given_j <- roc_auc_subset(i_lvl, j_lvl, truth, estimate, options)
+      A_hat_j_given_i <- roc_auc_subset(j_lvl, i_lvl, truth, estimate, options)
+
+      A_hat_ij <- mean(c(A_hat_i_given_j, A_hat_j_given_i))
 
       # sum A_hat(i, j)
-      sum_val <- sum_val +
-        mean(c(roc_auc_subset(i_lvl, j_lvl), roc_auc_subset(j_lvl, i_lvl)))
+      sum_val <- sum_val + A_hat_ij
     }
   }
 
   multiplier * sum_val
+}
+
+# A_hat(i | j) in the paper
+roc_auc_subset <- function(lvl1, lvl2, truth, estimate, options) {
+  # Subset where truth is one of the two current levels
+  subset_idx <- which(truth == lvl1 | truth == lvl2)
+
+  # Use estimate based on lvl1 being the relevant level
+  # Estimate for lvl2 is just 1-lvl1 rather than the value that
+  # is actually there for the multiclass case
+  estimate_lvl1 <- estimate[, lvl1, drop = TRUE]
+
+  # subset and recode truth to only have 2 levels
+  truth_subset <- factor(truth[subset_idx], levels = c(lvl1, lvl2))
+  estimate_subset <- estimate_lvl1[subset_idx]
+
+  auc_val <- roc_auc_binary(truth_subset, estimate_subset, options)
+
+  # Early return if NA to avoid error in downstream if statement
+  if (is.na(auc_val)) {
+    return(auc_val)
+  }
+
+  # Hand Till 2001 uses an AUC calc that is always >0.5
+  # Eq 3 of https://link.springer.com/content/pdf/10.1023%2FA%3A1010920819831.pdf
+  # This means their multiclass auc metric is made up of these >0.5 AUCs.
+  # To be consistent, we force <0.5 AUC values to be 1-AUC which is the
+  # same value that HandTill would get.
+  if(auc_val < 0.5) {
+    auc_val <- 1 - auc_val
+  }
+
+  auc_val
 }
