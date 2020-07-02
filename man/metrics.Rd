@@ -30,8 +30,8 @@ specified different ways but the primary method is to use an
 unquoted variable name.}
 
 \item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
-such as \code{direction} or \code{smooth}. These options should not include \code{response},
-\code{predictor}, \code{levels}, or \code{quiet}.}
+such as \code{smooth}. These options should not include \code{response},
+\code{predictor}, \code{levels}, \code{quiet}, or \code{direction}.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}

@@ -5,18 +5,6 @@
 #' curve of each class against the rest, using the a priori class distribution.
 #' This is equivalent to `roc_auc(estimator = "macro_weighted")`.
 #'
-#' Like the other ROC AUC metrics, `roc_aunp()` defaults to allowing
-#' `pROC::roc()` control the direction of the computation, but allows you to
-#' control this by passing `options = list(direction = "<")` or any other
-#' allowed direction value. pROC advises setting the `direction` when doing
-#' resampling so that the AUC values are not biased upwards.
-#'
-#' Generally, an ROC AUC value is between `0.5` and `1`, with `1` being a
-#' perfect prediction model. If your value is between `0` and `0.5`, then
-#' this implies that you have meaningful information in your model, but it
-#' is being applied incorrectly because doing the opposite of what the model
-#' predicts would result in an AUC `>0.5`.
-#'
 #' @family class probability metrics
 #' @templateVar metric_fn roc_aunp
 #' @template return
@@ -27,7 +15,7 @@
 #' a priori class distribution and is equivalent to
 #' `roc_auc(estimator = "macro_weighted")`.
 #'
-#' @inheritParams pr_auc
+#' @inheritParams roc_auc
 #'
 #' @param ... A set of unquoted column names or one or more `dplyr` selector
 #' functions to choose which variables contain the class probabilities. There
@@ -36,10 +24,6 @@
 #' @param estimate A matrix with as many
 #' columns as factor levels of `truth`. _It is assumed that these are in the
 #' same order as the levels of `truth`._
-#'
-#' @param options A `list` of named options to pass to [pROC::roc()]
-#' such as `direction` or `smooth`. These options should not include `response`,
-#' `predictor`, `levels`, or `quiet`.
 #'
 #' @references
 #'

@@ -3,14 +3,10 @@
 #' `roc_auc()` is a metric that computes the area under the ROC curve. See
 #' [roc_curve()] for the full curve.
 #'
-#' For most methods, `roc_auc()` defaults to allowing `pROC::roc()` control
-#' the direction of the computation, but allows you to control this by passing
-#' `options = list(direction = "<")` or any other allowed direction value.
-#' However, the Hand, Till (2001) method assumes that the individual AUCs are
-#' all above `0.5`, so if an AUC value below `0.5` is computed, then `1` is
-#' subtracted from it to get the correct result. When not using the Hand, Till
-#' method, pROC advises setting the `direction` when doing resampling so that
-#' the AUC values are not biased upwards.
+#' The underlying `direction` option in [pROC::roc()] is forced to
+#' `direction = "<"`. This computes the ROC curve assuming that the `estimate`
+#' values are the probability that the "event" occurred, which is what they
+#' are always assumed to be in yardstick.
 #'
 #' Generally, an ROC AUC value is between `0.5` and `1`, with `1` being a
 #' perfect prediction model. If your value is between `0` and `0.5`, then
@@ -27,6 +23,9 @@
 #' The default multiclass method for computing `roc_auc()` is to use the
 #' method from Hand, Till, (2001). Unlike macro-averaging, this method is
 #' insensitive to class distributions like the binary ROC AUC case.
+#' Additionally, while other multiclass techniques will return `NA` if any
+#' levels in `truth` occur zero times in the actual data, the Hand-Till method
+#' will simply ignore those levels in the averaging calculation, with a warning.
 #'
 #' Macro and macro-weighted averaging are still provided, even though they are
 #' not the default. In fact, macro-weighted averaging corresponds to the same
@@ -35,8 +34,8 @@
 #' @inheritParams pr_auc
 #'
 #' @param options A `list` of named options to pass to [pROC::roc()]
-#' such as `direction` or `smooth`. These options should not include `response`,
-#' `predictor`, `levels`, or `quiet`.
+#' such as `smooth`. These options should not include `response`,
+#' `predictor`, `levels`, `quiet`, or `direction`.
 #'
 #' @param estimator One of `"binary"`, `"hand_till"`, `"macro"`, or
 #' `"macro_weighted"` to specify the type of averaging to be done. `"binary"`
@@ -183,7 +182,13 @@ roc_auc_binary <- function(truth, estimate, options) {
     return(NA_real_)
   }
 
-  args <- quos(response = truth, predictor = estimate, levels = lvl, quiet = TRUE)
+  args <- quos(
+    response = truth,
+    predictor = estimate,
+    levels = lvl,
+    quiet = TRUE,
+    direction = "<"
+  )
 
   pROC_auc <- eval_tidy(call2("auc", !!! args, !!! options, .ns = "pROC"))
 
@@ -197,16 +202,12 @@ roc_auc_multiclass <- function(truth, estimate, options) {
 }
 
 roc_auc_hand_till <- function(truth, estimate, options) {
-
   # Hand Till method ignores yardstick.event_first (like macro-average)
   old_opt <- getOption("yardstick.event_first", TRUE)
   options(yardstick.event_first = TRUE)
   on.exit(options(yardstick.event_first = old_opt))
 
   lvls <- levels(truth)
-  C <- length(lvls)
-
-  multiplier <- 2 / (C * (C - 1))
 
   # We want to reference the levels by name in the function below, so we
   # force the column names to be the same as the levels
@@ -214,55 +215,76 @@ roc_auc_hand_till <- function(truth, estimate, options) {
   # order as the levels of `truth`)
   colnames(estimate) <- lvls
 
-  # A_hat(i | j) in the paper
-  roc_auc_subset <- function(lvl1, lvl2) {
-    # Subset where truth is one of the two current levels
-    subset_idx <- which(truth == lvl1 | truth == lvl2)
+  # Check for levels with no observations in `truth`. Generally this would
+  # return `NA`, but to match pROC and HandTill2001 we remove them with a
+  # warning and proceed with the remaining levels (#123)
+  lvls_loc <- match(lvls, truth)
 
-    # Use estimate based on lvl1 being the relevant level
-    # Estimate for lvl2 is just 1-lvl1 rather than the value that
-    # is actually there for the multiclass case
-    estimate_lvl1 <- estimate[, lvl1, drop = TRUE]
+  if (anyNA(lvls_loc)) {
+    indicator_missing <- is.na(lvls_loc)
 
-    # subset and recode truth to only have 2 levels
-    truth_subset <- factor(truth[subset_idx], levels = c(lvl1, lvl2))
-    estimate_subset <- estimate_lvl1[subset_idx]
+    lvls_missing <- lvls[indicator_missing]
+    lvls_missing <- single_quote(lvls_missing)
+    lvls_missing <- paste0(lvls_missing, collapse = ", ")
 
-    auc_val <- roc_auc_binary(truth_subset, estimate_subset, options)
+    msg <- paste0(
+      "No observations were detected in `truth` for level(s): ",
+      lvls_missing,
+      "\n",
+      "Computation will proceed by ignoring those levels."
+    )
 
-    # Early return if NA to avoid error in downstream if statement
-    if (is.na(auc_val)) {
-      return(auc_val)
-    }
+    rlang::warn(msg)
 
-    # Hand Till 2001 uses an AUC calc that is always >0.5
-    # Eq 3 of https://link.springer.com/content/pdf/10.1023%2FA%3A1010920819831.pdf
-    # This means their multiclass auc metric is made up of these >0.5 AUCs.
-    # To be consistent, we force <0.5 AUC values to be 1-AUC which is the
-    # same value that HandTill would get.
-    if(auc_val < 0.5) {
-      auc_val <- 1 - auc_val
-    }
-
-    auc_val
+    # Proceed with non-missing levels
+    lvls <- lvls[!indicator_missing]
   }
+
+  C <- length(lvls)
+
+  multiplier <- 2 / (C * (C - 1))
 
   sum_val <- 0
 
   for(i_lvl in lvls) {
-
     # Double sum:
     # (sum i<j)
     cutpoint <- which(lvls == i_lvl)
     j_lvls <- lvls[-seq_len(cutpoint)]
 
     for(j_lvl in j_lvls) {
+      A_hat_i_given_j <- roc_auc_subset(i_lvl, j_lvl, truth, estimate, options)
+      A_hat_j_given_i <- roc_auc_subset(j_lvl, i_lvl, truth, estimate, options)
+
+      A_hat_ij <- mean(c(A_hat_i_given_j, A_hat_j_given_i))
 
       # sum A_hat(i, j)
-      sum_val <- sum_val +
-        mean(c(roc_auc_subset(i_lvl, j_lvl), roc_auc_subset(j_lvl, i_lvl)))
+      sum_val <- sum_val + A_hat_ij
     }
   }
 
   multiplier * sum_val
+}
+
+# A_hat(i | j) in the paper
+roc_auc_subset <- function(lvl1, lvl2, truth, estimate, options) {
+  # Subset where truth is one of the two current levels
+  subset_idx <- which(truth == lvl1 | truth == lvl2)
+
+  # Use estimate based on lvl1 being the relevant level
+  # Estimate for lvl2 is just 1-lvl1 rather than the value that
+  # is actually there for the multiclass case
+  estimate_lvl1 <- estimate[, lvl1, drop = TRUE]
+
+  # subset and recode truth to only have 2 levels
+  truth_subset <- factor(truth[subset_idx], levels = c(lvl1, lvl2))
+  estimate_subset <- estimate_lvl1[subset_idx]
+
+  auc_val <- roc_auc_binary(truth_subset, estimate_subset, options)
+
+  auc_val
+}
+
+single_quote <- function(x) {
+  encodeString(x, quote = "'", na.encode = FALSE)
 }

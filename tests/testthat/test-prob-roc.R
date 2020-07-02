@@ -7,15 +7,23 @@ hpc_cv2 <- filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09"
 
 # ------------------------------------------------------------------------------
 
-roc_curv <- pROC::roc(two_class_example$truth,
-                      two_class_example$Class1,
-                      levels = rev(levels(two_class_example$truth)))
+roc_curv <- pROC::roc(
+  two_class_example$truth,
+  two_class_example$Class1,
+  levels = rev(levels(two_class_example$truth)),
+  direction = "<"
+)
+
 lvls <- levels(two_class_example$truth)
 roc_val <- as.numeric(roc_curv$auc)
-smooth_curv <- pROC::roc(two_class_example$truth,
-                         two_class_example$Class1,
-                         levels = rev(levels(two_class_example$truth)),
-                         smooth = TRUE)
+
+smooth_curv <- pROC::roc(
+  two_class_example$truth,
+  two_class_example$Class1,
+  levels = rev(levels(two_class_example$truth)),
+  direction = "<",
+  smooth = TRUE
+)
 
 test_that('Two class', {
   expect_equal(
@@ -23,7 +31,7 @@ test_that('Two class', {
     roc_val
   )
   expect_equal(
-    roc_auc(two_class_example, truth = "truth", Class2)[[".estimate"]],
+    roc_auc(two_class_example, truth = "truth", Class1)[[".estimate"]],
     roc_val
   )
   expect_equal(
@@ -31,6 +39,30 @@ test_that('Two class', {
     as.numeric(smooth_curv$auc),
     tol = 0.001
   )
+})
+
+test_that("binary roc curve uses `direction = <`", {
+  # In yardstick we do events (or cases) as the first level
+  truth <- factor(c("control", "case", "case"), levels = c("case", "control"))
+
+  # Make really bad predictions
+  # This would force `direction = "auto"` to choose `>`,
+  # which would be incorrect. We are required to force `direction = <` for
+  # our purposes of having `estimate` match the event
+  estimate <- c(.8, .2, .1)
+
+  # pROC expects levels to be in the order of control, then event.
+  roc <- pROC::roc(
+    truth,
+    estimate,
+    levels = c("control", "case"),
+    direction = "<"
+  )
+
+  curve <- roc_curve_vec(truth, estimate)
+
+  expect_identical(curve$specificity, c(0, roc$specificities))
+  expect_identical(curve$sensitivity, c(1, roc$sensitivities))
 })
 
 test_that('ROC Curve', {
@@ -73,7 +105,8 @@ test_that("pROC::auc() arguments are passed through", {
   curv <- pROC::roc(
     response = two_class_example$truth,
     predictor = two_class_example$Class1,
-    levels = c("Class2", "Class1")
+    levels = c("Class2", "Class1"),
+    direction = "<"
   )
 
   proc_auc <- as.numeric(pROC::auc(curv, partial.auc = c(1, 0.75)))
@@ -97,7 +130,7 @@ test_that("pROC::auc() arguments are passed through - corrected and focused args
   # From `?pROC::auc`
   data("aSAH", package = "pROC")
 
-  curv <- roc(aSAH$outcome, aSAH$s100b)
+  curv <- roc(aSAH$outcome, aSAH$s100b, direction = "<")
 
   proc_auc <- as.numeric(pROC::auc(
     curv,
@@ -155,6 +188,78 @@ test_that("can calculate Hand Till when prob matrix column names are different f
     0.827387699597311
   )
 
+})
+
+test_that("`roc_auc()` hand-till method ignores levels with 0 observations with a warning (#123)", {
+  # Generally we return `NA_real_` for macro/macro-weighted/micro multiclass,
+  # but pROC and HandTill2001 both ignore levels with 0 observations, so we do
+  # too for consistency
+  truth <- factor(c("x", "x", "z"), levels = c("x", "y", "z"))
+
+  estimate <- c(
+    c(.8, .5, .6),
+    c(.1, .1, .1),
+    c(.1, .4, .3)
+  )
+
+  estimate <- matrix(estimate, ncol = 3)
+  colnames(estimate) <- c("x", "y", "z")
+
+  # HandTill2001::auc(HandTill2001::multcap(truth, estimate))
+  expect_warning(
+    expect_identical(roc_auc_vec(truth, estimate), 0.5),
+    "No observations were detected in `truth` for level[(]s[)]: 'y'"
+  )
+})
+
+# ------------------------------------------------------------------------------
+
+test_that("binary roc auc uses `direction = <`", {
+  # In yardstick we do events (or cases) as the first level
+  truth <- factor(c("control", "case", "case"), levels = c("case", "control"))
+
+  # Make really bad predictions
+  # This would force `direction = "auto"` to choose `>`,
+  # which would be incorrect. We are required to force `direction = <` for
+  # our purposes of having `estimate` match the event
+  estimate <- c(.8, .2, .1)
+
+  # pROC() expects levels to be in the order of control, then event.
+  auc <- pROC::auc(
+    truth,
+    estimate,
+    levels = c("control", "case"),
+    direction = "<"
+  )
+
+  auc <- as.numeric(auc)
+
+  expect_identical(roc_auc_vec(truth, estimate), auc)
+})
+
+test_that("`direction = <` is forced when individual binary AUCs are computed (#123)", {
+  truth <- factor(
+    c(
+      "c", "c", "c", "d", "d", "a", "d", "c", "a",
+      "a", "d", "b", "d", "a", "d", "a", "d", "d"
+    ),
+    levels = c("a", "b", "c", "d")
+  )
+
+  estimate <- c(
+    c(c(0.5, 0.4, 0.8, 0.5, 0.8, 1, 0.8, 0, 0.5, 2/3, 0, 1, 0.4, 1/6, 0.4, 0.8, 0.5, 0.6)),
+    c(0, 0.2, 0, 0, 0, 0, 0, 0.6, 0, 1/3, 0, 0, 0, 5/6, 0.6, 0, 0, 0),
+    c(0, 0.2, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    c(0.5, 0.2, 0.2, 0.5, 0.2, 0, 0.2, 0.2, 0.5, 0, 1, 0, 0.6, 0, 0, 0.2, 0.5, 0.4)
+  )
+
+  estimate <- matrix(estimate, ncol = 4, dimnames = list(NULL, c("a", "b", "c", "d")))
+
+  # HandTill2001::auc(HandTill2001::multcap(truth, estimate))
+  expect_equal(
+    roc_auc_vec(truth, estimate),
+    0.5890625
+  )
 })
 
 # ------------------------------------------------------------------------------
@@ -228,22 +333,43 @@ test_that("multiclass one-vs-all approach results in multiple warnings", {
   )
 })
 
-test_that("multiclass hand till approach throws warning", {
-  no_control <- dplyr::filter(two_class_example, truth == "Class1")
+test_that("hand till approach throws warning and returns `NaN` when only 1 level has observations", {
+  x <- factor(c("x", "x", "x"), levels = c("x", "y"))
 
-  expect_identical(
-    expect_warning(
-      roc_auc(no_control, truth, Class1, Class2, estimator = "hand_till")[[".estimate"]],
-      "No control observations were detected in `truth` with control level 'Class2'"
-    ),
-    NA_real_
+  estimate <- c(
+    c(.8, .5, .6),
+    c(.2, .5, .4)
   )
 
+  estimate <- matrix(estimate, ncol = 2)
+  colnames(estimate) <- c("x", "y")
+
+  # With two levels -> one
   expect_identical(
     expect_warning(
-      roc_auc(no_control, truth, Class1, Class2, estimator = "hand_till")[[".estimate"]],
-      "No event observations were detected in `truth` with event level 'Class2'"
+      roc_auc_vec(x, estimate, estimator = "hand_till"),
+      "No observations were detected in `truth` for level[(]s[)]: 'y'"
     ),
-    NA_real_
+    NaN
+  )
+
+  x <- factor(c("x", "x", "x"), levels = c("x", "y", "z"))
+
+  estimate <- c(
+    c(.8, .5, .6),
+    c(.1, .1, .1),
+    c(.1, .4, .3)
+  )
+
+  estimate <- matrix(estimate, ncol = 3)
+  colnames(estimate) <- c("x", "y", "z")
+
+  # With three levels -> one
+  expect_identical(
+    expect_warning(
+      roc_auc_vec(x, estimate, estimator = "hand_till"),
+      "No observations were detected in `truth` for level[(]s[)]: 'y', 'z'"
+    ),
+    NaN
   )
 })

@@ -1,5 +1,16 @@
 # yardstick (development version)
 
+* The `roc_auc()` Hand-Till multiclass estimator will now ignore levels in
+  `truth` that occur zero times in the actual data. With other methods of
+  multiclass averaging, this usually returns an `NA`, however, ignoring
+  levels in this manner is more consistent with implementations in the
+  HandTill2001 and pROC packages (#123).
+
+* `roc_auc()` and `roc_curve()` now set `direction = "<"` when computing the
+  ROC curve using `pROC::roc()`. Results were being computed incorrectly with
+  `direction = "auto"` when most probability values were predicting the wrong
+  class (#123).
+
 * `metric_set()` now strips the package name when auto-labeling functions
   (@rorynolan, #151).
 
