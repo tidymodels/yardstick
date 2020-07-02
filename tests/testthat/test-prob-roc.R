@@ -166,7 +166,32 @@ test_that("can calculate Hand Till when prob matrix column names are different f
 
 })
 
-test_that("`direction = <` is forced when binary AUCs are computed (#123)", {
+# ------------------------------------------------------------------------------
+
+test_that("binary roc auc uses `direction = <`", {
+  # In yardstick we do events (or cases) as the first level
+  truth <- factor(c("control", "case", "case"), levels = c("case", "control"))
+
+  # Make really bad predictions
+  # This would force `direction = "auto"` to choose `>`,
+  # which would be incorrect. We are required to force `direction = <` for
+  # our purposes of having `estimate` match the event
+  estimate <- c(.8, .2, .1)
+
+  # pROC() expects levels to be in the order of control, then event.
+  auc <- pROC::auc(
+    truth,
+    estimate,
+    levels = c("control", "case"),
+    direction = "<"
+  )
+
+  auc <- as.numeric(auc)
+
+  expect_identical(roc_auc_vec(truth, estimate), auc)
+})
+
+test_that("`direction = <` is forced when individual binary AUCs are computed (#123)", {
   truth <- factor(
     c(
       "c", "c", "c", "d", "d", "a", "d", "c", "a",
