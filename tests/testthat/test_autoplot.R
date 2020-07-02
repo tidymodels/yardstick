@@ -360,6 +360,18 @@ test_that("Confusion Matrix - multi class - heatmap", {
   expect_equal(rlang::expr_label(.plot$mapping[["fill"]]), "`~Freq`")
 })
 
+test_that("Confusion Matrix - mosaic - non-standard labels (#157)", {
+  res <- hpc_cv %>%
+    filter(Resample == "Fold01") %>%
+    conf_mat(obs, pred, dnn = c("Pred", "True"))
+
+  expect_error(.plot <- autoplot(res, type = "heatmap"), NA)
+
+  # Overridden with default labels
+  expect_identical(.plot$labels$x, "Truth")
+  expect_identical(.plot$labels$y, "Prediction")
+})
+
 test_that("Confusion Matrix - two class - mosaic", {
   res <- conf_mat(two_class_example, truth, predicted)
 

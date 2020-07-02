@@ -287,42 +287,56 @@ summary.conf_mat <- function(object,
   stats
 }
 
-conf_mat_plot_types <- c("mosaic", "heatmap")
-
 # Dynamically exported
 #' @rdname conf_mat
-#' @param type Type of plot desired, must be "mosaic" or "heatmap",
-#'   defaults to "mosaic".
+#' @param type Type of plot desired, must be `"mosaic"` or `"heatmap"`,
+#'   defaults to `"mosaic"`.
 #' @param object The `conf_mat` data frame returned from `conf_mat()`.
 autoplot.conf_mat <- function(object, type = "mosaic", ...) {
-
-  if (!(type %in% conf_mat_plot_types)) {
-    stop("`type` must be one of: ",
-         paste(conf_mat_plot_types, collapse = ", "), call. = FALSE)
-  }
+  type <- rlang::arg_match(type, conf_mat_plot_types)
 
   switch(type,
-         mosaic = cm_mosaic(object),
-         heatmap = cm_heat(object))
+    mosaic = cm_mosaic(object),
+    heatmap = cm_heat(object)
+  )
 }
 
-
+conf_mat_plot_types <- c("mosaic", "heatmap")
 
 cm_heat <- function(x) {
-
   `%+%` <- ggplot2::`%+%`
 
-  as.data.frame.table(x$table) %>%
-    dplyr::mutate(Prediction = factor(Prediction, levels = rev(levels(Prediction)))) %>%
-    ggplot2::ggplot(ggplot2::aes(x = Truth, y = Prediction, fill = Freq)) %+%
+  table <- x$table
+
+  df <- as.data.frame.table(table)
+
+  # Force known column names, assuming that predictions are on the
+  # left hand side of the table (#157).
+  names(df) <- c("Prediction", "Truth", "Freq")
+
+  # Have prediction levels going from high to low so they plot in an
+  # order that matches the LHS of the confusion matrix
+  lvls <- levels(df$Prediction)
+  df$Prediction <- factor(df$Prediction, levels = rev(lvls))
+
+  df %>%
+    ggplot2::ggplot(
+      ggplot2::aes(
+        x = Truth,
+        y = Prediction,
+        fill = Freq
+      )
+    ) %+%
     ggplot2::geom_tile() %+%
     ggplot2::scale_fill_gradient(low = "grey90", high = "grey40") %+%
-    ggplot2::theme(panel.background = ggplot2::element_blank(), legend.position = "none") %+%
+    ggplot2::theme(
+      panel.background = ggplot2::element_blank(),
+      legend.position = "none"
+    ) %+%
     ggplot2::geom_text(ggplot2::aes(label = Freq))
 }
 
 space_fun <- function(x, adjustment, rescale = FALSE) {
-
   if(rescale) {
     x <- x / sum(x)
   }
@@ -331,28 +345,32 @@ space_fun <- function(x, adjustment, rescale = FALSE) {
 
   xmax <- cumsum(x) + seq(0, length(x) - 1) * adjustment
   xmin <- cumsum(x) - x + seq(0, length(x) - 1) * adjustment
-  dplyr::tibble(xmin = xmin,
-         xmax = xmax)
+
+  dplyr::tibble(xmin = xmin, xmax = xmax)
 }
 
 space_y_fun <- function(data, id, x_data) {
-  out <- (space_fun(data[, id], 100, rescale = TRUE) * -1)
+  out <- space_fun(data[, id], 100, rescale = TRUE) * -1
+
   names(out) <- c("ymin", "ymax")
+
   out$xmin = x_data[[id, 1]]
   out$xmax = x_data[[id, 2]]
+
   out
 }
 
 cm_mosaic <- function(x) {
-
   `%+%` <- ggplot2::`%+%`
 
   cm_zero <- (as.numeric(x$table == 0) / 2) + x$table
 
   x_data <- space_fun(rowSums(cm_zero), 200)
 
-  full_data_list <- purrr::map(seq_len(ncol(cm_zero)),
-                        ~ space_y_fun(cm_zero, .x, x_data))
+  full_data_list <- purrr::map(
+    seq_len(ncol(cm_zero)),
+    ~ space_y_fun(cm_zero, .x, x_data)
+  )
 
   full_data <- dplyr::bind_rows(full_data_list)
 
@@ -361,12 +379,25 @@ cm_mosaic <- function(x) {
   tick_labels <- colnames(cm_zero)
 
   ggplot2::ggplot(full_data) %+%
-    ggplot2::geom_rect(ggplot2::aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)) %+%
-    ggplot2::scale_x_continuous(breaks = (x_data$xmin + x_data$xmax) / 2,
-                       labels = tick_labels) %+%
-    ggplot2::scale_y_continuous(breaks = (y1_data$ymin + y1_data$ymax) / 2,
-                       labels = tick_labels) %+%
-    ggplot2::labs(y = "Predicted",
-         x = "Truth") %+%
+    ggplot2::geom_rect(
+      ggplot2::aes(
+        xmin = xmin,
+        xmax = xmax,
+        ymin = ymin,
+        ymax = ymax
+      )
+    ) %+%
+    ggplot2::scale_x_continuous(
+      breaks = (x_data$xmin + x_data$xmax) / 2,
+      labels = tick_labels
+    ) %+%
+    ggplot2::scale_y_continuous(
+      breaks = (y1_data$ymin + y1_data$ymax) / 2,
+      labels = tick_labels
+    ) %+%
+    ggplot2::labs(
+      y = "Predicted",
+      x = "Truth"
+    ) %+%
     ggplot2::theme(panel.background = ggplot2::element_blank())
 }
