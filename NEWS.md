@@ -1,5 +1,10 @@
 # yardstick (development version)
 
+* `roc_auc()` and `roc_curve()` now set `direction = "<"` when computing the
+  ROC curve using `pROC::roc()`. Results were being computed incorrectly with
+  `direction = "auto"` when most probability values were predicting the wrong
+  class (#123).
+
 * `metric_set()` now strips the package name when auto-labeling functions
   (@rorynolan, #151).
 
