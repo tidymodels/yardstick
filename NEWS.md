@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* `metric_set()` now strips the package name when auto-labeling functions
+  (@rorynolan, #151).
+
 * There are three new helper functions for more easily creating custom
   metric functions: `new_class_metric()`, `new_prob_metric()`, and
   `new_numeric_metric()`.
