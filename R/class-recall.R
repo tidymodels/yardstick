@@ -117,7 +117,7 @@ recall_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
 recall_table_impl <- function(data, estimator) {
 
   if(is_binary(estimator)) {
-    recall_binary(data)
+    recall_binary(data, estimator)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- recall_multiclass(data, estimator)
@@ -127,9 +127,9 @@ recall_table_impl <- function(data, estimator) {
 
 }
 
-recall_binary <- function(data) {
+recall_binary <- function(data, estimator) {
 
-  relevant <- pos_val(data)
+  relevant <- pos_val(data, estimator)
   numer <- sum(data[relevant, relevant])
   denom <- sum(data[, relevant])
 
