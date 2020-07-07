@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>R squared - traditional — rsq_trad • yardstick</title>
+<title>Mean percentage error — mpe • yardstick</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,10 +49,12 @@
 
 
 
-<meta property="og:title" content="R squared - traditional — rsq_trad" />
-<meta property="og:description" content="Calculate the coefficient of determination using the traditional definition
-of R squared using sum of squares. For a measure of R squared that is
-strictly between (0, 1), see rsq()." />
+<meta property="og:title" content="Mean percentage error — mpe" />
+<meta property="og:description" content="Calculate the mean percentage error. This metric is in relative
+units. It can be used as a measure of the estimate's bias.
+Note that if any truth values are 0, a value of:
+-Inf (estimate &amp;gt; 0), Inf (estimate &amp;lt; 0), or NaN (estimate == 0)
+is returned for mpe()." />
 <meta property="og:image" content="https://yardstick.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -152,23 +154,25 @@ strictly between (0, 1), see rsq()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>R squared - traditional</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-rsq_trad.R'><code>R/num-rsq_trad.R</code></a></small>
-    <div class="hidden name"><code>rsq_trad.Rd</code></div>
+    <h1>Mean percentage error</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/num-mpe.R'><code>R/num-mpe.R</code></a></small>
+    <div class="hidden name"><code>mpe.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate the coefficient of determination using the traditional definition
-of R squared using sum of squares. For a measure of R squared that is
-strictly between (0, 1), see <code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq()</a></code>.</p>
+    <p>Calculate the mean percentage error. This metric is in <em>relative
+units</em>. It can be used as a measure of the <code>estimate</code>'s bias.</p>
+<p>Note that if <em>any</em> <code>truth</code> values are <code>0</code>, a value of:
+<code>-Inf</code> (<code>estimate &gt; 0</code>), <code>Inf</code> (<code>estimate &lt; 0</code>), or <code>NaN</code> (<code>estimate == 0</code>)
+is returned for <code><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>estimate</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>estimate</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -210,19 +214,7 @@ values should be stripped before the computation proceeds.</p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The two estimates for the
-coefficient of determination, <code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq()</a></code> and <code><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad()</a></code>, differ by
-their formula. The former guarantees a value on (0, 1) while the
-latter can generate inaccurate values when the model is
-non-informative (see the examples). Both are measures of
-consistency/correlation and not of accuracy.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Kvalseth. Cautionary note about \(R^2\).
-American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
+<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other numeric metrics: 
@@ -233,27 +225,45 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 <code><a href='https://rdrr.io/pkg/yardstick/man/mae.html'>mae</a>()</code>,
 <code><a href='https://rdrr.io/pkg/yardstick/man/mape.html'>mape</a>()</code>,
 <code><a href='https://rdrr.io/pkg/yardstick/man/mase.html'>mase</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a>()</code>,
 <code><a href='https://rdrr.io/pkg/yardstick/man/rmse.html'>rmse</a>()</code>,
 <code><a href='https://rdrr.io/pkg/yardstick/man/rpd.html'>rpd</a>()</code>,
 <code><a href='https://rdrr.io/pkg/yardstick/man/rpiq.html'>rpiq</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a>()</code>,
 <code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq</a>()</code>,
 <code><a href='https://rdrr.io/pkg/yardstick/man/smape.html'>smape</a>()</code></p>
-<p>Other consistency metrics: 
+<p>Other accuracy metrics: 
 <code><a href='https://rdrr.io/pkg/yardstick/man/ccc.html'>ccc</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rpd.html'>rpd</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rpiq.html'>rpiq</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq</a>()</code></p></div>
+<code><a href='https://rdrr.io/pkg/yardstick/man/huber_loss_pseudo.html'>huber_loss_pseudo</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/huber_loss.html'>huber_loss</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/iic.html'>iic</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/mae.html'>mae</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/mape.html'>mape</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/mase.html'>mase</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/rmse.html'>rmse</a>()</code>,
+<code><a href='https://rdrr.io/pkg/yardstick/man/smape.html'>smape</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>Max Kuhn</p>
+    <p>Thomas Bierhance</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric  .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> rsq_trad standard       0.879</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># `solubility_test$solubility` has zero values with corresponding</span>
+<span class='co'># `$prediction` values that are negative. By definition, this causes `Inf`</span>
+<span class='co'># to be returned from `mpe()`.</span>
+<span class='kw'>solubility_test</span>[<span class='kw'>solubility_test</span><span class='op'>$</span><span class='kw'>solubility</span> <span class='op'>==</span> <span class='fl'>0</span>,]</div><div class='output co'>#&gt;     solubility prediction
+#&gt; 17           0 -0.1532030
+#&gt; 220          0 -0.3876578</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;   .metric .estimator .estimate
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mpe     standard         </span><span style='color: #BB0000;'>Inf</span><span></div><div class='input'>
+<span class='co'># We'll remove the zero values for demonstration</span>
+<span class='kw'>solubility_test</span> <span class='op'>&lt;-</span> <span class='kw'>solubility_test</span>[<span class='kw'>solubility_test</span><span class='op'>$</span><span class='kw'>solubility</span> != <span class='fl'>0</span>,]
+
+<span class='co'># Supply truth and predictions as bare column names</span>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;   .metric .estimator .estimate
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mpe     standard        16.1</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1234</span>)
@@ -273,37 +283,27 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 <span class='co'># Compute the metric by group</span>
 <span class='kw'>metric_results</span> <span class='op'>&lt;-</span> <span class='kw'>solubility_resampled</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a></span>(<span class='kw'>solubility</span>, <span class='kw'>prediction</span>)
+  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>solubility</span>, <span class='kw'>prediction</span>)
 
 <span class='kw'>metric_results</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
-#&gt;    resample .metric  .estimator .estimate
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 1        rsq_trad standard       0.870
-#&gt; </span><span style='color: #555555;'> 2</span><span> 10       rsq_trad standard       0.878
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2        rsq_trad standard       0.891
-#&gt; </span><span style='color: #555555;'> 4</span><span> 3        rsq_trad standard       0.913
-#&gt; </span><span style='color: #555555;'> 5</span><span> 4        rsq_trad standard       0.889
-#&gt; </span><span style='color: #555555;'> 6</span><span> 5        rsq_trad standard       0.857
-#&gt; </span><span style='color: #555555;'> 7</span><span> 6        rsq_trad standard       0.872
-#&gt; </span><span style='color: #555555;'> 8</span><span> 7        rsq_trad standard       0.852
-#&gt; </span><span style='color: #555555;'> 9</span><span> 8        rsq_trad standard       0.915
-#&gt; </span><span style='color: #555555;'>10</span><span> 9        rsq_trad standard       0.883</div><div class='input'>
+#&gt;    resample .metric .estimator .estimate
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 1        mpe     standard     -</span><span style='color: #BB0000;'>56.2</span><span>  
+#&gt; </span><span style='color: #555555;'> 2</span><span> 10       mpe     standard      50.4  
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2        mpe     standard     -</span><span style='color: #BB0000;'>27.9</span><span>  
+#&gt; </span><span style='color: #555555;'> 4</span><span> 3        mpe     standard       0.470
+#&gt; </span><span style='color: #555555;'> 5</span><span> 4        mpe     standard      -</span><span style='color: #BB0000;'>0.836</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span> 5        mpe     standard     -</span><span style='color: #BB0000;'>35.3</span><span>  
+#&gt; </span><span style='color: #555555;'> 7</span><span> 6        mpe     standard       7.51 
+#&gt; </span><span style='color: #555555;'> 8</span><span> 7        mpe     standard     -</span><span style='color: #BB0000;'>34.5</span><span>  
+#&gt; </span><span style='color: #555555;'> 9</span><span> 8        mpe     standard       7.87 
+#&gt; </span><span style='color: #555555;'>10</span><span> 9        mpe     standard      14.7  </div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='kw'>metric_results</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(avg_estimate = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>.estimate</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;   avg_estimate
 #&gt;          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>        0.882</div><div class='input'><span class='co'># With uninformitive data, the traditional version of R^2 can return</span>
-<span class='co'># negative values.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2291</span>)
-<span class='kw'>solubility_test</span><span class='op'>$</span><span class='kw'>randomized</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='kw'>solubility_test</span><span class='op'>$</span><span class='kw'>prediction</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>randomized</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> rsq     standard     0.001</span><span style='text-decoration: underline;'>99</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>randomized</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric  .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> rsq_trad standard       -</span><span style='color: #BB0000;'>1.01</span><span></div><div class='input'></div></span></pre>
+#&gt; </span><span style='color: #555555;'>1</span><span>        -</span><span style='color: #BB0000;'>7.38</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
