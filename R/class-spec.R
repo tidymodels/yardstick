@@ -125,7 +125,7 @@ specificity_vec <- spec_vec
 spec_table_impl <- function(data, estimator) {
 
   if(is_binary(estimator)) {
-    spec_binary(data)
+    spec_binary(data, estimator)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- spec_multiclass(data, estimator)
@@ -135,9 +135,9 @@ spec_table_impl <- function(data, estimator) {
 
 }
 
-spec_binary <- function(data) {
+spec_binary <- function(data, estimator) {
 
-  negative <- neg_val(data)
+  negative <- neg_val(data, estimator)
 
   numer <- sum(data[negative, negative])
   denom <- sum(data[, negative])
