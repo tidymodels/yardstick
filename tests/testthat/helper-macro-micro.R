@@ -41,13 +41,13 @@ multi_submats <- list(
 )
 
 # Just pass in a binary metric function
-macro_metric <- function(binary_metric, estimator = "binary", ...) {
+macro_metric <- function(binary_metric, event_level = "first", ...) {
   mean(
     vapply(multi_submats, binary_metric, numeric(1), estimator = estimator, ...)
   )
 }
 
-macro_weighted_metric <- function(binary_metric, estimator = "binary", ...) {
+macro_weighted_metric <- function(binary_metric, event_level = "first", ...) {
   weighted.mean(
     vapply(multi_submats, binary_metric, numeric(1), estimator = estimator, ...),
     weighted_macro_weights

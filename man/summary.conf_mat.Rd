@@ -18,9 +18,9 @@ recall for \code{\link[=f_meas]{f_meas()}}.}
 
 \item{estimator}{One of: \code{"binary"}, \code{"macro"}, \code{"macro_weighted"},
 or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} is
-only relevant for the two class case. The other three are general methods for
-calculating multiclass metrics. The default will automatically choose \code{"binary"}
-or \code{"macro"} based on \code{estimate}.}
+only relevant for the two class case. The other three are general methods
+for calculating multiclass metrics. The default will automatically choose
+\code{"binary"} or \code{"macro"} based on \code{estimate}.}
 
 \item{...}{Not currently used.}
 }

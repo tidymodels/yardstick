@@ -54,13 +54,16 @@
 #' @export
 #'
 #' @importFrom dplyr summarise
-metric_summarizer <- function(metric_nm, metric_fn,
-                              data, truth, estimate,
+metric_summarizer <- function(metric_nm,
+                              metric_fn,
+                              data,
+                              truth,
+                              estimate,
                               estimator = NULL,
                               na_rm = TRUE,
+                              event_level = yardstick_event_level(),
                               ...,
                               metric_fn_options = list()) {
-
   truth <- enquo(truth)
   estimate <- enquo(estimate)
 
@@ -85,6 +88,7 @@ metric_summarizer <- function(metric_nm, metric_fn,
       estimate = !! estimate,
       !!! spliceable_estimator(estimator),
       na_rm = na_rm,
+      event_level = event_level,
       !!! metric_fn_options
     )
   )

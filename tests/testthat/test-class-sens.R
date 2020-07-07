@@ -37,7 +37,7 @@ test_that('Two class', {
   )
 })
 
-test_that("`estimator = 'binary_last'` works", {
+test_that("`event_level = 'second'` works", {
   lst <- data_altman()
   df <- lst$pathology
 
@@ -47,7 +47,7 @@ test_that("`estimator = 'binary_last'` works", {
 
   expect_equal(
     sens_vec(df$pathology, df$scan),
-    sens_vec(df_rev$pathology, df_rev$scan, estimator = "binary_last")
+    sens_vec(df_rev$pathology, df_rev$scan, event_level = "second")
   )
 })
 
