@@ -16,15 +16,29 @@ sens(data, ...)
   estimate,
   estimator = NULL,
   na_rm = TRUE,
-  event_first = yardstick_event_first(),
+  event_level = yardstick_event_level(),
   ...
 )
 
 sensitivity(data, ...)
 
-sens_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
+sens_vec(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  ...
+)
 
-sensitivity_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
+sensitivity_vec(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  ...
+)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
