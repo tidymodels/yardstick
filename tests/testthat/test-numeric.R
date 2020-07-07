@@ -120,6 +120,7 @@ test_that('Mean Absolute Percentage Error', {
   )
 })
 
+
 ###################################################################
 
 test_that('Symmetric Mean Absolute Percentage Error', {
