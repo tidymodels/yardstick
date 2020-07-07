@@ -96,7 +96,7 @@ bal_accuracy_vec <- function(truth, estimate, estimator = NULL,
 bal_accuracy_table_impl <- function(data, estimator) {
 
   if(is_binary(estimator)) {
-    bal_accuracy_binary(data)
+    bal_accuracy_binary(data, estimator)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- bal_accuracy_multiclass(data, estimator)
@@ -105,10 +105,10 @@ bal_accuracy_table_impl <- function(data, estimator) {
 
 }
 
-bal_accuracy_binary <- function(data) {
+bal_accuracy_binary <- function(data, estimator) {
 
   # (sens + spec) / 2
-  ( recall_binary(data) + spec_binary(data) ) / 2
+  ( recall_binary(data, estimator) + spec_binary(data, estimator) ) / 2
 
 }
 
