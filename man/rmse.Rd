@@ -85,6 +85,7 @@ Other numeric metrics:
 \code{\link{mae}()},
 \code{\link{mape}()},
 \code{\link{mase}()},
+\code{\link{mpe}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
 \code{\link{rsq_trad}()},
@@ -99,6 +100,7 @@ Other accuracy metrics:
 \code{\link{mae}()},
 \code{\link{mape}()},
 \code{\link{mase}()},
+\code{\link{mpe}()},
 \code{\link{smape}()}
 }
 \author{

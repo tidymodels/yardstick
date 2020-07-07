@@ -84,6 +84,7 @@ Other numeric metrics:
 \code{\link{iic}()},
 \code{\link{mape}()},
 \code{\link{mase}()},
+\code{\link{mpe}()},
 \code{\link{rmse}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
@@ -98,6 +99,7 @@ Other accuracy metrics:
 \code{\link{iic}()},
 \code{\link{mape}()},
 \code{\link{mase}()},
+\code{\link{mpe}()},
 \code{\link{rmse}()},
 \code{\link{smape}()}
 }
