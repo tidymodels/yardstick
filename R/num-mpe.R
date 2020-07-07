@@ -22,9 +22,10 @@
 mpe <- function(data, ...) {
   UseMethod("mpe")
 }
-
-class(mpe) <- c("numeric_metric", "function")
-attr(mpe, "direction") <- "zero"
+mpe <- new_numeric_metric(
+  mpe,
+  direction = "zero"
+)
 
 #' @rdname mpe
 #' @export
