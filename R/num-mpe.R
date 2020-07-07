@@ -1,14 +1,11 @@
 #' Mean percentage error
 #'
 #' Calculate the mean percentage error. This metric is in _relative
-#' units_. It can be used as a measure of the estimate's bias.
+#' units_. It can be used as a measure of the `estimate`'s bias.
 #'
-#' Note that when the observed true value is `0` a value of `-Inf` (`estimate > 0`),
-#' `Inf` (`estimate < 0`) or `NaN` (`estimate == 0`) is returned for `mpe()`.
-#'
-#' Note that this metric can not be used directly as a minimization objective.
-#' It should rather be used as a secondary metric in combination with e.g. [rmse] as the
-#' objective metric.
+#' Note that when the observed `truth` value is `0`, a value of:
+#' `-Inf` (`estimate > 0`), `Inf` (`estimate < 0`), or `NaN` (`estimate == 0`)
+#' is returned for `mpe()`.
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
@@ -22,7 +19,6 @@
 #' @template examples-numeric
 #'
 #' @export
-#'
 mpe <- function(data, ...) {
   UseMethod("mpe")
 }
