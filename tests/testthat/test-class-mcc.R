@@ -2,13 +2,11 @@ context("MCC")
 
 # ------------------------------------------------------------------------------
 
-lst <- data_altman()
-pathology <- lst$pathology
-path_tbl <- lst$path_tbl
-
-pred_ch <- quote(scan)
-
 test_that('Two class', {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+
   expect_equal(
     mcc(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
     ((231 * 54) - (32 * 27)) / sqrt((231 + 32)*(231 + 27) * (54 + 32) * (54 + 27))
@@ -33,10 +31,10 @@ test_that("doesn't integer overflow (#108)", {
 
 # sklearn compare --------------------------------------------------------------
 
-py_res <- read_pydata("py-mcc")
-r_metric <- mcc
-
 test_that('Two class - sklearn equivalent', {
+  py_res <- read_pydata("py-mcc")
+  r_metric <- mcc
+
   expect_equal(
     r_metric(two_class_example, truth, predicted)[[".estimate"]],
     py_res$binary
@@ -44,6 +42,9 @@ test_that('Two class - sklearn equivalent', {
 })
 
 test_that('Multi class - sklearn equivalent', {
+  py_res <- read_pydata("py-mcc")
+  r_metric <- mcc
+
   expect_equal(
     r_metric(hpc_cv, obs, pred)[[".estimate"]],
     py_res$multiclass

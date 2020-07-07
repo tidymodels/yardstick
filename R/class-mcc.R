@@ -118,9 +118,10 @@ mcc_table_impl <- function(data, estimator) {
 }
 
 mcc_binary <- function(data) {
-
-  positive <- pos_val(data)
-  negative <- neg_val(data)
+  # mcc() produces identical results regardless of which level is
+  # considered the "event", so hardcode to binary here
+  positive <- pos_val(data, estimator = "binary")
+  negative <- neg_val(data, estimator = "binary")
 
   data <- as.matrix(data)
 
