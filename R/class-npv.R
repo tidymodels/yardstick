@@ -40,10 +40,14 @@ npv <- new_class_metric(
 
 #' @rdname npv
 #' @export
-npv.data.frame <- function(data, truth, estimate,
+npv.data.frame <- function(data,
+                           truth,
+                           estimate,
                            prevalence = NULL,
-                           estimator = NULL, na_rm = TRUE, ...) {
-
+                           estimator = NULL,
+                           na_rm = TRUE,
+                           event_level = yardstick_event_level(),
+                           ...) {
   metric_summarizer(
     metric_nm = "npv",
     metric_fn = npv_vec,
@@ -52,51 +56,56 @@ npv.data.frame <- function(data, truth, estimate,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...,
     metric_fn_options = list(prevalence = prevalence)
   )
-
 }
 
 #' @export
-npv.table <- function(data, prevalence = NULL, estimator = NULL, ...) {
-
+npv.table <- function(data,
+                      prevalence = NULL,
+                      estimator = NULL,
+                      event_level = yardstick_event_level(),
+                      ...) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
     .metric = "npv",
     .estimator = estimator,
-    .estimate = npv_table_impl(data, estimator, prevalence = prevalence)
+    .estimate = npv_table_impl(data, estimator, event_level, prevalence = prevalence)
   )
-
 }
 
 #' @export
-npv.matrix <- function(data, prevalence = NULL, estimator = NULL, ...) {
-
+npv.matrix <- function(data,
+                       prevalence = NULL,
+                       estimator = NULL,
+                       event_level = yardstick_event_level(),
+                       ...) {
   data <- as.table(data)
-  npv.table(data, prevalence = prevalence, estimator = estimator)
-
+  npv.table(data, prevalence, estimator, event_level)
 }
 
 #' @export
 #' @rdname npv
-npv_vec <- function(truth, estimate,
+npv_vec <- function(truth,
+                    estimate,
                     prevalence = NULL,
-                    estimator = NULL, na_rm = TRUE, ...) {
-
+                    estimator = NULL,
+                    na_rm = TRUE,
+                    event_level = yardstick_event_level(),
+                    ...) {
   estimator <- finalize_estimator(truth, estimator)
 
   npv_impl <- function(truth, estimate, prevalence) {
-
     xtab <- vec2table(
       truth = truth,
       estimate = estimate
     )
 
-    npv_table_impl(xtab, estimator, prevalence = prevalence)
-
+    npv_table_impl(xtab, estimator, event_level, prevalence = prevalence)
   }
 
   metric_vec_template(
@@ -109,13 +118,15 @@ npv_vec <- function(truth, estimate,
     ...,
     prevalence = prevalence
   )
-
 }
 
-npv_table_impl <- function(data, estimator, prevalence = NULL) {
+npv_table_impl <- function(data,
+                           estimator,
+                           event_level,
+                           prevalence = NULL) {
 
   if(is_binary(estimator)) {
-    npv_binary(data, estimator, prevalence)
+    npv_binary(data, event_level, prevalence)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- npv_multiclass(data, estimator, prevalence)
@@ -123,23 +134,20 @@ npv_table_impl <- function(data, estimator, prevalence = NULL) {
   }
 }
 
-npv_binary <- function(data, estimator, prevalence = NULL) {
-
-  positive <- pos_val(data, estimator)
-  negative <- neg_val(data, estimator)
+npv_binary <- function(data, event_level, prevalence = NULL) {
+  positive <- pos_val(data, event_level)
+  negative <- neg_val(data, event_level)
 
   if (is.null(prevalence))
     prevalence <- sum(data[, positive]) / sum(data)
 
   # recall = sens
-  sens <- recall_binary(data, estimator)
-  spec <- spec_binary(data, estimator)
+  sens <- recall_binary(data, event_level)
+  spec <- spec_binary(data, event_level)
   (spec * (1 - prevalence)) / (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
-
 }
 
 npv_multiclass <- function(data, estimator, prevalence = NULL) {
-
   if (is.null(prevalence)) {
     tpfn     <- colSums(data)
     tptnfpfn <- rep(sum(data), times = nrow(data))

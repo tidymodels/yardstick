@@ -15,6 +15,7 @@ npv(data, ...)
   prevalence = NULL,
   estimator = NULL,
   na_rm = TRUE,
+  event_level = yardstick_event_level(),
   ...
 )
 
@@ -24,6 +25,7 @@ npv_vec(
   prevalence = NULL,
   estimator = NULL,
   na_rm = TRUE,
+  event_level = yardstick_event_level(),
   ...
 )
 }

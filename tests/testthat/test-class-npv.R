@@ -29,7 +29,7 @@ test_that('npv', {
   )
 })
 
-test_that("`estimator = 'binary_last'` works", {
+test_that("`event_level = 'second'` works", {
   lst <- data_altman()
   df <- lst$pathology
 
@@ -39,7 +39,7 @@ test_that("`estimator = 'binary_last'` works", {
 
   expect_equal(
     npv_vec(df$pathology, df$scan),
-    npv_vec(df_rev$pathology, df_rev$scan, estimator = "binary_last")
+    npv_vec(df_rev$pathology, df_rev$scan, event_level = "second")
   )
 })
 
