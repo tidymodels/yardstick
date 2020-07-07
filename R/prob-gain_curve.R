@@ -172,7 +172,7 @@ gain_curve_binary <- function(truth, estimate) {
   # Relevel if event_first = FALSE
   # The second level becomes the first so as.integer()
   # holds the 1s and 2s in the correct slot
-  if (!getOption("yardstick.event_first", default = TRUE)) {
+  if (!opt_event_first()) {
     lvls <- levels(truth)
     truth <- relevel(truth, lvls[2])
   }

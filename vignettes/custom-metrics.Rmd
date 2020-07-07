@@ -216,7 +216,7 @@ to see if they are allowed.
 ```{r}
 # So we can support the yardstick event_first option
 relevant_col <- function(xtab) {
-  if (getOption("yardstick.event_first")) {
+  if (getOption("yardstick.event_first", default = TRUE)) {
       colnames(xtab)[1]
     } else {
       colnames(xtab)[2]

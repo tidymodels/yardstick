@@ -6,22 +6,8 @@ path_tbl <- lst$path_tbl
 
 ###################################################################
 
-test_that('starts true', {
-  expect_true("yardstick.event_first" %in% names(options()))
-  expect_true(getOption("yardstick.event_first"))
-})
-
-test_that('Can flip global option', {
-  options(yardstick.event_first = FALSE)
-  on.exit(options(yardstick.event_first = TRUE))
-  expect_false(getOption("yardstick.event_first"))
-})
-
-###################################################################
-
 test_that('switch event definition', {
-  options(yardstick.event_first = FALSE)
-  on.exit(options(yardstick.event_first = TRUE))
+  rlang::local_options(yardstick.event_first = FALSE)
 
   expect_equal(
     sens(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
@@ -51,251 +37,249 @@ test_that('switch event definition', {
 
 
 test_that('global option is ignored in multiclass metrics', {
-
-  on.exit(options(yardstick.event_first = TRUE))
-
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      accuracy(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      accuracy(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      accuracy(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      accuracy(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      bal_accuracy(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      bal_accuracy(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      bal_accuracy(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      bal_accuracy(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      detection_prevalence(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      detection_prevalence(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      detection_prevalence(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      detection_prevalence(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      f_meas(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      f_meas(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      f_meas(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      f_meas(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      j_index(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      j_index(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      j_index(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      j_index(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      kap(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      kap(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      kap(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      kap(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      mcc(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      mcc(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      mcc(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      mcc(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      npv(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      npv(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      npv(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      npv(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      ppv(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      ppv(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      ppv(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      ppv(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      precision(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      precision(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      precision(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      precision(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      recall(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      recall(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      recall(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      recall(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      sens(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      sens(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      sens(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      sens(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
+  )
+
+
+  expect_equal(
+    rlang::with_options(
+      spec(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      spec(hpc_cv, obs, pred)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      spec(hpc_cv, obs, pred)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      spec(hpc_cv, obs, pred)[[".estimate"]]
-    }
+    rlang::with_options(
+      gain_capture(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      gain_capture(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      gain_capture(hpc_cv, obs, VF:L)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      gain_capture(hpc_cv, obs, VF:L)[[".estimate"]]
-    }
+    rlang::with_options(
+      gain_curve(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      gain_curve(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      gain_curve(hpc_cv, obs, VF:L)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      gain_curve(hpc_cv, obs, VF:L)[[".estimate"]]
-    }
+    rlang::with_options(
+      lift_curve(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      lift_curve(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      lift_curve(hpc_cv, obs, VF:L)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      lift_curve(hpc_cv, obs, VF:L)[[".estimate"]]
-    }
+    rlang::with_options(
+      mn_log_loss(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      mn_log_loss(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      mn_log_loss(hpc_cv, obs, VF:L)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      mn_log_loss(hpc_cv, obs, VF:L)[[".estimate"]]
-    }
+    rlang::with_options(
+      pr_auc(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      pr_auc(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      pr_auc(hpc_cv, obs, VF:L)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      pr_auc(hpc_cv, obs, VF:L)[[".estimate"]]
-    }
-  )
-
-  expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      pr_curve(hpc_cv, obs, VF:L)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      pr_curve(hpc_cv, obs, VF:L)[[".estimate"]]
-    }
+    rlang::with_options(
+      pr_curve(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      pr_curve(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   # testing hand till
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      roc_auc(hpc_cv, obs, VF:L)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      roc_auc(hpc_cv, obs, VF:L)[[".estimate"]]
-    }
+    rlang::with_options(
+      roc_auc(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      roc_auc(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   # testing macro
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      roc_auc(hpc_cv, obs, VF:L, estimator = "macro")[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      roc_auc(hpc_cv, obs, VF:L, estimator = "macro")[[".estimate"]]
-    }
+    rlang::with_options(
+      roc_auc(hpc_cv, obs, VF:L, estimator = "macro")[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      roc_auc(hpc_cv, obs, VF:L, estimator = "macro")[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
   expect_equal(
-    {
-      options(yardstick.event_first = TRUE)
-      roc_curve(hpc_cv, obs, VF:L)[[".estimate"]]
-    },
-    {
-      options(yardstick.event_first = FALSE)
-      roc_curve(hpc_cv, obs, VF:L)[[".estimate"]]
-    }
+    rlang::with_options(
+      roc_curve(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = TRUE
+    ),
+    rlang::with_options(
+      roc_curve(hpc_cv, obs, VF:L)[[".estimate"]],
+      yardstick.event_first = FALSE
+    )
   )
 
 })

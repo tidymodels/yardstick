@@ -153,7 +153,7 @@ roc_auc_binary <- function(truth, estimate, options) {
 
   lvl_values <- levels(truth)
 
-  if (getOption("yardstick.event_first")) {
+  if (opt_event_first()) {
     lvl <- rev(lvl_values)
   } else {
     lvl <- lvl_values
@@ -203,9 +203,7 @@ roc_auc_multiclass <- function(truth, estimate, options) {
 
 roc_auc_hand_till <- function(truth, estimate, options) {
   # Hand Till method ignores yardstick.event_first (like macro-average)
-  old_opt <- getOption("yardstick.event_first", TRUE)
-  options(yardstick.event_first = TRUE)
-  on.exit(options(yardstick.event_first = old_opt))
+  rlang::local_options(yardstick.event_first = TRUE)
 
   lvls <- levels(truth)
 

@@ -151,7 +151,7 @@ roc_curve_binary <- function(truth, estimate, options) {
 
   lvls <- levels(truth)
 
-  if (getOption("yardstick.event_first", default = TRUE)) {
+  if (opt_event_first()) {
     lvls <- rev(lvls)
   }
 
