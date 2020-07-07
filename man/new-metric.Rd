@@ -21,6 +21,7 @@ and \code{direction} attribute to.}
 \itemize{
 \item \code{"maximize"}
 \item \code{"minimize"}
+\item \code{"zero"}
 }}
 }
 \description{
