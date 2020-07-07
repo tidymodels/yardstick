@@ -2,26 +2,28 @@
 
 # Column name extractors
 
-pos_val <- function(xtab, check = TRUE) {
-  if (check)
-    if (!all(dim(xtab) == 2))
-      stop("Only relevant for 2x2 tables", call. = TRUE)
+pos_val <- function(xtab) {
+  if (!all(dim(xtab) == 2)) {
+    rlang::abort("Only relevant for 2x2 tables")
+  }
 
-  if (opt_event_first())
-    colnames(xtab)[1]
-  else
-    colnames(xtab)[2]
+  if (opt_event_first()) {
+    colnames(xtab)[[1]]
+  } else {
+    colnames(xtab)[[2]]
+  }
 }
 
-neg_val <- function(xtab, check = TRUE) {
-  if (check)
-    if (!all(dim(xtab) == 2))
-      stop("Only relevant for 2x2 tables", call. = TRUE)
+neg_val <- function(xtab) {
+  if (!all(dim(xtab) == 2)) {
+    rlang::abort("Only relevant for 2x2 tables")
+  }
 
-  if (opt_event_first())
-    colnames(xtab)[2]
-  else
-    colnames(xtab)[1]
+  if (opt_event_first()) {
+    colnames(xtab)[[2]]
+  } else {
+    colnames(xtab)[[1]]
+  }
 }
 
 # ------------------------------------------------------------------------------
@@ -37,17 +39,9 @@ check_table <- function(x) {
 # ------------------------------------------------------------------------------
 
 is_binary <- function(x) {
-  x == "binary"
+  identical(x, "binary") || identical(x, "binary-last")
 }
 
 is_micro <- function(x) {
-  x == "micro"
+  identical(x, "micro")
 }
-
-# ------------------------------------------------------------------------------
-
-opt_event_first <- function() {
-  opt <- getOption("yardstick.event_first", default = TRUE)
-  identical(opt, TRUE)
-}
-
