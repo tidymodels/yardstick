@@ -119,7 +119,7 @@ j_index_vec <- function(truth, estimate, estimator = NULL,
 j_index_table_impl <- function(data, estimator) {
 
   if(is_binary(estimator)) {
-    j_index_binary(data)
+    j_index_binary(data, estimator)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- j_index_multiclass(data, estimator)
@@ -128,9 +128,9 @@ j_index_table_impl <- function(data, estimator) {
 
 }
 
-j_index_binary <- function(data) {
+j_index_binary <- function(data, estimator) {
   # sens + spec - 1
-  recall_binary(data) + spec_binary(data) - 1
+  recall_binary(data, estimator) + spec_binary(data, estimator) - 1
 }
 
 j_index_multiclass <- function(data, estimator) {
