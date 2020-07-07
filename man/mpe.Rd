@@ -44,9 +44,8 @@ For \code{mpe_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Calculate the mean percentage error. This metric is in \emph{relative
 units}. It can be used as a measure of the \code{estimate}'s bias.
-}
-\details{
-Note that when the observed \code{truth} value is \code{0}, a value of:
+
+Note that if \emph{any} \code{truth} values are \code{0}, a value of:
 \code{-Inf} (\code{estimate > 0}), \code{Inf} (\code{estimate < 0}), or \code{NaN} (\code{estimate == 0})
 is returned for \code{mpe()}.
 }

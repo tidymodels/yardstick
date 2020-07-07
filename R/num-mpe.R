@@ -1,9 +1,10 @@
 #' Mean percentage error
 #'
+#' @description
 #' Calculate the mean percentage error. This metric is in _relative
 #' units_. It can be used as a measure of the `estimate`'s bias.
 #'
-#' Note that when the observed `truth` value is `0`, a value of:
+#' Note that if _any_ `truth` values are `0`, a value of:
 #' `-Inf` (`estimate > 0`), `Inf` (`estimate < 0`), or `NaN` (`estimate == 0`)
 #' is returned for `mpe()`.
 #'
