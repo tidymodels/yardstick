@@ -21,14 +21,14 @@ test_that('Two class', {
   )
 })
 
-test_that("`estimator = 'binary_last'` works", {
+test_that("`event_level = 'second'` works", {
   lst <- data_altman()
   pathology <- lst$pathology
   path_tbl <- lst$path_tbl
 
   expect_equal(
-    detection_prevalence_vec(pathology$pathology, pathology$scan, estimator = "binary_last"),
-    1 - detection_prevalence_vec(pathology$pathology, pathology$scan, estimator = "binary")
+    detection_prevalence_vec(pathology$pathology, pathology$scan, event_level = "second"),
+    1 - detection_prevalence_vec(pathology$pathology, pathology$scan, event_level = "first")
   )
 })
 
