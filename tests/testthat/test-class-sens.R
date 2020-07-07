@@ -2,23 +2,17 @@ context("Sensitivity")
 
 # ------------------------------------------------------------------------------
 
-lst <- data_altman()
-pathology <- lst$pathology
-path_tbl <- lst$path_tbl
-
-pred_ch <- quote(scan)
-
 test_that('Two class', {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+
   expect_equal(
     sens(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
     231/258
   )
   expect_equal(
     sens(pathology, estimate = scan, truth = pathology)[[".estimate"]],
-    231/258
-  )
-  expect_equal(
-    sens(pathology, pathology, !! pred_ch)[[".estimate"]],
     231/258
   )
   expect_equal(
@@ -43,12 +37,27 @@ test_that('Two class', {
   )
 })
 
+test_that("`estimator = 'binary_last'` works", {
+  lst <- data_altman()
+  df <- lst$pathology
+
+  df_rev <- df
+  df_rev$pathology <- relevel(df_rev$pathology, "norm")
+  df_rev$scan <- relevel(df_rev$scan, "norm")
+
+  expect_equal(
+    sens_vec(df$pathology, df$scan),
+    sens_vec(df_rev$pathology, df_rev$scan, estimator = "binary_last")
+  )
+})
+
+
 # ------------------------------------------------------------------------------
 
-multi_ex <- data_three_by_three()
-micro <- data_three_by_three_micro()
-
 test_that('Three class', {
+  multi_ex <- data_three_by_three()
+  micro <- data_three_by_three_micro()
+
   # sens = recall
   expect_equal(
     sens(multi_ex, estimator = "macro")[[".estimate"]],

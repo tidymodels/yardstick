@@ -152,7 +152,7 @@ sensitivity_vec <- sens_vec
 sens_table_impl <- function(data, estimator) {
 
   if(is_binary(estimator)) {
-    sens_binary(data)
+    sens_binary(data, estimator)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- sens_multiclass(data, estimator)
@@ -162,9 +162,9 @@ sens_table_impl <- function(data, estimator) {
 
 }
 
-sens_binary <- function(data) {
+sens_binary <- function(data, estimator) {
 
-  relevant <- pos_val(data)
+  relevant <- pos_val(data, estimator)
   numer <- sum(data[relevant, relevant])
   denom <- sum(data[, relevant])
 
