@@ -223,8 +223,9 @@ validate_not_missing <- function(x, nm) {
 #' is of the right format and is one of the allowed values.
 #'
 #' @param estimator_override A character vector overriding the default allowed
-#' estimator list of `c("binary", "macro", "micro", "macro_weighted")`. Set
-#' this is your classification estimator does not support all of these methods.
+#' estimator list of
+#' `c("binary", "binary_last", "macro", "micro", "macro_weighted")`. Set
+#' this if your classification estimator does not support all of these methods.
 #' @rdname developer-helpers
 #' @export
 validate_estimator <- function(estimator, estimator_override = NULL) {
@@ -237,7 +238,7 @@ validate_estimator <- function(estimator, estimator_override = NULL) {
     allowed <- estimator_override
   }
   else {
-    allowed <- c("binary", "macro", "micro", "macro_weighted")
+    allowed <- c("binary", "binary_last", "macro", "micro", "macro_weighted")
   }
 
   if (length(estimator) != 1) {

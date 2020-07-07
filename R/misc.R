@@ -2,24 +2,24 @@
 
 # Column name extractors
 
-pos_val <- function(xtab) {
+pos_val <- function(xtab, estimator) {
   if (!all(dim(xtab) == 2)) {
     rlang::abort("Only relevant for 2x2 tables")
   }
 
-  if (opt_event_first()) {
+  if (is_event_first(estimator)) {
     colnames(xtab)[[1]]
   } else {
     colnames(xtab)[[2]]
   }
 }
 
-neg_val <- function(xtab) {
+neg_val <- function(xtab, estimator) {
   if (!all(dim(xtab) == 2)) {
     rlang::abort("Only relevant for 2x2 tables")
   }
 
-  if (opt_event_first()) {
+  if (is_event_first(estimator)) {
     colnames(xtab)[[2]]
   } else {
     colnames(xtab)[[1]]
@@ -39,7 +39,7 @@ check_table <- function(x) {
 # ------------------------------------------------------------------------------
 
 is_binary <- function(x) {
-  identical(x, "binary") || identical(x, "binary-last")
+  identical(x, "binary") || identical(x, "binary_last")
 }
 
 is_micro <- function(x) {

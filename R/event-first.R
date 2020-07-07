@@ -15,8 +15,8 @@ is_event_first <- function(estimator, check_option = TRUE) {
     }
   }
 
-  # Setting `estimator = 'binary-last'` overrides option
-  if (identical(estimator, "binary-last")) {
+  # Setting `estimator = 'binary_last'` overrides option
+  if (identical(estimator, "binary_last")) {
     return(FALSE)
   }
 
@@ -38,7 +38,7 @@ warn_event_first_deprecated <- function() {
     "yardstick 0.0.7 and will completely ignored in a future version.\n",
     "Instead, set the following argument directly in the metric function:\n",
     "`yardstick.event_first = TRUE`  -> `estimator = 'binary'` (the default)\n",
-    "`yardstick.event_first = FALSE` -> `estimator = 'binary-last'`"
+    "`yardstick.event_first = FALSE` -> `estimator = 'binary_last'`"
   )
 
   rlang::warn(msg, class = "yardstick_warning_event_first_deprecated")

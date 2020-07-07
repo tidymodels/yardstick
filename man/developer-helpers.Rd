@@ -43,8 +43,9 @@ class probabilities. If \code{truth} is binary, only 1 column should be selected
 Otherwise, there should be as many columns as factor levels of \code{truth}.}
 
 \item{estimator_override}{A character vector overriding the default allowed
-estimator list of \code{c("binary", "macro", "micro", "macro_weighted")}. Set
-this is your classification estimator does not support all of these methods.}
+estimator list of
+\code{c("binary", "binary_last", "macro", "micro", "macro_weighted")}. Set
+this if your classification estimator does not support all of these methods.}
 }
 \description{
 Helpers to be used alongside \code{\link[=metric_vec_template]{metric_vec_template()}} and \code{\link[=metric_summarizer]{metric_summarizer()}}
@@ -67,8 +68,8 @@ is called from the vector method of your metric.
 
 \code{finalize_estimator_internal()} is an S3 generic that you should extend for
 your metric if it does not implement \emph{only} the following estimator types:
-\code{"binary"}, \code{"macro"}, \code{"micro"}, and \code{"macro_weighted"}. If your metric
-does support all of these, the default version of
+\code{"binary"}, \code{"binary_last"}, \code{"macro"}, \code{"micro"}, and \code{"macro_weighted"}.
+If your metric does support all of these, the default version of
 \code{finalize_estimator_internal()} will autoselect \code{estimator} appropriately.
 If you need to create a method, it should take the form:
 \code{finalize_estimator_internal.metric_name}. Your method for
