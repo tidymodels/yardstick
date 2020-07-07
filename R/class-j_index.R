@@ -47,11 +47,13 @@ j_index <- new_class_metric(
 
 #' @rdname j_index
 #' @export
-j_index.data.frame <- function(data, truth, estimate,
+j_index.data.frame <- function(data,
+                               truth,
+                               estimate,
                                estimator = NULL,
                                na_rm = TRUE,
+                               event_level = yardstick_event_level(),
                                ...) {
-
   metric_summarizer(
     metric_nm = "j_index",
     metric_fn = j_index_vec,
@@ -60,48 +62,52 @@ j_index.data.frame <- function(data, truth, estimate,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...
   )
-
 }
 
 #' @export
-j_index.table <- function(data, estimator = NULL, ...) {
+j_index.table <- function(data,
+                          estimator = NULL,
+                          event_level = yardstick_event_level(),
+                          ...) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
     .metric = "j_index",
     .estimator = estimator,
-    .estimate = j_index_table_impl(data, estimator)
+    .estimate = j_index_table_impl(data, estimator, event_level)
   )
-
 }
 
 #' @export
-j_index.matrix <- function(data, estimator = NULL, ...) {
-
+j_index.matrix <- function(data,
+                           estimator = NULL,
+                           event_level = yardstick_event_level(),
+                           ...) {
   data <- as.table(data)
-  j_index.table(data, estimator)
-
+  j_index.table(data, estimator, event_level)
 }
 
 #' @rdname j_index
 #' @export
-j_index_vec <- function(truth, estimate, estimator = NULL,
-                        na_rm = TRUE, ...) {
-
+j_index_vec <- function(truth,
+                        estimate,
+                        estimator = NULL,
+                        na_rm = TRUE,
+                        event_level = yardstick_event_level(),
+                        ...) {
   estimator <- finalize_estimator(truth, estimator)
 
   j_index_impl <- function(truth, estimate) {
-
     xtab <- vec2table(
       truth = truth,
       estimate = estimate
     )
 
-    j_index_table_impl(xtab, estimator)
-
+    j_index_table_impl(xtab, estimator, event_level)
   }
 
   metric_vec_template(
@@ -113,24 +119,21 @@ j_index_vec <- function(truth, estimate, estimator = NULL,
     estimator = estimator,
     ...
   )
-
 }
 
-j_index_table_impl <- function(data, estimator) {
-
+j_index_table_impl <- function(data, estimator, event_level) {
   if(is_binary(estimator)) {
-    j_index_binary(data, estimator)
+    j_index_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- j_index_multiclass(data, estimator)
     weighted.mean(out_vec, w)
   }
-
 }
 
-j_index_binary <- function(data, estimator) {
+j_index_binary <- function(data, event_level) {
   # sens + spec - 1
-  recall_binary(data, estimator) + spec_binary(data, estimator) - 1
+  recall_binary(data, event_level) + spec_binary(data, event_level) - 1
 }
 
 j_index_multiclass <- function(data, estimator) {
