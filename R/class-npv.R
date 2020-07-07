@@ -115,7 +115,7 @@ npv_vec <- function(truth, estimate,
 npv_table_impl <- function(data, estimator, prevalence = NULL) {
 
   if(is_binary(estimator)) {
-    npv_binary(data, prevalence)
+    npv_binary(data, estimator, prevalence)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- npv_multiclass(data, estimator, prevalence)
@@ -123,17 +123,17 @@ npv_table_impl <- function(data, estimator, prevalence = NULL) {
   }
 }
 
-npv_binary <- function(data, prevalence = NULL) {
+npv_binary <- function(data, estimator, prevalence = NULL) {
 
-  positive <- pos_val(data)
-  negative <- neg_val(data)
+  positive <- pos_val(data, estimator)
+  negative <- neg_val(data, estimator)
 
   if (is.null(prevalence))
     prevalence <- sum(data[, positive]) / sum(data)
 
   # recall = sens
-  sens <- recall_binary(data)
-  spec <- spec_binary(data)
+  sens <- recall_binary(data, estimator)
+  spec <- spec_binary(data, estimator)
   (spec * (1 - prevalence)) / (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
 
 }
