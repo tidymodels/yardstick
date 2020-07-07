@@ -107,8 +107,10 @@ finalize_estimator_internal.default <- function(metric_dispatcher, x, estimator)
   finalize_estimator_default(x, estimator)
 }
 
-# Accuracy, Kappa, Mean Log Loss, and MCC have natural multiclass extensions
-# user cannot set this, should only be "binary" or "multiclass"
+# Accuracy, Kappa, Mean Log Loss, and MCC have natural multiclass extensions.
+# Additionally, they all produce the same results regardless of which level
+# is considered the "event". Because of this, the user cannot set the estimator,
+# and it should only be "binary" or "multiclass"
 finalize_estimator_internal.accuracy <- function(metric_dispatcher, x, estimator) {
   if (is_multiclass(x)) {
     "multiclass"
