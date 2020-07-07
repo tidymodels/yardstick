@@ -21,7 +21,7 @@ test_that('Two class - Powers paper', {
   )
 })
 
-test_that("`estimator = 'binary_last'` works", {
+test_that("`event_level = 'second'` works", {
   lst <- data_powers()
   df <- lst$df_2_1
 
@@ -31,7 +31,7 @@ test_that("`estimator = 'binary_last'` works", {
 
   expect_equal(
     recall_vec(df$truth, df$prediction),
-    recall_vec(df_rev$truth, df_rev$prediction, estimator = "binary_last")
+    recall_vec(df_rev$truth, df_rev$prediction, event_level = "second")
   )
 })
 
