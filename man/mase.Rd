@@ -115,6 +115,7 @@ Other numeric metrics:
 \code{\link{iic}()},
 \code{\link{mae}()},
 \code{\link{mape}()},
+\code{\link{mpe}()},
 \code{\link{rmse}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
@@ -129,6 +130,7 @@ Other accuracy metrics:
 \code{\link{iic}()},
 \code{\link{mae}()},
 \code{\link{mape}()},
+\code{\link{mpe}()},
 \code{\link{rmse}()},
 \code{\link{smape}()}
 }

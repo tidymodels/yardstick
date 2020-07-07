@@ -22,6 +22,7 @@
 #' @param direction A string. One of:
 #'   - `"maximize"`
 #'   - `"minimize"`
+#'   - `"zero"`
 #'
 #' @name new-metric
 NULL
@@ -51,7 +52,7 @@ new_metric <- function(fn, direction, class = NULL) {
 
   direction <- rlang::arg_match(
     direction,
-    values = c("maximize", "minimize")
+    values = c("maximize", "minimize", "zero")
   )
 
   class <- c(class, "metric", "function")
