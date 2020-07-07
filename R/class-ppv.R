@@ -46,10 +46,14 @@ ppv <- new_class_metric(
 
 #' @rdname ppv
 #' @export
-ppv.data.frame <- function(data, truth, estimate,
+ppv.data.frame <- function(data,
+                           truth,
+                           estimate,
                            prevalence = NULL,
-                           estimator = NULL, na_rm = TRUE, ...) {
-
+                           estimator = NULL,
+                           na_rm = TRUE,
+                           event_level = yardstick_event_level(),
+                           ...) {
   metric_summarizer(
     metric_nm = "ppv",
     metric_fn = ppv_vec,
@@ -58,15 +62,18 @@ ppv.data.frame <- function(data, truth, estimate,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...,
     metric_fn_options = list(prevalence = prevalence)
   )
-
 }
 
 #' @export
-ppv.table <- function(data, prevalence = NULL, estimator = NULL, ...) {
-
+ppv.table <- function(data,
+                      prevalence = NULL,
+                      estimator = NULL,
+                      event_level = yardstick_event_level(),
+                      ...) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -76,36 +83,46 @@ ppv.table <- function(data, prevalence = NULL, estimator = NULL, ...) {
     .estimate = ppv_table_impl(
       data,
       estimator = estimator,
+      event_level = event_level,
       prevalence = prevalence
     )
   )
-
 }
 
 #' @export
-ppv.matrix <- function(data, prevalence = NULL, estimator = NULL, ...) {
-
+ppv.matrix <- function(data,
+                       prevalence = NULL,
+                       estimator = NULL,
+                       event_level = yardstick_event_level(),
+                       ...) {
   data <- as.table(data)
-  ppv.table(data, prevalence = prevalence, estimator = estimator)
 
+  ppv.table(
+    data,
+    prevalence = prevalence,
+    estimator = estimator,
+    event_level = event_level
+  )
 }
 
 #' @export
 #' @rdname ppv
-ppv_vec <- function(truth, estimate, prevalence = NULL,
-                    estimator = NULL, na_rm = TRUE, ...) {
-
+ppv_vec <- function(truth,
+                    estimate,
+                    prevalence = NULL,
+                    estimator = NULL,
+                    na_rm = TRUE,
+                    event_level = yardstick_event_level(),
+                    ...) {
   estimator <- finalize_estimator(truth, estimator)
 
   ppv_impl <- function(truth, estimate, prevalence) {
-
     xtab <- vec2table(
       truth = truth,
       estimate = estimate
     )
 
-    ppv_table_impl(xtab, estimator, prevalence = prevalence)
-
+    ppv_table_impl(xtab, estimator, event_level, prevalence = prevalence)
   }
 
   metric_vec_template(
@@ -118,38 +135,35 @@ ppv_vec <- function(truth, estimate, prevalence = NULL,
     ...,
     prevalence = prevalence
   )
-
 }
 
-ppv_table_impl <- function(data, estimator, prevalence = NULL) {
-
+ppv_table_impl <- function(data,
+                           estimator,
+                           event_level,
+                           prevalence = NULL) {
   if(is_binary(estimator)) {
-    ppv_binary(data, estimator, prevalence)
+    ppv_binary(data, event_level, prevalence)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- ppv_multiclass(data, estimator, prevalence)
     weighted.mean(out_vec, w)
   }
-
 }
 
-ppv_binary <- function(data, estimator, prevalence = NULL) {
-
-  positive <- pos_val(data, estimator)
+ppv_binary <- function(data, event_level, prevalence = NULL) {
+  positive <- pos_val(data, event_level)
 
   if (is.null(prevalence)) {
     prevalence <- sum(data[, positive]) / sum(data)
   }
 
   # sens = recall
-  sens <- recall_binary(data, estimator)
-  spec <- spec_binary(data, estimator)
+  sens <- recall_binary(data, event_level)
+  spec <- spec_binary(data, event_level)
   (sens * prevalence) / ((sens * prevalence) + ((1 - spec) * (1 - prevalence)))
-
 }
 
 ppv_multiclass <- function(data, estimator, prevalence = NULL) {
-
   # ppv should be equal to precision in all cases except when
   # prevalence is explicitely set. In that case, that value
   # is used which alters the result
