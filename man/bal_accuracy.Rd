@@ -8,9 +8,24 @@
 \usage{
 bal_accuracy(data, ...)
 
-\method{bal_accuracy}{data.frame}(data, truth, estimate, estimator = NULL, na_rm = TRUE, ...)
+\method{bal_accuracy}{data.frame}(
+  data,
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  ...
+)
 
-bal_accuracy_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
+bal_accuracy_vec(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  ...
+)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -38,6 +53,13 @@ for calculating multiclass metrics. The default will automatically choose
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{event_level}{A single string. Either \code{"first"} or \code{"second"} to specify
+which level of \code{truth} to consider as the "event". This argument is only
+applicable when \code{estimator = "binary"}. The default uses an
+internal helper that generally defaults to \code{"first"}, however, if the
+deprecated global option \code{yardstick.event_first} is set, that will be
+used instead with a warning.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
