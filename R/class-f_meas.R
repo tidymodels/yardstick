@@ -48,9 +48,14 @@ f_meas <- new_class_metric(
 
 #' @rdname f_meas
 #' @export
-f_meas.data.frame <- function(data, truth, estimate, beta = 1,
-                              estimator = NULL, na_rm = TRUE, ...) {
-
+f_meas.data.frame <- function(data,
+                              truth,
+                              estimate,
+                              beta = 1,
+                              estimator = NULL,
+                              na_rm = TRUE,
+                              event_level = yardstick_event_level(),
+                              ...) {
   metric_summarizer(
     metric_nm = "f_meas",
     metric_fn = f_meas_vec,
@@ -59,48 +64,56 @@ f_meas.data.frame <- function(data, truth, estimate, beta = 1,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...,
     metric_fn_options = list(beta = beta)
   )
-
 }
 
 #' @export
-f_meas.table <- function (data, beta = 1, estimator = NULL, ...) {
+f_meas.table <- function (data,
+                          beta = 1,
+                          estimator = NULL,
+                          event_level = yardstick_event_level(),
+                          ...) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
     .metric = "f_meas",
     .estimator = estimator,
-    .estimate = f_meas_table_impl(data, estimator, beta = beta)
+    .estimate = f_meas_table_impl(data, estimator, event_level, beta = beta)
   )
 }
 
 #' @export
-f_meas.matrix <- function(data, beta = 1, estimator = NULL, ...) {
-
+f_meas.matrix <- function(data,
+                          beta = 1,
+                          estimator = NULL,
+                          event_level = yardstick_event_level(),
+                          ...) {
   data <- as.table(data)
-  f_meas.table(data, beta, estimator)
-
+  f_meas.table(data, beta, estimator, event_level)
 }
 
 #' @export
 #' @rdname f_meas
-f_meas_vec <- function(truth, estimate, beta = 1,
-                       estimator = NULL, na_rm = TRUE, ...) {
-
+f_meas_vec <- function(truth,
+                       estimate,
+                       beta = 1,
+                       estimator = NULL,
+                       na_rm = TRUE,
+                       event_level = yardstick_event_level(),
+                       ...) {
   estimator <- finalize_estimator(truth, estimator)
 
   f_meas_impl <- function(truth, estimate, beta) {
-
     xtab <- vec2table(
       truth = truth,
       estimate = estimate
     )
 
-    f_meas_table_impl(xtab, estimator, beta = beta)
-
+    f_meas_table_impl(xtab, estimator, event_level, beta = beta)
   }
 
   metric_vec_template(
@@ -113,25 +126,21 @@ f_meas_vec <- function(truth, estimate, beta = 1,
     ...,
     beta = beta
   )
-
 }
 
-f_meas_table_impl <- function(data, estimator, beta = 1) {
-
+f_meas_table_impl <- function(data, estimator, event_level, beta = 1) {
   if(is_binary(estimator)) {
-    f_meas_binary(data, estimator, beta)
+    f_meas_binary(data, event_level, beta)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- f_meas_multiclass(data, estimator, beta)
     weighted.mean(out_vec, w, na.rm = TRUE)
   }
-
 }
 
-f_meas_binary <- function(data, estimator, beta = 1) {
-
-  precision <- precision_binary(data, estimator)
-  rec <- recall_binary(data, estimator)
+f_meas_binary <- function(data, event_level, beta = 1) {
+  precision <- precision_binary(data, event_level)
+  rec <- recall_binary(data, event_level)
 
   # if precision and recall are both 0, return 0 not NA
   if(isTRUE(precision == 0 & rec == 0)) {
@@ -142,7 +151,6 @@ f_meas_binary <- function(data, estimator, beta = 1) {
 }
 
 f_meas_multiclass <- function(data, estimator, beta = 1) {
-
   precision <- precision_multiclass(data, estimator)
   rec <- recall_multiclass(data, estimator)
 
