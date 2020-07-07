@@ -17,9 +17,47 @@
 #'
 #' @author Thomas Bierhance
 #'
-#' @template examples-numeric
-#'
 #' @export
+#' @examples
+#' # `solubility_test$solubility` has zero values with corresponding
+#' # `$prediction` values that are negative. By definition, this causes `Inf`
+#' # to be returned from `mpe()`.
+#' solubility_test[solubility_test$solubility == 0,]
+#'
+#' mpe(solubility_test, solubility, prediction)
+#'
+#' # We'll remove the zero values for demonstration
+#' solubility_test <- solubility_test[solubility_test$solubility != 0,]
+#'
+#' # Supply truth and predictions as bare column names
+#' mpe(solubility_test, solubility, prediction)
+#'
+#' library(dplyr)
+#'
+#' set.seed(1234)
+#' size <- 100
+#' times <- 10
+#'
+#' # create 10 resamples
+#' solubility_resampled <- bind_rows(
+#'   replicate(
+#'     n = times,
+#'     expr = sample_n(solubility_test, size, replace = TRUE),
+#'     simplify = FALSE
+#'   ),
+#'   .id = "resample"
+#' )
+#'
+#' # Compute the metric by group
+#' metric_results <- solubility_resampled %>%
+#'   group_by(resample) %>%
+#'   mpe(solubility, prediction)
+#'
+#' metric_results
+#'
+#' # Resampled mean estimate
+#' metric_results %>%
+#'   summarise(avg_estimate = mean(.estimate))
 mpe <- function(data, ...) {
   UseMethod("mpe")
 }
