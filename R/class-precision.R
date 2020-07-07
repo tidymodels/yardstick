@@ -123,7 +123,7 @@ precision_vec <- function(truth, estimate,
 precision_table_impl <- function(data, estimator) {
 
   if(is_binary(estimator)) {
-    precision_binary(data)
+    precision_binary(data, estimator)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- precision_multiclass(data, estimator)
@@ -133,9 +133,9 @@ precision_table_impl <- function(data, estimator) {
 
 }
 
-precision_binary <- function(data) {
+precision_binary <- function(data, estimator) {
 
-  relevant <- pos_val(data)
+  relevant <- pos_val(data, estimator)
   numer <- data[relevant, relevant]
   denom <- sum(data[relevant, ])
 
