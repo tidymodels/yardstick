@@ -21,6 +21,20 @@ test_that('Two class', {
   )
 })
 
+test_that("two class produces identical results regardless of level order", {
+  lst <- data_altman()
+  df <- lst$pathology
+
+  df_rev <- df
+  df_rev$pathology <- relevel(df_rev$pathology, "norm")
+  df_rev$scan <- relevel(df_rev$scan, "norm")
+
+  expect_equal(
+    mcc_vec(df$pathology, df$scan),
+    mcc_vec(df_rev$pathology, df_rev$scan)
+  )
+})
+
 test_that("doesn't integer overflow (#108)", {
   x <- matrix(c(50122L, 50267L, 49707L, 49904L), ncol = 2L, nrow = 2L)
   expect_equal(
