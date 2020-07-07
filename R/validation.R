@@ -16,6 +16,7 @@ validate_truth_estimate_types.default <- function(truth, estimate, estimator) {
 validate_truth_estimate_types.factor <- function(truth, estimate, estimator) {
   switch (estimator,
           "binary" = binary_checks(truth, estimate),
+          "binary_last" = binary_checks(truth, estimate),
           # otherwise multiclass checks
           multiclass_checks(truth, estimate)
   )
