@@ -2,11 +2,11 @@ context("F Measure")
 
 # ------------------------------------------------------------------------------
 
-lst <- data_powers()
-tabl_2_1 <- lst$tabl_2_1
-df_2_1 <- lst$df_2_1
-
 test_that('Two class - Powers paper', {
+  lst <- data_powers()
+  tabl_2_1 <- lst$tabl_2_1
+  df_2_1 <- lst$df_2_1
+
   expect_equal(
     f_meas(df_2_1, truth = "truth", estimate = "prediction")[[".estimate"]],
     0.5882353,
@@ -21,6 +21,20 @@ test_that('Two class - Powers paper', {
     f_meas(df_2_1, truth = truth, estimate = pred_na)[[".estimate"]],
     0.5652174,
     tol = 0.0001
+  )
+})
+
+test_that("`estimator = 'binary_last'` works", {
+  lst <- data_powers()
+  df <- lst$df_2_1
+
+  df_rev <- df
+  df_rev$truth <- relevel(df_rev$truth, "Irrelevant")
+  df_rev$prediction <- relevel(df_rev$prediction, "Irrelevant")
+
+  expect_equal(
+    f_meas_vec(df$truth, df$prediction),
+    f_meas_vec(df_rev$truth, df_rev$prediction, estimator = "binary_last")
   )
 })
 
@@ -125,11 +139,11 @@ test_that("`NA` is still returned if there are some undefined recall values but 
 
 # sklearn compare --------------------------------------------------------------
 
-py_res <- read_pydata("py-f_meas")
-py_res_.5 <- read_pydata("py-f_meas_beta_.5")
-r_metric <- f_meas
-
 test_that('Two class - sklearn equivalent', {
+  py_res <- read_pydata("py-f_meas")
+  py_res_.5 <- read_pydata("py-f_meas_beta_.5")
+  r_metric <- f_meas
+
   expect_equal(
     r_metric(two_class_example, truth, predicted)[[".estimate"]],
     py_res$binary
@@ -141,6 +155,10 @@ test_that('Two class - sklearn equivalent', {
 })
 
 test_that('Multi class - sklearn equivalent', {
+  py_res <- read_pydata("py-f_meas")
+  py_res_.5 <- read_pydata("py-f_meas_beta_.5")
+  r_metric <- f_meas
+
   expect_equal(
     r_metric(hpc_cv, obs, pred)[[".estimate"]],
     py_res$macro

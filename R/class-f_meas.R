@@ -119,7 +119,7 @@ f_meas_vec <- function(truth, estimate, beta = 1,
 f_meas_table_impl <- function(data, estimator, beta = 1) {
 
   if(is_binary(estimator)) {
-    f_meas_binary(data, beta)
+    f_meas_binary(data, estimator, beta)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- f_meas_multiclass(data, estimator, beta)
@@ -128,10 +128,10 @@ f_meas_table_impl <- function(data, estimator, beta = 1) {
 
 }
 
-f_meas_binary <- function(data, beta = 1) {
+f_meas_binary <- function(data, estimator, beta = 1) {
 
-  precision <- precision_binary(data)
-  rec <- recall_binary(data)
+  precision <- precision_binary(data, estimator)
+  rec <- recall_binary(data, estimator)
 
   # if precision and recall are both 0, return 0 not NA
   if(isTRUE(precision == 0 & rec == 0)) {
