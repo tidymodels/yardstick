@@ -98,7 +98,7 @@ detection_prevalence_vec <- function(truth, estimate, estimator = NULL,
 detection_prevalence_table_impl <- function(data, estimator) {
 
   if(is_binary(estimator)) {
-    detection_prevalence_binary(data)
+    detection_prevalence_binary(data, estimator)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- detection_prevalence_multiclass(data, estimator)
@@ -107,9 +107,9 @@ detection_prevalence_table_impl <- function(data, estimator) {
 
 }
 
-detection_prevalence_binary <- function(data) {
+detection_prevalence_binary <- function(data, estimator) {
 
-  pos_level <- pos_val(data)
+  pos_level <- pos_val(data, estimator)
   sum(data[pos_level, ]) / sum(data)
 
 }
