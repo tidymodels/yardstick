@@ -52,10 +52,13 @@ precision <- new_class_metric(
 
 #' @rdname precision
 #' @export
-precision.data.frame <- function(data, truth, estimate,
+precision.data.frame <- function(data,
+                                 truth,
+                                 estimate,
                                  estimator = NULL,
-                                 na_rm = TRUE, ...) {
-
+                                 na_rm = TRUE,
+                                 event_level = yardstick_event_level(),
+                                 ...) {
   metric_summarizer(
     metric_nm = "precision",
     metric_fn = precision_vec,
@@ -64,48 +67,52 @@ precision.data.frame <- function(data, truth, estimate,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...
   )
-
 }
 
 #' @export
-precision.table <- function (data, estimator = NULL, ...) {
-
+precision.table <- function (data,
+                             estimator = NULL,
+                             event_level = yardstick_event_level(),
+                             ...) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
     .metric = "precision",
     .estimator = estimator,
-    .estimate = precision_table_impl(data, estimator)
+    .estimate = precision_table_impl(data, estimator, event_level)
   )
-
 }
 
 #' @export
-precision.matrix <- function(data, estimator = NULL, ...) {
-
+precision.matrix <- function(data,
+                             estimator = NULL,
+                             event_level = yardstick_event_level(),
+                             ...) {
   data <- as.table(data)
-  precision.table(data, estimator)
-
+  precision.table(data, estimator, event_level)
 }
 
 #' @export
 #' @rdname precision
-precision_vec <- function(truth, estimate,
-                          estimator = NULL, na_rm = TRUE, ...) {
-
+precision_vec <- function(truth,
+                          estimate,
+                          estimator = NULL,
+                          na_rm = TRUE,
+                          event_level = yardstick_event_level(),
+                          ...) {
   estimator <- finalize_estimator(truth, estimator)
 
   precision_impl <- function(truth, estimate) {
-
     xtab <- vec2table(
       truth = truth,
       estimate = estimate
     )
 
-    precision_table_impl(xtab, estimator)
+    precision_table_impl(xtab, estimator, event_level)
   }
 
   metric_vec_template(
@@ -117,25 +124,21 @@ precision_vec <- function(truth, estimate,
     cls = "factor",
     ...
   )
-
 }
 
-precision_table_impl <- function(data, estimator) {
-
+precision_table_impl <- function(data, estimator, event_level) {
   if(is_binary(estimator)) {
-    precision_binary(data, estimator)
+    precision_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- precision_multiclass(data, estimator)
     # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
     weighted.mean(out_vec, w, na.rm = TRUE)
   }
-
 }
 
-precision_binary <- function(data, estimator) {
-
-  relevant <- pos_val(data, estimator)
+precision_binary <- function(data, event_level) {
+  relevant <- pos_val(data, event_level)
   numer <- data[relevant, relevant]
   denom <- sum(data[relevant, ])
 
@@ -148,11 +151,9 @@ precision_binary <- function(data, estimator) {
   }
 
   numer / denom
-
 }
 
 precision_multiclass <- function(data, estimator) {
-
   numer <- diag(data)
   denom <- rowSums(data)
 
@@ -173,7 +174,6 @@ precision_multiclass <- function(data, estimator) {
   }
 
   numer / denom
-
 }
 
 warn_precision_undefined_binary <- function(event, count) {
