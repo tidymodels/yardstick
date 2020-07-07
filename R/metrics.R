@@ -485,19 +485,33 @@ validate_function_class <- function(fns) {
   }
 
   if (length(fn_cls_unique) > 1) {
-
     # Each element of the list contains the names of the fns
     # that inherit that specific class
     fn_bad_names <- lapply(fn_cls_unique, function(x) {
-      x <- unique(c(x, "function"))
-      fn_nms <- names(fns)
-      where <- vapply(fns, rlang::inherits_only, logical(1), class = x)
-      fn_nms[where]
+      names(fns)[fn_cls == x]
     })
 
     # clean up for nicer printing
     fn_cls_unique <- gsub("_metric", "", fn_cls_unique)
     fn_cls_unique <- gsub("function", "other", fn_cls_unique)
+
+    fn_cls_other <- fn_cls_unique == "other"
+
+    if (any(fn_cls_other)) {
+      fn_cls_other_loc <- which(fn_cls_other)
+      fn_other_names <- fn_bad_names[[fn_cls_other_loc]]
+      fns_other <- fns[fn_other_names]
+
+      env_names_other <- vapply(
+        fns_other,
+        function(fn) rlang::env_name(rlang::fn_env(fn)),
+        character(1)
+      )
+
+      fn_bad_names[[fn_cls_other_loc]] <- paste0(
+        fn_other_names, " ", "<", env_names_other, ">"
+      )
+    }
 
     # Prints as:
     # - fn_type1 (fn_name1, fn_name2)
@@ -517,7 +531,7 @@ validate_function_class <- function(fns) {
     abort(paste0(
       "\nThe combination of metric functions must be:\n",
       "- only numeric metrics\n",
-      "- a mix of class metrics and class probability metrics\n",
+      "- a mix of class metrics and class probability metrics\n\n",
       "The following metric function types are being mixed:\n",
       fn_pastable
     ))

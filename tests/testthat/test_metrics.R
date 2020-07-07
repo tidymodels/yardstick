@@ -204,3 +204,22 @@ test_that("print metric_set works", {
     print(multi_metric)
   })
 })
+
+test_that("`metric_set()` errors contain env name for unknown functions (#128)", {
+  foobar <- function() {}
+
+  # Store env name in `name` attribute for `environmentName()` to find it
+  env <- rlang::new_environment(parent = globalenv())
+  attr(env, "name") <- "test"
+
+  rlang::fn_env(foobar) <- env
+
+  expect_error(
+    metric_set(accuracy, foobar, sens, rlang::abort),
+    "class [(]accuracy, sens[)]"
+  )
+  expect_error(
+    metric_set(accuracy, foobar, sens, rlang::abort),
+    "other [(]foobar <test>, abort <namespace:rlang>[)]"
+  )
+})
