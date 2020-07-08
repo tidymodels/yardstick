@@ -32,7 +32,8 @@ warn_event_first_deprecated <- function() {
     "`yardstick.event_first = FALSE` -> `event_level = 'second'`"
   )
 
-  rlang::warn(msg, class = "yardstick_warning_event_first_deprecated")
+  # Will only warn once per session!
+  warn_deprecated(msg)
 }
 
 
