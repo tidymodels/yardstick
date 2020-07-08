@@ -8,7 +8,14 @@
 \usage{
 roc_curve(data, ...)
 
-\method{roc_curve}{data.frame}(data, truth, ..., options = list(), na_rm = TRUE)
+\method{roc_curve}{data.frame}(
+  data,
+  truth,
+  ...,
+  options = list(),
+  na_rm = TRUE,
+  event_level = yardstick_event_level()
+)
 
 autoplot.roc_df(object, ...)
 }
@@ -33,6 +40,13 @@ such as \code{smooth}. These options should not include \code{response},
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{event_level}{A single string. Either \code{"first"} or \code{"second"} to specify
+which level of \code{truth} to consider as the "event". This argument is only
+applicable when \code{estimator = "binary"}. The default uses an
+internal helper that generally defaults to \code{"first"}, however, if the
+deprecated global option \code{yardstick.event_first} is set, that will be
+used instead with a warning.}
 
 \item{object}{The \code{roc_df} data frame returned from \code{roc_curve()}.}
 }

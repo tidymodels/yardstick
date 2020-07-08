@@ -8,7 +8,15 @@
 \usage{
 roc_auc(data, ...)
 
-\method{roc_auc}{data.frame}(data, truth, ..., options = list(), estimator = NULL, na_rm = TRUE)
+\method{roc_auc}{data.frame}(
+  data,
+  truth,
+  ...,
+  options = list(),
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level()
+)
 
 roc_auc_vec(
   truth,
@@ -16,6 +24,7 @@ roc_auc_vec(
   options = list(),
   estimator = NULL,
   na_rm = TRUE,
+  event_level = yardstick_event_level(),
   ...
 )
 }
@@ -46,6 +55,13 @@ calculating multiclass metrics. The default will automatically choose
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{event_level}{A single string. Either \code{"first"} or \code{"second"} to specify
+which level of \code{truth} to consider as the "event". This argument is only
+applicable when \code{estimator = "binary"}. The default uses an
+internal helper that generally defaults to \code{"first"}, however, if the
+deprecated global option \code{yardstick.event_first} is set, that will be
+used instead with a warning.}
 
 \item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
 corresponding to the "relevant" class. Otherwise, a matrix with as many
