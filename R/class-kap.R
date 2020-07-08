@@ -20,9 +20,25 @@
 #' @references Cohen, J. (1960). "A coefficient of agreement for nominal
 #'  scales". _Educational and Psychological Measurement_. 20 (1): 37-46.
 #'
-#' @template examples-class
-#'
 #' @export
+#' @examples
+#' library(dplyr)
+#' data("two_class_example")
+#' data("hpc_cv")
+#'
+#' # Two class
+#' kap(two_class_example, truth, predicted)
+#'
+#' # Multiclass
+#' # kap() has a natural multiclass extension
+#' hpc_cv %>%
+#'   filter(Resample == "Fold01") %>%
+#'   kap(obs, pred)
+#'
+#' # Groups are respected
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   kap(obs, pred)
 kap <- function(data, ...) {
   UseMethod("kap")
 }

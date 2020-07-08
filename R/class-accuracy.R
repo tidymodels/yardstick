@@ -15,9 +15,25 @@
 #'
 #' @author Max Kuhn
 #'
-#' @template examples-class
-#'
 #' @export
+#' @examples
+#' library(dplyr)
+#' data("two_class_example")
+#' data("hpc_cv")
+#'
+#' # Two class
+#' accuracy(two_class_example, truth, predicted)
+#'
+#' # Multiclass
+#' # accuracy() has a natural multiclass extension
+#' hpc_cv %>%
+#'   filter(Resample == "Fold01") %>%
+#'   accuracy(obs, pred)
+#'
+#' # Groups are respected
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   accuracy(obs, pred)
 accuracy <- function(data, ...) {
   UseMethod("accuracy")
 }
