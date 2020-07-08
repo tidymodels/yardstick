@@ -1,25 +1,10 @@
-# TODO: Remove me
-opt_event_first <- function() {
-  opt <- getOption("yardstick.event_first", default = TRUE)
-  identical(opt, TRUE)
-}
-
-validate_event_level <- function(event_level) {
-  if (identical(event_level, "first")) {
-    return(invisible())
-  }
-  if (identical(event_level, "second")) {
-    return(invisible())
-  }
-
-  rlang::abort("`event_level` must be 'first' or 'second'.")
-}
-
-is_event_first <- function(event_level) {
-  validate_event_level(event_level)
-  identical(event_level, "first")
-}
-
+# Internal helper to query a default `event_level`
+#
+# 1) Respect `yardstick.event_first` if set, but warn about deprecation
+# 2) Return `"first"` otherwise as the default event level
+#
+# Metric functions that use this helper can completely ignore the global option
+# by setting the `event_first` argument to `"first"` or `"second"` directly.
 yardstick_event_level <- function() {
   opt <- getOption("yardstick.event_first")
 
@@ -48,4 +33,21 @@ warn_event_first_deprecated <- function() {
   )
 
   rlang::warn(msg, class = "yardstick_warning_event_first_deprecated")
+}
+
+
+is_event_first <- function(event_level) {
+  validate_event_level(event_level)
+  identical(event_level, "first")
+}
+
+validate_event_level <- function(event_level) {
+  if (identical(event_level, "first")) {
+    return(invisible())
+  }
+  if (identical(event_level, "second")) {
+    return(invisible())
+  }
+
+  rlang::abort("`event_level` must be 'first' or 'second'.")
 }
