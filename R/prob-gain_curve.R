@@ -101,8 +101,11 @@ gain_curve <- function(data, ...) {
 
 #' @rdname gain_curve
 #' @export
-gain_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
-
+gain_curve.data.frame <- function(data,
+                                  truth,
+                                  ...,
+                                  na_rm = TRUE,
+                                  event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
   truth <- enquo(truth)
 
@@ -116,7 +119,8 @@ gain_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
     gain_curve_vec(
       truth = rlang::eval_tidy(truth, data = .),
       estimate = rlang::eval_tidy(estimate, data = .),
-      na_rm = na_rm
+      na_rm = na_rm,
+      event_level = event_level
     )
   )
 
@@ -135,13 +139,16 @@ gain_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
 # maybe it could return the tibble?
 
 #' @importFrom stats relevel complete.cases
-gain_curve_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
+gain_curve_vec <- function(truth,
+                           estimate,
+                           na_rm = TRUE,
+                           event_level = yardstick_event_level(),
+                           ...) {
   estimator <- finalize_estimator(truth, metric_class = "gain_curve")
 
   # estimate here is a matrix of class prob columns
   gain_curve_impl <- function(truth, estimate) {
-    gain_curve_estimator_impl(truth, estimate, estimator)
+    gain_curve_estimator_impl(truth, estimate, estimator, event_level)
   }
 
   metric_vec_template(
@@ -153,26 +160,22 @@ gain_curve_vec <- function(truth, estimate, na_rm = TRUE, ...) {
     cls = c("factor", "numeric"),
     ...
   )
-
 }
 
-gain_curve_estimator_impl <- function(truth, estimate, estimator) {
-
+gain_curve_estimator_impl <- function(truth, estimate, estimator, event_level) {
   if (is_binary(estimator)) {
-    gain_curve_binary(truth, estimate)
+    gain_curve_binary(truth, estimate, event_level)
   }
   else {
     gain_curve_multiclass(truth, estimate)
   }
-
 }
 
-gain_curve_binary <- function(truth, estimate) {
-
-  # Relevel if event_first = FALSE
+gain_curve_binary <- function(truth, estimate, event_level) {
+  # Relevel if `event_level = "second"`
   # The second level becomes the first so as.integer()
   # holds the 1s and 2s in the correct slot
-  if (!opt_event_first()) {
+  if (!is_event_first(event_level)) {
     lvls <- levels(truth)
     truth <- relevel(truth, lvls[2])
   }

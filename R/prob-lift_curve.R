@@ -86,8 +86,11 @@ lift_curve <- function(data, ...) {
 
 #' @rdname lift_curve
 #' @export
-lift_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
-
+lift_curve.data.frame <- function(data,
+                                  truth,
+                                  ...,
+                                  na_rm = TRUE,
+                                  event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
   truth <- enquo(truth)
 
@@ -101,7 +104,8 @@ lift_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
     lift_curve_vec(
       truth = rlang::eval_tidy(truth, data = .),
       estimate = rlang::eval_tidy(estimate, data = .),
-      na_rm = na_rm
+      na_rm = na_rm,
+      event_level = event_level
     )
   )
 
@@ -115,10 +119,19 @@ lift_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
   res
 }
 
-lift_curve_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
+lift_curve_vec <- function(truth,
+                           estimate,
+                           na_rm = TRUE,
+                           event_level = yardstick_event_level(),
+                           ...) {
   # tibble result, possibly grouped
-  res <- gain_curve_vec(truth, estimate, na_rm)
+  res <- gain_curve_vec(
+    truth = truth,
+    estimate = estimate,
+    na_rm = na_rm,
+    event_level = event_level,
+    ...
+  )
 
   res <- dplyr::mutate(res, .lift = .percent_found / .percent_tested)
 

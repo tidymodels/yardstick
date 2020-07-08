@@ -56,10 +56,11 @@ gain_capture <- new_prob_metric(
 
 #' @rdname gain_capture
 #' @export
-gain_capture.data.frame <- function(data, truth, ...,
+gain_capture.data.frame <- function(data,
+                                    truth, ...,
                                     estimator = NULL,
-                                    na_rm = TRUE) {
-
+                                    na_rm = TRUE,
+                                    event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -70,22 +71,23 @@ gain_capture.data.frame <- function(data, truth, ...,
     estimate = !! estimate,
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...
   )
-
 }
 
 #' @export
 #' @rdname gain_capture
-gain_capture_vec <- function(truth, estimate,
+gain_capture_vec <- function(truth,
+                             estimate,
                              estimator = NULL,
                              na_rm = TRUE,
+                             event_level = yardstick_event_level(),
                              ...) {
-
   estimator <- finalize_estimator(truth, estimator, "gain_capture")
 
   gain_capture_impl <- function(truth, estimate) {
-    gain_capture_estimator_impl(truth, estimate, estimator)
+    gain_capture_estimator_impl(truth, estimate, estimator, event_level)
   }
 
   metric_vec_template(
@@ -97,25 +99,27 @@ gain_capture_vec <- function(truth, estimate,
     cls = c("factor", "numeric"),
     ...
   )
-
 }
 
-gain_capture_estimator_impl <- function(truth, estimate, estimator) {
-
+gain_capture_estimator_impl <- function(truth, estimate, estimator, event_level) {
   if(is_binary(estimator)) {
-    gain_capture_binary(truth, estimate)
+    gain_capture_binary(truth, estimate, event_level)
   } else {
     truth_table <- matrix(table(truth), nrow = 1)
     w <- get_weights(truth_table, estimator)
     out_vec <- gain_capture_multiclass(truth, estimate)
     weighted.mean(out_vec, w)
   }
-
 }
 
-gain_capture_binary <- function(truth, estimate) {
-
-  gain_list <- gain_curve_vec(truth, estimate)
+gain_capture_binary <- function(truth, estimate, event_level) {
+  # `na_rm` should already be done
+  gain_list <- gain_curve_vec(
+    truth,
+    estimate,
+    na_rm = FALSE,
+    event_level = event_level
+  )
 
   gain_to_0_auc <- auc(
     x = gain_list[[".percent_tested"]],
@@ -147,7 +151,6 @@ gain_capture_binary <- function(truth, estimate) {
   # under the gain curve, but above the baseline, and relative to a
   # perfect capture score
   (gain_to_0_auc - baseline) / (perf_auc - baseline)
-
 }
 
 gain_capture_multiclass <- function(truth, estimate) {
