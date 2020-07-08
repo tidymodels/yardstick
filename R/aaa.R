@@ -51,11 +51,13 @@ utils::globalVariables(
 # On attach msg ----------------------------------------------------------------
 
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage(
-    "For binary classification, the first factor level is assumed to ",
-    "be the event.\nSet the global option `yardstick.event_first` ",
-    "to `FALSE` to change this.\n"
+  msg <- paste0(
+    "For binary classification, ",
+    "the first factor level is assumed to be the event.\n",
+    "Use the argument `event_level = \"second\"` to alter this as needed."
   )
+
+  packageStartupMessage(msg)
 
   invisible()
 }
