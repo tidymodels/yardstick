@@ -131,13 +131,17 @@ hpc_cv \%>\%
   j_index(obs, pred, estimator = "macro_weighted")
 
 # Vector version
-j_index_vec(two_class_example$truth, two_class_example$predicted)
+j_index_vec(
+  two_class_example$truth,
+  two_class_example$predicted
+)
 
 # Making Class2 the "relevant" level
-options(yardstick.event_first = FALSE)
-j_index_vec(two_class_example$truth, two_class_example$predicted)
-options(yardstick.event_first = TRUE)
-
+j_index_vec(
+  two_class_example$truth,
+  two_class_example$predicted,
+  event_level = "second"
+)
 }
 \references{
 Youden, W.J. (1950). "Index for rating diagnostic tests". Cancer. 3: 32-35.

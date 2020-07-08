@@ -151,13 +151,17 @@ hpc_cv \%>\%
   ppv(obs, pred, estimator = "macro_weighted")
 
 # Vector version
-ppv_vec(two_class_example$truth, two_class_example$predicted)
+ppv_vec(
+  two_class_example$truth,
+  two_class_example$predicted
+)
 
 # Making Class2 the "relevant" level
-options(yardstick.event_first = FALSE)
-ppv_vec(two_class_example$truth, two_class_example$predicted)
-options(yardstick.event_first = TRUE)
-
+ppv_vec(
+  two_class_example$truth,
+  two_class_example$predicted,
+  event_level = "second"
+)
 # But what if we think that Class 1 only occurs 40\% of the time?
 ppv(two_class_example, truth, predicted, prevalence = 0.40)
 

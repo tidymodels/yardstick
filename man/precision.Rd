@@ -152,13 +152,17 @@ hpc_cv \%>\%
   precision(obs, pred, estimator = "macro_weighted")
 
 # Vector version
-precision_vec(two_class_example$truth, two_class_example$predicted)
+precision_vec(
+  two_class_example$truth,
+  two_class_example$predicted
+)
 
 # Making Class2 the "relevant" level
-options(yardstick.event_first = FALSE)
-precision_vec(two_class_example$truth, two_class_example$predicted)
-options(yardstick.event_first = TRUE)
-
+precision_vec(
+  two_class_example$truth,
+  two_class_example$predicted,
+  event_level = "second"
+)
 }
 \references{
 Buckland, M., & Gey, F. (1994). The relationship

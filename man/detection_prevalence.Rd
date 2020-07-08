@@ -120,13 +120,17 @@ hpc_cv \%>\%
   detection_prevalence(obs, pred, estimator = "macro_weighted")
 
 # Vector version
-detection_prevalence_vec(two_class_example$truth, two_class_example$predicted)
+detection_prevalence_vec(
+  two_class_example$truth,
+  two_class_example$predicted
+)
 
 # Making Class2 the "relevant" level
-options(yardstick.event_first = FALSE)
-detection_prevalence_vec(two_class_example$truth, two_class_example$predicted)
-options(yardstick.event_first = TRUE)
-
+detection_prevalence_vec(
+  two_class_example$truth,
+  two_class_example$predicted,
+  event_level = "second"
+)
 }
 \seealso{
 Other class metrics: 

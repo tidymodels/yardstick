@@ -164,13 +164,17 @@ hpc_cv \%>\%
   spec(obs, pred, estimator = "macro_weighted")
 
 # Vector version
-spec_vec(two_class_example$truth, two_class_example$predicted)
+spec_vec(
+  two_class_example$truth,
+  two_class_example$predicted
+)
 
 # Making Class2 the "relevant" level
-options(yardstick.event_first = FALSE)
-spec_vec(two_class_example$truth, two_class_example$predicted)
-options(yardstick.event_first = TRUE)
-
+spec_vec(
+  two_class_example$truth,
+  two_class_example$predicted,
+  event_level = "second"
+)
 }
 \references{
 Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:

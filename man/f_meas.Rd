@@ -149,13 +149,17 @@ hpc_cv \%>\%
   f_meas(obs, pred, estimator = "macro_weighted")
 
 # Vector version
-f_meas_vec(two_class_example$truth, two_class_example$predicted)
+f_meas_vec(
+  two_class_example$truth,
+  two_class_example$predicted
+)
 
 # Making Class2 the "relevant" level
-options(yardstick.event_first = FALSE)
-f_meas_vec(two_class_example$truth, two_class_example$predicted)
-options(yardstick.event_first = TRUE)
-
+f_meas_vec(
+  two_class_example$truth,
+  two_class_example$predicted,
+  event_level = "second"
+)
 }
 \references{
 Buckland, M., & Gey, F. (1994). The relationship

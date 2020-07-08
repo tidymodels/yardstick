@@ -78,13 +78,17 @@ hpc_cv \%>\%
   kap(obs, pred, estimator = "macro_weighted")
 
 # Vector version
-kap_vec(two_class_example$truth, two_class_example$predicted)
+kap_vec(
+  two_class_example$truth,
+  two_class_example$predicted
+)
 
 # Making Class2 the "relevant" level
-options(yardstick.event_first = FALSE)
-kap_vec(two_class_example$truth, two_class_example$predicted)
-options(yardstick.event_first = TRUE)
-
+kap_vec(
+  two_class_example$truth,
+  two_class_example$predicted,
+  event_level = "second"
+)
 }
 \references{
 Cohen, J. (1960). "A coefficient of agreement for nominal
