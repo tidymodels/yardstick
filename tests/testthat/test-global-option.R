@@ -7,7 +7,10 @@ path_tbl <- lst$path_tbl
 ###################################################################
 
 test_that('switch event definition', {
-  rlang::local_options(yardstick.event_first = FALSE)
+  rlang::local_options(
+    yardstick.event_first = FALSE,
+    lifecycle_disable_warnings = TRUE
+  )
 
   expect_equal(
     sens(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
@@ -37,6 +40,8 @@ test_that('switch event definition', {
 
 
 test_that('global option is ignored in multiclass metrics', {
+  rlang::local_options(lifecycle_disable_warnings = TRUE)
+
   expect_equal(
     rlang::with_options(
       accuracy(hpc_cv, obs, pred)[[".estimate"]],
