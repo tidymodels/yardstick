@@ -51,10 +51,12 @@ pr_auc <- new_prob_metric(
 
 #' @export
 #' @rdname pr_auc
-pr_auc.data.frame  <- function(data, truth, ...,
+pr_auc.data.frame  <- function(data,
+                               truth,
+                               ...,
                                estimator = NULL,
-                               na_rm = TRUE) {
-
+                               na_rm = TRUE,
+                               event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -65,20 +67,23 @@ pr_auc.data.frame  <- function(data, truth, ...,
     estimate = !!estimate,
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...
   )
-
 }
 
 #' @export
 #' @rdname pr_auc
-pr_auc_vec <- function(truth, estimate,
-                       estimator = NULL, na_rm = TRUE, ...) {
-
+pr_auc_vec <- function(truth,
+                       estimate,
+                       estimator = NULL,
+                       na_rm = TRUE,
+                       event_level = yardstick_event_level(),
+                       ...) {
   estimator <- finalize_estimator(truth, estimator, "pr_auc")
 
   pr_auc_impl <- function(truth, estimate) {
-    pr_auc_estimator_impl(truth, estimate, estimator)
+    pr_auc_estimator_impl(truth, estimate, estimator, event_level)
   }
 
   metric_vec_template(
@@ -90,13 +95,11 @@ pr_auc_vec <- function(truth, estimate,
     cls = c("factor", "numeric"),
     ...
   )
-
 }
 
-pr_auc_estimator_impl <- function(truth, estimate, estimator) {
-
+pr_auc_estimator_impl <- function(truth, estimate, estimator, event_level) {
   if (is_binary(estimator)) {
-    pr_auc_binary(truth, estimate)
+    pr_auc_binary(truth, estimate, event_level)
   }
   else {
     # weights for macro / macro_weighted are based on truth frequencies
@@ -106,13 +109,12 @@ pr_auc_estimator_impl <- function(truth, estimate, estimator) {
     out_vec <- pr_auc_multiclass(truth, estimate)
     weighted.mean(out_vec, w)
   }
-
 }
 
 # Don't remove NA values so any errors propagate
 # (i.e. no if `truth` has no "events")
-pr_auc_binary <- function(truth, estimate) {
-  pr_list <- pr_curve_vec(truth, estimate)
+pr_auc_binary <- function(truth, estimate, event_level) {
+  pr_list <- pr_curve_vec(truth, estimate, na_rm = TRUE, event_level = event_level)
   auc(pr_list[["recall"]], pr_list[["precision"]], na_rm = FALSE)
 }
 
