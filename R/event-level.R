@@ -26,7 +26,7 @@ yardstick_event_level <- function() {
 warn_event_first_deprecated <- function() {
   msg <- paste0(
     "The `yardstick.event_first` option has been deprecated as of ",
-    "yardstick 0.0.7 and will completely ignored in a future version.\n",
+    "yardstick 0.0.7 and will be completely ignored in a future version.\n",
     "Instead, set the following argument directly in the metric function:\n",
     "`yardstick.event_first = TRUE`  -> `event_level = 'first'` (the default)\n",
     "`yardstick.event_first = FALSE` -> `event_level = 'second'`"
