@@ -28,8 +28,8 @@ warn_event_first_deprecated <- function() {
     "The `yardstick.event_first` option has been deprecated as of ",
     "yardstick 0.0.7 and will be completely ignored in a future version.\n",
     "Instead, set the following argument directly in the metric function:\n",
-    "`yardstick.event_first = TRUE`  -> `event_level = 'first'` (the default)\n",
-    "`yardstick.event_first = FALSE` -> `event_level = 'second'`"
+    "`options(yardstick.event_first = TRUE)`  -> `event_level = 'first'` (the default)\n",
+    "`options(yardstick.event_first = FALSE)` -> `event_level = 'second'`"
   )
 
   # Will only warn once per session!
