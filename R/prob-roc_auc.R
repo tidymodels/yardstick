@@ -87,9 +87,13 @@ roc_auc <- new_prob_metric(
 
 #' @export
 #' @rdname roc_auc
-roc_auc.data.frame  <- function(data, truth, ..., options = list(),
-                                estimator = NULL, na_rm = TRUE) {
-
+roc_auc.data.frame <- function(data,
+                               truth,
+                               ...,
+                               options = list(),
+                               estimator = NULL,
+                               na_rm = TRUE,
+                               event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -100,23 +104,27 @@ roc_auc.data.frame  <- function(data, truth, ..., options = list(),
     estimate = !!estimate,
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...,
     metric_fn_options = list(options = options)
   )
-
 }
 
 #' @rdname roc_auc
 #' @export
 #' @importFrom rlang call2
 #' @importFrom pROC roc auc
-roc_auc_vec <- function(truth, estimate, options = list(),
-                        estimator = NULL, na_rm = TRUE, ...) {
-
+roc_auc_vec <- function(truth,
+                        estimate,
+                        options = list(),
+                        estimator = NULL,
+                        na_rm = TRUE,
+                        event_level = yardstick_event_level(),
+                        ...) {
   estimator <- finalize_estimator(truth, estimator, "roc_auc")
 
   roc_auc_impl <- function(truth, estimate) {
-    roc_auc_estimator_impl(truth, estimate, options, estimator)
+    roc_auc_estimator_impl(truth, estimate, options, estimator, event_level)
   }
 
   metric_vec_template(
@@ -130,10 +138,9 @@ roc_auc_vec <- function(truth, estimate, options = list(),
   )
 }
 
-roc_auc_estimator_impl <- function(truth, estimate, options, estimator) {
-
+roc_auc_estimator_impl <- function(truth, estimate, options, estimator, event_level) {
   if (is_binary(estimator)) {
-    roc_auc_binary(truth, estimate, options)
+    roc_auc_binary(truth, estimate, event_level, options)
   }
   else if (estimator == "hand_till") {
     roc_auc_hand_till(truth, estimate, options)
@@ -146,14 +153,12 @@ roc_auc_estimator_impl <- function(truth, estimate, options, estimator) {
     out_vec <- roc_auc_multiclass(truth, estimate, options)
     weighted.mean(out_vec, w)
   }
-
 }
 
-roc_auc_binary <- function(truth, estimate, options) {
-
+roc_auc_binary <- function(truth, estimate, event_level, options) {
   lvl_values <- levels(truth)
 
-  if (getOption("yardstick.event_first")) {
+  if (is_event_first(event_level)) {
     lvl <- rev(lvl_values)
   } else {
     lvl <- lvl_values
@@ -193,7 +198,6 @@ roc_auc_binary <- function(truth, estimate, options) {
   pROC_auc <- eval_tidy(call2("auc", !!! args, !!! options, .ns = "pROC"))
 
   as.numeric(pROC_auc)
-
 }
 
 roc_auc_multiclass <- function(truth, estimate, options) {
@@ -202,11 +206,6 @@ roc_auc_multiclass <- function(truth, estimate, options) {
 }
 
 roc_auc_hand_till <- function(truth, estimate, options) {
-  # Hand Till method ignores yardstick.event_first (like macro-average)
-  old_opt <- getOption("yardstick.event_first", TRUE)
-  options(yardstick.event_first = TRUE)
-  on.exit(options(yardstick.event_first = old_opt))
-
   lvls <- levels(truth)
 
   # We want to reference the levels by name in the function below, so we
@@ -280,7 +279,13 @@ roc_auc_subset <- function(lvl1, lvl2, truth, estimate, options) {
   truth_subset <- factor(truth[subset_idx], levels = c(lvl1, lvl2))
   estimate_subset <- estimate_lvl1[subset_idx]
 
-  auc_val <- roc_auc_binary(truth_subset, estimate_subset, options)
+  # Hand Till method ignores event level (like macro-average)
+  auc_val <- roc_auc_binary(
+    truth = truth_subset,
+    estimate = estimate_subset,
+    event_level = "first",
+    options = options
+  )
 
   auc_val
 }

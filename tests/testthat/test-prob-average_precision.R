@@ -47,3 +47,15 @@ test_that("known corner cases are correct", {
   )
 
 })
+
+test_that("`event_level = 'second'` works", {
+  df <- two_class_example
+
+  df_rev <- df
+  df_rev$truth <- relevel(df_rev$truth, "Class2")
+
+  expect_equal(
+    average_precision_vec(df$truth, df$Class1),
+    average_precision_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+  )
+})

@@ -8,9 +8,23 @@
 \usage{
 average_precision(data, ...)
 
-\method{average_precision}{data.frame}(data, truth, ..., estimator = NULL, na_rm = TRUE)
+\method{average_precision}{data.frame}(
+  data,
+  truth,
+  ...,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level()
+)
 
-average_precision_vec(truth, estimate, estimator = NULL, na_rm = TRUE, ...)
+average_precision_vec(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  ...
+)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -35,6 +49,13 @@ multiclass metrics. The default will automatically choose \code{"binary"} or
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{event_level}{A single string. Either \code{"first"} or \code{"second"} to specify
+which level of \code{truth} to consider as the "event". This argument is only
+applicable when \code{estimator = "binary"}. The default uses an
+internal helper that generally defaults to \code{"first"}, however, if the
+deprecated global option \code{yardstick.event_first} is set, that will be
+used instead with a warning.}
 
 \item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
 corresponding to the "relevant" class. Otherwise, a matrix with as many
@@ -91,13 +112,11 @@ See \code{vignette("multiclass", "yardstick")} for more information.
 
 
 There is no common convention on which factor level should
-automatically be considered the "event" or "positive" result.
-In \code{yardstick}, the default is to use the \emph{first} level. To
-change this, a global option called \code{yardstick.event_first} is
-set to \code{TRUE} when the package is loaded. This can be changed
-to \code{FALSE} if the \emph{last} level of the factor is considered the
-level of interest by running: \code{options(yardstick.event_first = FALSE)}.
-For multiclass extensions involving one-vs-all
+automatically be considered the "event" or "positive" result
+when computing binary classification metrics. In \code{yardstick}, the default
+is to use the \emph{first} level. To alter this, change the argument
+\code{event_level} to \code{"second"} to consider the \emph{last} level of the factor the
+level of interest. For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.
 }

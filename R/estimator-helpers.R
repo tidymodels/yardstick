@@ -44,8 +44,8 @@ get_weights <- function(data, estimator) {
 #'
 #' `finalize_estimator_internal()` is an S3 generic that you should extend for
 #'  your metric if it does not implement _only_ the following estimator types:
-#'  `"binary"`, `"macro"`, `"micro"`, and `"macro_weighted"`. If your metric
-#'  does support all of these, the default version of
+#'  `"binary"`, `"macro"`, `"micro"`, and `"macro_weighted"`.
+#'  If your metric does support all of these, the default version of
 #'  `finalize_estimator_internal()` will autoselect `estimator` appropriately.
 #'  If you need to create a method, it should take the form:
 #' `finalize_estimator_internal.metric_name`. Your method for
@@ -107,8 +107,10 @@ finalize_estimator_internal.default <- function(metric_dispatcher, x, estimator)
   finalize_estimator_default(x, estimator)
 }
 
-# Accuracy, Kappa, Mean Log Loss, and MCC have natural multiclass extensions
-# user cannot set this, should only be "binary" or "multiclass"
+# Accuracy, Kappa, Mean Log Loss, and MCC have natural multiclass extensions.
+# Additionally, they all produce the same results regardless of which level
+# is considered the "event". Because of this, the user cannot set the estimator,
+# and it should only be "binary" or "multiclass"
 finalize_estimator_internal.accuracy <- function(metric_dispatcher, x, estimator) {
   if (is_multiclass(x)) {
     "multiclass"

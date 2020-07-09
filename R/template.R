@@ -32,7 +32,7 @@
 #' the `estimate` column. For metrics that take multiple columns through `...`
 #' like class probability metrics, this is a result of [dots_to_estimate()].
 #'
-#' @param estimator For numeric metrics, this is left as `NA` so averaging
+#' @param estimator For numeric metrics, this is left as `NULL` so averaging
 #' is not passed on to the metric function implementation. For classification
 #' metrics, this can either be `NULL` for the default auto-selection of
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along
@@ -41,6 +41,13 @@
 #' @param na_rm A `logical` value indicating whether `NA` values should be
 #' stripped before the computation proceeds. The removal is executed in
 #' `metric_vec_template()`.
+#'
+#' @param event_level For numeric metrics, this is left as `NULL` to prevent
+#' it from being passed on to the metric function implementation. For
+#' classification metrics, this can either be `NULL` to use the default
+#' `event_level` value of the `metric_fn` or a single string of either
+#' `"first"` or `"second"` to pass along describing which level should be
+#' considered the "event".
 #'
 #' @param ... Currently not used. Metric specific options are passed in
 #' through `metric_fn_options`.
@@ -54,13 +61,16 @@
 #' @export
 #'
 #' @importFrom dplyr summarise
-metric_summarizer <- function(metric_nm, metric_fn,
-                              data, truth, estimate,
+metric_summarizer <- function(metric_nm,
+                              metric_fn,
+                              data,
+                              truth,
+                              estimate,
                               estimator = NULL,
                               na_rm = TRUE,
+                              event_level = NULL,
                               ...,
                               metric_fn_options = list()) {
-
   truth <- enquo(truth)
   estimate <- enquo(estimate)
 
@@ -85,6 +95,7 @@ metric_summarizer <- function(metric_nm, metric_fn,
       estimate = !! estimate,
       !!! spliceable_estimator(estimator),
       na_rm = na_rm,
+      !!! spliceable_event_level(event_level),
       !!! metric_fn_options
     )
   )
@@ -212,12 +223,19 @@ metric_tibbler <- function(.metric, .estimator, .estimate) {
 # splicing in an empty list essentially is equivalent
 # to splicing in nothing.
 spliceable_estimator <- function(estimator) {
-
   if (!is.null(estimator)) {
     return(list(estimator = estimator))
   }
   else {
     return(list())
   }
+}
 
+spliceable_event_level <- function(event_level) {
+  if (!is.null(event_level)) {
+    return(list(event_level = event_level))
+  }
+  else {
+    return(list())
+  }
 }

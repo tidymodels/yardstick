@@ -22,10 +22,14 @@
 #'   <%=metric_fn %>(obs, pred, estimator = "macro_weighted")
 #'
 #' # Vector version
-#' <%=metric_fn %>_vec(two_class_example$truth, two_class_example$predicted)
+#' <%=metric_fn %>_vec(
+#'   two_class_example$truth,
+#'   two_class_example$predicted
+#' )
 #'
 #' # Making Class2 the "relevant" level
-#' options(yardstick.event_first = FALSE)
-#' <%=metric_fn %>_vec(two_class_example$truth, two_class_example$predicted)
-#' options(yardstick.event_first = TRUE)
-#'
+#' <%=metric_fn %>_vec(
+#'   two_class_example$truth,
+#'   two_class_example$predicted,
+#'   event_level = "second"
+#' )

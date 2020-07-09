@@ -24,28 +24,35 @@
 #' @template table-positive
 #'
 #' @param data Either a `data.frame` containing the `truth` and `estimate`
-#' columns, or a `table`/`matrix` where the true class results should be
-#' in the columns of the table.
+#'   columns, or a `table`/`matrix` where the true class results should be
+#'   in the columns of the table.
 #'
 #' @param truth The column identifier for the true class results
-#'  (that is a `factor`). This should be an unquoted column name although
-#'  this argument is passed by expression and supports
-#'  [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'  names). For `_vec()` functions, a `factor` vector.
+#'   (that is a `factor`). This should be an unquoted column name although
+#'   this argument is passed by expression and supports
+#'   [quasiquotation][rlang::quasiquotation] (you can unquote column
+#'   names). For `_vec()` functions, a `factor` vector.
 #'
 #' @param estimate The column identifier for the predicted class
-#'  results (that is also `factor`). As with `truth` this can be
-#'  specified different ways but the primary method is to use an
-#'  unquoted variable name. For `_vec()` functions, a `factor` vector.
+#'   results (that is also `factor`). As with `truth` this can be
+#'   specified different ways but the primary method is to use an
+#'   unquoted variable name. For `_vec()` functions, a `factor` vector.
 #'
 #' @param estimator One of: `"binary"`, `"macro"`, `"macro_weighted"`,
-#' or `"micro"` to specify the type of averaging to be done. `"binary"` is
-#' only relevant for the two class case. The other three are general methods for
-#' calculating multiclass metrics. The default will automatically choose `"binary"`
-#' or `"macro"` based on `estimate`.
+#'   or `"micro"` to specify the type of averaging to be done. `"binary"` is
+#'   only relevant for the two class case. The other three are general methods
+#'   for calculating multiclass metrics. The default will automatically choose
+#'   `"binary"` or `"macro"` based on `estimate`.
 #'
 #' @param na_rm A `logical` value indicating whether `NA`
-#'  values should be stripped before the computation proceeds.
+#'   values should be stripped before the computation proceeds.
+#'
+#' @param event_level A single string. Either `"first"` or `"second"` to specify
+#'   which level of `truth` to consider as the "event". This argument is only
+#'   applicable when `estimator = "binary"`. The default uses an
+#'   internal helper that generally defaults to `"first"`, however, if the
+#'   deprecated global option `yardstick.event_first` is set, that will be
+#'   used instead with a warning.
 #'
 #' @param ... Not currently used.
 #'
@@ -71,9 +78,13 @@ sens <- new_class_metric(
 
 #' @export
 #' @rdname sens
-sens.data.frame <- function(data, truth, estimate,
-                            estimator = NULL, na_rm = TRUE, ...) {
-
+sens.data.frame <- function(data,
+                            truth,
+                            estimate,
+                            estimator = NULL,
+                            na_rm = TRUE,
+                            event_level = yardstick_event_level(),
+                            ...) {
   metric_summarizer(
     metric_nm = "sens",
     metric_fn = sens_vec,
@@ -82,31 +93,33 @@ sens.data.frame <- function(data, truth, estimate,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...
   )
-
 }
 
 #' @export
-sens.table <- function(data, estimator = NULL, ...) {
-
+sens.table <- function(data,
+                       estimator = NULL,
+                       event_level = yardstick_event_level(),
+                       ...) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
   metric_tibbler(
     .metric = "sens",
     .estimator = estimator,
-    .estimate = sens_table_impl(data, estimator)
+    .estimate = sens_table_impl(data, estimator, event_level)
   )
-
 }
 
 #' @export
-sens.matrix <- function(data, estimator = NULL, ...) {
-
+sens.matrix <- function(data,
+                        estimator = NULL,
+                        event_level = yardstick_event_level(),
+                        ...) {
   data <- as.table(data)
-  sens.table(data, estimator)
-
+  sens.table(data, estimator, event_level)
 }
 
 #' @rdname sens
@@ -115,19 +128,21 @@ sensitivity <- sens
 
 #' @export
 #' @rdname sens
-sens_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
-
+sens_vec <- function(truth,
+                     estimate,
+                     estimator = NULL,
+                     na_rm = TRUE,
+                     event_level = yardstick_event_level(),
+                     ...) {
   estimator <- finalize_estimator(truth, estimator)
 
   sens_impl <- function(truth, estimate) {
-
     xtab <- vec2table(
       truth = truth,
       estimate = estimate
     )
 
-    sens_table_impl(xtab, estimator)
-
+    sens_table_impl(xtab, estimator, event_level)
   }
 
   metric_vec_template(
@@ -149,22 +164,19 @@ sensitivity_vec <- sens_vec
 # sens() == recall(), so this is a copy paste from there, with altered warning
 # classes
 
-sens_table_impl <- function(data, estimator) {
-
+sens_table_impl <- function(data, estimator, event_level) {
   if(is_binary(estimator)) {
-    sens_binary(data)
+    sens_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- sens_multiclass(data, estimator)
     # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
     weighted.mean(out_vec, w, na.rm = TRUE)
   }
-
 }
 
-sens_binary <- function(data) {
-
-  relevant <- pos_val(data)
+sens_binary <- function(data, event_level) {
+  relevant <- pos_val(data, event_level)
   numer <- sum(data[relevant, relevant])
   denom <- sum(data[, relevant])
 
@@ -177,11 +189,9 @@ sens_binary <- function(data) {
   }
 
   numer / denom
-
 }
 
 sens_multiclass <- function(data, estimator) {
-
   numer <- diag(data)
   denom <- colSums(data)
 
@@ -202,7 +212,6 @@ sens_multiclass <- function(data, estimator) {
   }
 
   numer / denom
-
 }
 
 

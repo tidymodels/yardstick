@@ -66,8 +66,11 @@ pr_curve <- function(data, ...) {
 #' @export
 #' @rdname pr_curve
 #' @importFrom stats relevel
-pr_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
-
+pr_curve.data.frame <- function(data,
+                                truth,
+                                ...,
+                                na_rm = TRUE,
+                                event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
   truth <- enquo(truth)
 
@@ -81,7 +84,8 @@ pr_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
     pr_curve_vec(
       truth = rlang::eval_tidy(truth, data = .),
       estimate = rlang::eval_tidy(estimate, data = .),
-      na_rm = na_rm
+      na_rm = na_rm,
+      event_level = event_level
     )
   )
 
@@ -96,13 +100,16 @@ pr_curve.data.frame <- function(data, truth, ..., na_rm = TRUE) {
 }
 
 # Undecided of whether to export this or not
-pr_curve_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
+pr_curve_vec <- function(truth,
+                         estimate,
+                         na_rm = TRUE,
+                         event_level = yardstick_event_level(),
+                         ...) {
   estimator <- finalize_estimator(truth, metric_class = "pr_curve")
 
-  # estimate here is a matrix of class prob columns
+  # `estimate` here is a matrix of class prob columns
   pr_curve_impl <- function(truth, estimate) {
-    pr_curve_estimator_impl(truth, estimate, estimator)
+    pr_curve_estimator_impl(truth, estimate, estimator, event_level)
   }
 
   metric_vec_template(
@@ -117,25 +124,22 @@ pr_curve_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
 }
 
-pr_curve_estimator_impl <- function(truth, estimate, estimator) {
-
+pr_curve_estimator_impl <- function(truth, estimate, estimator, event_level) {
   if (is_binary(estimator)) {
-    pr_curve_binary(truth, estimate)
+    pr_curve_binary(truth, estimate, event_level)
   }
   else {
     pr_curve_multiclass(truth, estimate)
   }
-
 }
 
-pr_curve_binary <- function(truth, estimate) {
-
+pr_curve_binary <- function(truth, estimate, event_level) {
   lvls <- levels(truth)
 
-  # Relevel if event_first = FALSE
+  # Relevel if `event_level = "second"`
   # The second level becomes the first so as.integer()
   # holds the 1s and 2s in the correct slot
-  if (!getOption("yardstick.event_first")) {
+  if (!is_event_first(event_level)) {
     truth <- relevel(truth, lvls[2])
   }
 

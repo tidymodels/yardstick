@@ -144,7 +144,6 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' @param ... The bare names of the functions to be included in the metric set.
 #'
 #' @details
-#'
 #' All functions must be either:
 #' - Only numeric metrics
 #' - A mix of class metrics or class prob metrics
@@ -157,14 +156,32 @@ metrics.data.frame <- function(data, truth, estimate, ...,
 #' depending on whether numeric metrics or a mix of class/prob metrics were
 #' passed in.
 #'
-#' Numeric metrics will have a signature like:
-#' `fn(data, truth, estimate, na_rm = TRUE, ...)`.
+#' ```
+#' # Numeric metric set signature:
+#' fn(
+#'   data,
+#'   truth,
+#'   estimate,
+#'   na_rm = TRUE,
+#'   ...
+#' )
 #'
-#' Class/prob metrics have a signature of
-#' `fn(data, truth, ..., estimate, na_rm = TRUE)`. When mixing class and
-#' class prob metrics, pass in the hard predictions (the factor column) as
-#' the named argument `estimate`, and the soft predictions (the class
-#' probability columns) as bare column names or `tidyselect` selectors to `...`.
+#' # Class / prob metric set signature:
+#' fn(
+#'   data,
+#'   truth,
+#'   ...,
+#'   estimate,
+#'   estimator =  NULL,
+#'   na_rm = TRUE,
+#'   event_level = yardstick_event_level()
+#' )
+#' ```
+#'
+#' When mixing class and class prob metrics, pass in the hard predictions
+#' (the factor column) as the named argument `estimate`, and the soft
+#' predictions (the class probability columns) as bare column names or
+#' `tidyselect` selectors to `...`.
 #'
 #' @examples
 #' library(dplyr)
@@ -319,7 +336,13 @@ get_quo_label <- function(quo) {
 }
 
 make_prob_class_metric_function <- function(fns) {
-  metric_function <- function(data, truth, ..., estimate, estimator = NULL, na_rm = TRUE) {
+  metric_function <- function(data,
+                              truth,
+                              ...,
+                              estimate,
+                              estimator = NULL,
+                              na_rm = TRUE,
+                              event_level = yardstick_event_level()) {
 
     # Find class vs prob metrics
     are_class_metrics <- vapply(
@@ -342,7 +365,8 @@ make_prob_class_metric_function <- function(fns) {
         truth = !!enquo(truth),
         estimate = !!enquo(estimate),
         estimator = estimator,
-        na_rm = na_rm
+        na_rm = na_rm,
+        event_level = event_level
       )
 
       class_calls <- lapply(class_fns, call2, !!! class_args)
@@ -374,7 +398,8 @@ make_prob_class_metric_function <- function(fns) {
         truth = !!enquo(truth),
         ... = ...,
         estimator = prob_estimator,
-        na_rm = na_rm
+        na_rm = na_rm,
+        event_level = event_level
       )
 
       prob_calls <- lapply(prob_fns, call2, !!! prob_args)

@@ -80,9 +80,12 @@ mn_log_loss <- new_prob_metric(
 #' @export
 #' @rdname mn_log_loss
 #' @importFrom rlang quo
-mn_log_loss.data.frame <- function(data, truth, ...,
-                                   na_rm = TRUE, sum = FALSE) {
-
+mn_log_loss.data.frame <- function(data,
+                                   truth,
+                                   ...,
+                                   na_rm = TRUE,
+                                   sum = FALSE,
+                                   event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -92,22 +95,26 @@ mn_log_loss.data.frame <- function(data, truth, ...,
     truth = !!enquo(truth),
     estimate = !!estimate,
     na_rm = na_rm,
+    event_level = event_level,
     # Extra argument for mn_log_loss_impl()
     metric_fn_options = list(sum = sum)
   )
-
 }
 
 #' @rdname mn_log_loss
 #' @importFrom stats model.matrix
 #' @export
-mn_log_loss_vec <- function(truth, estimate, na_rm = TRUE, sum = FALSE, ...) {
-
+mn_log_loss_vec <- function(truth,
+                            estimate,
+                            na_rm = TRUE,
+                            sum = FALSE,
+                            event_level = yardstick_event_level(),
+                            ...) {
   estimator <- finalize_estimator(truth, metric_class = "mn_log_loss")
 
   # estimate here is a matrix of class prob columns
   mn_log_loss_impl <- function(truth, estimate, sum = FALSE) {
-    mn_log_loss_estimator_impl(truth, estimate, estimator, sum)
+    mn_log_loss_estimator_impl(truth, estimate, estimator, event_level, sum)
   }
 
   metric_vec_template(
@@ -122,19 +129,23 @@ mn_log_loss_vec <- function(truth, estimate, na_rm = TRUE, sum = FALSE, ...) {
   )
 }
 
-mn_log_loss_estimator_impl <- function(truth, estimate, estimator, sum = FALSE) {
-
+mn_log_loss_estimator_impl <- function(truth, estimate, estimator, event_level, sum = FALSE) {
   if (is_binary(estimator)) {
-    mn_log_loss_binary(truth, estimate, sum)
+    mn_log_loss_binary(truth, estimate, event_level, sum)
   }
   else {
     mn_log_loss_multiclass(truth, estimate, sum)
   }
-
 }
 
-mn_log_loss_binary <- function(truth, estimate, sum) {
+mn_log_loss_binary <- function(truth, estimate, event_level, sum) {
+  if (!is_event_first(event_level)) {
+    lvls <- levels(truth)
+    truth <- relevel(truth, lvls[[2]])
+  }
+
   estimate <- matrix(c(estimate, 1 - estimate), ncol = 2)
+
   mn_log_loss_multiclass(truth, estimate, sum)
 }
 

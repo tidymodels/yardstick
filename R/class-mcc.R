@@ -18,21 +18,25 @@
 #' @references Giuseppe, J. (2012). "A Comparison of MCC and CEN Error
 #' Measures in Multi-Class Prediction". _PLOS ONE_. Vol 7, Iss 8, e41882.
 #'
+#' @export
 #' @examples
-#' # Two class
+#' library(dplyr)
 #' data("two_class_example")
+#' data("hpc_cv")
+#'
+#' # Two class
 #' mcc(two_class_example, truth, predicted)
 #'
 #' # Multiclass
 #' # mcc() has a natural multiclass extension
-#' library(dplyr)
-#' data(hpc_cv)
+#' hpc_cv %>%
+#'   filter(Resample == "Fold01") %>%
+#'   mcc(obs, pred)
+#'
+#' # Groups are respected
 #' hpc_cv %>%
 #'   group_by(Resample) %>%
 #'   mcc(obs, pred)
-#'
-#' @export
-#'
 mcc <- function(data, ...) {
   UseMethod("mcc")
 }
@@ -118,9 +122,10 @@ mcc_table_impl <- function(data, estimator) {
 }
 
 mcc_binary <- function(data) {
-
-  positive <- pos_val(data)
-  negative <- neg_val(data)
+  # mcc() produces identical results regardless of which level is
+  # considered the "event", so hardcode to first here
+  positive <- pos_val(data, event_level = "first")
+  negative <- neg_val(data, event_level = "first")
 
   data <- as.matrix(data)
 

@@ -12,6 +12,7 @@ metric_summarizer(
   estimate,
   estimator = NULL,
   na_rm = TRUE,
+  event_level = NULL,
   ...,
   metric_fn_options = list()
 )
@@ -35,7 +36,7 @@ in from the data frame version of your metric function that called
 the \code{estimate} column. For metrics that take multiple columns through \code{...}
 like class probability metrics, this is a result of \code{\link[=dots_to_estimate]{dots_to_estimate()}}.}
 
-\item{estimator}{For numeric metrics, this is left as \code{NA} so averaging
+\item{estimator}{For numeric metrics, this is left as \code{NULL} so averaging
 is not passed on to the metric function implementation. For classification
 metrics, this can either be \code{NULL} for the default auto-selection of
 averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along
@@ -44,6 +45,13 @@ to the metric implementation describing the kind of averaging to use.}
 \item{na_rm}{A \code{logical} value indicating whether \code{NA} values should be
 stripped before the computation proceeds. The removal is executed in
 \code{metric_vec_template()}.}
+
+\item{event_level}{For numeric metrics, this is left as \code{NULL} to prevent
+it from being passed on to the metric function implementation. For
+classification metrics, this can either be \code{NULL} to use the default
+\code{event_level} value of the \code{metric_fn} or a single string of either
+\code{"first"} or \code{"second"} to pass along describing which level should be
+considered the "event".}
 
 \item{...}{Currently not used. Metric specific options are passed in
 through \code{metric_fn_options}.}

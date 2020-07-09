@@ -2,13 +2,11 @@ context("Detection prevalence")
 
 # ------------------------------------------------------------------------------
 
-lst <- data_altman()
-pathology <- lst$pathology
-path_tbl <- lst$path_tbl
-
-pred_ch <- quote(scan)
-
 test_that('Two class', {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+
   expect_equal(
     detection_prevalence(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
     ( 231 + 32 ) / 344
@@ -23,12 +21,22 @@ test_that('Two class', {
   )
 })
 
+test_that("`event_level = 'second'` works", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+
+  expect_equal(
+    detection_prevalence_vec(pathology$pathology, pathology$scan, event_level = "second"),
+    1 - detection_prevalence_vec(pathology$pathology, pathology$scan, event_level = "first")
+  )
+})
+
 # ------------------------------------------------------------------------------
 
-multi_ex <- data_three_by_three()
-micro <- data_three_by_three_micro()
-
 test_that('Three class', {
+  multi_ex <- data_three_by_three()
+  micro <- data_three_by_three_micro()
 
   expect_equal(
     detection_prevalence(multi_ex, estimator = "macro")[[".estimate"]],

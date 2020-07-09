@@ -59,10 +59,12 @@ average_precision <- new_prob_metric(
 
 #' @export
 #' @rdname average_precision
-average_precision.data.frame  <- function(data, truth, ...,
-                                          estimator = NULL,
-                                          na_rm = TRUE) {
-
+average_precision.data.frame <- function(data,
+                                         truth,
+                                         ...,
+                                         estimator = NULL,
+                                         na_rm = TRUE,
+                                         event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -73,20 +75,23 @@ average_precision.data.frame  <- function(data, truth, ...,
     estimate = !!estimate,
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...
   )
-
 }
 
 #' @export
 #' @rdname average_precision
-average_precision_vec <- function(truth, estimate,
-                                  estimator = NULL, na_rm = TRUE, ...) {
-
+average_precision_vec <- function(truth,
+                                  estimate,
+                                  estimator = NULL,
+                                  na_rm = TRUE,
+                                  event_level = yardstick_event_level(),
+                                  ...) {
   estimator <- finalize_estimator(truth, estimator, "average_precision")
 
   average_precision_impl <- function(truth, estimate) {
-    average_precision_estimator_impl(truth, estimate, estimator)
+    average_precision_estimator_impl(truth, estimate, estimator, event_level)
   }
 
   metric_vec_template(
@@ -98,13 +103,11 @@ average_precision_vec <- function(truth, estimate,
     cls = c("factor", "numeric"),
     ...
   )
-
 }
 
-average_precision_estimator_impl <- function(truth, estimate, estimator) {
-
+average_precision_estimator_impl <- function(truth, estimate, estimator, event_level) {
   if (is_binary(estimator)) {
-    average_precision_binary(truth, estimate)
+    average_precision_binary(truth, estimate, event_level)
   }
   else {
     # weights for macro / macro_weighted are based on truth frequencies
@@ -114,11 +117,16 @@ average_precision_estimator_impl <- function(truth, estimate, estimator) {
     out_vec <- average_precision_multiclass(truth, estimate)
     weighted.mean(out_vec, w)
   }
-
 }
 
-average_precision_binary <- function(truth, estimate) {
-  pr_list <- pr_curve_vec(truth, estimate)
+average_precision_binary <- function(truth, estimate, event_level) {
+  # `na_rm` should already be done by `metric_vec_template()`
+  pr_list <- pr_curve_vec(
+    truth = truth,
+    estimate = estimate,
+    na_rm = FALSE,
+    event_level = event_level
+  )
 
   pr_recalls <- pr_list[["recall"]]
   pr_precisions <- pr_list[["precision"]]

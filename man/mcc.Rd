@@ -49,13 +49,11 @@ Matthews correlation coefficient
 
 
 There is no common convention on which factor level should
-automatically be considered the "event" or "positive" result.
-In \code{yardstick}, the default is to use the \emph{first} level. To
-change this, a global option called \code{yardstick.event_first} is
-set to \code{TRUE} when the package is loaded. This can be changed
-to \code{FALSE} if the \emph{last} level of the factor is considered the
-level of interest by running: \code{options(yardstick.event_first = FALSE)}.
-For multiclass extensions involving one-vs-all
+automatically be considered the "event" or "positive" result
+when computing binary classification metrics. In \code{yardstick}, the default
+is to use the \emph{first} level. To alter this, change the argument
+\code{event_level} to \code{"second"} to consider the \emph{last} level of the factor the
+level of interest. For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.
 }
@@ -69,18 +67,23 @@ of this, no averaging methods are provided.
 }
 
 \examples{
-# Two class
+library(dplyr)
 data("two_class_example")
+data("hpc_cv")
+
+# Two class
 mcc(two_class_example, truth, predicted)
 
 # Multiclass
 # mcc() has a natural multiclass extension
-library(dplyr)
-data(hpc_cv)
+hpc_cv \%>\%
+  filter(Resample == "Fold01") \%>\%
+  mcc(obs, pred)
+
+# Groups are respected
 hpc_cv \%>\%
   group_by(Resample) \%>\%
   mcc(obs, pred)
-
 }
 \references{
 Giuseppe, J. (2012). "A Comparison of MCC and CEN Error

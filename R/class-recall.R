@@ -52,8 +52,13 @@ recall <- new_class_metric(
 
 #' @rdname recall
 #' @export
-recall.data.frame <- function(data, truth, estimate,
-                              estimator = NULL, na_rm = TRUE, ...) {
+recall.data.frame <- function(data,
+                              truth,
+                              estimate,
+                              estimator = NULL,
+                              na_rm = TRUE,
+                              event_level = yardstick_event_level(),
+                              ...) {
 
   metric_summarizer(
     metric_nm = "recall",
@@ -63,43 +68,53 @@ recall.data.frame <- function(data, truth, estimate,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...
   )
 
 }
 
 #' @export
-recall.table <- function(data, estimator = NULL, ...) {
+recall.table <- function(data,
+                         estimator = NULL,
+                         event_level = yardstick_event_level(),
+                         ...) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
+
   metric_tibbler(
     .metric = "recall",
     .estimator = estimator,
-    .estimate = recall_table_impl(data, estimator)
+    .estimate = recall_table_impl(data, estimator, event_level)
   )
 }
 
 #' @export
-recall.matrix <- function(data, estimator = NULL, ...) {
+recall.matrix <- function(data,
+                          estimator = NULL,
+                          event_level = yardstick_event_level(),
+                          ...) {
   data <- as.table(data)
-  recall.table(data, estimator)
+  recall.table(data, estimator, event_level)
 }
 
 #' @export
 #' @rdname recall
-recall_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
-
+recall_vec <- function(truth,
+                       estimate,
+                       estimator = NULL,
+                       na_rm = TRUE,
+                       event_level = yardstick_event_level(),
+                       ...) {
   estimator <- finalize_estimator(truth, estimator)
 
   recall_impl <- function(truth, estimate) {
-
     xtab <- vec2table(
       truth = truth,
       estimate = estimate
     )
 
-    recall_table_impl(xtab, estimator)
-
+    recall_table_impl(xtab, estimator, event_level)
   }
 
   metric_vec_template(
@@ -111,25 +126,21 @@ recall_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE, ...) {
     cls = "factor",
     ...
   )
-
 }
 
-recall_table_impl <- function(data, estimator) {
-
+recall_table_impl <- function(data, estimator, event_level) {
   if(is_binary(estimator)) {
-    recall_binary(data)
+    recall_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- recall_multiclass(data, estimator)
     # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
     weighted.mean(out_vec, w, na.rm = TRUE)
   }
-
 }
 
-recall_binary <- function(data) {
-
-  relevant <- pos_val(data)
+recall_binary <- function(data, event_level) {
+  relevant <- pos_val(data, event_level)
   numer <- sum(data[relevant, relevant])
   denom <- sum(data[, relevant])
 
@@ -142,11 +153,9 @@ recall_binary <- function(data) {
   }
 
   numer / denom
-
 }
 
 recall_multiclass <- function(data, estimator) {
-
   numer <- diag(data)
   denom <- colSums(data)
 
@@ -167,7 +176,6 @@ recall_multiclass <- function(data, estimator) {
   }
 
   numer / denom
-
 }
 
 

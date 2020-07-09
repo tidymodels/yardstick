@@ -2,11 +2,11 @@ context("Precision")
 
 # ------------------------------------------------------------------------------
 
-lst <- data_powers()
-tabl_2_1 <- lst$tabl_2_1
-df_2_1 <- lst$df_2_1
-
 test_that('Two class - Powers paper', {
+  lst <- data_powers()
+  tabl_2_1 <- lst$tabl_2_1
+  df_2_1 <- lst$df_2_1
+
   expect_equal(
     precision(df_2_1, truth = "truth", estimate = "prediction")[[".estimate"]],
     30/42
@@ -18,6 +18,20 @@ test_that('Two class - Powers paper', {
   expect_equal(
     precision(df_2_1, truth = truth, estimate = pred_na)[[".estimate"]],
     26/37
+  )
+})
+
+test_that("`event_level = 'second'` works", {
+  lst <- data_altman()
+  df <- lst$pathology
+
+  df_rev <- df
+  df_rev$pathology <- relevel(df_rev$pathology, "norm")
+  df_rev$scan <- relevel(df_rev$scan, "norm")
+
+  expect_equal(
+    precision_vec(df$pathology, df$scan),
+    precision_vec(df_rev$pathology, df_rev$scan, event_level = "second")
   )
 })
 
@@ -73,10 +87,10 @@ test_that("`NA` is still returned if there are some undefined precision values b
 
 # sklearn compare --------------------------------------------------------------
 
-py_res <- read_pydata("py-precision")
-r_metric <- precision
-
 test_that('Two class - sklearn equivalent', {
+  py_res <- read_pydata("py-precision")
+  r_metric <- precision
+
   expect_equal(
     r_metric(two_class_example, truth, predicted)[[".estimate"]],
     py_res$binary
@@ -84,6 +98,9 @@ test_that('Two class - sklearn equivalent', {
 })
 
 test_that('Multi class - sklearn equivalent', {
+  py_res <- read_pydata("py-precision")
+  r_metric <- precision
+
   expect_equal(
     r_metric(hpc_cv, obs, pred)[[".estimate"]],
     py_res$macro

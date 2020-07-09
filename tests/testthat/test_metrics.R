@@ -126,6 +126,22 @@ test_that('can mix class and class prob metrics together', {
   )
 })
 
+test_that("can supply `event_level` even with metrics that don't use it", {
+  df <- two_class_example
+
+  df_rev <- df
+  df_rev$truth <- relevel(df_rev$truth, "Class2")
+  df_rev$predicted <- relevel(df_rev$predicted, "Class2")
+
+  # accuracy doesn't use it, and doesn't have it as an argument
+  set <- metric_set(accuracy, recall, roc_auc)
+
+  expect_equal(
+    as.data.frame(set(df, truth, Class1, estimate = predicted)),
+    as.data.frame(set(df_rev, truth, Class1, estimate = predicted, event_level = "second"))
+  )
+})
+
 test_that('metric set functions are classed', {
   expect_is(
     metric_set(accuracy, roc_auc),

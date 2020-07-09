@@ -15,9 +15,25 @@
 #'
 #' @author Max Kuhn
 #'
-#' @template examples-class
-#'
 #' @export
+#' @examples
+#' library(dplyr)
+#' data("two_class_example")
+#' data("hpc_cv")
+#'
+#' # Two class
+#' accuracy(two_class_example, truth, predicted)
+#'
+#' # Multiclass
+#' # accuracy() has a natural multiclass extension
+#' hpc_cv %>%
+#'   filter(Resample == "Fold01") %>%
+#'   accuracy(obs, pred)
+#'
+#' # Groups are respected
+#' hpc_cv %>%
+#'   group_by(Resample) %>%
+#'   accuracy(obs, pred)
 accuracy <- function(data, ...) {
   UseMethod("accuracy")
 }
@@ -28,9 +44,11 @@ accuracy <- new_class_metric(
 
 #' @export
 #' @rdname accuracy
-accuracy.data.frame <- function(data, truth, estimate,
-                                na_rm = TRUE, ...) {
-
+accuracy.data.frame <- function(data,
+                                truth,
+                                estimate,
+                                na_rm = TRUE,
+                                ...) {
   metric_summarizer(
     metric_nm = "accuracy",
     metric_fn = accuracy_vec,
@@ -40,13 +58,13 @@ accuracy.data.frame <- function(data, truth, estimate,
     na_rm = na_rm
     # do not pass dots through (could allow averaging to be set. unwanted!)
   )
-
 }
 
 #' @export
 accuracy.table <- function(data, ...) {
   check_table(data)
   estimator <- finalize_estimator(data, metric_class = "accuracy")
+
   metric_tibbler(
     .metric = "accuracy",
     .estimator = estimator,
@@ -63,18 +81,15 @@ accuracy.matrix <- function(data, ...) {
 #' @export
 #' @rdname accuracy
 accuracy_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
   estimator <- finalize_estimator(truth, metric_class = "accuracy")
 
   accuracy_impl <- function(truth, estimate) {
-
     xtab <- vec2table(
       truth = truth,
       estimate = estimate
     )
 
     accuracy_table_impl(xtab)
-
   }
 
   metric_vec_template(
@@ -86,7 +101,6 @@ accuracy_vec <- function(truth, estimate, na_rm = TRUE, ...) {
     cls = "factor",
     ...
   )
-
 }
 
 accuracy_table_impl <- function(data) {

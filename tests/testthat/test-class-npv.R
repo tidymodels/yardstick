@@ -2,13 +2,11 @@ context("NPV")
 
 # ------------------------------------------------------------------------------
 
-lst <- data_altman()
-pathology <- lst$pathology
-path_tbl <- lst$path_tbl
-
-pred_ch <- quote(scan)
-
 test_that('npv', {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+
   expect_equal(
     npv(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
     2/3,
@@ -31,13 +29,26 @@ test_that('npv', {
   )
 })
 
+test_that("`event_level = 'second'` works", {
+  lst <- data_altman()
+  df <- lst$pathology
+
+  df_rev <- df
+  df_rev$pathology <- relevel(df_rev$pathology, "norm")
+  df_rev$scan <- relevel(df_rev$scan, "norm")
+
+  expect_equal(
+    npv_vec(df$pathology, df$scan),
+    npv_vec(df_rev$pathology, df_rev$scan, event_level = "second")
+  )
+})
+
 # ------------------------------------------------------------------------------
 
-multi_ex <- data_three_by_three()
-micro <- data_three_by_three_micro()
-micro$prev <- (micro$tp + micro$fn) / (micro$p + micro$n)
-
 test_that('Three class', {
+  multi_ex <- data_three_by_three()
+  micro <- data_three_by_three_micro()
+  micro$prev <- (micro$tp + micro$fn) / (micro$p + micro$n)
 
   expect_equal(
     npv(multi_ex, estimator = "macro")[[".estimate"]],

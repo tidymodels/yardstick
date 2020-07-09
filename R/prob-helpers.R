@@ -89,13 +89,6 @@ dots_to_estimate <- function(data, ...) {
 # One vs all helper ------------------------------------------------------------
 
 one_vs_all_impl <- function(metric_fn, truth, estimate, ...) {
-
-  # One vs all functions should all ignore yardstick.event_first
-  # (i.e. macro averaged PR Curve / AUC always takes "one" level as relevant)
-  old_opt <- getOption("yardstick.event_first", TRUE)
-  options(yardstick.event_first = TRUE)
-  on.exit(options(yardstick.event_first = old_opt))
-
   lvls <- levels(truth)
   other <- "..other"
 
@@ -117,7 +110,14 @@ one_vs_all_impl <- function(metric_fn, truth, estimate, ...) {
 
     estimate_temp <- as.numeric(estimate[, i])
 
-    metric_lst[[i]] <- metric_fn(truth_temp, estimate_temp, ...)
+    # `one_vs_all_impl()` always ignores the event level ordering when
+    # computing each individual binary metric
+    metric_lst[[i]] <- metric_fn(
+      truth_temp,
+      estimate_temp,
+      event_level = "first",
+      ...
+    )
 
   }
 

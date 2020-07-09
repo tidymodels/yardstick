@@ -38,15 +38,6 @@ utils::globalVariables(
 ## Taken from https://github.com/tidyverse/dplyr/blob/d310ad1cef1c14d770c94e1a9a4c79c888f46af6/R/zzz.r#L2-L9
 
 .onLoad <- function(libname, pkgname) {
-
-  # yardstick event_first option
-  op <- options()
-  op.yardstick <- list(
-    yardstick.event_first = TRUE
-  )
-  toset <- !(names(op.yardstick) %in% names(op))
-  if (any(toset)) options(op.yardstick[toset])
-
   # dynamically register autoplot methods
   s3_register("ggplot2::autoplot", "gain_df")
   s3_register("ggplot2::autoplot", "lift_df")
@@ -60,11 +51,13 @@ utils::globalVariables(
 # On attach msg ----------------------------------------------------------------
 
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage(
-    "For binary classification, the first factor level is assumed to ",
-    "be the event.\nSet the global option `yardstick.event_first` ",
-    "to `FALSE` to change this.\n"
+  msg <- paste0(
+    "For binary classification, ",
+    "the first factor level is assumed to be the event.\n",
+    "Use the argument `event_level = \"second\"` to alter this as needed."
   )
+
+  packageStartupMessage(msg)
 
   invisible()
 }

@@ -2,15 +2,28 @@ context("Mean Log Loss")
 
 # ------------------------------------------------------------------------------
 
+test_that("`event_level = 'second'` works", {
+  df <- two_class_example
 
-ll_dat <- data.frame(
-  obs  = factor(c("A", "A", "A", "B", "B", "C")),
-  A = c(1, .80, .51, .1, .2, .3),
-  B = c(0, .05, .29, .8, .6, .3),
-  C = c(0, .15, .20, .1, .2, .4)
-)
+  df_rev <- df
+  df_rev$truth <- relevel(df_rev$truth, "Class2")
+
+  expect_equal(
+    mn_log_loss_vec(df$truth, df$Class1),
+    mn_log_loss_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+  )
+})
+
+# ------------------------------------------------------------------------------
 
 test_that('Three class', {
+  ll_dat <- data.frame(
+    obs  = factor(c("A", "A", "A", "B", "B", "C")),
+    A = c(1, .80, .51, .1, .2, .3),
+    B = c(0, .05, .29, .8, .6, .3),
+    C = c(0, .15, .20, .1, .2, .4)
+  )
+
   expect_equal(
     mn_log_loss(ll_dat, obs, LETTERS[1:3])[[".estimate"]],
     -(log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4))/6

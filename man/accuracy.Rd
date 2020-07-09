@@ -53,14 +53,15 @@ of this, macro and micro averaging are not implemented.
 }
 
 \examples{
-# Two class
+library(dplyr)
 data("two_class_example")
+data("hpc_cv")
+
+# Two class
 accuracy(two_class_example, truth, predicted)
 
 # Multiclass
-library(dplyr)
-data(hpc_cv)
-
+# accuracy() has a natural multiclass extension
 hpc_cv \%>\%
   filter(Resample == "Fold01") \%>\%
   accuracy(obs, pred)
@@ -69,20 +70,6 @@ hpc_cv \%>\%
 hpc_cv \%>\%
   group_by(Resample) \%>\%
   accuracy(obs, pred)
-
-# Weighted macro averaging
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
-  accuracy(obs, pred, estimator = "macro_weighted")
-
-# Vector version
-accuracy_vec(two_class_example$truth, two_class_example$predicted)
-
-# Making Class2 the "relevant" level
-options(yardstick.event_first = FALSE)
-accuracy_vec(two_class_example$truth, two_class_example$predicted)
-options(yardstick.event_first = TRUE)
-
 }
 \seealso{
 Other class metrics: 

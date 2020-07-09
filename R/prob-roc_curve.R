@@ -78,10 +78,12 @@ roc_curve <- function(data, ...)
 #' @importFrom pROC coords
 #' @importFrom rlang exec
 #' @importFrom dplyr arrange as_tibble %>%
-roc_curve.data.frame  <- function (data, truth, ...,
-                                   options = list(),
-                                   na_rm = TRUE) {
-
+roc_curve.data.frame <- function (data,
+                                  truth,
+                                  ...,
+                                  options = list(),
+                                  na_rm = TRUE,
+                                  event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
   truth <- enquo(truth)
 
@@ -98,6 +100,7 @@ roc_curve.data.frame  <- function (data, truth, ...,
       truth = rlang::eval_tidy(truth, data = .),
       estimate = rlang::eval_tidy(estimate, data = .),
       na_rm = na_rm,
+      event_level = event_level,
       !!! list(options = options)
     )
   )
@@ -112,16 +115,17 @@ roc_curve.data.frame  <- function (data, truth, ...,
   res
 }
 
-roc_curve_vec <- function(truth, estimate,
+roc_curve_vec <- function(truth,
+                          estimate,
                           options = list(),
                           na_rm = TRUE,
+                          event_level = yardstick_event_level(),
                           ...) {
-
   estimator <- finalize_estimator(truth, metric_class = "roc_curve")
 
   # estimate here is a matrix of class prob columns
   roc_curve_impl <- function(truth, estimate, options = list()) {
-    roc_curve_estimator_impl(truth, estimate, estimator, options)
+    roc_curve_estimator_impl(truth, estimate, estimator, event_level, options)
   }
 
   metric_vec_template(
@@ -136,22 +140,22 @@ roc_curve_vec <- function(truth, estimate,
   )
 }
 
-roc_curve_estimator_impl <- function(truth, estimate, estimator, options) {
-
+roc_curve_estimator_impl <- function(truth, estimate, estimator, event_level, options) {
   if (is_binary(estimator)) {
-    roc_curve_binary(truth, estimate, options)
+    roc_curve_binary(truth, estimate, event_level, options)
   }
   else {
     roc_curve_multiclass(truth, estimate, options)
   }
-
 }
 
-roc_curve_binary <- function(truth, estimate, options) {
-
+roc_curve_binary <- function(truth, estimate, event_level, options) {
   lvls <- levels(truth)
 
-  if (getOption("yardstick.event_first", default = TRUE)) {
+  # pROC will actually expect the levels in the order of control, then event
+  # and confusingly that aligns with our interpretation of event being
+  # the first level
+  if (is_event_first(event_level)) {
     lvls <- rev(lvls)
   }
 
@@ -196,7 +200,7 @@ roc_curve_binary <- function(truth, estimate, options) {
 
 # One-VS-All approach
 roc_curve_multiclass <- function(truth, estimate, options) {
-  one_vs_all_with_level(roc_curve_binary, truth, estimate, options)
+  one_vs_all_with_level(roc_curve_binary, truth, estimate, options = options)
 }
 
 

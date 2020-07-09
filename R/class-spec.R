@@ -46,9 +46,13 @@ spec <- new_class_metric(
 
 #' @export
 #' @rdname spec
-spec.data.frame <- function(data, truth, estimate,
-                            estimator = NULL, na_rm = TRUE, ...) {
-
+spec.data.frame <- function(data,
+                            truth,
+                            estimate,
+                            estimator = NULL,
+                            na_rm = TRUE,
+                            event_level = yardstick_event_level(),
+                            ...) {
   metric_summarizer(
     metric_nm = "spec",
     metric_fn = spec_vec,
@@ -57,13 +61,16 @@ spec.data.frame <- function(data, truth, estimate,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    event_level = event_level,
     ... = ...
   )
-
 }
 
 #' @export
-spec.table <- function(data, estimator = NULL, ...) {
+spec.table <- function(data,
+                       estimator = NULL,
+                       event_level = yardstick_event_level(),
+                       ...) {
 
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
@@ -71,17 +78,18 @@ spec.table <- function(data, estimator = NULL, ...) {
   metric_tibbler(
     .metric = "spec",
     .estimator = estimator,
-    .estimate = spec_table_impl(data, estimator)
+    .estimate = spec_table_impl(data, estimator, event_level)
   )
 
 }
 
 #' @export
-spec.matrix <- function(data, estimator = NULL, ...) {
-
+spec.matrix <- function(data,
+                        estimator = NULL,
+                        event_level = yardstick_event_level(),
+                        ...) {
   data <- as.table(data)
-  spec.table(data, estimator)
-
+  spec.table(data, estimator, event_level)
 }
 
 #' @rdname spec
@@ -90,19 +98,21 @@ specificity <- spec
 
 #' @export
 #' @rdname spec
-spec_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,...) {
-
+spec_vec <- function(truth,
+                     estimate,
+                     estimator = NULL,
+                     na_rm = TRUE,
+                     event_level = yardstick_event_level(),
+                     ...) {
   estimator <- finalize_estimator(truth, estimator)
 
   spec_impl <- function(truth, estimate) {
-
     xtab <- vec2table(
       truth = truth,
       estimate = estimate
     )
 
-    spec_table_impl(xtab, estimator)
-
+    spec_table_impl(xtab, estimator, event_level)
   }
 
   metric_vec_template(
@@ -114,7 +124,6 @@ spec_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,...) {
     cls = "factor",
     ...
   )
-
 }
 
 #' @rdname spec
@@ -122,22 +131,19 @@ spec_vec <- function(truth, estimate, estimator = NULL, na_rm = TRUE,...) {
 specificity_vec <- spec_vec
 
 #' @importFrom stats weighted.mean
-spec_table_impl <- function(data, estimator) {
-
+spec_table_impl <- function(data, estimator, event_level) {
   if(is_binary(estimator)) {
-    spec_binary(data)
+    spec_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
     out_vec <- spec_multiclass(data, estimator)
     # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
     weighted.mean(out_vec, w, na.rm = TRUE)
   }
-
 }
 
-spec_binary <- function(data) {
-
-  negative <- neg_val(data)
+spec_binary <- function(data, event_level) {
+  negative <- neg_val(data, event_level)
 
   numer <- sum(data[negative, negative])
   denom <- sum(data[, negative])
@@ -151,11 +157,9 @@ spec_binary <- function(data) {
   }
 
   numer / denom
-
 }
 
 spec_multiclass <- function(data, estimator) {
-
   n <- sum(data)
 
   tp   <- diag(data)

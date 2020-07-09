@@ -100,9 +100,11 @@ roc_aunp <- new_prob_metric(
 
 #' @export
 #' @rdname roc_aunp
-roc_aunp.data.frame  <- function(data, truth, ..., options = list(),
-                                 na_rm = TRUE) {
-
+roc_aunp.data.frame <- function(data,
+                                truth,
+                                ...,
+                                options = list(),
+                                na_rm = TRUE) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -113,23 +115,33 @@ roc_aunp.data.frame  <- function(data, truth, ..., options = list(),
     estimate = !!estimate,
     estimator = NULL,
     na_rm = na_rm,
+    event_level = NULL,
     ... = ...,
     metric_fn_options = list(options = options)
   )
-
 }
 
 #' @rdname roc_aunp
 #' @export
 #' @importFrom rlang call2
 #' @importFrom pROC roc auc
-roc_aunp_vec <- function(truth, estimate, options = list(),
-                         na_rm = TRUE, ...) {
-
+roc_aunp_vec <- function(truth,
+                         estimate,
+                         options = list(),
+                         na_rm = TRUE,
+                         ...) {
   estimator <- "macro_weighted"
 
+  # `event_level` doesn't really matter, but we set it anyways
   roc_aunp_impl <- function(truth, estimate) {
-    roc_auc_vec(truth, estimate, options, estimator)
+    roc_auc_vec(
+      truth = truth,
+      estimate = estimate,
+      options = options,
+      estimator = estimator,
+      na_rm = FALSE,
+      event_level = "first"
+    )
   }
 
   metric_vec_template(

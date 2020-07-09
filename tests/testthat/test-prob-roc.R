@@ -1,31 +1,26 @@
 context("ROC Curve/AUC")
 
-library(dplyr)
-
-# HPC_CV takes too long
-hpc_cv2 <- filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10"))
-
 # ------------------------------------------------------------------------------
 
-roc_curv <- pROC::roc(
-  two_class_example$truth,
-  two_class_example$Class1,
-  levels = rev(levels(two_class_example$truth)),
-  direction = "<"
-)
-
-lvls <- levels(two_class_example$truth)
-roc_val <- as.numeric(roc_curv$auc)
-
-smooth_curv <- pROC::roc(
-  two_class_example$truth,
-  two_class_example$Class1,
-  levels = rev(levels(two_class_example$truth)),
-  direction = "<",
-  smooth = TRUE
-)
-
 test_that('Two class', {
+  roc_curv <- pROC::roc(
+    two_class_example$truth,
+    two_class_example$Class1,
+    levels = rev(levels(two_class_example$truth)),
+    direction = "<"
+  )
+
+  lvls <- levels(two_class_example$truth)
+  roc_val <- as.numeric(roc_curv$auc)
+
+  smooth_curv <- pROC::roc(
+    two_class_example$truth,
+    two_class_example$Class1,
+    levels = rev(levels(two_class_example$truth)),
+    direction = "<",
+    smooth = TRUE
+  )
+
   expect_equal(
     roc_auc(two_class_example, truth, Class1)[[".estimate"]],
     roc_val
@@ -38,6 +33,18 @@ test_that('Two class', {
     roc_auc(two_class_example, truth, Class1, options = list(smooth = TRUE))[[".estimate"]],
     as.numeric(smooth_curv$auc),
     tol = 0.001
+  )
+})
+
+test_that("`event_level = 'second'` works", {
+  df <- two_class_example
+
+  df_rev <- df
+  df_rev$truth <- relevel(df_rev$truth, "Class2")
+
+  expect_equal(
+    roc_auc_vec(df$truth, df$Class1),
+    roc_auc_vec(df_rev$truth, df_rev$Class1, event_level = "second")
   )
 })
 
@@ -66,10 +73,24 @@ test_that("binary roc curve uses `direction = <`", {
 })
 
 test_that('ROC Curve', {
-  library(pROC)
-  points <- coords(roc_curv, x = unique(c(-Inf, two_class_example$Class1, Inf)), input = "threshold", transpose = FALSE)
+  roc_curv <- pROC::roc(
+    two_class_example$truth,
+    two_class_example$Class1,
+    levels = rev(levels(two_class_example$truth)),
+    direction = "<"
+  )
+
+  smooth_curv <- pROC::roc(
+    two_class_example$truth,
+    two_class_example$Class1,
+    levels = rev(levels(two_class_example$truth)),
+    direction = "<",
+    smooth = TRUE
+  )
+
+  points <- pROC::coords(roc_curv, x = unique(c(-Inf, two_class_example$Class1, Inf)), input = "threshold", transpose = FALSE)
   points <- dplyr::as_tibble(points) %>% dplyr::arrange(threshold) %>% dplyr::rename(.threshold = threshold)
-  s_points <- coords(smooth_curv, x = unique(c(0, smooth_curv$specificities, 1)), input = "specificity", transpose = FALSE)
+  s_points <- pROC::coords(smooth_curv, x = unique(c(0, smooth_curv$specificities, 1)), input = "specificity", transpose = FALSE)
   s_points <- dplyr::as_tibble(s_points) %>% dplyr::arrange(specificity)
 
   expect_equal(
@@ -83,13 +104,16 @@ test_that('ROC Curve', {
 })
 
 test_that("Multiclass ROC Curve", {
+  # HPC_CV takes too long
+  hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10"))
+
   res <- roc_curve(hpc_cv2, obs, VF:L)
 
   # structural tests
   expect_equal(colnames(res), c(".level", ".threshold", "specificity", "sensitivity"))
   expect_equal(unique(res$.level), levels(hpc_cv2$obs))
 
-  res_g <- roc_curve(group_by(hpc_cv2, Resample), obs, VF:L)
+  res_g <- roc_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
   # structural tests
   expect_equal(colnames(res_g), c("Resample", ".level", ".threshold", "specificity", "sensitivity"))
@@ -136,23 +160,19 @@ test_that("pROC::auc() arguments are passed through - corrected and focused args
     curv,
     partial.auc = c(1, .8),
     partial.auc.focus = "se",
-    partial.auc.correct = TRUE)
-  )
+    partial.auc.correct = TRUE
+  ))
 
-  ys_auc <- rlang::with_options(
-    .expr = {
-      roc_auc(
-        aSAH,
-        outcome,
-        s100b,
-        options = list(
-          partial.auc = c(1, .8),
-          partial.auc.focus = "se",
-          partial.auc.correct = TRUE
-        )
-      )
-    },
-    yardstick.event_first = FALSE
+  ys_auc <- roc_auc(
+    aSAH,
+    outcome,
+    s100b,
+    options = list(
+      partial.auc = c(1, .8),
+      partial.auc.focus = "se",
+      partial.auc.correct = TRUE
+    ),
+    event_level = "second"
   )
 
   expect_equal(
@@ -166,6 +186,9 @@ test_that("pROC::auc() arguments are passed through - corrected and focused args
 
 # HandTill2001::auc(HandTill2001::multcap(hpc_cv2$obs, as.matrix(select(hpc_cv2, VF:L))))
 test_that("Hand Till multiclass", {
+  # HPC_CV takes too long
+  hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10"))
+
   expect_equal(
     roc_auc(hpc_cv2, obs, VF:L)[[".estimate"]],
     0.827387699597311
@@ -173,21 +196,20 @@ test_that("Hand Till multiclass", {
 })
 
 test_that("can calculate Hand Till when prob matrix column names are different from level values", {
-
-  hpc_cv_renamed_cols <- hpc_cv2
+  # HPC_CV takes too long
+  hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10"))
 
   # Mimic how parsnip returns names
-  colnames(hpc_cv_renamed_cols) <- c(
+  colnames(hpc_cv2) <- c(
     "obs", "pred",
     ".pred_VF", ".pred_F", ".pred_M", ".pred_L",
     "Resample"
   )
 
   expect_equal(
-    roc_auc(hpc_cv_renamed_cols, obs, .pred_VF:.pred_L)[[".estimate"]],
+    roc_auc(hpc_cv2, obs, .pred_VF:.pred_L)[[".estimate"]],
     0.827387699597311
   )
-
 })
 
 test_that("`roc_auc()` hand-till method ignores levels with 0 observations with a warning (#123)", {
@@ -264,9 +286,9 @@ test_that("`direction = <` is forced when individual binary AUCs are computed (#
 
 # ------------------------------------------------------------------------------
 
-hpc_f1 <- data_hpc_fold1()
-
 test_that("Multiclass ROC AUC", {
+  hpc_f1 <- data_hpc_fold1()
+
   expect_equal(
     roc_auc(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
     prob_macro_metric(roc_auc_binary, options = list())
