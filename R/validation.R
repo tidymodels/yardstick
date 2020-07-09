@@ -16,7 +16,6 @@ validate_truth_estimate_types.default <- function(truth, estimate, estimator) {
 validate_truth_estimate_types.factor <- function(truth, estimate, estimator) {
   switch (estimator,
           "binary" = binary_checks(truth, estimate),
-          "binary_last" = binary_checks(truth, estimate),
           # otherwise multiclass checks
           multiclass_checks(truth, estimate)
   )
@@ -225,7 +224,7 @@ validate_not_missing <- function(x, nm) {
 #'
 #' @param estimator_override A character vector overriding the default allowed
 #' estimator list of
-#' `c("binary", "binary_last", "macro", "micro", "macro_weighted")`. Set
+#' `c("binary", "macro", "micro", "macro_weighted")`. Set
 #' this if your classification estimator does not support all of these methods.
 #' @rdname developer-helpers
 #' @export
@@ -239,7 +238,7 @@ validate_estimator <- function(estimator, estimator_override = NULL) {
     allowed <- estimator_override
   }
   else {
-    allowed <- c("binary", "binary_last", "macro", "micro", "macro_weighted")
+    allowed <- c("binary", "macro", "micro", "macro_weighted")
   }
 
   if (length(estimator) != 1) {

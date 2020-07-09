@@ -44,7 +44,7 @@ get_weights <- function(data, estimator) {
 #'
 #' `finalize_estimator_internal()` is an S3 generic that you should extend for
 #'  your metric if it does not implement _only_ the following estimator types:
-#'  `"binary"`, `"binary_last"`, `"macro"`, `"micro"`, and `"macro_weighted"`.
+#'  `"binary"`, `"macro"`, `"micro"`, and `"macro_weighted"`.
 #'  If your metric does support all of these, the default version of
 #'  `finalize_estimator_internal()` will autoselect `estimator` appropriately.
 #'  If you need to create a method, it should take the form:
@@ -137,7 +137,7 @@ finalize_estimator_internal.roc_auc <- function(metric_dispatcher, x, estimator)
 
   validate_estimator(
     estimator = estimator,
-    estimator_override = c("binary", "binary_last", "macro", "macro_weighted", "hand_till")
+    estimator_override = c("binary", "macro", "macro_weighted", "hand_till")
   )
 
   if (!is.null(estimator)) {
@@ -158,7 +158,7 @@ finalize_estimator_internal.pr_auc <- function(metric_dispatcher, x, estimator) 
 
   validate_estimator(
     estimator = estimator,
-    estimator_override = c("binary", "binary_last", "macro", "macro_weighted")
+    estimator_override = c("binary", "macro", "macro_weighted")
   )
 
   if (!is.null(estimator)) {

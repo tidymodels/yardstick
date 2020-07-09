@@ -44,7 +44,7 @@ Otherwise, there should be as many columns as factor levels of \code{truth}.}
 
 \item{estimator_override}{A character vector overriding the default allowed
 estimator list of
-\code{c("binary", "binary_last", "macro", "micro", "macro_weighted")}. Set
+\code{c("binary", "macro", "micro", "macro_weighted")}. Set
 this if your classification estimator does not support all of these methods.}
 }
 \description{
@@ -68,7 +68,7 @@ is called from the vector method of your metric.
 
 \code{finalize_estimator_internal()} is an S3 generic that you should extend for
 your metric if it does not implement \emph{only} the following estimator types:
-\code{"binary"}, \code{"binary_last"}, \code{"macro"}, \code{"micro"}, and \code{"macro_weighted"}.
+\code{"binary"}, \code{"macro"}, \code{"micro"}, and \code{"macro_weighted"}.
 If your metric does support all of these, the default version of
 \code{finalize_estimator_internal()} will autoselect \code{estimator} appropriately.
 If you need to create a method, it should take the form:
