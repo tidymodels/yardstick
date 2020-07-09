@@ -261,6 +261,7 @@ summary.conf_mat <- function(object,
                              prevalence = NULL,
                              beta = 1,
                              estimator = NULL,
+                             event_level = yardstick_event_level(),
                              ...) {
 
   xtab <- object$table
@@ -270,18 +271,18 @@ summary.conf_mat <- function(object,
     accuracy(xtab),
     # known multiclass extension
     kap(xtab),
-    sens(xtab, estimator = estimator),
-    spec(xtab, estimator = estimator),
-    ppv(xtab, prevalence = prevalence, estimator = estimator),
-    npv(xtab, prevalence = prevalence, estimator = estimator),
+    sens(xtab, estimator = estimator, event_level = event_level),
+    spec(xtab, estimator = estimator, event_level = event_level),
+    ppv(xtab, prevalence = prevalence, estimator = estimator, event_level = event_level),
+    npv(xtab, prevalence = prevalence, estimator = estimator, event_level = event_level),
     # known multiclass extension
     mcc(xtab),
-    j_index(xtab, estimator = estimator),
-    bal_accuracy(xtab, estimator = estimator),
-    detection_prevalence(xtab, estimator = estimator),
-    precision(xtab, estimator = estimator),
-    recall(xtab, estimator = estimator),
-    f_meas(xtab, beta = beta, estimator = estimator)
+    j_index(xtab, estimator = estimator, event_level = event_level),
+    bal_accuracy(xtab, estimator = estimator, event_level = event_level),
+    detection_prevalence(xtab, estimator = estimator, event_level = event_level),
+    precision(xtab, estimator = estimator, event_level = event_level),
+    recall(xtab, estimator = estimator, event_level = event_level),
+    f_meas(xtab, beta = beta, estimator = estimator, event_level = event_level)
   )
 
   stats

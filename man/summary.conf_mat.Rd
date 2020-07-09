@@ -4,7 +4,14 @@
 \alias{summary.conf_mat}
 \title{Summary Statistics for Confusion Matrices}
 \usage{
-\method{summary}{conf_mat}(object, prevalence = NULL, beta = 1, estimator = NULL, ...)
+\method{summary}{conf_mat}(
+  object,
+  prevalence = NULL,
+  beta = 1,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+)
 }
 \arguments{
 \item{object}{An object of class \code{\link[=conf_mat]{conf_mat()}}.}
@@ -21,6 +28,13 @@ or \code{"micro"} to specify the type of averaging to be done. \code{"binary"} i
 only relevant for the two class case. The other three are general methods
 for calculating multiclass metrics. The default will automatically choose
 \code{"binary"} or \code{"macro"} based on \code{estimate}.}
+
+\item{event_level}{A single string. Either \code{"first"} or \code{"second"} to specify
+which level of \code{truth} to consider as the "event". This argument is only
+applicable when \code{estimator = "binary"}. The default uses an
+internal helper that generally defaults to \code{"first"}, however, if the
+deprecated global option \code{yardstick.event_first} is set, that will be
+used instead with a warning.}
 
 \item{...}{Not currently used.}
 }
