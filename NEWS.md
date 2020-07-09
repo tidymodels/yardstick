@@ -1,5 +1,21 @@
 # yardstick (development version)
 
+* The global option, `yardstick.event_first`, has been deprecated in favor of
+  the new explicit argument, `event_level`. All metric functions that previously
+  supported changing the "event" level have gained this new argument.
+  The global option was a historical design decision that can be classified as
+  a case of a [hidden argument](https://design.tidyverse.org/args-hidden.html#args-hidden).
+  Existing code that relied on this global option will continue to work in this
+  version of yardstick, however you will now get a once-per-session warning
+  that requests that you update to instead use the explicit `event_level`
+  argument. The global option will be completely removed in a future version.
+  To update, follow the guide below (#163).
+  
+  ```
+  `options(yardstick.event_first = TRUE)`  -> `event_level = "first"` (the default)
+  `options(yardstick.event_first = FALSE)` -> `event_level = "second"`
+  ```
+
 * The `roc_auc()` Hand-Till multiclass estimator will now ignore levels in
   `truth` that occur zero times in the actual data. With other methods of
   multiclass averaging, this usually returns an `NA`, however, ignoring
@@ -10,6 +26,10 @@
   ROC curve using `pROC::roc()`. Results were being computed incorrectly with
   `direction = "auto"` when most probability values were predicting the wrong
   class (#123).
+
+* `mn_log_loss()` now respects the (deprecated) global option
+  `yardstick.event_first`. However, you should instead change the relevant
+  event level through the `event_level` argument.
 
 * `metric_set()` now strips the package name when auto-labeling functions
   (@rorynolan, #151).
