@@ -168,9 +168,26 @@ and <code><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision()
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>estimate</span>, beta = <span class='fl'>1</span>, estimator = <span class='kw'>NULL</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas</a></span>(
+  <span class='kw'>data</span>,
+  <span class='kw'>truth</span>,
+  <span class='kw'>estimate</span>,
+  beta = <span class='fl'>1</span>,
+  estimator = <span class='kw'>NULL</span>,
+  na_rm = <span class='fl'>TRUE</span>,
+  event_level = <span class='fu'>yardstick_event_level</span>(),
+  <span class='kw'>...</span>
+)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>, beta = <span class='fl'>1</span>, estimator = <span class='kw'>NULL</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas_vec</a></span>(
+  <span class='kw'>truth</span>,
+  <span class='kw'>estimate</span>,
+  beta = <span class='fl'>1</span>,
+  estimator = <span class='kw'>NULL</span>,
+  na_rm = <span class='fl'>TRUE</span>,
+  event_level = <span class='fu'>yardstick_event_level</span>(),
+  <span class='kw'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,14 +228,23 @@ recall beta times more important than precision.</p></td>
       <th>estimator</th>
       <td><p>One of: <code>"binary"</code>, <code>"macro"</code>, <code>"macro_weighted"</code>,
 or <code>"micro"</code> to specify the type of averaging to be done. <code>"binary"</code> is
-only relevant for the two class case. The other three are general methods for
-calculating multiclass metrics. The default will automatically choose <code>"binary"</code>
-or <code>"macro"</code> based on <code>estimate</code>.</p></td>
+only relevant for the two class case. The other three are general methods
+for calculating multiclass metrics. The default will automatically choose
+<code>"binary"</code> or <code>"macro"</code> based on <code>estimate</code>.</p></td>
     </tr>
     <tr>
       <th>na_rm</th>
       <td><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></td>
+    </tr>
+    <tr>
+      <th>event_level</th>
+      <td><p>A single string. Either <code>"first"</code> or <code>"second"</code> to specify
+which level of <code>truth</code> to consider as the "event". This argument is only
+applicable when <code>estimator = "binary"</code>. The default uses an
+internal helper that generally defaults to <code>"first"</code>, however, if the
+deprecated global option <code>yardstick.event_first</code> is set, that will be
+used instead with a warning.</p></td>
     </tr>
     </table>
 
@@ -238,13 +264,11 @@ the number of groups.</p>
 
 
 <p>There is no common convention on which factor level should
-automatically be considered the "event" or "positive" result.
-In <code>yardstick</code>, the default is to use the <em>first</em> level. To
-change this, a global option called <code>yardstick.event_first</code> is
-set to <code>TRUE</code> when the package is loaded. This can be changed
-to <code>FALSE</code> if the <em>last</em> level of the factor is considered the
-level of interest by running: <code><a href='https://rdrr.io/r/base/options.html'>options(yardstick.event_first = FALSE)</a></code>.
-For multiclass extensions involving one-vs-all
+automatically be considered the "event" or "positive" result
+when computing binary classification metrics. In <code>yardstick</code>, the default
+is to use the <em>first</em> level. To alter this, change the argument
+<code>event_level</code> to <code>"second"</code> to consider the <em>last</em> level of the factor the
+level of interest. For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
     <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
@@ -355,11 +379,16 @@ Technical Report SIE-07-001, Flinders University</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   f_meas  macro_weighted     0.652
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   f_meas  macro_weighted     0.680</div><div class='input'>
 <span class='co'># Vector version</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas_vec</a></span>(<span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>, <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8485981</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas_vec</a></span>(
+  <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>,
+  <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>
+)</div><div class='output co'>#&gt; [1] 0.8485981</div><div class='input'>
 <span class='co'># Making Class2 the "relevant" level</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(yardstick.event_first = <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas_vec</a></span>(<span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>, <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.8258065</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(yardstick.event_first = <span class='fl'>TRUE</span>)
-</div></span></pre>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas_vec</a></span>(
+  <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>,
+  <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>,
+  event_level = <span class='st'>"second"</span>
+)</div><div class='output co'>#&gt; [1] 0.8258065</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

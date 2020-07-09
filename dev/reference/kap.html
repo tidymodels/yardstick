@@ -243,16 +243,17 @@ scales". <em>Educational and Psychological Measurement</em>. 20 (1): 37-46.</p>
     <p>Max Kuhn</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Two class</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"hpc_cv"</span>)
+
+<span class='co'># Two class</span>
 <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> kap     binary         0.675</div><div class='input'>
 <span class='co'># Multiclass</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hpc_cv</span>)
-
+<span class='co'># kap() has a natural multiclass extension</span>
 <span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
@@ -274,29 +275,7 @@ scales". <em>Educational and Psychological Measurement</em>. 20 (1): 37-46.</p>
 #&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   kap     multiclass     0.454
 #&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   kap     multiclass     0.531
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   kap     multiclass     0.454
-#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   kap     multiclass     0.492</div><div class='input'>
-<span class='co'># Weighted macro averaging</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>, estimator = <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
-#&gt;    Resample .metric .estimator .estimate
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   kap     multiclass     0.533
-#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   kap     multiclass     0.512
-#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   kap     multiclass     0.594
-#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   kap     multiclass     0.511
-#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   kap     multiclass     0.514
-#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   kap     multiclass     0.486
-#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   kap     multiclass     0.454
-#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   kap     multiclass     0.531
-#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   kap     multiclass     0.454
-#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   kap     multiclass     0.492</div><div class='input'>
-<span class='co'># Vector version</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap_vec</a></span>(<span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>, <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6748764</div><div class='input'>
-<span class='co'># Making Class2 the "relevant" level</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(yardstick.event_first = <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap_vec</a></span>(<span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>, <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>)</div><div class='output co'>#&gt; [1] 0.6748764</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(yardstick.event_first = <span class='fl'>TRUE</span>)
-</div></span></pre>
+#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   kap     multiclass     0.492</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -177,6 +177,7 @@ See <code><a href='https://cran.rstudio.com/web/packages/yardstick/vignettes/cus
   <span class='kw'>estimate</span>,
   estimator = <span class='kw'>NULL</span>,
   na_rm = <span class='fl'>TRUE</span>,
+  event_level = <span class='kw'>NULL</span>,
   <span class='kw'>...</span>,
   metric_fn_options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre>
@@ -214,7 +215,7 @@ like class probability metrics, this is a result of <code><a href='https://rdrr.
     </tr>
     <tr>
       <th>estimator</th>
-      <td><p>For numeric metrics, this is left as <code>NA</code> so averaging
+      <td><p>For numeric metrics, this is left as <code>NULL</code> so averaging
 is not passed on to the metric function implementation. For classification
 metrics, this can either be <code>NULL</code> for the default auto-selection of
 averaging (<code>"binary"</code> or <code>"macro"</code>), or a single character to pass along
@@ -225,6 +226,15 @@ to the metric implementation describing the kind of averaging to use.</p></td>
       <td><p>A <code>logical</code> value indicating whether <code>NA</code> values should be
 stripped before the computation proceeds. The removal is executed in
 <code><a href='https://rdrr.io/pkg/yardstick/man/metric_vec_template.html'>metric_vec_template()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>event_level</th>
+      <td><p>For numeric metrics, this is left as <code>NULL</code> to prevent
+it from being passed on to the metric function implementation. For
+classification metrics, this can either be <code>NULL</code> to use the default
+<code>event_level</code> value of the <code>metric_fn</code> or a single string of either
+<code>"first"</code> or <code>"second"</code> to pass along describing which level should be
+considered the "event".</p></td>
     </tr>
     <tr>
       <th>...</th>

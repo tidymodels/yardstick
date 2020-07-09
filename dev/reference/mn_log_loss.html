@@ -162,9 +162,23 @@
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>...</span>, na_rm = <span class='fl'>TRUE</span>, sum = <span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss</a></span>(
+  <span class='kw'>data</span>,
+  <span class='kw'>truth</span>,
+  <span class='kw'>...</span>,
+  na_rm = <span class='fl'>TRUE</span>,
+  sum = <span class='fl'>FALSE</span>,
+  event_level = <span class='fu'>yardstick_event_level</span>()
+)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>, na_rm = <span class='fl'>TRUE</span>, sum = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss_vec</a></span>(
+  <span class='kw'>truth</span>,
+  <span class='kw'>estimate</span>,
+  na_rm = <span class='fl'>TRUE</span>,
+  sum = <span class='fl'>FALSE</span>,
+  event_level = <span class='fu'>yardstick_event_level</span>(),
+  <span class='kw'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,6 +212,15 @@ values should be stripped before the computation proceeds.</p></td>
       <th>sum</th>
       <td><p>A <code>logical</code>. Should the sum of the likelihood contributions be
 returned (instead of the mean value)?</p></td>
+    </tr>
+    <tr>
+      <th>event_level</th>
+      <td><p>A single string. Either <code>"first"</code> or <code>"second"</code> to specify
+which level of <code>truth</code> to consider as the "event". This argument is only
+applicable when <code>estimator = "binary"</code>. The default uses an
+internal helper that generally defaults to <code>"first"</code>, however, if the
+deprecated global option <code>yardstick.event_first</code> is set, that will be
+used instead with a warning.</p></td>
     </tr>
     <tr>
       <th>estimate</th>

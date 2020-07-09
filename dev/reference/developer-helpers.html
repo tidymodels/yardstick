@@ -212,8 +212,9 @@ Otherwise, there should be as many columns as factor levels of <code>truth</code
     <tr>
       <th>estimator_override</th>
       <td><p>A character vector overriding the default allowed
-estimator list of <code><a href='https://rdrr.io/r/base/c.html'>c("binary", "macro", "micro", "macro_weighted")</a></code>. Set
-this is your classification estimator does not support all of these methods.</p></td>
+estimator list of
+<code><a href='https://rdrr.io/r/base/c.html'>c("binary", "macro", "micro", "macro_weighted")</a></code>. Set
+this if your classification estimator does not support all of these methods.</p></td>
     </tr>
     </table>
 
@@ -234,8 +235,8 @@ on the type of <code>x</code>. Generally <code>x</code> is the <code>truth</code
 is called from the vector method of your metric.</p>
 <p><code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator_internal()</a></code> is an S3 generic that you should extend for
 your metric if it does not implement <em>only</em> the following estimator types:
-<code>"binary"</code>, <code>"macro"</code>, <code>"micro"</code>, and <code>"macro_weighted"</code>. If your metric
-does support all of these, the default version of
+<code>"binary"</code>, <code>"macro"</code>, <code>"micro"</code>, and <code>"macro_weighted"</code>.
+If your metric does support all of these, the default version of
 <code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator_internal()</a></code> will autoselect <code>estimator</code> appropriately.
 If you need to create a method, it should take the form:
 <code>finalize_estimator_internal.metric_name</code>. Your method for

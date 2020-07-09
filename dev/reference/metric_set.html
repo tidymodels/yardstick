@@ -184,14 +184,30 @@ are numeric metrics, but not with <code><a href='https://rdrr.io/pkg/yardstick/m
 metric. But <code><a href='https://rdrr.io/pkg/yardstick/man/accuracy.html'>accuracy()</a></code> can be used with <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code>.</p>
 <p>The returned metric function will have a different argument list
 depending on whether numeric metrics or a mix of class/prob metrics were
-passed in.</p>
-<p>Numeric metrics will have a signature like:
-<code>fn(data, truth, estimate, na_rm = TRUE, ...)</code>.</p>
-<p>Class/prob metrics have a signature of
-<code>fn(data, truth, ..., estimate, na_rm = TRUE)</code>. When mixing class and
-class prob metrics, pass in the hard predictions (the factor column) as
-the named argument <code>estimate</code>, and the soft predictions (the class
-probability columns) as bare column names or <code>tidyselect</code> selectors to <code>...</code>.</p>
+passed in.</p><pre><span class='co'># Numeric metric set signature:</span>
+<span class='fu'>fn</span>(
+  <span class='kw'>data</span>,
+  <span class='kw'>truth</span>,
+  <span class='kw'>estimate</span>,
+  na_rm = <span class='fl'>TRUE</span>,
+  <span class='kw'>...</span>
+)
+
+<span class='co'># Class / prob metric set signature:</span>
+<span class='fu'>fn</span>(
+  <span class='kw'>data</span>,
+  <span class='kw'>truth</span>,
+  <span class='kw'>...</span>,
+  <span class='kw'>estimate</span>,
+  estimator =  <span class='kw'>NULL</span>,
+  na_rm = <span class='fl'>TRUE</span>,
+  event_level = <span class='fu'>yardstick_event_level</span>()
+)</pre>
+
+<p>When mixing class and class prob metrics, pass in the hard predictions
+(the factor column) as the named argument <code>estimate</code>, and the soft
+predictions (the class probability columns) as bare column names or
+<code>tidyselect</code> selectors to <code>...</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/yardstick/man/metrics.html'>metrics()</a></code></p></div>
