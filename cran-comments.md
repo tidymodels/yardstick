@@ -1,7 +1,8 @@
 ## Comments
 
-This release includes a fix to prepare for `stringsAsFactors = TRUE`, along
-with two new metrics and a few small bug fixes.
+This release contains a number of small bug fixes, along with a new argument
+for class and class probability metrics, `event_level`, that replaces the
+now soft deprecated global option, `yardstick.event_first`.
 
 ## Test environments
 * local OS X install, R 3.6.0
