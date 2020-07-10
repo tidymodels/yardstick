@@ -314,7 +314,13 @@ Deutsche Bundesbank.</p>
 <span class='co'># and a single class probability column containing the probabilities of</span>
 <span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
 <span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_curve.html'>gain_curve</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>Class1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 501 x 4</span><span>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/gain_curve.html'>gain_curve</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>Class1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>We detected these problematic arguments:</span>
+#&gt; <span class='warning'>* `needs_dots`</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
+#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 501 x 4</span><span>
 #&gt;       .n .n_events .percent_tested .percent_found
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>     0         0             0            0    

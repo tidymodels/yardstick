@@ -109,7 +109,7 @@
       <h1 data-toc-skip>Metric types</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2020-07-09</h4>
+            <h4 class="date">2020-07-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/metric-types.Rmd"><code>vignettes/metric-types.Rmd</code></a></small>
       <div class="hidden name"><code>metric-types.Rmd</code></div>
@@ -179,6 +179,13 @@
 <span class="kw">hpc_cv</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw">Resample</span> <span class="op">==</span> <span class="st">"Fold01"</span>) <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span>(<span class="kw">obs</span>, <span class="kw">pred</span>)
+<span class="co">#&gt; Warning: `...` is not empty.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; We detected these problematic arguments:</span>
+<span class="co">#&gt; * `needs_dots`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; These dots only exist to allow future extensions and should be empty.</span>
+<span class="co">#&gt; Did you misspecify an argument?</span>
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   .metric  .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
@@ -189,6 +196,13 @@
 <span class="kw">hpc_cv</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">Resample</span>) <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span>(<span class="kw">obs</span>, <span class="kw">pred</span>)
+<span class="co">#&gt; Warning: `...` is not empty.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; We detected these problematic arguments:</span>
+<span class="co">#&gt; * `needs_dots`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; These dots only exist to allow future extensions and should be empty.</span>
+<span class="co">#&gt; Did you misspecify an argument?</span>
 <span class="co">#&gt; # A tibble: 10 x 4</span>
 <span class="co">#&gt;    Resample .metric  .estimator .estimate</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
@@ -210,6 +224,13 @@
 <span class="kw">hpc_cv</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">Resample</span>) <span class="op">%&gt;%</span>
   <span class="fu">class_metrics</span>(<span class="kw">obs</span>, estimate = <span class="kw">pred</span>)
+<span class="co">#&gt; Warning: `...` is not empty.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; We detected these problematic arguments:</span>
+<span class="co">#&gt; * `needs_dots`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; These dots only exist to allow future extensions and should be empty.</span>
+<span class="co">#&gt; Did you misspecify an argument?</span>
 <span class="co">#&gt; # A tibble: 20 x 4</span>
 <span class="co">#&gt;    Resample .metric  .estimator .estimate</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>

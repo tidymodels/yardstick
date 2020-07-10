@@ -252,7 +252,13 @@ the number of groups.</p>
 <span class='kw'>solubility_test</span>[<span class='kw'>solubility_test</span><span class='op'>$</span><span class='kw'>solubility</span> <span class='op'>==</span> <span class='fl'>0</span>,]</div><div class='output co'>#&gt;     solubility prediction
 #&gt; 17           0 -0.1532030
 #&gt; 220          0 -0.3876578</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>We detected these problematic arguments:</span>
+#&gt; <span class='warning'>* `needs_dots`</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
+#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> mpe     standard         </span><span style='color: #BB0000;'>Inf</span><span></div><div class='input'>
@@ -260,7 +266,13 @@ the number of groups.</p>
 <span class='kw'>solubility_test</span> <span class='op'>&lt;-</span> <span class='kw'>solubility_test</span>[<span class='kw'>solubility_test</span><span class='op'>$</span><span class='kw'>solubility</span> != <span class='fl'>0</span>,]
 
 <span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>We detected these problematic arguments:</span>
+#&gt; <span class='warning'>* `needs_dots`</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
+#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> mpe     standard        16.1</div><div class='input'>
@@ -285,7 +297,13 @@ the number of groups.</p>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>resample</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a></span>(<span class='kw'>solubility</span>, <span class='kw'>prediction</span>)
 
-<span class='kw'>metric_results</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='kw'>metric_results</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>We detected these problematic arguments:</span>
+#&gt; <span class='warning'>* `needs_dots`</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
+#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    resample .metric .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> 1        mpe     standard     -</span><span style='color: #BB0000;'>56.2</span><span>  
@@ -300,7 +318,13 @@ the number of groups.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span> 9        mpe     standard      14.7  </div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
 <span class='kw'>metric_results</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(avg_estimate = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>.estimate</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(avg_estimate = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>.estimate</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>We detected these problematic arguments:</span>
+#&gt; <span class='warning'>* `needs_dots`</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
+#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;   avg_estimate
 #&gt;          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>        -</span><span style='color: #BB0000;'>7.38</span><span></div></span></pre>
