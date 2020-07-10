@@ -1,4 +1,4 @@
-# yardstick (development version)
+# yardstick 0.0.7
 
 * The global option, `yardstick.event_first`, has been deprecated in favor of
   the new explicit argument, `event_level`. All metric functions that previously
