@@ -126,7 +126,7 @@ hpc_cv %>%
 #> # A tibble: 10 x 4
 #>    Resample .metric .estimator .estimate
 #>    <chr>    <chr>   <chr>          <dbl>
-#>  1 Fold01   roc_auc hand_till      0.831
+#>  1 Fold01   roc_auc hand_till      0.813
 #>  2 Fold02   roc_auc hand_till      0.817
 #>  3 Fold03   roc_auc hand_till      0.869
 #>  4 Fold04   roc_auc hand_till      0.849
@@ -134,8 +134,8 @@ hpc_cv %>%
 #>  6 Fold06   roc_auc hand_till      0.836
 #>  7 Fold07   roc_auc hand_till      0.825
 #>  8 Fold08   roc_auc hand_till      0.846
-#>  9 Fold09   roc_auc hand_till      0.836
-#> 10 Fold10   roc_auc hand_till      0.820
+#>  9 Fold09   roc_auc hand_till      0.828
+#> 10 Fold10   roc_auc hand_till      0.812
 ```
 
 ## Autoplot methods for easy visualization
