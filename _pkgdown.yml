@@ -45,6 +45,7 @@ reference:
     - rsq
     - rsq_trad
     - mae
+    - mpe
     - mape
     - smape
     - mase
