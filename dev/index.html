@@ -53,7 +53,7 @@
         <a class="navbar-brand" href="index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -120,33 +120,28 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install the package:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"yardstick"</span>)
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"yardstick"</span>)
 
 <span class="co"># Development version:</span>
-<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"tidymodels/yardstick"</span>)
-</pre></div>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"tidymodels/yardstick"</span>)</pre></div>
 </div>
 <div id="two-class-metric" class="section level2">
 <h2 class="hasAnchor">
 <a href="#two-class-metric" class="anchor"></a>Two class metric</h2>
 <p>For example, suppose you create a classification model and predict on a new data set. You might have data that looks like this:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/tidymodels/yardstick">yardstick</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">yardstick</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">two_class_example</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">two_class_example</span>)
 <span class="co">#&gt;    truth  Class1   Class2 predicted</span>
 <span class="co">#&gt; 1 Class2 0.00359 0.996411    Class2</span>
 <span class="co">#&gt; 2 Class1 0.67862 0.321379    Class1</span>
 <span class="co">#&gt; 3 Class2 0.11089 0.889106    Class2</span>
 <span class="co">#&gt; 4 Class1 0.73516 0.264838    Class1</span>
 <span class="co">#&gt; 5 Class2 0.01624 0.983760    Class2</span>
-<span class="co">#&gt; 6 Class1 0.99928 0.000725    Class1</span>
-</pre></div>
+<span class="co">#&gt; 6 Class1 0.99928 0.000725    Class1</span></pre></div>
 <p>You can use a <code>dplyr</code>-like syntax to compute common performance characteristics of the model and get them back in a data frame:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="reference/metrics.html">metrics</a></span>(<span class="kw">two_class_example</span>, <span class="kw">truth</span>, <span class="kw">predicted</span>)
+<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="reference/metrics.html">metrics</a></span>(<span class="no">two_class_example</span>, <span class="no">truth</span>, <span class="no">predicted</span>)
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;   .metric  .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
@@ -155,22 +150,20 @@
 
 <span class="co"># or </span>
 
-<span class="kw">two_class_example</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/roc_auc.html">roc_auc</a></span>(<span class="kw">truth</span>, <span class="kw">Class1</span>)
+<span class="no">two_class_example</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/roc_auc.html">roc_auc</a></span>(<span class="no">truth</span>, <span class="no">Class1</span>)
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   .metric .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 roc_auc binary         0.939</span>
-</pre></div>
+<span class="co">#&gt; 1 roc_auc binary         0.939</span></pre></div>
 </div>
 <div id="multiclass-metrics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#multiclass-metrics" class="anchor"></a>Multiclass metrics</h2>
 <p>All classification metrics have at least one multiclass extension, with many of them having multiple ways to calculate multiclass metrics.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"hpc_cv"</span>)
-<span class="kw">hpc_cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>(<span class="kw">hpc_cv</span>)
-<span class="kw">hpc_cv</span>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"hpc_cv"</span>)
+<span class="no">hpc_cv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">as_tibble</a></span>(<span class="no">hpc_cv</span>)
+<span class="no">hpc_cv</span>
 <span class="co">#&gt; # A tibble: 3,467 x 7</span>
 <span class="co">#&gt;    obs   pred     VF      F       M          L Resample</span>
 <span class="co">#&gt;    &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   </span>
@@ -184,33 +177,29 @@
 <span class="co">#&gt;  8 VF    VF    0.918 0.0744 0.00726 0.0000157  Fold01  </span>
 <span class="co">#&gt;  9 VF    VF    0.843 0.128  0.0296  0.000192   Fold01  </span>
 <span class="co">#&gt; 10 VF    VF    0.920 0.0728 0.00703 0.0000147  Fold01  </span>
-<span class="co">#&gt; # … with 3,457 more rows</span>
-</pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="co"># Macro averaged multiclass precision</span>
-<span class="fu"><a href="reference/precision.html">precision</a></span>(<span class="kw">hpc_cv</span>, <span class="kw">obs</span>, <span class="kw">pred</span>)
+<span class="co">#&gt; # … with 3,457 more rows</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="co"># Macro averaged multiclass precision</span>
+<span class="fu"><a href="reference/precision.html">precision</a></span>(<span class="no">hpc_cv</span>, <span class="no">obs</span>, <span class="no">pred</span>)
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   .metric   .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 precision macro          0.631</span>
 
 <span class="co"># Micro averaged multiclass precision</span>
-<span class="fu"><a href="reference/precision.html">precision</a></span>(<span class="kw">hpc_cv</span>, <span class="kw">obs</span>, <span class="kw">pred</span>, estimator = <span class="st">"micro"</span>)
+<span class="fu"><a href="reference/precision.html">precision</a></span>(<span class="no">hpc_cv</span>, <span class="no">obs</span>, <span class="no">pred</span>, <span class="kw">estimator</span> <span class="kw">=</span> <span class="st">"micro"</span>)
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   .metric   .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 precision micro          0.709</span>
-</pre></div>
+<span class="co">#&gt; 1 precision micro          0.709</span></pre></div>
 </div>
 <div id="calculating-metrics-on-resamples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#calculating-metrics-on-resamples" class="anchor"></a>Calculating metrics on resamples</h2>
 <p>If you have multiple resamples of a model, you can use a metric on a grouped data frame to calculate the metric across all resamples at once.</p>
 <p>This calculates multiclass ROC AUC using the method described in Hand, Till (2001), and does it across all 10 resamples at once.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">hpc_cv</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">Resample</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/roc_auc.html">roc_auc</a></span>(<span class="kw">obs</span>, <span class="kw">VF</span><span class="op">:</span><span class="kw">L</span>)
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">Resample</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/roc_auc.html">roc_auc</a></span>(<span class="no">obs</span>, <span class="no">VF</span>:<span class="no">L</span>)
 <span class="co">#&gt; # A tibble: 10 x 4</span>
 <span class="co">#&gt;    Resample .metric .estimator .estimate</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span>
@@ -223,38 +212,33 @@
 <span class="co">#&gt;  7 Fold07   roc_auc hand_till      0.825</span>
 <span class="co">#&gt;  8 Fold08   roc_auc hand_till      0.846</span>
 <span class="co">#&gt;  9 Fold09   roc_auc hand_till      0.828</span>
-<span class="co">#&gt; 10 Fold10   roc_auc hand_till      0.812</span>
-</pre></div>
+<span class="co">#&gt; 10 Fold10   roc_auc hand_till      0.812</span></pre></div>
 </div>
 <div id="autoplot-methods-for-easy-visualization" class="section level2">
 <h2 class="hasAnchor">
 <a href="#autoplot-methods-for-easy-visualization" class="anchor"></a>Autoplot methods for easy visualization</h2>
 <p>Curve based methods such as <code><a href="reference/roc_curve.html">roc_curve()</a></code>, <code><a href="reference/pr_curve.html">pr_curve()</a></code> and <code><a href="reference/gain_curve.html">gain_curve()</a></code> all have <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods that allow for powerful and easy visualization.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
+<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 
-<span class="kw">hpc_cv</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">Resample</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/roc_curve.html">roc_curve</a></span>(<span class="kw">obs</span>, <span class="kw">VF</span><span class="op">:</span><span class="kw">L</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>()
-</pre></div>
+<span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">Resample</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/roc_curve.html">roc_curve</a></span>(<span class="no">obs</span>, <span class="no">VF</span>:<span class="no">L</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>()</pre></div>
 <p><img src="reference/figures/README-roc-curves-1.png"><!-- --></p>
 </div>
 <div id="quasiquotation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quasiquotation" class="anchor"></a>Quasiquotation</h2>
 <p><a href="https://rlang.r-lib.org/reference/quasiquotation.html">Quasiquotation</a> can also be used to supply inputs.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="co"># probability columns:</span>
-<span class="kw">lvl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="kw">two_class_example</span><span class="op">$</span><span class="kw">truth</span>)
+<div class="sourceCode" id="cb8"><pre class="r"><span class="co"># probability columns:</span>
+<span class="no">lvl</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">two_class_example</span>$<span class="no">truth</span>)
 
-<span class="kw">two_class_example</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/mn_log_loss.html">mn_log_loss</a></span>(<span class="kw">truth</span>, <span class="op">!</span><span class="op">!</span> <span class="kw">lvl</span>[<span class="fl">1</span>])
+<span class="no">two_class_example</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/mn_log_loss.html">mn_log_loss</a></span>(<span class="no">truth</span>, !! <span class="no">lvl</span>[<span class="fl">1</span>])
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   .metric     .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 mn_log_loss binary         0.328</span>
-</pre></div>
+<span class="co">#&gt; 1 mn_log_loss binary         0.328</span></pre></div>
 </div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">

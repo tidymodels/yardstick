@@ -94,7 +94,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -157,17 +157,22 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#yardstick-development-version" class="anchor"></a>yardstick (development version)<small> Unreleased </small>
 </h1>
+</div>
+    <div id="yardstick-007" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.7">
+<a href="#yardstick-007" class="anchor"></a>yardstick 0.0.7<small> 2020-07-13 </small>
+</h1>
 <ul>
 <li>
 <p>The global option, <code>yardstick.event_first</code>, has been deprecated in favor of the new explicit argument, <code>event_level</code>. All metric functions that previously supported changing the “event” level have gained this new argument. The global option was a historical design decision that can be classified as a case of a <a href="https://design.tidyverse.org/args-hidden.html#args-hidden">hidden argument</a>. Existing code that relied on this global option will continue to work in this version of yardstick, however you will now get a once-per-session warning that requests that you update to instead use the explicit <code>event_level</code> argument. The global option will be completely removed in a future version. To update, follow the guide below (<a href='https://github.com/tidymodels/yardstick/issues/163'>#163</a>).</p>
 <pre><code>`options(yardstick.event_first = TRUE)`  -&gt; `event_level = "first"` (the default)
 `options(yardstick.event_first = FALSE)` -&gt; `event_level = "second"`</code></pre>
 </li>
-<li><p>The <code><a href="https://rdrr.io/pkg/yardstick/man/roc_auc.html">roc_auc()</a></code> Hand-Till multiclass estimator will now ignore levels in <code>truth</code> that occur zero times in the actual data. With other methods of multiclass averaging, this usually returns an <code>NA</code>, however, ignoring levels in this manner is more consistent with implementations in the HandTill2001 and pROC packages (<a href='https://github.com/tidymodels/yardstick/issues/123'>#123</a>).</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/roc_auc.html">roc_auc()</a></code> and <code><a href="https://rdrr.io/pkg/yardstick/man/roc_curve.html">roc_curve()</a></code> now set <code>direction = "&lt;"</code> when computing the ROC curve using <code><a href="https://rdrr.io/pkg/pROC/man/roc.html">pROC::roc()</a></code>. Results were being computed incorrectly with <code>direction = "auto"</code> when most probability values were predicting the wrong class (<a href='https://github.com/tidymodels/yardstick/issues/123'>#123</a>).</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/mn_log_loss.html">mn_log_loss()</a></code> now respects the (deprecated) global option <code>yardstick.event_first</code>. However, you should instead change the relevant event level through the <code>event_level</code> argument.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/metric_set.html">metric_set()</a></code> now strips the package name when auto-labeling functions (<a href='https://github.com/rorynolan'>@rorynolan</a>, <a href='https://github.com/tidymodels/yardstick/issues/151'>#151</a>).</p></li>
-<li><p>There are three new helper functions for more easily creating custom metric functions: <code><a href="https://rdrr.io/pkg/yardstick/man/new-metric.html">new_class_metric()</a></code>, <code><a href="https://rdrr.io/pkg/yardstick/man/new-metric.html">new_prob_metric()</a></code>, and <code><a href="https://rdrr.io/pkg/yardstick/man/new-metric.html">new_numeric_metric()</a></code>.</p></li>
+<li><p>The <code><a href="../reference/roc_auc.html">roc_auc()</a></code> Hand-Till multiclass estimator will now ignore levels in <code>truth</code> that occur zero times in the actual data. With other methods of multiclass averaging, this usually returns an <code>NA</code>, however, ignoring levels in this manner is more consistent with implementations in the HandTill2001 and pROC packages (<a href='https://github.com/tidymodels/yardstick/issues/123'>#123</a>).</p></li>
+<li><p><code><a href="../reference/roc_auc.html">roc_auc()</a></code> and <code><a href="../reference/roc_curve.html">roc_curve()</a></code> now set <code>direction = "&lt;"</code> when computing the ROC curve using <code><a href="https://rdrr.io/pkg/pROC/man/roc.html">pROC::roc()</a></code>. Results were being computed incorrectly with <code>direction = "auto"</code> when most probability values were predicting the wrong class (<a href='https://github.com/tidymodels/yardstick/issues/123'>#123</a>).</p></li>
+<li><p><code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code> now respects the (deprecated) global option <code>yardstick.event_first</code>. However, you should instead change the relevant event level through the <code>event_level</code> argument.</p></li>
+<li><p><code><a href="../reference/metric_set.html">metric_set()</a></code> now strips the package name when auto-labeling functions (<a href='https://github.com/rorynolan'>@rorynolan</a>, <a href='https://github.com/tidymodels/yardstick/issues/151'>#151</a>).</p></li>
+<li><p>There are three new helper functions for more easily creating custom metric functions: <code><a href="../reference/new-metric.html">new_class_metric()</a></code>, <code><a href="../reference/new-metric.html">new_prob_metric()</a></code>, and <code><a href="../reference/new-metric.html">new_numeric_metric()</a></code>.</p></li>
 <li><p>Rcpp has been removed as a direct dependency.</p></li>
 </ul>
 </div>
@@ -176,9 +181,9 @@
 <a href="#yardstick-006" class="anchor"></a>yardstick 0.0.6<small> 2020-03-17 </small>
 </h1>
 <ul>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/roc_auc.html">roc_auc()</a></code> now warns when there are no events or controls in the provided <code>truth</code> column, and returns <code>NA</code> (<a href='https://github.com/dpastling'>@dpastling</a>, <a href='https://github.com/tidymodels/yardstick/issues/132'>#132</a>).</p></li>
-<li><p>Adds <code><a href="https://rdrr.io/pkg/yardstick/man/sens.html">sensitivity()</a></code> and <code><a href="https://rdrr.io/pkg/yardstick/man/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="https://rdrr.io/pkg/yardstick/man/sens.html">sens()</a></code> and <code><a href="https://rdrr.io/pkg/yardstick/man/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g. <code><a href="https://readr.tidyverse.org/reference/spec.html">readr::spec()</a></code>.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/roc_aunu.html">roc_aunu()</a></code> and <code><a href="https://rdrr.io/pkg/yardstick/man/roc_aunp.html">roc_aunp()</a></code> are two new ROC AUC metrics for multiclass classifiers. These measure the AUC of each class against the rest, <code><a href="https://rdrr.io/pkg/yardstick/man/roc_aunu.html">roc_aunu()</a></code> using the uniform class distribution (<a href='https://github.com/tidymodels/yardstick/issues/69'>#69</a>) and <code><a href="https://rdrr.io/pkg/yardstick/man/roc_aunp.html">roc_aunp()</a></code> using the a priori class distribution (<a href='https://github.com/tidymodels/yardstick/issues/70'>#70</a>).</p></li>
+<li><p><code><a href="../reference/roc_auc.html">roc_auc()</a></code> now warns when there are no events or controls in the provided <code>truth</code> column, and returns <code>NA</code> (<a href='https://github.com/dpastling'>@dpastling</a>, <a href='https://github.com/tidymodels/yardstick/issues/132'>#132</a>).</p></li>
+<li><p>Adds <code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="../reference/sens.html">sens()</a></code> and <code><a href="../reference/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g. <code><a href="https://readr.tidyverse.org/reference/spec.html">readr::spec()</a></code>.</p></li>
+<li><p><code><a href="../reference/roc_aunu.html">roc_aunu()</a></code> and <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code> are two new ROC AUC metrics for multiclass classifiers. These measure the AUC of each class against the rest, <code><a href="../reference/roc_aunu.html">roc_aunu()</a></code> using the uniform class distribution (<a href='https://github.com/tidymodels/yardstick/issues/69'>#69</a>) and <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code> using the a priori class distribution (<a href='https://github.com/tidymodels/yardstick/issues/70'>#70</a>).</p></li>
 </ul>
 </div>
     <div id="yardstick-005" class="section level1">
@@ -189,8 +194,8 @@
 <h2 class="hasAnchor">
 <a href="#other-improvements" class="anchor"></a>Other improvements</h2>
 <ul>
-<li><p>The <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> heat map for confusion matrices now places the predicted values on the <code>x</code> axis and the truth values on the <code>y</code> axis to be more consistent with the confusion matrix <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method.</p></li>
-<li><p>The <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> mosaic plot for confusion matrices had the <code>x</code> and <code>y</code> axis labels backwards. This has been corrected.</p></li>
+<li><p>The <code>autoplot()</code> heat map for confusion matrices now places the predicted values on the <code>x</code> axis and the truth values on the <code>y</code> axis to be more consistent with the confusion matrix <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method.</p></li>
+<li><p>The <code>autoplot()</code> mosaic plot for confusion matrices had the <code>x</code> and <code>y</code> axis labels backwards. This has been corrected.</p></li>
 </ul>
 </div>
 </div>
@@ -202,18 +207,18 @@
 <h2 class="hasAnchor">
 <a href="#new-metrics-and-functionality" class="anchor"></a>New metrics and functionality</h2>
 <ul>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/iic.html">iic()</a></code> is a new numeric metric for computing the index of ideality of correlation. It can be seen as a potential alternative to the traditional correlation coefficient, and has been used in QSAR models (<a href='https://github.com/jyuu'>@jyuu</a>, <a href='https://github.com/tidymodels/yardstick/issues/115'>#115</a>).</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/average_precision.html">average_precision()</a></code> is a new probability metric that can be used as an alternative to <code><a href="https://rdrr.io/pkg/yardstick/man/pr_auc.html">pr_auc()</a></code>. It has the benefit of avoiding any issues of ambiguity in the case where <code>recall == 0</code> and the current number of false positives is <code>0</code>.</p></li>
+<li><p><code><a href="../reference/iic.html">iic()</a></code> is a new numeric metric for computing the index of ideality of correlation. It can be seen as a potential alternative to the traditional correlation coefficient, and has been used in QSAR models (<a href='https://github.com/jyuu'>@jyuu</a>, <a href='https://github.com/tidymodels/yardstick/issues/115'>#115</a>).</p></li>
+<li><p><code><a href="../reference/average_precision.html">average_precision()</a></code> is a new probability metric that can be used as an alternative to <code><a href="../reference/pr_auc.html">pr_auc()</a></code>. It has the benefit of avoiding any issues of ambiguity in the case where <code>recall == 0</code> and the current number of false positives is <code>0</code>.</p></li>
 </ul>
 </div>
 <div id="other-improvements-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-improvements-1" class="anchor"></a>Other improvements</h2>
 <ul>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/metric_set.html">metric_set()</a></code> output now includes a <code>metrics</code> attribute which contains a list of the original metric functions used to generate the metric set.</p></li>
+<li><p><code><a href="../reference/metric_set.html">metric_set()</a></code> output now includes a <code>metrics</code> attribute which contains a list of the original metric functions used to generate the metric set.</p></li>
 <li><p>Each metric function now has a <code>direction</code> attribute attached to it, specifying whether to minimize or maximize the metric.</p></li>
-<li><p>Classification metrics that can potentially have a <code>0</code> value denominator now throw an informative warning when this case occurs. These include <code><a href="https://rdrr.io/pkg/yardstick/man/recall.html">recall()</a></code>, <code><a href="https://rdrr.io/pkg/yardstick/man/precision.html">precision()</a></code>, <code><a href="https://rdrr.io/pkg/yardstick/man/sens.html">sens()</a></code>, and <code><a href="https://rdrr.io/pkg/yardstick/man/spec.html">spec()</a></code> (<a href='https://github.com/tidymodels/yardstick/issues/98'>#98</a>).</p></li>
-<li><p>The <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> method for <code><a href="https://rdrr.io/pkg/yardstick/man/pr_curve.html">pr_curve()</a></code> has been improved to always set the axis limits to <code><a href="https://rdrr.io/r/base/c.html">c(0, 1)</a></code>.</p></li>
+<li><p>Classification metrics that can potentially have a <code>0</code> value denominator now throw an informative warning when this case occurs. These include <code><a href="../reference/recall.html">recall()</a></code>, <code><a href="../reference/precision.html">precision()</a></code>, <code><a href="../reference/sens.html">sens()</a></code>, and <code><a href="../reference/spec.html">spec()</a></code> (<a href='https://github.com/tidymodels/yardstick/issues/98'>#98</a>).</p></li>
+<li><p>The <code>autoplot()</code> method for <code><a href="../reference/pr_curve.html">pr_curve()</a></code> has been improved to always set the axis limits to <code><a href="https://rdrr.io/r/base/c.html">c(0, 1)</a></code>.</p></li>
 <li><p>All valid arguments to <code><a href="https://rdrr.io/pkg/pROC/man/roc.html">pROC::roc()</a></code> are now utilized, including those passed on to <code><a href="https://rdrr.io/pkg/pROC/man/auc.html">pROC::auc()</a></code>.</p></li>
 <li><p>Documentation for class probability metrics has been improved with more informative examples (<a href='https://github.com/rudeboybert'>@rudeboybert</a>, <a href='https://github.com/tidymodels/yardstick/issues/100'>#100</a>).</p></li>
 </ul>
@@ -222,11 +227,11 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/mn_log_loss.html">mn_log_loss()</a></code> now uses the min/max rule before computing the log of the estimated probabilities to avoid problematic undefined log values (<a href='https://github.com/tidymodels/yardstick/issues/103'>#103</a>).</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/pr_curve.html">pr_curve()</a></code> now places a <code>1</code> as the first precision value, rather than <code>NA</code>. While <code>NA</code> is technically correct as precision is undefined here, <code>1</code> is practically more correct because it generates a correct PR Curve graph and, more importantly, allows <code><a href="https://rdrr.io/pkg/yardstick/man/pr_auc.html">pr_auc()</a></code> to compute the correct AUC.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/pr_curve.html">pr_curve()</a></code> could generate the wrong results in the somewhat rare case when two class probability estimates were the same, but had different truth values.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/pr_curve.html">pr_curve()</a></code> (and subsequently <code><a href="https://rdrr.io/pkg/yardstick/man/pr_auc.html">pr_auc()</a></code>) now generates the correct curve when there are duplicate class probability values (reported by <a href='https://github.com/dariyasydykova'>@dariyasydykova</a>, <a href='https://github.com/tidymodels/yardstick/issues/93'>#93</a>).</p></li>
-<li><p>Binary <code><a href="https://rdrr.io/pkg/yardstick/man/mcc.html">mcc()</a></code> now avoids integer overflow when the confusion matrix elements are large (<a href='https://github.com/tidymodels/yardstick/issues/108'>#108</a>).</p></li>
+<li><p><code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code> now uses the min/max rule before computing the log of the estimated probabilities to avoid problematic undefined log values (<a href='https://github.com/tidymodels/yardstick/issues/103'>#103</a>).</p></li>
+<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code> now places a <code>1</code> as the first precision value, rather than <code>NA</code>. While <code>NA</code> is technically correct as precision is undefined here, <code>1</code> is practically more correct because it generates a correct PR Curve graph and, more importantly, allows <code><a href="../reference/pr_auc.html">pr_auc()</a></code> to compute the correct AUC.</p></li>
+<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code> could generate the wrong results in the somewhat rare case when two class probability estimates were the same, but had different truth values.</p></li>
+<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code> (and subsequently <code><a href="../reference/pr_auc.html">pr_auc()</a></code>) now generates the correct curve when there are duplicate class probability values (reported by <a href='https://github.com/dariyasydykova'>@dariyasydykova</a>, <a href='https://github.com/tidymodels/yardstick/issues/93'>#93</a>).</p></li>
+<li><p>Binary <code><a href="../reference/mcc.html">mcc()</a></code> now avoids integer overflow when the confusion matrix elements are large (<a href='https://github.com/tidymodels/yardstick/issues/108'>#108</a>).</p></li>
 </ul>
 </div>
 </div>
@@ -238,10 +243,10 @@
 <h2 class="hasAnchor">
 <a href="#new-metrics-and-functionality-1" class="anchor"></a>New metrics and functionality</h2>
 <ul>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/mase.html">mase()</a></code> is a numeric metric for the mean absolute scaled error. It is generally useful when forecasting with time series (<a href='https://github.com/alexhallam'>@alexhallam</a>, <a href='https://github.com/tidymodels/yardstick/issues/68'>#68</a>).</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/huber_loss.html">huber_loss()</a></code> is a numeric metric that is less sensitive to outliers than <code><a href="https://rdrr.io/pkg/yardstick/man/rmse.html">rmse()</a></code>, but is more sensitive than <code><a href="https://rdrr.io/pkg/yardstick/man/mae.html">mae()</a></code> for small errors (<a href='https://github.com/blairj09'>@blairj09</a>, <a href='https://github.com/tidymodels/yardstick/issues/71'>#71</a>).</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/huber_loss_pseudo.html">huber_loss_pseudo()</a></code> is a smoothed form of <code><a href="https://rdrr.io/pkg/yardstick/man/huber_loss.html">huber_loss()</a></code> (<a href='https://github.com/blairj09'>@blairj09</a>, <a href='https://github.com/tidymodels/yardstick/issues/71'>#71</a>).</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/smape.html">smape()</a></code> is a numeric metric that is based on percentage errors (<a href='https://github.com/riazhedayati'>@riazhedayati</a>, <a href='https://github.com/tidymodels/yardstick/issues/67'>#67</a>).</p></li>
+<li><p><code><a href="../reference/mase.html">mase()</a></code> is a numeric metric for the mean absolute scaled error. It is generally useful when forecasting with time series (<a href='https://github.com/alexhallam'>@alexhallam</a>, <a href='https://github.com/tidymodels/yardstick/issues/68'>#68</a>).</p></li>
+<li><p><code><a href="../reference/huber_loss.html">huber_loss()</a></code> is a numeric metric that is less sensitive to outliers than <code><a href="../reference/rmse.html">rmse()</a></code>, but is more sensitive than <code><a href="../reference/mae.html">mae()</a></code> for small errors (<a href='https://github.com/blairj09'>@blairj09</a>, <a href='https://github.com/tidymodels/yardstick/issues/71'>#71</a>).</p></li>
+<li><p><code><a href="../reference/huber_loss_pseudo.html">huber_loss_pseudo()</a></code> is a smoothed form of <code><a href="../reference/huber_loss.html">huber_loss()</a></code> (<a href='https://github.com/blairj09'>@blairj09</a>, <a href='https://github.com/tidymodels/yardstick/issues/71'>#71</a>).</p></li>
+<li><p><code><a href="../reference/smape.html">smape()</a></code> is a numeric metric that is based on percentage errors (<a href='https://github.com/riazhedayati'>@riazhedayati</a>, <a href='https://github.com/tidymodels/yardstick/issues/67'>#67</a>).</p></li>
 <li><p><code>conf_mat</code> objects now have two <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods for easy visualization of the confusion matrix as either a heat map or a mosaic plot (<a href='https://github.com/EmilHvitfeldt'>@EmilHvitfeldt</a>, <a href='https://github.com/tidymodels/yardstick/issues/10'>#10</a>).</p></li>
 </ul>
 </div>
@@ -250,7 +255,7 @@
 <a href="#other-improvements-2" class="anchor"></a>Other improvements</h2>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/yardstick/man/metric_set.html">metric_set()</a></code> now returns a classed function. If numeric metrics are used, a <code>"numeric_metric_set"</code> function is returned. If class or probability metrics are used, a <code>"class_prob_metric_set"</code> is returned.</li>
+<code><a href="../reference/metric_set.html">metric_set()</a></code> now returns a classed function. If numeric metrics are used, a <code>"numeric_metric_set"</code> function is returned. If class or probability metrics are used, a <code>"class_prob_metric_set"</code> is returned.</li>
 </ul>
 </div>
 <div id="bug-fixes-1" class="section level2">
@@ -258,9 +263,9 @@
 <a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p>Tests related to the fixed R 3.6 <code><a href="https://rdrr.io/r/base/sample.html">sample()</a></code> function have been fixed.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/f_meas.html">f_meas()</a></code> propagates <code>NA</code> values from <code><a href="https://rdrr.io/pkg/yardstick/man/precision.html">precision()</a></code> and <code><a href="https://rdrr.io/pkg/yardstick/man/recall.html">recall()</a></code> correctly (<a href='https://github.com/tidymodels/yardstick/issues/77'>#77</a>).</p></li>
+<li><p><code><a href="../reference/f_meas.html">f_meas()</a></code> propagates <code>NA</code> values from <code><a href="../reference/precision.html">precision()</a></code> and <code><a href="../reference/recall.html">recall()</a></code> correctly (<a href='https://github.com/tidymodels/yardstick/issues/77'>#77</a>).</p></li>
 <li><p>All <code>"micro"</code> estimators now propagate <code>NA</code> values through correctly.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/roc_auc.html">roc_auc(estimator = "hand_till")</a></code> now correctly computes the metric when the column names of the probability matrix are not the exact same as the levels of <code>truth</code>. Note that the computation still assumes that the order of the supplied probability matrix columns still matches the order of <code><a href="https://rdrr.io/r/base/levels.html">levels(truth)</a></code>, like other multiclass metrics (<a href='https://github.com/tidymodels/yardstick/issues/86'>#86</a>).</p></li>
+<li><p><code><a href="../reference/roc_auc.html">roc_auc(estimator = "hand_till")</a></code> now correctly computes the metric when the column names of the probability matrix are not the exact same as the levels of <code>truth</code>. Note that the computation still assumes that the order of the supplied probability matrix columns still matches the order of <code><a href="https://rdrr.io/r/base/levels.html">levels(truth)</a></code>, like other multiclass metrics (<a href='https://github.com/tidymodels/yardstick/issues/86'>#86</a>).</p></li>
 </ul>
 </div>
 </div>
@@ -273,11 +278,11 @@
 <a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
 <p>A desire to standardize the yardstick API is what drove these breaking changes. The output of each metric is now in line with tidy principles, returning a tibble rather than a single numeric. Additionally, all metrics now have a standard argument list so you should be able to switch between metrics and combine them together effortlessly.</p>
 <ul>
-<li><p>All metrics now return a tibble rather than a single numeric value. This format allows metrics to work with grouped data frames (for resamples). It also allows you to bundle multiple metrics together with a new function, <code><a href="https://rdrr.io/pkg/yardstick/man/metric_set.html">metric_set()</a></code>.</p></li>
+<li><p>All metrics now return a tibble rather than a single numeric value. This format allows metrics to work with grouped data frames (for resamples). It also allows you to bundle multiple metrics together with a new function, <code><a href="../reference/metric_set.html">metric_set()</a></code>.</p></li>
 <li><p>For all class probability metrics, now only 1 column can be passed to <code>...</code> when a binary implementation is used. Those metrics will no longer select only the first column when multiple columns are supplied, and will instead throw an error.</p></li>
 <li><p>The <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> method for <code>conf_mat</code> objects now returns a tibble to be consistent with the change to the metric functions.</p></li>
-<li><p>For naming consistency, <code>mnLogLoss()</code> was renamed to <code><a href="https://rdrr.io/pkg/yardstick/man/mn_log_loss.html">mn_log_loss()</a></code></p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/mn_log_loss.html">mn_log_loss()</a></code> now returns the <strong>negative</strong> log loss for the multinomial distribution.</p></li>
+<li><p>For naming consistency, <code>mnLogLoss()</code> was renamed to <code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code></p></li>
+<li><p><code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code> now returns the <strong>negative</strong> log loss for the multinomial distribution.</p></li>
 <li><p>The argument <code>na.rm</code> has been changed to <code>na_rm</code> in all metrics to align with the <code>tidymodels</code> model implementation principles.</p></li>
 </ul>
 </div>
@@ -286,7 +291,7 @@
 <a href="#core-features" class="anchor"></a>Core features</h2>
 <ul>
 <li><p>Each metric now has a vector interface to go alongside the data frame interface. All vector functions end in <code>_vec()</code>. The vector interface accepts vector/matrix inputs and returns a single numeric value.</p></li>
-<li><p>Multiclass support has been added for each classification metric. The support varies from one metric to the next, but generally macro and micro averaging is available for all metrics, with some metrics having specialized multiclass implementations (for example, <code><a href="https://rdrr.io/pkg/yardstick/man/roc_auc.html">roc_auc()</a></code> supports the multiclass generalization presented in a paper by Hand and Till). For more information, see <code><a href="https://cran.rstudio.com/web/packages/yardstick/vignettes/multiclass.html">vignette("multiclass", "yardstick")</a></code>.</p></li>
+<li><p>Multiclass support has been added for each classification metric. The support varies from one metric to the next, but generally macro and micro averaging is available for all metrics, with some metrics having specialized multiclass implementations (for example, <code><a href="../reference/roc_auc.html">roc_auc()</a></code> supports the multiclass generalization presented in a paper by Hand and Till). For more information, see <code><a href="../articles/multiclass.html">vignette("multiclass", "yardstick")</a></code>.</p></li>
 <li><p>All metrics now work with grouped data frames. This produces a tibble with as many rows as there are groups, and is useful when used alongside resampling techniques.</p></li>
 </ul>
 </div>
@@ -294,26 +299,26 @@
 <h2 class="hasAnchor">
 <a href="#new-metrics-and-functionality-2" class="anchor"></a>New metrics and functionality</h2>
 <ul>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/mape.html">mape()</a></code> calculates the mean absolute percent error.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/kap.html">kap()</a></code> is a metric similar to <code><a href="https://rdrr.io/pkg/yardstick/man/accuracy.html">accuracy()</a></code> that calculates Cohen’s kappa.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/detection_prevalence.html">detection_prevalence()</a></code> calculates the number of predicted positive events relative to the total number of predictions.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/bal_accuracy.html">bal_accuracy()</a></code> calculates balanced accuracy as the average of sensitivity and specificity.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/roc_curve.html">roc_curve()</a></code> calculates receiver operator curves and returns the results as a tibble.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/pr_curve.html">pr_curve()</a></code> calculates precision recall curves.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/gain_curve.html">gain_curve()</a></code> and <code><a href="https://rdrr.io/pkg/yardstick/man/lift_curve.html">lift_curve()</a></code> calculate the information used in gain and lift curves.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/gain_capture.html">gain_capture()</a></code> is a measure of performance similar in spirit to AUC but applied to a gain curve.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/pr_curve.html">pr_curve()</a></code>, <code><a href="https://rdrr.io/pkg/yardstick/man/roc_curve.html">roc_curve()</a></code>, <code><a href="https://rdrr.io/pkg/yardstick/man/gain_curve.html">gain_curve()</a></code> and <code><a href="https://rdrr.io/pkg/yardstick/man/lift_curve.html">lift_curve()</a></code> all have <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods for easy visualization.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/yardstick/man/metric_set.html">metric_set()</a></code> constructs functions that calculate multiple metrics at once.</p></li>
+<li><p><code><a href="../reference/mape.html">mape()</a></code> calculates the mean absolute percent error.</p></li>
+<li><p><code><a href="../reference/kap.html">kap()</a></code> is a metric similar to <code><a href="../reference/accuracy.html">accuracy()</a></code> that calculates Cohen’s kappa.</p></li>
+<li><p><code><a href="../reference/detection_prevalence.html">detection_prevalence()</a></code> calculates the number of predicted positive events relative to the total number of predictions.</p></li>
+<li><p><code><a href="../reference/bal_accuracy.html">bal_accuracy()</a></code> calculates balanced accuracy as the average of sensitivity and specificity.</p></li>
+<li><p><code><a href="../reference/roc_curve.html">roc_curve()</a></code> calculates receiver operator curves and returns the results as a tibble.</p></li>
+<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code> calculates precision recall curves.</p></li>
+<li><p><code><a href="../reference/gain_curve.html">gain_curve()</a></code> and <code><a href="../reference/lift_curve.html">lift_curve()</a></code> calculate the information used in gain and lift curves.</p></li>
+<li><p><code><a href="../reference/gain_capture.html">gain_capture()</a></code> is a measure of performance similar in spirit to AUC but applied to a gain curve.</p></li>
+<li><p><code><a href="../reference/pr_curve.html">pr_curve()</a></code>, <code><a href="../reference/roc_curve.html">roc_curve()</a></code>, <code><a href="../reference/gain_curve.html">gain_curve()</a></code> and <code><a href="../reference/lift_curve.html">lift_curve()</a></code> all have <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">ggplot2::autoplot()</a></code> methods for easy visualization.</p></li>
+<li><p><code><a href="../reference/metric_set.html">metric_set()</a></code> constructs functions that calculate multiple metrics at once.</p></li>
 </ul>
 </div>
 <div id="other-improvements-3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-improvements-3" class="anchor"></a>Other improvements</h2>
 <ul>
-<li><p>The infrastructure for creating metrics has been exposed to allow users to extend yardstick to work with their own metrics. You might want to do this if you want your metrics to work with grouped data frames out of the box, or if you want the standardization and error checking that yardstick already provides. See <code><a href="https://cran.rstudio.com/web/packages/yardstick/vignettes/custom-metrics.html">vignette("custom-metrics", "yardstick")</a></code> for a few examples.</p></li>
-<li><p>A vignette describing the three classes of metrics used in yardstick has been added. It also includes a list of every metric available, grouped by class. See <code><a href="https://cran.rstudio.com/web/packages/yardstick/vignettes/metric-types.html">vignette("metric-types", "yardstick")</a></code>.</p></li>
-<li><p>The error messages in yardstick should now be much more informative, with better feedback about the types of input that each metric can use and about what kinds of metrics can be used together (i.e. in <code><a href="https://rdrr.io/pkg/yardstick/man/metric_set.html">metric_set()</a></code>).</p></li>
-<li><p>There is now a <code>grouped_df</code> method for <code><a href="https://rdrr.io/pkg/yardstick/man/conf_mat.html">conf_mat()</a></code> that returns a tibble with a list column of <code>conf_mat</code> objects.</p></li>
+<li><p>The infrastructure for creating metrics has been exposed to allow users to extend yardstick to work with their own metrics. You might want to do this if you want your metrics to work with grouped data frames out of the box, or if you want the standardization and error checking that yardstick already provides. See <code><a href="../articles/custom-metrics.html">vignette("custom-metrics", "yardstick")</a></code> for a few examples.</p></li>
+<li><p>A vignette describing the three classes of metrics used in yardstick has been added. It also includes a list of every metric available, grouped by class. See <code><a href="../articles/metric-types.html">vignette("metric-types", "yardstick")</a></code>.</p></li>
+<li><p>The error messages in yardstick should now be much more informative, with better feedback about the types of input that each metric can use and about what kinds of metrics can be used together (i.e. in <code><a href="../reference/metric_set.html">metric_set()</a></code>).</p></li>
+<li><p>There is now a <code>grouped_df</code> method for <code><a href="../reference/conf_mat.html">conf_mat()</a></code> that returns a tibble with a list column of <code>conf_mat</code> objects.</p></li>
 <li><p>Each metric now has its own help page. This allows us to better document the nuances of each metric without cluttering the help pages of other metrics.</p></li>
 </ul>
 </div>

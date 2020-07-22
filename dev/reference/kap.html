@@ -97,7 +97,7 @@ when one or more classes have large frequency distributions." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -158,17 +158,17 @@ when one or more classes have large frequency distributions." />
     </div>
 
     <div class="ref-description">
-    <p>Kappa is a similar measure to <code><a href='https://rdrr.io/pkg/yardstick/man/accuracy.html'>accuracy()</a></code>, but is normalized by
+    <p>Kappa is a similar measure to <code><a href='accuracy.html'>accuracy()</a></code>, but is normalized by
 the accuracy that would be expected by chance alone and is very useful
 when one or more classes have large frequency distributions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>estimate</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
+<span class='fu'>kap</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>kap_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,7 +211,7 @@ values should be stripped before the computation proceeds.</p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>kap_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
 
     
@@ -226,62 +226,41 @@ scales". <em>Educational and Psychological Measurement</em>. 20 (1): 37-46.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other class metrics: 
-<code><a href='https://rdrr.io/pkg/yardstick/man/accuracy.html'>accuracy</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/bal_accuracy.html'>bal_accuracy</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/detection_prevalence.html'>detection_prevalence</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/j_index.html'>j_index</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/mcc.html'>mcc</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/npv.html'>npv</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/ppv.html'>ppv</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/recall.html'>recall</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/sens.html'>sens</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec</a>()</code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Max Kuhn</p>
+<code><a href='accuracy.html'>accuracy</a>()</code>,
+<code><a href='bal_accuracy.html'>bal_accuracy</a>()</code>,
+<code><a href='detection_prevalence.html'>detection_prevalence</a>()</code>,
+<code><a href='f_meas.html'>f_meas</a>()</code>,
+<code><a href='j_index.html'>j_index</a>()</code>,
+<code><a href='mcc.html'>mcc</a>()</code>,
+<code><a href='npv.html'>npv</a>()</code>,
+<code><a href='ppv.html'>ppv</a>()</code>,
+<code><a href='precision.html'>precision</a>()</code>,
+<code><a href='recall.html'>recall</a>()</code>,
+<code><a href='sens.html'>sens</a>()</code>,
+<code><a href='spec.html'>spec</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"hpc_cv"</span>)
 
 <span class='co'># Two class</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>predicted</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'>kap</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> kap     binary         0.675</div><div class='input'>
 <span class='co'># Multiclass</span>
 <span class='co'># kap() has a natural multiclass extension</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>kap</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> kap     multiclass     0.533</div><div class='input'>
 <span class='co'># Groups are respected</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>kap</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   kap     multiclass     0.533

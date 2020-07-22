@@ -101,7 +101,7 @@ metrics." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -165,17 +165,17 @@ metrics." />
     <p>These functions provide convenient wrappers to create the three types of
 metric functions in yardstick: numeric metrics, class metrics, and
 class probability metrics. They add a metric-specific class to <code>fn</code> and
-attach a <code>direction</code> attribute. These features are used by <code><a href='https://rdrr.io/pkg/yardstick/man/metric_set.html'>metric_set()</a></code>
+attach a <code>direction</code> attribute. These features are used by <code><a href='metric_set.html'>metric_set()</a></code>
 and by <a href='https://tune.tidymodels.org/'>tune</a> when model tuning.</p>
-<p>See <code>vignette("custom-metrics")</code> for more information about creating custom
+<p>See <code><a href='../articles/custom-metrics.html'>vignette("custom-metrics")</a></code> for more information about creating custom
 metrics.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/new-metric.html'>new_class_metric</a></span>(<span class='kw'>fn</span>, <span class='kw'>direction</span>)
+    <pre class="usage"><span class='fu'>new_class_metric</span>(<span class='no'>fn</span>, <span class='no'>direction</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/new-metric.html'>new_prob_metric</a></span>(<span class='kw'>fn</span>, <span class='kw'>direction</span>)
+<span class='fu'>new_prob_metric</span>(<span class='no'>fn</span>, <span class='no'>direction</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/new-metric.html'>new_numeric_metric</a></span>(<span class='kw'>fn</span>, <span class='kw'>direction</span>)</pre>
+<span class='fu'>new_numeric_metric</span>(<span class='no'>fn</span>, <span class='no'>direction</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

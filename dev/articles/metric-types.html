@@ -51,7 +51,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -109,7 +109,7 @@
       <h1 data-toc-skip>Metric types</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2020-07-10</h4>
+            <h4 class="date">2020-07-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/metric-types.Rmd"><code>vignettes/metric-types.Rmd</code></a></small>
       <div class="hidden name"><code>metric-types.Rmd</code></div>
@@ -150,14 +150,13 @@
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>In the following example, the <code>hpc_cv</code> data set is used. It contains class probabilities and class predictions for a linear discriminant analysis fit to the HPC data set of Kuhn and Johnson (2013). It is fit with 10 fold cross-validation, and the predictions for all folds are included.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/tidymodels/yardstick">yardstick</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">yardstick</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"hpc_cv"</span>)
 
-<span class="kw">hpc_cv</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">Resample</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>)
+<span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">Resample</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(<span class="fl">1</span>:<span class="fl">3</span>)
 <span class="co">#&gt; # A tibble: 30 x 7</span>
 <span class="co">#&gt; # Groups:   Resample [10]</span>
 <span class="co">#&gt;    obs   pred     VF      F       M          L Resample</span>
@@ -172,37 +171,19 @@
 <span class="co">#&gt;  8 VF    VF    0.928 0.0642 0.00777 0.0000148  Fold03  </span>
 <span class="co">#&gt;  9 VF    VF    0.927 0.0653 0.00786 0.0000150  Fold03  </span>
 <span class="co">#&gt; 10 VF    VF    0.949 0.0469 0.00398 0.00000935 Fold04  </span>
-<span class="co">#&gt; # … with 20 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 20 more rows</span></pre></body></html></div>
 <p>1 metric, 1 resample</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">hpc_cv</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw">Resample</span> <span class="op">==</span> <span class="st">"Fold01"</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span>(<span class="kw">obs</span>, <span class="kw">pred</span>)
-<span class="co">#&gt; Warning: `...` is not empty.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; We detected these problematic arguments:</span>
-<span class="co">#&gt; * `needs_dots`</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; These dots only exist to allow future extensions and should be empty.</span>
-<span class="co">#&gt; Did you misspecify an argument?</span>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">Resample</span> <span class="kw">==</span> <span class="st">"Fold01"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span>(<span class="no">obs</span>, <span class="no">pred</span>)
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   .metric  .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 accuracy multiclass     0.726</span>
-</pre></div>
+<span class="co">#&gt; 1 accuracy multiclass     0.726</span></pre></body></html></div>
 <p>1 metric, 10 resamples</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">hpc_cv</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">Resample</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span>(<span class="kw">obs</span>, <span class="kw">pred</span>)
-<span class="co">#&gt; Warning: `...` is not empty.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; We detected these problematic arguments:</span>
-<span class="co">#&gt; * `needs_dots`</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; These dots only exist to allow future extensions and should be empty.</span>
-<span class="co">#&gt; Did you misspecify an argument?</span>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">Resample</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span>(<span class="no">obs</span>, <span class="no">pred</span>)
 <span class="co">#&gt; # A tibble: 10 x 4</span>
 <span class="co">#&gt;    Resample .metric  .estimator .estimate</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
@@ -215,22 +196,13 @@
 <span class="co">#&gt;  7 Fold07   accuracy multiclass     0.675</span>
 <span class="co">#&gt;  8 Fold08   accuracy multiclass     0.721</span>
 <span class="co">#&gt;  9 Fold09   accuracy multiclass     0.673</span>
-<span class="co">#&gt; 10 Fold10   accuracy multiclass     0.699</span>
-</pre></div>
+<span class="co">#&gt; 10 Fold10   accuracy multiclass     0.699</span></pre></body></html></div>
 <p>2 metrics, 10 resamples</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">class_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metric_set.html">metric_set</a></span>(<span class="kw">accuracy</span>, <span class="kw">kap</span>)
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">class_metrics</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/metric_set.html">metric_set</a></span>(<span class="no">accuracy</span>, <span class="no">kap</span>)
 
-<span class="kw">hpc_cv</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">Resample</span>) <span class="op">%&gt;%</span>
-  <span class="fu">class_metrics</span>(<span class="kw">obs</span>, estimate = <span class="kw">pred</span>)
-<span class="co">#&gt; Warning: `...` is not empty.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; We detected these problematic arguments:</span>
-<span class="co">#&gt; * `needs_dots`</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; These dots only exist to allow future extensions and should be empty.</span>
-<span class="co">#&gt; Did you misspecify an argument?</span>
+<span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">Resample</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">class_metrics</span>(<span class="no">obs</span>, <span class="kw">estimate</span> <span class="kw">=</span> <span class="no">pred</span>)
 <span class="co">#&gt; # A tibble: 20 x 4</span>
 <span class="co">#&gt;    Resample .metric  .estimator .estimate</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
@@ -253,8 +225,7 @@
 <span class="co">#&gt; 17 Fold07   kap      multiclass     0.454</span>
 <span class="co">#&gt; 18 Fold08   kap      multiclass     0.531</span>
 <span class="co">#&gt; 19 Fold09   kap      multiclass     0.454</span>
-<span class="co">#&gt; 20 Fold10   kap      multiclass     0.492</span>
-</pre></div>
+<span class="co">#&gt; 20 Fold10   kap      multiclass     0.492</span></pre></body></html></div>
 </div>
 <div id="metrics" class="section level2">
 <h2 class="hasAnchor">

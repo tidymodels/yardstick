@@ -96,7 +96,7 @@ roc_curve() for the full curve." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -157,31 +157,31 @@ roc_curve() for the full curve." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code> is a metric that computes the area under the ROC curve. See
-<code><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve()</a></code> for the full curve.</p>
+    <p><code>roc_auc()</code> is a metric that computes the area under the ROC curve. See
+<code><a href='roc_curve.html'>roc_curve()</a></code> for the full curve.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>roc_auc</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(
-  <span class='kw'>data</span>,
-  <span class='kw'>truth</span>,
-  <span class='kw'>...</span>,
-  options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  estimator = <span class='kw'>NULL</span>,
-  na_rm = <span class='fl'>TRUE</span>,
-  event_level = <span class='fu'>yardstick_event_level</span>()
+<span class='fu'>roc_auc</span>(
+  <span class='no'>data</span>,
+  <span class='no'>truth</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='fu'>yardstick_event_level</span>()
 )
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc_vec</a></span>(
-  <span class='kw'>truth</span>,
-  <span class='kw'>estimate</span>,
-  options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  estimator = <span class='kw'>NULL</span>,
-  na_rm = <span class='fl'>TRUE</span>,
-  event_level = <span class='fu'>yardstick_event_level</span>(),
-  <span class='kw'>...</span>
+<span class='fu'>roc_auc_vec</span>(
+  <span class='no'>truth</span>,
+  <span class='no'>estimate</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='fu'>yardstick_event_level</span>(),
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -250,7 +250,7 @@ same order as the levels of <code>truth</code>.</em></p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>roc_auc_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The underlying <code>direction</code> option in <code><a href='https://rdrr.io/pkg/pROC/man/roc.html'>pROC::roc()</a></code> is forced to
@@ -279,7 +279,7 @@ the "one" level is always the relevant result.</p>
 
     
 
-<p>The default multiclass method for computing <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code> is to use the
+<p>The default multiclass method for computing <code>roc_auc()</code> is to use the
 method from Hand, Till, (2001). Unlike macro-averaging, this method is
 insensitive to class distributions like the binary ROC AUC case.
 Additionally, while other multiclass techniques will return <code>NA</code> if any
@@ -300,17 +300,14 @@ estimation trees", CeDER Working Paper #IS-00-04, Stern School of Business,
 New York University, NY, NY 10012.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/yardstick/man/roc_curve.html'>roc_curve()</a></code> for computing the full ROC curve.</p>
+    <div class='dont-index'><p><code><a href='roc_curve.html'>roc_curve()</a></code> for computing the full ROC curve.</p>
 <p>Other class probability metrics: 
-<code><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/pr_auc.html'>pr_auc</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunp.html'>roc_aunp</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu</a>()</code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Max Kuhn</p>
+<code><a href='average_precision.html'>average_precision</a>()</code>,
+<code><a href='gain_capture.html'>gain_capture</a>()</code>,
+<code><a href='mn_log_loss.html'>mn_log_loss</a>()</code>,
+<code><a href='pr_auc.html'>pr_auc</a>()</code>,
+<code><a href='roc_aunp.html'>roc_aunp</a>()</code>,
+<code><a href='roc_aunu.html'>roc_aunu</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
@@ -319,19 +316,13 @@ New York University, NY, NY 10012.</p>
 <span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>two_class_example</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>two_class_example</span>)
 
 <span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span>
 <span class='co'># and a single class probability column containing the probabilities of</span>
 <span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
 <span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>Class1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'>roc_auc</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> roc_auc binary         0.939</div><div class='input'>
@@ -341,48 +332,30 @@ New York University, NY, NY 10012.</p>
 <span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hpc_cv</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
 
 <span class='co'># You can use the col1:colN tidyselect syntax</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>roc_auc</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> roc_auc hand_till      0.813</div><div class='input'>
 <span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
 <span class='co'># event of interest. The class probability columns should be supplied</span>
 <span class='co'># in the same order as the levels.</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(obs = <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='kw'>obs</span>, <span class='st'>"M"</span>)) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(<span class='kw'>obs</span>, <span class='kw'>M</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='no'>obs</span>, <span class='st'>"M"</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'>roc_auc</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> roc_auc hand_till      0.813</div><div class='input'>
 <span class='co'># Groups are respected</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>roc_auc</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   roc_auc hand_till      0.813
@@ -396,15 +369,9 @@ New York University, NY, NY 10012.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   roc_auc hand_till      0.828
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   roc_auc hand_till      0.812</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>, estimator = <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>roc_auc</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator     .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   roc_auc macro_weighted     0.880
@@ -419,35 +386,30 @@ New York University, NY, NY 10012.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   roc_auc macro_weighted     0.869</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
-<span class='kw'>fold1</span> <span class='op'>&lt;-</span> <span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>)
+<span class='no'>fold1</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc_vec</a></span>(
-   truth = <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>obs</span>,
+<span class='fu'>roc_auc_vec</span>(
+   <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>fold1</span>$<span class='no'>obs</span>,
    <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(
-     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>VF</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>F</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>M</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>L</span>),
-     ncol = <span class='fl'>4</span>
+     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>fold1</span>$<span class='no'>VF</span>, <span class='no'>fold1</span>$<span class='no'>F</span>, <span class='no'>fold1</span>$<span class='no'>M</span>, <span class='no'>fold1</span>$<span class='no'>L</span>),
+     <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>
    )
 )</div><div class='output co'>#&gt; [1] 0.8131924</div><div class='input'>
 <span class='co'># ---------------------------------------------------------------------------</span>
 <span class='co'># Options for `pROC::roc()`</span>
 
 <span class='co'># Pass options via a named list and not through `...`!</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a></span>(
-  <span class='kw'>two_class_example</span>,
-  truth = <span class='kw'>truth</span>,
-  <span class='kw'>Class1</span>,
-  options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(smooth = <span class='fl'>TRUE</span>)
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'>roc_auc</span>(
+  <span class='no'>two_class_example</span>,
+  <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>truth</span>,
+  <span class='no'>Class1</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> roc_auc binary         0.942</div><div class='input'></div></span></pre>
+#&gt; </span><span style='color: #555555;'>1</span><span> roc_auc binary         0.942</div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

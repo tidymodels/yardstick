@@ -96,7 +96,7 @@ traditional measure of R squared, see rsq_trad()." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -158,15 +158,15 @@ traditional measure of R squared, see rsq_trad()." />
 
     <div class="ref-description">
     <p>Calculate the coefficient of determination using correlation. For the
-traditional measure of R squared, see <code><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad()</a></code>.</p>
+traditional measure of R squared, see <code><a href='rsq_trad.html'>rsq_trad()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>rsq</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>estimate</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
+<span class='fu'>rsq</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>, na_rm = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>rsq_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,17 +208,17 @@ values should be stripped before the computation proceeds.</p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>rsq_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The two estimates for the
-coefficient of determination, <code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq()</a></code> and <code><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad()</a></code>, differ by
+coefficient of determination, <code>rsq()</code> and <code><a href='rsq_trad.html'>rsq_trad()</a></code>, differ by
 their formula. The former guarantees a value on (0, 1) while the
 latter can generate inaccurate values when the model is
 non-informative (see the examples). Both are measures of
 consistency/correlation and not of accuracy.</p>
-<p><code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq()</a></code> is simply the squared correlation between <code>truth</code> and <code>estimate</code>.</p>
-<p>Because <code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq()</a></code> internally computes a correlation, if either <code>truth</code> or
+<p><code>rsq()</code> is simply the squared correlation between <code>truth</code> and <code>estimate</code>.</p>
+<p>Because <code>rsq()</code> internally computes a correlation, if either <code>truth</code> or
 <code>estimate</code> are constant it can result in a divide by zero error. In these
 cases, a warning is thrown and <code>NA</code> is returned. This can occur when a model
 predicts a single value for all samples. For example, a regularized model
@@ -231,68 +231,53 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other numeric metrics: 
-<code><a href='https://rdrr.io/pkg/yardstick/man/ccc.html'>ccc</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/huber_loss_pseudo.html'>huber_loss_pseudo</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/huber_loss.html'>huber_loss</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/iic.html'>iic</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/mae.html'>mae</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/mape.html'>mape</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/mase.html'>mase</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/mpe.html'>mpe</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rmse.html'>rmse</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rpd.html'>rpd</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rpiq.html'>rpiq</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/smape.html'>smape</a>()</code></p>
+<code><a href='ccc.html'>ccc</a>()</code>,
+<code><a href='huber_loss_pseudo.html'>huber_loss_pseudo</a>()</code>,
+<code><a href='huber_loss.html'>huber_loss</a>()</code>,
+<code><a href='iic.html'>iic</a>()</code>,
+<code><a href='mae.html'>mae</a>()</code>,
+<code><a href='mape.html'>mape</a>()</code>,
+<code><a href='mase.html'>mase</a>()</code>,
+<code><a href='mpe.html'>mpe</a>()</code>,
+<code><a href='rmse.html'>rmse</a>()</code>,
+<code><a href='rpd.html'>rpd</a>()</code>,
+<code><a href='rpiq.html'>rpiq</a>()</code>,
+<code><a href='rsq_trad.html'>rsq_trad</a>()</code>,
+<code><a href='smape.html'>smape</a>()</code></p>
 <p>Other consistency metrics: 
-<code><a href='https://rdrr.io/pkg/yardstick/man/ccc.html'>ccc</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rpd.html'>rpd</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rpiq.html'>rpiq</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a>()</code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Max Kuhn</p>
+<code><a href='ccc.html'>ccc</a>()</code>,
+<code><a href='rpd.html'>rpd</a>()</code>,
+<code><a href='rpiq.html'>rpiq</a>()</code>,
+<code><a href='rsq_trad.html'>rsq_trad</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'>rsq</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>prediction</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> rsq     standard       0.879</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1234</span>)
-<span class='kw'>size</span> <span class='op'>&lt;-</span> <span class='fl'>100</span>
-<span class='kw'>times</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='no'>size</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
+<span class='no'>times</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
 
 <span class='co'># create 10 resamples</span>
-<span class='kw'>solubility_resampled</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(
+<span class='no'>solubility_resampled</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(
   <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span>(
-    n = <span class='kw'>times</span>,
-    expr = <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>size</span>, replace = <span class='fl'>TRUE</span>),
-    simplify = <span class='fl'>FALSE</span>
+    <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>times</span>,
+    <span class='kw'>expr</span> <span class='kw'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n</a></span>(<span class='no'>solubility_test</span>, <span class='no'>size</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+    <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
   ),
-  .id = <span class='st'>"resample"</span>
+  <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"resample"</span>
 )
 
 <span class='co'># Compute the metric by group</span>
-<span class='kw'>metric_results</span> <span class='op'>&lt;-</span> <span class='kw'>solubility_resampled</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq</a></span>(<span class='kw'>solubility</span>, <span class='kw'>prediction</span>)
+<span class='no'>metric_results</span> <span class='kw'>&lt;-</span> <span class='no'>solubility_resampled</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>rsq</span>(<span class='no'>solubility</span>, <span class='no'>prediction</span>)
 
-<span class='kw'>metric_results</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='no'>metric_results</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    resample .metric .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> 1        rsq     standard       0.874
@@ -306,45 +291,27 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> 8        rsq     standard       0.915
 #&gt; </span><span style='color: #555555;'>10</span><span> 9        rsq     standard       0.884</div><div class='input'>
 <span class='co'># Resampled mean estimate</span>
-<span class='kw'>metric_results</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(avg_estimate = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>.estimate</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
+<span class='no'>metric_results</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(<span class='kw'>avg_estimate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.estimate</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
 #&gt;   avg_estimate
 #&gt;          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>        0.883</div><div class='input'><span class='co'># With uninformitive data, the traditional version of R^2 can return</span>
 <span class='co'># negative values.</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>2291</span>)
-<span class='kw'>solubility_test</span><span class='op'>$</span><span class='kw'>randomized</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='kw'>solubility_test</span><span class='op'>$</span><span class='kw'>prediction</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>randomized</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='no'>solubility_test</span>$<span class='no'>randomized</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>solubility_test</span>$<span class='no'>prediction</span>)
+<span class='fu'>rsq</span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> rsq     standard     0.001</span><span style='text-decoration: underline;'>99</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq_trad.html'>rsq_trad</a></span>(<span class='kw'>solubility_test</span>, <span class='kw'>solubility</span>, <span class='kw'>randomized</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> rsq     standard     0.001</span><span style='text-decoration: underline;'>99</span><span></div><div class='input'><span class='fu'><a href='rsq_trad.html'>rsq_trad</a></span>(<span class='no'>solubility_test</span>, <span class='no'>solubility</span>, <span class='no'>randomized</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> rsq_trad standard       -</span><span style='color: #BB0000;'>1.01</span><span></div><div class='input'>
 <span class='co'># A constant `truth` or `estimate` vector results in a warning from</span>
 <span class='co'># a divide by zero error in the correlation calculation.</span>
 <span class='co'># `NA` will be returned in these cases.</span>
-<span class='kw'>truth</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)
-<span class='kw'>estimate</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq_vec</a></span>(<span class='kw'>truth</span>, <span class='kw'>estimate</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: A correlation computation is required, but `estimate` is constant and has 0 standard deviation, resulting in a divide by 0 error. `NA` will be returned.</span></div><div class='output co'>#&gt; [1] NA</div></span></pre>
+<span class='no'>truth</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)
+<span class='no'>estimate</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>)
+<span class='fu'>rsq_vec</span>(<span class='no'>truth</span>, <span class='no'>estimate</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: A correlation computation is required, but `estimate` is constant and has 0 standard deviation, resulting in a divide by 0 error. `NA` will be returned.</span></div><div class='output co'>#&gt; [1] NA</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

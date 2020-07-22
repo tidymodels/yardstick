@@ -97,7 +97,7 @@ Highly related functions are sens(), ppv(), and npv()." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -158,42 +158,42 @@ Highly related functions are sens(), ppv(), and npv()." />
     </div>
 
     <div class="ref-description">
-    <p>These functions calculate the <code><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec()</a></code> (specificity) of a measurement system
+    <p>These functions calculate the <code>spec()</code> (specificity) of a measurement system
 compared to a reference result (the "truth" or gold standard).
-Highly related functions are <code><a href='https://rdrr.io/pkg/yardstick/man/sens.html'>sens()</a></code>, <code><a href='https://rdrr.io/pkg/yardstick/man/ppv.html'>ppv()</a></code>, and <code><a href='https://rdrr.io/pkg/yardstick/man/npv.html'>npv()</a></code>.</p>
+Highly related functions are <code><a href='sens.html'>sens()</a></code>, <code><a href='ppv.html'>ppv()</a></code>, and <code><a href='npv.html'>npv()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>spec</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec</a></span>(
-  <span class='kw'>data</span>,
-  <span class='kw'>truth</span>,
-  <span class='kw'>estimate</span>,
-  estimator = <span class='kw'>NULL</span>,
-  na_rm = <span class='fl'>TRUE</span>,
-  event_level = <span class='fu'>yardstick_event_level</span>(),
-  <span class='kw'>...</span>
+<span class='fu'>spec</span>(
+  <span class='no'>data</span>,
+  <span class='no'>truth</span>,
+  <span class='no'>estimate</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='fu'>yardstick_event_level</span>(),
+  <span class='no'>...</span>
 )
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>specificity</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
+<span class='fu'>specificity</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec_vec</a></span>(
-  <span class='kw'>truth</span>,
-  <span class='kw'>estimate</span>,
-  estimator = <span class='kw'>NULL</span>,
-  na_rm = <span class='fl'>TRUE</span>,
-  event_level = <span class='fu'>yardstick_event_level</span>(),
-  <span class='kw'>...</span>
+<span class='fu'>spec_vec</span>(
+  <span class='no'>truth</span>,
+  <span class='no'>estimate</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='fu'>yardstick_event_level</span>(),
+  <span class='no'>...</span>
 )
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>specificity_vec</a></span>(
-  <span class='kw'>truth</span>,
-  <span class='kw'>estimate</span>,
-  estimator = <span class='kw'>NULL</span>,
-  na_rm = <span class='fl'>TRUE</span>,
-  event_level = <span class='fu'>yardstick_event_level</span>(),
-  <span class='kw'>...</span>
+<span class='fu'>specificity_vec</span>(
+  <span class='no'>truth</span>,
+  <span class='no'>estimate</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='fu'>yardstick_event_level</span>(),
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -254,7 +254,7 @@ used instead with a warning.</p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>spec_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The specificity measures the proportion of negatives that are correctly
@@ -286,7 +286,7 @@ the "one" level is always the relevant result.</p>
 <p>Macro, micro, and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a <code>truth</code> factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
-See <code><a href='https://cran.rstudio.com/web/packages/yardstick/vignettes/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
+See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
     <h2 class="hasAnchor" id="implementation"><a class="anchor" href="#implementation"></a>Implementation</h2>
 
     
@@ -316,65 +316,44 @@ vol 308, 1552.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other class metrics: 
-<code><a href='https://rdrr.io/pkg/yardstick/man/accuracy.html'>accuracy</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/bal_accuracy.html'>bal_accuracy</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/detection_prevalence.html'>detection_prevalence</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/f_meas.html'>f_meas</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/j_index.html'>j_index</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/mcc.html'>mcc</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/npv.html'>npv</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/ppv.html'>ppv</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/precision.html'>precision</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/recall.html'>recall</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/sens.html'>sens</a>()</code></p>
+<code><a href='accuracy.html'>accuracy</a>()</code>,
+<code><a href='bal_accuracy.html'>bal_accuracy</a>()</code>,
+<code><a href='detection_prevalence.html'>detection_prevalence</a>()</code>,
+<code><a href='f_meas.html'>f_meas</a>()</code>,
+<code><a href='j_index.html'>j_index</a>()</code>,
+<code><a href='kap.html'>kap</a>()</code>,
+<code><a href='mcc.html'>mcc</a>()</code>,
+<code><a href='npv.html'>npv</a>()</code>,
+<code><a href='ppv.html'>ppv</a>()</code>,
+<code><a href='precision.html'>precision</a>()</code>,
+<code><a href='recall.html'>recall</a>()</code>,
+<code><a href='sens.html'>sens</a>()</code></p>
 <p>Other sensitivity metrics: 
-<code><a href='https://rdrr.io/pkg/yardstick/man/npv.html'>npv</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/ppv.html'>ppv</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/sens.html'>sens</a>()</code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Max Kuhn</p>
+<code><a href='npv.html'>npv</a>()</code>,
+<code><a href='ppv.html'>ppv</a>()</code>,
+<code><a href='sens.html'>sens</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>predicted</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'>spec</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> spec    binary         0.793</div><div class='input'>
 <span class='co'># Multiclass</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hpc_cv</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
 
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>spec</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> spec    macro          0.886</div><div class='input'>
 <span class='co'># Groups are respected</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>spec</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   spec    macro          0.886
@@ -388,15 +367,9 @@ vol 308, 1552.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   spec    macro          0.867
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   spec    macro          0.875</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>, estimator = <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>spec</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator     .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   spec    macro_weighted     0.816
@@ -410,15 +383,15 @@ vol 308, 1552.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   spec    macro_weighted     0.795
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   spec    macro_weighted     0.801</div><div class='input'>
 <span class='co'># Vector version</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec_vec</a></span>(
-  <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>,
-  <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>
+<span class='fu'>spec_vec</span>(
+  <span class='no'>two_class_example</span>$<span class='no'>truth</span>,
+  <span class='no'>two_class_example</span>$<span class='no'>predicted</span>
 )</div><div class='output co'>#&gt; [1] 0.7933884</div><div class='input'>
 <span class='co'># Making Class2 the "relevant" level</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/spec.html'>spec_vec</a></span>(
-  <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>truth</span>,
-  <span class='kw'>two_class_example</span><span class='op'>$</span><span class='kw'>predicted</span>,
-  event_level = <span class='st'>"second"</span>
+<span class='fu'>spec_vec</span>(
+  <span class='no'>two_class_example</span>$<span class='no'>truth</span>,
+  <span class='no'>two_class_example</span>$<span class='no'>predicted</span>,
+  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='st'>"second"</span>
 )</div><div class='output co'>#&gt; [1] 0.879845</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

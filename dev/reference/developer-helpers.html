@@ -97,7 +97,7 @@ more information." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -158,20 +158,20 @@ more information." />
     </div>
 
     <div class="ref-description">
-    <p>Helpers to be used alongside <code><a href='https://rdrr.io/pkg/yardstick/man/metric_vec_template.html'>metric_vec_template()</a></code> and <code><a href='https://rdrr.io/pkg/yardstick/man/metric_summarizer.html'>metric_summarizer()</a></code>
-when creating new metrics. See <code><a href='https://cran.rstudio.com/web/packages/yardstick/vignettes/custom-metrics.html'>vignette("custom-metrics", "yardstick")</a></code> for
+    <p>Helpers to be used alongside <code><a href='metric_vec_template.html'>metric_vec_template()</a></code> and <code><a href='metric_summarizer.html'>metric_summarizer()</a></code>
+when creating new metrics. See <code><a href='../articles/custom-metrics.html'>vignette("custom-metrics", "yardstick")</a></code> for
 more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>get_weights</a></span>(<span class='kw'>data</span>, <span class='kw'>estimator</span>)
+    <pre class="usage"><span class='fu'>get_weights</span>(<span class='no'>data</span>, <span class='no'>estimator</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator</a></span>(<span class='kw'>x</span>, estimator = <span class='kw'>NULL</span>, metric_class = <span class='st'>"default"</span>)
+<span class='fu'>finalize_estimator</span>(<span class='no'>x</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>metric_class</span> <span class='kw'>=</span> <span class='st'>"default"</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator_internal</a></span>(<span class='kw'>metric_dispatcher</span>, <span class='kw'>x</span>, <span class='kw'>estimator</span>)
+<span class='fu'>finalize_estimator_internal</span>(<span class='no'>metric_dispatcher</span>, <span class='no'>x</span>, <span class='no'>estimator</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>dots_to_estimate</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
+<span class='fu'>dots_to_estimate</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>validate_estimator</a></span>(<span class='kw'>estimator</span>, estimator_override = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>validate_estimator</span>(<span class='no'>estimator</span>, <span class='kw'>estimator_override</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,7 +195,7 @@ the <code>truth</code> column, but can also be a table if your metric has table 
       <th>metric_class</th>
       <td><p>A single character of the name of the metric to autoselect
 the estimator for. This should match the method name created for
-<code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator_internal()</a></code>.</p></td>
+<code>finalize_estimator_internal()</code>.</p></td>
     </tr>
     <tr>
       <th>metric_dispatcher</th>
@@ -222,7 +222,7 @@ this if your classification estimator does not support all of these methods.</p>
 
     
 
-<p><code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>get_weights()</a></code> accepts a confusion matrix and an <code>estimator</code> of type
+<p><code>get_weights()</code> accepts a confusion matrix and an <code>estimator</code> of type
 <code>"macro"</code>, <code>"micro"</code>, or <code>"macro_weighted"</code> and returns the correct weights.
 It is useful when creating multiclass metrics.</p>
     <h2 class="hasAnchor" id="estimator-selection"><a class="anchor" href="#estimator-selection"></a>Estimator Selection</h2>
@@ -230,24 +230,24 @@ It is useful when creating multiclass metrics.</p>
     
 
 
-<p><code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator()</a></code> is the engine for auto-selection of <code>estimator</code> based
+<p><code>finalize_estimator()</code> is the engine for auto-selection of <code>estimator</code> based
 on the type of <code>x</code>. Generally <code>x</code> is the <code>truth</code> column. This function
 is called from the vector method of your metric.</p>
-<p><code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator_internal()</a></code> is an S3 generic that you should extend for
+<p><code>finalize_estimator_internal()</code> is an S3 generic that you should extend for
 your metric if it does not implement <em>only</em> the following estimator types:
 <code>"binary"</code>, <code>"macro"</code>, <code>"micro"</code>, and <code>"macro_weighted"</code>.
 If your metric does support all of these, the default version of
-<code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator_internal()</a></code> will autoselect <code>estimator</code> appropriately.
+<code>finalize_estimator_internal()</code> will autoselect <code>estimator</code> appropriately.
 If you need to create a method, it should take the form:
 <code>finalize_estimator_internal.metric_name</code>. Your method for
-<code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator_internal()</a></code> should do two things:</p><ol>
+<code>finalize_estimator_internal()</code> should do two things:</p><ol>
 <li><p>If <code>estimator</code> is <code>NULL</code>, autoselect the <code>estimator</code> based on the
 type of <code>x</code> and return a single character for the <code>estimator</code>.</p></li>
 <li><p>If <code>estimator</code> is not <code>NULL</code>, validate that it is an allowed <code>estimator</code>
 for your metric and return it.</p></li>
 </ol>
 
-<p>If you are using the default for <code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator_internal()</a></code>, the
+<p>If you are using the default for <code>finalize_estimator_internal()</code>, the
 <code>estimator</code> is selected using the following heuristics:</p><ol>
 <li><p>If <code>estimator</code> is not <code>NULL</code>, it is validated and returned immediately
 as no auto-selection is needed.</p></li>
@@ -266,23 +266,23 @@ as no auto-selection is needed.</p></li>
     
 
 
-<p><code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>dots_to_estimate()</a></code> is useful with class probability metrics that take
+<p><code>dots_to_estimate()</code> is useful with class probability metrics that take
 <code>...</code> rather than <code>estimate</code> as an argument. It constructs either a single
 name if 1 input is provided to <code>...</code> or it constructs a quosure where the
 expression constructs a matrix of as many columns as are provided to <code>...</code>.
-These are eventually evaluated in the <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise()</a></code> call in
-<code><a href='https://rdrr.io/pkg/yardstick/man/metric_summarizer.html'>metric_summarizer()</a></code> and evaluate to either a vector or a matrix for further
+These are eventually evaluated in the <code>summarise()</code> call in
+<code><a href='metric_summarizer.html'>metric_summarizer()</a></code> and evaluate to either a vector or a matrix for further
 use in the underlying vector functions.</p>
     <h2 class="hasAnchor" id="estimator-validation"><a class="anchor" href="#estimator-validation"></a>Estimator Validation</h2>
 
     
 
-<p><code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>validate_estimator()</a></code> is called from your metric specific method of
-<code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator_internal()</a></code> and ensures that a user provided estimator
+<p><code>validate_estimator()</code> is called from your metric specific method of
+<code>finalize_estimator_internal()</code> and ensures that a user provided estimator
 is of the right format and is one of the allowed values.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/yardstick/man/metric_summarizer.html'>metric_summarizer()</a></code> <code><a href='https://rdrr.io/pkg/yardstick/man/metric_vec_template.html'>metric_vec_template()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='metric_summarizer.html'>metric_summarizer()</a></code> <code><a href='metric_vec_template.html'>metric_vec_template()</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -101,7 +101,7 @@ threshold. See pr_curve() for the full curve." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -162,34 +162,34 @@ threshold. See pr_curve() for the full curve." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision()</a></code> is an alternative to <code><a href='https://rdrr.io/pkg/yardstick/man/pr_auc.html'>pr_auc()</a></code> that avoids any
+    <p><code>average_precision()</code> is an alternative to <code><a href='pr_auc.html'>pr_auc()</a></code> that avoids any
 ambiguity about what the value of <code>precision</code> should be when <code>recall == 0</code>
 and there are not yet any false positive values (some say it should be <code>0</code>,
 others say <code>1</code>, others say undefined).</p>
 <p>It computes a weighted average of the precision values returned from
-<code><a href='https://rdrr.io/pkg/yardstick/man/pr_curve.html'>pr_curve()</a></code>, where the weights are the increase in recall from the previous
-threshold. See <code><a href='https://rdrr.io/pkg/yardstick/man/pr_curve.html'>pr_curve()</a></code> for the full curve.</p>
+<code><a href='pr_curve.html'>pr_curve()</a></code>, where the weights are the increase in recall from the previous
+threshold. See <code><a href='pr_curve.html'>pr_curve()</a></code> for the full curve.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>average_precision</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a></span>(
-  <span class='kw'>data</span>,
-  <span class='kw'>truth</span>,
-  <span class='kw'>...</span>,
-  estimator = <span class='kw'>NULL</span>,
-  na_rm = <span class='fl'>TRUE</span>,
-  event_level = <span class='fu'>yardstick_event_level</span>()
+<span class='fu'>average_precision</span>(
+  <span class='no'>data</span>,
+  <span class='no'>truth</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='fu'>yardstick_event_level</span>()
 )
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision_vec</a></span>(
-  <span class='kw'>truth</span>,
-  <span class='kw'>estimate</span>,
-  estimator = <span class='kw'>NULL</span>,
-  na_rm = <span class='fl'>TRUE</span>,
-  event_level = <span class='fu'>yardstick_event_level</span>(),
-  <span class='kw'>...</span>
+<span class='fu'>average_precision_vec</span>(
+  <span class='no'>truth</span>,
+  <span class='no'>estimate</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='fu'>yardstick_event_level</span>(),
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -252,21 +252,21 @@ same order as the levels of <code>truth</code>.</em></p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision_vec()</a></code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>average_precision_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The computation for average precision is a weighted average of the precision
-values. Assuming you have <code>n</code> rows returned from <code><a href='https://rdrr.io/pkg/yardstick/man/pr_curve.html'>pr_curve()</a></code>, it is a sum
+values. Assuming you have <code>n</code> rows returned from <code><a href='pr_curve.html'>pr_curve()</a></code>, it is a sum
 from <code>2</code> to <code>n</code>, multiplying the precision value <code>p_i</code> by the increase in
 recall over the previous threshold, <code>r_i - r_(i-1)</code>.</p>
 <p>$$AP = \sum (r_{i} - r_{i-1}) * p_i$$</p>
 <p>By summing from <code>2</code> to <code>n</code>, the precision value <code>p_1</code> is never used. While
-<code><a href='https://rdrr.io/pkg/yardstick/man/pr_curve.html'>pr_curve()</a></code> returns a value for <code>p_1</code>, it is technically undefined as
+<code><a href='pr_curve.html'>pr_curve()</a></code> returns a value for <code>p_1</code>, it is technically undefined as
 <code>tp / (tp + fp)</code> with <code>tp = 0</code> and <code>fp = 0</code>. A common convention is to use
 <code>1</code> for <code>p_1</code>, but this metric has the nice property of avoiding the
 ambiguity. On the other hand, <code>r_1</code> is well defined as long as there are
 some events (<code>p</code>), and it is <code>tp / p</code> with <code>tp = 0</code>, so <code>r_1 = 0</code>.</p>
-<p>When <code>p_1</code> is defined as <code>1</code>, the <code><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision()</a></code> and <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code>
+<p>When <code>p_1</code> is defined as <code>1</code>, the <code>average_precision()</code> and <code><a href='roc_auc.html'>roc_auc()</a></code>
 values are often very close to one another.</p>
     <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
 
@@ -276,7 +276,7 @@ values are often very close to one another.</p>
 <p>Macro and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a <code>truth</code> factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
-See <code><a href='https://cran.rstudio.com/web/packages/yardstick/vignettes/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
+See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstick")</a></code> for more information.</p>
     <h2 class="hasAnchor" id="relevant-level"><a class="anchor" href="#relevant-level"></a>Relevant Level</h2>
 
     
@@ -292,16 +292,16 @@ comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/yardstick/man/pr_curve.html'>pr_curve()</a></code> for computing the full precision recall curve.</p>
-<p><code><a href='https://rdrr.io/pkg/yardstick/man/pr_auc.html'>pr_auc()</a></code> for computing the area under the precision recall curve using
+    <div class='dont-index'><p><code><a href='pr_curve.html'>pr_curve()</a></code> for computing the full precision recall curve.</p>
+<p><code><a href='pr_auc.html'>pr_auc()</a></code> for computing the area under the precision recall curve using
 the trapezoidal rule.</p>
 <p>Other class probability metrics: 
-<code><a href='https://rdrr.io/pkg/yardstick/man/gain_capture.html'>gain_capture</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/pr_auc.html'>pr_auc</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunp.html'>roc_aunp</a>()</code>,
-<code><a href='https://rdrr.io/pkg/yardstick/man/roc_aunu.html'>roc_aunu</a>()</code></p></div>
+<code><a href='gain_capture.html'>gain_capture</a>()</code>,
+<code><a href='mn_log_loss.html'>mn_log_loss</a>()</code>,
+<code><a href='pr_auc.html'>pr_auc</a>()</code>,
+<code><a href='roc_auc.html'>roc_auc</a>()</code>,
+<code><a href='roc_aunp.html'>roc_aunp</a>()</code>,
+<code><a href='roc_aunu.html'>roc_aunu</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
@@ -310,19 +310,13 @@ the trapezoidal rule.</p>
 <span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>two_class_example</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>two_class_example</span>)
 
 <span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span>
 <span class='co'># and a single class probability column containing the probabilities of</span>
 <span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
 <span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>Class1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'>average_precision</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric           .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> average_precision binary         0.947</div><div class='input'>
@@ -332,48 +326,30 @@ the trapezoidal rule.</p>
 <span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span>
 <span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
 <span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>hpc_cv</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
 
 <span class='co'># You can use the col1:colN tidyselect syntax</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric           .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> average_precision macro          0.617</div><div class='input'>
 <span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
 <span class='co'># event of interest. The class probability columns should be supplied</span>
 <span class='co'># in the same order as the levels.</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(obs = <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='kw'>obs</span>, <span class='st'>"M"</span>)) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a></span>(<span class='kw'>obs</span>, <span class='kw'>M</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>obs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span>(<span class='no'>obs</span>, <span class='st'>"M"</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>M</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric           .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> average_precision macro          0.617</div><div class='input'>
 <span class='co'># Groups are respected</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric           .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   average_precision macro          0.617
@@ -387,15 +363,9 @@ the trapezoidal rule.</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   average_precision macro          0.632
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   average_precision macro          0.611</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision</a></span>(<span class='kw'>obs</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>, estimator = <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>average_precision</span>(<span class='no'>obs</span>, <span class='no'>VF</span>:<span class='no'>L</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric           .estimator     .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   average_precision macro_weighted     0.750
@@ -410,16 +380,17 @@ the trapezoidal rule.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   average_precision macro_weighted     0.742</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
-<span class='kw'>fold1</span> <span class='op'>&lt;-</span> <span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span>)
+<span class='no'>fold1</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>)
 
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/average_precision.html'>average_precision_vec</a></span>(
-   truth = <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>obs</span>,
+<span class='fu'>average_precision_vec</span>(
+   <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>fold1</span>$<span class='no'>obs</span>,
    <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(
-     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>VF</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>F</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>M</span>, <span class='kw'>fold1</span><span class='op'>$</span><span class='kw'>L</span>),
-     ncol = <span class='fl'>4</span>
+     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>fold1</span>$<span class='no'>VF</span>, <span class='no'>fold1</span>$<span class='no'>F</span>, <span class='no'>fold1</span>$<span class='no'>M</span>, <span class='no'>fold1</span>$<span class='no'>L</span>),
+     <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>
    )
-)</div><div class='output co'>#&gt; [1] 0.6173363</div><div class='input'></div></span></pre>
+)</div><div class='output co'>#&gt; [1] 0.6173363</div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

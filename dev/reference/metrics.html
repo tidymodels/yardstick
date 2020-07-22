@@ -97,7 +97,7 @@ below) and returns them in a three column tibble." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -163,10 +163,10 @@ estimates depending on the class of <code>truth</code> (see <strong>Value</stron
 below) and returns them in a three column tibble.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metrics.html'>metrics</a></span>(<span class='kw'>data</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>metrics</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metrics.html'>metrics</a></span>(<span class='kw'>data</span>, <span class='kw'>truth</span>, <span class='kw'>estimate</span>, <span class='kw'>...</span>, options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), na_rm = <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>metrics</span>(<span class='no'>data</span>, <span class='no'>truth</span>, <span class='no'>estimate</span>, <span class='no'>...</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,44 +214,32 @@ values should be stripped before the computation proceeds.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A three column tibble.</p><ul>
-<li><p>When <code>truth</code> is a factor, there are rows for <code><a href='https://rdrr.io/pkg/yardstick/man/accuracy.html'>accuracy()</a></code> and the
-Kappa statistic (<code><a href='https://rdrr.io/pkg/yardstick/man/kap.html'>kap()</a></code>).</p></li>
+<li><p>When <code>truth</code> is a factor, there are rows for <code><a href='accuracy.html'>accuracy()</a></code> and the
+Kappa statistic (<code><a href='kap.html'>kap()</a></code>).</p></li>
 <li><p>When <code>truth</code> has two levels and 1 column of class probabilities is
 passed to <code>...</code>, there are rows for the two class versions of
-<code><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss()</a></code> and <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code>.</p></li>
+<code><a href='mn_log_loss.html'>mn_log_loss()</a></code> and <code><a href='roc_auc.html'>roc_auc()</a></code>.</p></li>
 <li><p>When <code>truth</code> has more than two levels and a full set of class probabilities
 are passed to <code>...</code>, there are rows for the multiclass version of
-<code><a href='https://rdrr.io/pkg/yardstick/man/mn_log_loss.html'>mn_log_loss()</a></code> and the Hand Till generalization of <code><a href='https://rdrr.io/pkg/yardstick/man/roc_auc.html'>roc_auc()</a></code>.</p></li>
-<li><p>When <code>truth</code> is numeric, there are rows for <code><a href='https://rdrr.io/pkg/yardstick/man/rmse.html'>rmse()</a></code>, <code><a href='https://rdrr.io/pkg/yardstick/man/rsq.html'>rsq()</a></code>,
-and <code><a href='https://rdrr.io/pkg/yardstick/man/mae.html'>mae()</a></code>.</p></li>
+<code><a href='mn_log_loss.html'>mn_log_loss()</a></code> and the Hand Till generalization of <code><a href='roc_auc.html'>roc_auc()</a></code>.</p></li>
+<li><p>When <code>truth</code> is numeric, there are rows for <code><a href='rmse.html'>rmse()</a></code>, <code><a href='rsq.html'>rsq()</a></code>,
+and <code><a href='mae.html'>mae()</a></code>.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/yardstick/man/metric_set.html'>metric_set()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='metric_set.html'>metric_set()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Accuracy and kappa</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metrics.html'>metrics</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>predicted</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 3</span><span>
+<span class='fu'>metrics</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> accuracy binary         0.838
 #&gt; </span><span style='color: #555555;'>2</span><span> kap      binary         0.675</div><div class='input'>
 <span class='co'># Add on multinomal log loss and ROC AUC by specifying class prob columns</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metrics.html'>metrics</a></span>(<span class='kw'>two_class_example</span>, <span class='kw'>truth</span>, <span class='kw'>predicted</span>, <span class='kw'>Class1</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
+<span class='fu'>metrics</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>, <span class='no'>Class1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 3</span><span>
 #&gt;   .metric     .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> accuracy    binary         0.838
@@ -259,13 +247,7 @@ and <code><a href='https://rdrr.io/pkg/yardstick/man/mae.html'>mae()</a></code>.
 #&gt; </span><span style='color: #555555;'>3</span><span> mn_log_loss binary         0.328
 #&gt; </span><span style='color: #555555;'>4</span><span> roc_auc     binary         0.939</div><div class='input'>
 <span class='co'># Regression metrics</span>
-<span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metrics.html'>metrics</a></span>(<span class='kw'>solubility_test</span>, truth = <span class='kw'>solubility</span>, estimate = <span class='kw'>prediction</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+<span class='fu'>metrics</span>(<span class='no'>solubility_test</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>solubility</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='no'>prediction</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   .metric .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> rmse    standard       0.722
@@ -274,18 +256,12 @@ and <code><a href='https://rdrr.io/pkg/yardstick/man/mae.html'>mae()</a></code>.
 <span class='co'># Multiclass metrics work, but you cannot specify any averaging</span>
 <span class='co'># for roc_auc() besides the default, hand_till. Use the specific function</span>
 <span class='co'># if you need more customization</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
 
-<span class='kw'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>Resample</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metrics.html'>metrics</a></span>(<span class='kw'>obs</span>, <span class='kw'>pred</span>, <span class='kw'>VF</span><span class='op'>:</span><span class='kw'>L</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(n = <span class='fl'>40</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>We detected these problematic arguments:</span>
-#&gt; <span class='warning'>* `needs_dots`</span>
-#&gt; <span class='warning'></span>
-#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
-#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 40 x 4</span><span>
+<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>metrics</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='no'>VF</span>:<span class='no'>L</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>40</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 40 x 4</span><span>
 #&gt;    Resample .metric     .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   accuracy    multiclass     0.726
@@ -327,7 +303,8 @@ and <code><a href='https://rdrr.io/pkg/yardstick/man/mae.html'>mae()</a></code>.
 #&gt; </span><span style='color: #555555;'>37</span><span> Fold07   roc_auc     hand_till      0.825
 #&gt; </span><span style='color: #555555;'>38</span><span> Fold08   roc_auc     hand_till      0.846
 #&gt; </span><span style='color: #555555;'>39</span><span> Fold09   roc_auc     hand_till      0.828
-#&gt; </span><span style='color: #555555;'>40</span><span> Fold10   roc_auc     hand_till      0.812</div><div class='input'></div></span></pre>
+#&gt; </span><span style='color: #555555;'>40</span><span> Fold10   roc_auc     hand_till      0.812</div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

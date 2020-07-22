@@ -99,7 +99,7 @@ and includes a number of checks on the types, lengths, and argument inputs." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -160,21 +160,21 @@ and includes a number of checks on the types, lengths, and argument inputs." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://rdrr.io/pkg/yardstick/man/metric_vec_template.html'>metric_vec_template()</a></code> is useful alongside <code><a href='https://rdrr.io/pkg/yardstick/man/metric_summarizer.html'>metric_summarizer()</a></code> for
-implementing new custom metrics. <code><a href='https://rdrr.io/pkg/yardstick/man/metric_summarizer.html'>metric_summarizer()</a></code> calls the metric
-function inside <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>dplyr::summarise()</a></code>. <code><a href='https://rdrr.io/pkg/yardstick/man/metric_vec_template.html'>metric_vec_template()</a></code> is a
+    <p><code>metric_vec_template()</code> is useful alongside <code><a href='metric_summarizer.html'>metric_summarizer()</a></code> for
+implementing new custom metrics. <code><a href='metric_summarizer.html'>metric_summarizer()</a></code> calls the metric
+function inside <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>dplyr::summarise()</a></code>. <code>metric_vec_template()</code> is a
 generalized function that calls the core implementation of a metric function,
 and includes a number of checks on the types, lengths, and argument inputs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/yardstick/man/metric_vec_template.html'>metric_vec_template</a></span>(
-  <span class='kw'>metric_impl</span>,
-  <span class='kw'>truth</span>,
-  <span class='kw'>estimate</span>,
-  na_rm = <span class='fl'>TRUE</span>,
-  cls = <span class='st'>"numeric"</span>,
-  estimator = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
+    <pre class="usage"><span class='fu'>metric_vec_template</span>(
+  <span class='no'>metric_impl</span>,
+  <span class='no'>truth</span>,
+  <span class='no'>estimate</span>,
+  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>cls</span> <span class='kw'>=</span> <span class='st'>"numeric"</span>,
+  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -232,13 +232,13 @@ when the vector method is called.</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code><a href='https://rdrr.io/pkg/yardstick/man/metric_vec_template.html'>metric_vec_template()</a></code> is called from the vector implementation of your
+    <p><code>metric_vec_template()</code> is called from the vector implementation of your
 metric. Also defined inside your vector implementation is a separate
 function performing the core implementation of the metric function. This
-core function is passed along to <code><a href='https://rdrr.io/pkg/yardstick/man/metric_vec_template.html'>metric_vec_template()</a></code> as <code>metric_impl</code>.</p>
+core function is passed along to <code>metric_vec_template()</code> as <code>metric_impl</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/yardstick/man/metric_summarizer.html'>metric_summarizer()</a></code> <code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>finalize_estimator()</a></code> <code><a href='https://rdrr.io/pkg/yardstick/man/developer-helpers.html'>dots_to_estimate()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='metric_summarizer.html'>metric_summarizer()</a></code> <code><a href='developer-helpers.html'>finalize_estimator()</a></code> <code><a href='developer-helpers.html'>dots_to_estimate()</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
