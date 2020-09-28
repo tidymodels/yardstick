@@ -176,9 +176,13 @@ validate_truth_estimate_lengths <- function(truth, estimate) {
 # Validate the initial class of the inputs -------------------------------------
 
 validate_class <- function(x, nm, cls) {
-
-  # cls is always known to have a `is.cls()` function
-  is_cls <- get(paste0("is.", cls))
+  is_cls <- switch(
+    cls,
+    factor = is.factor,
+    numeric = is.numeric,
+    Surv = survival::is.Surv,
+    abort("`cls` must be one of 'factor', 'numeric', or 'Surv'.")
+  )
 
   if(!is_cls(x)) {
     cls_real <- class(x)[[1]]
