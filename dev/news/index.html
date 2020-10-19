@@ -182,7 +182,7 @@
 </h1>
 <ul>
 <li><p><code><a href="../reference/roc_auc.html">roc_auc()</a></code> now warns when there are no events or controls in the provided <code>truth</code> column, and returns <code>NA</code> (<a href='https://github.com/dpastling'>@dpastling</a>, <a href='https://github.com/tidymodels/yardstick/issues/132'>#132</a>).</p></li>
-<li><p>Adds <code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="../reference/sens.html">sens()</a></code> and <code><a href="../reference/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g. <code><a href="https://readr.tidyverse.org/reference/spec.html">readr::spec()</a></code>.</p></li>
+<li><p>Adds <code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> as <em>aliases</em> for <code><a href="../reference/sens.html">sens()</a></code> and <code><a href="../reference/spec.html">spec()</a></code> respectively, avoids conflict with other packages e.g. <code>readr::spec()</code>.</p></li>
 <li><p><code><a href="../reference/roc_aunu.html">roc_aunu()</a></code> and <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code> are two new ROC AUC metrics for multiclass classifiers. These measure the AUC of each class against the rest, <code><a href="../reference/roc_aunu.html">roc_aunu()</a></code> using the uniform class distribution (<a href='https://github.com/tidymodels/yardstick/issues/69'>#69</a>) and <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code> using the a priori class distribution (<a href='https://github.com/tidymodels/yardstick/issues/70'>#70</a>).</p></li>
 </ul>
 </div>
@@ -194,8 +194,8 @@
 <h2 class="hasAnchor">
 <a href="#other-improvements" class="anchor"></a>Other improvements</h2>
 <ul>
-<li><p>The <code>autoplot()</code> heat map for confusion matrices now places the predicted values on the <code>x</code> axis and the truth values on the <code>y</code> axis to be more consistent with the confusion matrix <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method.</p></li>
-<li><p>The <code>autoplot()</code> mosaic plot for confusion matrices had the <code>x</code> and <code>y</code> axis labels backwards. This has been corrected.</p></li>
+<li><p>The <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> heat map for confusion matrices now places the predicted values on the <code>x</code> axis and the truth values on the <code>y</code> axis to be more consistent with the confusion matrix <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method.</p></li>
+<li><p>The <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> mosaic plot for confusion matrices had the <code>x</code> and <code>y</code> axis labels backwards. This has been corrected.</p></li>
 </ul>
 </div>
 </div>
@@ -218,7 +218,7 @@
 <li><p><code><a href="../reference/metric_set.html">metric_set()</a></code> output now includes a <code>metrics</code> attribute which contains a list of the original metric functions used to generate the metric set.</p></li>
 <li><p>Each metric function now has a <code>direction</code> attribute attached to it, specifying whether to minimize or maximize the metric.</p></li>
 <li><p>Classification metrics that can potentially have a <code>0</code> value denominator now throw an informative warning when this case occurs. These include <code><a href="../reference/recall.html">recall()</a></code>, <code><a href="../reference/precision.html">precision()</a></code>, <code><a href="../reference/sens.html">sens()</a></code>, and <code><a href="../reference/spec.html">spec()</a></code> (<a href='https://github.com/tidymodels/yardstick/issues/98'>#98</a>).</p></li>
-<li><p>The <code>autoplot()</code> method for <code><a href="../reference/pr_curve.html">pr_curve()</a></code> has been improved to always set the axis limits to <code><a href="https://rdrr.io/r/base/c.html">c(0, 1)</a></code>.</p></li>
+<li><p>The <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> method for <code><a href="../reference/pr_curve.html">pr_curve()</a></code> has been improved to always set the axis limits to <code><a href="https://rdrr.io/r/base/c.html">c(0, 1)</a></code>.</p></li>
 <li><p>All valid arguments to <code><a href="https://rdrr.io/pkg/pROC/man/roc.html">pROC::roc()</a></code> are now utilized, including those passed on to <code><a href="https://rdrr.io/pkg/pROC/man/auc.html">pROC::auc()</a></code>.</p></li>
 <li><p>Documentation for class probability metrics has been improved with more informative examples (<a href='https://github.com/rudeboybert'>@rudeboybert</a>, <a href='https://github.com/tidymodels/yardstick/issues/100'>#100</a>).</p></li>
 </ul>

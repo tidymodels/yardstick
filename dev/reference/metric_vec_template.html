@@ -167,15 +167,15 @@ generalized function that calls the core implementation of a metric function,
 and includes a number of checks on the types, lengths, and argument inputs.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>metric_vec_template</span>(
-  <span class='no'>metric_impl</span>,
-  <span class='no'>truth</span>,
-  <span class='no'>estimate</span>,
-  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>cls</span> <span class='kw'>=</span> <span class='st'>"numeric"</span>,
-  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>metric_vec_template</span><span class='op'>(</span>
+  <span class='va'>metric_impl</span>,
+  <span class='va'>truth</span>,
+  <span class='va'>estimate</span>,
+  na_rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  cls <span class='op'>=</span> <span class='st'>"numeric"</span>,
+  estimator <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -238,7 +238,7 @@ function performing the core implementation of the metric function. This
 core function is passed along to <code>metric_vec_template()</code> as <code>metric_impl</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='metric_summarizer.html'>metric_summarizer()</a></code> <code><a href='developer-helpers.html'>finalize_estimator()</a></code> <code><a href='developer-helpers.html'>dots_to_estimate()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='metric_summarizer.html'>metric_summarizer()</a></code> <code><a href='get_weights.html'>finalize_estimator()</a></code> <code><a href='get_weights.html'>dots_to_estimate()</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

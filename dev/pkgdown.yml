@@ -1,11 +1,11 @@
 pandoc: 2.7.3
-pkgdown: 1.5.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   custom-metrics: custom-metrics.html
   metric-types: metric-types.html
   multiclass: multiclass.html
-last_built: 2020-07-22T20:07Z
+last_built: 2020-10-19T16:33Z
 urls:
   reference: https://yardstick.tidymodels.org/reference
   article: https://yardstick.tidymodels.org/articles

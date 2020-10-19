@@ -165,27 +165,27 @@ finding relevant documents compared to reference results
 and <code><a href='f_meas.html'>f_meas()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>precision</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>precision</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>precision</span>(
-  <span class='no'>data</span>,
-  <span class='no'>truth</span>,
-  <span class='no'>estimate</span>,
-  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='fu'>yardstick_event_level</span>(),
-  <span class='no'>...</span>
-)
+<span class='fu'>precision</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>truth</span>,
+  <span class='va'>estimate</span>,
+  estimator <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na_rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  event_level <span class='op'>=</span> <span class='fu'>yardstick_event_level</span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>precision_vec</span>(
-  <span class='no'>truth</span>,
-  <span class='no'>estimate</span>,
-  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='fu'>yardstick_event_level</span>(),
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>precision_vec</span><span class='op'>(</span>
+  <span class='va'>truth</span>,
+  <span class='va'>estimate</span>,
+  estimator <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na_rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  event_level <span class='op'>=</span> <span class='fu'>yardstick_event_level</span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -325,28 +325,34 @@ Technical Report SIE-07-001, Flinders University</p>
 <p>Other relevance metrics: 
 <code><a href='f_meas.html'>f_meas</a>()</code>,
 <code><a href='recall.html'>recall</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Max Kuhn</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
-<span class='fu'>precision</span>(<span class='no'>two_class_example</span>, <span class='no'>truth</span>, <span class='no'>predicted</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"two_class_example"</span><span class='op'>)</span>
+<span class='fu'>precision</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>predicted</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric   .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> precision binary         0.819</div><div class='input'>
 <span class='co'># Multiclass</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hpc_cv</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span>
 
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>Resample</span> <span class='kw'>==</span> <span class='st'>"Fold01"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>precision</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>precision</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric   .estimator .estimate
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> precision macro          0.637</div><div class='input'>
 <span class='co'># Groups are respected</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>precision</span>(<span class='no'>obs</span>, <span class='no'>pred</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>precision</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric   .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   precision macro          0.637
@@ -360,9 +366,10 @@ Technical Report SIE-07-001, Flinders University</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   precision macro          0.605
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   precision macro          0.625</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
-<span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>precision</span>(<span class='no'>obs</span>, <span class='no'>pred</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='st'>"macro_weighted"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>precision</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span>, estimator <span class='op'>=</span> <span class='st'>"macro_weighted"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric   .estimator     .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   precision macro_weighted     0.697
@@ -376,16 +383,18 @@ Technical Report SIE-07-001, Flinders University</p>
 #&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   precision macro_weighted     0.661
 #&gt; </span><span style='color: #555555;'>10</span><span> Fold10   precision macro_weighted     0.683</div><div class='input'>
 <span class='co'># Vector version</span>
-<span class='fu'>precision_vec</span>(
-  <span class='no'>two_class_example</span>$<span class='no'>truth</span>,
-  <span class='no'>two_class_example</span>$<span class='no'>predicted</span>
-)</div><div class='output co'>#&gt; [1] 0.8194946</div><div class='input'>
+<span class='fu'>precision_vec</span><span class='op'>(</span>
+  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>truth</span>,
+  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>predicted</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.8194946</div><div class='input'>
 <span class='co'># Making Class2 the "relevant" level</span>
-<span class='fu'>precision_vec</span>(
-  <span class='no'>two_class_example</span>$<span class='no'>truth</span>,
-  <span class='no'>two_class_example</span>$<span class='no'>predicted</span>,
-  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='st'>"second"</span>
-)</div><div class='output co'>#&gt; [1] 0.8609865</div></span></pre>
+<span class='fu'>precision_vec</span><span class='op'>(</span>
+  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>truth</span>,
+  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>predicted</span>,
+  event_level <span class='op'>=</span> <span class='st'>"second"</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.8609865</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

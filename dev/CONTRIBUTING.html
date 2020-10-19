@@ -6,26 +6,26 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Construct a new metric function — new-metric • yardstick</title>
+<title>Contributing to tidymodels • yardstick</title>
 
 <!-- favicons -->
-<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
-<link href="../tidyverse.css" rel="stylesheet">
+<link href="tidyverse.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script>
+<link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -39,24 +39,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script>
-<link href="../tidyverse-2.css" rel="stylesheet">
+<link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script>
+<link href="tidyverse-2.css" rel="stylesheet">
 
 <!--optional theme-->
-<link href="../.css" rel="stylesheet">
+<link href=".css" rel="stylesheet">
 
 
 
 
-<meta property="og:title" content="Construct a new metric function — new-metric" />
-<meta property="og:description" content="These functions provide convenient wrappers to create the three types of
-metric functions in yardstick: numeric metrics, class metrics, and
-class probability metrics. They add a metric-specific class to fn and
-attach a direction attribute. These features are used by metric_set()
-and by tune when model tuning.
-See vignette(&quot;custom-metrics&quot;) for more information about creating custom
-metrics." />
+<meta property="og:title" content="Contributing to tidymodels" />
 <meta property="og:image" content="https://yardstick.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -85,7 +78,7 @@ metrics." />
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -98,7 +91,7 @@ metrics." />
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">yardstick</a>
+        <a class="navbar-brand" href="index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.7.9000</span>
@@ -108,13 +101,13 @@ metrics." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
+  <a href="index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -124,18 +117,18 @@ metrics." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/custom-metrics.html">Custom metrics</a>
+      <a href="articles/custom-metrics.html">Custom metrics</a>
     </li>
     <li>
-      <a href="../articles/metric-types.html">Metric types</a>
+      <a href="articles/metric-types.html">Metric types</a>
     </li>
     <li>
-      <a href="../articles/multiclass.html">Multiclass averaging</a>
+      <a href="articles/multiclass.html">Multiclass averaging</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick/">
@@ -154,55 +147,58 @@ metrics." />
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>Construct a new metric function</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/aaa-new.R'><code>R/aaa-new.R</code></a></small>
-    <div class="hidden name"><code>new-metric.Rd</code></div>
+      <h1>Contributing to tidymodels</h1>
     </div>
 
-    <div class="ref-description">
-    <p>These functions provide convenient wrappers to create the three types of
-metric functions in yardstick: numeric metrics, class metrics, and
-class probability metrics. They add a metric-specific class to <code>fn</code> and
-attach a <code>direction</code> attribute. These features are used by <code><a href='metric_set.html'>metric_set()</a></code>
-and by <a href='https://tune.tidymodels.org/'>tune</a> when model tuning.</p>
-<p>See <code><a href='../articles/custom-metrics.html'>vignette("custom-metrics")</a></code> for more information about creating custom
-metrics.</p>
-    </div>
+<div id="contributing-to-tidymodels" class="section level1">
 
-    <pre class="usage"><span class='fu'>new_class_metric</span><span class='op'>(</span><span class='va'>fn</span>, <span class='va'>direction</span><span class='op'>)</span>
-
-<span class='fu'>new_prob_metric</span><span class='op'>(</span><span class='va'>fn</span>, <span class='va'>direction</span><span class='op'>)</span>
-
-<span class='fu'>new_numeric_metric</span><span class='op'>(</span><span class='va'>fn</span>, <span class='va'>direction</span><span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>fn</th>
-      <td><p>A function. The metric function to attach a metric-specific class
-and <code>direction</code> attribute to.</p></td>
-    </tr>
-    <tr>
-      <th>direction</th>
-      <td><p>A string. One of:</p><ul>
-<li><p><code>"maximize"</code></p></li>
-<li><p><code>"minimize"</code></p></li>
-<li><p><code>"zero"</code></p></li>
-</ul></td>
-    </tr>
-    </table>
-
+<p>For more detailed information about contributing to tidymodels packages, see our <a href="https://www.tidymodels.org/contribute/"><strong>development contributing guide</strong></a>.</p>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h2>
+<p>Typos or grammatical errors in documentation may be edited directly using the GitHub web interface, as long as the changes are made in the <em>source</em> file.</p>
+<ul>
+<li>YES ✅: you edit a roxygen comment in an <code>.R</code> file in the <code>R/</code> directory.</li>
+<li>NO 🚫: you edit an <code>.Rd</code> file in the <code>man/</code> directory.</li>
+</ul>
+<p>We use <a href="https://cran.r-project.org/package=roxygen2">roxygen2</a>, with <a href="https://cran.r-project.org/web/packages/roxygen2/vignettes/rd-formatting.html">Markdown syntax</a>, for documentation.</p>
+</div>
+<div id="code" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code" class="anchor"></a>Code</h2>
+<p>Before you submit 🎯 a pull request on a tidymodels package, always file an issue and confirm the tidymodels team agrees with your idea and is happy with your basic proposal.</p>
+<p>The <a href="https://www.tidymodels.org/packages/">tidymodels packages</a> work together. Each package contains its own unit tests, while integration tests and other tests using all the packages are contained in <a href="https://github.com/tidymodels/extratests">extratests</a>.</p>
+<ul>
+<li>For pull requests, we recommend that you <a href="https://usethis.r-lib.org/articles/articles/pr-functions.html">create a fork of this repo</a> with <code>usethis::create_from_github()</code>, and then initiate a new branch with <code>usethis::pr_init()</code>.</li>
+<li>Look at the build status before and after making changes. The <code>README</code> contains badges for any continuous integration services used by the package.<br>
+</li>
+<li>New code should follow the tidyverse <a href="http://style.tidyverse.org">style guide</a>. You can use the <a href="https://CRAN.R-project.org/package=styler">styler</a> package to apply these styles, but please don’t restyle code that has nothing to do with your PR.<br>
+</li>
+<li>For user-facing changes, add a bullet to the top of <code>NEWS.md</code> below the current development version header describing the changes made followed by your GitHub username, and links to relevant issue(s)/PR(s).</li>
+<li>We use <a href="https://cran.r-project.org/package=testthat">testthat</a>. Contributions with test cases included are easier to accept.</li>
+<li>If your contribution spans the use of more than one package, consider building <a href="https://github.com/tidymodels/extratests">extratests</a> with your changes to check for breakages and/or adding new tests there. Let us know in your PR if you ran these extra tests.</li>
+<li>Here in the yardstick package, some test objects are created via helper functions in the <code>tests/testthat/</code> folder.</li>
+</ul>
+<div id="code-of-conduct" class="section level3">
+<h3 class="hasAnchor">
+<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h3>
+<p>This project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+</div>
+</div>
+</div>
 
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
+
 
 
       <footer>

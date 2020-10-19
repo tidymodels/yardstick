@@ -169,18 +169,18 @@ and includes a number of checks on the types, lengths, and argument inputs.
 See <code><a href='../articles/custom-metrics.html'>vignette("custom-metrics", "yardstick")</a></code> for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>metric_summarizer</span>(
-  <span class='no'>metric_nm</span>,
-  <span class='no'>metric_fn</span>,
-  <span class='no'>data</span>,
-  <span class='no'>truth</span>,
-  <span class='no'>estimate</span>,
-  <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>event_level</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>metric_fn_options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>metric_summarizer</span><span class='op'>(</span>
+  <span class='va'>metric_nm</span>,
+  <span class='va'>metric_fn</span>,
+  <span class='va'>data</span>,
+  <span class='va'>truth</span>,
+  <span class='va'>estimate</span>,
+  estimator <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na_rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  event_level <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>,
+  metric_fn_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,7 +211,7 @@ in from the data frame version of your metric function that called
       <th>estimate</th>
       <td><p>Generally, the unquoted column name corresponding to
 the <code>estimate</code> column. For metrics that take multiple columns through <code>...</code>
-like class probability metrics, this is a result of <code><a href='developer-helpers.html'>dots_to_estimate()</a></code>.</p></td>
+like class probability metrics, this is a result of <code><a href='get_weights.html'>dots_to_estimate()</a></code>.</p></td>
     </tr>
     <tr>
       <th>estimator</th>
@@ -256,7 +256,7 @@ of your metric function. It knows how to call your metric over grouped data
 frames and returns a <code>tibble</code> consistent with other metrics.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='metric_vec_template.html'>metric_vec_template()</a></code> <code><a href='developer-helpers.html'>finalize_estimator()</a></code> <code><a href='developer-helpers.html'>dots_to_estimate()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='metric_vec_template.html'>metric_vec_template()</a></code> <code><a href='get_weights.html'>finalize_estimator()</a></code> <code><a href='get_weights.html'>dots_to_estimate()</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

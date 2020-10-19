@@ -109,7 +109,7 @@
       <h1 data-toc-skip>Custom metrics</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2020-07-22</h4>
+            <h4 class="date">2020-10-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/custom-metrics.Rmd"><code>vignettes/custom-metrics.Rmd</code></a></small>
       <div class="hidden name"><code>custom-metrics.Rmd</code></div>
@@ -118,7 +118,8 @@
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">yardstick</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/yardstick">yardstick</a></span><span class="op">)</span></pre></div>
 <div id="custom-metrics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#custom-metrics" class="anchor"></a>Custom metrics</h2>
@@ -152,102 +153,109 @@
 <p>Below, <code>mse_impl()</code> contains the actual implementation of the metric, and takes <code>truth</code> and <code>estimate</code> as arguments along with any metric specific arguments.</p>
 <p><code><a href="../reference/metric_vec_template.html">metric_vec_template()</a></code> is a <code>yardstick</code> function that accepts the implementation function along with the other arguments to <code>mse_vec()</code> and actually executes <code>mse_impl()</code>. Additionally, it has a <code>cls</code> argument to specify the allowed class type of <code>truth</code> and <code>estimate</code>. If the classes are the same, a single character class can be passed, and if they are different a character vector of length 2 can be supplied.</p>
 <p>The <code><a href="../reference/metric_vec_template.html">metric_vec_template()</a></code> helper handles the removal of <code>NA</code> values in your metric, so your implementation function does not have to worry about them. It performs type checking using <code>cls</code> and also checks that the <code>estimator</code> is valid, the second of which is covered in the classification example. This way, all you have to worry about is the core implementation.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">mse_vec</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">truth</span>, <span class="no">estimate</span>, <span class="no">na_rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="no">...</span>) {
-
-  <span class="no">mse_impl</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">truth</span>, <span class="no">estimate</span>) {
-    <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>((<span class="no">truth</span> - <span class="no">estimate</span>) ^ <span class="fl">2</span>)
-  }
-
-  <span class="fu"><a href="../reference/metric_vec_template.html">metric_vec_template</a></span>(
-    <span class="kw">metric_impl</span> <span class="kw">=</span> <span class="no">mse_impl</span>,
-    <span class="kw">truth</span> <span class="kw">=</span> <span class="no">truth</span>,
-    <span class="kw">estimate</span> <span class="kw">=</span> <span class="no">estimate</span>,
-    <span class="kw">na_rm</span> <span class="kw">=</span> <span class="no">na_rm</span>,
-    <span class="kw">cls</span> <span class="kw">=</span> <span class="st">"numeric"</span>,
-    <span class="no">...</span>
-  )
-
-}</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="va">mse_vec</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">na_rm</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
+  
+  <span class="va">mse_impl</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">truth</span> <span class="op">-</span> <span class="va">estimate</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span>
+  <span class="op">}</span>
+  
+  <span class="fu"><a href="../reference/metric_vec_template.html">metric_vec_template</a></span><span class="op">(</span>
+    metric_impl <span class="op">=</span> <span class="va">mse_impl</span>,
+    truth <span class="op">=</span> <span class="va">truth</span>, 
+    estimate <span class="op">=</span> <span class="va">estimate</span>,
+    na_rm <span class="op">=</span> <span class="va">na_rm</span>,
+    cls <span class="op">=</span> <span class="st">"numeric"</span>,
+    <span class="va">...</span>
+  <span class="op">)</span>
+  
+<span class="op">}</span></pre></div>
 <p>At this point, you’ve created the vector version of the mean squared error metric.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"solubility_test"</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"solubility_test"</span><span class="op">)</span>
 
-<span class="fu">mse_vec</span>(
-  <span class="kw">truth</span> <span class="kw">=</span> <span class="no">solubility_test</span>$<span class="no">solubility</span>,
-  <span class="kw">estimate</span> <span class="kw">=</span> <span class="no">solubility_test</span>$<span class="no">prediction</span>
-)
-<span class="co">#&gt; [1] 0.5214438</span></pre></body></html></div>
+<span class="fu">mse_vec</span><span class="op">(</span>
+  truth <span class="op">=</span> <span class="va">solubility_test</span><span class="op">$</span><span class="va">solubility</span>, 
+  estimate <span class="op">=</span> <span class="va">solubility_test</span><span class="op">$</span><span class="va">prediction</span>
+<span class="op">)</span>
+<span class="co">#&gt; [1] 0.5214438</span></pre></div>
 <p>Intelligent error handling is immediately available.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu">mse_vec</span>(<span class="kw">truth</span> <span class="kw">=</span> <span class="st">"apple"</span>, <span class="kw">estimate</span> <span class="kw">=</span> <span class="fl">1</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu">mse_vec</span><span class="op">(</span>truth <span class="op">=</span> <span class="st">"apple"</span>, estimate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; Error: `truth` should be a numeric but a character was supplied.</span>
 
-<span class="fu">mse_vec</span>(<span class="kw">truth</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">estimate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="st">"xyz"</span>))
-<span class="co">#&gt; Error: `estimate` should be a numeric but a factor was supplied.</span></pre></body></html></div>
+<span class="fu">mse_vec</span><span class="op">(</span>truth <span class="op">=</span> <span class="fl">1</span>, estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="st">"xyz"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Error: `estimate` should be a numeric but a factor was supplied.</span></pre></div>
 <p><code>NA</code> values are removed if <code>na_rm = TRUE</code> (the default). If <code>na_rm = FALSE</code> and any <code>NA</code> values are detected, then the metric automatically returns <code>NA</code>.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># NA values removed</span>
-<span class="fu">mse_vec</span>(<span class="kw">truth</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">NA</span>, <span class="fl">.5</span>, <span class="fl">.4</span>), <span class="kw">estimate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">.6</span>, <span class="fl">.5</span>))
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="co"># NA values removed</span>
+<span class="fu">mse_vec</span><span class="op">(</span>truth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">.5</span>, <span class="fl">.4</span><span class="op">)</span>, estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.6</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.01</span>
 
 <span class="co"># NA returned</span>
-<span class="fu">mse_vec</span>(<span class="kw">truth</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">NA</span>, <span class="fl">.5</span>, <span class="fl">.4</span>), <span class="kw">estimate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">.6</span>, <span class="fl">.5</span>), <span class="kw">na_rm</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="co">#&gt; [1] NA</span></pre></body></html></div>
+<span class="fu">mse_vec</span><span class="op">(</span>truth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">.5</span>, <span class="fl">.4</span><span class="op">)</span>, estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.6</span>, <span class="fl">.5</span><span class="op">)</span>, na_rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; [1] NA</span></pre></div>
 </div>
 <div id="data-frame-implementation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-frame-implementation" class="anchor"></a>Data frame implementation</h3>
 <p>The data frame version of the metric should be fairly simple. It is a generic function with a <code>data.frame</code> method that calls the <code>yardstick</code> helper, <code><a href="../reference/metric_summarizer.html">metric_summarizer()</a></code>, and passes along the <code>mse_vec()</code> function to it along with versions of <code>truth</code> and <code>estimate</code> that have been wrapped in <code><a href="https://rlang.r-lib.org/reference/nse-defuse.html">rlang::enquo()</a></code> and then unquoted with <code>!!</code> so that non-standard evaluation can be supported. Additionally, the generic itself has been wrapped in <code><a href="../reference/new-metric.html">new_numeric_metric()</a></code> to formalize it as a numeric metric function. This allows the metric to work with <code><a href="../reference/metric_set.html">metric_set()</a></code> and the tune package.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rlang</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rlang.r-lib.org">rlang</a></span><span class="op">)</span>
 
-<span class="no">mse</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">data</span>, <span class="no">...</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod</a></span>(<span class="st">"mse"</span>)
-}
+<span class="va">mse</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod</a></span><span class="op">(</span><span class="st">"mse"</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="no">mse</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/new-metric.html">new_numeric_metric</a></span>(<span class="no">mse</span>, <span class="kw">direction</span> <span class="kw">=</span> <span class="st">"minimize"</span>)
+<span class="va">mse</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new-metric.html">new_numeric_metric</a></span><span class="op">(</span><span class="va">mse</span>, direction <span class="op">=</span> <span class="st">"minimize"</span><span class="op">)</span>
 
-<span class="no">mse.data.frame</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">data</span>, <span class="no">truth</span>, <span class="no">estimate</span>, <span class="no">na_rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="no">...</span>) {
-
-  <span class="fu"><a href="../reference/metric_summarizer.html">metric_summarizer</a></span>(
-    <span class="kw">metric_nm</span> <span class="kw">=</span> <span class="st">"mse"</span>,
-    <span class="kw">metric_fn</span> <span class="kw">=</span> <span class="no">mse_vec</span>,
-    <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>,
-    <span class="kw">truth</span> <span class="kw">=</span> !! <span class="fu"><a href="https://rlang.r-lib.org/reference/nse-defuse.html">enquo</a></span>(<span class="no">truth</span>),
-    <span class="kw">estimate</span> <span class="kw">=</span> !! <span class="fu"><a href="https://rlang.r-lib.org/reference/nse-defuse.html">enquo</a></span>(<span class="no">estimate</span>),
-    <span class="kw">na_rm</span> <span class="kw">=</span> <span class="no">na_rm</span>,
-    <span class="no">...</span>
-  )
-
-}</pre></body></html></div>
+<span class="va">mse.data.frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">na_rm</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
+  
+  <span class="fu"><a href="../reference/metric_summarizer.html">metric_summarizer</a></span><span class="op">(</span>
+    metric_nm <span class="op">=</span> <span class="st">"mse"</span>,
+    metric_fn <span class="op">=</span> <span class="va">mse_vec</span>,
+    data <span class="op">=</span> <span class="va">data</span>,
+    truth <span class="op">=</span> <span class="op">!</span><span class="op">!</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/nse-defuse.html">enquo</a></span><span class="op">(</span><span class="va">truth</span><span class="op">)</span>,
+    estimate <span class="op">=</span> <span class="op">!</span><span class="op">!</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/nse-defuse.html">enquo</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>, 
+    na_rm <span class="op">=</span> <span class="va">na_rm</span>,
+    <span class="va">...</span>
+  <span class="op">)</span>
+  
+<span class="op">}</span></pre></div>
 <p>And that’s it. <code>yardstick</code> handles the rest with an internal call to <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu">mse</span>(<span class="no">solubility_test</span>, <span class="kw">truth</span> <span class="kw">=</span> <span class="no">solubility</span>, <span class="kw">estimate</span> <span class="kw">=</span> <span class="no">prediction</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu">mse</span><span class="op">(</span><span class="va">solubility_test</span>, truth <span class="op">=</span> <span class="va">solubility</span>, estimate <span class="op">=</span> <span class="va">prediction</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   .metric .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 mse     standard       0.521</span>
 
 <span class="co"># Error handling</span>
-<span class="fu">mse</span>(<span class="no">solubility_test</span>, <span class="kw">truth</span> <span class="kw">=</span> <span class="no">solubility</span>, <span class="kw">estimate</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="st">"xyz"</span>))
+<span class="fu">mse</span><span class="op">(</span><span class="va">solubility_test</span>, truth <span class="op">=</span> <span class="va">solubility</span>, estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="st">"xyz"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Error: Problem with `summarise()` input `.estimate`.</span>
 <span class="co">#&gt; ✖ `estimate` should be a numeric but a factor was supplied.</span>
-<span class="co">#&gt; ℹ Input `.estimate` is `metric_fn(truth = solubility, estimate = factor("xyz"), na_rm = na_rm)`.</span></pre></body></html></div>
+<span class="co">#&gt; ℹ Input `.estimate` is `metric_fn(truth = solubility, estimate = factor("xyz"), na_rm = na_rm)`.</span></pre></div>
 <p>Let’s test it out on a grouped data frame.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
-<span class="no">size</span> <span class="kw">&lt;-</span> <span class="fl">100</span>
-<span class="no">times</span> <span class="kw">&lt;-</span> <span class="fl">10</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
+<span class="va">size</span> <span class="op">&lt;-</span> <span class="fl">100</span>
+<span class="va">times</span> <span class="op">&lt;-</span> <span class="fl">10</span>
 
 <span class="co"># create 10 resamples</span>
-<span class="no">solubility_resampled</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span>(
-    <span class="kw">n</span> <span class="kw">=</span> <span class="no">times</span>,
-    <span class="kw">expr</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="no">solubility_test</span>, <span class="no">size</span>, <span class="kw">replace</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
-    <span class="kw">simplify</span> <span class="kw">=</span> <span class="fl">FALSE</span>
-  ),
-  <span class="kw">.id</span> <span class="kw">=</span> <span class="st">"resample"</span>
-)
+<span class="va">solubility_resampled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span>
+    n <span class="op">=</span> <span class="va">times</span>,
+    expr <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span><span class="va">solubility_test</span>, <span class="va">size</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+    simplify <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span>,
+  .id <span class="op">=</span> <span class="st">"resample"</span>
+<span class="op">)</span>
 
-<span class="no">solubility_resampled</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">resample</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">mse</span>(<span class="no">solubility</span>, <span class="no">prediction</span>)
+<span class="va">solubility_resampled</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">resample</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">mse</span><span class="op">(</span><span class="va">solubility</span>, <span class="va">prediction</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 10 x 4</span>
 <span class="co">#&gt;    resample .metric .estimator .estimate</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span>
@@ -260,7 +268,7 @@
 <span class="co">#&gt;  7 6        mse     standard       0.652</span>
 <span class="co">#&gt;  8 7        mse     standard       0.642</span>
 <span class="co">#&gt;  9 8        mse     standard       0.404</span>
-<span class="co">#&gt; 10 9        mse     standard       0.479</span></pre></body></html></div>
+<span class="co">#&gt; 10 9        mse     standard       0.479</span></pre></div>
 </div>
 </div>
 <div id="class-example---miss-rate" class="section level2">
@@ -276,115 +284,119 @@
 <p>The vector implementation for classification metrics initially has the same setup as numeric metrics, but has two additional arguments.</p>
 <p><code>estimator</code> determines the type of estimator to use (binary or some kind of multiclass implementation or averaging). This argument is auto-selected for the user, so default it to <code>NULL</code>. Additionally, pass it along to <code><a href="../reference/metric_vec_template.html">metric_vec_template()</a></code> so that it can check the provided <code>estimator</code> against the classes of <code>truth</code> and <code>estimate</code> to see if they are allowed.</p>
 <p><code>event_level</code> determines which level of <code>truth</code> should be considered the “event” when <code>truth</code> is a binary factor. The two options are <code>"first"</code>, and <code>"second"</code>, but you should default it to <code>"first"</code>.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># Logic for `event_level`</span>
-<span class="no">event_col</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">xtab</span>, <span class="no">event_level</span>) {
-  <span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(<span class="no">event_level</span>, <span class="st">"first"</span>)) {
-    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">xtab</span>)<span class="kw">[[</span><span class="fl">1</span>]]
-  } <span class="kw">else</span> {
-    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">xtab</span>)<span class="kw">[[</span><span class="fl">2</span>]]
-  }
-}
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="co"># Logic for `event_level`</span>
+<span class="va">event_col</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">xtab</span>, <span class="va">event_level</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">event_level</span>, <span class="st">"first"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">xtab</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">xtab</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
+  <span class="op">}</span>
+<span class="op">}</span>
 
-<span class="no">miss_rate_vec</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">truth</span>,
-                          <span class="no">estimate</span>,
-                          <span class="no">estimator</span> <span class="kw">=</span> <span class="kw">NULL</span>,
-                          <span class="no">na_rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                          <span class="no">event_level</span> <span class="kw">=</span> <span class="st">"first"</span>,
-                          <span class="no">...</span>) {
-  <span class="no">estimator</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/developer-helpers.html">finalize_estimator</a></span>(<span class="no">truth</span>, <span class="no">estimator</span>)
-
-  <span class="no">miss_rate_impl</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">truth</span>, <span class="no">estimate</span>) {
+<span class="va">miss_rate_vec</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">truth</span>, 
+                          <span class="va">estimate</span>, 
+                          <span class="va">estimator</span> <span class="op">=</span> <span class="cn">NULL</span>, 
+                          <span class="va">na_rm</span> <span class="op">=</span> <span class="cn">TRUE</span>, 
+                          <span class="va">event_level</span> <span class="op">=</span> <span class="st">"first"</span>,
+                          <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">estimator</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_weights.html">finalize_estimator</a></span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimator</span><span class="op">)</span>
+  
+  <span class="va">miss_rate_impl</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span><span class="op">)</span> <span class="op">{</span>
     <span class="co"># Create </span>
-    <span class="no">xtab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">estimate</span>, <span class="no">truth</span>)
-    <span class="no">col</span> <span class="kw">&lt;-</span> <span class="fu">event_col</span>(<span class="no">xtab</span>, <span class="no">event_level</span>)
-    <span class="no">col2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">setdiff</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">xtab</span>), <span class="no">col</span>)
-
-    <span class="no">tp</span> <span class="kw">&lt;-</span> <span class="no">xtab</span>[<span class="no">col</span>, <span class="no">col</span>]
-    <span class="no">fn</span> <span class="kw">&lt;-</span> <span class="no">xtab</span>[<span class="no">col2</span>, <span class="no">col</span>]
-
-    <span class="no">fn</span> / (<span class="no">fn</span> + <span class="no">tp</span>)
-  }
-
-  <span class="fu"><a href="../reference/metric_vec_template.html">metric_vec_template</a></span>(
-    <span class="kw">metric_impl</span> <span class="kw">=</span> <span class="no">miss_rate_impl</span>,
-    <span class="kw">truth</span> <span class="kw">=</span> <span class="no">truth</span>,
-    <span class="kw">estimate</span> <span class="kw">=</span> <span class="no">estimate</span>,
-    <span class="kw">na_rm</span> <span class="kw">=</span> <span class="no">na_rm</span>,
-    <span class="kw">cls</span> <span class="kw">=</span> <span class="st">"factor"</span>,
-    <span class="kw">estimator</span> <span class="kw">=</span> <span class="no">estimator</span>,
-    <span class="no">...</span>
-  )
-}</pre></body></html></div>
-<p>Another change from the numeric metric is that a call to <code><a href="../reference/developer-helpers.html">finalize_estimator()</a></code> is made. This is the infrastructure that auto-selects the type of estimator to use.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"two_class_example"</span>)
-<span class="fu">miss_rate_vec</span>(<span class="no">two_class_example</span>$<span class="no">truth</span>, <span class="no">two_class_example</span>$<span class="no">predicted</span>)
-<span class="co">#&gt; [1] 0.120155</span></pre></body></html></div>
+    <span class="va">xtab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">estimate</span>, <span class="va">truth</span><span class="op">)</span>
+    <span class="va">col</span> <span class="op">&lt;-</span> <span class="fu">event_col</span><span class="op">(</span><span class="va">xtab</span>, <span class="va">event_level</span><span class="op">)</span>
+    <span class="va">col2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">xtab</span><span class="op">)</span>, <span class="va">col</span><span class="op">)</span>
+    
+    <span class="va">tp</span> <span class="op">&lt;-</span> <span class="va">xtab</span><span class="op">[</span><span class="va">col</span>, <span class="va">col</span><span class="op">]</span>
+    <span class="va">fn</span> <span class="op">&lt;-</span> <span class="va">xtab</span><span class="op">[</span><span class="va">col2</span>, <span class="va">col</span><span class="op">]</span>
+    
+    <span class="va">fn</span> <span class="op">/</span> <span class="op">(</span><span class="va">fn</span> <span class="op">+</span> <span class="va">tp</span><span class="op">)</span>
+  <span class="op">}</span>
+  
+  <span class="fu"><a href="../reference/metric_vec_template.html">metric_vec_template</a></span><span class="op">(</span>
+    metric_impl <span class="op">=</span> <span class="va">miss_rate_impl</span>,
+    truth <span class="op">=</span> <span class="va">truth</span>,
+    estimate <span class="op">=</span> <span class="va">estimate</span>,
+    na_rm <span class="op">=</span> <span class="va">na_rm</span>,
+    cls <span class="op">=</span> <span class="st">"factor"</span>,
+    estimator <span class="op">=</span> <span class="va">estimator</span>,
+    <span class="va">...</span>
+  <span class="op">)</span>
+<span class="op">}</span></pre></div>
+<p>Another change from the numeric metric is that a call to <code><a href="../reference/get_weights.html">finalize_estimator()</a></code> is made. This is the infrastructure that auto-selects the type of estimator to use.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"two_class_example"</span><span class="op">)</span>
+<span class="fu">miss_rate_vec</span><span class="op">(</span><span class="va">two_class_example</span><span class="op">$</span><span class="va">truth</span>, <span class="va">two_class_example</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.120155</span></pre></div>
 <p>What happens if you try and pass in a multiclass result?</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"hpc_cv"</span>)
-<span class="no">fold1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">hpc_cv</span>, <span class="no">Resample</span> <span class="kw">==</span> <span class="st">"Fold01"</span>)
-<span class="fu">miss_rate_vec</span>(<span class="no">fold1</span>$<span class="no">obs</span>, <span class="no">fold1</span>$<span class="no">pred</span>)
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"hpc_cv"</span><span class="op">)</span>
+<span class="va">fold1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">hpc_cv</span>, <span class="va">Resample</span> <span class="op">==</span> <span class="st">"Fold01"</span><span class="op">)</span>
+<span class="fu">miss_rate_vec</span><span class="op">(</span><span class="va">fold1</span><span class="op">$</span><span class="va">obs</span>, <span class="va">fold1</span><span class="op">$</span><span class="va">pred</span><span class="op">)</span>
 <span class="co">#&gt;          F          M          L </span>
-<span class="co">#&gt; 0.06214689 0.00000000 0.00000000</span></pre></body></html></div>
-<p>This isn’t great, as currently multiclass <code>miss_rate()</code> isn’t supported and it would have been better to throw an error if the <code>estimator</code> was not <code>"binary"</code>. Currently, <code><a href="../reference/developer-helpers.html">finalize_estimator()</a></code> uses its default implementation which selected <code>"macro"</code> as the <code>estimator</code> since <code>truth</code> was a factor with more than 2 classes. When we implement multiclass averaging, this is what you want, but if your metric only works with a binary implementation (or has other specialized multiclass versions), you might want to guard against this.</p>
-<p>To fix this, a generic counterpart to <code><a href="../reference/developer-helpers.html">finalize_estimator()</a></code>, called <code><a href="../reference/developer-helpers.html">finalize_estimator_internal()</a></code>, exists that helps you restrict the input types. If you provide a method to <code><a href="../reference/developer-helpers.html">finalize_estimator_internal()</a></code> where the method name is the same as your metric name, and then set the <code>metric_class</code> argument in <code><a href="../reference/developer-helpers.html">finalize_estimator()</a></code> to be the same thing, you can control how the auto-selection of the <code>estimator</code> is handled.</p>
+<span class="co">#&gt; 0.06214689 0.00000000 0.00000000</span></pre></div>
+<p>This isn’t great, as currently multiclass <code>miss_rate()</code> isn’t supported and it would have been better to throw an error if the <code>estimator</code> was not <code>"binary"</code>. Currently, <code><a href="../reference/get_weights.html">finalize_estimator()</a></code> uses its default implementation which selected <code>"macro"</code> as the <code>estimator</code> since <code>truth</code> was a factor with more than 2 classes. When we implement multiclass averaging, this is what you want, but if your metric only works with a binary implementation (or has other specialized multiclass versions), you might want to guard against this.</p>
+<p>To fix this, a generic counterpart to <code><a href="../reference/get_weights.html">finalize_estimator()</a></code>, called <code><a href="../reference/get_weights.html">finalize_estimator_internal()</a></code>, exists that helps you restrict the input types. If you provide a method to <code><a href="../reference/get_weights.html">finalize_estimator_internal()</a></code> where the method name is the same as your metric name, and then set the <code>metric_class</code> argument in <code><a href="../reference/get_weights.html">finalize_estimator()</a></code> to be the same thing, you can control how the auto-selection of the <code>estimator</code> is handled.</p>
 <p>Don’t worry about the <code>metric_dispatcher</code> argument. This is handled for you and just exists as a dummy argument to dispatch off of.</p>
-<p>It is also good practice to call <code><a href="../reference/developer-helpers.html">validate_estimator()</a></code> which handles the case where a user passed in the estimator themselves. This validates that the supplied <code>estimator</code> is one of the allowed types and error otherwise.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">finalize_estimator_internal.miss_rate</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">metric_dispatcher</span>, <span class="no">x</span>, <span class="no">estimator</span>) {
-  <span class="fu"><a href="../reference/developer-helpers.html">validate_estimator</a></span>(<span class="no">estimator</span>, <span class="kw">estimator_override</span> <span class="kw">=</span> <span class="st">"binary"</span>)
-
-  <span class="kw">if</span>(!<span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span>(<span class="no">estimator</span>)) {
-    <span class="fu"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="no">estimator</span>)
-  }
-
-  <span class="no">lvls</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">x</span>)
-
-  <span class="kw">if</span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">lvls</span>) <span class="kw">&gt;</span> <span class="fl">2</span>) {
-    <span class="fu"><a href="https://rdrr.io/r/base/stop.html">stop</a></span>(<span class="st">"A multiclass `truth` input was provided, but only `binary` is supported."</span>)
-  }
-
+<p>It is also good practice to call <code><a href="../reference/get_weights.html">validate_estimator()</a></code> which handles the case where a user passed in the estimator themselves. This validates that the supplied <code>estimator</code> is one of the allowed types and error otherwise.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="va">finalize_estimator_internal.miss_rate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">metric_dispatcher</span>, <span class="va">x</span>, <span class="va">estimator</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="../reference/get_weights.html">validate_estimator</a></span><span class="op">(</span><span class="va">estimator</span>, estimator_override <span class="op">=</span> <span class="st">"binary"</span><span class="op">)</span>
+  
+  <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">estimator</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">estimator</span><span class="op">)</span>
+  <span class="op">}</span>
+  
+  <span class="va">lvls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+  
+  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">lvls</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">2</span><span class="op">)</span> <span class="op">{</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"A multiclass `truth` input was provided, but only `binary` is supported."</span><span class="op">)</span>
+  <span class="op">}</span> 
+  
   <span class="st">"binary"</span>
-}
+<span class="op">}</span>
 
-<span class="no">miss_rate_vec</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">truth</span>,
-                          <span class="no">estimate</span>,
-                          <span class="no">estimator</span> <span class="kw">=</span> <span class="kw">NULL</span>,
-                          <span class="no">na_rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                          <span class="no">event_level</span> <span class="kw">=</span> <span class="st">"first"</span>,
-                          <span class="no">...</span>) {
+<span class="va">miss_rate_vec</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">truth</span>, 
+                          <span class="va">estimate</span>, 
+                          <span class="va">estimator</span> <span class="op">=</span> <span class="cn">NULL</span>, 
+                          <span class="va">na_rm</span> <span class="op">=</span> <span class="cn">TRUE</span>, 
+                          <span class="va">event_level</span> <span class="op">=</span> <span class="st">"first"</span>,
+                          <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   <span class="co"># calls finalize_estimator_internal() internally</span>
-  <span class="no">estimator</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/developer-helpers.html">finalize_estimator</a></span>(<span class="no">truth</span>, <span class="no">estimator</span>, <span class="kw">metric_class</span> <span class="kw">=</span> <span class="st">"miss_rate"</span>)
-
-  <span class="no">miss_rate_impl</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">truth</span>, <span class="no">estimate</span>) {
+  <span class="va">estimator</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_weights.html">finalize_estimator</a></span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimator</span>, metric_class <span class="op">=</span> <span class="st">"miss_rate"</span><span class="op">)</span>
+  
+  <span class="va">miss_rate_impl</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span><span class="op">)</span> <span class="op">{</span>
     <span class="co"># Create </span>
-    <span class="no">xtab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">estimate</span>, <span class="no">truth</span>)
-    <span class="no">col</span> <span class="kw">&lt;-</span> <span class="fu">event_col</span>(<span class="no">xtab</span>, <span class="no">event_level</span>)
-    <span class="no">col2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">setdiff</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">xtab</span>), <span class="no">col</span>)
-
-    <span class="no">tp</span> <span class="kw">&lt;-</span> <span class="no">xtab</span>[<span class="no">col</span>, <span class="no">col</span>]
-    <span class="no">fn</span> <span class="kw">&lt;-</span> <span class="no">xtab</span>[<span class="no">col2</span>, <span class="no">col</span>]
-
-    <span class="no">fn</span> / (<span class="no">fn</span> + <span class="no">tp</span>)
-
-  }
-
-  <span class="fu"><a href="../reference/metric_vec_template.html">metric_vec_template</a></span>(
-    <span class="kw">metric_impl</span> <span class="kw">=</span> <span class="no">miss_rate_impl</span>,
-    <span class="kw">truth</span> <span class="kw">=</span> <span class="no">truth</span>,
-    <span class="kw">estimate</span> <span class="kw">=</span> <span class="no">estimate</span>,
-    <span class="kw">na_rm</span> <span class="kw">=</span> <span class="no">na_rm</span>,
-    <span class="kw">cls</span> <span class="kw">=</span> <span class="st">"factor"</span>,
-    <span class="kw">estimator</span> <span class="kw">=</span> <span class="no">estimator</span>,
-    <span class="no">...</span>
-  )
-}
+    <span class="va">xtab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">estimate</span>, <span class="va">truth</span><span class="op">)</span>
+    <span class="va">col</span> <span class="op">&lt;-</span> <span class="fu">event_col</span><span class="op">(</span><span class="va">xtab</span>, <span class="va">event_level</span><span class="op">)</span>
+    <span class="va">col2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">xtab</span><span class="op">)</span>, <span class="va">col</span><span class="op">)</span>
+    
+    <span class="va">tp</span> <span class="op">&lt;-</span> <span class="va">xtab</span><span class="op">[</span><span class="va">col</span>, <span class="va">col</span><span class="op">]</span>
+    <span class="va">fn</span> <span class="op">&lt;-</span> <span class="va">xtab</span><span class="op">[</span><span class="va">col2</span>, <span class="va">col</span><span class="op">]</span>
+    
+    <span class="va">fn</span> <span class="op">/</span> <span class="op">(</span><span class="va">fn</span> <span class="op">+</span> <span class="va">tp</span><span class="op">)</span>
+    
+  <span class="op">}</span>
+  
+  <span class="fu"><a href="../reference/metric_vec_template.html">metric_vec_template</a></span><span class="op">(</span>
+    metric_impl <span class="op">=</span> <span class="va">miss_rate_impl</span>,
+    truth <span class="op">=</span> <span class="va">truth</span>,
+    estimate <span class="op">=</span> <span class="va">estimate</span>,
+    na_rm <span class="op">=</span> <span class="va">na_rm</span>,
+    cls <span class="op">=</span> <span class="st">"factor"</span>,
+    estimator <span class="op">=</span> <span class="va">estimator</span>,
+    <span class="va">...</span>
+  <span class="op">)</span>
+<span class="op">}</span>
 
 <span class="co"># Error thrown by our custom handler</span>
-<span class="fu">miss_rate_vec</span>(<span class="no">fold1</span>$<span class="no">obs</span>, <span class="no">fold1</span>$<span class="no">pred</span>)
+<span class="fu">miss_rate_vec</span><span class="op">(</span><span class="va">fold1</span><span class="op">$</span><span class="va">obs</span>, <span class="va">fold1</span><span class="op">$</span><span class="va">pred</span><span class="op">)</span>
 <span class="co">#&gt; Error in finalize_estimator_internal.miss_rate(metric_dispatcher, x, estimator): A multiclass `truth` input was provided, but only `binary` is supported.</span>
 
 <span class="co"># Error thrown by validate_estimator()</span>
-<span class="fu">miss_rate_vec</span>(<span class="no">fold1</span>$<span class="no">obs</span>, <span class="no">fold1</span>$<span class="no">pred</span>, <span class="kw">estimator</span> <span class="kw">=</span> <span class="st">"macro"</span>)
-<span class="co">#&gt; Error: `estimator` must be one of: "binary". Not "macro".</span></pre></body></html></div>
+<span class="fu">miss_rate_vec</span><span class="op">(</span><span class="va">fold1</span><span class="op">$</span><span class="va">obs</span>, <span class="va">fold1</span><span class="op">$</span><span class="va">pred</span>, estimator <span class="op">=</span> <span class="st">"macro"</span><span class="op">)</span>
+<span class="co">#&gt; Error: `estimator` must be one of: "binary". Not "macro".</span></pre></div>
 </div>
 <div id="supporting-multiclass-miss-rate" class="section level3">
 <h3 class="hasAnchor">
@@ -392,140 +404,145 @@
 <p>Like many other classification metrics such as <code><a href="../reference/precision.html">precision()</a></code> or <code><a href="../reference/recall.html">recall()</a></code>, miss rate does not have a natural multiclass extension, but one can be created using methods such as macro, weighted macro, and micro averaging. If you have not, I encourage you to read <code><a href="../articles/multiclass.html">vignette("multiclass", "yardstick")</a></code> for more information about how these methods work.</p>
 <p>Generally, they require more effort to get right than the binary case, especially if you want to have a performant version. Luckily, a somewhat standard template is used in <code>yardstick</code> and can be used here as well.</p>
 <p>Let’s first remove the “binary” restriction we created earlier.</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="no">finalize_estimator_internal.miss_rate</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">finalize_estimator_internal.miss_rate</span><span class="op">)</span></pre></div>
 <p>The main changes below are:</p>
 <ul>
 <li><p>The binary implementation is moved to <code>miss_rate_binary()</code>.</p></li>
 <li><p><code>miss_rate_estimator_impl()</code> is a helper function for switching between binary and multiclass implementations. It also applies the weighting required for multiclass estimators. It is called from <code>miss_rate_impl()</code> and also accepts the <code>estimator</code> argument using R’s function scoping rules.</p></li>
 <li><p><code>miss_rate_multiclass()</code> provides the implementation for the multiclass case. It calculates the true positive and false negative values as vectors with one value per class. For the macro case, it returns a vector of miss rate calculations, and for micro, it first sums the individual pieces and returns a single miss rate calculation. In the macro case, the vector is then weighted appropriately in <code>miss_rate_estimator_impl()</code> depending on whether or not it was macro or weighted macro.</p></li>
 </ul>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">miss_rate_vec</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">truth</span>,
-                          <span class="no">estimate</span>,
-                          <span class="no">estimator</span> <span class="kw">=</span> <span class="kw">NULL</span>,
-                          <span class="no">na_rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                          <span class="no">event_level</span> <span class="kw">=</span> <span class="st">"first"</span>,
-                          <span class="no">...</span>) {
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="va">miss_rate_vec</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">truth</span>, 
+                          <span class="va">estimate</span>, 
+                          <span class="va">estimator</span> <span class="op">=</span> <span class="cn">NULL</span>, 
+                          <span class="va">na_rm</span> <span class="op">=</span> <span class="cn">TRUE</span>, 
+                          <span class="va">event_level</span> <span class="op">=</span> <span class="st">"first"</span>,
+                          <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
   <span class="co"># calls finalize_estimator_internal() internally</span>
-  <span class="no">estimator</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/developer-helpers.html">finalize_estimator</a></span>(<span class="no">truth</span>, <span class="no">estimator</span>, <span class="kw">metric_class</span> <span class="kw">=</span> <span class="st">"miss_rate"</span>)
-
-  <span class="no">miss_rate_impl</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">truth</span>, <span class="no">estimate</span>) {
-    <span class="no">xtab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">estimate</span>, <span class="no">truth</span>)
+  <span class="va">estimator</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_weights.html">finalize_estimator</a></span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimator</span>, metric_class <span class="op">=</span> <span class="st">"miss_rate"</span><span class="op">)</span>
+  
+  <span class="va">miss_rate_impl</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">xtab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">estimate</span>, <span class="va">truth</span><span class="op">)</span>
     <span class="co"># Rather than implement the actual method here, we rely on</span>
     <span class="co"># an *_estimator_impl() function that can handle binary</span>
     <span class="co"># and multiclass cases</span>
-    <span class="fu">miss_rate_estimator_impl</span>(<span class="no">xtab</span>, <span class="no">estimator</span>, <span class="no">event_level</span>)
-  }
-
-  <span class="fu"><a href="../reference/metric_vec_template.html">metric_vec_template</a></span>(
-    <span class="kw">metric_impl</span> <span class="kw">=</span> <span class="no">miss_rate_impl</span>,
-    <span class="kw">truth</span> <span class="kw">=</span> <span class="no">truth</span>,
-    <span class="kw">estimate</span> <span class="kw">=</span> <span class="no">estimate</span>,
-    <span class="kw">na_rm</span> <span class="kw">=</span> <span class="no">na_rm</span>,
-    <span class="kw">cls</span> <span class="kw">=</span> <span class="st">"factor"</span>,
-    <span class="kw">estimator</span> <span class="kw">=</span> <span class="no">estimator</span>,
-    <span class="no">...</span>
-  )
-}
+    <span class="fu">miss_rate_estimator_impl</span><span class="op">(</span><span class="va">xtab</span>, <span class="va">estimator</span>, <span class="va">event_level</span><span class="op">)</span>
+  <span class="op">}</span>
+  
+  <span class="fu"><a href="../reference/metric_vec_template.html">metric_vec_template</a></span><span class="op">(</span>
+    metric_impl <span class="op">=</span> <span class="va">miss_rate_impl</span>,
+    truth <span class="op">=</span> <span class="va">truth</span>,
+    estimate <span class="op">=</span> <span class="va">estimate</span>,
+    na_rm <span class="op">=</span> <span class="va">na_rm</span>,
+    cls <span class="op">=</span> <span class="st">"factor"</span>,
+    estimator <span class="op">=</span> <span class="va">estimator</span>,
+    <span class="va">...</span>
+  <span class="op">)</span>
+<span class="op">}</span>
 
 <span class="co"># This function switches between binary and multiclass implementations</span>
-<span class="no">miss_rate_estimator_impl</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">data</span>, <span class="no">estimator</span>, <span class="no">event_level</span>) {
-  <span class="kw">if</span>(<span class="no">estimator</span> <span class="kw">==</span> <span class="st">"binary"</span>) {
-    <span class="fu">miss_rate_binary</span>(<span class="no">data</span>, <span class="no">event_level</span>)
-  } <span class="kw">else</span> {
+<span class="va">miss_rate_estimator_impl</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">estimator</span>, <span class="va">event_level</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw">if</span><span class="op">(</span><span class="va">estimator</span> <span class="op">==</span> <span class="st">"binary"</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu">miss_rate_binary</span><span class="op">(</span><span class="va">data</span>, <span class="va">event_level</span><span class="op">)</span>
+  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
     <span class="co"># Encapsulates the macro, macro weighted, and micro cases</span>
-    <span class="no">wt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/developer-helpers.html">get_weights</a></span>(<span class="no">data</span>, <span class="no">estimator</span>)
-    <span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu">miss_rate_multiclass</span>(<span class="no">data</span>, <span class="no">estimator</span>)
-    <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span>(<span class="no">res</span>, <span class="no">wt</span>)
-  }
-}
+    <span class="va">wt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_weights.html">get_weights</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">estimator</span><span class="op">)</span>
+    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">miss_rate_multiclass</span><span class="op">(</span><span class="va">data</span>, <span class="va">estimator</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">wt</span><span class="op">)</span>
+  <span class="op">}</span>
+<span class="op">}</span>
 
-<span class="no">miss_rate_binary</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">data</span>, <span class="no">event_level</span>) {
-  <span class="no">col</span> <span class="kw">&lt;-</span> <span class="fu">event_col</span>(<span class="no">data</span>, <span class="no">event_level</span>)
-  <span class="no">col2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">setdiff</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">data</span>), <span class="no">col</span>)
+<span class="va">miss_rate_binary</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">event_level</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">col</span> <span class="op">&lt;-</span> <span class="fu">event_col</span><span class="op">(</span><span class="va">data</span>, <span class="va">event_level</span><span class="op">)</span>
+  <span class="va">col2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, <span class="va">col</span><span class="op">)</span>
+  
+  <span class="va">tp</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span><span class="va">col</span>, <span class="va">col</span><span class="op">]</span>
+  <span class="va">fn</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span><span class="va">col2</span>, <span class="va">col</span><span class="op">]</span>
+  
+  <span class="va">fn</span> <span class="op">/</span> <span class="op">(</span><span class="va">fn</span> <span class="op">+</span> <span class="va">tp</span><span class="op">)</span>
+<span class="op">}</span>
 
-  <span class="no">tp</span> <span class="kw">&lt;-</span> <span class="no">data</span>[<span class="no">col</span>, <span class="no">col</span>]
-  <span class="no">fn</span> <span class="kw">&lt;-</span> <span class="no">data</span>[<span class="no">col2</span>, <span class="no">col</span>]
-
-  <span class="no">fn</span> / (<span class="no">fn</span> + <span class="no">tp</span>)
-}
-
-<span class="no">miss_rate_multiclass</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">data</span>, <span class="no">estimator</span>) {
+<span class="va">miss_rate_multiclass</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">estimator</span><span class="op">)</span> <span class="op">{</span>
   <span class="co"># We need tp and fn for all classes individually</span>
   <span class="co"># we can get this by taking advantage of the fact</span>
   <span class="co"># that tp + fn = colSums(data)</span>
-  <span class="no">tp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span>(<span class="no">data</span>)
-  <span class="no">tpfn</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span>(<span class="no">data</span>)
-  <span class="no">fn</span> <span class="kw">&lt;-</span> <span class="no">tpfn</span> - <span class="no">tp</span>
-
+  <span class="va">tp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>
+  <span class="va">tpfn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>
+  <span class="va">fn</span> <span class="op">&lt;-</span> <span class="va">tpfn</span> <span class="op">-</span> <span class="va">tp</span>
+  
   <span class="co"># If using a micro estimator, we sum the individual</span>
   <span class="co"># pieces before performing the miss rate calculation</span>
-  <span class="kw">if</span>(<span class="no">estimator</span> <span class="kw">==</span> <span class="st">"micro"</span>) {
-    <span class="no">tp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">tp</span>)
-    <span class="no">fn</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">fn</span>)
-  }
-
+  <span class="kw">if</span><span class="op">(</span><span class="va">estimator</span> <span class="op">==</span> <span class="st">"micro"</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">tp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">tp</span><span class="op">)</span>
+    <span class="va">fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">fn</span><span class="op">)</span>
+  <span class="op">}</span>
+  
   <span class="co"># return the vector </span>
-  <span class="no">tp</span> / (<span class="no">tp</span> + <span class="no">fn</span>)
-}</pre></body></html></div>
+  <span class="va">tp</span> <span class="op">/</span> <span class="op">(</span><span class="va">tp</span> <span class="op">+</span> <span class="va">fn</span><span class="op">)</span>
+<span class="op">}</span></pre></div>
 <p>For the macro case, this separation of weighting from the core implementation might seem strange, but there is good reason for it. Some metrics are combinations of other metrics, and it is nice to be able to reuse code when calculating more complex metrics. For example, <code><a href="../reference/f_meas.html">f_meas()</a></code> is a combination of <code><a href="../reference/recall.html">recall()</a></code> and <code><a href="../reference/precision.html">precision()</a></code>. When calculating a macro averaged <code><a href="../reference/f_meas.html">f_meas()</a></code>, the weighting must be applied 1 time, at the very end of the calculation. <code>recall_multiclass()</code> and <code>precision_multiclass()</code> are defined similarly to how <code>miss_rate_multiclass()</code> is defined and returns the unweighted vector of calculations. This means we can directly use this in <code><a href="../reference/f_meas.html">f_meas()</a></code>, and then weight everything once at the end of that calculation.</p>
 <p>Let’s try it out now:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="co"># two class</span>
-<span class="fu">miss_rate_vec</span>(<span class="no">two_class_example</span>$<span class="no">truth</span>, <span class="no">two_class_example</span>$<span class="no">predicted</span>)
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="co"># two class</span>
+<span class="fu">miss_rate_vec</span><span class="op">(</span><span class="va">two_class_example</span><span class="op">$</span><span class="va">truth</span>, <span class="va">two_class_example</span><span class="op">$</span><span class="va">predicted</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.120155</span>
 
 <span class="co"># multiclass</span>
-<span class="fu">miss_rate_vec</span>(<span class="no">fold1</span>$<span class="no">obs</span>, <span class="no">fold1</span>$<span class="no">pred</span>)
-<span class="co">#&gt; [1] 0.5483506</span></pre></body></html></div>
+<span class="fu">miss_rate_vec</span><span class="op">(</span><span class="va">fold1</span><span class="op">$</span><span class="va">obs</span>, <span class="va">fold1</span><span class="op">$</span><span class="va">pred</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.5483506</span></pre></div>
 </div>
 <div id="data-frame-implementation-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-frame-implementation-1" class="anchor"></a>Data frame implementation</h3>
 <p>Luckily, the data frame implementation is as simple as the numeric case, we just need to add an extra <code>estimator</code> argument and pass that through. We’ll also use <code><a href="../reference/new-metric.html">new_class_metric()</a></code> to formalize <code>miss_rate()</code> as a class metric.</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">miss_rate</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">data</span>, <span class="no">...</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod</a></span>(<span class="st">"miss_rate"</span>)
-}
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="va">miss_rate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod</a></span><span class="op">(</span><span class="st">"miss_rate"</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="no">miss_rate</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/new-metric.html">new_class_metric</a></span>(<span class="no">miss_rate</span>, <span class="kw">direction</span> <span class="kw">=</span> <span class="st">"minimize"</span>)
+<span class="va">miss_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new-metric.html">new_class_metric</a></span><span class="op">(</span><span class="va">miss_rate</span>, direction <span class="op">=</span> <span class="st">"minimize"</span><span class="op">)</span>
 
-<span class="no">miss_rate.data.frame</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">data</span>,
-                                 <span class="no">truth</span>,
-                                 <span class="no">estimate</span>,
-                                 <span class="no">estimator</span> <span class="kw">=</span> <span class="kw">NULL</span>,
-                                 <span class="no">na_rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                                 <span class="no">event_level</span> <span class="kw">=</span> <span class="st">"first"</span>,
-                                 <span class="no">...</span>) {
-  <span class="fu"><a href="../reference/metric_summarizer.html">metric_summarizer</a></span>(
-    <span class="kw">metric_nm</span> <span class="kw">=</span> <span class="st">"miss_rate"</span>,
-    <span class="kw">metric_fn</span> <span class="kw">=</span> <span class="no">miss_rate_vec</span>,
-    <span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>,
-    <span class="kw">truth</span> <span class="kw">=</span> !! <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tidyeval-compat.html">enquo</a></span>(<span class="no">truth</span>),
-    <span class="kw">estimate</span> <span class="kw">=</span> !! <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tidyeval-compat.html">enquo</a></span>(<span class="no">estimate</span>),
-    <span class="kw">estimator</span> <span class="kw">=</span> <span class="no">estimator</span>,
-    <span class="kw">na_rm</span> <span class="kw">=</span> <span class="no">na_rm</span>,
-    <span class="kw">event_level</span> <span class="kw">=</span> <span class="no">event_level</span>,
-    <span class="no">...</span>
-  )
-}</pre></body></html></div>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="co"># Macro weighted automatically selected</span>
-<span class="no">fold1</span> <span class="kw">%&gt;%</span>
-  <span class="fu">miss_rate</span>(<span class="no">obs</span>, <span class="no">pred</span>)
+<span class="va">miss_rate.data.frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, 
+                                 <span class="va">truth</span>, 
+                                 <span class="va">estimate</span>, 
+                                 <span class="va">estimator</span> <span class="op">=</span> <span class="cn">NULL</span>, 
+                                 <span class="va">na_rm</span> <span class="op">=</span> <span class="cn">TRUE</span>, 
+                                 <span class="va">event_level</span> <span class="op">=</span> <span class="st">"first"</span>,
+                                 <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="../reference/metric_summarizer.html">metric_summarizer</a></span><span class="op">(</span>
+    metric_nm <span class="op">=</span> <span class="st">"miss_rate"</span>,
+    metric_fn <span class="op">=</span> <span class="va">miss_rate_vec</span>,
+    data <span class="op">=</span> <span class="va">data</span>,
+    truth <span class="op">=</span> <span class="op">!</span><span class="op">!</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tidyeval-compat.html">enquo</a></span><span class="op">(</span><span class="va">truth</span><span class="op">)</span>,
+    estimate <span class="op">=</span> <span class="op">!</span><span class="op">!</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tidyeval-compat.html">enquo</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>, 
+    estimator <span class="op">=</span> <span class="va">estimator</span>,
+    na_rm <span class="op">=</span> <span class="va">na_rm</span>,
+    event_level <span class="op">=</span> <span class="va">event_level</span>,
+    <span class="va">...</span>
+  <span class="op">)</span>
+<span class="op">}</span></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="co"># Macro weighted automatically selected</span>
+<span class="va">fold1</span> <span class="op">%&gt;%</span>
+  <span class="fu">miss_rate</span><span class="op">(</span><span class="va">obs</span>, <span class="va">pred</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   .metric   .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 miss_rate macro          0.548</span>
 
 <span class="co"># Switch to micro</span>
-<span class="no">fold1</span> <span class="kw">%&gt;%</span>
-  <span class="fu">miss_rate</span>(<span class="no">obs</span>, <span class="no">pred</span>, <span class="kw">estimator</span> <span class="kw">=</span> <span class="st">"micro"</span>)
+<span class="va">fold1</span> <span class="op">%&gt;%</span>
+  <span class="fu">miss_rate</span><span class="op">(</span><span class="va">obs</span>, <span class="va">pred</span>, estimator <span class="op">=</span> <span class="st">"micro"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   .metric   .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 miss_rate micro          0.726</span>
 
 <span class="co"># Macro weighted by resample</span>
-<span class="no">hpc_cv</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">Resample</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">miss_rate</span>(<span class="no">obs</span>, <span class="no">pred</span>, <span class="kw">estimator</span> <span class="kw">=</span> <span class="st">"macro_weighted"</span>)
+<span class="va">hpc_cv</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">miss_rate</span><span class="op">(</span><span class="va">obs</span>, <span class="va">pred</span>, estimator <span class="op">=</span> <span class="st">"macro_weighted"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 10 x 4</span>
 <span class="co">#&gt;    Resample .metric   .estimator     .estimate</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;</span>
@@ -541,10 +558,10 @@
 <span class="co">#&gt; 10 Fold10   miss_rate macro_weighted     0.699</span>
 
 <span class="co"># Error handling</span>
-<span class="fu">miss_rate</span>(<span class="no">hpc_cv</span>, <span class="no">obs</span>, <span class="no">VF</span>)
+<span class="fu">miss_rate</span><span class="op">(</span><span class="va">hpc_cv</span>, <span class="va">obs</span>, <span class="va">VF</span><span class="op">)</span>
 <span class="co">#&gt; Error: Problem with `summarise()` input `.estimate`.</span>
 <span class="co">#&gt; ✖ `estimate` should be a factor but a numeric was supplied.</span>
-<span class="co">#&gt; ℹ Input `.estimate` is `metric_fn(truth = obs, estimate = VF, na_rm = na_rm, event_level = "first")`.</span></pre></body></html></div>
+<span class="co">#&gt; ℹ Input `.estimate` is `metric_fn(truth = obs, estimate = VF, na_rm = na_rm, event_level = "first")`.</span></pre></div>
 </div>
 </div>
 <div id="using-custom-metrics-in-metric_set" class="section level2">
@@ -552,14 +569,15 @@
 <a href="#using-custom-metrics-in-metric_set" class="anchor"></a>Using custom metrics in <code>metric_set()</code>
 </h2>
 <p><code><a href="../reference/metric_set.html">metric_set()</a></code> validates that all metric functions are of the same metric type by checking the class of the function. If any metrics are not of the right class, <code><a href="../reference/metric_set.html">metric_set()</a></code> fails. By using <code><a href="../reference/new-metric.html">new_numeric_metric()</a></code> and <code><a href="../reference/new-metric.html">new_class_metric()</a></code> in the above custom metrics, they work out of the box without any additional adjustments.</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">numeric_mets</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/metric_set.html">metric_set</a></span>(<span class="no">mse</span>, <span class="no">rmse</span>)
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="va">numeric_mets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metric_set.html">metric_set</a></span><span class="op">(</span><span class="va">mse</span>, <span class="va">rmse</span><span class="op">)</span>
 
-<span class="fu">numeric_mets</span>(<span class="no">solubility_test</span>, <span class="no">solubility</span>, <span class="no">prediction</span>)
+<span class="fu">numeric_mets</span><span class="op">(</span><span class="va">solubility_test</span>, <span class="va">solubility</span>, <span class="va">prediction</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;   .metric .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 mse     standard       0.521</span>
-<span class="co">#&gt; 2 rmse    standard       0.722</span></pre></body></html></div>
+<span class="co">#&gt; 2 rmse    standard       0.722</span></pre></div>
 </div>
   </div>
 
