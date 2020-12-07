@@ -1,5 +1,9 @@
 # yardstick (development version)
 
+* The `autoplot()` method for gain curves now plots the curve line
+  on top of the shaded polygon, resulting in a sharper look for the
+  line itself (#192, @eddjberry).
+
 # yardstick 0.0.7
 
 * The global option, `yardstick.event_first`, has been deprecated in favor of
