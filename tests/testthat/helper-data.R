@@ -48,9 +48,8 @@ data_altman <- function() {
 # )
 # saveRDS(three_class_helpers, testthat::test_path("data/helper-three-class-helpers.rds"))
 
-three_class_helpers <- readRDS(test_path("data/helper-three-class-helpers.rds"))
-
 data_three_class <- function() {
+  three_class_helpers <- readRDS(test_path("data/helper-three-class-helpers.rds"))
 
   three_class <- data.frame(
     obs = iris$Species,
@@ -106,8 +105,6 @@ data_three_class <- function() {
 #         testthat::test_path("data/helper-soybean.rds"),
 #         version = 2, compress = "xz")
 
-soybean_helper <- readRDS(test_path("data/helper-soybean.rds"))
-
 data_soybean <- function() {
-  soybean_helper
+  readRDS(test_path("data/helper-soybean.rds"))
 }
