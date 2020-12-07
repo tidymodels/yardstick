@@ -37,7 +37,7 @@ Suggests:
     knitr,
     purrr,
     rmarkdown,
-    testthat,
+    testthat (>= 3.0.0),
     tidyr
 VignetteBuilder: 
     knitr
