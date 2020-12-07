@@ -172,11 +172,11 @@ test_that("Gain Curve - two class", {
   .plot_data <- ggplot_build(.plot)
 
   # x and y data
-  expect_equal(res$.percent_tested, .plot_data$data[[1]]$x)
-  expect_equal(res$.percent_found, .plot_data$data[[1]]$y)
+  expect_equal(res$.percent_tested, .plot_data$data[[2]]$x)
+  expect_equal(res$.percent_found, .plot_data$data[[2]]$y)
 
   # polygon "perfect" corner
-  expect_equal(.plot_data$data[[2]]$x[2], 51.6)
+  expect_equal(.plot_data$data[[1]]$x[2], 51.6)
 
 })
 
@@ -188,14 +188,14 @@ test_that("Gain Curve - two class, with resamples", {
 
   .plot_data <- ggplot_build(.plot)
 
-  expect_equal(res$.percent_tested, .plot_data$data[[1]]$x)
-  expect_equal(res$.percent_found, .plot_data$data[[1]]$y)
+  expect_equal(res$.percent_tested, .plot_data$data[[2]]$x)
+  expect_equal(res$.percent_found, .plot_data$data[[2]]$y)
 
   # number of unique colors
-  expect_equal(length(unique(.plot_data$data[[1]]$colour)), 10)
+  expect_equal(length(unique(.plot_data$data[[2]]$colour)), 10)
 
   # polygon "perfect" corner (min of the resamples)
-  expect_equal(.plot_data$data[[2]]$x[2], 43 + 2/3)
+  expect_equal(.plot_data$data[[1]]$x[2], 43 + 2/3)
 })
 
 test_that("Gain Curve - multi class", {
@@ -209,12 +209,12 @@ test_that("Gain Curve - multi class", {
   .plot_data <- ggplot_build(.plot)
 
   # 4 panels
-  expect_equal(length(unique(.plot_data$data[[1]]$PANEL)), 4)
+  expect_equal(length(unique(.plot_data$data[[2]]$PANEL)), 4)
 
   # polygon "perfect" corner (one per level)
   corners <- c(2, 5, 8, 11)
   corner_vals <- c(31.0623556581986, 5.94688221709007, 11.9515011547344, 51.0392609699769)
-  expect_equal(.plot_data$data[[2]]$x[corners], corner_vals)
+  expect_equal(.plot_data$data[[1]]$x[corners], corner_vals)
 })
 
 test_that("Gain Curve - multi class, with resamples", {
@@ -229,15 +229,15 @@ test_that("Gain Curve - multi class, with resamples", {
   .plot_data <- ggplot_build(.plot)
 
   # 4 panels
-  expect_equal(length(unique(.plot_data$data[[1]]$PANEL)), 4)
+  expect_equal(length(unique(.plot_data$data[[2]]$PANEL)), 4)
 
   # 5 resamples
-  expect_equal(length(unique(.plot_data$data[[1]]$colour)), 5)
+  expect_equal(length(unique(.plot_data$data[[2]]$colour)), 5)
 
   # polygon "perfect" corner (one per level)
   corners <- c(2, 5, 8, 11)
   corner_vals <- c(30.9248554913295, 5.78034682080925, 11.8155619596542, 50.8620689655172)
-  expect_equal(.plot_data$data[[2]]$x[corners], corner_vals)
+  expect_equal(.plot_data$data[[1]]$x[corners], corner_vals)
 })
 
 # Lift -------------------------------------------------------------------------

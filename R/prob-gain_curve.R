@@ -313,16 +313,6 @@ autoplot.gain_df <- function(object, ...) {
 
   chart <- chart %+%
 
-    # gain curve
-    ggplot2::geom_line(
-      mapping = ggplot2::aes(
-        x = !!.percent_tested,
-        y = !!.percent_found,
-        !!! interact_expr
-      ),
-      data = object
-    ) %+%
-
     # boundary poly
     ggplot2::geom_polygon(
       mapping = ggplot2::aes(
@@ -333,6 +323,16 @@ autoplot.gain_df <- function(object, ...) {
       # fill
       fill = "lightgrey",
       alpha = 0.4
+    ) %+%
+
+    # gain curve
+    ggplot2::geom_line(
+      mapping = ggplot2::aes(
+        x = !!.percent_tested,
+        y = !!.percent_found,
+        !!! interact_expr
+      ),
+      data = object
     ) %+%
 
     ggplot2::labs(
