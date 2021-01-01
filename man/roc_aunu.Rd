@@ -135,6 +135,7 @@ the rest, using the a priori class distribution.
 
 Other class probability metrics: 
 \code{\link{average_precision}()},
+\code{\link{class_cost}()},
 \code{\link{gain_capture}()},
 \code{\link{mn_log_loss}()},
 \code{\link{pr_auc}()},

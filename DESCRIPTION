@@ -27,6 +27,7 @@ Imports:
     generics,
     pROC (>= 1.15.0),
     rlang (>= 0.4.0),
+    tidyr,
     tidyselect,
     utils
 Suggests: 
@@ -36,11 +37,10 @@ Suggests:
     knitr,
     purrr,
     rmarkdown,
-    testthat (>= 3.0.0),
-    tidyr
+    testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.1.9000
