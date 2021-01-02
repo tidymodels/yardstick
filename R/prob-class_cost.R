@@ -164,6 +164,11 @@ class_cost_estimator_impl <- function(truth, estimate, estimator, costs = NULL) 
 
    lvls <- levels(truth)
    costs <- check_costs(costs, lvls)
+   # When the `tune` package is used, the estimates will have the prefix
+   # ".pred_" so this will fix the merge.
+   if (all(grepl("^\\.pred_", names(estimator)))) {
+      costs$.pred_class <- paste0(".pred_", x$.pred_class)
+   }
    estimate <- dplyr::as_tibble(estimate)
    estimate$truth <- truth
    res <-
