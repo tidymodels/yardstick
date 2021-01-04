@@ -17,27 +17,35 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
+
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
 
 
 
@@ -45,7 +53,7 @@
 <meta property="og:description" content="Helpers to be used alongside metric_vec_template() and metric_summarizer()
 when creating new metrics. See vignette(&quot;custom-metrics&quot;, &quot;yardstick&quot;) for
 more information." />
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://yardstick.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -87,9 +95,9 @@ more information." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">yardstick</a>
-        <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <div class="info hidden-xs hidden-sm">
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -97,7 +105,7 @@ more information." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -127,7 +135,7 @@ more information." />
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -155,15 +163,15 @@ when creating new metrics. See <code><a href='../articles/custom-metrics.html'>v
 more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_weights</span>(<span class='no'>data</span>, <span class='no'>estimator</span>)
+    <pre class="usage"><span class='fu'>get_weights</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>estimator</span><span class='op'>)</span>
 
-<span class='fu'>finalize_estimator</span>(<span class='no'>x</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>metric_class</span> <span class='kw'>=</span> <span class='st'>"default"</span>)
+<span class='fu'>finalize_estimator</span><span class='op'>(</span><span class='va'>x</span>, estimator <span class='op'>=</span> <span class='cn'>NULL</span>, metric_class <span class='op'>=</span> <span class='st'>"default"</span><span class='op'>)</span>
 
-<span class='fu'>finalize_estimator_internal</span>(<span class='no'>metric_dispatcher</span>, <span class='no'>x</span>, <span class='no'>estimator</span>)
+<span class='fu'>finalize_estimator_internal</span><span class='op'>(</span><span class='va'>metric_dispatcher</span>, <span class='va'>x</span>, <span class='va'>estimator</span><span class='op'>)</span>
 
-<span class='fu'>dots_to_estimate</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+<span class='fu'>dots_to_estimate</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>validate_estimator</span>(<span class='no'>estimator</span>, <span class='kw'>estimator_override</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>validate_estimator</span><span class='op'>(</span><span class='va'>estimator</span>, estimator_override <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,8 +212,9 @@ Otherwise, there should be as many columns as factor levels of <code>truth</code
     <tr>
       <th>estimator_override</th>
       <td><p>A character vector overriding the default allowed
-estimator list of <code><a href='https://rdrr.io/r/base/c.html'>c("binary", "macro", "micro", "macro_weighted")</a></code>. Set
-this is your classification estimator does not support all of these methods.</p></td>
+estimator list of
+<code><a href='https://rdrr.io/r/base/c.html'>c("binary", "macro", "micro", "macro_weighted")</a></code>. Set
+this if your classification estimator does not support all of these methods.</p></td>
     </tr>
     </table>
 
@@ -226,8 +235,8 @@ on the type of <code>x</code>. Generally <code>x</code> is the <code>truth</code
 is called from the vector method of your metric.</p>
 <p><code>finalize_estimator_internal()</code> is an S3 generic that you should extend for
 your metric if it does not implement <em>only</em> the following estimator types:
-<code>"binary"</code>, <code>"macro"</code>, <code>"micro"</code>, and <code>"macro_weighted"</code>. If your metric
-does support all of these, the default version of
+<code>"binary"</code>, <code>"macro"</code>, <code>"micro"</code>, and <code>"macro_weighted"</code>.
+If your metric does support all of these, the default version of
 <code>finalize_estimator_internal()</code> will autoselect <code>estimator</code> appropriately.
 If you need to create a method, it should take the form:
 <code>finalize_estimator_internal.metric_name</code>. Your method for
@@ -261,7 +270,7 @@ as no auto-selection is needed.</p></li>
 <code>...</code> rather than <code>estimate</code> as an argument. It constructs either a single
 name if 1 input is provided to <code>...</code> or it constructs a quosure where the
 expression constructs a matrix of as many columns as are provided to <code>...</code>.
-These are eventually evaluated in the <code>summarise()</code> call in
+These are eventually evaluated in the <code><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise()</a></code> call in
 <code><a href='metric_summarizer.html'>metric_summarizer()</a></code> and evaluate to either a vector or a matrix for further
 use in the underlying vector functions.</p>
     <h2 class="hasAnchor" id="estimator-validation"><a class="anchor" href="#estimator-validation"></a>Estimator Validation</h2>

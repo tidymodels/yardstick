@@ -17,27 +17,35 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
+
+<!--optional theme-->
+<link href="../.css" rel="stylesheet">
+
 
 
 
@@ -45,7 +53,7 @@
 <meta property="og:description" content="Various statistical summaries of confusion matrices are
 produced and returned in a tibble. These include those shown in the help
 pages for sens(), recall(), and accuracy(), among others." />
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://yardstick.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -87,9 +95,9 @@ pages for sens(), recall(), and accuracy(), among others." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">yardstick</a>
-        <div class="info">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <div class="info hidden-xs hidden-sm">
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -97,7 +105,7 @@ pages for sens(), recall(), and accuracy(), among others." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -127,7 +135,7 @@ pages for sens(), recall(), and accuracy(), among others." />
 </li>
         <li>
   <a href="https://github.com/tidymodels/yardstick/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -156,7 +164,14 @@ pages for <code><a href='sens.html'>sens()</a></code>, <code><a href='recall.htm
     </div>
 
     <pre class="usage"><span class='co'># S3 method for conf_mat</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>object</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>estimator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  prevalence <span class='op'>=</span> <span class='cn'>NULL</span>,
+  beta <span class='op'>=</span> <span class='fl'>1</span>,
+  estimator <span class='op'>=</span> <span class='cn'>NULL</span>,
+  event_level <span class='op'>=</span> <span class='fu'>yardstick_event_level</span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,9 +195,18 @@ recall for <code><a href='f_meas.html'>f_meas()</a></code>.</p></td>
       <th>estimator</th>
       <td><p>One of: <code>"binary"</code>, <code>"macro"</code>, <code>"macro_weighted"</code>,
 or <code>"micro"</code> to specify the type of averaging to be done. <code>"binary"</code> is
-only relevant for the two class case. The other three are general methods for
-calculating multiclass metrics. The default will automatically choose <code>"binary"</code>
-or <code>"macro"</code> based on <code>estimate</code>.</p></td>
+only relevant for the two class case. The other three are general methods
+for calculating multiclass metrics. The default will automatically choose
+<code>"binary"</code> or <code>"macro"</code> based on <code>estimate</code>.</p></td>
+    </tr>
+    <tr>
+      <th>event_level</th>
+      <td><p>A single string. Either <code>"first"</code> or <code>"second"</code> to specify
+which level of <code>truth</code> to consider as the "event". This argument is only
+applicable when <code>estimator = "binary"</code>. The default uses an
+internal helper that generally defaults to <code>"first"</code>, however, if the
+deprecated global option <code>yardstick.event_first</code> is set, that will be
+used instead with a warning.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -199,13 +223,11 @@ or <code>"macro"</code> based on <code>estimate</code>.</p></td>
 
 
 <p>There is no common convention on which factor level should
-automatically be considered the "event" or "positive" result.
-In <code>yardstick</code>, the default is to use the <em>first</em> level. To
-change this, a global option called <code>yardstick.event_first</code> is
-set to <code>TRUE</code> when the package is loaded. This can be changed
-to <code>FALSE</code> if the <em>last</em> level of the factor is considered the
-level of interest by running: <code><a href='https://rdrr.io/r/base/options.html'>options(yardstick.event_first = FALSE)</a></code>.
-For multiclass extensions involving one-vs-all
+automatically be considered the "event" or "positive" result
+when computing binary classification metrics. In <code>yardstick</code>, the default
+is to use the <em>first</em> level. To alter this, change the argument
+<code>event_level</code> to <code>"second"</code> to consider the <em>last</em> level of the factor the
+level of interest. For multiclass extensions involving one-vs-all
 comparisons (such as macro averaging), this option is ignored and
 the "one" level is always the relevant result.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -213,10 +235,11 @@ the "one" level is always the relevant result.</p>
     <div class='dont-index'><p><code><a href='conf_mat.html'>conf_mat()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"two_class_example"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"two_class_example"</span><span class='op'>)</span>
 
-<span class='no'>cmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='conf_mat.html'>conf_mat</a></span>(<span class='no'>two_class_example</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='st'>"truth"</span>, <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='st'>"predicted"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>cmat</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 13 x 3</span><span>
+<span class='va'>cmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='conf_mat.html'>conf_mat</a></span><span class='op'>(</span><span class='va'>two_class_example</span>, truth <span class='op'>=</span> <span class='st'>"truth"</span>, estimate <span class='op'>=</span> <span class='st'>"predicted"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>cmat</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 13 x 3</span><span>
 #&gt;    .metric              .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> accuracy             binary         0.838
@@ -231,7 +254,8 @@ the "one" level is always the relevant result.</p>
 #&gt; </span><span style='color: #555555;'>10</span><span> detection_prevalence binary         0.554
 #&gt; </span><span style='color: #555555;'>11</span><span> precision            binary         0.819
 #&gt; </span><span style='color: #555555;'>12</span><span> recall               binary         0.880
-#&gt; </span><span style='color: #555555;'>13</span><span> f_meas               binary         0.849</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>cmat</span>, <span class='kw'>prevalence</span> <span class='kw'>=</span> <span class='fl'>0.70</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 13 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>13</span><span> f_meas               binary         0.849</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>cmat</span>, prevalence <span class='op'>=</span> <span class='fl'>0.70</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 13 x 3</span><span>
 #&gt;    .metric              .estimator .estimate
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> accuracy             binary         0.838
@@ -247,24 +271,25 @@ the "one" level is always the relevant result.</p>
 #&gt; </span><span style='color: #555555;'>11</span><span> precision            binary         0.819
 #&gt; </span><span style='color: #555555;'>12</span><span> recall               binary         0.880
 #&gt; </span><span style='color: #555555;'>13</span><span> f_meas               binary         0.849</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>purrr</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tidyr</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"hpc_cv"</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://purrr.tidyverse.org'>purrr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"hpc_cv"</span><span class='op'>)</span>
 
 <span class='co'># Compute statistics per resample then summarize</span>
-<span class='no'>all_metrics</span> <span class='kw'>&lt;-</span> <span class='no'>hpc_cv</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Resample</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='conf_mat.html'>conf_mat</a></span>(<span class='no'>obs</span>, <span class='no'>pred</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>summary_tbl</span> <span class='kw'>=</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>conf_mat</span>, <span class='no'>summary</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>unnest</a></span>(<span class='no'>summary_tbl</span>)
+<span class='va'>all_metrics</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='conf_mat.html'>conf_mat</a></span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>summary_tbl <span class='op'>=</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span><span class='op'>(</span><span class='va'>conf_mat</span>, <span class='va'>summary</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>unnest</a></span><span class='op'>(</span><span class='va'>summary_tbl</span><span class='op'>)</span>
 
-<span class='no'>all_metrics</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>.metric</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(
-    <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>.estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
-    <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='no'>.estimate</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-  )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 13 x 3</span><span>
+<span class='va'>all_metrics</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>.metric</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>
+    mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.estimate</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+    sd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>.estimate</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 13 x 3</span><span>
 #&gt;    .metric               mean       sd
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> accuracy             0.709 2.47</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
