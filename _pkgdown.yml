@@ -7,7 +7,7 @@ template:
     footer: yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
 
 development:
-  mode: release
+  mode: auto
 
 home:
   strip_header: true
