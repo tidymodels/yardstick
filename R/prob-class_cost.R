@@ -2,7 +2,7 @@
 #'
 #' `class_cost()` calculates the cost of a poor prediction based on user-defined
 #' costs. The costs are combined with the estimated class probabilities and
-#' the mean cost is retuned.
+#' the mean cost is returned.
 #'
 #' As an example, suppose that there are three classes: `"A"`, `"B"`, and `"C"`.
 #' Suppose there is a truly `"A"` data point with class probabilities
@@ -66,6 +66,31 @@
 #'   group_by(Resample) %>%
 #'   class_cost(obs, VF:L, costs = hpc_costs)
 #'
+#' # ------------------------------------------------------------------------------
+#' # To include in a metric set, a wrapper must be used. Based on the advice in
+#' # ?metric_set:
+#'
+#' hpc_cost_metric <- function(data, truth, estimate, na_rm = TRUE, ...) {
+#'   class_cost(
+#'     data = data,
+#'     truth = {{truth}},
+#'     estimate = {{estimate}},
+#'     # set specific costs
+#'     costs = hpc_costs,
+#'     na_rm = na_rm,
+#'     ...
+#'   )
+#' }
+#'
+#' hpc_cost_metric <- new_prob_metric(hpc_cost_metric, "minimize")
+#'
+#' # On its own:
+#' hpc_cv %>% hpc_cost_metric(obs, VF:L)
+#'
+#' # In a metric set:
+#' two_metrics <- metric_set(roc_auc, class_cost)
+#' hpc_cv %>% two_metrics(obs, VF:L)
+#'
 #' @export
 class_cost <- function(data, ...) {
    UseMethod("class_cost")
@@ -79,7 +104,7 @@ attr(class_cost, "direction") <- "minimize"
 #' @importFrom rlang quo
 class_cost.data.frame <- function(data, truth, ..., na_rm = TRUE, costs = NULL) {
 
-   estimate <- dots_to_estimate(data, !!! enquos(...))
+   estimate <- dots_to_estimate(data, !!!enquos(...))
 
    metric_summarizer(
       metric_nm = "class_cost",
@@ -115,6 +140,15 @@ class_cost_vec <- function(truth, estimate, na_rm = TRUE, costs = NULL, ...) {
       ...,
       costs = costs
    )
+}
+
+finalize_estimator_internal.class_cost <- function(metric_dispatcher, x, estimator) {
+   if (is_multiclass(x)) {
+      "multiclass"
+   }
+   else {
+      "binary"
+   }
 }
 
 check_costs <- function(x, lvls) {
@@ -166,9 +200,8 @@ class_cost_estimator_impl <- function(truth, estimate, estimator, costs = NULL) 
    costs <- check_costs(costs, lvls)
    # When the `tune` package is used, the estimates will have the prefix
    # ".pred_" so this will fix the merge.
-   if (all(grepl("^\\.pred_", names(estimator)))) {
-      costs$.pred_class <- paste0(".pred_", x$.pred_class)
-   }
+   colnames(estimate) <- lvls
+
    estimate <- dplyr::as_tibble(estimate)
    estimate$truth <- truth
    res <-

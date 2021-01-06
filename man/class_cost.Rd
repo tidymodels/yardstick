@@ -54,7 +54,7 @@ For \code{class_cost_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 \code{class_cost()} calculates the cost of a poor prediction based on user-defined
 costs. The costs are combined with the estimated class probabilities and
-the mean cost is retuned.
+the mean cost is returned.
 }
 \details{
 As an example, suppose that there are three classes: \code{"A"}, \code{"B"}, and \code{"C"}.
@@ -103,6 +103,31 @@ hpc_cv \%>\%
 hpc_cv \%>\%
   group_by(Resample) \%>\%
   class_cost(obs, VF:L, costs = hpc_costs)
+
+# ------------------------------------------------------------------------------
+# To include in a metric set, a wrapper must be used. Based on the advice in
+# ?metric_set:
+
+hpc_cost_metric <- function(data, truth, estimate, na_rm = TRUE, ...) {
+  class_cost(
+    data = data,
+    truth = {{truth}},
+    estimate = {{estimate}},
+    # set specific costs
+    costs = hpc_costs,
+    na_rm = na_rm,
+    ...
+  )
+}
+
+hpc_cost_metric <- new_prob_metric(hpc_cost_metric, "minimize")
+
+# On its own:
+hpc_cv \%>\% hpc_cost_metric(obs, VF:L)
+
+# In a metric set:
+two_metrics <- metric_set(roc_auc, class_cost)
+hpc_cv \%>\% two_metrics(obs, VF:L)
 
 }
 \seealso{
