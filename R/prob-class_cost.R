@@ -75,6 +75,7 @@
 #'     data = data,
 #'     truth = {{truth}},
 #'     estimate = {{estimate}},
+#'
 #'     # set specific costs
 #'     costs = hpc_costs,
 #'     na_rm = na_rm,
@@ -102,7 +103,8 @@ attr(class_cost, "direction") <- "minimize"
 #' @export
 #' @rdname class_cost
 #' @importFrom rlang quo
-class_cost.data.frame <- function(data, truth, ..., na_rm = TRUE, costs = NULL) {
+class_cost.data.frame <- function(data, truth, ..., estimator = NULL, na_rm = TRUE, costs = NULL,
+                                  event_level = yardstick_event_level()) {
 
    estimate <- dots_to_estimate(data, !!!enquos(...))
 
@@ -112,7 +114,9 @@ class_cost.data.frame <- function(data, truth, ..., na_rm = TRUE, costs = NULL) 
       data = data,
       truth = !!enquo(truth),
       estimate = !!estimate,
+      estimator = estimator,
       na_rm = na_rm,
+      event_level = event_level,
       # Extra argument for class_cost_impl()
       metric_fn_options = list(costs = costs)
    )
@@ -121,13 +125,13 @@ class_cost.data.frame <- function(data, truth, ..., na_rm = TRUE, costs = NULL) 
 
 #' @rdname class_cost
 #' @export
-class_cost_vec <- function(truth, estimate, na_rm = TRUE, costs = NULL, ...) {
+class_cost_vec <- function(truth, estimate, estimator, na_rm = TRUE, costs = NULL, ...) {
 
    estimator <- finalize_estimator(truth, metric_class = "class_cost")
 
    # estimate here is a matrix of class prob columns
-   class_cost_impl <- function(truth, estimate, costs = NULL) {
-      class_cost_estimator_impl(truth, estimate, estimator, costs)
+   class_cost_impl <- function(truth, estimate, costs) {
+      class_cost_estimator_impl(truth, estimate, estimator, event_level, costs)
    }
 
    metric_vec_template(
@@ -194,26 +198,26 @@ check_costs <- function(x, lvls) {
 }
 
 
-class_cost_estimator_impl <- function(truth, estimate, estimator, costs = NULL) {
+class_cost_estimator_impl <-
+   function(truth, estimate, estimator, event_level = NULL, costs = NULL) {
+      lvls <- levels(truth)
+      costs <- check_costs(costs, lvls)
+      # When the `tune` package is used, the estimates will have the prefix
+      # ".pred_" so this will fix the merge.
+      colnames(estimate) <- lvls
 
-   lvls <- levels(truth)
-   costs <- check_costs(costs, lvls)
-   # When the `tune` package is used, the estimates will have the prefix
-   # ".pred_" so this will fix the merge.
-   colnames(estimate) <- lvls
-
-   estimate <- dplyr::as_tibble(estimate)
-   estimate$truth <- truth
-   res <-
-      dplyr::mutate(estimate, .row = dplyr::row_number()) %>%
-      tidyr::pivot_longer(cols = c(-truth, -.row),
-                          names_to = ".pred_class",
-                          values_to = "probability") %>%
-      dplyr::left_join(costs, by = c("truth", ".pred_class")) %>%
-      dplyr::mutate(expected_cost = probability * cost) %>%
-      dplyr::group_by(.row) %>%
-      dplyr::summarize(cost = sum(expected_cost, na.rm = TRUE), .groups = "drop") %>%
-      dplyr::ungroup()
-   mean(res$cost, na.rm = TRUE)
-}
+      estimate <- dplyr::as_tibble(estimate)
+      estimate$truth <- truth
+      res <-
+         dplyr::mutate(estimate, .row = dplyr::row_number()) %>%
+         tidyr::pivot_longer(cols = c(-truth, -.row),
+                             names_to = ".pred_class",
+                             values_to = "probability") %>%
+         dplyr::left_join(costs, by = c("truth", ".pred_class")) %>%
+         dplyr::mutate(expected_cost = probability * cost) %>%
+         dplyr::group_by(.row) %>%
+         dplyr::summarize(cost = sum(expected_cost, na.rm = TRUE), .groups = "drop") %>%
+         dplyr::ungroup()
+      mean(res$cost, na.rm = TRUE)
+   }
 
