@@ -3,6 +3,7 @@
 S3method(accuracy,data.frame)
 S3method(accuracy,matrix)
 S3method(accuracy,table)
+S3method(as_tibble,metric_set)
 S3method(average_precision,data.frame)
 S3method(bal_accuracy,data.frame)
 S3method(bal_accuracy,matrix)

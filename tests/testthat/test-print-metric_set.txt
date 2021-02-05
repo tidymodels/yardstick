@@ -1,7 +1,9 @@
 > multi_metric <- metric_set(rmse, rsq, ccc)
 > print(multi_metric)
-  metric          class direction
-1   rmse numeric_metric  minimize
-2    rsq numeric_metric  maximize
-3    ccc numeric_metric  maximize
+# A tibble: 3 x 3
+  metric class          direction
+  <chr>  <chr>          <chr>    
+1 rmse   numeric_metric minimize 
+2 rsq    numeric_metric maximize 
+3 ccc    numeric_metric maximize 
 
