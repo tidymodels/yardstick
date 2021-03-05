@@ -302,10 +302,10 @@ Technologies. 2 (1): 37-63.</p>
     <pre class="examples"><div class='input'><span class='co'># Two class</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"two_class_example"</span><span class='op'>)</span>
 <span class='fu'>j_index</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>predicted</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> j_index binary         0.673</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> j_index binary         0.673</div><div class='input'>
 <span class='co'># Multiclass</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span>
@@ -313,44 +313,44 @@ Technologies. 2 (1): 37-63.</p>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>j_index</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> j_index macro          0.434</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> j_index macro          0.434</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>j_index</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator .estimate
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   j_index macro          0.434
-#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   j_index macro          0.422
-#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   j_index macro          0.533
-#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   j_index macro          0.449
-#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   j_index macro          0.431
-#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   j_index macro          0.413
-#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   j_index macro          0.398
-#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   j_index macro          0.468
-#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   j_index macro          0.435
-#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   j_index macro          0.412</div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   j_index macro          0.434
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   j_index macro          0.422
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   j_index macro          0.533
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   j_index macro          0.449
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   j_index macro          0.431
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   j_index macro          0.413
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   j_index macro          0.398
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   j_index macro          0.468
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   j_index macro          0.435
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   j_index macro          0.412</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>j_index</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span>, estimator <span class='op'>=</span> <span class='st'>"macro_weighted"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator     .estimate
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   j_index macro_weighted     0.542
-#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   j_index macro_weighted     0.527
-#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   j_index macro_weighted     0.597
-#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   j_index macro_weighted     0.515
-#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   j_index macro_weighted     0.524
-#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   j_index macro_weighted     0.492
-#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   j_index macro_weighted     0.466
-#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   j_index macro_weighted     0.535
-#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   j_index macro_weighted     0.468
-#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   j_index macro_weighted     0.501</div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   j_index macro_weighted     0.542
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   j_index macro_weighted     0.527
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   j_index macro_weighted     0.597
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   j_index macro_weighted     0.515
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   j_index macro_weighted     0.524
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   j_index macro_weighted     0.492
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   j_index macro_weighted     0.466
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   j_index macro_weighted     0.535
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   j_index macro_weighted     0.468
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   j_index macro_weighted     0.501</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='fu'>j_index_vec</span><span class='op'>(</span>
   <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>truth</span>,

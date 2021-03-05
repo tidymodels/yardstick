@@ -259,36 +259,36 @@ Measures in Multi-Class Prediction". <em>PLOS ONE</em>. Vol 7, Iss 8, e41882.</p
 
 <span class='co'># Two class</span>
 <span class='fu'>mcc</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>predicted</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> mcc     binary         0.677</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> mcc     binary         0.677</div><div class='input'>
 <span class='co'># Multiclass</span>
 <span class='co'># mcc() has a natural multiclass extension</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>mcc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> mcc     multiclass     0.542</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> mcc     multiclass     0.542</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>mcc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric .estimator .estimate
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   mcc     multiclass     0.542
-#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   mcc     multiclass     0.521
-#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   mcc     multiclass     0.602
-#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   mcc     multiclass     0.519
-#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   mcc     multiclass     0.520
-#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   mcc     multiclass     0.494
-#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   mcc     multiclass     0.461
-#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   mcc     multiclass     0.538
-#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   mcc     multiclass     0.459
-#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   mcc     multiclass     0.498</div></span></pre>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   mcc     multiclass     0.542
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   mcc     multiclass     0.521
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   mcc     multiclass     0.602
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   mcc     multiclass     0.519
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   mcc     multiclass     0.520
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   mcc     multiclass     0.494
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   mcc     multiclass     0.461
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   mcc     multiclass     0.538
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   mcc     multiclass     0.459
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   mcc     multiclass     0.498</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

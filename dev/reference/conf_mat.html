@@ -277,27 +277,27 @@ confusion matrix.</p></div>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='co'># Average</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>prop <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>prop</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='input'>
+
 <span class='va'>counts_per_resample</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 16 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 16 x 2</span><span>
 #&gt;    name         prop
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> cell_1_1 0.467   
-#&gt; </span><span style='color: #555555;'> 2</span><span> cell_1_2 0.107   
-#&gt; </span><span style='color: #555555;'> 3</span><span> cell_1_3 0.018</span><span style='text-decoration: underline;'>5</span><span>  
-#&gt; </span><span style='color: #555555;'> 4</span><span> cell_1_4 0.002</span><span style='text-decoration: underline;'>59</span><span> 
-#&gt; </span><span style='color: #555555;'> 5</span><span> cell_2_1 0.040</span><span style='text-decoration: underline;'>7</span><span>  
-#&gt; </span><span style='color: #555555;'> 6</span><span> cell_2_2 0.187   
-#&gt; </span><span style='color: #555555;'> 7</span><span> cell_2_3 0.063</span><span style='text-decoration: underline;'>2</span><span>  
-#&gt; </span><span style='color: #555555;'> 8</span><span> cell_2_4 0.017</span><span style='text-decoration: underline;'>3</span><span>  
-#&gt; </span><span style='color: #555555;'> 9</span><span> cell_3_1 0.001</span><span style='text-decoration: underline;'>73</span><span> 
-#&gt; </span><span style='color: #555555;'>10</span><span> cell_3_2 0.006</span><span style='text-decoration: underline;'>92</span><span> 
-#&gt; </span><span style='color: #555555;'>11</span><span> cell_3_3 0.022</span><span style='text-decoration: underline;'>8</span><span>  
-#&gt; </span><span style='color: #555555;'>12</span><span> cell_3_4 0.008</span><span style='text-decoration: underline;'>07</span><span> 
-#&gt; </span><span style='color: #555555;'>13</span><span> cell_4_1 0.000</span><span style='text-decoration: underline;'>575</span><span>
-#&gt; </span><span style='color: #555555;'>14</span><span> cell_4_2 0.010</span><span style='text-decoration: underline;'>4</span><span>  
-#&gt; </span><span style='color: #555555;'>15</span><span> cell_4_3 0.014</span><span style='text-decoration: underline;'>4</span><span>  
-#&gt; </span><span style='color: #555555;'>16</span><span> cell_4_4 0.032</span><span style='text-decoration: underline;'>0</span><span>  </div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> cell_1_1 0.467   
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> cell_1_2 0.107   
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> cell_1_3 0.018</span><span style='text-decoration: underline;'>5</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> cell_1_4 0.002</span><span style='text-decoration: underline;'>59</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> cell_2_1 0.040</span><span style='text-decoration: underline;'>7</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> cell_2_2 0.187   
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> cell_2_3 0.063</span><span style='text-decoration: underline;'>2</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> cell_2_4 0.017</span><span style='text-decoration: underline;'>3</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> cell_3_1 0.001</span><span style='text-decoration: underline;'>73</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> cell_3_2 0.006</span><span style='text-decoration: underline;'>92</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span> cell_3_3 0.022</span><span style='text-decoration: underline;'>8</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span> cell_3_4 0.008</span><span style='text-decoration: underline;'>07</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>13</span><span> cell_4_1 0.000</span><span style='text-decoration: underline;'>575</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>14</span><span> cell_4_2 0.010</span><span style='text-decoration: underline;'>4</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>15</span><span> cell_4_3 0.014</span><span style='text-decoration: underline;'>4</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>16</span><span> cell_4_4 0.032</span><span style='text-decoration: underline;'>0</span><span>  </div><div class='input'>
 <span class='co'># Now reshape these into a matrix</span>
 <span class='va'>mean_cmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='va'>counts_per_resample</span><span class='op'>$</span><span class='va'>prop</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span>, ncol <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>mean_cmat</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>$</span><span class='va'>obs</span><span class='op'>)</span>
