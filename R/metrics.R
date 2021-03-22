@@ -287,6 +287,14 @@ metric_set <- function(...) {
 
 #' @export
 print.metric_set <- function(x, ...) {
+  info <- as_tibble(x)
+  print(info)
+  invisible(x)
+}
+
+#' @importFrom dplyr as_tibble
+#' @export
+as_tibble.metric_set <- function(x, ...) {
   metrics <- attributes(x)$metrics
   names <- names(metrics)
   metrics <- unname(metrics)
@@ -294,15 +302,11 @@ print.metric_set <- function(x, ...) {
   classes <- map_chr(metrics, class1)
   directions <- map_chr(metrics, get_metric_fn_direction)
 
-  info <- data.frame(
+  dplyr::tibble(
     metric = names,
     class = classes,
     direction = directions
   )
-
-  print(info)
-
-  invisible(x)
 }
 
 map_chr <- function(x, f, ...) {

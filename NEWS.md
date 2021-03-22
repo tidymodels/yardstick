@@ -8,6 +8,10 @@
   on top of the shaded polygon, resulting in a sharper look for the
   line itself (#192, @eddjberry).
 
+* Added an `as_tibble()` method for `metric_set` objects. Printing a
+  `metric_set` now uses this to print out a tibble rather than a data frame
+  (#186).
+
 * Re-licensed package from GPL-2 to MIT. See [consent from copyright holders
   here](https://github.com/tidymodels/yardstick/issues/204) (#204).
 

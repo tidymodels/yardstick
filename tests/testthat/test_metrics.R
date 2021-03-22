@@ -221,6 +221,11 @@ test_that("print metric_set works", {
   })
 })
 
+test_that("metric_set can be coerced to a tibble", {
+  x <- metric_set(roc_auc, pr_auc, accuracy)
+  expect_s3_class(as_tibble(x), "tbl_df")
+})
+
 test_that("`metric_set()` errors contain env name for unknown functions (#128)", {
   foobar <- function() {}
 
