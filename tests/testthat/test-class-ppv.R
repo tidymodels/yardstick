@@ -79,3 +79,22 @@ test_that('Three class', {
     )
   )
 })
+
+# ------------------------------------------------------------------------------
+
+test_that("Binary `ppv()` returns `NA` with a warning when `sens()` is undefined (tp + fn = 0) (#101)", {
+  levels <- c("a", "b")
+  truth    <- factor(c("b", "b"), levels = levels)
+  estimate <- factor(c("a", "b"), levels = levels)
+
+  expect_warning(
+    expect_equal(
+      ppv_vec(truth, estimate),
+      NA_real_
+    )
+  )
+
+  cnd <- rlang::catch_cnd(ppv_vec(truth, estimate))
+  expect_known_output(cat(cnd$message), test_path("test-class-ppv-warning-binary.txt"), print = TRUE)
+  expect_s3_class(cnd, "yardstick_warning_sens_undefined_binary")
+})

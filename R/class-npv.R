@@ -141,8 +141,7 @@ npv_binary <- function(data, event_level, prevalence = NULL) {
   if (is.null(prevalence))
     prevalence <- sum(data[, positive]) / sum(data)
 
-  # recall = sens
-  sens <- recall_binary(data, event_level)
+  sens <- sens_binary(data, event_level)
   spec <- spec_binary(data, event_level)
   (spec * (1 - prevalence)) / (((1 - sens) * prevalence) + ((spec) * (1 - prevalence)))
 }
