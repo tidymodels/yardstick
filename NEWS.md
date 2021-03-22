@@ -1,5 +1,9 @@
 # yardstick (development version)
 
+* When `sens()` is undefined when computing `ppv()`, `npv()`, `j_index()`, or 
+  `bal_accuracy()`, a sensitivity warning is now correctly thrown, rather than
+  a recall warning (#101).
+
 * The `autoplot()` method for gain curves now plots the curve line
   on top of the shaded polygon, resulting in a sharper look for the
   line itself (#192, @eddjberry).
