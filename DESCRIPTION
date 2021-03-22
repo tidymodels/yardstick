@@ -33,7 +33,6 @@ Suggests:
     covr,
     crayon,
     ggplot2,
-    kableExtra,
     knitr,
     purrr,
     rmarkdown,
