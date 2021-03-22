@@ -132,8 +132,7 @@ j_index_table_impl <- function(data, estimator, event_level) {
 }
 
 j_index_binary <- function(data, event_level) {
-  # sens + spec - 1
-  recall_binary(data, event_level) + spec_binary(data, event_level) - 1
+  sens_binary(data, event_level) + spec_binary(data, event_level) - 1
 }
 
 j_index_multiclass <- function(data, estimator) {

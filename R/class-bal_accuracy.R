@@ -112,8 +112,7 @@ bal_accuracy_table_impl <- function(data, estimator, event_level) {
 }
 
 bal_accuracy_binary <- function(data, event_level) {
-  # (sens + spec) / 2
-  ( recall_binary(data, event_level) + spec_binary(data, event_level) ) / 2
+  ( sens_binary(data, event_level) + spec_binary(data, event_level) ) / 2
 }
 
 # Urbanowicz 2015 ExSTraCS 2.0 description and evaluation of a scalable learning.pdf
