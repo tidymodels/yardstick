@@ -8,6 +8,9 @@
   on top of the shaded polygon, resulting in a sharper look for the
   line itself (#192, @eddjberry).
 
+* Re-licensed package from GPL-2 to MIT. See [consent from copyright holders
+  here](https://github.com/tidymodels/yardstick/issues/204) (#204).
+
 # yardstick 0.0.7
 
 * The global option, `yardstick.event_first`, has been deprecated in favor of

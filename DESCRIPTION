@@ -16,7 +16,7 @@ Authors@R:
 Description: Tidy tools for quantifying how well model fits to a
     data set such as confusion matrices, class probability curve
     summaries, and regression metrics (e.g., RMSE).
-License: GPL-2
+License: MIT + file LICENSE
 URL: https://github.com/tidymodels/yardstick,
     https://yardstick.tidymodels.org
 BugReports: https://github.com/tidymodels/yardstick/issues
