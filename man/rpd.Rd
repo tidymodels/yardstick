@@ -116,6 +116,7 @@ Other numeric metrics:
 \code{\link{mape}()},
 \code{\link{mase}()},
 \code{\link{mpe}()},
+\code{\link{msd}()},
 \code{\link{rmse}()},
 \code{\link{rpiq}()},
 \code{\link{rsq_trad}()},
