@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* New `msd()` for computing the mean signed deviation (also called mean
+  signed difference, or mean signed error) (#183, @datenzauberai).
+
 * When `sens()` is undefined when computing `ppv()`, `npv()`, `j_index()`, or 
   `bal_accuracy()`, a sensitivity warning is now correctly thrown, rather than
   a recall warning (#101).
