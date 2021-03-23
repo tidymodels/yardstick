@@ -52,6 +52,11 @@ cancel each other out. For example, \code{msd_vec(c(100, -100), c(0, 0))} would
 return a seemingly "perfect" value of \code{0}, even though \code{estimate} is wildly
 different from \code{truth}. \code{\link[=mae]{mae()}} attempts to remedy this by taking the
 absolute value of the differences before computing the mean.
+
+This metric is computed as \code{mean(truth - estimate)}, following the convention
+that an "error" is computed as \code{observed - predicted}. If you expected this
+metric to be computed as \code{mean(estimate - truth)}, reverse the sign of the
+result.
 }
 \examples{
 # Supply truth and predictions as bare column names

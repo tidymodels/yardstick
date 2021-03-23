@@ -5,7 +5,7 @@ test_that("`msd()` works", {
 
   expect_identical(
     msd(df, truth = "obs", estimate = "pred")[[".estimate"]],
-    mean(df$pred - df$obs)
+    mean(df$obs - df$pred)
   )
 
   # adding some NA values and check that they are ignored
@@ -14,7 +14,7 @@ test_that("`msd()` works", {
 
   expect_identical(
     msd(df, obs, pred)[[".estimate"]],
-    mean(df$pred[-ind] - df$obs[-ind])
+    mean(df$obs[-ind] - df$pred[-ind])
   )
 })
 
@@ -22,6 +22,6 @@ test_that("positive and negative errors cancel each other out", {
   expect_identical(msd_vec(c(100, -100), c(0, 0)), 0)
 })
 
-test_that("differences are computed as `estimate - truth`", {
-  expect_identical(msd_vec(1, 0), -1)
+test_that("differences are computed as `truth - estimate`", {
+  expect_identical(msd_vec(0, 1), -1)
 })

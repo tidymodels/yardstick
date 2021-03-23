@@ -12,6 +12,11 @@
 #' different from `truth`. [mae()] attempts to remedy this by taking the
 #' absolute value of the differences before computing the mean.
 #'
+#' This metric is computed as `mean(truth - estimate)`, following the convention
+#' that an "error" is computed as `observed - predicted`. If you expected this
+#' metric to be computed as `mean(estimate - truth)`, reverse the sign of the
+#' result.
+#'
 #' @family numeric metrics
 #' @family accuracy metrics
 #' @templateVar metric_fn msd
@@ -53,7 +58,7 @@ msd.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 msd_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   msd_impl <- function(truth, estimate) {
-    mean(estimate - truth)
+    mean(truth - estimate)
   }
 
   metric_vec_template(
