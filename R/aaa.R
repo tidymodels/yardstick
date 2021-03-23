@@ -14,11 +14,6 @@ utils::globalVariables(
     "specificity",
     ".level",
     ".",
-    "truth",
-    ".pred_class",
-    "probability",
-    "cost",
-    "expected_cost",
 
     # for autoplot methods
     ".n_events",
