@@ -188,6 +188,7 @@ Deutsche Bundesbank.
 
 Other class probability metrics: 
 \code{\link{average_precision}()},
+\code{\link{classification_cost}()},
 \code{\link{mn_log_loss}()},
 \code{\link{pr_auc}()},
 \code{\link{roc_auc}()},

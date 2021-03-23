@@ -124,6 +124,10 @@ finalize_estimator_internal.kap <- finalize_estimator_internal.accuracy
 finalize_estimator_internal.mcc <- finalize_estimator_internal.accuracy
 finalize_estimator_internal.mn_log_loss <- finalize_estimator_internal.accuracy
 
+# Classification cost extends naturally to multiclass and produce the same
+# result regardless of the "event" level.
+finalize_estimator_internal.classification_cost <- finalize_estimator_internal.accuracy
+
 # Curve methods don't use the estimator when printing, but do dispatch
 # off it to determine whether to do one-vs-all or not
 finalize_estimator_internal.gain_curve <- finalize_estimator_internal.accuracy

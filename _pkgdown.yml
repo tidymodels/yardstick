@@ -38,6 +38,7 @@ reference:
     - average_precision
     - gain_capture
     - mn_log_loss
+    - classification_cost
 
   - title: Regression Metrics
     contents:

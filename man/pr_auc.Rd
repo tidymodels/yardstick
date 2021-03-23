@@ -163,6 +163,7 @@ pr_auc_vec(
 
 Other class probability metrics: 
 \code{\link{average_precision}()},
+\code{\link{classification_cost}()},
 \code{\link{gain_capture}()},
 \code{\link{mn_log_loss}()},
 \code{\link{roc_auc}()},

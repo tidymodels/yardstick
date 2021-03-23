@@ -28,7 +28,8 @@ Imports:
     pROC (>= 1.15.0),
     rlang (>= 0.4.0),
     tidyselect,
-    utils
+    utils,
+    vctrs (>= 0.3.6)
 Suggests: 
     covr,
     crayon,

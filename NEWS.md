@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* New `classification_cost()` metric for computing the cost of a poor class
+  probability prediction using user-defined costs (#3).
+
 * New `msd()` for computing the mean signed deviation (also called mean
   signed difference, or mean signed error) (#183, @datenzauberai).
 
