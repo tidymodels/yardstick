@@ -291,7 +291,8 @@ generate_all_level_combinations <- function(levels) {
 }
 
 quote_and_collapse <- function(x) {
-   paste0(sQuote(x, q = FALSE), collapse = ", ")
+   x <- encodeString(x, quote = "'", na.encode = FALSE)
+   paste0(x, collapse = ", ")
 }
 
 pivot_costs <- function(costs, levels) {
