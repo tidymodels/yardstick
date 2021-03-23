@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mean log loss — mn_log_loss • yardstick</title>
+<title>Costs function for poor classification — classification_cost • yardstick</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,10 @@
 
 
 
-<meta property="og:title" content="Mean log loss — mn_log_loss" />
-<meta property="og:description" content="Compute the logarithmic loss of a classification model." />
+<meta property="og:title" content="Costs function for poor classification — classification_cost" />
+<meta property="og:description" content="classification_cost() calculates the cost of a poor prediction based on
+user-defined costs. The costs are multiplied by the estimated class
+probabilities and the mean cost is returned." />
 <meta property="og:image" content="https://yardstick.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -150,32 +152,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean log loss</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/prob-mn_log_loss.R'><code>R/prob-mn_log_loss.R</code></a></small>
-    <div class="hidden name"><code>mn_log_loss.Rd</code></div>
+    <h1>Costs function for poor classification</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/yardstick/blob/master/R/prob-classification_cost.R'><code>R/prob-classification_cost.R</code></a></small>
+    <div class="hidden name"><code>classification_cost.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Compute the logarithmic loss of a classification model.</p>
+    <p><code>classification_cost()</code> calculates the cost of a poor prediction based on
+user-defined costs. The costs are multiplied by the estimated class
+probabilities and the mean cost is returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mn_log_loss</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>mn_log_loss</span><span class='op'>(</span>
+<span class='fu'>classification_cost</span><span class='op'>(</span>
   <span class='va'>data</span>,
   <span class='va'>truth</span>,
   <span class='va'>...</span>,
+  costs <span class='op'>=</span> <span class='cn'>NULL</span>,
   na_rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  sum <span class='op'>=</span> <span class='cn'>FALSE</span>,
   event_level <span class='op'>=</span> <span class='fu'>yardstick_event_level</span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span>
 
-<span class='fu'>mn_log_loss_vec</span><span class='op'>(</span>
+<span class='fu'>classification_cost_vec</span><span class='op'>(</span>
   <span class='va'>truth</span>,
   <span class='va'>estimate</span>,
+  costs <span class='op'>=</span> <span class='cn'>NULL</span>,
   na_rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  sum <span class='op'>=</span> <span class='cn'>FALSE</span>,
   event_level <span class='op'>=</span> <span class='fu'>yardstick_event_level</span><span class='op'>(</span><span class='op'>)</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -204,14 +208,24 @@ this argument is passed by expression and supports
 names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></td>
     </tr>
     <tr>
+      <th>costs</th>
+      <td><p>A data frame with columns <code>"truth"</code>, <code>"estimate"</code>, and <code>"cost"</code>.</p>
+<p><code>"truth"</code> and <code>"estimate"</code> should be character columns containing unique
+combinations of the levels of the <code>truth</code> factor.</p>
+<p><code>"costs"</code> should be a numeric column representing the cost that should
+be applied when the <code>"estimate"</code> is predicted, but the true result is
+<code>"truth"</code>.</p>
+<p>It is often the case that when <code>"truth" == "estimate"</code>, the cost is zero
+(no penalty for correct predictions).</p>
+<p>If any combinations of the levels of <code>truth</code> are missing, their costs are
+assumed to be zero.</p>
+<p>If <code>NULL</code>, equal costs are used, applying a cost of <code>0</code> to correct
+predictions, and a cost of <code>1</code> to incorrect predictions.</p></td>
+    </tr>
+    <tr>
       <th>na_rm</th>
       <td><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></td>
-    </tr>
-    <tr>
-      <th>sum</th>
-      <td><p>A <code>logical</code>. Should the sum of the likelihood contributions be
-returned (instead of the mean value)?</p></td>
     </tr>
     <tr>
       <th>event_level</th>
@@ -237,32 +251,21 @@ same order as the levels of <code>truth</code>.</em></p></td>
 and <code>.estimate</code> and 1 row of values.</p>
 <p>For grouped data frames, the number of rows returned will be the same as
 the number of groups.</p>
-<p>For <code>mn_log_loss_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
+<p>For <code>class_cost_vec()</code>, a single <code>numeric</code> value (or <code>NA</code>).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Log loss is a measure of the performance of a classification model. A
-perfect model has a log loss of <code>0</code>.</p>
-<p>Compared with <code><a href='accuracy.html'>accuracy()</a></code>, log loss
-takes into account the uncertainty in the prediction and gives a more
-detailed view into the actual performance. For example, given two input
-probabilities of <code>.6</code> and <code>.9</code> where both are classified as predicting
-a positive value, say, <code>"Yes"</code>, the accuracy metric would interpret them
-as having the same value. If the true output is <code>"Yes"</code>, log loss penalizes
-<code>.6</code> because it is "less sure" of it's result compared to the probability
-of <code>.9</code>.</p>
-    <h2 class="hasAnchor" id="multiclass"><a class="anchor" href="#multiclass"></a>Multiclass</h2>
-
-    
-
-<p>Log loss has a known multiclass extension, and is simply the sum of the
-log loss values for each class prediction. Because of this, no averaging
-types are supported.</p>
+    <p>As an example, suppose that there are three classes: <code>"A"</code>, <code>"B"</code>, and <code>"C"</code>.
+Suppose there is a truly <code>"A"</code> observation with class probabilities <code>A = 0.3 / B = 0.3 / C = 0.4</code>. Suppose that, when the true result is class <code>"A"</code>, the
+costs for each class were <code>A = 0 / B = 5 / C = 10</code>, penalizing the
+probability of incorrectly predicting <code>"C"</code> more than predicting <code>"B"</code>. The
+cost for this prediction would be <code>0.3 * 0 + 0.3 * 5 + 0.4 * 10</code>. This
+calculation is done for each sample and the individual costs are averaged.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other class probability metrics: 
 <code><a href='average_precision.html'>average_precision</a>()</code>,
-<code><a href='classification_cost.html'>classification_cost</a>()</code>,
 <code><a href='gain_capture.html'>gain_capture</a>()</code>,
+<code><a href='mn_log_loss.html'>mn_log_loss</a>()</code>,
 <code><a href='pr_auc.html'>pr_auc</a>()</code>,
 <code><a href='roc_auc.html'>roc_auc</a>()</code>,
 <code><a href='roc_aunp.html'>roc_aunp</a>()</code>,
@@ -272,68 +275,86 @@ types are supported.</p>
     <p>Max Kuhn</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Two class</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"two_class_example"</span><span class='op'>)</span>
-<span class='fu'>mn_log_loss</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+
+<span class='co'># ---------------------------------------------------------------------------</span>
+<span class='co'># Two class example</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>)</span>
+
+<span class='co'># Assuming `Class1` is our "event", this penalizes false positives heavily</span>
+<span class='va'>costs1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+  <span class='op'>~</span><span class='va'>truth</span>,   <span class='op'>~</span><span class='va'>estimate</span>, <span class='op'>~</span><span class='va'>cost</span>,
+  <span class='st'>"Class1"</span>, <span class='st'>"Class2"</span>,  <span class='fl'>1</span>,
+  <span class='st'>"Class2"</span>, <span class='st'>"Class1"</span>,  <span class='fl'>2</span>
+<span class='op'>)</span>
+
+<span class='co'># Assuming `Class1` is our "event", this penalizes false negatives heavily</span>
+<span class='va'>costs2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+  <span class='op'>~</span><span class='va'>truth</span>,   <span class='op'>~</span><span class='va'>estimate</span>, <span class='op'>~</span><span class='va'>cost</span>,
+  <span class='st'>"Class1"</span>, <span class='st'>"Class2"</span>,  <span class='fl'>2</span>,
+  <span class='st'>"Class2"</span>, <span class='st'>"Class1"</span>,  <span class='fl'>1</span>
+<span class='op'>)</span>
+
+<span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span>, costs <span class='op'>=</span> <span class='va'>costs1</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric     .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> mn_log_loss binary         0.328</div><div class='input'>
+#&gt;   .metric             .estimator .estimate
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> classification_cost binary         0.288</div><div class='input'>
+<span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span>, costs <span class='op'>=</span> <span class='va'>costs2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
+#&gt;   .metric             .estimator .estimate
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> classification_cost binary         0.260</div><div class='input'>
+<span class='co'># ---------------------------------------------------------------------------</span>
 <span class='co'># Multiclass</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span>
+
+<span class='co'># Define cost matrix from Kuhn and Johnson (2013)</span>
+<span class='va'>hpc_costs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+   <span class='op'>~</span><span class='va'>estimate</span>, <span class='op'>~</span><span class='va'>truth</span>, <span class='op'>~</span><span class='va'>cost</span>,
+   <span class='st'>"VF"</span>,   <span class='st'>"VF"</span>,     <span class='fl'>0</span>,
+   <span class='st'>"VF"</span>,    <span class='st'>"F"</span>,     <span class='fl'>1</span>,
+   <span class='st'>"VF"</span>,    <span class='st'>"M"</span>,     <span class='fl'>5</span>,
+   <span class='st'>"VF"</span>,    <span class='st'>"L"</span>,    <span class='fl'>10</span>,
+   <span class='st'>"F"</span>,    <span class='st'>"VF"</span>,     <span class='fl'>1</span>,
+   <span class='st'>"F"</span>,     <span class='st'>"F"</span>,     <span class='fl'>0</span>,
+   <span class='st'>"F"</span>,     <span class='st'>"M"</span>,     <span class='fl'>5</span>,
+   <span class='st'>"F"</span>,     <span class='st'>"L"</span>,     <span class='fl'>5</span>,
+   <span class='st'>"M"</span>,    <span class='st'>"VF"</span>,     <span class='fl'>1</span>,
+   <span class='st'>"M"</span>,     <span class='st'>"F"</span>,     <span class='fl'>1</span>,
+   <span class='st'>"M"</span>,     <span class='st'>"M"</span>,     <span class='fl'>0</span>,
+   <span class='st'>"M"</span>,     <span class='st'>"L"</span>,     <span class='fl'>1</span>,
+   <span class='st'>"L"</span>,    <span class='st'>"VF"</span>,     <span class='fl'>1</span>,
+   <span class='st'>"L"</span>,     <span class='st'>"F"</span>,     <span class='fl'>1</span>,
+   <span class='st'>"L"</span>,     <span class='st'>"M"</span>,     <span class='fl'>1</span>,
+   <span class='st'>"L"</span>,     <span class='st'>"L"</span>,     <span class='fl'>0</span>
+<span class='op'>)</span>
 
 <span class='co'># You can use the col1:colN tidyselect syntax</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mn_log_loss</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span>
+  <span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span>, costs <span class='op'>=</span> <span class='va'>hpc_costs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric     .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> mn_log_loss multiclass     0.734</div><div class='input'>
+#&gt;   .metric             .estimator .estimate
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> classification_cost multiclass     0.779</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mn_log_loss</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span>
+  <span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span>, costs <span class='op'>=</span> <span class='va'>hpc_costs</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
-#&gt;    Resample .metric     .estimator .estimate
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   mn_log_loss multiclass     0.734
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   mn_log_loss multiclass     0.808
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   mn_log_loss multiclass     0.705
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   mn_log_loss multiclass     0.747
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   mn_log_loss multiclass     0.799
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   mn_log_loss multiclass     0.766
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   mn_log_loss multiclass     0.927
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   mn_log_loss multiclass     0.855
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   mn_log_loss multiclass     0.861
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   mn_log_loss multiclass     0.821</div><div class='input'>
-
-<span class='co'># Vector version</span>
-<span class='co'># Supply a matrix of class probabilities</span>
-<span class='va'>fold1</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span>
-
-<span class='fu'>mn_log_loss_vec</span><span class='op'>(</span>
-   truth <span class='op'>=</span> <span class='va'>fold1</span><span class='op'>$</span><span class='va'>obs</span>,
-   <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span>
-     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>fold1</span><span class='op'>$</span><span class='va'>VF</span>, <span class='va'>fold1</span><span class='op'>$</span><span class='cn'>F</span>, <span class='va'>fold1</span><span class='op'>$</span><span class='va'>M</span>, <span class='va'>fold1</span><span class='op'>$</span><span class='va'>L</span><span class='op'>)</span>,
-     ncol <span class='op'>=</span> <span class='fl'>4</span>
-   <span class='op'>)</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.7338423</div><div class='input'>
-<span class='co'># Supply `...` with quasiquotation</span>
-<span class='va'>prob_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>truth</span><span class='op'>)</span>
-<span class='fu'>mn_log_loss</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric     .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> mn_log_loss binary         0.328</div><div class='input'><span class='fu'>mn_log_loss</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='op'>!</span><span class='op'>!</span> <span class='va'>prob_cols</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric     .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> mn_log_loss binary         0.328</div><div class='input'>
-</div></span></pre>
+#&gt;    Resample .metric             .estimator .estimate
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   classification_cost multiclass     0.779
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   classification_cost multiclass     0.735
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   classification_cost multiclass     0.654
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   classification_cost multiclass     0.754
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   classification_cost multiclass     0.777
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   classification_cost multiclass     0.737
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   classification_cost multiclass     0.743
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   classification_cost multiclass     0.749
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   classification_cost multiclass     0.760
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   classification_cost multiclass     0.771</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
