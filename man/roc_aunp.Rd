@@ -135,7 +135,7 @@ the rest, using the uniform class distribution.
 
 Other class probability metrics: 
 \code{\link{average_precision}()},
-\code{\link{class_cost}()},
+\code{\link{classification_cost}()},
 \code{\link{gain_capture}()},
 \code{\link{mn_log_loss}()},
 \code{\link{pr_auc}()},
