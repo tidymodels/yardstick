@@ -149,7 +149,7 @@ roc_aunp_vec <- function(truth,
     estimate = estimate,
     estimator = estimator,
     na_rm = na_rm,
-    cls = c("factor", "numeric"),
-    ... = ...
+    cls = c("factor", "numeric")
+    # no dots - could set `estimator` twice with `metric_tweak()`
   )
 }
