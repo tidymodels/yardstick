@@ -57,7 +57,8 @@ gain_capture <- new_prob_metric(
 #' @rdname gain_capture
 #' @export
 gain_capture.data.frame <- function(data,
-                                    truth, ...,
+                                    truth,
+                                    ...,
                                     estimator = NULL,
                                     na_rm = TRUE,
                                     event_level = yardstick_event_level()) {
@@ -71,8 +72,7 @@ gain_capture.data.frame <- function(data,
     estimate = !! estimate,
     estimator = estimator,
     na_rm = na_rm,
-    event_level = event_level,
-    ... = ...
+    event_level = event_level
   )
 }
 
