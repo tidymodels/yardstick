@@ -99,8 +99,7 @@ average_precision_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
-    cls = c("factor", "numeric"),
-    ...
+    cls = c("factor", "numeric")
   )
 }
 

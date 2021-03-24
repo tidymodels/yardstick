@@ -53,7 +53,6 @@ ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na_rm = TRUE, ..
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
-    ... = ...,
     # Extra argument for ccc_impl()
     metric_fn_options = list(bias = bias)
   )
@@ -91,7 +90,6 @@ ccc_vec <- function(truth, estimate, bias = FALSE, na_rm = TRUE, ...) {
     estimate = estimate,
     na_rm = na_rm,
     cls = "numeric",
-    ...,
     bias = bias
   )
 

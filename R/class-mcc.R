@@ -56,9 +56,7 @@ mcc.data.frame <- function(data, truth, estimate,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm,
-    # do not pass dots through
-    # (could allow estimator to be set. unwanted!)
+    na_rm = na_rm
   )
 
 }
@@ -105,8 +103,7 @@ mcc_vec <- function(truth, estimate, na_rm = TRUE, ...) {
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
-    cls = "factor",
-    ...
+    cls = "factor"
   )
 
 }

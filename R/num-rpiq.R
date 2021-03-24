@@ -43,8 +43,7 @@ rpiq.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm,
-    ... = ...
+    na_rm = na_rm
   )
 
 }
@@ -65,8 +64,7 @@ rpiq_vec <- function(truth, estimate, na_rm = TRUE, ...) {
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    cls = "numeric",
-    ...
+    cls = "numeric"
   )
 
 }

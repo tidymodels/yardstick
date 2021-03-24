@@ -135,7 +135,6 @@ roc_curve_vec <- function(truth,
     na_rm = na_rm,
     estimator = estimator,
     cls = c("factor", "numeric"),
-    ...,
     options = options
   )
 }
