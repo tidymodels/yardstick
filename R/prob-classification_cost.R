@@ -290,11 +290,6 @@ generate_all_level_combinations <- function(levels) {
    grid
 }
 
-quote_and_collapse <- function(x) {
-   x <- encodeString(x, quote = "'", na.encode = FALSE)
-   paste0(x, collapse = ", ")
-}
-
 pivot_costs <- function(costs, levels) {
    # Must be a data frame, not a tibble, for `reshape()` to work
    costs <- as.data.frame(costs)
