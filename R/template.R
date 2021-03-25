@@ -164,6 +164,12 @@ metric_vec_template <- function(metric_impl,
                                 cls = "numeric",
                                 estimator = NULL,
                                 ...) {
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+  if (is_class_pred(estimate)) {
+    estimate <- as_factor_from_class_pred(estimate)
+  }
 
   validate_truth_estimate_checks(truth, estimate, cls, estimator)
 
