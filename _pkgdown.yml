@@ -69,6 +69,7 @@ reference:
     contents:
     - metrics
     - metric_set
+    - metric_tweak
     - conf_mat
     - summary.conf_mat
     - matches("tidy")
