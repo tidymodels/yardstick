@@ -222,7 +222,7 @@ metrics.data.frame <- function(data,
 #'
 #' @importFrom rlang call2
 #' @importFrom dplyr bind_rows
-#' @importFrom rlang enquos
+#' @importFrom rlang quos enquo enquos abort
 metric_set <- function(...) {
   quo_fns <- enquos(...)
   validate_not_empty(quo_fns)
