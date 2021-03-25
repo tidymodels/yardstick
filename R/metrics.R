@@ -69,67 +69,40 @@ metrics <- function(data, ...) {
 #' @export
 #' @rdname metrics
 #' @importFrom dplyr bind_rows
-metrics.data.frame <- function(data, truth, estimate, ...,
-                               options = list(), na_rm = TRUE) {
+metrics.data.frame <- function(data,
+                               truth,
+                               estimate,
+                               ...,
+                               options = list(),
+                               na_rm = TRUE) {
+  names <- names(data)
 
-  # Get set of character vars
-  vars <- all_select(
-    data = data,
-    truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
-    ...
-  )
+  truth <- tidyselect::vars_pull(names, {{truth}})
+  estimate <- tidyselect::vars_pull(names, {{estimate}})
+  probs <- unname(tidyselect::vars_select(names, ...))
 
-  is_class <- is.factor(data[[ vars$truth ]])
+  is_class <- is.factor(data[[truth]]) || is_class_pred(data[[truth]])
 
   if (is_class) {
-
-    if(!is.factor(data[[ vars$estimate ]])) {
-      stop("`estimate` should be a factor", call. = FALSE)
-    }
-
     metrics_class <- metric_set(accuracy, kap)
+    res <- metrics_class(data, !!truth, estimate = !!estimate, na_rm = na_rm)
 
-    res <- metrics_class(data, !! vars$truth, estimate = !!vars$estimate)
-
-    # truth=factor. Any ... ?
-    has_probs <- !all(is.na(vars$probs))
-
-    if (has_probs) {
-
-      # truth=factor and there are ...
-      # Is truth a 2 level factor?
-      lvl <- levels(data[[ vars$truth ]])
-
-      res <- bind_rows(
-        res,
-        mn_log_loss(data, !! vars$truth, !! vars$probs, na_rm = na_rm),
-        roc_auc(
-          data, !! vars$truth, !! vars$probs,
-          na_rm = na_rm, options = options
-        )
-      )
-
-    } # end has_probs
-
-    # truth != factor
-  } else {
-
-    # Assume only regression for now
-    if (!is.numeric(data[[ vars$estimate ]])) {
-      stop("`estimate` should be numeric", call. = FALSE)
+    if (length(probs) > 0L) {
+      res2 <- mn_log_loss(data, !!truth, !!probs, na_rm = na_rm)
+      res3 <- roc_auc(data, !!truth, !!probs, na_rm = na_rm, options = options)
+      res <- bind_rows(res, res2, res3)
     }
-
+  } else {
+    # Assume only regression for now
     metrics_regression <- metric_set(rmse, rsq, mae)
 
     res <- metrics_regression(
       data = data,
-      truth = !! vars$truth,
-      estimate = !! vars$estimate,
+      truth = !!truth,
+      estimate = !!estimate,
       na_rm = na_rm
     )
-
-  } # end regression
+  }
 
   res
 }
