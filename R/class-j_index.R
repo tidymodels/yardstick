@@ -62,8 +62,7 @@ j_index.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
-    event_level = event_level,
-    ... = ...
+    event_level = event_level
   )
 }
 
@@ -116,8 +115,7 @@ j_index_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     cls = "factor",
-    estimator = estimator,
-    ...
+    estimator = estimator
   )
 }
 

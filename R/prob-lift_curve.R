@@ -129,8 +129,7 @@ lift_curve_vec <- function(truth,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    event_level = event_level,
-    ...
+    event_level = event_level
   )
 
   res <- dplyr::mutate(res, .lift = .percent_found / .percent_tested)

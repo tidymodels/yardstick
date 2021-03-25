@@ -116,7 +116,6 @@ roc_aunu.data.frame  <- function(data,
     estimator = NULL,
     na_rm = na_rm,
     event_level = NULL,
-    ... = ...,
     metric_fn_options = list(options = options)
   )
 }
@@ -150,7 +149,6 @@ roc_aunu_vec <- function(truth,
     estimate = estimate,
     estimator = estimator,
     na_rm = na_rm,
-    cls = c("factor", "numeric"),
-    ... = ...
+    cls = c("factor", "numeric")
   )
 }

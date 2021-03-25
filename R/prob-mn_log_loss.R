@@ -124,7 +124,6 @@ mn_log_loss_vec <- function(truth,
     na_rm = na_rm,
     estimator = estimator,
     cls = c("factor", "numeric"),
-    ...,
     sum = sum
   )
 }

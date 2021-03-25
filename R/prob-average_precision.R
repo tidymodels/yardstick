@@ -75,8 +75,7 @@ average_precision.data.frame <- function(data,
     estimate = !!estimate,
     estimator = estimator,
     na_rm = na_rm,
-    event_level = event_level,
-    ... = ...
+    event_level = event_level
   )
 }
 
@@ -100,8 +99,7 @@ average_precision_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
-    cls = c("factor", "numeric"),
-    ...
+    cls = c("factor", "numeric")
   )
 }
 

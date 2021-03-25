@@ -68,8 +68,7 @@ recall.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
-    event_level = event_level,
-    ... = ...
+    event_level = event_level
   )
 
 }
@@ -123,8 +122,7 @@ recall_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
-    cls = "factor",
-    ...
+    cls = "factor"
   )
 }
 

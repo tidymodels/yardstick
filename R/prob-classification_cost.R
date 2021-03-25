@@ -152,7 +152,6 @@ classification_cost_vec <- function(truth,
       na_rm = na_rm,
       estimator = estimator,
       cls = c("factor", "numeric"),
-      ...,
       costs = costs
    )
 }
@@ -288,11 +287,6 @@ generate_all_level_combinations <- function(levels) {
    grid <- dplyr::as_tibble(grid)
    grid <- grid[c("truth", "estimate")]
    grid
-}
-
-quote_and_collapse <- function(x) {
-   x <- encodeString(x, quote = "'", na.encode = FALSE)
-   paste0(x, collapse = ", ")
 }
 
 pivot_costs <- function(costs, levels) {

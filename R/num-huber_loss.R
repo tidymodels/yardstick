@@ -43,7 +43,6 @@ huber_loss.data.frame <- function(data, truth, estimate, delta = 1, na_rm = TRUE
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
-    ... = ...,
     # Extra argument for huber_loss_impl()
     metric_fn_options = list(delta = delta)
   )
@@ -83,7 +82,6 @@ huber_loss_vec <- function(truth, estimate, delta = 1, na_rm = TRUE, ...) {
     estimate = estimate,
     na_rm = na_rm,
     cls = "numeric",
-    ...,
     delta = delta
   )
 

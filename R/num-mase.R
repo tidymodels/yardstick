@@ -67,7 +67,6 @@ mase.data.frame <- function(data, truth, estimate, m = 1L,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
-    ... = ...,
     # Extra argument for mase_impl()
     metric_fn_options = list(mae_train = mae_train, m = m)
   )
@@ -118,7 +117,6 @@ mase_vec <- function(truth, estimate, m = 1L,
     estimate = estimate,
     na_rm = na_rm,
     cls = "numeric",
-    ...,
     mae_train = mae_train,
     m = m
   )

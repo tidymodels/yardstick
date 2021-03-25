@@ -41,8 +41,7 @@ detection_prevalence.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     event_level = event_level,
-    na_rm = na_rm,
-    ... = ...
+    na_rm = na_rm
   )
 }
 
@@ -95,8 +94,7 @@ detection_prevalence_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
-    cls = "factor",
-    ...
+    cls = "factor"
   )
 }
 

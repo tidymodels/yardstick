@@ -45,3 +45,10 @@ is_binary <- function(x) {
 is_micro <- function(x) {
   identical(x, "micro")
 }
+
+# ------------------------------------------------------------------------------
+
+quote_and_collapse <- function(x) {
+  x <- encodeString(x, quote = "'", na.encode = FALSE)
+  paste0(x, collapse = ", ")
+}
