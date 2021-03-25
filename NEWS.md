@@ -1,5 +1,10 @@
 # yardstick (development version)
 
+* New `metric_tweak()` for adjusting the default values of optional arguments in
+  an existing yardstick metric. This is useful to quickly adjust the defaults
+  of a metric that will be included in a `metric_set()`, especially if that
+  metric set is going to be used for tuning with the tune package (#206, #182).
+
 * New `classification_cost()` metric for computing the cost of a poor class
   probability prediction using user-defined costs (#3).
 
