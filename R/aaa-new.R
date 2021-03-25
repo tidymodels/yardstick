@@ -67,12 +67,11 @@ new_metric <- function(fn, direction, class = NULL) {
 is_metric <- function(x) {
   inherits(x, "metric")
 }
-is_numeric_metric <- function(x) {
-  inherits(x, "numeric_metric")
+
+metric_direction <- function(x) {
+  attr(x, "direction", exact = TRUE)
 }
-is_class_metric <- function(x) {
-  inherits(x, "class_metric")
-}
-is_prob_metric <- function(x) {
-  inherits(x, "prob_metric")
+`metric_direction<-` <- function(x, value) {
+  attr(x, "direction") <- value
+  x
 }
