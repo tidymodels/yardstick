@@ -98,39 +98,35 @@ conf_mat <- function(data, ...) {
 #' @rdname conf_mat
 conf_mat.data.frame <- function(data, truth, estimate,
                                 dnn = c("Prediction", "Truth"), ...) {
+  names <- names(data)
 
-  vars <-
-    factor_select(
-      data = data,
-      truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
-      ...
-    )
+  truth <- tidyselect::vars_pull(names, {{truth}})
+  estimate <- tidyselect::vars_pull(names, {{estimate}})
+
+  truth <- data[[truth]]
+  estimate <- data[[estimate]]
 
   xtab <- vec2table(
-    truth = data[[vars$truth]],
-    estimate = data[[vars$estimate]],
+    truth = truth,
+    estimate = estimate,
     dnn = dnn,
     ...
   )
-  conf_mat.table(xtab, ...)
 
+  conf_mat.table(xtab, ...)
 }
 
 #' @export
 conf_mat.grouped_df <- function(data, truth, estimate,
                                 dnn = c("Prediction", "Truth"), ...) {
 
-  vars <-
-    factor_select(
-      data = data,
-      truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
-      ...
-    )
+  names <- names(data)
 
-  truth <- as.name(vars$truth)
-  estimate <- as.name(vars$estimate)
+  truth <- tidyselect::vars_pull(names, {{truth}})
+  estimate <- tidyselect::vars_pull(names, {{estimate}})
+
+  truth <- as.name(truth)
+  estimate <- as.name(estimate)
 
   dplyr::summarise(
     data,

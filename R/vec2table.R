@@ -2,6 +2,12 @@
 # class levels in various ways
 
 vec2table <- function(truth, estimate, dnn = c("Prediction", "Truth"), ...) {
+    if (is_class_pred(truth)) {
+      truth <- as_factor_from_class_pred(truth)
+    }
+    if (is_class_pred(estimate)) {
+      estimate <- as_factor_from_class_pred(estimate)
+    }
 
     if (!is.factor(truth)) {
       truth <- factor(truth)
