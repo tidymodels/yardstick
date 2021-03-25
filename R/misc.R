@@ -52,3 +52,20 @@ quote_and_collapse <- function(x) {
   x <- encodeString(x, quote = "'", na.encode = FALSE)
   paste0(x, collapse = ", ")
 }
+
+# ------------------------------------------------------------------------------
+
+is_class_pred <- function(x) {
+  inherits(x, "class_pred")
+}
+
+as_factor_from_class_pred <- function(x) {
+  if (!rlang::is_installed("probably")) {
+    rlang::abort(paste0(
+      "A <class_pred> input was detected, but the probably package ",
+      "isn't installed. Install probably to be able to convert <class_pred> ",
+      "to <factor>."
+    ))
+  }
+  probably::as.factor(x)
+}
