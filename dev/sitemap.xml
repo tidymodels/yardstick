@@ -76,6 +76,9 @@
     <loc>https://yardstick.tidymodels.org/reference/metric_summarizer.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/reference/metric_tweak.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/reference/metric_vec_template.html</loc>
   </url>
   <url>
