@@ -307,18 +307,16 @@ conf_mat_plot_types <- c("mosaic", "heatmap")
 cm_heat <- function(x) {
   `%+%` <- ggplot2::`%+%`
 
-  table <- x$table
-
-  df <- as.data.frame.table(table)
-
-  # Force known column names, assuming that predictions are on the
-  # left hand side of the table (#157).
+  df <- as.data.frame.table(x$table)
+  # Force specific column names for referencing in ggplot2 code
   names(df) <- c("Prediction", "Truth", "Freq")
 
   # Have prediction levels going from high to low so they plot in an
   # order that matches the LHS of the confusion matrix
   lvls <- levels(df$Prediction)
   df$Prediction <- factor(df$Prediction, levels = rev(lvls))
+
+  axis_labels <- get_axis_labels(x)
 
   df %>%
     ggplot2::ggplot(
@@ -329,12 +327,21 @@ cm_heat <- function(x) {
       )
     ) %+%
     ggplot2::geom_tile() %+%
-    ggplot2::scale_fill_gradient(low = "grey90", high = "grey40") %+%
+    ggplot2::scale_fill_gradient(
+      low = "grey90",
+      high = "grey40"
+    ) %+%
     ggplot2::theme(
       panel.background = ggplot2::element_blank(),
       legend.position = "none"
     ) %+%
-    ggplot2::geom_text(ggplot2::aes(label = Freq))
+    ggplot2::geom_text(
+      mapping = ggplot2::aes(label = Freq)
+    ) %+%
+    ggplot2::labs(
+      x = axis_labels$x,
+      y = axis_labels$y
+    )
 }
 
 space_fun <- function(x, adjustment, rescale = FALSE) {
@@ -364,13 +371,6 @@ space_y_fun <- function(data, id, x_data) {
 cm_mosaic <- function(x) {
   `%+%` <- ggplot2::`%+%`
 
-  dimension_labels <- names(dimnames(x$table))
-  if (is.null(dimension_labels)) {
-    dimension_labels <- c("Prediction", "Truth")
-  }
-  y_lab <- dimension_labels[[1]]
-  x_lab <- dimension_labels[[2]]
-
   cm_zero <- (as.numeric(x$table == 0) / 2) + x$table
 
   x_data <- space_fun(colSums(cm_zero), 200)
@@ -385,6 +385,7 @@ cm_mosaic <- function(x) {
   y1_data <- full_data_list[[1]]
 
   tick_labels <- colnames(cm_zero)
+  axis_labels <- get_axis_labels(x)
 
   ggplot2::ggplot(full_data) %+%
     ggplot2::geom_rect(
@@ -404,8 +405,24 @@ cm_mosaic <- function(x) {
       labels = tick_labels
     ) %+%
     ggplot2::labs(
-      y = y_lab,
-      x = x_lab
+      y = axis_labels$y,
+      x = axis_labels$x
     ) %+%
     ggplot2::theme(panel.background = ggplot2::element_blank())
+}
+
+# Note: Always assumes predictions are on the LHS of the table
+get_axis_labels <- function(x) {
+  table <- x$table
+
+  labels <- names(dimnames(table))
+
+  if (is.null(labels)) {
+    labels <- c("Prediction", "Truth")
+  }
+
+  list(
+    y = labels[[1]],
+    x = labels[[2]]
+  )
 }
