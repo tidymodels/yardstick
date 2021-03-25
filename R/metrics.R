@@ -263,26 +263,19 @@ metric_set <- function(...) {
   names(fns) <- vapply(quo_fns, get_quo_label, character(1))
   validate_function_class(fns)
 
-  fn_cls <- class(fns[[1]])[1]
+  fn_cls <- class1(fns[[1]])
 
   # signature of the function is different depending on input functions
   if (fn_cls == "numeric_metric") {
-    metric_function <- make_numeric_metric_function(fns)
-    return(metric_function)
+    make_numeric_metric_function(fns)
+  } else if(fn_cls %in% c("prob_metric", "class_metric")) {
+    make_prob_class_metric_function(fns)
+  } else {
+    abort(paste0(
+      "Internal error: `validate_function_class()` should have ",
+      "errored on unknown classes."
+    ))
   }
-
-  if(fn_cls %in% c("prob_metric", "class_metric")) {
-    metric_function <- make_prob_class_metric_function(fns)
-    return(metric_function)
-  }
-
-  msg <- paste0(
-    "No `metric_set()` implementation available for functions of class: ",
-    fn_cls,
-    "."
-  )
-
-  abort(msg)
 }
 
 #' @export
@@ -498,73 +491,82 @@ validate_inputs_are_functions <- function(fns) {
 
 }
 
-# Validate that all metric functions inherit from the same function class
+# Validate that all metric functions inherit from valid function classes or
+# combinations of classes
 validate_function_class <- function(fns) {
   fn_cls <- vapply(fns, function(fn) class(fn)[1], character(1))
-
   fn_cls_unique <- unique(fn_cls)
+  n_unique <- length(fn_cls_unique)
+
+  if (n_unique == 0L) {
+    return(invisible(fns))
+  }
+
+  if (n_unique == 1L) {
+    if (fn_cls_unique %in% c("class_metric", "prob_metric", "numeric_metric")) {
+      return(invisible(fns))
+    }
+  }
 
   # Special case of ONLY class and prob functions together
   # These are allowed to be together
-  if (length(fn_cls_unique) == 2) {
-    if (fn_cls_unique[1] %in% c("class_metric", "prob_metric") &
+  if (n_unique == 2) {
+    if (fn_cls_unique[1] %in% c("class_metric", "prob_metric") &&
         fn_cls_unique[2] %in% c("class_metric", "prob_metric")) {
-      return()
+      return(invisible(fns))
     }
   }
 
-  if (length(fn_cls_unique) > 1) {
-    # Each element of the list contains the names of the fns
-    # that inherit that specific class
-    fn_bad_names <- lapply(fn_cls_unique, function(x) {
-      names(fns)[fn_cls == x]
-    })
+  # Each element of the list contains the names of the fns
+  # that inherit that specific class
+  fn_bad_names <- lapply(fn_cls_unique, function(x) {
+    names(fns)[fn_cls == x]
+  })
 
-    # clean up for nicer printing
-    fn_cls_unique <- gsub("_metric", "", fn_cls_unique)
-    fn_cls_unique <- gsub("function", "other", fn_cls_unique)
+  # clean up for nicer printing
+  fn_cls_unique <- gsub("_metric", "", fn_cls_unique)
+  fn_cls_unique <- gsub("function", "other", fn_cls_unique)
 
-    fn_cls_other <- fn_cls_unique == "other"
+  fn_cls_other <- fn_cls_unique == "other"
 
-    if (any(fn_cls_other)) {
-      fn_cls_other_loc <- which(fn_cls_other)
-      fn_other_names <- fn_bad_names[[fn_cls_other_loc]]
-      fns_other <- fns[fn_other_names]
+  if (any(fn_cls_other)) {
+    fn_cls_other_loc <- which(fn_cls_other)
+    fn_other_names <- fn_bad_names[[fn_cls_other_loc]]
+    fns_other <- fns[fn_other_names]
 
-      env_names_other <- vapply(
-        fns_other,
-        function(fn) rlang::env_name(rlang::fn_env(fn)),
-        character(1)
-      )
-
-      fn_bad_names[[fn_cls_other_loc]] <- paste0(
-        fn_other_names, " ", "<", env_names_other, ">"
-      )
-    }
-
-    # Prints as:
-    # - fn_type1 (fn_name1, fn_name2)
-    # - fn_type2 (fn_name1)
-    fn_pastable <- mapply(
-      FUN = function(fn_type, fn_names) {
-        fn_names <- paste0(fn_names, collapse = ", ")
-        paste0("- ", fn_type, " (", fn_names, ")")
-      },
-      fn_type = fn_cls_unique,
-      fn_names = fn_bad_names,
-      USE.NAMES = FALSE
+    env_names_other <- vapply(
+      fns_other,
+      function(fn) rlang::env_name(rlang::fn_env(fn)),
+      character(1)
     )
 
-    fn_pastable <- paste0(fn_pastable, collapse = "\n")
-
-    abort(paste0(
-      "\nThe combination of metric functions must be:\n",
-      "- only numeric metrics\n",
-      "- a mix of class metrics and class probability metrics\n\n",
-      "The following metric function types are being mixed:\n",
-      fn_pastable
-    ))
+    fn_bad_names[[fn_cls_other_loc]] <- paste0(
+      fn_other_names, " ", "<", env_names_other, ">"
+    )
   }
+
+  # Prints as:
+  # - fn_type1 (fn_name1, fn_name2)
+  # - fn_type2 (fn_name1)
+  fn_pastable <- mapply(
+    FUN = function(fn_type, fn_names) {
+      fn_names <- paste0(fn_names, collapse = ", ")
+      paste0("- ", fn_type, " (", fn_names, ")")
+    },
+    fn_type = fn_cls_unique,
+    fn_names = fn_bad_names,
+    USE.NAMES = FALSE
+  )
+
+  fn_pastable <- paste0(fn_pastable, collapse = "\n")
+
+  abort(paste0(
+    "\nThe combination of metric functions must be:\n",
+    "- only numeric metrics\n",
+    "- a mix of class metrics and class probability metrics\n\n",
+    "The following metric function types are being mixed:\n",
+    fn_pastable
+  ))
 }
 
 # Safely evaluate metrics in such a way that we can capture the
