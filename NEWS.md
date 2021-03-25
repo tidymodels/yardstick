@@ -10,6 +10,11 @@
 
 * New `msd()` for computing the mean signed deviation (also called mean
   signed difference, or mean signed error) (#183, @datenzauberai).
+  
+* `class_pred` objects from the [probably](https://probably.tidymodels.org/)
+  package are now supported, and are automatically converted to factors before
+  computing any metric. Note that this means that any equivocal values are
+  materialized as `NA` (#198).
 
 * When `sens()` is undefined when computing `ppv()`, `npv()`, `j_index()`, or 
   `bal_accuracy()`, a sensitivity warning is now correctly thrown, rather than
