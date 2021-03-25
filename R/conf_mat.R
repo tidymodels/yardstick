@@ -364,6 +364,13 @@ space_y_fun <- function(data, id, x_data) {
 cm_mosaic <- function(x) {
   `%+%` <- ggplot2::`%+%`
 
+  dimension_labels <- names(dimnames(x$table))
+  if (is.null(dimension_labels)) {
+    dimension_labels <- c("Prediction", "Truth")
+  }
+  y_lab <- dimension_labels[[1]]
+  x_lab <- dimension_labels[[2]]
+
   cm_zero <- (as.numeric(x$table == 0) / 2) + x$table
 
   x_data <- space_fun(colSums(cm_zero), 200)
@@ -397,8 +404,8 @@ cm_mosaic <- function(x) {
       labels = tick_labels
     ) %+%
     ggplot2::labs(
-      y = "Predicted",
-      x = "Truth"
+      y = y_lab,
+      x = x_lab
     ) %+%
     ggplot2::theme(panel.background = ggplot2::element_blank())
 }
