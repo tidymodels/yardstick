@@ -360,16 +360,34 @@ test_that("Confusion Matrix - multi class - heatmap", {
   expect_equal(rlang::expr_label(.plot$mapping[["fill"]]), "`~Freq`")
 })
 
-test_that("Confusion Matrix - mosaic - non-standard labels (#157)", {
-  res <- hpc_cv %>%
-    filter(Resample == "Fold01") %>%
-    conf_mat(obs, pred, dnn = c("Pred", "True"))
+test_that("Confusion Matrix - heatmap - can use non-standard labels (#157, #191)", {
+  df <- filter(hpc_cv, Resample == "Fold01")
 
-  expect_error(.plot <- autoplot(res, type = "heatmap"), NA)
+  res1 <- conf_mat(df, obs, pred, dnn = c("Pred", "True"))
+  expect_error(p1 <- autoplot(res1, type = "heatmap"), NA)
+  expect_identical(p1$labels$x, "True")
+  expect_identical(p1$labels$y, "Pred")
 
-  # Overridden with default labels
-  expect_identical(.plot$labels$x, "Truth")
-  expect_identical(.plot$labels$y, "Prediction")
+  # Defaults are used when there are no names
+  res2 <- conf_mat(df, obs, pred, dnn = NULL)
+  expect_error(p2 <- autoplot(res2, type = "heatmap"), NA)
+  expect_identical(p2$labels$x, "Truth")
+  expect_identical(p2$labels$y, "Prediction")
+})
+
+test_that("Confusion Matrix - mosaic - can use non-standard labels (#191)", {
+  df <- filter(hpc_cv, Resample == "Fold01")
+
+  res1 <- conf_mat(df, obs, pred, dnn = c("Pred", "True"))
+  expect_error(p1 <- autoplot(res1, type = "mosaic"), NA)
+  expect_identical(p1$labels$x, "True")
+  expect_identical(p1$labels$y, "Pred")
+
+  # Defaults are used when there are no names
+  res2 <- conf_mat(df, obs, pred, dnn = NULL)
+  expect_error(p2 <- autoplot(res2, type = "mosaic"), NA)
+  expect_identical(p2$labels$x, "Truth")
+  expect_identical(p2$labels$y, "Prediction")
 })
 
 test_that("Confusion Matrix - two class - mosaic", {

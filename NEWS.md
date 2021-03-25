@@ -18,6 +18,10 @@
 * The `autoplot()` method for gain curves now plots the curve line
   on top of the shaded polygon, resulting in a sharper look for the
   line itself (#192, @eddjberry).
+  
+* The `autoplot()` methods for `conf_mat` now respect user-defined dimension
+  names added through `conf_mat(dnn = )` or from converting a table with
+  dimension names to a `conf_mat` (#191).
 
 * Added an `as_tibble()` method for `metric_set` objects. Printing a
   `metric_set` now uses this to print out a tibble rather than a data frame
