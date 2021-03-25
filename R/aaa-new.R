@@ -63,3 +63,16 @@ new_metric <- function(fn, direction, class = NULL) {
     class = class
   )
 }
+
+is_metric <- function(x) {
+  inherits(x, "metric")
+}
+is_numeric_metric <- function(x) {
+  inherits(x, "numeric_metric")
+}
+is_class_metric <- function(x) {
+  inherits(x, "class_metric")
+}
+is_prob_metric <- function(x) {
+  inherits(x, "prob_metric")
+}
