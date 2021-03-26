@@ -8,9 +8,9 @@
 \usage{
 kap(data, ...)
 
-\method{kap}{data.frame}(data, truth, estimate, na_rm = TRUE, ...)
+\method{kap}{data.frame}(data, truth, estimate, weighting = "none", na_rm = TRUE, ...)
 
-kap_vec(truth, estimate, na_rm = TRUE, ...)
+kap_vec(truth, estimate, weighting = "none", na_rm = TRUE, ...)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -29,6 +29,16 @@ names). For \verb{_vec()} functions, a \code{factor} vector.}
 results (that is also \code{factor}). As with \code{truth} this can be
 specified different ways but the primary method is to use an
 unquoted variable name. For \verb{_vec()} functions, a \code{factor} vector.}
+
+\item{weighting}{A weighting to apply when computing the scores. One of:
+\code{"none"}, \code{"linear"}, or \code{"quadratic"}. Linear and quadratic weighting
+penalizes mis-predictions that are "far away" from the true value. Note
+that distance is judged based on the ordering of the levels in \code{truth} and
+\code{estimate}. It is recommended to provide ordered factors for \code{truth} and
+\code{estimate} to explicitly code the ordering, but this is not required.
+
+In the binary case, all 3 weightings produce the same value, since it is
+only ever possible to be 1 unit away from the true value.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
@@ -76,6 +86,10 @@ hpc_cv \%>\%
 \references{
 Cohen, J. (1960). "A coefficient of agreement for nominal
 scales". \emph{Educational and Psychological Measurement}. 20 (1): 37-46.
+
+Cohen, J. (1968). "Weighted kappa: Nominal scale agreement provision for
+scaled disagreement or partial credit". \emph{Psychological
+Bulletin}. 70 (4): 213-220.
 }
 \seealso{
 Other class metrics: 
@@ -94,5 +108,7 @@ Other class metrics:
 }
 \author{
 Max Kuhn
+
+Jon Harmon
 }
 \concept{class metrics}
