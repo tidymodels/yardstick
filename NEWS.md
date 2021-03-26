@@ -15,6 +15,9 @@
   package are now supported, and are automatically converted to factors before
   computing any metric. Note that this means that any equivocal values are
   materialized as `NA` (#198).
+  
+* The `kap()` metric has a new `weighting` argument to apply linear or
+  quadratic weightings before computing the kappa value (#2, #125, @jonthegeek).
 
 * When `sens()` is undefined when computing `ppv()`, `npv()`, `j_index()`, or 
   `bal_accuracy()`, a sensitivity warning is now correctly thrown, rather than
