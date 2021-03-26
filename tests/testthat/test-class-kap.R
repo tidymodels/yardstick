@@ -73,3 +73,31 @@ test_that('Multi class - sklearn equivalent', {
     py_res$multiclass
   )
 })
+
+test_that("linear weighting - sklearn equivalent", {
+  py_res <- read_pydata("py-kap")
+  r_metric <- kap
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted, weighting = "linear")[[".estimate"]],
+    py_res$linear_binary
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, weighting = "linear")[[".estimate"]],
+    py_res$linear_multiclass
+  )
+})
+
+test_that("quadratic weighting - sklearn equivalent", {
+  py_res <- read_pydata("py-kap")
+  r_metric <- kap
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted, weighting = "quadratic")[[".estimate"]],
+    py_res$quadratic_binary
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, weighting = "quadratic")[[".estimate"]],
+    py_res$quadratic_multiclass
+  )
+})
