@@ -43,8 +43,12 @@ saveRDS(py_accuracy, "tests/pycompare/py-accuracy")
 
 # Kappa
 py_kap <- list(
-  binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted),
-  multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred)
+  binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth)),
+  multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs)),
+  linear_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "linear"),
+  linear_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "linear"),
+  quadratic_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "quadratic"),
+  quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic")
 )
 saveRDS(py_kap, "tests/pycompare/py-kap")
 
