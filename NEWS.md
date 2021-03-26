@@ -1,4 +1,4 @@
-# yardstick (development version)
+# yardstick 0.0.8
 
 * New `metric_tweak()` for adjusting the default values of optional arguments in
   an existing yardstick metric. This is useful to quickly adjust the defaults
