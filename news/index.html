@@ -94,7 +94,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
         </div>
       </div>
     </div>
@@ -153,12 +153,21 @@
       <small>Source: <a href='https://github.com/tidymodels/yardstick/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="yardstick-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="development version">
-<a href="#yardstick-development-version" class="anchor"></a>yardstick (development version)<small> Unreleased </small>
+    <div id="yardstick-008" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.8">
+<a href="#yardstick-008" class="anchor"></a>yardstick 0.0.8<small> 2021-03-28 </small>
 </h1>
 <ul>
-<li>The <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> method for gain curves now plots the curve line on top of the shaded polygon, resulting in a sharper look for the line itself (<a href='https://github.com/tidymodels/yardstick/issues/192'>#192</a>, <a href='https://github.com/eddjberry'>@eddjberry</a>).</li>
+<li><p>New <code><a href="../reference/metric_tweak.html">metric_tweak()</a></code> for adjusting the default values of optional arguments in an existing yardstick metric. This is useful to quickly adjust the defaults of a metric that will be included in a <code><a href="../reference/metric_set.html">metric_set()</a></code>, especially if that metric set is going to be used for tuning with the tune package (<a href='https://github.com/tidymodels/yardstick/issues/206'>#206</a>, <a href='https://github.com/tidymodels/yardstick/issues/182'>#182</a>).</p></li>
+<li><p>New <code><a href="../reference/classification_cost.html">classification_cost()</a></code> metric for computing the cost of a poor class probability prediction using user-defined costs (<a href='https://github.com/tidymodels/yardstick/issues/3'>#3</a>).</p></li>
+<li><p>New <code><a href="../reference/msd.html">msd()</a></code> for computing the mean signed deviation (also called mean signed difference, or mean signed error) (<a href='https://github.com/tidymodels/yardstick/issues/183'>#183</a>, <a href='https://github.com/datenzauberai'>@datenzauberai</a>).</p></li>
+<li><p><code>class_pred</code> objects from the <a href="https://probably.tidymodels.org/">probably</a> package are now supported, and are automatically converted to factors before computing any metric. Note that this means that any equivocal values are materialized as <code>NA</code> (<a href='https://github.com/tidymodels/yardstick/issues/198'>#198</a>).</p></li>
+<li><p>The <code><a href="../reference/kap.html">kap()</a></code> metric has a new <code>weighting</code> argument to apply linear or quadratic weightings before computing the kappa value (<a href='https://github.com/tidymodels/yardstick/issues/2'>#2</a>, <a href='https://github.com/tidymodels/yardstick/issues/125'>#125</a>, <a href='https://github.com/jonthegeek'>@jonthegeek</a>).</p></li>
+<li><p>When <code><a href="../reference/sens.html">sens()</a></code> is undefined when computing <code><a href="../reference/ppv.html">ppv()</a></code>, <code><a href="../reference/npv.html">npv()</a></code>, <code><a href="../reference/j_index.html">j_index()</a></code>, or <code><a href="../reference/bal_accuracy.html">bal_accuracy()</a></code>, a sensitivity warning is now correctly thrown, rather than a recall warning (<a href='https://github.com/tidymodels/yardstick/issues/101'>#101</a>).</p></li>
+<li><p>The <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> method for gain curves now plots the curve line on top of the shaded polygon, resulting in a sharper look for the line itself (<a href='https://github.com/tidymodels/yardstick/issues/192'>#192</a>, <a href='https://github.com/eddjberry'>@eddjberry</a>).</p></li>
+<li><p>The <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> methods for <code>conf_mat</code> now respect user-defined dimension names added through <code><a href="../reference/conf_mat.html">conf_mat(dnn = )</a></code> or from converting a table with dimension names to a <code>conf_mat</code> (<a href='https://github.com/tidymodels/yardstick/issues/191'>#191</a>).</p></li>
+<li><p>Added an <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code> method for <code>metric_set</code> objects. Printing a <code>metric_set</code> now uses this to print out a tibble rather than a data frame (<a href='https://github.com/tidymodels/yardstick/issues/186'>#186</a>).</p></li>
+<li><p>Re-licensed package from GPL-2 to MIT. See <a href="https://github.com/tidymodels/yardstick/issues/204">consent from copyright holders here</a> (<a href='https://github.com/tidymodels/yardstick/issues/204'>#204</a>).</p></li>
 </ul>
 </div>
     <div id="yardstick-007" class="section level1">

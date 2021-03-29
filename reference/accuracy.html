@@ -95,7 +95,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
         </div>
       </div>
     </div>
@@ -246,36 +246,36 @@ of this, macro and micro averaging are not implemented.</p>
 
 <span class='co'># Two class</span>
 <span class='fu'>accuracy</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>predicted</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> accuracy binary         0.838</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> accuracy binary         0.838</div><div class='input'>
 <span class='co'># Multiclass</span>
 <span class='co'># accuracy() has a natural multiclass extension</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>accuracy</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric  .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> accuracy multiclass     0.726</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> accuracy multiclass     0.726</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>accuracy</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric  .estimator .estimate
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   accuracy multiclass     0.726
-#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   accuracy multiclass     0.712
-#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   accuracy multiclass     0.758
-#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   accuracy multiclass     0.712
-#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   accuracy multiclass     0.712
-#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   accuracy multiclass     0.697
-#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   accuracy multiclass     0.675
-#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   accuracy multiclass     0.721
-#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   accuracy multiclass     0.673
-#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   accuracy multiclass     0.699</div></span></pre>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   accuracy multiclass     0.726
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   accuracy multiclass     0.712
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   accuracy multiclass     0.758
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   accuracy multiclass     0.712
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   accuracy multiclass     0.712
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   accuracy multiclass     0.697
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   accuracy multiclass     0.675
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   accuracy multiclass     0.721
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   accuracy multiclass     0.673
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   accuracy multiclass     0.699</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

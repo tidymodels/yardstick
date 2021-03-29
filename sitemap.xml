@@ -16,6 +16,9 @@
     <loc>https://yardstick.tidymodels.org/reference/ccc.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/reference/classification_cost.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/reference/conf_mat.html</loc>
   </url>
   <url>
@@ -73,6 +76,9 @@
     <loc>https://yardstick.tidymodels.org/reference/metric_summarizer.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/reference/metric_tweak.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/reference/metric_vec_template.html</loc>
   </url>
   <url>
@@ -83,6 +89,9 @@
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/mpe.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/msd.html</loc>
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/new-metric.html</loc>

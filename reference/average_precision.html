@@ -101,7 +101,7 @@ threshold. See pr_curve() for the full curve." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
         </div>
       </div>
     </div>
@@ -296,6 +296,7 @@ the "one" level is always the relevant result.</p>
 <p><code><a href='pr_auc.html'>pr_auc()</a></code> for computing the area under the precision recall curve using
 the trapezoidal rule.</p>
 <p>Other class probability metrics: 
+<code><a href='classification_cost.html'>classification_cost</a>()</code>,
 <code><a href='gain_capture.html'>gain_capture</a>()</code>,
 <code><a href='mn_log_loss.html'>mn_log_loss</a>()</code>,
 <code><a href='pr_auc.html'>pr_auc</a>()</code>,
@@ -317,10 +318,10 @@ the trapezoidal rule.</p>
 <span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
 <span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
 <span class='fu'>average_precision</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric           .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> average_precision binary         0.947</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> average_precision binary         0.947</div><div class='input'>
 <span class='co'># ---------------------------------------------------------------------------</span>
 <span class='co'># Multiclass example</span>
 
@@ -334,10 +335,10 @@ the trapezoidal rule.</p>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>average_precision</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric           .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> average_precision macro          0.617</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> average_precision macro          0.617</div><div class='input'>
 <span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
 <span class='co'># event of interest. The class probability columns should be supplied</span>
 <span class='co'># in the same order as the levels.</span>
@@ -345,44 +346,44 @@ the trapezoidal rule.</p>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>obs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span><span class='op'>(</span><span class='va'>obs</span>, <span class='st'>"M"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>average_precision</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>M</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   .metric           .estimator .estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> average_precision macro          0.617</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> average_precision macro          0.617</div><div class='input'>
 <span class='co'># Groups are respected</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>average_precision</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric           .estimator .estimate
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   average_precision macro          0.617
-#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   average_precision macro          0.625
-#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   average_precision macro          0.699
-#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   average_precision macro          0.685
-#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   average_precision macro          0.625
-#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   average_precision macro          0.656
-#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   average_precision macro          0.617
-#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   average_precision macro          0.659
-#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   average_precision macro          0.632
-#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   average_precision macro          0.611</div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   average_precision macro          0.617
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   average_precision macro          0.625
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   average_precision macro          0.699
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   average_precision macro          0.685
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   average_precision macro          0.625
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   average_precision macro          0.656
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   average_precision macro          0.617
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   average_precision macro          0.659
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   average_precision macro          0.632
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   average_precision macro          0.611</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>average_precision</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span>, estimator <span class='op'>=</span> <span class='st'>"macro_weighted"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 4</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric           .estimator     .estimate
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Fold01   average_precision macro_weighted     0.750
-#&gt; </span><span style='color: #555555;'> 2</span><span> Fold02   average_precision macro_weighted     0.745
-#&gt; </span><span style='color: #555555;'> 3</span><span> Fold03   average_precision macro_weighted     0.794
-#&gt; </span><span style='color: #555555;'> 4</span><span> Fold04   average_precision macro_weighted     0.757
-#&gt; </span><span style='color: #555555;'> 5</span><span> Fold05   average_precision macro_weighted     0.740
-#&gt; </span><span style='color: #555555;'> 6</span><span> Fold06   average_precision macro_weighted     0.747
-#&gt; </span><span style='color: #555555;'> 7</span><span> Fold07   average_precision macro_weighted     0.751
-#&gt; </span><span style='color: #555555;'> 8</span><span> Fold08   average_precision macro_weighted     0.759
-#&gt; </span><span style='color: #555555;'> 9</span><span> Fold09   average_precision macro_weighted     0.714
-#&gt; </span><span style='color: #555555;'>10</span><span> Fold10   average_precision macro_weighted     0.742</div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   average_precision macro_weighted     0.750
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   average_precision macro_weighted     0.745
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   average_precision macro_weighted     0.794
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   average_precision macro_weighted     0.757
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   average_precision macro_weighted     0.740
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   average_precision macro_weighted     0.747
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   average_precision macro_weighted     0.751
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   average_precision macro_weighted     0.759
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   average_precision macro_weighted     0.714
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   average_precision macro_weighted     0.742</div><div class='input'>
 <span class='co'># Vector version</span>
 <span class='co'># Supply a matrix of class probabilities</span>
 <span class='va'>fold1</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>

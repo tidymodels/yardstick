@@ -50,7 +50,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
         </div>
       </div>
     </div>
@@ -102,14 +102,13 @@
 
       
 
-      </header><script src="metric-types_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="metric-types_files/kePrint-0.0.1/kePrint.js"></script><link href="metric-types_files/lightable-0.0.1/lightable.css" rel="stylesheet">
-<div class="row">
+      </header><script src="metric-types_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Metric types</h1>
                         <h4 class="author">Davis Vaughan</h4>
             
-            <h4 class="date">2021-01-04</h4>
+            <h4 class="date">2021-03-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/master/vignettes/metric-types.Rmd"><code>vignettes/metric-types.Rmd</code></a></small>
       <div class="hidden name"><code>metric-types.Rmd</code></div>
@@ -235,7 +234,7 @@
 <h2 class="hasAnchor">
 <a href="#metrics" class="anchor"></a>Metrics</h2>
 <p>Below is a table of all of the metrics available in <code>yardstick</code>, grouped by type.</p>
-<table class="table table">
+<table class="table">
 <thead><tr>
 <th style="text-align:left;">
 type
@@ -246,7 +245,7 @@ metric
 </tr></thead>
 <tbody>
 <tr>
-<td style="text-align:left;vertical-align: middle !important;" rowspan="15">
+<td style="text-align:left;">
 class
 </td>
 <td style="text-align:left;">
@@ -255,76 +254,118 @@ class
 </tr>
 <tr>
 <td style="text-align:left;">
+class
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/bal_accuracy.html">bal_accuracy()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+class
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/detection_prevalence.html">detection_prevalence()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/f_meas.html">f_meas()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+class
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/j_index.html">j_index()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/kap.html">kap()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+class
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/mcc.html">mcc()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/npv.html">npv()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+class
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/ppv.html">ppv()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/precision.html">precision()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+class
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/recall.html">recall()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/sens.html">sens()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+class
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/sens.html">sensitivity()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/spec.html">spec()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/spec.html">specificity()</a></code>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;vertical-align: middle !important;" rowspan="7">
+<td style="text-align:left;">
 class prob
 </td>
 <td style="text-align:left;">
@@ -333,36 +374,62 @@ class prob
 </tr>
 <tr>
 <td style="text-align:left;">
+class prob
+</td>
+<td style="text-align:left;">
+<code><a href="../reference/classification_cost.html">classification_cost()</a></code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+class prob
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/gain_capture.html">gain_capture()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+class prob
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/mn_log_loss.html">mn_log_loss()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class prob
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/pr_auc.html">pr_auc()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+class prob
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/roc_auc.html">roc_auc()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class prob
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+class prob
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/roc_aunu.html">roc_aunu()</a></code>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;vertical-align: middle !important;" rowspan="14">
+<td style="text-align:left;">
 numeric
 </td>
 <td style="text-align:left;">
@@ -371,65 +438,112 @@ numeric
 </tr>
 <tr>
 <td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/huber_loss.html">huber_loss()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+numeric
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/huber_loss_pseudo.html">huber_loss_pseudo()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/iic.html">iic()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+numeric
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/mae.html">mae()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/mape.html">mape()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+numeric
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/mase.html">mase()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/mpe.html">mpe()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+<code><a href="../reference/msd.html">msd()</a></code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/rmse.html">rmse()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/rpd.html">rpd()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+numeric
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/rpiq.html">rpiq()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/rsq.html">rsq()</a></code>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
 <code><a href="../reference/rsq_trad.html">rsq_trad()</a></code>
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+numeric
+</td>
 <td style="text-align:left;">
 <code><a href="../reference/smape.html">smape()</a></code>
 </td>
