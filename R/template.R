@@ -122,11 +122,17 @@ metric_summarizer <- function(metric_nm,
 #' vector, a factor vector, or a numeric matrix (in the case of multiple
 #' class probability columns) depending on your metric function.
 #'
-#' @param na_rm A `logical` value indicating whether `NA` values should be
-#' stripped before the computation proceeds. `NA` values are removed
-#' before getting to your core implementation function so you do not have to
-#' worry about handling them yourself. If `na_rm=FALSE` and any `NA` values
-#' exist, then `NA` is automatically returned.
+#' @param na_rm Handling of missing values.
+#'
+#' - A `logical` value indicating whether `NA` values should be stripped before
+#' the computation proceeds. `NA` values are removed before getting to your core
+#' implementation function so you do not have to worry about handling them
+#' yourself. If `na_rm = FALSE` and any `NA` values exist, then `NA` is
+#' automatically returned before `metric_impl` is called.
+#'
+#' - Alternatively, specify `"skip"` to completely skip the handling of missing
+#' values at this point. This can be useful if `metric_impl` has special
+#' handling of missing values.
 #'
 #' @param cls A character vector of length 1 or 2 corresponding to the
 #' class that `truth` and `estimate` should be, respectively. If `truth` and
@@ -173,29 +179,42 @@ metric_vec_template <- function(metric_impl,
 
   validate_truth_estimate_checks(truth, estimate, cls, estimator)
 
-  if (na_rm) {
+  result <- handle_na_rm(truth, estimate, na_rm)
+
+  if (result$na) {
+    return(NA_real_)
+  }
+
+  truth <- result$truth
+  estimate <- result$estimate
+
+  metric_impl(truth, estimate, ...)
+}
+
+handle_na_rm <- function(truth, estimate, na_rm) {
+  if (identical(na_rm, "skip")) {
+    return(list(truth = truth, estimate = estimate, na = FALSE))
+  }
+
+  if (rlang::is_true(na_rm)) {
     complete_cases <- complete.cases(truth, estimate)
     truth <- truth[complete_cases]
 
     if (is.matrix(estimate)) {
       estimate <- estimate[complete_cases, , drop = FALSE]
-    }
-    else {
+    } else {
       estimate <- estimate[complete_cases]
     }
 
-  }
-  # na_rm = FALSE
-  # return NA if any NA
-  else {
-
-    if (anyNA(truth) || anyNA(estimate)) {
-      return(NA_real_)
-    }
-
+    return(list(truth = truth, estimate = estimate, na = FALSE))
   }
 
-  metric_impl(truth, estimate, ...)
+  if (rlang::is_false(na_rm)) {
+    na <- anyNA(truth) || anyNA(estimate)
+    return(list(truth = truth, estimate = estimate, na = na))
+  }
+
+  abort("`na_rm` must be `TRUE`, `FALSE`, or 'skip'.")
 }
 
 #' @importFrom rlang get_expr set_expr

@@ -26,11 +26,17 @@ or a numeric.}
 vector, a factor vector, or a numeric matrix (in the case of multiple
 class probability columns) depending on your metric function.}
 
-\item{na_rm}{A \code{logical} value indicating whether \code{NA} values should be
-stripped before the computation proceeds. \code{NA} values are removed
-before getting to your core implementation function so you do not have to
-worry about handling them yourself. If \code{na_rm=FALSE} and any \code{NA} values
-exist, then \code{NA} is automatically returned.}
+\item{na_rm}{Handling of missing values.
+\itemize{
+\item A \code{logical} value indicating whether \code{NA} values should be stripped before
+the computation proceeds. \code{NA} values are removed before getting to your core
+implementation function so you do not have to worry about handling them
+yourself. If \code{na_rm = FALSE} and any \code{NA} values exist, then \code{NA} is
+automatically returned before \code{metric_impl} is called.
+\item Alternatively, specify \code{"skip"} to completely skip the handling of missing
+values at this point. This can be useful if \code{metric_impl} has special
+handling of missing values.
+}}
 
 \item{cls}{A character vector of length 1 or 2 corresponding to the
 class that \code{truth} and \code{estimate} should be, respectively. If \code{truth} and
