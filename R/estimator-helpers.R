@@ -221,6 +221,10 @@ finalize_estimator_default.factor <- function(x, estimator) {
   }
 }
 
+# Hopefully covers all survival metrics
+finalize_estimator_default.Surv <- function(x, estimator) {
+  "standard"
+}
 
 # Util -------------------------------------------------------------------------
 

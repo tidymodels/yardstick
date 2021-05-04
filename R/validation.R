@@ -44,6 +44,11 @@ validate_truth_estimate_types.numeric <- function(truth, estimate, estimator) {
   }
 }
 
+# Surv / list
+validate_truth_estimate_types.Surv <- function(truth, estimate, estimator) {
+  # Nothing to do
+}
+
 
 # double dispatch
 # truth = factor

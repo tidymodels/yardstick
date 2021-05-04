@@ -39,6 +39,7 @@ Suggests:
     probably (>= 0.0.6),
     purrr,
     rmarkdown,
+    survival,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
