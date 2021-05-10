@@ -281,19 +281,43 @@ compute_n_occurrences <- function(x, what) {
   # `NA` values have already been removed by `metric_vec_template()`
   sum(x == what)
 }
-warn_roc_truth_no_control <- function(control) {
-  message <- paste0(
+
+msg_roc_truth_no_control <- function(control) {
+  paste0(
     "No control observations were detected in `truth` ",
     "with control level '", control, "'."
   )
-  rlang::warn(message, class = "yardstick_warning_roc_truth_no_control")
 }
-warn_roc_truth_no_event <- function(event) {
-  message <- paste0(
+warn_roc_truth_no_control <- function(control) {
+  rlang::warn(
+    msg_roc_truth_no_control(control),
+    class = "yardstick_warning_roc_truth_no_control"
+  )
+}
+stop_roc_truth_no_control <- function(control) {
+  rlang::abort(
+    msg_roc_truth_no_control(control),
+    class = "yardstick_error_roc_truth_no_control"
+  )
+}
+
+msg_roc_truth_no_event <- function(event) {
+  paste0(
     "No event observations were detected in `truth` ",
     "with event level '", event, "'."
   )
-  rlang::warn(message, class = "yardstick_warning_roc_truth_no_event")
+}
+warn_roc_truth_no_event <- function(event) {
+  rlang::warn(
+    msg_roc_truth_no_event(event),
+    class = "yardstick_warning_roc_truth_no_event"
+  )
+}
+stop_roc_truth_no_event <- function(event) {
+  rlang::abort(
+    msg_roc_truth_no_event(event),
+    class = "yardstick_error_roc_truth_no_event"
+  )
 }
 
 # ------------------------------------------------------------------------------
