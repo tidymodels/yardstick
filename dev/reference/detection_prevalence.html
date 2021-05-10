@@ -309,16 +309,16 @@ See <code><a href='../articles/multiclass.html'>vignette("multiclass", "yardstic
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
 #&gt;    Resample .metric              .estimator .estimate
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   detection_prevalence macro          0.25 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   detection_prevalence macro          0.25 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   detection_prevalence macro          0.25 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   detection_prevalence macro          0.25 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   detection_prevalence macro          0.25 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   detection_prevalence macro          0.25 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   detection_prevalence macro          0.25 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   detection_prevalence macro          0.250
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   detection_prevalence macro          0.25 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   detection_prevalence macro          0.25 </div><div class='input'>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   detection_prevalence macro           0.25
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   detection_prevalence macro           0.25
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   detection_prevalence macro           0.25
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   detection_prevalence macro           0.25
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   detection_prevalence macro           0.25
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   detection_prevalence macro           0.25
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   detection_prevalence macro           0.25
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   detection_prevalence macro           0.25
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   detection_prevalence macro           0.25
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   detection_prevalence macro           0.25</div><div class='input'>
 <span class='co'># Weighted macro averaging</span>
 <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
