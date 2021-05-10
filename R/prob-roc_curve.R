@@ -85,34 +85,19 @@ roc_curve.data.frame <- function (data,
                                   na_rm = TRUE,
                                   event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
-  truth <- enquo(truth)
 
-  validate_not_missing(truth, "truth")
-
-  # Explicit handling of length 1 character vectors as column names
-  nms <- colnames(data)
-  truth <- handle_chr_names(truth, nms)
-  estimate <- handle_chr_names(estimate, nms)
-
-  res <- dplyr::do(
-    data,
-    roc_curve_vec(
-      truth = rlang::eval_tidy(truth, data = .),
-      estimate = rlang::eval_tidy(estimate, data = .),
-      na_rm = na_rm,
-      event_level = event_level,
-      !!! list(options = options)
-    )
+  result <- metric_summarizer(
+    metric_nm = "roc_curve",
+    metric_fn = roc_curve_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!estimate,
+    na_rm = na_rm,
+    event_level = event_level,
+    metric_fn_options = list(options = options)
   )
 
-  if (dplyr::is_grouped_df(res)) {
-    class(res) <- c("grouped_roc_df", "roc_df", class(res))
-  }
-  else {
-    class(res) <- c("roc_df", class(res))
-  }
-
-  res
+  curve_finalize(result, data, "roc_df", "grouped_roc_df")
 }
 
 roc_curve_vec <- function(truth,
