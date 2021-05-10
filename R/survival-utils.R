@@ -86,6 +86,11 @@ prepare_naive_surv_tbl <- function(truth, estimate) {
 
   df <- tidyr::unnest(df, estimate)
 
+  # `indicator` treats the "event" as death,
+  # so we should supply the probability of death, not survival
+  df <- dplyr::mutate(df, pred_event = 1L - .pred_survival)
+  df <- dplyr::select(df, -.pred_survival)
+
   # Remove all subjects censored before `.time`.
   # Removes the effect of censoring for the "naive" estimate.
   # Propagate `NA` values to handle them later.
@@ -113,6 +118,7 @@ prepare_naive_surv_tbl <- function(truth, estimate) {
 utils::globalVariables(c(
   ".estimate",
   "indicator",
+  "pred_event",
   ".pred_survival",
   "time",
   ".time"

@@ -69,7 +69,7 @@ surv_roc_auc_naive_vec <- function(truth,
     out <- roc_auc(
       data = df,
       truth = indicator,
-      .pred_survival,
+      pred_event,
       na_rm = na_rm,
       event_level = event_level
     )
