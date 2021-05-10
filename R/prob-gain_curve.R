@@ -107,31 +107,18 @@ gain_curve.data.frame <- function(data,
                                   na_rm = TRUE,
                                   event_level = yardstick_event_level()) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
-  truth <- enquo(truth)
 
-  validate_not_missing(truth, "truth")
-
-  # Explicit handling of length 1 character vectors as column names
-  truth <- handle_chr_names(truth, colnames(data))
-
-  res <- dplyr::do(
-    data,
-    gain_curve_vec(
-      truth = rlang::eval_tidy(truth, data = .),
-      estimate = rlang::eval_tidy(estimate, data = .),
-      na_rm = na_rm,
-      event_level = event_level
-    )
+  result <- metric_summarizer(
+    metric_nm = "gain_curve",
+    metric_fn = gain_curve_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!estimate,
+    na_rm = na_rm,
+    event_level = event_level
   )
 
-  if (dplyr::is_grouped_df(res)) {
-    class(res) <- c("grouped_gain_df", "gain_df", class(res))
-  }
-  else {
-    class(res) <- c("gain_df", class(res))
-  }
-
-  res
+  curve_finalize(result, data, "gain_df", "grouped_gain_df")
 }
 
 # dont export gain_curve_vec / lift_curve_vec

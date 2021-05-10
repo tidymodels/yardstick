@@ -3,6 +3,10 @@
 * `roc_curve()` now throws a more informative error if `truth` doesn't have any
   control or event observations.
   
+* dplyr 1.0.0 is now required. This allowed us to remove multiple usages of
+  `dplyr::do()` in favor of `dplyr::summarise()`, which can now return packed
+  data frame columns and multiple rows per group.
+  
 * Internal upkeep has been done to move from `rlang::warn(.subclass = )` to
   `rlang::warn(class = )`, since the `.subclass` argument has been deprecated
   (#225).
