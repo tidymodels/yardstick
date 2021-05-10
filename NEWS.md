@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* `roc_curve()` now throws a more informative error if `truth` doesn't have any
+  control or event observations.
+
 # yardstick 0.0.8
 
 * New `metric_tweak()` for adjusting the default values of optional arguments in
