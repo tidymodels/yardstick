@@ -158,6 +158,16 @@ roc_curve_binary <- function(truth, estimate, event_level, options) {
     lvls <- rev(lvls)
   }
 
+  control <- lvls[[1]]
+  event <- lvls[[2]]
+
+  if (compute_n_occurrences(truth, control) == 0L) {
+    stop_roc_truth_no_control(control)
+  }
+  if (compute_n_occurrences(truth, event) == 0L) {
+    stop_roc_truth_no_event(event)
+  }
+
   # working on a better way of doing this
   options$response <- truth
   options$predictor <- estimate

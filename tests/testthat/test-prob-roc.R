@@ -305,7 +305,11 @@ test_that("warning is thrown when missing events", {
   no_event <- dplyr::filter(two_class_example, truth == "Class2")
 
   expect_identical(
-    expect_warning(roc_auc(no_event, truth, Class1)[[".estimate"]], "No event"),
+    expect_warning(
+      roc_auc(no_event, truth, Class1)[[".estimate"]],
+      "No event observations were detected in `truth` with event level 'Class1'.",
+      class = "yardstick_warning_roc_truth_no_event"
+    ),
     NA_real_
   )
 })
@@ -314,7 +318,11 @@ test_that("warning is thrown when missing controls", {
   no_control <- dplyr::filter(two_class_example, truth == "Class1")
 
   expect_identical(
-    expect_warning(roc_auc(no_control, truth, Class1)[[".estimate"]], "No control"),
+    expect_warning(
+      roc_auc(no_control, truth, Class1)[[".estimate"]],
+      "No control observations were detected in `truth` with control level 'Class2'.",
+      class = "yardstick_warning_roc_truth_no_control"
+    ),
     NA_real_
   )
 })
@@ -393,5 +401,37 @@ test_that("hand till approach throws warning and returns `NaN` when only 1 level
       "No observations were detected in `truth` for level[(]s[)]: 'y', 'z'"
     ),
     NaN
+  )
+})
+
+# ------------------------------------------------------------------------------
+
+test_that("roc_curve() - error is thrown when missing events", {
+  no_event <- dplyr::filter(two_class_example, truth == "Class2")
+
+  expect_error(
+    roc_curve(no_event, truth, Class1)[[".estimate"]],
+    "No event observations were detected in `truth` with event level 'Class1'.",
+    class = "yardstick_error_roc_truth_no_event"
+  )
+})
+
+test_that("roc_curve() - error is thrown when missing controls", {
+  no_control <- dplyr::filter(two_class_example, truth == "Class1")
+
+  expect_error(
+    roc_curve(no_control, truth, Class1)[[".estimate"]],
+    "No control observations were detected in `truth` with control level 'Class2'.",
+    class = "yardstick_error_roc_truth_no_control"
+  )
+})
+
+test_that("roc_curve() - multiclass one-vs-all approach results in error", {
+  no_event <- dplyr::filter(hpc_cv, Resample == "Fold01", obs == "VF")
+
+  expect_error(
+    roc_curve(no_event, obs, VF:L)[[".estimate"]],
+    "No control observations were detected in `truth` with control level '..other'",
+    class = "yardstick_error_roc_truth_no_control"
   )
 })
