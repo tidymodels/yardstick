@@ -204,7 +204,7 @@ warn_spec_undefined_binary <- function(event, count) {
     message = message,
     events = event,
     counts = count,
-    .subclass = "yardstick_warning_spec_undefined_binary"
+    class = "yardstick_warning_spec_undefined_binary"
   )
 }
 
@@ -224,14 +224,14 @@ warn_spec_undefined_multiclass <- function(events, counts) {
     message = message,
     events = events,
     counts = counts,
-    .subclass = "yardstick_warning_spec_undefined_multiclass"
+    class = "yardstick_warning_spec_undefined_multiclass"
   )
 }
 
-warn_spec_undefined <- function(message, events, counts, ..., .subclass = character()) {
+warn_spec_undefined <- function(message, events, counts, ..., class = character()) {
   rlang::warn(
     message = message,
-    .subclass = c(.subclass, "yardstick_warning_spec_undefined"),
+    class = c(class, "yardstick_warning_spec_undefined"),
     events = events,
     counts = counts,
     ...
