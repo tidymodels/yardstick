@@ -154,41 +154,28 @@ roc_auc_estimator_impl <- function(truth, estimate, options, estimator, event_le
 }
 
 roc_auc_binary <- function(truth, estimate, event_level, options) {
-  lvl_values <- levels(truth)
+  lvls <- levels(truth)
 
   if (is_event_first(event_level)) {
-    lvl <- rev(lvl_values)
-  } else {
-    lvl <- lvl_values
+    lvls <- rev(lvls)
   }
 
-  control <- lvl[[1]]
-  event <- lvl[[2]]
+  control <- lvls[[1]]
+  event <- lvls[[2]]
 
-  # `NA` values have already been removed by `metric_vec_template()`
-  n_control <- sum(truth == control)
-  n_event <- sum(truth == event)
-
-  if (n_control == 0L) {
-    rlang::warn(paste0(
-      "No control observations were detected in `truth` ",
-      "with control level '", control, "'"
-    ))
+  if (compute_n_occurrences(truth, control) == 0L) {
+    warn_roc_truth_no_control(control)
     return(NA_real_)
   }
-
-  if (n_event == 0L) {
-    rlang::warn(paste0(
-      "No event observations were detected in `truth` ",
-      "with event level '", event, "'"
-    ))
+  if (compute_n_occurrences(truth, event) == 0L) {
+    warn_roc_truth_no_event(event)
     return(NA_real_)
   }
 
   args <- quos(
     response = truth,
     predictor = estimate,
-    levels = lvl,
+    levels = lvls,
     quiet = TRUE,
     direction = "<"
   )
@@ -287,6 +274,29 @@ roc_auc_subset <- function(lvl1, lvl2, truth, estimate, options) {
 
   auc_val
 }
+
+# ------------------------------------------------------------------------------
+
+compute_n_occurrences <- function(x, what) {
+  # `NA` values have already been removed by `metric_vec_template()`
+  sum(x == what)
+}
+warn_roc_truth_no_control <- function(control) {
+  message <- paste0(
+    "No control observations were detected in `truth` ",
+    "with control level '", control, "'."
+  )
+  rlang::warn(message, class = "yardstick_warning_roc_truth_no_control")
+}
+warn_roc_truth_no_event <- function(event) {
+  message <- paste0(
+    "No event observations were detected in `truth` ",
+    "with event level '", event, "'."
+  )
+  rlang::warn(message, class = "yardstick_warning_roc_truth_no_event")
+}
+
+# ------------------------------------------------------------------------------
 
 single_quote <- function(x) {
   encodeString(x, quote = "'", na.encode = FALSE)
