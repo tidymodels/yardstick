@@ -2,6 +2,10 @@
 
 * `roc_curve()` now throws a more informative error if `truth` doesn't have any
   control or event observations.
+  
+* Internal upkeep has been done to move from `rlang::warn(.subclass = )` to
+  `rlang::warn(class = )`, since the `.subclass` argument has been deprecated
+  (#225).
 
 # yardstick 0.0.8
 

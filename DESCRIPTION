@@ -26,7 +26,7 @@ Imports:
     dplyr (>= 0.8.5),
     generics,
     pROC (>= 1.15.0),
-    rlang (>= 0.4.0),
+    rlang (>= 0.4.2),
     tidyselect,
     utils,
     vctrs (>= 0.3.6)

@@ -41,7 +41,7 @@ warn_correlation_undefined_constant_truth <- function(truth) {
   warn_correlation_undefined(
     what = "truth",
     truth = truth,
-    .subclass = "yardstick_warning_correlation_undefined_constant_truth"
+    class = "yardstick_warning_correlation_undefined_constant_truth"
   )
 }
 
@@ -49,11 +49,11 @@ warn_correlation_undefined_constant_estimate <- function(estimate) {
   warn_correlation_undefined(
     what = "estimate",
     estimate = estimate,
-    .subclass = "yardstick_warning_correlation_undefined_constant_estimate"
+    class = "yardstick_warning_correlation_undefined_constant_estimate"
   )
 }
 
-warn_correlation_undefined <- function(what, ..., .subclass = character()) {
+warn_correlation_undefined <- function(what, ..., class = character()) {
   message <- paste0(
     "A correlation computation is required, but `", what, "` is constant ",
     "and has 0 standard deviation, resulting in a divide by 0 error. ",
@@ -62,7 +62,7 @@ warn_correlation_undefined <- function(what, ..., .subclass = character()) {
 
   rlang::warn(
     message = message,
-    .subclass = c(.subclass, "yardstick_warning_correlation_undefined"),
+    class = c(class, "yardstick_warning_correlation_undefined"),
     ...
   )
 }
