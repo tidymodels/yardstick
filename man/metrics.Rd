@@ -21,7 +21,7 @@ Otherwise, there should be as many columns as factor levels of \code{truth}.}
 \item{truth}{The column identifier for the true results (that
 is \code{numeric} or \code{factor}). This should be an unquoted column name
 although this argument is passed by expression and support
-\link[rlang:nse-force]{quasiquotation} (you can unquote column
+\link[rlang:bang-bang]{quasiquotation} (you can unquote column
 names).}
 
 \item{estimate}{The column identifier for the predicted results

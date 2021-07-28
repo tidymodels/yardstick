@@ -4,7 +4,7 @@
 \alias{mn_log_loss}
 \alias{mn_log_loss.data.frame}
 \alias{mn_log_loss_vec}
-\title{Mean log loss}
+\title{Mean log loss for multinomial data}
 \usage{
 mn_log_loss(data, ...)
 
@@ -38,7 +38,7 @@ Otherwise, there should be as many columns as factor levels of \code{truth}.}
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:nse-force]{quasiquotation} (you can unquote column
+\link[rlang:bang-bang]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
