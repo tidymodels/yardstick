@@ -6,26 +6,12 @@
 #' @family accuracy metrics
 #' @templateVar metric_fn poisson_log_loss
 #' @template return
-#'
-#' @param data A `data.frame` containing the `truth` and `estimate`
-#' columns.
-#'
+#' @inheritParams rmse
 #' @param truth The column identifier for the true counts
-#' (that is `numeric`). This should be an unquoted column name although
+#' (that is `integer`). This should be an unquoted column name although
 #' this argument is passed by expression and supports
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column
 #' names). For `_vec()` functions, a `numeric` vector.
-#'
-#' @param estimate The column identifier for the predicted
-#' results (that is also `numeric`). As with `truth` this can be
-#' specified different ways but the primary method is to use an
-#' unquoted variable name. For `_vec()` functions, a `numeric` vector.
-#'
-#' @param na_rm A `logical` value indicating whether `NA`
-#' values should be stripped before the computation proceeds.
-#'
-#' @param ... Not currently used.
-#'
 #' @author Max Kuhn
 #'
 #' @template examples-counts
@@ -61,6 +47,9 @@ poisson_log_loss.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...
 poisson_log_loss_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   poisson_log_loss_impl <- function(truth, estimate) {
+    if (!is.integer(truth)) {
+      truth <- as.integer(truth)
+    }
     mean(-stats::dpois(truth, estimate, log = TRUE))
   }
 

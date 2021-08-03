@@ -99,7 +99,6 @@ Other numeric metrics:
 \code{\link{mape}()},
 \code{\link{mase}()},
 \code{\link{mpe}()},
-\code{\link{poisson_deviance}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
 \code{\link{rpd}()},
@@ -117,7 +116,6 @@ Other accuracy metrics:
 \code{\link{mape}()},
 \code{\link{mase}()},
 \code{\link{mpe}()},
-\code{\link{poisson_deviance}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
 \code{\link{smape}()}
