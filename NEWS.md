@@ -11,7 +11,7 @@
   `rlang::warn(class = )`, since the `.subclass` argument has been deprecated
   (#225).
   
-* `poisson_log_loss()` and `poisson_deviance()` were added (#146).
+* New metric `poisson_log_loss()` was added (#146).
 
 # yardstick 0.0.8
 
