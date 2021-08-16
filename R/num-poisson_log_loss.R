@@ -11,7 +11,7 @@
 #' (that is `integer`). This should be an unquoted column name although
 #' this argument is passed by expression and supports
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column
-#' names). For `_vec()` functions, a `numeric` vector.
+#' names). For `_vec()` functions, an `integer` vector.
 #' @author Max Kuhn
 #'
 #' @template examples-counts

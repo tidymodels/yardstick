@@ -22,7 +22,7 @@ columns.}
 (that is \code{integer}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:nse-force]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a \code{numeric} vector.}
+names). For \verb{_vec()} functions, an \code{integer} vector.}
 
 \item{estimate}{The column identifier for the predicted
 results (that is also \code{numeric}). As with \code{truth} this can be
