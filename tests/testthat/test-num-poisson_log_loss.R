@@ -1,8 +1,8 @@
-count_results <- data_counts()$basic
-count_missing <- data_counts()$missing
-count_poor    <- data_counts()$poor
-
 test_that('poisson log-loss', {
+  count_results <- data_counts()$basic
+  count_missing <- data_counts()$missing
+  count_poor    <- data_counts()$poor
+
   expect_equal(
     poisson_log_loss(count_results, count, pred)[[".estimate"]],
     mean(-stats::dpois(count_results$count, count_results$pred, log = TRUE))
