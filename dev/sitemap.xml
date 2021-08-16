@@ -103,6 +103,9 @@
     <loc>https://yardstick.tidymodels.org/reference/pathology.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/reference/poisson_log_loss.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/reference/ppv.html</loc>
   </url>
   <url>

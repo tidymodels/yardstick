@@ -315,20 +315,20 @@ Deutsche Bundesbank.</p>
 <span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
 <span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
 <span class='fu'>gain_curve</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 501 x 4</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 501 × 4</span>
 #&gt;       .n .n_events .percent_tested .percent_found
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0         0             0            0    
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     1         1             0.2          0.388
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     2         2             0.4          0.775
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     3         3             0.6          1.16 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     4         4             0.8          1.55 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     5         5             1            1.94 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     6         6             1.2          2.33 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     7         7             1.4          2.71 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     8         8             1.6          3.10 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     9         9             1.8          3.49 
-#&gt; </span><span style='color: #949494;'># … with 491 more rows</span><span></div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>     0         0             0            0    
+#&gt; <span style='color: #BCBCBC;'> 2</span>     1         1             0.2          0.388
+#&gt; <span style='color: #BCBCBC;'> 3</span>     2         2             0.4          0.775
+#&gt; <span style='color: #BCBCBC;'> 4</span>     3         3             0.6          1.16 
+#&gt; <span style='color: #BCBCBC;'> 5</span>     4         4             0.8          1.55 
+#&gt; <span style='color: #BCBCBC;'> 6</span>     5         5             1            1.94 
+#&gt; <span style='color: #BCBCBC;'> 7</span>     6         6             1.2          2.33 
+#&gt; <span style='color: #BCBCBC;'> 8</span>     7         7             1.4          2.71 
+#&gt; <span style='color: #BCBCBC;'> 9</span>     8         8             1.6          3.10 
+#&gt; <span style='color: #BCBCBC;'>10</span>     9         9             1.8          3.49 
+#&gt; <span style='color: #949494;'># … with 491 more rows</span></div><div class='input'>
 <span class='co'># ---------------------------------------------------------------------------</span>
 <span class='co'># `autoplot()`</span>
 
@@ -354,7 +354,7 @@ Deutsche Bundesbank.</p>
   <span class='fu'>gain_curve</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='img'><img src='gain_curve-3.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
