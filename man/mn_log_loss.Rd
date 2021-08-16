@@ -4,7 +4,7 @@
 \alias{mn_log_loss}
 \alias{mn_log_loss.data.frame}
 \alias{mn_log_loss_vec}
-\title{Mean log loss}
+\title{Mean log loss for multinomial data}
 \usage{
 mn_log_loss(data, ...)
 

@@ -57,6 +57,7 @@ reference:
     - huber_loss
     - huber_loss_pseudo
     - iic
+    - poisson_log_loss
 
   - title: Curve Functions
     contents:

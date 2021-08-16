@@ -1,4 +1,4 @@
-#' Mean log loss
+#' Mean log loss for multinomial data
 #'
 #' Compute the logarithmic loss of a classification model.
 #'

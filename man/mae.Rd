@@ -86,6 +86,7 @@ Other numeric metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
@@ -102,6 +103,7 @@ Other accuracy metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
 \code{\link{smape}()}
 }
