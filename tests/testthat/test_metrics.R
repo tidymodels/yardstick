@@ -250,3 +250,31 @@ test_that("`metric_set()` gives an informative error for a single non-metric fun
     fixed = TRUE
   )
 })
+
+test_that("`metric_set()` works with `case_weights`", {
+  # Mock a metric that doesn't support weights yet
+  accuracy_no_weights <- function(data, truth, estimate, na_rm = TRUE, ...) {
+    # Eat the `...` silently
+    accuracy(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na_rm = na_rm
+    )
+  }
+  accuracy_no_weights <- new_class_metric(accuracy_no_weights, "maximize")
+
+  set <- metric_set(accuracy, accuracy_no_weights)
+
+  df <- data.frame(
+    truth = factor(c("x", "x", "y"), levels = c("x", "y")),
+    estimate = factor(c("x", "y", "x"), levels = c("x", "y")),
+    case_weights = c(1L, 1L, 2L)
+  )
+
+  expect_identical(
+    set(df, truth, estimate = estimate, case_weights = case_weights)[[".estimate"]],
+    c(1/4, 1/3)
+  )
+})
+
