@@ -51,6 +51,11 @@
 #' `"first"` or `"second"` to pass along describing which level should be
 #' considered the "event".
 #'
+#' @param case_weights For metrics supporting case weights, an unquoted
+#' column name corresponding to case weights can be passed here. If not `NULL`,
+#' the case weights will be passed on to `metric_fn` as the named argument
+#' `case_weights`.
+#'
 #' @param ... Currently not used. Metric specific options are passed in
 #' through `metric_fn_options`.
 #'
@@ -71,10 +76,12 @@ metric_summarizer <- function(metric_nm,
                               estimator = NULL,
                               na_rm = TRUE,
                               event_level = NULL,
+                              case_weights = NULL,
                               ...,
                               metric_fn_options = list()) {
   truth <- enquo(truth)
   estimate <- enquo(estimate)
+  case_weights <- enquo(case_weights)
 
   validate_not_missing(truth, "truth")
   validate_not_missing(estimate, "estimate")
@@ -98,6 +105,7 @@ metric_summarizer <- function(metric_nm,
       !!! spliceable_estimator(estimator),
       na_rm = na_rm,
       !!! spliceable_event_level(event_level),
+      !!! spliceable_case_weights(case_weights),
       !!! metric_fn_options
     )
   )
@@ -142,6 +150,11 @@ metric_summarizer <- function(metric_nm,
 #' `"macro"`, `"micro"`, or `"macro_weighted"`. If your metric allows more
 #' or less averaging methods, override this with `averaging_override`.
 #'
+#' @param case_weights Optionally, the realized case weights, as a numeric
+#' vector. This must be the same length as `truth`, and will be considered in
+#' the `na_rm` checks. If supplied, this will be passed on to `metric_impl` as
+#' the named argument `case_weights`.
+#'
 #' @param ... Extra arguments to your core metric function, `metric_impl`, can
 #' technically be passed here, but generally the extra args are added through
 #' R's scoping rules because the core metric function is created on the fly
@@ -165,6 +178,7 @@ metric_vec_template <- function(metric_impl,
                                 na_rm = TRUE,
                                 cls = "numeric",
                                 estimator = NULL,
+                                case_weights = NULL,
                                 ...) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
@@ -174,30 +188,62 @@ metric_vec_template <- function(metric_impl,
   }
 
   validate_truth_estimate_checks(truth, estimate, cls, estimator)
+  validate_case_weights(case_weights, size = length(truth))
+
+  has_case_weights <- !is.null(case_weights)
 
   if (na_rm) {
-    complete_cases <- complete.cases(truth, estimate)
+    complete_cases <- complete.cases(truth, estimate, case_weights)
     truth <- truth[complete_cases]
 
     if (is.matrix(estimate)) {
       estimate <- estimate[complete_cases, , drop = FALSE]
-    }
-    else {
+    } else {
       estimate <- estimate[complete_cases]
     }
 
-  }
-  # na_rm = FALSE
-  # return NA if any NA
-  else {
+    if (has_case_weights) {
+      case_weights <- case_weights[complete_cases]
+    }
+  } else {
+    any_na <-
+      anyNA(truth) ||
+      anyNA(estimate) ||
+      (has_case_weights && anyNA(case_weights))
 
-    if (anyNA(truth) || anyNA(estimate)) {
+    # return NA if any NA
+    if (any_na) {
       return(NA_real_)
     }
-
   }
 
-  metric_impl(truth, estimate, ...)
+  if (has_case_weights) {
+    metric_impl(truth = truth, estimate = estimate, case_weights = case_weights, ...)
+  } else {
+    # Assume signature doesn't have `case_weights =`
+    metric_impl(truth = truth, estimate = estimate, ...)
+  }
+}
+
+validate_case_weights <- function(case_weights, size) {
+  if (is.null(case_weights)) {
+    return(invisible(case_weights))
+  }
+
+  if (!is.integer(case_weights) && !is.double(case_weights)) {
+    abort("`case_weights` must be an integer or double vector.")
+  }
+
+  size_case_weights <- length(case_weights)
+
+  if (size_case_weights != size) {
+    abort(paste0(
+      "`case_weights` (", size_case_weights, ") must have the same ",
+      "length as `truth` (", size, ")."
+    ))
+  }
+
+  invisible(case_weights)
 }
 
 #' @importFrom rlang get_expr set_expr
@@ -247,3 +293,13 @@ spliceable_event_level <- function(event_level) {
     return(list())
   }
 }
+
+spliceable_case_weights <- function(case_weights) {
+  if (rlang::quo_is_null(case_weights)) {
+    return(list())
+  }
+
+  list(case_weights = case_weights)
+}
+
+
