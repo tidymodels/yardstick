@@ -14,8 +14,8 @@ status](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)
 ## Overview
 
 `yardstick` is a package to estimate how well models are working using
-[tidy data](https://www.jstatsoft.org/article/view/v059i10) principles.
-See the [package webpage](https://yardstick.tidymodels.org/) for more
+[tidy data](https://doi.org/10.18637/jss.v059.i10) principles. See the
+[package webpage](https://yardstick.tidymodels.org/) for more
 information.
 
 ## Installation

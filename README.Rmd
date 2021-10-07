@@ -27,7 +27,7 @@ options(width = 100, digits = 3)
 
 ## Overview
 
-`yardstick` is a package to estimate how well models are working using [tidy data](https://www.jstatsoft.org/article/view/v059i10) principles. See the [package webpage](https://yardstick.tidymodels.org/) for more information.
+`yardstick` is a package to estimate how well models are working using [tidy data](https://doi.org/10.18637/jss.v059.i10) principles. See the [package webpage](https://yardstick.tidymodels.org/) for more information.
 
 ## Installation
 
