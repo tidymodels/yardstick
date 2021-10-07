@@ -53,7 +53,7 @@ characteristics of the model and get them back in a data frame:
 
 ``` r
 metrics(two_class_example, truth, predicted)
-#> # A tibble: 2 x 3
+#> # A tibble: 2 × 3
 #>   .metric  .estimator .estimate
 #>   <chr>    <chr>          <dbl>
 #> 1 accuracy binary         0.838
@@ -63,7 +63,7 @@ metrics(two_class_example, truth, predicted)
 
 two_class_example %>% 
   roc_auc(truth, Class1)
-#> # A tibble: 1 x 3
+#> # A tibble: 1 × 3
 #>   .metric .estimator .estimate
 #>   <chr>   <chr>          <dbl>
 #> 1 roc_auc binary         0.939
@@ -78,7 +78,7 @@ many of them having multiple ways to calculate multiclass metrics.
 data("hpc_cv")
 hpc_cv <- as_tibble(hpc_cv)
 hpc_cv
-#> # A tibble: 3,467 x 7
+#> # A tibble: 3,467 × 7
 #>    obs   pred     VF      F       M          L Resample
 #>    <fct> <fct> <dbl>  <dbl>   <dbl>      <dbl> <chr>   
 #>  1 VF    VF    0.914 0.0779 0.00848 0.0000199  Fold01  
@@ -97,14 +97,14 @@ hpc_cv
 ``` r
 # Macro averaged multiclass precision
 precision(hpc_cv, obs, pred)
-#> # A tibble: 1 x 3
+#> # A tibble: 1 × 3
 #>   .metric   .estimator .estimate
 #>   <chr>     <chr>          <dbl>
 #> 1 precision macro          0.631
 
 # Micro averaged multiclass precision
 precision(hpc_cv, obs, pred, estimator = "micro")
-#> # A tibble: 1 x 3
+#> # A tibble: 1 × 3
 #>   .metric   .estimator .estimate
 #>   <chr>     <chr>          <dbl>
 #> 1 precision micro          0.709
@@ -122,7 +122,7 @@ Till (2001), and does it across all 10 resamples at once.
 hpc_cv %>%
   group_by(Resample) %>%
   roc_auc(obs, VF:L)
-#> # A tibble: 10 x 4
+#> # A tibble: 10 × 4
 #>    Resample .metric .estimator .estimate
 #>    <chr>    <chr>   <chr>          <dbl>
 #>  1 Fold01   roc_auc hand_till      0.813
@@ -165,7 +165,7 @@ lvl <- levels(two_class_example$truth)
 
 two_class_example %>% 
   mn_log_loss(truth, !! lvl[1])
-#> # A tibble: 1 x 3
+#> # A tibble: 1 × 3
 #>   .metric     .estimator .estimate
 #>   <chr>       <chr>          <dbl>
 #> 1 mn_log_loss binary         0.328
