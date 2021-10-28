@@ -5,7 +5,7 @@ articles:
   custom-metrics: custom-metrics.html
   metric-types: metric-types.html
   multiclass: multiclass.html
-last_built: 2021-10-07T19:45Z
+last_built: 2021-10-28T21:42Z
 urls:
   reference: https://yardstick.tidymodels.org/reference
   article: https://yardstick.tidymodels.org/articles
