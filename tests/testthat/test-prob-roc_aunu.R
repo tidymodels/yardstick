@@ -12,8 +12,7 @@ test_that("AUNU is equivalent to macro estimator", {
 test_that("AUNU errors on binary case", {
   expect_error(
     roc_aunu(two_class_example, truth, Class1),
-    "The number of levels in",
-    class = "dplyr_error"
+    "The number of levels in"
   )
 })
 
