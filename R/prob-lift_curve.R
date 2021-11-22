@@ -39,7 +39,6 @@
 #' @template event_first
 #'
 #' @inheritParams pr_auc
-#' @param object The `lift_df` data frame returned from `lift_curve()`.
 #'
 #' @return
 #' A tibble with class `lift_df` or `lift_grouped_df` having

@@ -44,8 +44,6 @@ applicable when \code{estimator = "binary"}. The default uses an
 internal helper that generally defaults to \code{"first"}, however, if the
 deprecated global option \code{yardstick.event_first} is set, that will be
 used instead with a warning.}
-
-\item{object}{The \code{roc_df} data frame returned from \code{roc_curve()}.}
 }
 \value{
 A tibble with class \code{roc_df} or \code{roc_grouped_df} having

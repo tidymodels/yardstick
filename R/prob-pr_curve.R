@@ -17,7 +17,6 @@
 #' @template event_first
 #'
 #' @inheritParams pr_auc
-#' @param object The `pr_df` data frame returned from `pr_curve()`.
 #'
 #' @return
 #' A tibble with class `pr_df` or `pr_grouped_df` having

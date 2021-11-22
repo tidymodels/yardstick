@@ -39,8 +39,6 @@ applicable when \code{estimator = "binary"}. The default uses an
 internal helper that generally defaults to \code{"first"}, however, if the
 deprecated global option \code{yardstick.event_first} is set, that will be
 used instead with a warning.}
-
-\item{object}{The \code{gain_df} data frame returned from \code{gain_curve()}.}
 }
 \value{
 A tibble with class \code{gain_df} or \code{gain_grouped_df} having

@@ -21,7 +21,6 @@
 #' @template event_first
 #'
 #' @inheritParams roc_auc
-#' @param object The `roc_df` data frame returned from `roc_curve()`.
 #'
 #' @return
 #' A tibble with class `roc_df` or `roc_grouped_df` having

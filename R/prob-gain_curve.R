@@ -41,7 +41,6 @@
 #' @template event_first
 #'
 #' @inheritParams pr_auc
-#' @param object The `gain_df` data frame returned from `gain_curve()`.
 #'
 #' @return
 #' A tibble with class `gain_df` or `gain_grouped_df` having
