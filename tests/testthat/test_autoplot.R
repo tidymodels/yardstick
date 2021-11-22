@@ -13,8 +13,8 @@
 #   simplify = FALSE
 # )
 
-# saveRDS(object = resample_idx, file = testthat::test_path("test_autoplot.rds"))
-resample_idx <- readRDS(testthat::test_path("test_autoplot.rds"))
+# saveRDS(object = resample_idx, file = test_path("data/test_autoplot.rds"))
+resample_idx <- readRDS(test_path("data/test_autoplot.rds"))
 
 two_class_resamples <- dplyr::bind_rows(
   lapply(resample_idx, function(idx) two_class_example[idx,]),
