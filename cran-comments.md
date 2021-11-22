@@ -15,6 +15,11 @@ Issues with CRAN packages are summarised below.
 
 * tidyposterior (NA)
 
+## Submission 0.0.9
+
+This release is mainly to avoid any issues from the upcoming dplyr 1.0.8
+release, but it also includes small bug fixes and a new metric.
+
 ## Submission 0.0.8
 
 This release contains a number of new metrics, features, and bug fixes. We
