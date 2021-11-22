@@ -1,6 +1,3 @@
-library(testthat)
-library(yardstick)
-
 test_that('bad args', {
   expect_warning(
     yardstick:::vec2table(truth = as.character(iris$Species), iris$Species)

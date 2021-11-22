@@ -1,5 +1,3 @@
-library(dplyr)
-
 set.seed(1311)
 three_class <- data.frame(obs = iris$Species,
                           pred = sample(iris$Species, replace = TRUE))

@@ -1,4 +1,3 @@
-library(dplyr)
 library(ggplot2)
 
 # As of R 3.6, cannot rely on old sample() results to be the same.
@@ -19,18 +18,18 @@ library(ggplot2)
 # saveRDS(object = resample_idx, file = testthat::test_path("test_autoplot.rds"))
 resample_idx <- readRDS(testthat::test_path("test_autoplot.rds"))
 
-two_class_resamples <- bind_rows(
+two_class_resamples <- dplyr::bind_rows(
   lapply(resample_idx, function(idx) two_class_example[idx,]),
   .id = "Resample"
 ) %>%
-  group_by(Resample)
+  dplyr::group_by(Resample)
 
 # make it smaller, and order it in the same order as what ggplot2 displays
-hpc_cv2 <- filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")) %>%
-  as_tibble() %>%
-  group_by(Resample) %>%
-  arrange(as.character(obs)) %>%
-  ungroup()
+hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")) %>%
+  dplyr::as_tibble() %>%
+  dplyr::group_by(Resample) %>%
+  dplyr::arrange(as.character(obs)) %>%
+  dplyr::ungroup()
 
 # ROC --------------------------------------------------------------------------
 
@@ -81,7 +80,7 @@ test_that("ROC Curve - multi class", {
 })
 
 test_that("ROC Curve - multi class, with resamples", {
-  res <- roc_curve(group_by(hpc_cv2, Resample), obs, VF:L)
+  res <- roc_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
   expect_s3_class(.plot, "gg")
@@ -141,7 +140,7 @@ test_that("PR Curve - multi class", {
 })
 
 test_that("PR Curve - multi class, with resamples", {
-  res <- pr_curve(group_by(hpc_cv2, Resample), obs, VF:L)
+  res <- pr_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
   expect_s3_class(.plot, "gg")
@@ -215,7 +214,7 @@ test_that("Gain Curve - multi class", {
 })
 
 test_that("Gain Curve - multi class, with resamples", {
-  res <- gain_curve(group_by(hpc_cv2, Resample), obs, VF:L)
+  res <- gain_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
   expect_s3_class(.plot, "gg")
@@ -274,7 +273,7 @@ test_that("Lift Curve - two class, with resamples", {
   expect_equal(nrow(.plot_data$data[[1]]), nrow(res) - 10)
 
   # 0 event rows are removed before plotting
-  res <- filter(res, .n_events != 0)
+  res <- dplyr::filter(res, .n_events != 0)
 
   expect_equal(res$.percent_tested, .plot_data$data[[1]]$x)
   expect_equal(res$.lift, .plot_data$data[[1]]$y)
@@ -300,7 +299,7 @@ test_that("Lift Curve - multi class", {
 })
 
 test_that("Lift Curve - multi class, with resamples", {
-  res <- lift_curve(group_by(hpc_cv2, Resample), obs, VF:L)
+  res <- lift_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
   expect_s3_class(.plot, "gg")
@@ -339,7 +338,7 @@ test_that("Confusion Matrix - two class - heatmap", {
 
 test_that("Confusion Matrix - multi class - heatmap", {
   res <- hpc_cv %>%
-    filter(Resample == "Fold01") %>%
+    dplyr::filter(Resample == "Fold01") %>%
     conf_mat(obs, pred)
 
   expect_error(.plot <- autoplot(res, type = "heatmap"), NA)
@@ -358,7 +357,7 @@ test_that("Confusion Matrix - multi class - heatmap", {
 })
 
 test_that("Confusion Matrix - heatmap - can use non-standard labels (#157, #191)", {
-  df <- filter(hpc_cv, Resample == "Fold01")
+  df <- dplyr::filter(hpc_cv, Resample == "Fold01")
 
   res1 <- conf_mat(df, obs, pred, dnn = c("Pred", "True"))
   expect_error(p1 <- autoplot(res1, type = "heatmap"), NA)
@@ -373,7 +372,7 @@ test_that("Confusion Matrix - heatmap - can use non-standard labels (#157, #191)
 })
 
 test_that("Confusion Matrix - mosaic - can use non-standard labels (#191)", {
-  df <- filter(hpc_cv, Resample == "Fold01")
+  df <- dplyr::filter(hpc_cv, Resample == "Fold01")
 
   res1 <- conf_mat(df, obs, pred, dnn = c("Pred", "True"))
   expect_error(p1 <- autoplot(res1, type = "mosaic"), NA)
@@ -402,7 +401,7 @@ test_that("Confusion Matrix - two class - mosaic", {
 
 test_that("Confusion Matrix - multi class - mosaic", {
   res <- hpc_cv %>%
-    filter(Resample == "Fold01") %>%
+    dplyr::filter(Resample == "Fold01") %>%
     conf_mat(obs, pred)
 
   expect_error(.plot <- autoplot(res, type = "mosaic"), NA)
