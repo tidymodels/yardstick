@@ -1,25 +1,25 @@
 # yardstick (development version)
 
-* Removed internal hardcoding of `"dplyr_error"` to avoid issues with an
-  upcoming dplyr 1.0.8 release (#244).
-
-* Updated test suite to testthat 3e (#243).
+* New metric `poisson_log_loss()` was added (#146).
 
 * `sensitivity()` and `specificity()` now work correctly with the tune and
   workflowsets packages (#232).
-
+  
 * `roc_curve()` now throws a more informative error if `truth` doesn't have any
   control or event observations.
   
 * dplyr 1.0.0 is now required. This allowed us to remove multiple usages of
   `dplyr::do()` in favor of `dplyr::summarise()`, which can now return packed
   data frame columns and multiple rows per group.
+
+* Removed internal hardcoding of `"dplyr_error"` to avoid issues with an
+  upcoming dplyr 1.0.8 release (#244).
+
+* Updated test suite to testthat 3e (#243).
   
 * Internal upkeep has been done to move from `rlang::warn(.subclass = )` to
   `rlang::warn(class = )`, since the `.subclass` argument has been deprecated
   (#225).
-  
-* New metric `poisson_log_loss()` was added (#146).
 
 # yardstick 0.0.8
 
