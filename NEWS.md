@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* `sensitivity()` and `specificity()` now work correctly with the tune and
+  workflowsets packages (#232).
+
 * `roc_curve()` now throws a more informative error if `truth` doesn't have any
   control or event observations.
   
