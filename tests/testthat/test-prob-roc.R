@@ -150,7 +150,9 @@ test_that("pROC::auc() arguments are passed through - corrected and focused args
   # From `?pROC::auc`
   data("aSAH", package = "pROC")
 
-  curv <- roc(aSAH$outcome, aSAH$s100b, direction = "<")
+  suppressMessages({
+    curv <- roc(aSAH$outcome, aSAH$s100b, direction = "<")
+  })
 
   proc_auc <- as.numeric(pROC::auc(
     curv,
@@ -300,63 +302,41 @@ test_that("Multiclass ROC AUC", {
 test_that("warning is thrown when missing events", {
   no_event <- dplyr::filter(two_class_example, truth == "Class2")
 
-  expect_identical(
-    expect_warning(
-      roc_auc(no_event, truth, Class1)[[".estimate"]],
-      "No event observations were detected in `truth` with event level 'Class1'.",
-      class = "yardstick_warning_roc_truth_no_event"
-    ),
-    NA_real_
-  )
+  expect_snapshot(out <- roc_auc(no_event, truth, Class1)[[".estimate"]])
+
+  expect_identical(out, NA_real_)
 })
 
 test_that("warning is thrown when missing controls", {
   no_control <- dplyr::filter(two_class_example, truth == "Class1")
 
-  expect_identical(
-    expect_warning(
-      roc_auc(no_control, truth, Class1)[[".estimate"]],
-      "No control observations were detected in `truth` with control level 'Class2'.",
-      class = "yardstick_warning_roc_truth_no_control"
-    ),
-    NA_real_
-  )
+  expect_snapshot(out <- roc_auc(no_control, truth, Class1)[[".estimate"]])
+
+  expect_identical(out, NA_real_)
 })
 
 test_that("multiclass one-vs-all approach results in multiple warnings", {
   no_event <- dplyr::filter(two_class_example, truth == "Class2")
 
-  expect_identical(
-    expect_warning(
-      roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[".estimate"]],
-      "No event observations were detected in `truth` with event level 'Class1'"
-    ),
-    NA_real_
+  expect_snapshot(
+    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[".estimate"]]
   )
+  expect_identical(out, NA_real_)
 
-  expect_identical(
-    expect_warning(
-      roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[".estimate"]],
-      "No control observations were detected in `truth` with control level '..other'"
-    ),
-    NA_real_
+  expect_snapshot(
+    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[".estimate"]]
   )
+  expect_identical(out, NA_real_)
 
-  expect_identical(
-    expect_warning(
-      roc_auc(no_event, truth, Class1, Class2, estimator = "macro_weighted")[[".estimate"]],
-      "No event observations were detected in `truth` with event level 'Class1'"
-    ),
-    NA_real_
+  expect_snapshot(
+    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro_weighted")[[".estimate"]]
   )
+  expect_identical(out, NA_real_)
 
-  expect_identical(
-    expect_warning(
-      roc_auc(no_event, truth, Class1, Class2, estimator = "macro_weighted")[[".estimate"]],
-      "No control observations were detected in `truth` with control level '..other'"
-    ),
-    NA_real_
+  expect_snapshot(
+    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro_weighted")[[".estimate"]]
   )
+  expect_identical(out, NA_real_)
 })
 
 test_that("hand till approach throws warning and returns `NaN` when only 1 level has observations", {
@@ -371,13 +351,10 @@ test_that("hand till approach throws warning and returns `NaN` when only 1 level
   colnames(estimate) <- c("x", "y")
 
   # With two levels -> one
-  expect_identical(
-    expect_warning(
-      roc_auc_vec(x, estimate, estimator = "hand_till"),
-      "No observations were detected in `truth` for level[(]s[)]: 'y'"
-    ),
-    NaN
+  expect_snapshot(
+    out <- roc_auc_vec(x, estimate, estimator = "hand_till")
   )
+  expect_identical(out, NaN)
 
   x <- factor(c("x", "x", "x"), levels = c("x", "y", "z"))
 
@@ -391,13 +368,10 @@ test_that("hand till approach throws warning and returns `NaN` when only 1 level
   colnames(estimate) <- c("x", "y", "z")
 
   # With three levels -> one
-  expect_identical(
-    expect_warning(
-      roc_auc_vec(x, estimate, estimator = "hand_till"),
-      "No observations were detected in `truth` for level[(]s[)]: 'y', 'z'"
-    ),
-    NaN
+  expect_snapshot(
+    out <- roc_auc_vec(x, estimate, estimator = "hand_till")
   )
+  expect_identical(out, NaN)
 })
 
 # ------------------------------------------------------------------------------

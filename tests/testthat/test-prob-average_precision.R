@@ -24,26 +24,13 @@ test_that("known corner cases are correct", {
   estimate <- .9
   df <- data.frame(truth, estimate)
 
-  expect_equal(
-    expect_warning(
-      average_precision(df, truth, estimate)$.estimate,
-      "There are `0` event cases"
-    ),
-    NA_real_
-  )
+  expect_snapshot(out <- average_precision(df, truth, estimate)$.estimate)
+  expect_identical(out, NA_real_)
 
   # Same as pr_auc()
-  expect_equal(
-    expect_warning(
-      average_precision(df, truth, estimate)$.estimate,
-      "There are `0` event cases"
-    ),
-    expect_warning(
-      pr_auc(df, truth, estimate)$.estimate,
-      "There are `0` event cases"
-    )
-  )
-
+  expect_snapshot(out <- average_precision(df, truth, estimate)$.estimate)
+  expect_snapshot(expect <- pr_auc(df, truth, estimate)$.estimate)
+  expect_identical(out, expect)
 })
 
 test_that("`event_level = 'second'` works", {
