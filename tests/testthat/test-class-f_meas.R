@@ -6,17 +6,17 @@ test_that('Two class - Powers paper', {
   expect_equal(
     f_meas(df_2_1, truth = "truth", estimate = "prediction")[[".estimate"]],
     0.5882353,
-    tol = 0.0001
+    tolerance = 0.0001
   )
   expect_equal(
     f_meas(tabl_2_1)[[".estimate"]],
     0.5882353,
-    tol = 0.0001
+    tolerance = 0.0001
   )
   expect_equal(
     f_meas(df_2_1, truth = truth, estimate = pred_na)[[".estimate"]],
     0.5652174,
-    tol = 0.0001
+    tolerance = 0.0001
   )
 })
 

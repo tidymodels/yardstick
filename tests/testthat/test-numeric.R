@@ -136,13 +136,13 @@ test_that('Concordance Correlation Coefficient', {
     ccc(ex_dat, truth = "obs", estimate = "pred", bias = TRUE)[[".estimate"]],
     # epiR::epi.ccc(x = ex_dat$obs, y = ex_dat$pred)
     0.8322669,
-    tol = 0.001
+    tolerance = 0.001
   )
   expect_equal(
     ccc(ex_dat, truth = obs, estimate = "pred_na", bias = TRUE)[[".estimate"]],
     # epiR::epi.ccc(x = ex_dat$obs[-ind], y = ex_dat$pred_na[-ind])
     0.8161879,
-    tol = 0.001
+    tolerance = 0.001
   )
 })
 

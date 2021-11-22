@@ -28,7 +28,7 @@ test_that('Two class', {
   expect_equal(
     roc_auc(two_class_example, truth, Class1, options = list(smooth = TRUE))[[".estimate"]],
     as.numeric(smooth_curv$auc),
-    tol = 0.001
+    tolerance = 0.001
   )
 })
 
