@@ -1,3 +1,0 @@
-While computing binary `spec()`, no true negatives were detected (i.e. `true_negative + false_positive = 0`). 
-Specificity is undefined in this case, and `NA` will be returned.
-Note that 1 predicted negatives(s) actually occured for the problematic event level, 'a'.

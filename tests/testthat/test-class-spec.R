@@ -62,16 +62,8 @@ test_that("Binary `spec()` returns `NA` with a warning when undefined (tn + fp =
   truth    <- factor(c("a", "a"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
 
-  expect_warning(
-    expect_equal(
-      spec_vec(truth, estimate),
-      NA_real_
-    )
-  )
-
-  cnd <- rlang::catch_cnd(spec_vec(truth, estimate))
-  expect_known_output(cat(cnd$message), test_path("test-class-spec-warning-binary.txt"), print = TRUE)
-  expect_s3_class(cnd, "yardstick_warning_spec_undefined_binary")
+  expect_snapshot(out <- spec_vec(truth, estimate))
+  expect_identical(out, NA_real_)
 })
 
 test_that("Multiclass `spec()` returns averaged value with `NA`s removed + a warning when undefined (tn + fp = 0) (#98)", {
@@ -83,11 +75,9 @@ test_that("Multiclass `spec()` returns averaged value with `NA`s removed + a war
   # When `c` is the event we get a warning = 3/3  = (tn = 3, fp = 0)
   truth    <- factor(c("a", "a", "a"), levels = levels)
   estimate <- factor(c("a", "b", "b"), levels = levels)
-  expect_warning(expect_equal(spec_vec(truth, estimate), (1 + 1/3 + 1) / 3))
 
-  cnd <- rlang::catch_cnd(spec_vec(truth, estimate))
-  expect_known_output(cat(cnd$message), test_path("test-class-spec-warning-multiclass.txt"), print = TRUE)
-  expect_s3_class(cnd, "yardstick_warning_spec_undefined_multiclass")
+  expect_snapshot(out <- spec_vec(truth, estimate))
+  expect_equal(out, (1 + 1/3 + 1) / 3, tolerance = 0.000001)
 })
 
 test_that("`NA` is still returned if there are some undefined spec values but `na.rm = FALSE`", {
