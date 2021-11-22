@@ -79,8 +79,8 @@ test_that("Grouped conf_mat() handler works", {
   hpc_g <- dplyr::group_by(hpc_cv, Resample)
   res <- conf_mat(hpc_g, obs, pred)
 
-  expect_is(res, "tbl_df")
-  expect_is(res$conf_mat, "list")
+  expect_s3_class(res, "tbl_df")
+  expect_type(res$conf_mat, "list")
 
   expect_equal(
     res$conf_mat[[1]],

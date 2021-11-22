@@ -44,10 +44,10 @@ test_that('R^2', {
 
 test_that("yardstick correlation warnings are thrown", {
   cnd <- rlang::catch_cnd(rsq_vec(c(1, 2), c(1, 1)))
-  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
+  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
 
   cnd <- rlang::catch_cnd(rsq_vec(c(1, 1), c(1, 2)))
-  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_truth")
+  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_truth")
 })
 
 ###################################################################
@@ -347,10 +347,10 @@ test_that("iic() is NaN if truth/estimate are equivalent", {
 
 test_that("yardstick correlation warnings are thrown", {
   cnd <- rlang::catch_cnd(iic_vec(c(1, 2), c(1, 1)))
-  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
+  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
 
   cnd <- rlang::catch_cnd(iic_vec(c(1, 1), c(1, 2)))
-  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_truth")
+  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_truth")
 })
 
 ###################################################################

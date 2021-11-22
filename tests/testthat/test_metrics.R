@@ -139,19 +139,19 @@ test_that("can supply `event_level` even with metrics that don't use it", {
 })
 
 test_that('metric set functions are classed', {
-  expect_is(
+  expect_s3_class(
     metric_set(accuracy, roc_auc),
     "class_prob_metric_set"
   )
-  expect_is(
+  expect_s3_class(
     metric_set(mae),
     "numeric_metric_set"
   )
-  expect_is(
+  expect_s3_class(
     metric_set(accuracy, roc_auc),
     "metric_set"
   )
-  expect_is(
+  expect_s3_class(
     metric_set(mae),
     "metric_set"
   )

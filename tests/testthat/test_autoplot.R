@@ -38,7 +38,7 @@ test_that("ROC Curve - two class", {
   res <- roc_curve(two_class_example, truth, Class1)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -55,7 +55,7 @@ test_that("ROC Curve - two class, with resamples", {
   res <- roc_curve(two_class_resamples, truth, Class1)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -70,7 +70,7 @@ test_that("ROC Curve - multi class", {
   res <- roc_curve(hpc_cv2, obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
 
@@ -84,7 +84,7 @@ test_that("ROC Curve - multi class, with resamples", {
   res <- roc_curve(group_by(hpc_cv2, Resample), obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
   expect_true("Resample" %in% colnames(res))
@@ -101,7 +101,7 @@ test_that("PR Curve - two class", {
   res <- pr_curve(two_class_example, truth, Class1)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -115,7 +115,7 @@ test_that("PR Curve - two class, with resamples", {
   res <- pr_curve(two_class_resamples, truth, Class1)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -130,7 +130,7 @@ test_that("PR Curve - multi class", {
   res <- pr_curve(hpc_cv2, obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
 
@@ -144,7 +144,7 @@ test_that("PR Curve - multi class, with resamples", {
   res <- pr_curve(group_by(hpc_cv2, Resample), obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
   expect_true("Resample" %in% colnames(res))
@@ -164,7 +164,7 @@ test_that("Gain Curve - two class", {
   res <- gain_curve(two_class_example, truth, Class1)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -181,7 +181,7 @@ test_that("Gain Curve - two class, with resamples", {
   res <- gain_curve(two_class_resamples, truth, Class1)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -199,7 +199,7 @@ test_that("Gain Curve - multi class", {
   res <- gain_curve(hpc_cv2, obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
 
@@ -218,7 +218,7 @@ test_that("Gain Curve - multi class, with resamples", {
   res <- gain_curve(group_by(hpc_cv2, Resample), obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
   expect_true("Resample" %in% colnames(res))
@@ -243,7 +243,7 @@ test_that("Lift Curve - two class", {
   res <- lift_curve(two_class_example, truth, Class1)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -266,7 +266,7 @@ test_that("Lift Curve - two class, with resamples", {
   res <- lift_curve(two_class_resamples, truth, Class1)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -288,7 +288,7 @@ test_that("Lift Curve - multi class", {
   res <- lift_curve(hpc_cv2, obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
 
@@ -303,7 +303,7 @@ test_that("Lift Curve - multi class, with resamples", {
   res <- lift_curve(group_by(hpc_cv2, Resample), obs, VF:L)
 
   expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
   expect_true("Resample" %in% colnames(res))
@@ -328,7 +328,7 @@ test_that("Confusion Matrix - two class - heatmap", {
   res <- conf_mat(two_class_example, truth, predicted)
 
   expect_error(.plot <- autoplot(res, type = "heatmap"), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -343,7 +343,7 @@ test_that("Confusion Matrix - multi class - heatmap", {
     conf_mat(obs, pred)
 
   expect_error(.plot <- autoplot(res, type = "heatmap"), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -391,7 +391,7 @@ test_that("Confusion Matrix - two class - mosaic", {
   res <- conf_mat(two_class_example, truth, predicted)
 
   expect_error(.plot <- autoplot(res, type = "mosaic"), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 
@@ -406,7 +406,7 @@ test_that("Confusion Matrix - multi class - mosaic", {
     conf_mat(obs, pred)
 
   expect_error(.plot <- autoplot(res, type = "mosaic"), NA)
-  expect_is(.plot, "gg")
+  expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot_build(.plot)
 

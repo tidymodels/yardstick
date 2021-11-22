@@ -11,7 +11,7 @@ test_that("lift_curve() matches known result", {
   # caret::lift(truth ~ estimate, df)
   lft <- c(NaN, 1.66666666666667, 1.66666666666667, 1.11111111111111, 1.25, 1)
 
-  expect_is(lift_curve(df, truth, estimate), "lift_df")
+  expect_s3_class(lift_curve(df, truth, estimate), "lift_df")
   expect_equal(lift_curve(df, truth, estimate)$.lift, lft)
 })
 
@@ -24,7 +24,7 @@ test_that("gain_curve() matches known result", {
   # caret::lift(truth ~ estimate, df)
   perc_found <- c(0, 33.3333333333333, 66.6666666666667, 66.6666666666667, 100, 100)
 
-  expect_is(gain_curve(df, truth, estimate), "gain_df")
+  expect_s3_class(gain_curve(df, truth, estimate), "gain_df")
   expect_equal(gain_curve(df, truth, estimate)$.percent_found, perc_found)
 
 })
@@ -99,8 +99,8 @@ test_that("Multiclass structure is correct", {
   expect_true(".level" %in% colnames(res_gain))
   expect_true(".level" %in% colnames(res_lift))
 
-  expect_is(res_gain, "gain_df")
-  expect_is(res_lift, "lift_df")
+  expect_s3_class(res_gain, "gain_df")
+  expect_s3_class(res_lift, "lift_df")
 })
 
 test_that("Grouped structure is correct", {
@@ -112,6 +112,6 @@ test_that("Grouped structure is correct", {
   expect_true("Resample" %in% colnames(res_gain))
   expect_true("Resample" %in% colnames(res_lift))
 
-  expect_is(res_gain, "grouped_gain_df")
-  expect_is(res_lift, "grouped_lift_df")
+  expect_s3_class(res_gain, "grouped_gain_df")
+  expect_s3_class(res_lift, "grouped_lift_df")
 })
