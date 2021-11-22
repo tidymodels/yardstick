@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* Removed internal hardcoding of `"dplyr_error"` to avoid issues with an
+  upcoming dplyr 1.0.8 release (#244).
+
 * Updated test suite to testthat 3e (#243).
 
 * `sensitivity()` and `specificity()` now work correctly with the tune and
