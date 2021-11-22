@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* Updated test suite to testthat 3e (#243).
+
 * `sensitivity()` and `specificity()` now work correctly with the tune and
   workflowsets packages (#232).
 
