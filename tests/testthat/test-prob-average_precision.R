@@ -1,5 +1,3 @@
-context("test-prob-average_precision")
-
 test_that("known corner cases are correct", {
 
   # first value - tp = 1

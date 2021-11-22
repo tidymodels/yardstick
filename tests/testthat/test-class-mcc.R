@@ -1,7 +1,3 @@
-context("MCC")
-
-# ------------------------------------------------------------------------------
-
 test_that('Two class', {
   lst <- data_altman()
   pathology <- lst$pathology

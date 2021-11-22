@@ -1,7 +1,3 @@
-context("PPV")
-
-# ------------------------------------------------------------------------------
-
 test_that('ppv', {
   lst <- data_altman()
   pathology <- lst$pathology

@@ -1,5 +1,3 @@
-context("PR Curve/AUC")
-
 # originally this test checked against:
 # MLmetrics::PRAUC(two_class_example$Class1, ifelse(two_class_example$truth == lvls[1], 1, 0))
 # 0.942570731650901

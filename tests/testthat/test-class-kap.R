@@ -1,7 +1,3 @@
-context("Kappa")
-
-# ------------------------------------------------------------------------------
-
 test_that("two class produces identical results regardless of level order", {
   lst <- data_altman()
   df <- lst$pathology

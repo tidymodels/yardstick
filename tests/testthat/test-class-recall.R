@@ -1,7 +1,3 @@
-context("Recall")
-
-# ------------------------------------------------------------------------------
-
 test_that('Two class - Powers paper', {
   lst <- data_powers()
   tabl_2_1 <- lst$tabl_2_1

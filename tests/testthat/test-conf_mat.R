@@ -1,7 +1,3 @@
-context("Confusion matrix")
-
-###################################################################
-
 test_that('Three class format', {
   lst <- data_three_class()
   three_class <- lst$three_class

@@ -1,5 +1,3 @@
-context("Error handling")
-
 # Bad input --------------------------------------------------------------------
 
 test_that('bad args', {

@@ -1,5 +1,3 @@
-context("Accuracy")
-
 # ------------------------------------------------------------------------------
 
 test_that("two class produces identical results regardless of level order", {

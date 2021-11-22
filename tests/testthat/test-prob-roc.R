@@ -1,7 +1,3 @@
-context("ROC Curve/AUC")
-
-# ------------------------------------------------------------------------------
-
 test_that('Two class', {
   roc_curv <- pROC::roc(
     two_class_example$truth,

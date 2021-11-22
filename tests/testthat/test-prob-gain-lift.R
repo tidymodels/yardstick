@@ -1,5 +1,3 @@
-context("Gain and lift curves")
-
 # Basic tests ------------------------------------------------------------------
 
 # known answers

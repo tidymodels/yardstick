@@ -1,5 +1,3 @@
-context("AUNP")
-
 test_that("AUNP is equivalent to macro_weighted estimator", {
   hpc_f1 <- data_hpc_fold1()
 

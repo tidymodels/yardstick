@@ -1,7 +1,3 @@
-context("Mean Log Loss")
-
-# ------------------------------------------------------------------------------
-
 test_that("`event_level = 'second'` works", {
   df <- two_class_example
 

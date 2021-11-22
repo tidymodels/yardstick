@@ -1,6 +1,3 @@
-context("Autoplot")
-
-library(testthat)
 library(dplyr)
 library(ggplot2)
 

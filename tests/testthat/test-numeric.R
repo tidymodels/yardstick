@@ -1,8 +1,3 @@
-context("Numeric metrics")
-
-library(testthat)
-library(yardstick)
-
 set.seed(1812)
 ex_dat <- data.frame(obs = rnorm(50))
 ex_dat$pred <- .2 + 1.1 * ex_dat$obs + rnorm(50, sd = 0.5)

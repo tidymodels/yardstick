@@ -1,5 +1,3 @@
-context("flatten()")
-
 lst <- data_three_class()
 three_class <- lst$three_class
 three_class_tb <- lst$three_class_tb

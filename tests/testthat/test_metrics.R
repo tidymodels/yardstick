@@ -1,7 +1,3 @@
-context("metrics() and metric_set()")
-
-library(testthat)
-library(yardstick)
 library(dplyr)
 
 set.seed(1311)
