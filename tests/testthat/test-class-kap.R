@@ -36,7 +36,8 @@ test_that('Three class', {
   )
   expect_equal(
     kap(three_class, obs, pred_na)[[".estimate"]],
-    -0.1570248
+    -0.1570248,
+    tolerance = 0.000001
   )
   expect_equal(
     colnames(kap(three_class, truth = "obs", estimate = "pred")),
