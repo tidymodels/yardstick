@@ -183,22 +183,24 @@ prediction (<code>pred</code>) and columns for each class probability
 the resample indicator is included.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 'data.frame':	3467 obs. of  7 variables:
-#&gt;  $ obs     : Factor w/ 4 levels "VF","F","M","L": 1 1 1 1 1 1 1 1 1 1 ...
-#&gt;  $ pred    : Factor w/ 4 levels "VF","F","M","L": 1 1 1 1 1 1 1 1 1 1 ...
-#&gt;  $ VF      : num  0.914 0.938 0.947 0.929 0.942 ...
-#&gt;  $ F       : num  0.0779 0.0571 0.0495 0.0653 0.0543 ...
-#&gt;  $ M       : num  0.00848 0.00482 0.00316 0.00579 0.00381 ...
-#&gt;  $ L       : num  1.99e-05 1.01e-05 5.00e-06 1.56e-05 7.29e-06 ...
-#&gt;  $ Resample: chr  "Fold01" "Fold01" "Fold01" "Fold01" ...</div><div class='input'>
-<span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span>
-<span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
-<span class='co'># section in any classification function (such as `?pr_auc`) to see how</span>
-<span class='co'># to change this.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>$</span><span class='va'>obs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "VF" "F"  "M"  "L" </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 'data.frame':	3467 obs. of  7 variables:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ obs     : Factor w/ 4 levels "VF","F","M","L": 1 1 1 1 1 1 1 1 1 1 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ pred    : Factor w/ 4 levels "VF","F","M","L": 1 1 1 1 1 1 1 1 1 1 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ VF      : num  0.914 0.938 0.947 0.929 0.942 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ F       : num  0.0779 0.0571 0.0495 0.0653 0.0543 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ M       : num  0.00848 0.00482 0.00316 0.00579 0.00381 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ L       : num  1.99e-05 1.01e-05 5.00e-06 1.56e-05 7.29e-06 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ Resample: chr  "Fold01" "Fold01" "Fold01" "Fold01" ...</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span></span>
+<span class='r-in'><span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span></span>
+<span class='r-in'><span class='co'># section in any classification function (such as `?pr_auc`) to see how</span></span>
+<span class='r-in'><span class='co'># to change this.</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>$</span><span class='va'>obs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "VF" "F"  "M"  "L" </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
