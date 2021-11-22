@@ -1,7 +1,3 @@
-context("Precision")
-
-# ------------------------------------------------------------------------------
-
 test_that('Two class - Powers paper', {
   lst <- data_powers()
   tabl_2_1 <- lst$tabl_2_1
@@ -41,16 +37,11 @@ test_that("Binary `precision()` returns `NA` with a warning when undefined (tp +
   truth <- factor("a", levels = c("a", "b"))
   estimate <- factor("b", levels = c("a", "b"))
 
-  expect_warning(
-    expect_equal(
-      precision_vec(truth, estimate),
-      NA_real_
-    )
+  expect_snapshot(
+    out <- precision_vec(truth, estimate)
   )
 
-  cnd <- rlang::catch_cnd(precision_vec(truth, estimate))
-  expect_known_output(cat(cnd$message), test_path("test-class-precision-warning-binary.txt"), print = TRUE)
-  expect_s3_class(cnd, "yardstick_warning_precision_undefined_binary")
+  expect_identical(out, NA_real_)
 })
 
 test_that("Multiclass `precision()` returns averaged value with `NA`s removed + a warning when undefined (tp + fp = 0) (#98)", {
@@ -62,7 +53,9 @@ test_that("Multiclass `precision()` returns averaged value with `NA`s removed + 
   # When `c` is the event we get a warning
   truth <- factor(c("a", "b", "c"), levels = levels)
   estimate <- factor(rep("d", 3), levels)
-  expect_warning(expect_equal(precision_vec(truth, estimate), 0))
+
+  expect_snapshot(out <- precision_vec(truth, estimate))
+  expect_identical(out, 0)
 
   # When `d` is the event we get precision = 0
   # When `a` is the event we get precision = 1
@@ -70,11 +63,9 @@ test_that("Multiclass `precision()` returns averaged value with `NA`s removed + 
   # When `c` is the event we get a warning
   truth <- factor(c("a", "b", "c"), levels = levels)
   estimate <- factor(c("a", "d", "b"), levels)
-  expect_warning(expect_equal(precision_vec(truth, estimate), 1/3))
 
-  cnd <- rlang::catch_cnd(precision_vec(truth, estimate))
-  expect_known_output(cat(cnd$message), test_path("test-class-precision-warning-multiclass.txt"), print = TRUE)
-  expect_s3_class(cnd, "yardstick_warning_precision_undefined_multiclass")
+  expect_snapshot(out <- precision_vec(truth, estimate))
+  expect_identical(out, 1/3)
 })
 
 test_that("`NA` is still returned if there are some undefined precision values but `na.rm = FALSE`", {

@@ -1,8 +1,3 @@
-context("Numeric metrics")
-
-library(testthat)
-library(yardstick)
-
 set.seed(1812)
 ex_dat <- data.frame(obs = rnorm(50))
 ex_dat$pred <- .2 + 1.1 * ex_dat$obs + rnorm(50, sd = 0.5)
@@ -49,10 +44,10 @@ test_that('R^2', {
 
 test_that("yardstick correlation warnings are thrown", {
   cnd <- rlang::catch_cnd(rsq_vec(c(1, 2), c(1, 1)))
-  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
+  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
 
   cnd <- rlang::catch_cnd(rsq_vec(c(1, 1), c(1, 2)))
-  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_truth")
+  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_truth")
 })
 
 ###################################################################
@@ -141,13 +136,13 @@ test_that('Concordance Correlation Coefficient', {
     ccc(ex_dat, truth = "obs", estimate = "pred", bias = TRUE)[[".estimate"]],
     # epiR::epi.ccc(x = ex_dat$obs, y = ex_dat$pred)
     0.8322669,
-    tol = 0.001
+    tolerance = 0.001
   )
   expect_equal(
     ccc(ex_dat, truth = obs, estimate = "pred_na", bias = TRUE)[[".estimate"]],
     # epiR::epi.ccc(x = ex_dat$obs[-ind], y = ex_dat$pred_na[-ind])
     0.8161879,
-    tol = 0.001
+    tolerance = 0.001
   )
 })
 
@@ -352,10 +347,10 @@ test_that("iic() is NaN if truth/estimate are equivalent", {
 
 test_that("yardstick correlation warnings are thrown", {
   cnd <- rlang::catch_cnd(iic_vec(c(1, 2), c(1, 1)))
-  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
+  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
 
   cnd <- rlang::catch_cnd(iic_vec(c(1, 1), c(1, 2)))
-  expect_is(cnd, "yardstick_warning_correlation_undefined_constant_truth")
+  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_truth")
 })
 
 ###################################################################

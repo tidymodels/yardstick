@@ -1,7 +1,3 @@
-context("Sensitivity")
-
-# ------------------------------------------------------------------------------
-
 test_that('Two class', {
   lst <- data_altman()
   pathology <- lst$pathology
@@ -80,16 +76,8 @@ test_that("Binary `sens()` returns `NA` with a warning when undefined (tp + fn =
   truth    <- factor(c("b", "b"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
 
-  expect_warning(
-    expect_equal(
-      sens_vec(truth, estimate),
-      NA_real_
-    )
-  )
-
-  cnd <- rlang::catch_cnd(sens_vec(truth, estimate))
-  expect_known_output(cat(cnd$message), test_path("test-class-sens-warning-binary.txt"), print = TRUE)
-  expect_s3_class(cnd, "yardstick_warning_sens_undefined_binary")
+  expect_snapshot(out <- sens_vec(truth, estimate))
+  expect_identical(out, NA_real_)
 })
 
 test_that("Multiclass `sens()` returns averaged value with `NA`s removed + a warning when undefined (tp + fn = 0) (#98)", {
@@ -101,11 +89,9 @@ test_that("Multiclass `sens()` returns averaged value with `NA`s removed + a war
   # When `c` is the event we get a warning = NA  = (tp = 0, fn = 0)
   truth    <- factor(c("a", "d", "d"), levels = levels)
   estimate <- factor(c("a", "d", "c"), levels = levels)
-  expect_warning(expect_equal(sens_vec(truth, estimate), 0.75))
 
-  cnd <- rlang::catch_cnd(sens_vec(truth, estimate))
-  expect_known_output(cat(cnd$message), test_path("test-class-sens-warning-multiclass.txt"), print = TRUE)
-  expect_s3_class(cnd, "yardstick_warning_sens_undefined_multiclass")
+  expect_snapshot(out <- sens_vec(truth, estimate))
+  expect_identical(out, 0.75)
 })
 
 test_that("`NA` is still returned if there are some undefined sens values but `na.rm = FALSE`", {

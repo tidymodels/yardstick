@@ -1,5 +1,3 @@
-context("Global option: yardstick.event_first")
-
 lst <- data_altman()
 pathology <- lst$pathology
 path_tbl <- lst$path_tbl

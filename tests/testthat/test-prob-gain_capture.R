@@ -1,5 +1,3 @@
-context("Gain capture")
-
 # Perfect ----------------------------------------------------------------------
 
 # Perfect gain capture with .5 threshold

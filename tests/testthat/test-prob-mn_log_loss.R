@@ -1,7 +1,3 @@
-context("Mean Log Loss")
-
-# ------------------------------------------------------------------------------
-
 test_that("`event_level = 'second'` works", {
   df <- two_class_example
 
@@ -59,12 +55,12 @@ test_that("Issue #29", {
   expect_equal(
     mn_log_loss(x[1:2,], truth = truth, No)[[".estimate"]],
     0.9844328,
-    tol = .0001
+    tolerance = .0001
   )
   expect_equal(
     mn_log_loss(x, truth = truth, No)[[".estimate"]],
     12.6708396674381,
-    tol = .0001
+    tolerance = .0001
   )
 })
 

@@ -1,9 +1,3 @@
-context("Autoplot")
-
-library(testthat)
-library(dplyr)
-library(ggplot2)
-
 # As of R 3.6, cannot rely on old sample() results to be the same.
 # Pre R 3.6, they were generated like this, and we have saved them
 # as static values to be more reproducible
@@ -19,31 +13,31 @@ library(ggplot2)
 #   simplify = FALSE
 # )
 
-# saveRDS(object = resample_idx, file = testthat::test_path("test_autoplot.rds"))
-resample_idx <- readRDS(testthat::test_path("test_autoplot.rds"))
+# saveRDS(object = resample_idx, file = test_path("data/test_autoplot.rds"))
+resample_idx <- readRDS(test_path("data/test_autoplot.rds"))
 
-two_class_resamples <- bind_rows(
+two_class_resamples <- dplyr::bind_rows(
   lapply(resample_idx, function(idx) two_class_example[idx,]),
   .id = "Resample"
 ) %>%
-  group_by(Resample)
+  dplyr::group_by(Resample)
 
 # make it smaller, and order it in the same order as what ggplot2 displays
-hpc_cv2 <- filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")) %>%
-  as_tibble() %>%
-  group_by(Resample) %>%
-  arrange(as.character(obs)) %>%
-  ungroup()
+hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")) %>%
+  dplyr::as_tibble() %>%
+  dplyr::group_by(Resample) %>%
+  dplyr::arrange(as.character(obs)) %>%
+  dplyr::ungroup()
 
 # ROC --------------------------------------------------------------------------
 
 test_that("ROC Curve - two class", {
   res <- roc_curve(two_class_example, truth, Class1)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # x and y data
   expect_equal(1 - res$specificity, .plot_data$data[[1]]$x)
@@ -57,10 +51,10 @@ test_that("ROC Curve - two class", {
 test_that("ROC Curve - two class, with resamples", {
   res <- roc_curve(two_class_resamples, truth, Class1)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   expect_equal(1 - res$specificity, .plot_data$data[[1]]$x)
   expect_equal(res$sensitivity, .plot_data$data[[1]]$y)
@@ -72,27 +66,27 @@ test_that("ROC Curve - two class, with resamples", {
 test_that("ROC Curve - multi class", {
   res <- roc_curve(hpc_cv2, obs, VF:L)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # 4 panels
   expect_equal(nrow(.plot_data$data[[2]]), 4)
 })
 
 test_that("ROC Curve - multi class, with resamples", {
-  res <- roc_curve(group_by(hpc_cv2, Resample), obs, VF:L)
+  res <- roc_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
   expect_true("Resample" %in% colnames(res))
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # 4 panels
   expect_equal(nrow(.plot_data$data[[2]]), 4)
@@ -103,10 +97,10 @@ test_that("ROC Curve - multi class, with resamples", {
 test_that("PR Curve - two class", {
   res <- pr_curve(two_class_example, truth, Class1)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # x and y data
   expect_equal(res$recall, .plot_data$data[[1]]$x)
@@ -117,10 +111,10 @@ test_that("PR Curve - two class", {
 test_that("PR Curve - two class, with resamples", {
   res <- pr_curve(two_class_resamples, truth, Class1)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   expect_equal(res$recall, .plot_data$data[[1]]$x)
   expect_equal(res$precision, .plot_data$data[[1]]$y)
@@ -132,27 +126,27 @@ test_that("PR Curve - two class, with resamples", {
 test_that("PR Curve - multi class", {
   res <- pr_curve(hpc_cv2, obs, VF:L)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # 4 panels
   expect_equal(length(unique(.plot_data$data[[1]]$PANEL)), 4)
 })
 
 test_that("PR Curve - multi class, with resamples", {
-  res <- pr_curve(group_by(hpc_cv2, Resample), obs, VF:L)
+  res <- pr_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
   expect_true("Resample" %in% colnames(res))
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # 4 panels
   expect_equal(length(unique(.plot_data$data[[1]]$PANEL)), 4)
@@ -166,10 +160,10 @@ test_that("PR Curve - multi class, with resamples", {
 test_that("Gain Curve - two class", {
   res <- gain_curve(two_class_example, truth, Class1)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # x and y data
   expect_equal(res$.percent_tested, .plot_data$data[[2]]$x)
@@ -183,10 +177,10 @@ test_that("Gain Curve - two class", {
 test_that("Gain Curve - two class, with resamples", {
   res <- gain_curve(two_class_resamples, truth, Class1)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   expect_equal(res$.percent_tested, .plot_data$data[[2]]$x)
   expect_equal(res$.percent_found, .plot_data$data[[2]]$y)
@@ -201,12 +195,12 @@ test_that("Gain Curve - two class, with resamples", {
 test_that("Gain Curve - multi class", {
   res <- gain_curve(hpc_cv2, obs, VF:L)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # 4 panels
   expect_equal(length(unique(.plot_data$data[[2]]$PANEL)), 4)
@@ -218,15 +212,15 @@ test_that("Gain Curve - multi class", {
 })
 
 test_that("Gain Curve - multi class, with resamples", {
-  res <- gain_curve(group_by(hpc_cv2, Resample), obs, VF:L)
+  res <- gain_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
   expect_true("Resample" %in% colnames(res))
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # 4 panels
   expect_equal(length(unique(.plot_data$data[[2]]$PANEL)), 4)
@@ -245,10 +239,10 @@ test_that("Gain Curve - multi class, with resamples", {
 test_that("Lift Curve - two class", {
   res <- lift_curve(two_class_example, truth, Class1)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # first row has NA and is removed
   res <- res[-1,]
@@ -268,16 +262,16 @@ test_that("Lift Curve - two class", {
 test_that("Lift Curve - two class, with resamples", {
   res <- lift_curve(two_class_resamples, truth, Class1)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # 10 rows removed (the 0 event rows)
   expect_equal(nrow(.plot_data$data[[1]]), nrow(res) - 10)
 
   # 0 event rows are removed before plotting
-  res <- filter(res, .n_events != 0)
+  res <- dplyr::filter(res, .n_events != 0)
 
   expect_equal(res$.percent_tested, .plot_data$data[[1]]$x)
   expect_equal(res$.lift, .plot_data$data[[1]]$y)
@@ -290,12 +284,12 @@ test_that("Lift Curve - two class, with resamples", {
 test_that("Lift Curve - multi class", {
   res <- lift_curve(hpc_cv2, obs, VF:L)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # 4 panels
   expect_equal(length(unique(.plot_data$data[[1]]$PANEL)), 4)
@@ -303,15 +297,15 @@ test_that("Lift Curve - multi class", {
 })
 
 test_that("Lift Curve - multi class, with resamples", {
-  res <- lift_curve(group_by(hpc_cv2, Resample), obs, VF:L)
+  res <- lift_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
-  expect_error(.plot <- autoplot(res), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res), NA)
+  expect_s3_class(.plot, "gg")
 
   expect_true(".level" %in% colnames(res))
   expect_true("Resample" %in% colnames(res))
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # 4 panels
   expect_equal(length(unique(.plot_data$data[[1]]$PANEL)), 4)
@@ -324,16 +318,16 @@ test_that("Lift Curve - multi class, with resamples", {
 test_that("Confusion Matrix - type argument", {
   res <- conf_mat(two_class_example, truth, predicted)
 
-  expect_error(.plot <- autoplot(res, type = "wrong"), "type")
+  expect_error(.plot <- ggplot2::autoplot(res, type = "wrong"), "type")
 })
 
 test_that("Confusion Matrix - two class - heatmap", {
   res <- conf_mat(two_class_example, truth, predicted)
 
-  expect_error(.plot <- autoplot(res, type = "heatmap"), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res, type = "heatmap"), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
 
   # 4 panes
@@ -342,13 +336,13 @@ test_that("Confusion Matrix - two class - heatmap", {
 
 test_that("Confusion Matrix - multi class - heatmap", {
   res <- hpc_cv %>%
-    filter(Resample == "Fold01") %>%
+    dplyr::filter(Resample == "Fold01") %>%
     conf_mat(obs, pred)
 
-  expect_error(.plot <- autoplot(res, type = "heatmap"), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res, type = "heatmap"), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
 
   # panes
@@ -361,31 +355,31 @@ test_that("Confusion Matrix - multi class - heatmap", {
 })
 
 test_that("Confusion Matrix - heatmap - can use non-standard labels (#157, #191)", {
-  df <- filter(hpc_cv, Resample == "Fold01")
+  df <- dplyr::filter(hpc_cv, Resample == "Fold01")
 
   res1 <- conf_mat(df, obs, pred, dnn = c("Pred", "True"))
-  expect_error(p1 <- autoplot(res1, type = "heatmap"), NA)
+  expect_error(p1 <- ggplot2::autoplot(res1, type = "heatmap"), NA)
   expect_identical(p1$labels$x, "True")
   expect_identical(p1$labels$y, "Pred")
 
   # Defaults are used when there are no names
   res2 <- conf_mat(df, obs, pred, dnn = NULL)
-  expect_error(p2 <- autoplot(res2, type = "heatmap"), NA)
+  expect_error(p2 <- ggplot2::autoplot(res2, type = "heatmap"), NA)
   expect_identical(p2$labels$x, "Truth")
   expect_identical(p2$labels$y, "Prediction")
 })
 
 test_that("Confusion Matrix - mosaic - can use non-standard labels (#191)", {
-  df <- filter(hpc_cv, Resample == "Fold01")
+  df <- dplyr::filter(hpc_cv, Resample == "Fold01")
 
   res1 <- conf_mat(df, obs, pred, dnn = c("Pred", "True"))
-  expect_error(p1 <- autoplot(res1, type = "mosaic"), NA)
+  expect_error(p1 <- ggplot2::autoplot(res1, type = "mosaic"), NA)
   expect_identical(p1$labels$x, "True")
   expect_identical(p1$labels$y, "Pred")
 
   # Defaults are used when there are no names
   res2 <- conf_mat(df, obs, pred, dnn = NULL)
-  expect_error(p2 <- autoplot(res2, type = "mosaic"), NA)
+  expect_error(p2 <- ggplot2::autoplot(res2, type = "mosaic"), NA)
   expect_identical(p2$labels$x, "Truth")
   expect_identical(p2$labels$y, "Prediction")
 })
@@ -393,10 +387,10 @@ test_that("Confusion Matrix - mosaic - can use non-standard labels (#191)", {
 test_that("Confusion Matrix - two class - mosaic", {
   res <- conf_mat(two_class_example, truth, predicted)
 
-  expect_error(.plot <- autoplot(res, type = "mosaic"), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res, type = "mosaic"), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
 
   # 4 panes
@@ -405,13 +399,13 @@ test_that("Confusion Matrix - two class - mosaic", {
 
 test_that("Confusion Matrix - multi class - mosaic", {
   res <- hpc_cv %>%
-    filter(Resample == "Fold01") %>%
+    dplyr::filter(Resample == "Fold01") %>%
     conf_mat(obs, pred)
 
-  expect_error(.plot <- autoplot(res, type = "mosaic"), NA)
-  expect_is(.plot, "gg")
+  expect_error(.plot <- ggplot2::autoplot(res, type = "mosaic"), NA)
+  expect_s3_class(.plot, "gg")
 
-  .plot_data <- ggplot_build(.plot)
+  .plot_data <- ggplot2::ggplot_build(.plot)
 
   # panes
   expect_equal(nrow(.plot_data$data[[1]]), length(res$table))

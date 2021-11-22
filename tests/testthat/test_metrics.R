@@ -1,9 +1,3 @@
-context("metrics() and metric_set()")
-
-library(testthat)
-library(yardstick)
-library(dplyr)
-
 set.seed(1311)
 three_class <- data.frame(obs = iris$Species,
                           pred = sample(iris$Species, replace = TRUE))
@@ -143,19 +137,19 @@ test_that("can supply `event_level` even with metrics that don't use it", {
 })
 
 test_that('metric set functions are classed', {
-  expect_is(
+  expect_s3_class(
     metric_set(accuracy, roc_auc),
     "class_prob_metric_set"
   )
-  expect_is(
+  expect_s3_class(
     metric_set(mae),
     "numeric_metric_set"
   )
-  expect_is(
+  expect_s3_class(
     metric_set(accuracy, roc_auc),
     "metric_set"
   )
-  expect_is(
+  expect_s3_class(
     metric_set(mae),
     "metric_set"
   )
@@ -215,10 +209,7 @@ test_that("`metric_set()` labeling remove namespaces", {
 })
 
 test_that("print metric_set works", {
-  verify_output(test_path("test-print-metric_set.txt"), {
-    multi_metric <- metric_set(rmse, rsq, ccc)
-    print(multi_metric)
-  })
+  expect_snapshot(metric_set(rmse, rsq, ccc))
 })
 
 test_that("metric_set can be coerced to a tibble", {

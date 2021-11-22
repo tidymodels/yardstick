@@ -1,5 +1,3 @@
-context("PR Curve/AUC")
-
 # originally this test checked against:
 # MLmetrics::PRAUC(two_class_example$Class1, ifelse(two_class_example$truth == lvls[1], 1, 0))
 # 0.942570731650901
@@ -238,10 +236,11 @@ test_that("PR - zero row data frame works", {
 
   class(expect) <- c("pr_df", class(expect))
 
-  expect_identical(
-    expect_warning(pr_curve(df, y, x)),
-    expect
+  expect_snapshot(
+    out <- pr_curve(df, y, x)
   )
+
+  expect_identical(out, expect)
 })
 
 test_that("PR - No `truth` gives `NaN` recall values", {

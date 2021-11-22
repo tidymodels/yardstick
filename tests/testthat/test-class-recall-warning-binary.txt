@@ -1,3 +1,0 @@
-While computing binary `recall()`, no true events were detected (i.e. `true_positive + false_negative = 0`). 
-Recall is undefined in this case, and `NA` will be returned.
-Note that 1 predicted event(s) actually occured for the problematic event level, 'a'.

@@ -1,5 +1,3 @@
-context("AUNU")
-
 test_that("AUNU is equivalent to macro estimator", {
   hpc_f1 <- data_hpc_fold1()
 
