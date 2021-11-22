@@ -211,10 +211,7 @@ test_that("`metric_set()` labeling remove namespaces", {
 })
 
 test_that("print metric_set works", {
-  verify_output(test_path("test-print-metric_set.txt"), {
-    multi_metric <- metric_set(rmse, rsq, ccc)
-    print(multi_metric)
-  })
+  expect_snapshot(metric_set(rmse, rsq, ccc))
 })
 
 test_that("metric_set can be coerced to a tibble", {
