@@ -3,7 +3,6 @@
 \name{lift_curve}
 \alias{lift_curve}
 \alias{lift_curve.data.frame}
-\alias{autoplot.lift_df}
 \title{Lift curve}
 \usage{
 lift_curve(data, ...)
@@ -15,8 +14,6 @@ lift_curve(data, ...)
   na_rm = TRUE,
   event_level = yardstick_event_level()
 )
-
-autoplot.lift_df(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}

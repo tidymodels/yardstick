@@ -162,7 +162,6 @@ pr_curve_multiclass <- function(truth, estimate) {
 
 
 # Dynamically exported
-#' @rdname pr_curve
 autoplot.pr_df <- function(object, ...) {
 
   `%+%` <- ggplot2::`%+%`

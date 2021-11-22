@@ -3,7 +3,6 @@
 \name{roc_curve}
 \alias{roc_curve}
 \alias{roc_curve.data.frame}
-\alias{autoplot.roc_df}
 \title{Receiver operator curve}
 \usage{
 roc_curve(data, ...)
@@ -16,8 +15,6 @@ roc_curve(data, ...)
   na_rm = TRUE,
   event_level = yardstick_event_level()
 )
-
-autoplot.roc_df(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}

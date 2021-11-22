@@ -3,7 +3,6 @@
 \name{gain_curve}
 \alias{gain_curve}
 \alias{gain_curve.data.frame}
-\alias{autoplot.gain_df}
 \title{Gain curve}
 \usage{
 gain_curve(data, ...)
@@ -15,8 +14,6 @@ gain_curve(data, ...)
   na_rm = TRUE,
   event_level = yardstick_event_level()
 )
-
-autoplot.gain_df(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}

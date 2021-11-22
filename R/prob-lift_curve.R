@@ -130,7 +130,6 @@ lift_curve_vec <- function(truth,
 
 # dynamically exported in .onLoad()
 
-#' @rdname lift_curve
 autoplot.lift_df <- function(object, ...) {
 
   `%+%` <- ggplot2::`%+%`

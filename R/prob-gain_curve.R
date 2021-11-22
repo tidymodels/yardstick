@@ -227,7 +227,6 @@ gain_curve_binary_impl <- function(truth, estimate) {
 
 # dynamically exported in .onLoad()
 
-#' @rdname gain_curve
 autoplot.gain_df <- function(object, ...) {
 
   `%+%` <- ggplot2::`%+%`

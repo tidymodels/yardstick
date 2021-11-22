@@ -285,10 +285,6 @@ summary.conf_mat <- function(object,
 }
 
 # Dynamically exported
-#' @rdname conf_mat
-#' @param type Type of plot desired, must be `"mosaic"` or `"heatmap"`,
-#'   defaults to `"mosaic"`.
-#' @param object The `conf_mat` data frame returned from `conf_mat()`.
 autoplot.conf_mat <- function(object, type = "mosaic", ...) {
   type <- rlang::arg_match(type, conf_mat_plot_types)
 

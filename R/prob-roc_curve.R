@@ -199,7 +199,6 @@ roc_curve_multiclass <- function(truth, estimate, options) {
 
 
 # Dynamically exported
-#' @rdname roc_curve
 autoplot.roc_df <- function(object, ...) {
 
   `%+%` <- ggplot2::`%+%`

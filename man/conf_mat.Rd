@@ -6,7 +6,6 @@
 \alias{conf_mat.default}
 \alias{conf_mat.data.frame}
 \alias{tidy.conf_mat}
-\alias{autoplot.conf_mat}
 \title{Confusion Matrix for Categorical Data}
 \usage{
 conf_mat(data, ...)
@@ -14,8 +13,6 @@ conf_mat(data, ...)
 \method{conf_mat}{data.frame}(data, truth, estimate, dnn = c("Prediction", "Truth"), ...)
 
 \method{tidy}{conf_mat}(x, ...)
-
-autoplot.conf_mat(object, type = "mosaic", ...)
 }
 \arguments{
 \item{data}{A data frame or a \code{\link[base:table]{base::table()}}.}
@@ -38,11 +35,6 @@ unquoted variable name. For \verb{_vec()} functions, a \code{factor} vector.}
 \item{dnn}{A character vector of dimnames for the table.}
 
 \item{x}{A \code{conf_mat} object.}
-
-\item{object}{The \code{conf_mat} data frame returned from \code{conf_mat()}.}
-
-\item{type}{Type of plot desired, must be \code{"mosaic"} or \code{"heatmap"},
-defaults to \code{"mosaic"}.}
 }
 \value{
 \code{conf_mat()} produces an object with class \code{conf_mat}. This contains the

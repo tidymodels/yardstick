@@ -3,14 +3,11 @@
 \name{pr_curve}
 \alias{pr_curve}
 \alias{pr_curve.data.frame}
-\alias{autoplot.pr_df}
 \title{Precision recall curve}
 \usage{
 pr_curve(data, ...)
 
 \method{pr_curve}{data.frame}(data, truth, ..., na_rm = TRUE, event_level = yardstick_event_level())
-
-autoplot.pr_df(object, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
