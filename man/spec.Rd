@@ -3,8 +3,9 @@
 \name{spec}
 \alias{spec}
 \alias{spec.data.frame}
-\alias{specificity}
 \alias{spec_vec}
+\alias{specificity}
+\alias{specificity.data.frame}
 \alias{specificity_vec}
 \title{Specificity}
 \usage{
@@ -20,9 +21,19 @@ spec(data, ...)
   ...
 )
 
+spec_vec(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  ...
+)
+
 specificity(data, ...)
 
-spec_vec(
+\method{specificity}{data.frame}(
+  data,
   truth,
   estimate,
   estimator = NULL,

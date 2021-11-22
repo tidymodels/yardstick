@@ -121,10 +121,6 @@ sens.matrix <- function(data,
   sens.table(data, estimator, event_level)
 }
 
-#' @rdname sens
-#' @export
-sensitivity <- sens
-
 #' @export
 #' @rdname sens
 sens_vec <- function(truth,
@@ -155,9 +151,68 @@ sens_vec <- function(truth,
 
 }
 
+# ------------------------------------------------------------------------------
+
+#' @rdname sens
+#' @export
+sensitivity <- function(data, ...) {
+  UseMethod("sensitivity")
+}
+sensitivity <- new_class_metric(
+  sensitivity,
+  direction = "maximize"
+)
+
+#' @rdname sens
+#' @export
+sensitivity.data.frame <- function(data,
+                                   truth,
+                                   estimate,
+                                   estimator = NULL,
+                                   na_rm = TRUE,
+                                   event_level = yardstick_event_level(),
+                                   ...) {
+  metric_summarizer(
+    metric_nm = "sensitivity",
+    metric_fn = sens_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    estimator = estimator,
+    na_rm = na_rm,
+    event_level = event_level
+  )
+}
+
+#' @export
+sensitivity.table <- function(data,
+                              estimator = NULL,
+                              event_level = yardstick_event_level(),
+                              ...) {
+  check_table(data)
+  estimator <- finalize_estimator(data, estimator)
+
+  metric_tibbler(
+    .metric = "sensitivity",
+    .estimator = estimator,
+    .estimate = sens_table_impl(data, estimator, event_level)
+  )
+}
+
+#' @export
+sensitivity.matrix <- function(data,
+                               estimator = NULL,
+                               event_level = yardstick_event_level(),
+                               ...) {
+  data <- as.table(data)
+  sensitivity.table(data, estimator, event_level)
+}
+
 #' @rdname sens
 #' @export
 sensitivity_vec <- sens_vec
+
+# ------------------------------------------------------------------------------
 
 # sens() == recall(), so this is a copy paste from there, with altered warning
 # classes

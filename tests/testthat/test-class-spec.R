@@ -101,3 +101,29 @@ test_that("`NA` is still returned if there are some undefined spec values but `n
   expect_equal(spec_vec(truth, estimate, na_rm = FALSE), NA_real_)
   expect_warning(spec_vec(truth, estimate, na_rm = FALSE), NA)
 })
+
+# ------------------------------------------------------------------------------
+
+test_that("`specificity()` has a metric name unique to it (#232)", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+
+  expect_identical(
+    spec(pathology, truth = "pathology", estimate = "scan")[[".metric"]],
+    "spec"
+  )
+  expect_identical(
+    specificity(pathology, truth = "pathology", estimate = "scan")[[".metric"]],
+    "specificity"
+  )
+
+  expect_identical(
+    spec(path_tbl)[[".metric"]],
+    "spec"
+  )
+  expect_identical(
+    specificity(path_tbl)[[".metric"]],
+    "specificity"
+  )
+})
