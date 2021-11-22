@@ -91,10 +91,6 @@ spec.matrix <- function(data,
   spec.table(data, estimator, event_level)
 }
 
-#' @rdname spec
-#' @export
-specificity <- spec
-
 #' @export
 #' @rdname spec
 spec_vec <- function(truth,
@@ -124,9 +120,70 @@ spec_vec <- function(truth,
   )
 }
 
+# ------------------------------------------------------------------------------
+
+#' @rdname spec
+#' @export
+specificity <-  function(data, ...) {
+  UseMethod("specificity")
+}
+specificity <- new_class_metric(
+  specificity,
+  direction = "maximize"
+)
+
+#' @rdname spec
+#' @export
+specificity.data.frame <- function(data,
+                                   truth,
+                                   estimate,
+                                   estimator = NULL,
+                                   na_rm = TRUE,
+                                   event_level = yardstick_event_level(),
+                                   ...) {
+  metric_summarizer(
+    metric_nm = "specificity",
+    metric_fn = spec_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    estimator = estimator,
+    na_rm = na_rm,
+    event_level = event_level
+  )
+}
+
+#' @export
+specificity.table <- function(data,
+                              estimator = NULL,
+                              event_level = yardstick_event_level(),
+                              ...) {
+
+  check_table(data)
+  estimator <- finalize_estimator(data, estimator)
+
+  metric_tibbler(
+    .metric = "specificity",
+    .estimator = estimator,
+    .estimate = spec_table_impl(data, estimator, event_level)
+  )
+
+}
+
+#' @export
+specificity.matrix <- function(data,
+                               estimator = NULL,
+                               event_level = yardstick_event_level(),
+                               ...) {
+  data <- as.table(data)
+  specificity.table(data, estimator, event_level)
+}
+
 #' @rdname spec
 #' @export
 specificity_vec <- spec_vec
+
+# ------------------------------------------------------------------------------
 
 #' @importFrom stats weighted.mean
 spec_table_impl <- function(data, estimator, event_level) {
