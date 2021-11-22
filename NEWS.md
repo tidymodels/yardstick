@@ -1,4 +1,4 @@
-# yardstick (development version)
+# yardstick 0.0.9
 
 * New metric `poisson_log_loss()` was added (#146).
 
