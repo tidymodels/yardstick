@@ -233,21 +233,6 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-roc-curves-1.png"><!-- --></p>
 </div>
-<div id="quasiquotation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quasiquotation" class="anchor"></a>Quasiquotation</h2>
-<p><a href="https://rlang.r-lib.org/reference/quasiquotation.html">Quasiquotation</a> can also be used to supply inputs.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># probability columns:</span>
-<span class="va">lvl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">two_class_example</span><span class="op">$</span><span class="va">truth</span><span class="op">)</span>
-
-<span class="va">two_class_example</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/mn_log_loss.html">mn_log_loss</a></span><span class="op">(</span><span class="va">truth</span>, <span class="op">!</span><span class="op">!</span> <span class="va">lvl</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 × 3</span>
-<span class="co">#&gt;   .metric     .estimator .estimate</span>
-<span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 mn_log_loss binary         0.328</span></code></pre></div>
-</div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
