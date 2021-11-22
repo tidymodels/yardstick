@@ -5,10 +5,9 @@
 
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/main.svg)](https://codecov.io/github/tidymodels/yardstick?branch=main)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/yardstick)](https://CRAN.R-project.org/package=yardstick)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![Downloads](https://cranlogs.r-pkg.org/badges/yardstick)](https://CRAN.R-project.org/package=yardstick)
-[![R build
-status](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/yardstick/actions)
+[![R-CMD-check](https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/yardstick/actions)
 <!-- badges: end -->
 
 ## Overview
