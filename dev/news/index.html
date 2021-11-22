@@ -158,13 +158,13 @@
 <a href="#yardstick-development-version" class="anchor"></a>yardstick (development version)<small> Unreleased </small>
 </h1>
 <ul>
-<li><p>Removed internal hardcoding of <code>"dplyr_error"</code> to avoid issues with an upcoming dplyr 1.0.8 release (<a href='https://github.com/tidymodels/yardstick/issues/244'>#244</a>).</p></li>
-<li><p>Updated test suite to testthat 3e (<a href='https://github.com/tidymodels/yardstick/issues/243'>#243</a>).</p></li>
+<li><p>New metric <code><a href="../reference/poisson_log_loss.html">poisson_log_loss()</a></code> was added (<a href='https://github.com/tidymodels/yardstick/issues/146'>#146</a>).</p></li>
 <li><p><code><a href="../reference/sens.html">sensitivity()</a></code> and <code><a href="../reference/spec.html">specificity()</a></code> now work correctly with the tune and workflowsets packages (<a href='https://github.com/tidymodels/yardstick/issues/232'>#232</a>).</p></li>
 <li><p><code><a href="../reference/roc_curve.html">roc_curve()</a></code> now throws a more informative error if <code>truth</code> doesn’t have any control or event observations.</p></li>
 <li><p>dplyr 1.0.0 is now required. This allowed us to remove multiple usages of <code><a href="https://dplyr.tidyverse.org/reference/do.html">dplyr::do()</a></code> in favor of <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">dplyr::summarise()</a></code>, which can now return packed data frame columns and multiple rows per group.</p></li>
+<li><p>Removed internal hardcoding of <code>"dplyr_error"</code> to avoid issues with an upcoming dplyr 1.0.8 release (<a href='https://github.com/tidymodels/yardstick/issues/244'>#244</a>).</p></li>
+<li><p>Updated test suite to testthat 3e (<a href='https://github.com/tidymodels/yardstick/issues/243'>#243</a>).</p></li>
 <li><p>Internal upkeep has been done to move from <code>rlang::warn(.subclass = )</code> to <code>rlang::warn(class = )</code>, since the <code>.subclass</code> argument has been deprecated (<a href='https://github.com/tidymodels/yardstick/issues/225'>#225</a>).</p></li>
-<li><p>New metric <code><a href="../reference/poisson_log_loss.html">poisson_log_loss()</a></code> was added (<a href='https://github.com/tidymodels/yardstick/issues/146'>#146</a>).</p></li>
 </ul>
 </div>
     <div id="yardstick-008" class="section level1">
