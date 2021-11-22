@@ -153,23 +153,6 @@ hpc_cv %>%
 
 ![](man/figures/README-roc-curves-1.png)<!-- -->
 
-## Quasiquotation
-
-[Quasiquotation](https://rlang.r-lib.org/reference/quasiquotation.html)
-can also be used to supply inputs.
-
-``` r
-# probability columns:
-lvl <- levels(two_class_example$truth)
-
-two_class_example %>% 
-  mn_log_loss(truth, !! lvl[1])
-#> # A tibble: 1 × 3
-#>   .metric     .estimator .estimate
-#>   <chr>       <chr>          <dbl>
-#> 1 mn_log_loss binary         0.328
-```
-
 ## Contributing
 
 This project is released with a [Contributor Code of
