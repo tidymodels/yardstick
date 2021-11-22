@@ -3,8 +3,8 @@ test_that('Three class format', {
   three_class <- lst$three_class
   three_class_tb <- lst$three_class_tb
 
-  expect_equivalent(
-   conf_mat(three_class, truth = "obs", estimate = "pred")$table,
+  expect_identical(
+   conf_mat(three_class, truth = "obs", estimate = "pred", dnn = c("", ""))$table,
    three_class_tb
  )
 })
@@ -92,15 +92,15 @@ test_that("Grouped conf_mat() handler works", {
 })
 
 test_that('Multilevel table -> conf_mat', {
-  expect_equivalent(
-    conf_mat(table(hpc_cv$pred, hpc_cv$obs)),
+  expect_identical(
+    conf_mat(table(hpc_cv$pred, hpc_cv$obs, dnn = c("Prediction", "Truth"))),
     conf_mat(hpc_cv, obs, pred)
   )
 })
 
 test_that('Multilevel matrix -> conf_mat', {
-  expect_equivalent(
-    conf_mat(as.matrix(table(hpc_cv$pred, hpc_cv$obs))),
+  expect_identical(
+    conf_mat(as.matrix(table(hpc_cv$pred, hpc_cv$obs, dnn = c("Prediction", "Truth")))),
     conf_mat(hpc_cv, obs, pred)
   )
 })
