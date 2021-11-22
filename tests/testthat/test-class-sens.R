@@ -115,3 +115,29 @@ test_that("`NA` is still returned if there are some undefined sens values but `n
   expect_equal(sens_vec(truth, estimate, na_rm = FALSE), NA_real_)
   expect_warning(sens_vec(truth, estimate, na_rm = FALSE), NA)
 })
+
+# ------------------------------------------------------------------------------
+
+test_that("`sensitivity()` has a metric name unique to it (#232)", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+
+  expect_identical(
+    sens(pathology, truth = "pathology", estimate = "scan")[[".metric"]],
+    "sens"
+  )
+  expect_identical(
+    sensitivity(pathology, truth = "pathology", estimate = "scan")[[".metric"]],
+    "sensitivity"
+  )
+
+  expect_identical(
+    sens(path_tbl)[[".metric"]],
+    "sens"
+  )
+  expect_identical(
+    sensitivity(path_tbl)[[".metric"]],
+    "sensitivity"
+  )
+})

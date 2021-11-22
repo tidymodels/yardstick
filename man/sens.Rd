@@ -3,8 +3,9 @@
 \name{sens}
 \alias{sens}
 \alias{sens.data.frame}
-\alias{sensitivity}
 \alias{sens_vec}
+\alias{sensitivity}
+\alias{sensitivity.data.frame}
 \alias{sensitivity_vec}
 \title{Sensitivity}
 \usage{
@@ -20,9 +21,19 @@ sens(data, ...)
   ...
 )
 
+sens_vec(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  ...
+)
+
 sensitivity(data, ...)
 
-sens_vec(
+\method{sensitivity}{data.frame}(
+  data,
   truth,
   estimate,
   estimator = NULL,
