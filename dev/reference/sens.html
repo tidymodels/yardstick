@@ -176,9 +176,20 @@ Highly related functions are <code><a href='spec.html'>spec()</a></code>, <code>
   <span class='va'>...</span>
 <span class='op'>)</span>
 
+<span class='fu'>sens_vec</span><span class='op'>(</span>
+  <span class='va'>truth</span>,
+  <span class='va'>estimate</span>,
+  estimator <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na_rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  event_level <span class='op'>=</span> <span class='fu'>yardstick_event_level</span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
 <span class='fu'>sensitivity</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>sens_vec</span><span class='op'>(</span>
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>sensitivity</span><span class='op'>(</span>
+  <span class='va'>data</span>,
   <span class='va'>truth</span>,
   <span class='va'>estimate</span>,
   estimator <span class='op'>=</span> <span class='cn'>NULL</span>,
