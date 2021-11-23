@@ -4,16 +4,15 @@
 
 ## revdepcheck results
 
-We checked 19 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 22 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 0 new problems
- * We failed to check 1 packages
+ * We failed to check 0 packages
 
-Issues with CRAN packages are summarised below.
+## Submission 0.0.9
 
-### Failed to check
-
-* tidyposterior (NA)
+This release is mainly to avoid any issues from the upcoming dplyr 1.0.8
+release, but it also includes small bug fixes and a new metric.
 
 ## Submission 0.0.8
 
