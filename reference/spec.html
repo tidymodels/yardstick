@@ -97,7 +97,7 @@ Highly related functions are sens(), ppv(), and npv()." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
@@ -176,9 +176,20 @@ Highly related functions are <code><a href='sens.html'>sens()</a></code>, <code>
   <span class='va'>...</span>
 <span class='op'>)</span>
 
+<span class='fu'>spec_vec</span><span class='op'>(</span>
+  <span class='va'>truth</span>,
+  <span class='va'>estimate</span>,
+  estimator <span class='op'>=</span> <span class='cn'>NULL</span>,
+  na_rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  event_level <span class='op'>=</span> <span class='fu'>yardstick_event_level</span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
 <span class='fu'>specificity</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>spec_vec</span><span class='op'>(</span>
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>specificity</span><span class='op'>(</span>
+  <span class='va'>data</span>,
   <span class='va'>truth</span>,
   <span class='va'>estimate</span>,
   estimator <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -337,71 +348,77 @@ vol 308, 1552.</p>
     <p>Max Kuhn</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Two class</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"two_class_example"</span><span class='op'>)</span>
-<span class='fu'>spec</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>predicted</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> spec    binary         0.793</div><div class='input'>
-<span class='co'># Multiclass</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span>
-
-<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>spec</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> spec    macro          0.886</div><div class='input'>
-<span class='co'># Groups are respected</span>
-<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>spec</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
-#&gt;    Resample .metric .estimator .estimate
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   spec    macro          0.886
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   spec    macro          0.882
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   spec    macro          0.899
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   spec    macro          0.879
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   spec    macro          0.881
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   spec    macro          0.873
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   spec    macro          0.866
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   spec    macro          0.884
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   spec    macro          0.867
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   spec    macro          0.875</div><div class='input'>
-<span class='co'># Weighted macro averaging</span>
-<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>spec</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span>, estimator <span class='op'>=</span> <span class='st'>"macro_weighted"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
-#&gt;    Resample .metric .estimator     .estimate
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   spec    macro_weighted     0.816
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   spec    macro_weighted     0.815
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   spec    macro_weighted     0.839
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   spec    macro_weighted     0.803
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   spec    macro_weighted     0.812
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   spec    macro_weighted     0.795
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   spec    macro_weighted     0.790
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   spec    macro_weighted     0.814
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   spec    macro_weighted     0.795
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   spec    macro_weighted     0.801</div><div class='input'>
-<span class='co'># Vector version</span>
-<span class='fu'>spec_vec</span><span class='op'>(</span>
-  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>truth</span>,
-  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>predicted</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.7933884</div><div class='input'>
-<span class='co'># Making Class2 the "relevant" level</span>
-<span class='fu'>spec_vec</span><span class='op'>(</span>
-  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>truth</span>,
-  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>predicted</span>,
-  event_level <span class='op'>=</span> <span class='st'>"second"</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.879845</div></span></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Two class</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"two_class_example"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>spec</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>predicted</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> spec    binary         0.793</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Multiclass</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>spec</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> spec    macro          0.886</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Groups are respected</span></span>
+<span class='r-in'><span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>spec</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Resample .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Fold01   spec    macro          0.886</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Fold02   spec    macro          0.882</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Fold03   spec    macro          0.899</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Fold04   spec    macro          0.879</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Fold05   spec    macro          0.881</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Fold06   spec    macro          0.873</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Fold07   spec    macro          0.866</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Fold08   spec    macro          0.884</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Fold09   spec    macro          0.867</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Fold10   spec    macro          0.875</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Weighted macro averaging</span></span>
+<span class='r-in'><span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>spec</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span>, estimator <span class='op'>=</span> <span class='st'>"macro_weighted"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Resample .metric .estimator     .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Fold01   spec    macro_weighted     0.816</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Fold02   spec    macro_weighted     0.815</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Fold03   spec    macro_weighted     0.839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Fold04   spec    macro_weighted     0.803</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Fold05   spec    macro_weighted     0.812</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Fold06   spec    macro_weighted     0.795</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Fold07   spec    macro_weighted     0.790</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Fold08   spec    macro_weighted     0.814</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Fold09   spec    macro_weighted     0.795</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Fold10   spec    macro_weighted     0.801</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Vector version</span></span>
+<span class='r-in'><span class='fu'>spec_vec</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>truth</span>,</span>
+<span class='r-in'>  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>predicted</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.7933884</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Making Class2 the "relevant" level</span></span>
+<span class='r-in'><span class='fu'>spec_vec</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>truth</span>,</span>
+<span class='r-in'>  <span class='va'>two_class_example</span><span class='op'>$</span><span class='va'>predicted</span>,</span>
+<span class='r-in'>  event_level <span class='op'>=</span> <span class='st'>"second"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.879845</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

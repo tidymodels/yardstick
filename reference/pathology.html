@@ -95,7 +95,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
@@ -180,11 +180,12 @@ column) versus the more extensive pathology results that
 approximate the truth (in <code>pathology</code>).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>pathology</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>pathology</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 'data.frame':	344 obs. of  2 variables:
-#&gt;  $ pathology: Factor w/ 2 levels "abnorm","norm": 1 1 1 1 1 1 1 1 1 1 ...
-#&gt;  $ scan     : Factor w/ 2 levels "abnorm","norm": 1 1 1 1 1 1 1 1 1 1 ...</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>pathology</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>pathology</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 'data.frame':	344 obs. of  2 variables:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ pathology: Factor w/ 2 levels "abnorm","norm": 1 1 1 1 1 1 1 1 1 1 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ scan     : Factor w/ 2 levels "abnorm","norm": 1 1 1 1 1 1 1 1 1 1 ...</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

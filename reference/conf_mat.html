@@ -95,7 +95,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
@@ -165,9 +165,7 @@
 <span class='fu'>conf_mat</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>truth</span>, <span class='va'>estimate</span>, dnn <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Prediction"</span>, <span class='st'>"Truth"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for conf_mat</span>
-<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>autoplot.conf_mat</span><span class='op'>(</span><span class='va'>object</span>, type <span class='op'>=</span> <span class='st'>"mosaic"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,15 +203,6 @@ unquoted variable name. For <code>_vec()</code> functions, a <code>factor</code>
       <th>x</th>
       <td><p>A <code>conf_mat</code> object.</p></td>
     </tr>
-    <tr>
-      <th>object</th>
-      <td><p>The <code>conf_mat</code> data frame returned from <code>conf_mat()</code>.</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>Type of plot desired, must be <code>"mosaic"</code> or <code>"heatmap"</code>,
-defaults to <code>"mosaic"</code>.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -241,81 +230,86 @@ is implemented.</p>
 confusion matrix.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"hpc_cv"</span><span class='op'>)</span>
-
-<span class='co'># The confusion matrix from a single assessment set (i.e. fold)</span>
-<span class='va'>cm</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>conf_mat</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span>
-<span class='va'>cm</span>
-</div><div class='output co'>#&gt;           Truth
-#&gt; Prediction  VF   F   M   L
-#&gt;         VF 166  33   8   1
-#&gt;         F   11  71  24   7
-#&gt;         M    0   3   5   3
-#&gt;         L    0   1   4  10</div><div class='input'>
-<span class='co'># Now compute the average confusion matrix across all folds in</span>
-<span class='co'># terms of the proportion of the data contained in each cell.</span>
-<span class='co'># First get the raw cell counts per fold using the `tidy` method</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://purrr.tidyverse.org'>purrr</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
-
-<span class='va'>cells_per_resample</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>conf_mat</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>tidied <span class='op'>=</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span><span class='op'>(</span><span class='va'>conf_mat</span>, <span class='va'>tidy</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>unnest</a></span><span class='op'>(</span><span class='va'>tidied</span><span class='op'>)</span>
-
-<span class='co'># Get the totals per resample</span>
-<span class='va'>counts_per_resample</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>total <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>cells_per_resample</span>, by <span class='op'>=</span> <span class='st'>"Resample"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='co'># Compute the proportions</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>prop <span class='op'>=</span> <span class='va'>value</span><span class='op'>/</span><span class='va'>total</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='co'># Average</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>prop <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>prop</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>counts_per_resample</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 16 x 2</span><span>
-#&gt;    name         prop
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> cell_1_1 0.467   
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> cell_1_2 0.107   
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> cell_1_3 0.018</span><span style='text-decoration: underline;'>5</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> cell_1_4 0.002</span><span style='text-decoration: underline;'>59</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> cell_2_1 0.040</span><span style='text-decoration: underline;'>7</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> cell_2_2 0.187   
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> cell_2_3 0.063</span><span style='text-decoration: underline;'>2</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> cell_2_4 0.017</span><span style='text-decoration: underline;'>3</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> cell_3_1 0.001</span><span style='text-decoration: underline;'>73</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> cell_3_2 0.006</span><span style='text-decoration: underline;'>92</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> cell_3_3 0.022</span><span style='text-decoration: underline;'>8</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span> cell_3_4 0.008</span><span style='text-decoration: underline;'>07</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> cell_4_1 0.000</span><span style='text-decoration: underline;'>575</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span> cell_4_2 0.010</span><span style='text-decoration: underline;'>4</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span> cell_4_3 0.014</span><span style='text-decoration: underline;'>4</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>16</span><span> cell_4_4 0.032</span><span style='text-decoration: underline;'>0</span><span>  </div><div class='input'>
-<span class='co'># Now reshape these into a matrix</span>
-<span class='va'>mean_cmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='va'>counts_per_resample</span><span class='op'>$</span><span class='va'>prop</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span>, ncol <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>mean_cmat</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>$</span><span class='va'>obs</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mean_cmat</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>$</span><span class='va'>obs</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>mean_cmat</span>, <span class='fl'>3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       VF     F     M     L
-#&gt; VF 0.467 0.107 0.018 0.003
-#&gt; F  0.041 0.187 0.063 0.017
-#&gt; M  0.002 0.007 0.023 0.008
-#&gt; L  0.001 0.010 0.014 0.032</div><div class='input'>
-<span class='co'># The confusion matrix can quickly be visualized using autoplot()</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
-
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='va'>cm</span>, type <span class='op'>=</span> <span class='st'>"mosaic"</span><span class='op'>)</span>
-</div><div class='img'><img src='conf_mat-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='va'>cm</span>, type <span class='op'>=</span> <span class='st'>"heatmap"</span><span class='op'>)</span>
-</div><div class='img'><img src='conf_mat-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"hpc_cv"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># The confusion matrix from a single assessment set (i.e. fold)</span></span>
+<span class='r-in'><span class='va'>cm</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>conf_mat</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>cm</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           Truth</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Prediction  VF   F   M   L</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         VF 166  33   8   1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         F   11  71  24   7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         M    0   3   5   3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         L    0   1   4  10</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Now compute the average confusion matrix across all folds in</span></span>
+<span class='r-in'><span class='co'># terms of the proportion of the data contained in each cell.</span></span>
+<span class='r-in'><span class='co'># First get the raw cell counts per fold using the `tidy` method</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://purrr.tidyverse.org'>purrr</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>cells_per_resample</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>conf_mat</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>pred</span><span class='op'>)</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>tidied <span class='op'>=</span> <span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span><span class='op'>(</span><span class='va'>conf_mat</span>, <span class='va'>tidy</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/nest.html'>unnest</a></span><span class='op'>(</span><span class='va'>tidied</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Get the totals per resample</span></span>
+<span class='r-in'><span class='va'>counts_per_resample</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>total <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>cells_per_resample</span>, by <span class='op'>=</span> <span class='st'>"Resample"</span><span class='op'>)</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='co'># Compute the proportions</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>prop <span class='op'>=</span> <span class='va'>value</span><span class='op'>/</span><span class='va'>total</span><span class='op'>)</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span> <span class='op'><a href='https://tidyr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='co'># Average</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>prop <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>prop</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>counts_per_resample</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 16 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    name         prop</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> cell_1_1 0.467   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> cell_1_2 0.107   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> cell_1_3 0.018<span style='text-decoration: underline;'>5</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> cell_1_4 0.002<span style='text-decoration: underline;'>59</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> cell_2_1 0.040<span style='text-decoration: underline;'>7</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> cell_2_2 0.187   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> cell_2_3 0.063<span style='text-decoration: underline;'>2</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> cell_2_4 0.017<span style='text-decoration: underline;'>3</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> cell_3_1 0.001<span style='text-decoration: underline;'>73</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> cell_3_2 0.006<span style='text-decoration: underline;'>92</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> cell_3_3 0.022<span style='text-decoration: underline;'>8</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span> cell_3_4 0.008<span style='text-decoration: underline;'>07</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span> cell_4_1 0.000<span style='text-decoration: underline;'>575</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span> cell_4_2 0.010<span style='text-decoration: underline;'>4</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>15</span> cell_4_3 0.014<span style='text-decoration: underline;'>4</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>16</span> cell_4_4 0.032<span style='text-decoration: underline;'>0</span>  </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Now reshape these into a matrix</span></span>
+<span class='r-in'><span class='va'>mean_cmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='va'>counts_per_resample</span><span class='op'>$</span><span class='va'>prop</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span>, ncol <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>mean_cmat</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>$</span><span class='va'>obs</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mean_cmat</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>$</span><span class='va'>obs</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>mean_cmat</span>, <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       VF     F     M     L</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> VF 0.467 0.107 0.018 0.003</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F  0.041 0.187 0.063 0.017</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> M  0.002 0.007 0.023 0.008</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> L  0.001 0.010 0.014 0.032</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># The confusion matrix can quickly be visualized using autoplot()</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='va'>cm</span>, type <span class='op'>=</span> <span class='st'>"mosaic"</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='conf_mat-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='va'>cm</span>, type <span class='op'>=</span> <span class='st'>"heatmap"</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='conf_mat-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

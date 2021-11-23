@@ -94,7 +94,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
@@ -175,13 +175,13 @@
       <tr>
         
         <td>
-          <p><code><a href="sens.html">sens()</a></code> <code><a href="sens.html">sensitivity()</a></code> <code><a href="sens.html">sens_vec()</a></code> <code><a href="sens.html">sensitivity_vec()</a></code> </p>
+          <p><code><a href="sens.html">sens()</a></code> <code><a href="sens.html">sens_vec()</a></code> <code><a href="sens.html">sensitivity()</a></code> <code><a href="sens.html">sensitivity_vec()</a></code> </p>
         </td>
         <td><p>Sensitivity</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="spec.html">spec()</a></code> <code><a href="spec.html">specificity()</a></code> <code><a href="spec.html">spec_vec()</a></code> <code><a href="spec.html">specificity_vec()</a></code> </p>
+          <p><code><a href="spec.html">spec()</a></code> <code><a href="spec.html">spec_vec()</a></code> <code><a href="spec.html">specificity()</a></code> <code><a href="spec.html">specificity_vec()</a></code> </p>
         </td>
         <td><p>Specificity</p></td>
       </tr><tr>
@@ -306,7 +306,7 @@ class distribution</p></td>
         <td>
           <p><code><a href="mn_log_loss.html">mn_log_loss()</a></code> <code><a href="mn_log_loss.html">mn_log_loss_vec()</a></code> </p>
         </td>
-        <td><p>Mean log loss</p></td>
+        <td><p>Mean log loss for multinomial data</p></td>
       </tr><tr>
         
         <td>
@@ -416,6 +416,12 @@ class distribution</p></td>
           <p><code><a href="iic.html">iic()</a></code> <code><a href="iic.html">iic_vec()</a></code> </p>
         </td>
         <td><p>Index of ideality of correlation</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="poisson_log_loss.html">poisson_log_loss()</a></code> <code><a href="poisson_log_loss.html">poisson_log_loss_vec()</a></code> </p>
+        </td>
+        <td><p>Mean log loss for Poisson data</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -432,25 +438,25 @@ class distribution</p></td>
       <tr>
         
         <td>
-          <p><code><a href="roc_curve.html">roc_curve()</a></code> <code><a href="roc_curve.html">autoplot.roc_df()</a></code> </p>
+          <p><code><a href="roc_curve.html">roc_curve()</a></code> </p>
         </td>
         <td><p>Receiver operator curve</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="pr_curve.html">pr_curve()</a></code> <code><a href="pr_curve.html">autoplot.pr_df()</a></code> </p>
+          <p><code><a href="pr_curve.html">pr_curve()</a></code> </p>
         </td>
         <td><p>Precision recall curve</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="gain_curve.html">gain_curve()</a></code> <code><a href="gain_curve.html">autoplot.gain_df()</a></code> </p>
+          <p><code><a href="gain_curve.html">gain_curve()</a></code> </p>
         </td>
         <td><p>Gain curve</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="lift_curve.html">lift_curve()</a></code> <code><a href="lift_curve.html">autoplot.lift_df()</a></code> </p>
+          <p><code><a href="lift_curve.html">lift_curve()</a></code> </p>
         </td>
         <td><p>Lift curve</p></td>
       </tr>
@@ -487,7 +493,7 @@ class distribution</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="conf_mat.html">conf_mat()</a></code> <code><a href="conf_mat.html">tidy(<i>&lt;conf_mat&gt;</i>)</a></code> <code><a href="conf_mat.html">autoplot.conf_mat()</a></code> </p>
+          <p><code><a href="conf_mat.html">conf_mat()</a></code> <code><a href="conf_mat.html">tidy(<i>&lt;conf_mat&gt;</i>)</a></code> </p>
         </td>
         <td><p>Confusion Matrix for Categorical Data</p></td>
       </tr><tr>

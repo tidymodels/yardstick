@@ -96,7 +96,7 @@ recall curve. See pr_curve() for the full curve." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
@@ -281,99 +281,105 @@ the "one" level is always the relevant result.</p>
     <p>Max Kuhn</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># ---------------------------------------------------------------------------</span>
-<span class='co'># Two class example</span>
-
-<span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
-<span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
-<span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>)</span>
-
-<span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span>
-<span class='co'># and a single class probability column containing the probabilities of</span>
-<span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span>
-<span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span>
-<span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> pr_auc  binary         0.946</div><div class='input'>
-<span class='co'># ---------------------------------------------------------------------------</span>
-<span class='co'># Multiclass example</span>
-
-<span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span>
-<span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
-<span class='co'># section above.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span>
-
-<span class='co'># You can use the col1:colN tidyselect syntax</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> pr_auc  macro          0.611</div><div class='input'>
-<span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span>
-<span class='co'># event of interest. The class probability columns should be supplied</span>
-<span class='co'># in the same order as the levels.</span>
-<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>obs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span><span class='op'>(</span><span class='va'>obs</span>, <span class='st'>"M"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>M</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> pr_auc  macro          0.611</div><div class='input'>
-<span class='co'># Groups are respected</span>
-<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
-#&gt;    Resample .metric .estimator .estimate
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   pr_auc  macro          0.611
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   pr_auc  macro          0.620
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   pr_auc  macro          0.689
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   pr_auc  macro          0.680
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   pr_auc  macro          0.620
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   pr_auc  macro          0.650
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   pr_auc  macro          0.607
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   pr_auc  macro          0.650
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   pr_auc  macro          0.628
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   pr_auc  macro          0.603</div><div class='input'>
-<span class='co'># Weighted macro averaging</span>
-<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span>, estimator <span class='op'>=</span> <span class='st'>"macro_weighted"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
-#&gt;    Resample .metric .estimator     .estimate
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   pr_auc  macro_weighted     0.746
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   pr_auc  macro_weighted     0.743
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   pr_auc  macro_weighted     0.789
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   pr_auc  macro_weighted     0.754
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   pr_auc  macro_weighted     0.737
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   pr_auc  macro_weighted     0.743
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   pr_auc  macro_weighted     0.748
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   pr_auc  macro_weighted     0.756
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   pr_auc  macro_weighted     0.711
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   pr_auc  macro_weighted     0.737</div><div class='input'>
-<span class='co'># Vector version</span>
-<span class='co'># Supply a matrix of class probabilities</span>
-<span class='va'>fold1</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span>
-
-<span class='fu'>pr_auc_vec</span><span class='op'>(</span>
-   truth <span class='op'>=</span> <span class='va'>fold1</span><span class='op'>$</span><span class='va'>obs</span>,
-   <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span>
-     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>fold1</span><span class='op'>$</span><span class='va'>VF</span>, <span class='va'>fold1</span><span class='op'>$</span><span class='cn'>F</span>, <span class='va'>fold1</span><span class='op'>$</span><span class='va'>M</span>, <span class='va'>fold1</span><span class='op'>$</span><span class='va'>L</span><span class='op'>)</span>,
-     ncol <span class='op'>=</span> <span class='fl'>4</span>
-   <span class='op'>)</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.6109931</div><div class='input'>
-</div></span></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># ---------------------------------------------------------------------------</span></span>
+<span class='r-in'><span class='co'># Two class example</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span></span>
+<span class='r-in'><span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span></span>
+<span class='r-in'><span class='co'># section above.</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Binary metrics using class probabilities take a factor `truth` column,</span></span>
+<span class='r-in'><span class='co'># and a single class probability column containing the probabilities of</span></span>
+<span class='r-in'><span class='co'># the event of interest. Here, since `"Class1"` is the first level of</span></span>
+<span class='r-in'><span class='co'># `"truth"`, it is the event of interest and we pass in probabilities for it.</span></span>
+<span class='r-in'><span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> pr_auc  binary         0.946</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># ---------------------------------------------------------------------------</span></span>
+<span class='r-in'><span class='co'># Multiclass example</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># `obs` is a 4 level factor. The first level is `"VF"`, which is the</span></span>
+<span class='r-in'><span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span></span>
+<span class='r-in'><span class='co'># section above.</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># You can use the col1:colN tidyselect syntax</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> pr_auc  macro          0.611</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Change the first level of `obs` from `"VF"` to `"M"` to alter the</span></span>
+<span class='r-in'><span class='co'># event of interest. The class probability columns should be supplied</span></span>
+<span class='r-in'><span class='co'># in the same order as the levels.</span></span>
+<span class='r-in'><span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>obs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/relevel.html'>relevel</a></span><span class='op'>(</span><span class='va'>obs</span>, <span class='st'>"M"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>M</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> pr_auc  macro          0.611</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Groups are respected</span></span>
+<span class='r-in'><span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Resample .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Fold01   pr_auc  macro          0.611</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Fold02   pr_auc  macro          0.620</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Fold03   pr_auc  macro          0.689</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Fold04   pr_auc  macro          0.680</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Fold05   pr_auc  macro          0.620</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Fold06   pr_auc  macro          0.650</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Fold07   pr_auc  macro          0.607</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Fold08   pr_auc  macro          0.650</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Fold09   pr_auc  macro          0.628</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Fold10   pr_auc  macro          0.603</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Weighted macro averaging</span></span>
+<span class='r-in'><span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>pr_auc</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span>, estimator <span class='op'>=</span> <span class='st'>"macro_weighted"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Resample .metric .estimator     .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Fold01   pr_auc  macro_weighted     0.746</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Fold02   pr_auc  macro_weighted     0.743</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Fold03   pr_auc  macro_weighted     0.789</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Fold04   pr_auc  macro_weighted     0.754</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Fold05   pr_auc  macro_weighted     0.737</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Fold06   pr_auc  macro_weighted     0.743</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Fold07   pr_auc  macro_weighted     0.748</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Fold08   pr_auc  macro_weighted     0.756</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Fold09   pr_auc  macro_weighted     0.711</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Fold10   pr_auc  macro_weighted     0.737</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Vector version</span></span>
+<span class='r-in'><span class='co'># Supply a matrix of class probabilities</span></span>
+<span class='r-in'><span class='va'>fold1</span> <span class='op'>&lt;-</span> <span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>pr_auc_vec</span><span class='op'>(</span></span>
+<span class='r-in'>   truth <span class='op'>=</span> <span class='va'>fold1</span><span class='op'>$</span><span class='va'>obs</span>,</span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span></span>
+<span class='r-in'>     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>fold1</span><span class='op'>$</span><span class='va'>VF</span>, <span class='va'>fold1</span><span class='op'>$</span><span class='cn'>F</span>, <span class='va'>fold1</span><span class='op'>$</span><span class='va'>M</span>, <span class='va'>fold1</span><span class='op'>$</span><span class='va'>L</span><span class='op'>)</span>,</span>
+<span class='r-in'>     ncol <span class='op'>=</span> <span class='fl'>4</span></span>
+<span class='r-in'>   <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.6109931</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

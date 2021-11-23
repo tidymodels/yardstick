@@ -99,7 +99,7 @@ is returned for mpe()." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
@@ -226,6 +226,7 @@ the number of groups.</p>
 <code><a href='mape.html'>mape</a>()</code>,
 <code><a href='mase.html'>mase</a>()</code>,
 <code><a href='msd.html'>msd</a>()</code>,
+<code><a href='poisson_log_loss.html'>poisson_log_loss</a>()</code>,
 <code><a href='rmse.html'>rmse</a>()</code>,
 <code><a href='rpd.html'>rpd</a>()</code>,
 <code><a href='rpiq.html'>rpiq</a>()</code>,
@@ -241,6 +242,7 @@ the number of groups.</p>
 <code><a href='mape.html'>mape</a>()</code>,
 <code><a href='mase.html'>mase</a>()</code>,
 <code><a href='msd.html'>msd</a>()</code>,
+<code><a href='poisson_log_loss.html'>poisson_log_loss</a>()</code>,
 <code><a href='rmse.html'>rmse</a>()</code>,
 <code><a href='smape.html'>smape</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
@@ -248,69 +250,74 @@ the number of groups.</p>
     <p>Thomas Bierhance</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># `solubility_test$solubility` has zero values with corresponding</span>
-<span class='co'># `$prediction` values that are negative. By definition, this causes `Inf`</span>
-<span class='co'># to be returned from `mpe()`.</span>
-<span class='va'>solubility_test</span><span class='op'>[</span><span class='va'>solubility_test</span><span class='op'>$</span><span class='va'>solubility</span> <span class='op'>==</span> <span class='fl'>0</span>,<span class='op'>]</span>
-</div><div class='output co'>#&gt;     solubility prediction
-#&gt; 17           0 -0.1532030
-#&gt; 220          0 -0.3876578</div><div class='input'>
-<span class='fu'>mpe</span><span class='op'>(</span><span class='va'>solubility_test</span>, <span class='va'>solubility</span>, <span class='va'>prediction</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> mpe     standard         </span><span style='color: #BB0000;'>Inf</span><span></div><div class='input'>
-<span class='co'># We'll remove the zero values for demonstration</span>
-<span class='va'>solubility_test</span> <span class='op'>&lt;-</span> <span class='va'>solubility_test</span><span class='op'>[</span><span class='va'>solubility_test</span><span class='op'>$</span><span class='va'>solubility</span> <span class='op'>!=</span> <span class='fl'>0</span>,<span class='op'>]</span>
-
-<span class='co'># Supply truth and predictions as bare column names</span>
-<span class='fu'>mpe</span><span class='op'>(</span><span class='va'>solubility_test</span>, <span class='va'>solubility</span>, <span class='va'>prediction</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> mpe     standard        16.1</div><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1234</span><span class='op'>)</span>
-<span class='va'>size</span> <span class='op'>&lt;-</span> <span class='fl'>100</span>
-<span class='va'>times</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-
-<span class='co'># create 10 resamples</span>
-<span class='va'>solubility_resampled</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span><span class='op'>(</span>
-    n <span class='op'>=</span> <span class='va'>times</span>,
-    expr <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n</a></span><span class='op'>(</span><span class='va'>solubility_test</span>, <span class='va'>size</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
-    simplify <span class='op'>=</span> <span class='cn'>FALSE</span>
-  <span class='op'>)</span>,
-  .id <span class='op'>=</span> <span class='st'>"resample"</span>
-<span class='op'>)</span>
-
-<span class='co'># Compute the metric by group</span>
-<span class='va'>metric_results</span> <span class='op'>&lt;-</span> <span class='va'>solubility_resampled</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mpe</span><span class='op'>(</span><span class='va'>solubility</span>, <span class='va'>prediction</span><span class='op'>)</span>
-
-<span class='va'>metric_results</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
-#&gt;    resample .metric .estimator .estimate
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1        mpe     standard     -</span><span style='color: #BB0000;'>56.2</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 10       mpe     standard      50.4  
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 2        mpe     standard     -</span><span style='color: #BB0000;'>27.9</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 3        mpe     standard       0.470
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 4        mpe     standard      -</span><span style='color: #BB0000;'>0.836</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 5        mpe     standard     -</span><span style='color: #BB0000;'>35.3</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 6        mpe     standard       7.51 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 7        mpe     standard     -</span><span style='color: #BB0000;'>34.5</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 8        mpe     standard       7.87 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 9        mpe     standard      14.7  </div><div class='input'>
-<span class='co'># Resampled mean estimate</span>
-<span class='va'>metric_results</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>avg_estimate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.estimate</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 1</span><span>
-#&gt;   avg_estimate
-#&gt;          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>        -</span><span style='color: #BB0000;'>7.38</span><span></div></span></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># `solubility_test$solubility` has zero values with corresponding</span></span>
+<span class='r-in'><span class='co'># `$prediction` values that are negative. By definition, this causes `Inf`</span></span>
+<span class='r-in'><span class='co'># to be returned from `mpe()`.</span></span>
+<span class='r-in'><span class='va'>solubility_test</span><span class='op'>[</span><span class='va'>solubility_test</span><span class='op'>$</span><span class='va'>solubility</span> <span class='op'>==</span> <span class='fl'>0</span>,<span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     solubility prediction</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17           0 -0.1532030</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 220          0 -0.3876578</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>mpe</span><span class='op'>(</span><span class='va'>solubility_test</span>, <span class='va'>solubility</span>, <span class='va'>prediction</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> mpe     standard         <span style='color: #BB0000;'>Inf</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># We'll remove the zero values for demonstration</span></span>
+<span class='r-in'><span class='va'>solubility_test</span> <span class='op'>&lt;-</span> <span class='va'>solubility_test</span><span class='op'>[</span><span class='va'>solubility_test</span><span class='op'>$</span><span class='va'>solubility</span> <span class='op'>!=</span> <span class='fl'>0</span>,<span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Supply truth and predictions as bare column names</span></span>
+<span class='r-in'><span class='fu'>mpe</span><span class='op'>(</span><span class='va'>solubility_test</span>, <span class='va'>solubility</span>, <span class='va'>prediction</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> mpe     standard        16.1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1234</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>size</span> <span class='op'>&lt;-</span> <span class='fl'>100</span></span>
+<span class='r-in'><span class='va'>times</span> <span class='op'>&lt;-</span> <span class='fl'>10</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># create 10 resamples</span></span>
+<span class='r-in'><span class='va'>solubility_resampled</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span><span class='op'>(</span></span>
+<span class='r-in'>    n <span class='op'>=</span> <span class='va'>times</span>,</span>
+<span class='r-in'>    expr <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n</a></span><span class='op'>(</span><span class='va'>solubility_test</span>, <span class='va'>size</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span class='r-in'>    simplify <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>  <span class='op'>)</span>,</span>
+<span class='r-in'>  .id <span class='op'>=</span> <span class='st'>"resample"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Compute the metric by group</span></span>
+<span class='r-in'><span class='va'>metric_results</span> <span class='op'>&lt;-</span> <span class='va'>solubility_resampled</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>resample</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>mpe</span><span class='op'>(</span><span class='va'>solubility</span>, <span class='va'>prediction</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>metric_results</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    resample .metric .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 1        mpe     standard     -<span style='color: #BB0000;'>56.2</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 10       mpe     standard      50.4  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 2        mpe     standard     -<span style='color: #BB0000;'>27.9</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 3        mpe     standard       0.470</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 4        mpe     standard      -<span style='color: #BB0000;'>0.836</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 5        mpe     standard     -<span style='color: #BB0000;'>35.3</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 6        mpe     standard       7.51 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 7        mpe     standard     -<span style='color: #BB0000;'>34.5</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 8        mpe     standard       7.87 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 9        mpe     standard      14.7  </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Resampled mean estimate</span></span>
+<span class='r-in'><span class='va'>metric_results</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>avg_estimate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.estimate</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   avg_estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>        -<span style='color: #BB0000;'>7.38</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

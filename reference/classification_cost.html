@@ -97,7 +97,7 @@ probabilities and the mean cost is returned." />
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
@@ -275,86 +275,90 @@ calculation is done for each sample and the individual costs are averaged.</p>
     <p>Max Kuhn</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-
-<span class='co'># ---------------------------------------------------------------------------</span>
-<span class='co'># Two class example</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>)</span>
-
-<span class='co'># Assuming `Class1` is our "event", this penalizes false positives heavily</span>
-<span class='va'>costs1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
-  <span class='op'>~</span><span class='va'>truth</span>,   <span class='op'>~</span><span class='va'>estimate</span>, <span class='op'>~</span><span class='va'>cost</span>,
-  <span class='st'>"Class1"</span>, <span class='st'>"Class2"</span>,  <span class='fl'>1</span>,
-  <span class='st'>"Class2"</span>, <span class='st'>"Class1"</span>,  <span class='fl'>2</span>
-<span class='op'>)</span>
-
-<span class='co'># Assuming `Class1` is our "event", this penalizes false negatives heavily</span>
-<span class='va'>costs2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
-  <span class='op'>~</span><span class='va'>truth</span>,   <span class='op'>~</span><span class='va'>estimate</span>, <span class='op'>~</span><span class='va'>cost</span>,
-  <span class='st'>"Class1"</span>, <span class='st'>"Class2"</span>,  <span class='fl'>2</span>,
-  <span class='st'>"Class2"</span>, <span class='st'>"Class1"</span>,  <span class='fl'>1</span>
-<span class='op'>)</span>
-
-<span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span>, costs <span class='op'>=</span> <span class='va'>costs1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric             .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> classification_cost binary         0.288</div><div class='input'>
-<span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span>, costs <span class='op'>=</span> <span class='va'>costs2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric             .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> classification_cost binary         0.260</div><div class='input'>
-<span class='co'># ---------------------------------------------------------------------------</span>
-<span class='co'># Multiclass</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span>
-
-<span class='co'># Define cost matrix from Kuhn and Johnson (2013)</span>
-<span class='va'>hpc_costs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
-   <span class='op'>~</span><span class='va'>estimate</span>, <span class='op'>~</span><span class='va'>truth</span>, <span class='op'>~</span><span class='va'>cost</span>,
-   <span class='st'>"VF"</span>,   <span class='st'>"VF"</span>,     <span class='fl'>0</span>,
-   <span class='st'>"VF"</span>,    <span class='st'>"F"</span>,     <span class='fl'>1</span>,
-   <span class='st'>"VF"</span>,    <span class='st'>"M"</span>,     <span class='fl'>5</span>,
-   <span class='st'>"VF"</span>,    <span class='st'>"L"</span>,    <span class='fl'>10</span>,
-   <span class='st'>"F"</span>,    <span class='st'>"VF"</span>,     <span class='fl'>1</span>,
-   <span class='st'>"F"</span>,     <span class='st'>"F"</span>,     <span class='fl'>0</span>,
-   <span class='st'>"F"</span>,     <span class='st'>"M"</span>,     <span class='fl'>5</span>,
-   <span class='st'>"F"</span>,     <span class='st'>"L"</span>,     <span class='fl'>5</span>,
-   <span class='st'>"M"</span>,    <span class='st'>"VF"</span>,     <span class='fl'>1</span>,
-   <span class='st'>"M"</span>,     <span class='st'>"F"</span>,     <span class='fl'>1</span>,
-   <span class='st'>"M"</span>,     <span class='st'>"M"</span>,     <span class='fl'>0</span>,
-   <span class='st'>"M"</span>,     <span class='st'>"L"</span>,     <span class='fl'>1</span>,
-   <span class='st'>"L"</span>,    <span class='st'>"VF"</span>,     <span class='fl'>1</span>,
-   <span class='st'>"L"</span>,     <span class='st'>"F"</span>,     <span class='fl'>1</span>,
-   <span class='st'>"L"</span>,     <span class='st'>"M"</span>,     <span class='fl'>1</span>,
-   <span class='st'>"L"</span>,     <span class='st'>"L"</span>,     <span class='fl'>0</span>
-<span class='op'>)</span>
-
-<span class='co'># You can use the col1:colN tidyselect syntax</span>
-<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span>, costs <span class='op'>=</span> <span class='va'>hpc_costs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
-#&gt;   .metric             .estimator .estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> classification_cost multiclass     0.779</div><div class='input'>
-<span class='co'># Groups are respected</span>
-<span class='va'>hpc_cv</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span>, costs <span class='op'>=</span> <span class='va'>hpc_costs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 4</span><span>
-#&gt;    Resample .metric             .estimator .estimate
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Fold01   classification_cost multiclass     0.779
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Fold02   classification_cost multiclass     0.735
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Fold03   classification_cost multiclass     0.654
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Fold04   classification_cost multiclass     0.754
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Fold05   classification_cost multiclass     0.777
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Fold06   classification_cost multiclass     0.737
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Fold07   classification_cost multiclass     0.743
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Fold08   classification_cost multiclass     0.749
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Fold09   classification_cost multiclass     0.760
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Fold10   classification_cost multiclass     0.771</div></span></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># ---------------------------------------------------------------------------</span></span>
+<span class='r-in'><span class='co'># Two class example</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Assuming `Class1` is our "event", this penalizes false positives heavily</span></span>
+<span class='r-in'><span class='va'>costs1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='op'>~</span><span class='va'>truth</span>,   <span class='op'>~</span><span class='va'>estimate</span>, <span class='op'>~</span><span class='va'>cost</span>,</span>
+<span class='r-in'>  <span class='st'>"Class1"</span>, <span class='st'>"Class2"</span>,  <span class='fl'>1</span>,</span>
+<span class='r-in'>  <span class='st'>"Class2"</span>, <span class='st'>"Class1"</span>,  <span class='fl'>2</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Assuming `Class1` is our "event", this penalizes false negatives heavily</span></span>
+<span class='r-in'><span class='va'>costs2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='op'>~</span><span class='va'>truth</span>,   <span class='op'>~</span><span class='va'>estimate</span>, <span class='op'>~</span><span class='va'>cost</span>,</span>
+<span class='r-in'>  <span class='st'>"Class1"</span>, <span class='st'>"Class2"</span>,  <span class='fl'>2</span>,</span>
+<span class='r-in'>  <span class='st'>"Class2"</span>, <span class='st'>"Class1"</span>,  <span class='fl'>1</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span>, costs <span class='op'>=</span> <span class='va'>costs1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric             .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> classification_cost binary         0.288</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>two_class_example</span>, <span class='va'>truth</span>, <span class='va'>Class1</span>, costs <span class='op'>=</span> <span class='va'>costs2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric             .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> classification_cost binary         0.260</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># ---------------------------------------------------------------------------</span></span>
+<span class='r-in'><span class='co'># Multiclass</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Define cost matrix from Kuhn and Johnson (2013)</span></span>
+<span class='r-in'><span class='va'>hpc_costs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span></span>
+<span class='r-in'>   <span class='op'>~</span><span class='va'>estimate</span>, <span class='op'>~</span><span class='va'>truth</span>, <span class='op'>~</span><span class='va'>cost</span>,</span>
+<span class='r-in'>   <span class='st'>"VF"</span>,   <span class='st'>"VF"</span>,     <span class='fl'>0</span>,</span>
+<span class='r-in'>   <span class='st'>"VF"</span>,    <span class='st'>"F"</span>,     <span class='fl'>1</span>,</span>
+<span class='r-in'>   <span class='st'>"VF"</span>,    <span class='st'>"M"</span>,     <span class='fl'>5</span>,</span>
+<span class='r-in'>   <span class='st'>"VF"</span>,    <span class='st'>"L"</span>,    <span class='fl'>10</span>,</span>
+<span class='r-in'>   <span class='st'>"F"</span>,    <span class='st'>"VF"</span>,     <span class='fl'>1</span>,</span>
+<span class='r-in'>   <span class='st'>"F"</span>,     <span class='st'>"F"</span>,     <span class='fl'>0</span>,</span>
+<span class='r-in'>   <span class='st'>"F"</span>,     <span class='st'>"M"</span>,     <span class='fl'>5</span>,</span>
+<span class='r-in'>   <span class='st'>"F"</span>,     <span class='st'>"L"</span>,     <span class='fl'>5</span>,</span>
+<span class='r-in'>   <span class='st'>"M"</span>,    <span class='st'>"VF"</span>,     <span class='fl'>1</span>,</span>
+<span class='r-in'>   <span class='st'>"M"</span>,     <span class='st'>"F"</span>,     <span class='fl'>1</span>,</span>
+<span class='r-in'>   <span class='st'>"M"</span>,     <span class='st'>"M"</span>,     <span class='fl'>0</span>,</span>
+<span class='r-in'>   <span class='st'>"M"</span>,     <span class='st'>"L"</span>,     <span class='fl'>1</span>,</span>
+<span class='r-in'>   <span class='st'>"L"</span>,    <span class='st'>"VF"</span>,     <span class='fl'>1</span>,</span>
+<span class='r-in'>   <span class='st'>"L"</span>,     <span class='st'>"F"</span>,     <span class='fl'>1</span>,</span>
+<span class='r-in'>   <span class='st'>"L"</span>,     <span class='st'>"M"</span>,     <span class='fl'>1</span>,</span>
+<span class='r-in'>   <span class='st'>"L"</span>,     <span class='st'>"L"</span>,     <span class='fl'>0</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># You can use the col1:colN tidyselect syntax</span></span>
+<span class='r-in'><span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Resample</span> <span class='op'>==</span> <span class='st'>"Fold01"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span>, costs <span class='op'>=</span> <span class='va'>hpc_costs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .metric             .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> classification_cost multiclass     0.779</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Groups are respected</span></span>
+<span class='r-in'><span class='va'>hpc_cv</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Resample</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>classification_cost</span><span class='op'>(</span><span class='va'>obs</span>, <span class='va'>VF</span><span class='op'>:</span><span class='va'>L</span>, costs <span class='op'>=</span> <span class='va'>hpc_costs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 10 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Resample .metric             .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Fold01   classification_cost multiclass     0.779</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Fold02   classification_cost multiclass     0.735</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Fold03   classification_cost multiclass     0.654</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Fold04   classification_cost multiclass     0.754</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Fold05   classification_cost multiclass     0.777</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Fold06   classification_cost multiclass     0.737</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Fold07   classification_cost multiclass     0.743</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Fold08   classification_cost multiclass     0.749</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Fold09   classification_cost multiclass     0.760</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Fold10   classification_cost multiclass     0.771</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

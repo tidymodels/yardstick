@@ -95,7 +95,7 @@
         <a class="navbar-brand" href="../index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
@@ -175,19 +175,21 @@ and predicted classes and column for the probabilities for each
 class.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 'data.frame':	500 obs. of  4 variables:
-#&gt;  $ truth    : Factor w/ 2 levels "Class1","Class2": 2 1 2 1 2 1 1 1 2 2 ...
-#&gt;  $ Class1   : num  0.00359 0.67862 0.11089 0.73516 0.01624 ...
-#&gt;  $ Class2   : num  0.996 0.321 0.889 0.265 0.984 ...
-#&gt;  $ predicted: Factor w/ 2 levels "Class1","Class2": 2 1 2 1 2 1 1 1 2 2 ...</div><div class='input'>
-<span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span>
-<span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span>
-<span class='co'># section in any classification function (such as `?pr_auc`) to see how</span>
-<span class='co'># to change this.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>$</span><span class='va'>obs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "VF" "F"  "M"  "L" </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>two_class_example</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 'data.frame':	500 obs. of  4 variables:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ truth    : Factor w/ 2 levels "Class1","Class2": 2 1 2 1 2 1 1 1 2 2 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ Class1   : num  0.00359 0.67862 0.11089 0.73516 0.01624 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ Class2   : num  0.996 0.321 0.889 0.265 0.984 ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ predicted: Factor w/ 2 levels "Class1","Class2": 2 1 2 1 2 1 1 1 2 2 ...</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># `truth` is a 2 level factor. The first level is `"Class1"`, which is the</span></span>
+<span class='r-in'><span class='co'># "event of interest" by default in yardstick. See the Relevant Level</span></span>
+<span class='r-in'><span class='co'># section in any classification function (such as `?pr_auc`) to see how</span></span>
+<span class='r-in'><span class='co'># to change this.</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>hpc_cv</span><span class='op'>$</span><span class='va'>obs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "VF" "F"  "M"  "L" </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

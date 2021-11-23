@@ -20,9 +20,9 @@
 <script src="pkgdown.js"></script><link href="tidyverse-2.css" rel="stylesheet">
 <!--optional theme--><link href=".css" rel="stylesheet">
 <meta property="og:title" content="Tidy Characterizations of Model Performance">
-<meta property="og:description" content="Tidy tools for quantifying how well model fits to a
-    data set such as confusion matrices, class probability curve
-    summaries, and regression metrics (e.g., RMSE).">
+<meta property="og:description" content="Tidy tools for quantifying how well model fits to a data set
+    such as confusion matrices, class probability curve summaries, and
+    regression metrics (e.g., RMSE).">
 <meta property="og:image" content="https://yardstick.tidymodels.org/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -52,7 +52,7 @@
         <a class="navbar-brand" href="index.html">yardstick</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
         </div>
       </div>
     </div>
@@ -113,7 +113,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p><code>yardstick</code> is a package to estimate how well models are working using <a href="https://www.jstatsoft.org/article/view/v059i10">tidy data</a> principles. See the <a href="https://yardstick.tidymodels.org/">package webpage</a> for more information.</p>
+<p><code>yardstick</code> is a package to estimate how well models are working using <a href="https://doi.org/10.18637/jss.v059.i10">tidy data</a> principles. See the <a href="https://yardstick.tidymodels.org/">package webpage</a> for more information.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -144,7 +144,7 @@
 <p>You can use a <code>dplyr</code>-like syntax to compute common performance characteristics of the model and get them back in a data frame:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/metrics.html">metrics</a></span><span class="op">(</span><span class="va">two_class_example</span>, <span class="va">truth</span>, <span class="va">predicted</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt; # A tibble: 2 × 3</span>
 <span class="co">#&gt;   .metric  .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 accuracy binary         0.838</span>
@@ -152,9 +152,9 @@
 
 <span class="co"># or </span>
 
-<span class="va">two_class_example</span> <span class="op">%&gt;%</span> 
+<span class="va">two_class_example</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="reference/roc_auc.html">roc_auc</a></span><span class="op">(</span><span class="va">truth</span>, <span class="va">Class1</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt; # A tibble: 1 × 3</span>
 <span class="co">#&gt;   .metric .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 roc_auc binary         0.939</span></code></pre></div>
@@ -167,7 +167,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"hpc_cv"</span><span class="op">)</span>
 <span class="va">hpc_cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">hpc_cv</span><span class="op">)</span>
 <span class="va">hpc_cv</span>
-<span class="co">#&gt; # A tibble: 3,467 x 7</span>
+<span class="co">#&gt; # A tibble: 3,467 × 7</span>
 <span class="co">#&gt;    obs   pred     VF      F       M          L Resample</span>
 <span class="co">#&gt;    &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;   </span>
 <span class="co">#&gt;  1 VF    VF    0.914 0.0779 0.00848 0.0000199  Fold01  </span>
@@ -184,14 +184,14 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Macro averaged multiclass precision</span>
 <span class="fu"><a href="reference/precision.html">precision</a></span><span class="op">(</span><span class="va">hpc_cv</span>, <span class="va">obs</span>, <span class="va">pred</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt; # A tibble: 1 × 3</span>
 <span class="co">#&gt;   .metric   .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 precision macro          0.631</span>
 
 <span class="co"># Micro averaged multiclass precision</span>
 <span class="fu"><a href="reference/precision.html">precision</a></span><span class="op">(</span><span class="va">hpc_cv</span>, <span class="va">obs</span>, <span class="va">pred</span>, estimator <span class="op">=</span> <span class="st">"micro"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt; # A tibble: 1 × 3</span>
 <span class="co">#&gt;   .metric   .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 precision micro          0.709</span></code></pre></div>
@@ -202,10 +202,10 @@
 <p>If you have multiple resamples of a model, you can use a metric on a grouped data frame to calculate the metric across all resamples at once.</p>
 <p>This calculates multiclass ROC AUC using the method described in Hand, Till (2001), and does it across all 10 resamples at once.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">hpc_cv</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="reference/roc_auc.html">roc_auc</a></span><span class="op">(</span><span class="va">obs</span>, <span class="va">VF</span><span class="op">:</span><span class="va">L</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt; # A tibble: 10 × 4</span>
 <span class="co">#&gt;    Resample .metric .estimator .estimate</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 Fold01   roc_auc hand_till      0.813</span>
@@ -226,26 +226,11 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
-<span class="va">hpc_cv</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/roc_curve.html">roc_curve</a></span><span class="op">(</span><span class="va">obs</span>, <span class="va">VF</span><span class="op">:</span><span class="va">L</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="reference/roc_curve.html">roc_curve</a></span><span class="op">(</span><span class="va">obs</span>, <span class="va">VF</span><span class="op">:</span><span class="va">L</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-roc-curves-1.png"><!-- --></p>
-</div>
-<div id="quasiquotation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#quasiquotation" class="anchor"></a>Quasiquotation</h2>
-<p><a href="https://rlang.r-lib.org/reference/quasiquotation.html">Quasiquotation</a> can also be used to supply inputs.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># probability columns:</span>
-<span class="va">lvl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">two_class_example</span><span class="op">$</span><span class="va">truth</span><span class="op">)</span>
-
-<span class="va">two_class_example</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/mn_log_loss.html">mn_log_loss</a></span><span class="op">(</span><span class="va">truth</span>, <span class="op">!</span><span class="op">!</span> <span class="va">lvl</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
-<span class="co">#&gt;   .metric     .estimator .estimate</span>
-<span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 mn_log_loss binary         0.328</span></code></pre></div>
 </div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
@@ -299,10 +284,10 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://codecov.io/github/tidymodels/yardstick?branch=master"><img src="https://img.shields.io/codecov/c/github/tidymodels/yardstick/master.svg" alt="Coverage Status"></a></li>
+<li><a href="https://codecov.io/github/tidymodels/yardstick?branch=main"><img src="https://img.shields.io/codecov/c/github/tidymodels/yardstick/main.svg" alt="Coverage Status"></a></li>
 <li><a href="https://CRAN.R-project.org/package=yardstick"><img src="https://www.r-pkg.org/badges/version/yardstick" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://CRAN.R-project.org/package=yardstick"><img src="https://cranlogs.r-pkg.org/badges/yardstick" alt="Downloads"></a></li>
-<li><a href="https://github.com/tidymodels/yardstick/actions"><img src="https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/tidymodels/yardstick/actions"><img src="https://github.com/tidymodels/yardstick/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 </div>
