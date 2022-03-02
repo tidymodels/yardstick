@@ -21,7 +21,7 @@ columns.}
 \item{truth}{The column identifier for the true counts
 (that is \code{integer}). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:nse-force]{quasiquotation} (you can unquote column
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, an \code{integer} vector.}
 
 \item{estimate}{The column identifier for the predicted
