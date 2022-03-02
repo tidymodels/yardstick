@@ -2,7 +2,8 @@
 
     Code
       out <- yardstick_event_level()
-    Warning <deprecatedWarning>
+    Condition
+      Warning:
       The `yardstick.event_first` option has been deprecated as of yardstick 0.0.7 and will be completely ignored in a future version.
       Instead, set the following argument directly in the metric function:
       `options(yardstick.event_first = TRUE)`  -> `event_level = 'first'` (the default)
@@ -12,7 +13,8 @@
 
     Code
       out <- yardstick_event_level()
-    Warning <deprecatedWarning>
+    Condition
+      Warning:
       The `yardstick.event_first` option has been deprecated as of yardstick 0.0.7 and will be completely ignored in a future version.
       Instead, set the following argument directly in the metric function:
       `options(yardstick.event_first = TRUE)`  -> `event_level = 'first'` (the default)

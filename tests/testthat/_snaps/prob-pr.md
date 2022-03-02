@@ -2,6 +2,7 @@
 
     Code
       out <- pr_curve(df, y, x)
-    Warning <simpleWarning>
+    Condition
+      Warning:
       There are `0` event cases in `truth`, results will be meaningless.
 
