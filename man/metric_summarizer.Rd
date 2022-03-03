@@ -66,7 +66,8 @@ implementing new custom metrics. \code{metric_summarizer()} calls the metric
 function inside \code{dplyr::summarise()}. \code{metric_vec_template()} is a
 generalized function that calls the core implementation of a metric function,
 and includes a number of checks on the types, lengths, and argument inputs.
-See \code{vignette("custom-metrics", "yardstick")} for more information.
+See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
+information.
 }
 \details{
 \code{metric_summarizer()} is generally called from the data frame version

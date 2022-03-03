@@ -13,8 +13,9 @@
 #' attach a `direction` attribute. These features are used by [metric_set()]
 #' and by [tune](https://tune.tidymodels.org/) when model tuning.
 #'
-#' See `vignette("custom-metrics")` for more information about creating custom
-#' metrics.
+#' See [Custom performance
+#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
+#' information about creating custom metrics.
 #'
 #' @param fn A function. The metric function to attach a metric-specific class
 #'   and `direction` attribute to.

@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* Moved the Custom Metrics vignette to tidymodels.org (#236).
+
 # yardstick 0.0.9
 
 * New metric `poisson_log_loss()` was added (#146).

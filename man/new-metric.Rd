@@ -31,6 +31,6 @@ class probability metrics. They add a metric-specific class to \code{fn} and
 attach a \code{direction} attribute. These features are used by \code{\link[=metric_set]{metric_set()}}
 and by \href{https://tune.tidymodels.org/}{tune} when model tuning.
 
-See \code{vignette("custom-metrics")} for more information about creating custom
-metrics.
+See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
+information about creating custom metrics.
 }

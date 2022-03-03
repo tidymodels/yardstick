@@ -12,6 +12,14 @@ template:
 development:
   mode: auto
 
+navbar:
+  components:
+    tutorials:
+      text: Learn more
+      menu:
+      - text: "Custom performance metrics"
+        href: https://www.tidymodels.org/learn/develop/metrics/
+
 reference:
   - title: Classification Metrics
     contents:

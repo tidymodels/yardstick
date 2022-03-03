@@ -48,9 +48,9 @@ estimator list of
 this if your classification estimator does not support all of these methods.}
 }
 \description{
-Helpers to be used alongside \code{\link[=metric_vec_template]{metric_vec_template()}} and \code{\link[=metric_summarizer]{metric_summarizer()}}
-when creating new metrics. See \code{vignette("custom-metrics", "yardstick")} for
-more information.
+Helpers to be used alongside \code{\link[=metric_vec_template]{metric_vec_template()}} and
+\code{\link[=metric_summarizer]{metric_summarizer()}} when creating new metrics. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
+information.
 }
 \section{Weight Calculation}{
 
