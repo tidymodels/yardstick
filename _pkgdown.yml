@@ -2,15 +2,15 @@ url: https://yardstick.tidymodels.org
 
 template:
   package: tidytemplate
-  params:
-    part_of: <a href="https://tidymodels.org">tidymodels</a>
-    footer: yardstick is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
+  bootstrap: 5
+  bslib:
+    primary: "#CA225E"
+  includes:
+      in_header: |
+        <script defer data-domain="yardstick.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 
 development:
   mode: auto
-
-home:
-  strip_header: true
 
 reference:
   - title: Classification Metrics
