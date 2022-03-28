@@ -18,7 +18,6 @@ Depends:
     R (>= 3.4.0)
 Imports:
     dplyr (>= 1.0.8),
-    ellipsis,
     generics,
     pROC (>= 1.15.0),
     rlang (>= 1.0.1),

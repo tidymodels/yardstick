@@ -98,7 +98,7 @@ curve_finalize <- function(result, data, class, grouped_class) {
 # ------------------------------------------------------------------------------
 
 yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
-  ellipsis::check_dots_empty()
+  check_dots_empty()
 
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)

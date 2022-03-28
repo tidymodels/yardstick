@@ -101,7 +101,7 @@ accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...
 
 # binary and multiclass case are equivalent
 accuracy_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  ellipsis::check_dots_empty()
+  check_dots_empty()
   table <- yardstick_table(truth, estimate, case_weights = case_weights)
   accuracy_table_impl(table)
 }
