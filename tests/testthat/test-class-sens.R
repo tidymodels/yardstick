@@ -104,6 +104,72 @@ test_that("`NA` is still returned if there are some undefined sens values but `n
 
 # ------------------------------------------------------------------------------
 
+test_that('Two class - sklearn equivalent', {
+  # Same as recall
+  py_res <- read_pydata("py-recall")
+  r_metric <- sens
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted)[[".estimate"]],
+    py_res$binary
+  )
+})
+
+test_that('Multi class - sklearn equivalent', {
+  # Same as recall
+  py_res <- read_pydata("py-recall")
+  r_metric <- sens
+
+  expect_equal(
+    r_metric(hpc_cv, obs, pred)[[".estimate"]],
+    py_res$macro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, "micro")[[".estimate"]],
+    py_res$micro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, "macro_weighted")[[".estimate"]],
+    py_res$weighted
+  )
+})
+
+test_that('Two class weighted - sklearn equivalent', {
+  # Same as recall
+  py_res <- read_pydata("py-recall")
+  r_metric <- sens
+
+  two_class_example$weights <- read_weights_two_class_example()
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$binary
+  )
+})
+
+test_that('Multi class weighted - sklearn equivalent', {
+  # Same as recall
+  py_res <- read_pydata("py-recall")
+  r_metric <- sens
+
+  hpc_cv$weights <- read_weights_hpc_cv()
+
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$macro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, estimator = "micro", case_weights = weights)[[".estimate"]],
+    py_res$case_weight$micro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, estimator = "macro_weighted", case_weights = weights)[[".estimate"]],
+    py_res$case_weight$weighted
+  )
+})
+
+# ------------------------------------------------------------------------------
+
 test_that("`sensitivity()` has a metric name unique to it (#232)", {
   lst <- data_altman()
   pathology <- lst$pathology

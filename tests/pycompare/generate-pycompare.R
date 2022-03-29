@@ -4,6 +4,8 @@ library(purrr)
 skmetrics <- import("sklearn.metrics")
 data("hpc_cv")
 data("two_class_example")
+weights_hpc_cv <- read_weights_hpc_cv()
+weights_two_class_example <- read_weights_two_class_example()
 
 save_metric_results <- function(nm, fn, ..., average = c("macro", "micro", "weighted")) {
 
@@ -13,9 +15,27 @@ save_metric_results <- function(nm, fn, ..., average = c("macro", "micro", "weig
   # Multiclass metrics
   res2 <- lapply(average, function(.x) fn(hpc_cv$obs, hpc_cv$pred, ..., average = .x))
 
-  res <- c(res, res2)
+  # Two class weighted metrics
+  case_weight <- list(fn(
+    two_class_example$truth,
+    two_class_example$predicted,
+    ...,
+    pos_label = "Class1",
+    sample_weight = weights_two_class_example
+  ))
 
-  names(res) <- c("binary", average)
+  # Multiclass weighted metrics
+  case_weight2 <- lapply(
+    average,
+    function(.x) fn(hpc_cv$obs, hpc_cv$pred, ..., average = .x, sample_weight = weights_hpc_cv)
+  )
+
+  case_weight <- c(case_weight, case_weight2)
+  names(case_weight) <- c("binary", average)
+
+  res <- c(res, res2, list(case_weight))
+  names(res) <- c("binary", average, "case_weight")
+
   saveRDS(res, paste0("tests/pycompare/py-", nm), version = 2)
 }
 
@@ -51,4 +71,3 @@ py_kap <- list(
   quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic")
 )
 saveRDS(py_kap, "tests/pycompare/py-kap", version = 2)
-

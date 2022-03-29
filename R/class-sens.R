@@ -47,6 +47,10 @@
 #' @param na_rm A `logical` value indicating whether `NA`
 #'   values should be stripped before the computation proceeds.
 #'
+#' @param case_weights The optional column identifier for case weights.
+#'   This should be an unquoted column name that evaluates to a numeric column
+#'   in `data`. For `_vec()` functions, a numeric vector.
+#'
 #' @param event_level A single string. Either `"first"` or `"second"` to specify
 #'   which level of `truth` to consider as the "event". This argument is only
 #'   applicable when `estimator = "binary"`. The default uses an
@@ -83,6 +87,7 @@ sens.data.frame <- function(data,
                             estimate,
                             estimator = NULL,
                             na_rm = TRUE,
+                            case_weights = NULL,
                             event_level = yardstick_event_level(),
                             ...) {
   metric_summarizer(
@@ -93,6 +98,7 @@ sens.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    case_weights = !!enquo(case_weights),
     event_level = event_level
   )
 }
@@ -127,17 +133,15 @@ sens_vec <- function(truth,
                      estimate,
                      estimator = NULL,
                      na_rm = TRUE,
+                     case_weights = NULL,
                      event_level = yardstick_event_level(),
                      ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  sens_impl <- function(truth, estimate) {
-    xtab <- vec2table(
-      truth = truth,
-      estimate = estimate
-    )
-
-    sens_table_impl(xtab, estimator, event_level)
+  sens_impl <- function(truth, estimate, ..., case_weights = NULL) {
+    check_dots_empty()
+    data <- yardstick_table(truth, estimate, case_weights = case_weights)
+    sens_table_impl(data, estimator, event_level)
   }
 
   metric_vec_template(
@@ -146,6 +150,7 @@ sens_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = "factor"
   )
 
@@ -170,6 +175,7 @@ sensitivity.data.frame <- function(data,
                                    estimate,
                                    estimator = NULL,
                                    na_rm = TRUE,
+                                   case_weights = NULL,
                                    event_level = yardstick_event_level(),
                                    ...) {
   metric_summarizer(
@@ -180,6 +186,7 @@ sensitivity.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    case_weights = !!enquo(case_weights),
     event_level = event_level
   )
 }

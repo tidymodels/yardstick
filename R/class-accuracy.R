@@ -13,10 +13,6 @@
 #'
 #' @inheritParams sens
 #'
-#' @param case_weights The optional column identifier for case weights.
-#'   This should be an unquoted column name that evaluates to a numeric column
-#'   in `data`. For `_vec()` functions, a numeric vector.
-#'
 #' @author Max Kuhn
 #'
 #' @export
@@ -61,7 +57,7 @@ accuracy.data.frame <- function(data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
-    case_weights = !!enquo(case_weights),
+    case_weights = !!enquo(case_weights)
   )
 }
 
@@ -102,8 +98,8 @@ accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...
 # binary and multiclass case are equivalent
 accuracy_impl <- function(truth, estimate, ..., case_weights = NULL) {
   check_dots_empty()
-  table <- yardstick_table(truth, estimate, case_weights = case_weights)
-  accuracy_table_impl(table)
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  accuracy_table_impl(data)
 }
 
 accuracy_table_impl <- function(x) {
