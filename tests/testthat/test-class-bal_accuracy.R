@@ -47,3 +47,17 @@ test_that('Three class', {
     with(micro, (sum(tp) / sum(p) + sum(tn) / sum(n)) / 2)
   )
 })
+
+# ------------------------------------------------------------------------------
+
+test_that('Two class weighted - sklearn equivalent', {
+  py_res <- read_pydata("py-bal-accuracy")
+  r_metric <- bal_accuracy
+
+  two_class_example$weights <- read_weights_two_class_example()
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$binary
+  )
+})
