@@ -136,6 +136,7 @@ metrics.data.frame <- function(data,
 #'   truth,
 #'   estimate,
 #'   na_rm = TRUE,
+#'   case_weights = NULL,
 #'   ...
 #' )
 #'
@@ -145,9 +146,10 @@ metrics.data.frame <- function(data,
 #'   truth,
 #'   ...,
 #'   estimate,
-#'   estimator =  NULL,
+#'   estimator = NULL,
 #'   na_rm = TRUE,
-#'   event_level = yardstick_event_level()
+#'   event_level = yardstick_event_level(),
+#'   case_weights = NULL
 #' )
 #' ```
 #'
@@ -312,7 +314,8 @@ make_prob_class_metric_function <- function(fns) {
                               estimate,
                               estimator = NULL,
                               na_rm = TRUE,
-                              event_level = yardstick_event_level()) {
+                              event_level = yardstick_event_level(),
+                              case_weights = NULL) {
 
     # Find class vs prob metrics
     are_class_metrics <- vapply(
@@ -336,7 +339,8 @@ make_prob_class_metric_function <- function(fns) {
         estimate = !!enquo(estimate),
         estimator = estimator,
         na_rm = na_rm,
-        event_level = event_level
+        event_level = event_level,
+        case_weights = !!enquo(case_weights)
       )
 
       class_calls <- lapply(class_fns, call2, !!! class_args)
@@ -369,7 +373,8 @@ make_prob_class_metric_function <- function(fns) {
         ... = ...,
         estimator = prob_estimator,
         na_rm = na_rm,
-        event_level = event_level
+        event_level = event_level,
+        case_weights = !!enquo(case_weights)
       )
 
       prob_calls <- lapply(prob_fns, call2, !!! prob_args)
@@ -400,7 +405,12 @@ make_prob_class_metric_function <- function(fns) {
 }
 
 make_numeric_metric_function <- function(fns) {
-  metric_function <- function(data, truth, estimate, na_rm = TRUE, ...) {
+  metric_function <- function(data,
+                              truth,
+                              estimate,
+                              na_rm = TRUE,
+                              case_weights = NULL,
+                              ...) {
 
     # Construct common argument set for each metric call
     # Doing this dynamically inside the generated function means
@@ -410,6 +420,7 @@ make_numeric_metric_function <- function(fns) {
       truth = !!enquo(truth),
       estimate = !!enquo(estimate),
       na_rm = na_rm,
+      case_weights = !!enquo(case_weights),
       ... = ...
     )
 

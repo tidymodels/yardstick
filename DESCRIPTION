@@ -19,6 +19,7 @@ Depends:
 Imports:
     dplyr (>= 1.0.8),
     generics,
+    hardhat (>= 0.2.0.9000),
     pROC (>= 1.15.0),
     rlang (>= 1.0.1),
     tidyselect (>= 1.1.2),
@@ -34,6 +35,8 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     tidyr
+Remotes:
+    tidymodels/hardhat
 VignetteBuilder: 
     knitr
 Config/Needs/website:

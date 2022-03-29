@@ -10,19 +10,6 @@ ex_dat$rand_na[ind] <- NA
 
 ###################################################################
 
-test_that('rmse', {
-  expect_equal(
-    rmse(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
-  )
-  expect_equal(
-    rmse(ex_dat, truth = obs, estimate = "pred_na")[[".estimate"]],
-    sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2))
-  )
-})
-
-###################################################################
-
 test_that('R^2', {
   expect_equal(
     rsq(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],

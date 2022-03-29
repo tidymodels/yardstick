@@ -1,5 +1,3 @@
-# ------------------------------------------------------------------------------
-
 test_that("two class produces identical results regardless of level order", {
   lst <- data_altman()
   df <- lst$pathology
@@ -13,8 +11,6 @@ test_that("two class produces identical results regardless of level order", {
     accuracy_vec(df_rev$pathology, df_rev$scan)
   )
 })
-
-# ------------------------------------------------------------------------------
 
 test_that('Three class', {
   lst <- data_three_class()
@@ -47,7 +43,20 @@ test_that('Three class', {
   )
 })
 
-# sklearn compare --------------------------------------------------------------
+test_that("two class with case weights is correct", {
+  df <- data.frame(
+    truth = factor(c("x", "x", "y"), levels = c("x", "y")),
+    estimate = factor(c("x", "y", "x"), levels = c("x", "y")),
+    case_weights = c(1L, 1L, 2L)
+  )
+
+  # 1 correct, 2 wrong. Normally 1/3 accuracy, but one of the wrong
+  # values is weighted 2x so we get 1/4.
+  expect_identical(
+    accuracy(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
+    1/4
+  )
+})
 
 test_that('Two class - sklearn equivalent', {
   py_res <- read_pydata("py-accuracy")

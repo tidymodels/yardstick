@@ -8,9 +8,9 @@
 \usage{
 accuracy(data, ...)
 
-\method{accuracy}{data.frame}(data, truth, estimate, na_rm = TRUE, ...)
+\method{accuracy}{data.frame}(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 
-accuracy_vec(truth, estimate, na_rm = TRUE, ...)
+accuracy_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -32,6 +32,10 @@ unquoted variable name. For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},

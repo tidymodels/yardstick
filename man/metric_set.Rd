@@ -32,6 +32,7 @@ fn(
   truth,
   estimate,
   na_rm = TRUE,
+  case_weights = NULL,
   ...
 )
 
@@ -41,9 +42,10 @@ fn(
   truth,
   ...,
   estimate,
-  estimator =  NULL,
+  estimator = NULL,
   na_rm = TRUE,
-  event_level = yardstick_event_level()
+  event_level = yardstick_event_level(),
+  case_weights = NULL
 )
 }
 

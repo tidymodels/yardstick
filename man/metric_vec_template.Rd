@@ -11,6 +11,7 @@ metric_vec_template(
   na_rm = TRUE,
   cls = "numeric",
   estimator = NULL,
+  case_weights = NULL,
   ...
 )
 }
@@ -43,6 +44,11 @@ type should be finalized, so this should be a character vector of length 1\.
 By default, this character value is required to be one of: \code{"binary"},
 \code{"macro"}, \code{"micro"}, or \code{"macro_weighted"}. If your metric allows more
 or less averaging methods, override this with \code{averaging_override}.}
+
+\item{case_weights}{Optionally, the realized case weights, as a numeric
+vector. This must be the same length as \code{truth}, and will be considered in
+the \code{na_rm} checks. If supplied, this will be passed on to \code{metric_impl} as
+the named argument \code{case_weights}.}
 
 \item{...}{Extra arguments to your core metric function, \code{metric_impl}, can
 technically be passed here, but generally the extra args are added through

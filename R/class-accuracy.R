@@ -48,6 +48,7 @@ accuracy.data.frame <- function(data,
                                 truth,
                                 estimate,
                                 na_rm = TRUE,
+                                case_weights = NULL,
                                 ...) {
   metric_summarizer(
     metric_nm = "accuracy",
@@ -55,7 +56,8 @@ accuracy.data.frame <- function(data,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
 }
 
@@ -79,17 +81,8 @@ accuracy.matrix <- function(data, ...) {
 
 #' @export
 #' @rdname accuracy
-accuracy_vec <- function(truth, estimate, na_rm = TRUE, ...) {
+accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   estimator <- finalize_estimator(truth, metric_class = "accuracy")
-
-  accuracy_impl <- function(truth, estimate) {
-    xtab <- vec2table(
-      truth = truth,
-      estimate = estimate
-    )
-
-    accuracy_table_impl(xtab)
-  }
 
   metric_vec_template(
     metric_impl = accuracy_impl,
@@ -97,15 +90,19 @@ accuracy_vec <- function(truth, estimate, na_rm = TRUE, ...) {
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = "factor"
   )
 }
 
-accuracy_table_impl <- function(data) {
-  accuracy_binary(data)
+# binary and multiclass case are equivalent
+accuracy_impl <- function(truth, estimate, ..., case_weights = NULL) {
+  check_dots_empty()
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  accuracy_table_impl(data)
 }
 
-# binary and multiclass case are equivalent
-accuracy_binary <- function(data) {
-  sum(diag(data)) / sum(data)
+accuracy_table_impl <- function(x) {
+  sum(diag(x)) / sum(x)
 }
+

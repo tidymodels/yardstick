@@ -25,6 +25,10 @@
 #' @param na_rm A `logical` value indicating whether `NA`
 #' values should be stripped before the computation proceeds.
 #'
+#' @param case_weights The optional column identifier for case weights. This
+#' should be an unquoted column name that evaluates to a numeric column in
+#' `data`. For `_vec()` functions, a numeric vector.
+#'
 #' @param ... Not currently used.
 #'
 #' @author Max Kuhn
@@ -43,33 +47,42 @@ rmse <- new_numeric_metric(
 
 #' @rdname rmse
 #' @export
-rmse.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
-
+rmse.data.frame <- function(data,
+                            truth,
+                            estimate,
+                            na_rm = TRUE,
+                            case_weights = NULL,
+                            ...) {
   metric_summarizer(
     metric_nm = "rmse",
     metric_fn = rmse_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
 #' @rdname rmse
-rmse_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
-  rmse_impl <- function(truth, estimate) {
-    sqrt( mean( (truth - estimate) ^ 2) )
-  }
-
+rmse_vec <- function(truth,
+                     estimate,
+                     na_rm = TRUE,
+                     case_weights = NULL,
+                     ...) {
   metric_vec_template(
     metric_impl = rmse_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric"
   )
+}
 
+rmse_impl <- function(truth, estimate, ..., case_weights = NULL) {
+  check_dots_empty()
+  errors <- (truth - estimate) ^ 2
+  sqrt(yardstick_mean(errors, case_weights = case_weights))
 }

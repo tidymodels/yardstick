@@ -94,3 +94,61 @@ curve_finalize <- function(result, data, class, grouped_class) {
 
   out
 }
+
+# ------------------------------------------------------------------------------
+
+yardstick_mean <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
+  check_dots_empty()
+
+  if (is.null(case_weights)) {
+    mean(x, na.rm = na_remove)
+  } else {
+    weighted.mean(x, w = case_weights, na.rm = na_remove)
+  }
+}
+
+# ------------------------------------------------------------------------------
+
+yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
+  check_dots_empty()
+
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+  if (is_class_pred(estimate)) {
+    estimate <- as_factor_from_class_pred(estimate)
+  }
+
+  if (!is.factor(truth)) {
+    abort("`truth` must be a factor.", .internal = TRUE)
+  }
+  if (!is.factor(estimate)) {
+    abort("`estimate` must be a factor.", .internal = TRUE)
+  }
+
+  levels <- levels(truth)
+  n_levels <- length(levels)
+
+  if (!identical(levels, levels(estimate))) {
+    abort("`truth` and `estimate` must have the same levels in the same order.", .internal = TRUE)
+  }
+  if (n_levels < 2) {
+    abort("`truth` must have at least 2 factor levels.", .internal = TRUE)
+  }
+
+  # Supply `estimate` first to get it to correspond to the row names.
+  # Always return a double matrix for type stability.
+  if (is.null(case_weights)) {
+    out <- table(Prediction = estimate, Truth = truth)
+    out <- unclass(out)
+    storage.mode(out) <- "double"
+  } else {
+    out <- hardhat::weighted_table(
+      Prediction = estimate,
+      Truth = truth,
+      weights = case_weights
+    )
+  }
+
+  out
+}

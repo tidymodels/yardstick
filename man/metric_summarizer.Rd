@@ -13,6 +13,7 @@ metric_summarizer(
   estimator = NULL,
   na_rm = TRUE,
   event_level = NULL,
+  case_weights = NULL,
   ...,
   metric_fn_options = list()
 )
@@ -52,6 +53,11 @@ classification metrics, this can either be \code{NULL} to use the default
 \code{event_level} value of the \code{metric_fn} or a single string of either
 \code{"first"} or \code{"second"} to pass along describing which level should be
 considered the "event".}
+
+\item{case_weights}{For metrics supporting case weights, an unquoted
+column name corresponding to case weights can be passed here. If not \code{NULL},
+the case weights will be passed on to \code{metric_fn} as the named argument
+\code{case_weights}.}
 
 \item{...}{Currently not used. Metric specific options are passed in
 through \code{metric_fn_options}.}
