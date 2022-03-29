@@ -252,7 +252,6 @@ flatten <- function(xtab) {
 #'
 #'
 #' @export
-#' @importFrom dplyr bind_rows
 summary.conf_mat <- function(object,
                              prevalence = NULL,
                              beta = 1,
@@ -262,7 +261,7 @@ summary.conf_mat <- function(object,
 
   xtab <- object$table
 
-  stats <- bind_rows(
+  stats <- dplyr::bind_rows(
     # known multiclass extension
     accuracy(xtab),
     # known multiclass extension

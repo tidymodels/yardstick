@@ -13,19 +13,19 @@ ex_dat$rand_na[ind] <- NA
 test_that('R^2', {
   expect_equal(
     rsq(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    cor(ex_dat[, 1:2])[1,2]^2
+    stats::cor(ex_dat[, 1:2])[1,2]^2
   )
   expect_equal(
     rsq(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    cor(ex_dat[, c(1, 3)], use = "complete.obs")[1,2]^2
+    stats::cor(ex_dat[, c(1, 3)], use = "complete.obs")[1,2]^2
   )
   expect_equal(
     rsq(ex_dat, truth = "obs", estimate = "rand")[[".estimate"]],
-    cor(ex_dat[, c(1, 4)])[1,2]^2
+    stats::cor(ex_dat[, c(1, 4)])[1,2]^2
   )
   expect_equal(
     rsq(ex_dat, estimate = rand_na, truth = obs)[[".estimate"]],
-    cor(ex_dat[, c(1, 5)], use = "complete.obs")[1,2]^2
+    stats::cor(ex_dat[, c(1, 5)], use = "complete.obs")[1,2]^2
   )
 })
 
@@ -138,11 +138,11 @@ test_that('Concordance Correlation Coefficient', {
 test_that('rpd', {
   expect_equal(
     rpd(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    sd(ex_dat$obs) / (sqrt(mean((ex_dat$obs - ex_dat$pred)^2)))
+    stats::sd(ex_dat$obs) / (sqrt(mean((ex_dat$obs - ex_dat$pred)^2)))
   )
   expect_equal(
     rpd(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    sd(ex_dat$obs[-ind]) / (sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2)))
+    stats::sd(ex_dat$obs[-ind]) / (sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2)))
   )
 })
 
@@ -151,11 +151,11 @@ test_that('rpd', {
 test_that('rpiq', {
   expect_equal(
     rpiq(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    IQR(ex_dat$obs) / sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
+    stats::IQR(ex_dat$obs) / sqrt(mean((ex_dat$obs - ex_dat$pred)^2))
   )
   expect_equal(
     rpiq(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    IQR(ex_dat$obs[-ind]) / sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2))
+    stats::IQR(ex_dat$obs[-ind]) / sqrt(mean((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2))
   )
 })
 

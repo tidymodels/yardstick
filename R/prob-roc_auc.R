@@ -111,8 +111,6 @@ roc_auc.data.frame <- function(data,
 
 #' @rdname roc_auc
 #' @export
-#' @importFrom rlang call2
-#' @importFrom pROC roc auc
 roc_auc_vec <- function(truth,
                         estimate,
                         options = list(),
@@ -149,7 +147,7 @@ roc_auc_estimator_impl <- function(truth, estimate, options, estimator, event_le
     truth_table <- matrix(table(truth), nrow = 1)
     w <- get_weights(truth_table, estimator)
     out_vec <- roc_auc_multiclass(truth, estimate, options)
-    weighted.mean(out_vec, w)
+    stats::weighted.mean(out_vec, w)
   }
 }
 

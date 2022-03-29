@@ -6,7 +6,7 @@
 auc <- function(x, y, na_rm = TRUE) {
 
   if(na_rm) {
-    comp <- complete.cases(x, y)
+    comp <- stats::complete.cases(x, y)
     x <- x[comp]
     y <- y[comp]
   }

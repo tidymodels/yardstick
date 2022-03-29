@@ -106,7 +106,7 @@ bal_accuracy_table_impl <- function(data, estimator, event_level) {
   } else {
     w <- get_weights(data, estimator)
     out_vec <- bal_accuracy_multiclass(data, estimator)
-    weighted.mean(out_vec, w)
+    stats::weighted.mean(out_vec, w)
   }
 }
 

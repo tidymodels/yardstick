@@ -36,7 +36,7 @@ test_that("`event_level = 'second'` works", {
   df <- two_class_example
 
   df_rev <- df
-  df_rev$truth <- relevel(df_rev$truth, "Class2")
+  df_rev$truth <- stats::relevel(df_rev$truth, "Class2")
 
   expect_equal(
     roc_auc_vec(df$truth, df$Class1),
@@ -151,7 +151,7 @@ test_that("pROC::auc() arguments are passed through - corrected and focused args
   data("aSAH", package = "pROC")
 
   suppressMessages({
-    curv <- roc(aSAH$outcome, aSAH$s100b, direction = "<")
+    curv <- pROC::roc(aSAH$outcome, aSAH$s100b, direction = "<")
   })
 
   proc_auc <- as.numeric(pROC::auc(

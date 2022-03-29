@@ -48,14 +48,14 @@ test_that('bad args', {
 
 ###################################################################
 
-class_res_1 <- bind_rows(
+class_res_1 <- dplyr::bind_rows(
   accuracy(two_class_example, truth, predicted),
   kap(two_class_example, truth, predicted),
   mn_log_loss(two_class_example, truth, Class1),
   roc_auc(two_class_example, truth, Class1)
 )
 
-reg_res_1 <- bind_rows(
+reg_res_1 <- dplyr::bind_rows(
   rmse(solubility_test, solubility, "prediction"),
   rsq(solubility_test, solubility, prediction),
   mae(solubility_test, solubility, prediction)
@@ -124,8 +124,8 @@ test_that("can supply `event_level` even with metrics that don't use it", {
   df <- two_class_example
 
   df_rev <- df
-  df_rev$truth <- relevel(df_rev$truth, "Class2")
-  df_rev$predicted <- relevel(df_rev$predicted, "Class2")
+  df_rev$truth <- stats::relevel(df_rev$truth, "Class2")
+  df_rev$predicted <- stats::relevel(df_rev$predicted, "Class2")
 
   # accuracy doesn't use it, and doesn't have it as an argument
   set <- metric_set(accuracy, recall, roc_auc)
@@ -214,7 +214,7 @@ test_that("print metric_set works", {
 
 test_that("metric_set can be coerced to a tibble", {
   x <- metric_set(roc_auc, pr_auc, accuracy)
-  expect_s3_class(as_tibble(x), "tbl_df")
+  expect_s3_class(dplyr::as_tibble(x), "tbl_df")
 })
 
 test_that("`metric_set()` errors contain env name for unknown functions (#128)", {

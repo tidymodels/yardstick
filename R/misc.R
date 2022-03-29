@@ -103,7 +103,7 @@ yardstick_mean <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
   if (is.null(case_weights)) {
     mean(x, na.rm = na_remove)
   } else {
-    weighted.mean(x, w = case_weights, na.rm = na_remove)
+    stats::weighted.mean(x, w = case_weights, na.rm = na_remove)
   }
 }
 

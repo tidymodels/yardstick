@@ -64,7 +64,6 @@ pr_curve <- function(data, ...) {
 
 #' @export
 #' @rdname pr_curve
-#' @importFrom stats relevel
 pr_curve.data.frame <- function(data,
                                 truth,
                                 ...,
@@ -125,7 +124,7 @@ pr_curve_binary <- function(truth, estimate, event_level) {
   # The second level becomes the first so as.integer()
   # holds the 1s and 2s in the correct slot
   if (!is_event_first(event_level)) {
-    truth <- relevel(truth, lvls[2])
+    truth <- stats::relevel(truth, lvls[2])
   }
 
   # Quicker to convert to integer now

@@ -65,8 +65,8 @@ test_that("summary method - `event_level` passes through (#160)", {
   df <- lst$df_2_1
 
   df_rev <- df
-  df_rev$truth <- relevel(df_rev$truth, "Irrelevant")
-  df_rev$prediction <- relevel(df_rev$prediction, "Irrelevant")
+  df_rev$truth <- stats::relevel(df_rev$truth, "Irrelevant")
+  df_rev$prediction <- stats::relevel(df_rev$prediction, "Irrelevant")
 
   expect_equal(
     as.data.frame(summary(conf_mat(df, truth, prediction))),

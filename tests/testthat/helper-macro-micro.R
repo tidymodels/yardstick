@@ -48,7 +48,7 @@ macro_metric <- function(binary_metric, event_level = "first", ...) {
 }
 
 macro_weighted_metric <- function(binary_metric, event_level = "first", ...) {
-  weighted.mean(
+  stats::weighted.mean(
     vapply(multi_submats, binary_metric, numeric(1), event_level = event_level, ...),
     weighted_macro_weights
   )

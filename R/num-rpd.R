@@ -72,12 +72,11 @@ rpd.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
 #' @export
 #' @rdname rpd
-#' @importFrom stats sd
 rpd_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rpd_impl <- function(truth, estimate) {
 
-    sd(truth) / rmse_vec(truth, estimate)
+    stats::sd(truth) / rmse_vec(truth, estimate)
 
   }
 

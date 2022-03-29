@@ -66,8 +66,6 @@
 #' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
 #'
 #' @export
-#'
-#' @importFrom dplyr summarise
 metric_summarizer <- function(metric_nm,
                               metric_fn,
                               data,
@@ -170,8 +168,6 @@ metric_summarizer <- function(metric_nm,
 #' @seealso [metric_summarizer()] [finalize_estimator()] [dots_to_estimate()]
 #'
 #' @export
-#'
-#' @importFrom stats complete.cases
 metric_vec_template <- function(metric_impl,
                                 truth,
                                 estimate,
@@ -193,7 +189,7 @@ metric_vec_template <- function(metric_impl,
   has_case_weights <- !is.null(case_weights)
 
   if (na_rm) {
-    complete_cases <- complete.cases(truth, estimate, case_weights)
+    complete_cases <- stats::complete.cases(truth, estimate, case_weights)
     truth <- truth[complete_cases]
 
     if (is.matrix(estimate)) {
@@ -246,7 +242,6 @@ validate_case_weights <- function(case_weights, size) {
   invisible()
 }
 
-#' @importFrom rlang get_expr set_expr
 handle_chr_names <- function(x, nms) {
   x_expr <- get_expr(x)
 
