@@ -2,10 +2,14 @@ library(reticulate)
 library(purrr)
 
 skmetrics <- import("sklearn.metrics")
+
 data("hpc_cv")
 data("two_class_example")
+data("solubility_test")
+
 weights_hpc_cv <- read_weights_hpc_cv()
 weights_two_class_example <- read_weights_two_class_example()
+weights_solubility_test <- read_weights_solubility_test()
 
 save_metric_results <- function(nm, fn, ..., average = c("macro", "micro", "weighted")) {
 
@@ -71,3 +75,13 @@ py_kap <- list(
   quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic")
 )
 saveRDS(py_kap, "tests/pycompare/py-kap", version = 2)
+
+# RMSE
+py_rmse <- list(
+  case_weight = sqrt(skmetrics$mean_squared_error(
+    y_true = solubility_test$solubility,
+    y_pred = solubility_test$prediction,
+    sample_weight = weights_solubility_test
+  ))
+)
+saveRDS(py_rmse, "tests/pycompare/py-rmse", version = 2)

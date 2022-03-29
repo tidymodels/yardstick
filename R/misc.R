@@ -97,6 +97,18 @@ curve_finalize <- function(result, data, class, grouped_class) {
 
 # ------------------------------------------------------------------------------
 
+yardstick_mean <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
+  check_dots_empty()
+
+  if (is.null(case_weights)) {
+    mean(x, na.rm = na_remove)
+  } else {
+    weighted.mean(x, w = case_weights, na.rm = na_remove)
+  }
+}
+
+# ------------------------------------------------------------------------------
+
 yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
   check_dots_empty()
 
