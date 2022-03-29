@@ -47,3 +47,18 @@ test_that('Three class', {
     with(micro, sum(tp + fp) / sum(n + p))
   )
 })
+
+# ------------------------------------------------------------------------------
+
+test_that("two class with case weights is correct", {
+  df <- data.frame(
+    truth = factor(c("x", "x", "y"), levels = c("x", "y")),
+    estimate = factor(c("x", "y", "x"), levels = c("x", "y")),
+    case_weights = c(1L, 1L, 2L)
+  )
+
+  expect_identical(
+    detection_prevalence(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
+    3/4
+  )
+})

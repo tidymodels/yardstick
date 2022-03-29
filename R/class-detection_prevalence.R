@@ -31,6 +31,7 @@ detection_prevalence.data.frame <- function(data,
                                             estimate,
                                             estimator = NULL,
                                             na_rm = TRUE,
+                                            case_weights = NULL,
                                             event_level = yardstick_event_level(),
                                             ...) {
   metric_summarizer(
@@ -41,7 +42,8 @@ detection_prevalence.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     event_level = event_level,
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
 }
 
@@ -75,17 +77,15 @@ detection_prevalence_vec <- function(truth,
                                      estimate,
                                      estimator = NULL,
                                      na_rm = TRUE,
+                                     case_weights = NULL,
                                      event_level = yardstick_event_level(),
                                      ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  detection_prevalence_impl <- function(truth, estimate) {
-    xtab <- vec2table(
-      truth = truth,
-      estimate = estimate
-    )
-
-    detection_prevalence_table_impl(xtab, estimator, event_level)
+  detection_prevalence_impl <- function(truth, estimate, ..., case_weights = NULL) {
+    check_dots_empty()
+    data <- yardstick_table(truth, estimate, case_weights = case_weights)
+    detection_prevalence_table_impl(data, estimator, event_level)
   }
 
   metric_vec_template(
@@ -94,6 +94,7 @@ detection_prevalence_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = "factor"
   )
 }
