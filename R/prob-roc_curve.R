@@ -74,9 +74,6 @@ roc_curve <- function(data, ...)
 
 #' @export
 #' @rdname roc_curve
-#' @importFrom pROC coords
-#' @importFrom rlang exec
-#' @importFrom dplyr arrange as_tibble %>%
 roc_curve.data.frame <- function (data,
                                   truth,
                                   ...,
@@ -162,7 +159,7 @@ roc_curve_binary <- function(truth, estimate, event_level, options) {
   curv <- exec(pROC::roc, !!!options)
 
   if (!inherits(curv, "smooth.roc")) {
-    res <- coords(
+    res <- pROC::coords(
       curv,
       x = unique(c(-Inf, options$predictor, Inf)),
       input = "threshold",
@@ -170,7 +167,7 @@ roc_curve_binary <- function(truth, estimate, event_level, options) {
     )
   }
   else {
-    res <- coords(
+    res <- pROC::coords(
       curv,
       x = unique(c(0, curv$specificities, 1)),
       input = "specificity",

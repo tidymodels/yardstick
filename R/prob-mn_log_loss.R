@@ -79,7 +79,6 @@ mn_log_loss <- new_prob_metric(
 
 #' @export
 #' @rdname mn_log_loss
-#' @importFrom rlang quo
 mn_log_loss.data.frame <- function(data,
                                    truth,
                                    ...,
@@ -102,7 +101,6 @@ mn_log_loss.data.frame <- function(data,
 }
 
 #' @rdname mn_log_loss
-#' @importFrom stats model.matrix
 #' @export
 mn_log_loss_vec <- function(truth,
                             estimate,
@@ -140,7 +138,7 @@ mn_log_loss_estimator_impl <- function(truth, estimate, estimator, event_level, 
 mn_log_loss_binary <- function(truth, estimate, event_level, sum) {
   if (!is_event_first(event_level)) {
     lvls <- levels(truth)
-    truth <- relevel(truth, lvls[[2]])
+    truth <- stats::relevel(truth, lvls[[2]])
   }
 
   estimate <- matrix(c(estimate, 1 - estimate), ncol = 2)
@@ -155,7 +153,7 @@ mn_log_loss_binary <- function(truth, estimate, event_level, sum) {
 # https://github.com/wch/r-source/blob/582d94805aeee0c91f9bd9bdd63e421dd60e441f/src/library/stats/R/family.R#L83
 
 mn_log_loss_multiclass <- function(truth, estimate, sum) {
-  y <- model.matrix(~ truth - 1)
+  y <- stats::model.matrix(~ truth - 1)
 
   eps <- .Machine$double.eps
   estimate <- pmax(pmin(estimate, 1 - eps), eps)

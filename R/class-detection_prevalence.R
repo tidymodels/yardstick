@@ -104,7 +104,7 @@ detection_prevalence_table_impl <- function(data, estimator, event_level) {
   } else {
     w <- get_weights(data, estimator)
     out_vec <- detection_prevalence_multiclass(data, estimator)
-    weighted.mean(out_vec, w)
+    stats::weighted.mean(out_vec, w)
   }
 }
 

@@ -125,7 +125,7 @@ j_index_table_impl <- function(data, estimator, event_level) {
   } else {
     w <- get_weights(data, estimator)
     out_vec <- j_index_multiclass(data, estimator)
-    weighted.mean(out_vec, w)
+    stats::weighted.mean(out_vec, w)
   }
 }
 

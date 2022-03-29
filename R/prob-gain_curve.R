@@ -123,8 +123,6 @@ gain_curve.data.frame <- function(data,
 # dont export gain_curve_vec / lift_curve_vec
 # not as meaningful to return a list of vectors
 # maybe it could return the tibble?
-
-#' @importFrom stats relevel complete.cases
 gain_curve_vec <- function(truth,
                            estimate,
                            na_rm = TRUE,
@@ -162,7 +160,7 @@ gain_curve_binary <- function(truth, estimate, event_level) {
   # holds the 1s and 2s in the correct slot
   if (!is_event_first(event_level)) {
     lvls <- levels(truth)
-    truth <- relevel(truth, lvls[2])
+    truth <- stats::relevel(truth, lvls[2])
   }
 
   # truth is now either 1 or 2

@@ -91,6 +91,6 @@ test_that("gain_capture = 2 * ROCAUC - 1", {
 
   expect_equal(
     gain_capture(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
-    weighted.mean(2 * roc_auc_unweighted - 1, w)
+    stats::weighted.mean(2 * roc_auc_unweighted - 1, w)
   )
 })

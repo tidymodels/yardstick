@@ -61,15 +61,14 @@ ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na_rm = TRUE, ..
 
 #' @export
 #' @rdname ccc
-#' @importFrom stats var
 ccc_vec <- function(truth, estimate, bias = FALSE, na_rm = TRUE, ...) {
 
   ccc_impl <- function(truth, estimate, bias) {
 
     m_e <- mean(estimate)
     m_t <- mean(truth)
-    v_e <- var(estimate)
-    v_t <- var(truth)
+    v_e <- stats::var(estimate)
+    v_t <- stats::var(truth)
     cross <- scale(truth, scale = FALSE) *
       scale(estimate, scale = FALSE)
     cross <- mean(cross)

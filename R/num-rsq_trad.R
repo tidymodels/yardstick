@@ -62,13 +62,12 @@ rsq_trad.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
 #' @export
 #' @rdname rsq_trad
-#' @importFrom stats var
 rsq_trad_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rsq_trad_impl <- function(truth, estimate) {
     n <- length(truth)
     ss <- sum( (estimate - truth) ^ 2)
-    1 - (ss / ((n - 1) * var(truth)))
+    1 - (ss / ((n - 1) * stats::var(truth)))
   }
 
   metric_vec_template(

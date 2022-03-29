@@ -122,8 +122,6 @@ roc_aunp.data.frame <- function(data,
 
 #' @rdname roc_aunp
 #' @export
-#' @importFrom rlang call2
-#' @importFrom pROC roc auc
 roc_aunp_vec <- function(truth,
                          estimate,
                          options = list(),

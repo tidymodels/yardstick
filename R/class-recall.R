@@ -133,7 +133,7 @@ recall_table_impl <- function(data, estimator, event_level) {
     w <- get_weights(data, estimator)
     out_vec <- recall_multiclass(data, estimator)
     # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
-    weighted.mean(out_vec, w, na.rm = TRUE)
+    stats::weighted.mean(out_vec, w, na.rm = TRUE)
   }
 }
 

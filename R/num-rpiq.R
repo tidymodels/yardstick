@@ -50,12 +50,11 @@ rpiq.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
 #' @export
 #' @rdname rpiq
-#' @importFrom stats IQR
 rpiq_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rpiq_impl <- function(truth, estimate) {
 
-    IQR(truth) / rmse_vec(truth, estimate)
+    stats::IQR(truth) / rmse_vec(truth, estimate)
 
   }
 

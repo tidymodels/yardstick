@@ -42,7 +42,6 @@ poisson_log_loss.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...
 }
 
 #' @export
-#' @importFrom stats dpois
 #' @rdname poisson_log_loss
 poisson_log_loss_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 

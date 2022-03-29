@@ -105,7 +105,7 @@ pr_auc_estimator_impl <- function(truth, estimate, estimator, event_level) {
     truth_table <- matrix(table(truth), nrow = 1)
     w <- get_weights(truth_table, estimator)
     out_vec <- pr_auc_multiclass(truth, estimate)
-    weighted.mean(out_vec, w)
+    stats::weighted.mean(out_vec, w)
   }
 }
 

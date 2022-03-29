@@ -25,8 +25,8 @@ test_that("`event_level = 'second'` works", {
   df <- lst$df_2_1
 
   df_rev <- df
-  df_rev$truth <- relevel(df_rev$truth, "Irrelevant")
-  df_rev$prediction <- relevel(df_rev$prediction, "Irrelevant")
+  df_rev$truth <- stats::relevel(df_rev$truth, "Irrelevant")
+  df_rev$prediction <- stats::relevel(df_rev$prediction, "Irrelevant")
 
   expect_equal(
     f_meas_vec(df$truth, df$prediction),

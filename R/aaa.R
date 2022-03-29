@@ -1,11 +1,7 @@
 # nocov start
 
-#' @useDynLib yardstick, .registration = TRUE
-NULL
-
 # Global vars ------------------------------------------------------------------
 
-#' @importFrom utils globalVariables
 utils::globalVariables(
   c(
     # for class prob metrics

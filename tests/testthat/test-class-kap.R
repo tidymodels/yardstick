@@ -3,8 +3,8 @@ test_that("two class produces identical results regardless of level order", {
   df <- lst$pathology
 
   df_rev <- df
-  df_rev$pathology <- relevel(df_rev$pathology, "norm")
-  df_rev$scan <- relevel(df_rev$scan, "norm")
+  df_rev$pathology <- stats::relevel(df_rev$pathology, "norm")
+  df_rev$scan <- stats::relevel(df_rev$scan, "norm")
 
   expect_equal(
     kap_vec(df$pathology, df$scan),

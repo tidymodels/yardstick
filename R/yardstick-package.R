@@ -2,6 +2,9 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom rlang check_dots_empty
+#' @useDynLib yardstick, .registration = TRUE
+#' @import rlang
+#' @importFrom dplyr %>%
+#' @importFrom dplyr as_tibble
 ## usethis namespace: end
 NULL

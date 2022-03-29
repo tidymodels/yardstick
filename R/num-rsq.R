@@ -74,7 +74,6 @@ rsq.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
 
 #' @export
 #' @rdname rsq
-#' @importFrom stats cor
 rsq_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
   rsq_impl <- function(truth, estimate) {

@@ -68,7 +68,6 @@ metrics <- function(data, ...) {
 
 #' @export
 #' @rdname metrics
-#' @importFrom dplyr bind_rows
 metrics.data.frame <- function(data,
                                truth,
                                estimate,
@@ -90,7 +89,7 @@ metrics.data.frame <- function(data,
     if (length(probs) > 0L) {
       res2 <- mn_log_loss(data, !!truth, !!probs, na_rm = na_rm)
       res3 <- roc_auc(data, !!truth, !!probs, na_rm = na_rm, options = options)
-      res <- bind_rows(res, res2, res3)
+      res <- dplyr::bind_rows(res, res2, res3)
     }
   } else {
     # Assume only regression for now
@@ -221,10 +220,6 @@ metrics.data.frame <- function(data,
 #' @seealso [metrics()]
 #'
 #' @export
-#'
-#' @importFrom rlang call2
-#' @importFrom dplyr bind_rows
-#' @importFrom rlang quos enquo enquos abort
 metric_set <- function(...) {
   quo_fns <- enquos(...)
   validate_not_empty(quo_fns)
@@ -255,12 +250,11 @@ metric_set <- function(...) {
 
 #' @export
 print.metric_set <- function(x, ...) {
-  info <- as_tibble(x)
+  info <- dplyr::as_tibble(x)
   print(info)
   invisible(x)
 }
 
-#' @importFrom dplyr as_tibble
 #' @export
 as_tibble.metric_set <- function(x, ...) {
   metrics <- attributes(x)$metrics
@@ -390,7 +384,7 @@ make_prob_class_metric_function <- function(fns) {
       metric_list <- c(metric_list, prob_list)
     }
 
-    bind_rows(metric_list)
+    dplyr::bind_rows(metric_list)
   }
 
   class(metric_function) <- c(
@@ -436,7 +430,7 @@ make_numeric_metric_function <- function(fns) {
       USE.NAMES = FALSE
     )
 
-    bind_rows(metric_list)
+    dplyr::bind_rows(metric_list)
   }
 
   class(metric_function) <- c(
@@ -456,7 +450,6 @@ validate_not_empty <- function(x) {
   }
 }
 
-#' @importFrom rlang is_function
 validate_inputs_are_functions <- function(fns) {
 
   # Check that the user supplied all functions
@@ -555,9 +548,6 @@ validate_function_class <- function(fns) {
 
 # Safely evaluate metrics in such a way that we can capture the
 # error and inform the user of the metric that failed
-
-#' @importFrom rlang caller_env
-#' @importFrom rlang eval_tidy
 eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
   tryCatch(
     expr = {

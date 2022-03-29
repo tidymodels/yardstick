@@ -2,7 +2,7 @@ try_cor <- function(truth, estimate) {
   handler <- make_cor_handler(truth, estimate)
 
   withCallingHandlers(
-    expr = cor(truth, estimate),
+    expr = stats::cor(truth, estimate),
     simpleWarning = handler
   )
 }
