@@ -54,6 +54,7 @@ f_meas.data.frame <- function(data,
                               beta = 1,
                               estimator = NULL,
                               na_rm = TRUE,
+                              case_weights = NULL,
                               event_level = yardstick_event_level(),
                               ...) {
   metric_summarizer(
@@ -64,6 +65,7 @@ f_meas.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    case_weights = !!enquo(case_weights),
     event_level = event_level,
     metric_fn_options = list(beta = beta)
   )
@@ -102,17 +104,15 @@ f_meas_vec <- function(truth,
                        beta = 1,
                        estimator = NULL,
                        na_rm = TRUE,
+                       case_weights = NULL,
                        event_level = yardstick_event_level(),
                        ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  f_meas_impl <- function(truth, estimate, beta) {
-    xtab <- vec2table(
-      truth = truth,
-      estimate = estimate
-    )
-
-    f_meas_table_impl(xtab, estimator, event_level, beta = beta)
+  f_meas_impl <- function(truth, estimate, ..., beta = 1, case_weights = NULL) {
+    check_dots_empty()
+    data <- yardstick_table(truth, estimate, case_weights = case_weights)
+    f_meas_table_impl(data, estimator, event_level, beta = beta)
   }
 
   metric_vec_template(
@@ -121,6 +121,7 @@ f_meas_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = "factor",
     beta = beta
   )
