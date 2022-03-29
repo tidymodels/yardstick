@@ -4,7 +4,7 @@
 
   * Numeric: rmse
   
-  * Class: accuracy, bal_accuracy, sens
+  * Class: accuracy, bal_accuracy, detection_prevalence, sens
   
   * Probability:
 
