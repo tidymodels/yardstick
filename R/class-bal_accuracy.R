@@ -30,6 +30,7 @@ bal_accuracy.data.frame <- function(data,
                                     estimate,
                                     estimator = NULL,
                                     na_rm = TRUE,
+                                    case_weights = NULL,
                                     event_level = yardstick_event_level(),
                                     ...) {
 
@@ -41,6 +42,7 @@ bal_accuracy.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    case_weights = !!enquo(case_weights),
     event_level = event_level
   )
 
@@ -76,17 +78,15 @@ bal_accuracy_vec <- function(truth,
                              estimate,
                              estimator = NULL,
                              na_rm = TRUE,
+                             case_weights = NULL,
                              event_level = yardstick_event_level(),
                              ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  bal_accuracy_impl <- function(truth, estimate) {
-    xtab <- vec2table(
-      truth = truth,
-      estimate = estimate
-    )
-
-    bal_accuracy_table_impl(xtab, estimator, event_level)
+  bal_accuracy_impl <- function(truth, estimate, ..., case_weights = NULL) {
+    check_dots_empty()
+    data <- yardstick_table(truth, estimate, case_weights = case_weights)
+    bal_accuracy_table_impl(data, estimator, event_level)
   }
 
   metric_vec_template(
@@ -95,6 +95,7 @@ bal_accuracy_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = "factor"
   )
 }

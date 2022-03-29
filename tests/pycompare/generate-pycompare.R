@@ -85,3 +85,16 @@ py_rmse <- list(
   ))
 )
 saveRDS(py_rmse, "tests/pycompare/py-rmse", version = 2)
+
+# Balanced Accuracy
+# Not comparing multiclass against sklearn here, because they use a different definition
+py_bal_accuracy <- list(
+  case_weight = list(
+    binary = skmetrics$balanced_accuracy_score(
+      y_true = two_class_example$truth,
+      y_pred = two_class_example$predicted,
+      sample_weight = weights_two_class_example
+    )
+  )
+)
+saveRDS(py_bal_accuracy, "tests/pycompare/py-bal-accuracy", version = 2)
