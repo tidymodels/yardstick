@@ -1,5 +1,13 @@
 # yardstick (development version)
 
+* yardstick metrics now support case weights.
+
+  * Numeric: rmse
+  
+  * Class: accuracy, sens
+  
+  * Probability:
+
 * Moved the Custom Metrics vignette to tidymodels.org (#236).
 
 # yardstick 0.0.9
