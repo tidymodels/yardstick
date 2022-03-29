@@ -170,4 +170,53 @@ test_that('Multi class - sklearn equivalent', {
   )
 })
 
+test_that('Two class weighted - sklearn equivalent', {
+  py_res <- read_pydata("py-f_meas")
+  py_res_.5 <- read_pydata("py-f_meas_beta_.5")
+  r_metric <- f_meas
 
+  two_class_example$weights <- read_weights_two_class_example()
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$binary
+  )
+  expect_equal(
+    r_metric(two_class_example, truth, predicted, case_weights = weights, beta = .5)[[".estimate"]],
+    py_res_.5$case_weight$binary
+  )
+})
+
+test_that('Multi class weighted - sklearn equivalent', {
+  py_res <- read_pydata("py-f_meas")
+  py_res_.5 <- read_pydata("py-f_meas_beta_.5")
+  r_metric <- f_meas
+
+  hpc_cv$weights <- read_weights_hpc_cv()
+
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$macro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, estimator = "micro", case_weights = weights)[[".estimate"]],
+    py_res$case_weight$micro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, estimator = "macro_weighted", case_weights = weights)[[".estimate"]],
+    py_res$case_weight$weighted
+  )
+
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, beta = .5, case_weights = weights)[[".estimate"]],
+    py_res_.5$case_weight$macro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, estimator = "micro", beta = .5, case_weights = weights)[[".estimate"]],
+    py_res_.5$case_weight$micro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, estimator = "macro_weighted", beta = .5, case_weights = weights)[[".estimate"]],
+    py_res_.5$case_weight$weighted
+  )
+})
