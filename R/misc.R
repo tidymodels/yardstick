@@ -108,56 +108,35 @@ yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
   }
 
   if (!is.factor(truth)) {
-    abort("Internal error: `truth` must be a factor.")
+    abort("`truth` must be a factor.", .internal = TRUE)
   }
   if (!is.factor(estimate)) {
-    abort("Internal error: `estimate` must be a factor.")
+    abort("`estimate` must be a factor.", .internal = TRUE)
   }
 
   levels <- levels(truth)
   n_levels <- length(levels)
 
   if (!identical(levels, levels(estimate))) {
-    abort("Internal error: `truth` and `estimate` must have the same levels in the same order.")
+    abort("`truth` and `estimate` must have the same levels in the same order.", .internal = TRUE)
   }
   if (n_levels < 2) {
-    abort("Internal error: `truth` must have at least 2 factor levels.")
+    abort("`truth` must have at least 2 factor levels.", .internal = TRUE)
   }
 
+  # Supply `estimate` first to get it to correspond to the row names.
+  # Always return a double matrix for type stability.
   if (is.null(case_weights)) {
-    # Typical `table()` case.
-    # Supply `estimate` first to get it to correspond to the row names.
-    out <- table(estimate, truth, dnn = c("Prediction", "Truth"))
-    return(out)
+    out <- table(Prediction = estimate, Truth = truth)
+    out <- unclass(out)
+    storage.mode(out) <- "double"
+  } else {
+    out <- hardhat::weighted_table(
+      Prediction = estimate,
+      Truth = truth,
+      weights = case_weights
+    )
   }
-
-  if (!is.integer(case_weights) && !is.double(case_weights)) {
-    abort("Internal error: `case_weights` must be a numeric vector.")
-  }
-
-  x <- dplyr::tibble(
-    truth = truth,
-    estimate = estimate,
-    case_weights = case_weights
-  )
-
-  # For each unique truth/estimate combination, sum up the case weights.
-  # These correspond to the weighted cells of the table.
-  # Important to set `.drop = FALSE` to retain empty levels in the table.
-  x <- dplyr::group_by(x, truth, estimate, .drop = FALSE)
-  x <- dplyr::summarise(x, cells = sum(case_weights), .groups = "drop")
-  x <- dplyr::arrange(x, truth, estimate)
-
-  cells <- x[["cells"]]
-
-  out <- matrix(
-    cells,
-    nrow = n_levels,
-    ncol = n_levels,
-    dimnames = list(Prediction = levels, Truth = levels)
-  )
-
-  class(out) <- "table"
 
   out
 }
