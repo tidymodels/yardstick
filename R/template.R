@@ -227,7 +227,7 @@ metric_vec_template <- function(metric_impl,
 
 validate_case_weights <- function(case_weights, size) {
   if (is.null(case_weights)) {
-    return(invisible(case_weights))
+    return(invisible())
   }
 
   if (!is.integer(case_weights) && !is.double(case_weights)) {
@@ -243,7 +243,7 @@ validate_case_weights <- function(case_weights, size) {
     ))
   }
 
-  invisible(case_weights)
+  invisible()
 }
 
 #' @importFrom rlang get_expr set_expr

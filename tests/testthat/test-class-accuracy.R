@@ -58,38 +58,6 @@ test_that("two class with case weights is correct", {
   )
 })
 
-test_that("missing values in case weights are considered by `na_rm`", {
-  truth <- factor(c("x", "y"), levels = c("x", "y"))
-  estimate <- factor(c("x", "x"), levels = c("x", "y"))
-  case_weights <- c(1, NA)
-
-  expect_identical(
-    accuracy_vec(truth, estimate, case_weights = case_weights),
-    1
-  )
-
-  expect_identical(
-    accuracy_vec(truth, estimate, case_weights = case_weights, na_rm = FALSE),
-    NA_real_
-  )
-})
-
-test_that("case weights are validated", {
-  truth <- factor(c("x", "y"), levels = c("x", "y"))
-  estimate <- factor(c("x", "x"), levels = c("x", "y"))
-
-  expect_error(
-    accuracy_vec(truth, estimate, case_weights = 1),
-    "`case_weights` (1) must have the same length as `truth` (2).",
-    fixed = TRUE
-  )
-
-  expect_error(
-    accuracy_vec(truth, estimate, case_weights = c("x", "y")),
-    "`case_weights` must be an integer or double vector."
-  )
-})
-
 test_that('Two class - sklearn equivalent', {
   py_res <- read_pydata("py-accuracy")
   r_metric <- accuracy
