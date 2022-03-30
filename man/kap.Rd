@@ -8,9 +8,24 @@
 \usage{
 kap(data, ...)
 
-\method{kap}{data.frame}(data, truth, estimate, weighting = "none", na_rm = TRUE, ...)
+\method{kap}{data.frame}(
+  data,
+  truth,
+  estimate,
+  weighting = "none",
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
 
-kap_vec(truth, estimate, weighting = "none", na_rm = TRUE, ...)
+kap_vec(
+  truth,
+  estimate,
+  weighting = "none",
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -42,6 +57,10 @@ only ever possible to be 1 unit away from the true value.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},

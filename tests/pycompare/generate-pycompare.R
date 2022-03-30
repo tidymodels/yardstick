@@ -72,7 +72,15 @@ py_kap <- list(
   linear_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "linear"),
   linear_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "linear"),
   quadratic_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "quadratic"),
-  quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic")
+  quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic"),
+  case_weight = list(
+    binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), sample_weight = weights_two_class_example),
+    multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), sample_weight = weights_hpc_cv),
+    linear_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "linear", sample_weight = weights_two_class_example),
+    linear_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "linear", sample_weight = weights_hpc_cv),
+    quadratic_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "quadratic", sample_weight = weights_two_class_example),
+    quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic", sample_weight = weights_hpc_cv)
+  )
 )
 saveRDS(py_kap, test_path("py-data", "py-kap.rds"), version = 2)
 

@@ -2,9 +2,17 @@
 
 * yardstick metrics now support case weights.
 
-  * Numeric: rmse
+  * Numeric:
+    * rmse
   
-  * Class: accuracy, bal_accuracy, detection_prevalence, f_meas, j_index, sens
+  * Class: 
+    * accuracy
+    * bal_accuracy
+    * detection_prevalence
+    * f_meas
+    * j_index
+    * kap
+    * sens
   
   * Probability:
 
