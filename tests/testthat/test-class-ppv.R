@@ -89,3 +89,29 @@ test_that("Binary `ppv()` returns `NA` with a warning when `sens()` is undefined
 
   expect_identical(out, NA_real_)
 })
+
+# ------------------------------------------------------------------------------
+
+test_that('Two class weighted - sklearn equivalent', {
+  py_res <- read_pydata("py-ppv")
+  r_metric <- ppv
+
+  two_class_example$weights <- read_weights_two_class_example()
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$binary
+  )
+})
+
+test_that('Multi class weighted - sklearn equivalent', {
+  py_res <- read_pydata("py-ppv")
+  r_metric <- ppv
+
+  hpc_cv$weights <- read_weights_hpc_cv()
+
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, estimator = "macro", case_weights = weights)[[".estimate"]],
+    py_res$case_weight$macro
+  )
+})

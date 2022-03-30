@@ -46,6 +46,7 @@ npv.data.frame <- function(data,
                            prevalence = NULL,
                            estimator = NULL,
                            na_rm = TRUE,
+                           case_weights = NULL,
                            event_level = yardstick_event_level(),
                            ...) {
   metric_summarizer(
@@ -56,6 +57,7 @@ npv.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    case_weights = !!enquo(case_weights),
     event_level = event_level,
     metric_fn_options = list(prevalence = prevalence)
   )
@@ -94,17 +96,19 @@ npv_vec <- function(truth,
                     prevalence = NULL,
                     estimator = NULL,
                     na_rm = TRUE,
+                    case_weights = NULL,
                     event_level = yardstick_event_level(),
                     ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  npv_impl <- function(truth, estimate, prevalence) {
-    xtab <- vec2table(
-      truth = truth,
-      estimate = estimate
-    )
-
-    npv_table_impl(xtab, estimator, event_level, prevalence = prevalence)
+  npv_impl <- function(truth,
+                       estimate,
+                       ...,
+                       prevalence = NULL,
+                       case_weights = NULL) {
+    check_dots_empty()
+    data <- yardstick_table(truth, estimate, case_weights = case_weights)
+    npv_table_impl(data, estimator, event_level, prevalence = prevalence)
   }
 
   metric_vec_template(
@@ -113,6 +117,7 @@ npv_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = "factor",
     prevalence = prevalence
   )

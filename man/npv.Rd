@@ -15,6 +15,7 @@ npv(data, ...)
   prevalence = NULL,
   estimator = NULL,
   na_rm = TRUE,
+  case_weights = NULL,
   event_level = yardstick_event_level(),
   ...
 )
@@ -25,6 +26,7 @@ npv_vec(
   prevalence = NULL,
   estimator = NULL,
   na_rm = TRUE,
+  case_weights = NULL,
   event_level = yardstick_event_level(),
   ...
 )
@@ -58,6 +60,10 @@ for calculating multiclass metrics. The default will automatically choose
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 
 \item{event_level}{A single string. Either \code{"first"} or \code{"second"} to specify
 which level of \code{truth} to consider as the "event". This argument is only

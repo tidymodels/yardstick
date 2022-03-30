@@ -44,6 +44,32 @@ save_metric_results <- function(nm, fn, ..., average = c("macro", "micro", "weig
 }
 
 # ------------------------------------------------------------------------------
+# Table statistics used in other metrics
+
+# Note: Truth down the left side, Predicted across the top, unlike
+# yardstick's table function. But this matches most sklearn references better.
+py_binary_weighted_confusion <- skmetrics$confusion_matrix(
+  y_true = two_class_example$truth,
+  y_pred = two_class_example$predicted,
+  sample_weight = weights_two_class_example
+)
+py_multiclass_weighted_confusion <- skmetrics$confusion_matrix(
+  y_true = hpc_cv$obs,
+  y_pred = hpc_cv$pred,
+  sample_weight = weights_hpc_cv
+)
+
+py_binary_weighted_FP <- colSums(py_binary_weighted_confusion) - diag(py_binary_weighted_confusion)
+py_binary_weighted_FN <- rowSums(py_binary_weighted_confusion) - diag(py_binary_weighted_confusion)
+py_binary_weighted_TP <- diag(py_binary_weighted_confusion)
+py_binary_weighted_TN <- sum(py_binary_weighted_confusion) - (py_binary_weighted_FP + py_binary_weighted_FN + py_binary_weighted_TP)
+
+py_multiclass_weighted_FP <- colSums(py_multiclass_weighted_confusion) - diag(py_multiclass_weighted_confusion)
+py_multiclass_weighted_FN <- rowSums(py_multiclass_weighted_confusion) - diag(py_multiclass_weighted_confusion)
+py_multiclass_weighted_TP <- diag(py_multiclass_weighted_confusion)
+py_multiclass_weighted_TN <- sum(py_multiclass_weighted_confusion) - (py_multiclass_weighted_FP + py_multiclass_weighted_FN + py_multiclass_weighted_TP)
+
+# ------------------------------------------------------------------------------
 
 # Save metrics results
 save_metric_results("precision", skmetrics$precision_score)
@@ -106,3 +132,27 @@ py_bal_accuracy <- list(
   )
 )
 saveRDS(py_bal_accuracy, test_path("py-data", "py-bal-accuracy.rds"), version = 2)
+
+# NPV
+py_binary_weighted_NPV <- py_binary_weighted_TN / (py_binary_weighted_TN + py_binary_weighted_FN)
+py_multiclass_weighted_NPV <- py_multiclass_weighted_TN / (py_multiclass_weighted_TN + py_multiclass_weighted_FN)
+
+py_npv <- list(
+  case_weight = list(
+    binary = py_binary_weighted_NPV[[1]],
+    macro = mean(py_multiclass_weighted_NPV)
+  )
+)
+saveRDS(py_npv, test_path("py-data", "py-npv.rds"), version = 2)
+
+# PPV
+py_binary_weighted_PPV <- py_binary_weighted_TP / (py_binary_weighted_TP + py_binary_weighted_FP)
+py_multiclass_weighted_PPV <- py_multiclass_weighted_TP / (py_multiclass_weighted_TP + py_multiclass_weighted_FP)
+
+py_ppv <- list(
+  case_weight = list(
+    binary = py_binary_weighted_PPV[[1]],
+    macro = mean(py_multiclass_weighted_PPV)
+  )
+)
+saveRDS(py_ppv, test_path("py-data", "py-ppv.rds"), version = 2)
