@@ -70,6 +70,7 @@ kap.data.frame  <- function(data,
                             estimate,
                             weighting = "none",
                             na_rm = TRUE,
+                            case_weights = NULL,
                             ...) {
 
   metric_summarizer(
@@ -79,6 +80,7 @@ kap.data.frame  <- function(data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
+    case_weights = !!enquo(case_weights),
     metric_fn_options = list(weighting = weighting)
   )
 
@@ -110,17 +112,9 @@ kap_vec <- function(truth,
                     estimate,
                     weighting = "none",
                     na_rm = TRUE,
+                    case_weights = NULL,
                     ...) {
   estimator <- finalize_estimator(truth, metric_class = "kap")
-
-  kap_impl <- function(truth, estimate, weighting) {
-    xtab <- vec2table(
-      truth = truth,
-      estimate = estimate
-    )
-
-    kap_table_impl(xtab, weighting = weighting)
-  }
 
   metric_vec_template(
     metric_impl = kap_impl,
@@ -128,9 +122,20 @@ kap_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = "factor",
     weighting = weighting
   )
+}
+
+kap_impl <- function(truth,
+                     estimate,
+                     ...,
+                     weighting = "none",
+                     case_weights = NULL) {
+  check_dots_empty()
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  kap_table_impl(data, weighting = weighting)
 }
 
 kap_table_impl <- function(data, weighting) {
