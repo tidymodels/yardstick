@@ -126,7 +126,8 @@ j_index_table_impl <- function(data, estimator, event_level) {
   } else {
     w <- get_weights(data, estimator)
     out_vec <- j_index_multiclass(data, estimator)
-    stats::weighted.mean(out_vec, w)
+    # Set `na.rm = TRUE` to remove undefined values from weighted computation (#265)
+    stats::weighted.mean(out_vec, w, na.rm = TRUE)
   }
 }
 
@@ -135,5 +136,5 @@ j_index_binary <- function(data, event_level) {
 }
 
 j_index_multiclass <- function(data, estimator) {
-  recall_multiclass(data, estimator) + spec_multiclass(data, estimator) - 1
+  sens_multiclass(data, estimator) + spec_multiclass(data, estimator) - 1
 }

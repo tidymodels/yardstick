@@ -65,3 +65,65 @@ test_that("two class with case weights is correct", {
     -10/11
   )
 })
+
+# ------------------------------------------------------------------------------
+
+test_that("Binary `j_index()` returns `NA` with a warning when sensitivity is undefined (tp + fn = 0) (#265)", {
+  levels <- c("a", "b")
+  truth    <- factor(c("b", "b"), levels = levels)
+  estimate <- factor(c("a", "b"), levels = levels)
+
+  expect_snapshot(
+    out <- j_index_vec(truth, estimate)
+  )
+
+  expect_identical(out, NA_real_)
+})
+
+test_that("Binary `j_index()` returns `NA` with a warning when specificity is undefined (tn + fp = 0) (#265)", {
+  levels <- c("a", "b")
+  truth <- factor("a", levels = levels)
+  estimate <- factor("b", levels = levels)
+
+  expect_snapshot(
+    out <- j_index_vec(truth, estimate)
+  )
+
+  expect_identical(out, NA_real_)
+})
+
+test_that("Multiclass `j_index()` returns averaged value with `NA`s removed + a warning when sensitivity is undefined (tp + fn = 0) (#265)", {
+  levels <- c("a", "b", "c")
+
+  truth    <- factor(c("a", "b", "b"), levels = levels)
+  estimate <- factor(c("a", "b", "c"), levels = levels)
+
+  expect_snapshot(
+    out <- j_index_vec(truth, estimate)
+  )
+
+  expect_identical(out, 3/4)
+})
+
+test_that("Multiclass `j_index()` returns averaged value with `NA`s removed + a warning when specificity is undefined (tn + fp = 0) (#265)", {
+  levels <- c("a", "b", "c")
+
+  truth    <- factor(c("a", "a", "a"), levels = levels)
+  estimate <- factor(c("a", "b", "c"), levels = levels)
+
+  expect_snapshot(
+    out <- j_index_vec(truth, estimate)
+  )
+
+  # In this case it removes everything and we get a NaN,
+  # I can't think of any way to get a spec warning and not have this
+  expect_identical(out, NaN)
+})
+
+test_that("`NA` is still returned if there are some undefined sensitivity values but `na_rm = FALSE`", {
+  levels <- c("a", "b", "c")
+  truth    <- factor(c("a", "b", "b"), levels = levels)
+  estimate <- factor(c("a", NA, "c"), levels = levels)
+  expect_equal(j_index_vec(truth, estimate, na_rm = FALSE), NA_real_)
+  expect_warning(j_index_vec(truth, estimate, na_rm = FALSE), NA)
+})
