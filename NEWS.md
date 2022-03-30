@@ -15,6 +15,7 @@
     * mcc
     * npv
     * ppv
+    * precision
     * sens
   
   * Probability:
