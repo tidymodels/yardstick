@@ -16,6 +16,7 @@
     * npv
     * ppv
     * precision
+    * recall
     * sens
   
   * Probability:
