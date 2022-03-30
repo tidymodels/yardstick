@@ -79,6 +79,7 @@ Highly related functions are <code><a href="sens.html">sens()</a></code>, <code>
   <span class="va">estimate</span>,
   estimator <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
   event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span>
@@ -88,6 +89,7 @@ Highly related functions are <code><a href="sens.html">sens()</a></code>, <code>
   <span class="va">estimate</span>,
   estimator <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
   event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span>
@@ -101,6 +103,7 @@ Highly related functions are <code><a href="sens.html">sens()</a></code>, <code>
   <span class="va">estimate</span>,
   estimator <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
   event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span>
@@ -110,6 +113,7 @@ Highly related functions are <code><a href="sens.html">sens()</a></code>, <code>
   <span class="va">estimate</span>,
   estimator <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
   event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -143,6 +147,10 @@ for calculating multiclass metrics. The default will automatically choose
 <dt>na_rm</dt>
 <dd><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></dd>
+<dt>case_weights</dt>
+<dd><p>The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in <code>data</code>. For <code>_vec()</code> functions, a numeric vector.</p></dd>
 <dt>event_level</dt>
 <dd><p>A single string. Either <code>"first"</code> or <code>"second"</code> to specify
 which level of <code>truth</code> to consider as the "event". This argument is only
