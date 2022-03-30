@@ -60,3 +60,27 @@ test_that('Multi class - sklearn equivalent', {
     py_res$multiclass
   )
 })
+
+test_that('Two class case weighted - sklearn equivalent', {
+  py_res <- read_pydata("py-mcc")
+  r_metric <- mcc
+
+  two_class_example$weights <- read_weights_two_class_example()
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$binary
+  )
+})
+
+test_that('Multi class case weighted - sklearn equivalent', {
+  py_res <- read_pydata("py-mcc")
+  r_metric <- mcc
+
+  hpc_cv$weights <- read_weights_hpc_cv()
+
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$multiclass
+  )
+})

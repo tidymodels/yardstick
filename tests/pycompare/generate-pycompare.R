@@ -80,7 +80,11 @@ save_metric_results("f_meas_beta_.5", skmetrics$fbeta_score, beta = .5)
 # MCC
 py_mcc <- list(
   binary = skmetrics$matthews_corrcoef(two_class_example$truth, two_class_example$predicted),
-  multiclass = skmetrics$matthews_corrcoef(hpc_cv$obs, hpc_cv$pred)
+  multiclass = skmetrics$matthews_corrcoef(hpc_cv$obs, hpc_cv$pred),
+  case_weight = list(
+    binary = skmetrics$matthews_corrcoef(two_class_example$truth, two_class_example$predicted, sample_weight = weights_two_class_example),
+    multiclass = skmetrics$matthews_corrcoef(hpc_cv$obs, hpc_cv$pred, sample_weight = weights_hpc_cv)
+  )
 )
 saveRDS(py_mcc, test_path("py-data", "py-mcc.rds"), version = 2)
 

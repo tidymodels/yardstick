@@ -47,18 +47,21 @@ mcc <- new_class_metric(
 
 #' @export
 #' @rdname mcc
-mcc.data.frame <- function(data, truth, estimate,
-                           na_rm = TRUE, ...) {
-
+mcc.data.frame <- function(data,
+                           truth,
+                           estimate,
+                           na_rm = TRUE,
+                           case_weights = NULL,
+                           ...) {
   metric_summarizer(
     metric_nm = "mcc",
     metric_fn = mcc_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
@@ -66,12 +69,19 @@ mcc.table <- function(data, ...) {
   check_table(data)
   estimator <- finalize_estimator(data, metric_class = "mcc")
 
+  # Convert to a double matrix to avoid integer overflow in the binary case
+  # and to pass to the C code in the multiclass case.
+  # Using `storage.mode()<-` keeps dimensions (as opposed to as.double()).
+  data <- as.matrix(data)
+  if (!is.double(data)) {
+    storage.mode(data) <- "double"
+  }
+
   metric_tibbler(
     .metric = "mcc",
     .estimator = estimator,
     .estimate = mcc_table_impl(data, estimator)
   )
-
 }
 
 #' @export
@@ -82,19 +92,17 @@ mcc.matrix <- function(data, ...) {
 
 #' @export
 #' @rdname mcc
-mcc_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
+mcc_vec <- function(truth,
+                    estimate,
+                    na_rm = TRUE,
+                    case_weights = NULL,
+                    ...) {
   estimator <- finalize_estimator(truth, metric_class = "mcc")
 
-  mcc_impl <- function(truth, estimate) {
-
-    xtab <- vec2table(
-      truth = truth,
-      estimate = estimate
-    )
-
-    mcc_table_impl(xtab, estimator)
-
+  mcc_impl <- function(truth, estimate, ..., case_weights = NULL) {
+    check_dots_empty()
+    data <- yardstick_table(truth, estimate, case_weights = case_weights)
+    mcc_table_impl(data, estimator)
   }
 
   metric_vec_template(
@@ -103,34 +111,26 @@ mcc_vec <- function(truth, estimate, na_rm = TRUE, ...) {
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = "factor"
   )
-
 }
 
 mcc_table_impl <- function(data, estimator) {
-
   if(is_binary(estimator)) {
     mcc_binary(data)
   } else {
     mcc_multiclass(data)
   }
-
 }
 
 mcc_binary <- function(data) {
+  check_mcc_data(data)
+
   # mcc() produces identical results regardless of which level is
   # considered the "event", so hardcode to first here
   positive <- pos_val(data, event_level = "first")
   negative <- neg_val(data, event_level = "first")
-
-  data <- as.matrix(data)
-
-  # Convert the matrix to double to avoid integer overflow
-  # using `storage.mode()<-` keeps dimensions (as opposed to as.double())
-  if (!is.double(data)) {
-    storage.mode(data) <- "double"
-  }
 
   tp <- data[positive, positive]
   tn <- data[negative, negative]
@@ -149,10 +149,17 @@ mcc_binary <- function(data) {
 }
 
 mcc_multiclass <- function(data) {
-  stopifnot(is.table(data))
+  check_mcc_data(data)
   mcc_multiclass_impl(data)
 }
 
 mcc_multiclass_impl <- function(C) {
   .Call(yardstick_mcc_multiclass_impl, C)
+}
+
+check_mcc_data <- function(data) {
+  if (!is.double(data) && !is.matrix(data)) {
+    abort("`data` should be a double matrix at this point.", .internal = TRUE)
+  }
+  invisible()
 }
