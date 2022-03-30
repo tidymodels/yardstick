@@ -50,3 +50,18 @@ test_that('Three class', {
     with(micro, sum(tp) / sum(p) + sum(tn) / sum(n) - 1)
   )
 })
+
+# ------------------------------------------------------------------------------
+
+test_that("two class with case weights is correct", {
+  df <- data.frame(
+    truth = factor(c("x", "x", "y"), levels = c("x", "y")),
+    estimate = factor(c("x", "y", "x"), levels = c("x", "y")),
+    case_weights = c(1L, 10L, 2L)
+  )
+
+  expect_identical(
+    j_index(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
+    -10/11
+  )
+})

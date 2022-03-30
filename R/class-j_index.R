@@ -52,6 +52,7 @@ j_index.data.frame <- function(data,
                                estimate,
                                estimator = NULL,
                                na_rm = TRUE,
+                               case_weights = NULL,
                                event_level = yardstick_event_level(),
                                ...) {
   metric_summarizer(
@@ -62,6 +63,7 @@ j_index.data.frame <- function(data,
     estimate = !!enquo(estimate),
     estimator = estimator,
     na_rm = na_rm,
+    case_weights = !!enquo(case_weights),
     event_level = event_level
   )
 }
@@ -96,17 +98,15 @@ j_index_vec <- function(truth,
                         estimate,
                         estimator = NULL,
                         na_rm = TRUE,
+                        case_weights = NULL,
                         event_level = yardstick_event_level(),
                         ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  j_index_impl <- function(truth, estimate) {
-    xtab <- vec2table(
-      truth = truth,
-      estimate = estimate
-    )
-
-    j_index_table_impl(xtab, estimator, event_level)
+  j_index_impl <- function(truth, estimate, ..., case_weights = NULL) {
+    check_dots_empty()
+    data <- yardstick_table(truth, estimate, case_weights = case_weights)
+    j_index_table_impl(data, estimator, event_level)
   }
 
   metric_vec_template(
@@ -115,7 +115,8 @@ j_index_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     cls = "factor",
-    estimator = estimator
+    estimator = estimator,
+    case_weights = case_weights
   )
 }
 
