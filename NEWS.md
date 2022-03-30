@@ -19,6 +19,12 @@
   
   * Probability:
 
+* `j_index()` now throws a more correct warning if `0` is in the denominator
+  when computing `sens()` internally. Additionally, in the multiclass case it
+  now removes the levels where this occurs from the multiclass weighted average
+  computation, which is consistent with how other metrics were updated to handle
+  this in #118 (#265).
+
 * Moved the Custom Metrics vignette to tidymodels.org (#236).
 
 # yardstick 0.0.9
