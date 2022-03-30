@@ -12,6 +12,7 @@
     * f_meas
     * j_index
     * kap
+    * npv
     * sens
   
   * Probability:
