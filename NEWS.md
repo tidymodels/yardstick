@@ -13,6 +13,7 @@
     * j_index
     * kap
     * npv
+    * ppv
     * sens
   
   * Probability:

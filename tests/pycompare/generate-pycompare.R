@@ -144,3 +144,15 @@ py_npv <- list(
   )
 )
 saveRDS(py_npv, test_path("py-data", "py-npv.rds"), version = 2)
+
+# PPV
+py_binary_weighted_PPV <- py_binary_weighted_TP / (py_binary_weighted_TP + py_binary_weighted_FP)
+py_multiclass_weighted_PPV <- py_multiclass_weighted_TP / (py_multiclass_weighted_TP + py_multiclass_weighted_FP)
+
+py_ppv <- list(
+  case_weight = list(
+    binary = py_binary_weighted_PPV[[1]],
+    macro = mean(py_multiclass_weighted_PPV)
+  )
+)
+saveRDS(py_ppv, test_path("py-data", "py-ppv.rds"), version = 2)
