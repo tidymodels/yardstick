@@ -137,7 +137,8 @@ yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
   }
 
   # Supply `estimate` first to get it to correspond to the row names.
-  # Always return a double matrix for type stability.
+  # Always return a double matrix for type stability (in particular, we know
+  # `mcc()` relies on this for overflow and C code purposes).
   if (is.null(case_weights)) {
     out <- table(Prediction = estimate, Truth = truth)
     out <- unclass(out)

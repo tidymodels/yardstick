@@ -12,6 +12,7 @@
     * f_meas
     * j_index
     * kap
+    * mcc
     * npv
     * ppv
     * sens

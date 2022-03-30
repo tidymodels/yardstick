@@ -29,7 +29,7 @@ data_altman <- function() {
   pathology$scan_na <- pathology$scan
   pathology$scan_na[c(1, 250, 300)] <- NA
 
-  path_tbl <- as.table(matrix(c(231, 27, 32, 54), ncol = 2))
+  path_tbl <- as.table(matrix(c(231L, 27L, 32L, 54L), ncol = 2))
   rownames(path_tbl) <- levels(pathology$pathology)
   colnames(path_tbl) <- levels(pathology$pathology)
 
