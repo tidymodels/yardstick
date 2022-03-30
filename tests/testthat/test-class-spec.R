@@ -90,6 +90,26 @@ test_that("`NA` is still returned if there are some undefined spec values but `n
 
 # ------------------------------------------------------------------------------
 
+test_that("two class with case weights is correct", {
+  df <- data.frame(
+    truth = factor(c("x", "y", "y", "y"), levels = c("x", "y")),
+    estimate = factor(c("x", "y", "y", "x"), levels = c("x", "y")),
+    case_weights = c(1L, 1L, 2L, 3L)
+  )
+
+  expect_identical(
+    spec(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
+    1/2
+  )
+
+  expect_identical(
+    specificity(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
+    1/2
+  )
+})
+
+# ------------------------------------------------------------------------------
+
 test_that("`specificity()` has a metric name unique to it (#232)", {
   lst <- data_altman()
   pathology <- lst$pathology

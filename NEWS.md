@@ -18,6 +18,7 @@
     * precision
     * recall
     * sens
+    * spec
   
   * Probability:
 
