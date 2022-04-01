@@ -25,33 +25,42 @@ mae <- new_numeric_metric(
 
 #' @rdname mae
 #' @export
-mae.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
-
+mae.data.frame <- function(data,
+                           truth,
+                           estimate,
+                           na_rm = TRUE,
+                           case_weights = NULL,
+                           ...) {
   metric_summarizer(
     metric_nm = "mae",
     metric_fn = mae_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
 #' @rdname mae
-mae_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
-  mae_impl <- function(truth, estimate) {
-    mean( abs(truth - estimate) )
-  }
-
+mae_vec <- function(truth,
+                    estimate,
+                    na_rm = TRUE,
+                    case_weights = NULL,
+                    ...) {
   metric_vec_template(
     metric_impl = mae_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric"
   )
+}
 
+mae_impl <- function(truth, estimate, ..., case_weights = NULL) {
+  check_dots_empty()
+  errors <- abs(truth - estimate)
+  yardstick_mean(errors, case_weights = case_weights)
 }

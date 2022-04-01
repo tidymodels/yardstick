@@ -124,6 +124,16 @@ py_rmse <- list(
 )
 saveRDS(py_rmse, test_path("py-data", "py-rmse.rds"), version = 2)
 
+# MAE
+py_mae <- list(
+  case_weight = skmetrics$mean_absolute_error(
+    y_true = solubility_test$solubility,
+    y_pred = solubility_test$prediction,
+    sample_weight = weights_solubility_test
+  )
+)
+saveRDS(py_mae, test_path("py-data", "py-mae.rds"), version = 2)
+
 # Balanced Accuracy
 # Not comparing multiclass against sklearn here, because they use a different definition
 py_bal_accuracy <- list(

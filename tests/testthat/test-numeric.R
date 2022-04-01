@@ -77,20 +77,6 @@ test_that('Traditional R^2', {
 
 ###################################################################
 
-test_that('Mean Abs Deviation', {
-  expect_equal(
-    mae(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    mean(abs(ex_dat$obs - ex_dat$pred))
-  )
-  expect_equal(
-    mae(ex_dat, obs, pred_na)[[".estimate"]],
-    mean(abs(ex_dat$obs[-ind] - ex_dat$pred[-ind]))
-  )
-})
-
-
-###################################################################
-
 test_that('Mean Absolute Percentage Error', {
   expect_equal(
     mape(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
