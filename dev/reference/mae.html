@@ -70,9 +70,9 @@ original data.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mae</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for data.frame</span>
-<span class="fu">mae</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">estimate</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span>
+<span class="fu">mae</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">estimate</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, case_weights <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
 
-<span class="fu">mae_vec</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+<span class="fu">mae_vec</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, case_weights <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -96,6 +96,10 @@ unquoted variable name. For <code>_vec()</code> functions, a <code>numeric</code
 <dt>na_rm</dt>
 <dd><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></dd>
+<dt>case_weights</dt>
+<dd><p>The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+<code>data</code>. For <code>_vec()</code> functions, a numeric vector.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
