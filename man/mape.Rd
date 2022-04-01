@@ -8,9 +8,9 @@
 \usage{
 mape(data, ...)
 
-\method{mape}{data.frame}(data, truth, estimate, na_rm = TRUE, ...)
+\method{mape}{data.frame}(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 
-mape_vec(truth, estimate, na_rm = TRUE, ...)
+mape_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -31,6 +31,10 @@ unquoted variable name. For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+\code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},

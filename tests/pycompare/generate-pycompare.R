@@ -1,5 +1,15 @@
+# reticulate::install_python("3.10.4")
+# reticulate::virtualenv_create("yardstick-environment", version = "3.10.4")
+# reticulate::use_virtualenv("yardstick-environment")
+# reticulate::py_install("scikit-learn") # 1.0.2 is what was downloaded
+
 library(reticulate)
 library(purrr)
+
+# Inside yardstick
+devtools::load_all()
+
+use_virtualenv("yardstick-environment")
 
 skmetrics <- import("sklearn.metrics")
 
@@ -133,6 +143,16 @@ py_mae <- list(
   )
 )
 saveRDS(py_mae, test_path("py-data", "py-mae.rds"), version = 2)
+
+# MAPE
+py_mape <- list(
+  case_weight = skmetrics$mean_absolute_percentage_error(
+    y_true = solubility_test$solubility,
+    y_pred = solubility_test$prediction,
+    sample_weight = weights_solubility_test
+  )
+)
+saveRDS(py_mape, test_path("py-data", "py-mape.rds"), version = 2)
 
 # Balanced Accuracy
 # Not comparing multiclass against sklearn here, because they use a different definition
