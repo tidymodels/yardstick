@@ -48,6 +48,6 @@
     Code
       yardstick_table(x, x, case_weights = "x")
     Condition
-      Error in `stop_vctrs()`:
-      ! Can't convert <character> to <double>.
+      Error in `hardhat::weighted_table()`:
+      ! Can't convert `weights` <character> to <double>.
 
