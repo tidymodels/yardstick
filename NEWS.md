@@ -3,6 +3,7 @@
 * yardstick metrics now support case weights.
 
   * Numeric:
+    * mae
     * rmse
   
   * Class: 
