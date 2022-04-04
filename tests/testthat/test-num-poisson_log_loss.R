@@ -18,3 +18,13 @@ test_that('poisson log-loss', {
       poisson_log_loss(count_poor, count, pred)[[".estimate"]]
   )
 })
+
+test_that("weighted results are working", {
+  count_results <- data_counts()$basic
+  count_results$weights <- c(1, 2, 1, 1, 2, 1)
+
+  expect_identical(
+    poisson_log_loss(count_results, count, pred, case_weights = weights)[[".estimate"]],
+    yardstick_mean(-stats::dpois(count_results$count, count_results$pred, log = TRUE), case_weights = count_results$weights)
+  )
+})
