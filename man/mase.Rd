@@ -8,9 +8,26 @@
 \usage{
 mase(data, ...)
 
-\method{mase}{data.frame}(data, truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE, ...)
+\method{mase}{data.frame}(
+  data,
+  truth,
+  estimate,
+  m = 1L,
+  mae_train = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
 
-mase_vec(truth, estimate, m = 1L, mae_train = NULL, na_rm = TRUE, ...)
+mase_vec(
+  truth,
+  estimate,
+  m = 1L,
+  mae_train = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -42,6 +59,10 @@ from \code{truth} and will be used instead.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+\code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
@@ -56,7 +77,7 @@ For \code{mase_vec()}, a single \code{numeric} value (or \code{NA}).
 Calculate the mean absolute scaled error. This metric is \emph{scale independent}
 and \emph{symmetric}. It is generally used for comparing forecast error in
 time series settings. Due to the time series nature of this metric, it
-is neccesary to order observations in ascending order by time.
+is necessary to order observations in ascending order by time.
 }
 \details{
 \code{mase()} is different from most numeric metrics. The original implementation

@@ -5,6 +5,7 @@
   * Numeric:
     * mae
     * mape
+    * mase
     * rmse
   
   * Class: 
