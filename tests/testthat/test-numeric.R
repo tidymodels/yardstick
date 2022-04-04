@@ -144,34 +144,6 @@ test_that('Integer columns are allowed', {
 
 ###################################################################
 
-test_that('Pseudo-Huber Loss', {
-  delta <- 2
-  expect_equal(
-    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred", delta = delta)[[".estimate"]],
-    {
-      a <- ex_dat$obs - ex_dat$pred
-      mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
-    }
-  )
-  expect_equal(
-    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = delta)[[".estimate"]],
-    {
-      a <- ex_dat$obs[-ind] - ex_dat$pred[-ind]
-      mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
-    }
-  )
-
-  expect_snapshot((expect_error(
-    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = -1)
-  )))
-
-  expect_snapshot((expect_error(
-    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1,2))
-  )))
-})
-
-###################################################################
-
 # All tests confirmed against the software:
 # http://www.insilico.eu/coral/SOFTWARECORAL.html
 
