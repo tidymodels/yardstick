@@ -10,6 +10,7 @@
     * mase
     * mpe
     * msd
+    * poisson_log_loss
     * rmse
   
   * Class: 

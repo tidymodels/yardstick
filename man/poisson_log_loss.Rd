@@ -8,9 +8,9 @@
 \usage{
 poisson_log_loss(data, ...)
 
-\method{poisson_log_loss}{data.frame}(data, truth, estimate, na_rm = TRUE, ...)
+\method{poisson_log_loss}{data.frame}(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 
-poisson_log_loss_vec(truth, estimate, na_rm = TRUE, ...)
+poisson_log_loss_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -18,11 +18,10 @@ columns.}
 
 \item{...}{Not currently used.}
 
-\item{truth}{The column identifier for the true counts
-(that is \code{integer}). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, an \code{integer} vector.}
+\item{truth}{The column identifier for the true counts (that is \code{integer}).
+This should be an unquoted column name although this argument is passed by
+expression and supports \link[rlang:topic-inject]{quasiquotation} (you can
+unquote column names). For \verb{_vec()} functions, an \code{integer} vector.}
 
 \item{estimate}{The column identifier for the predicted
 results (that is also \code{numeric}). As with \code{truth} this can be
@@ -31,6 +30,10 @@ unquoted variable name. For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+\code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
