@@ -12,6 +12,7 @@
     * msd
     * poisson_log_loss
     * rmse
+    * smape
   
   * Class: 
     * accuracy

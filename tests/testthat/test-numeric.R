@@ -76,19 +76,6 @@ test_that('Traditional R^2', {
 
 ###################################################################
 
-test_that('Symmetric Mean Absolute Percentage Error', {
-  expect_equal(
-    smape(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    100 * mean(abs((ex_dat$obs - ex_dat$pred)/((abs(ex_dat$obs) + abs(ex_dat$pred))/2)))
-  )
-  expect_equal(
-    smape(ex_dat, obs, pred_na)[[".estimate"]],
-    100 * mean(abs((ex_dat$obs[-ind] - ex_dat$pred[-ind])/((abs(ex_dat$obs[-ind]) + abs(ex_dat$pred[-ind]))/2)))
-  )
-})
-
-###################################################################
-
 test_that('Concordance Correlation Coefficient', {
   expect_equal(
     ccc(ex_dat, truth = "obs", estimate = "pred", bias = TRUE)[[".estimate"]],
