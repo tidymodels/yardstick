@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   metric-types: metric-types.html
   multiclass: multiclass.html
-last_built: 2022-04-01T20:16Z
+last_built: 2022-04-04T12:46Z
 urls:
   reference: https://yardstick.tidymodels.org/reference
   article: https://yardstick.tidymodels.org/articles
