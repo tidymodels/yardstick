@@ -12,18 +12,30 @@ test_that('Mean Absolute Percentage Error', {
   )
 })
 
-test_that("`0` values for `truth` don't result in infinity (#271)", {
+test_that("`mape()` computes expected values when singular `truth` is `0` (#271)", {
   expect_identical(
-    mape_vec(truth = c(1, 0), estimate = c(2, 0)),
-    50
+    mape_vec(truth = 0, estimate = 1),
+    Inf
+  )
+
+  expect_identical(
+    mape_vec(truth = 0, estimate = -1),
+    Inf
+  )
+
+  expect_identical(
+    mape_vec(truth = 0, estimate = 0),
+    NaN
   )
 })
 
 test_that("Weighted results are the same as scikit-learn", {
   solubility_test$weights <- read_weights_solubility_test()
+  zero_solubility <- solubility_test$solubility == 0
+  solubility_test_not_zero <- solubility_test[!zero_solubility,]
 
   expect_equal(
-    mape(solubility_test, solubility, prediction, case_weights = weights)[[".estimate"]],
+    mape(solubility_test_not_zero, solubility, prediction, case_weights = weights)[[".estimate"]],
     read_pydata("py-mape")$case_weight * 100
   )
 })

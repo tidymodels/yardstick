@@ -145,11 +145,14 @@ py_mae <- list(
 saveRDS(py_mae, test_path("py-data", "py-mae.rds"), version = 2)
 
 # MAPE
+# (Zeros purposefully cause infinite results in our R metrics, see #271)
+zero_solubility <- solubility_test$solubility == 0
+solubility_test_not_zero <- solubility_test[!zero_solubility,]
 py_mape <- list(
   case_weight = skmetrics$mean_absolute_percentage_error(
-    y_true = solubility_test$solubility,
-    y_pred = solubility_test$prediction,
-    sample_weight = weights_solubility_test
+    y_true = solubility_test_not_zero$solubility,
+    y_pred = solubility_test_not_zero$prediction,
+    sample_weight = weights_solubility_test[!zero_solubility]
   )
 )
 saveRDS(py_mape, test_path("py-data", "py-mape.rds"), version = 2)
