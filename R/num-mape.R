@@ -29,33 +29,45 @@ mape <- new_numeric_metric(
 
 #' @rdname mape
 #' @export
-mape.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
-
+mape.data.frame <- function(data,
+                            truth,
+                            estimate,
+                            na_rm = TRUE,
+                            case_weights = NULL,
+                            ...) {
   metric_summarizer(
     metric_nm = "mape",
     metric_fn = mape_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
 #' @rdname mape
-mape_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
-  mape_impl <- function(truth, estimate) {
-    mean( abs( (truth - estimate) / truth ) ) * 100
-  }
-
+mape_vec <- function(truth,
+                     estimate,
+                     na_rm = TRUE,
+                     case_weights = NULL,
+                     ...) {
   metric_vec_template(
     metric_impl = mape_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric"
   )
+}
 
+mape_impl <- function(truth, estimate, ..., case_weights = NULL) {
+  numerator <- abs(truth - estimate)
+  denominator <- pmax(abs(truth), .Machine$double.eps)
+  errors <- numerator / denominator
+  out <- yardstick_mean(errors, case_weights = case_weights)
+  out <- out * 100
+  out
 }

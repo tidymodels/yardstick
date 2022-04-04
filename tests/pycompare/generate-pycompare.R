@@ -1,5 +1,15 @@
+# reticulate::install_python("3.10.4")
+# reticulate::virtualenv_create("yardstick-environment", version = "3.10.4")
+# reticulate::use_virtualenv("yardstick-environment")
+# reticulate::py_install("scikit-learn") # 1.0.2 is what was downloaded
+
 library(reticulate)
 library(purrr)
+
+# Inside yardstick
+devtools::load_all()
+
+use_virtualenv("yardstick-environment")
 
 skmetrics <- import("sklearn.metrics")
 
@@ -97,18 +107,18 @@ saveRDS(py_accuracy, test_path("py-data", "py-accuracy.rds"), version = 2)
 
 # Kappa
 py_kap <- list(
-  binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth)),
+  binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth)),
   multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs)),
-  linear_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "linear"),
+  linear_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), weights = "linear"),
   linear_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "linear"),
-  quadratic_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "quadratic"),
+  quadratic_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), weights = "quadratic"),
   quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic"),
   case_weight = list(
-    binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), sample_weight = weights_two_class_example),
+    binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), sample_weight = weights_two_class_example),
     multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), sample_weight = weights_hpc_cv),
-    linear_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "linear", sample_weight = weights_two_class_example),
+    linear_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), weights = "linear", sample_weight = weights_two_class_example),
     linear_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "linear", sample_weight = weights_hpc_cv),
-    quadratic_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, levels(two_class_example$truth), weights = "quadratic", sample_weight = weights_two_class_example),
+    quadratic_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), weights = "quadratic", sample_weight = weights_two_class_example),
     quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic", sample_weight = weights_hpc_cv)
   )
 )
@@ -133,6 +143,16 @@ py_mae <- list(
   )
 )
 saveRDS(py_mae, test_path("py-data", "py-mae.rds"), version = 2)
+
+# MAPE
+py_mape <- list(
+  case_weight = skmetrics$mean_absolute_percentage_error(
+    y_true = solubility_test$solubility,
+    y_pred = solubility_test$prediction,
+    sample_weight = weights_solubility_test
+  )
+)
+saveRDS(py_mape, test_path("py-data", "py-mape.rds"), version = 2)
 
 # Balanced Accuracy
 # Not comparing multiclass against sklearn here, because they use a different definition

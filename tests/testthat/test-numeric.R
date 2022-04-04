@@ -74,21 +74,6 @@ test_that('Traditional R^2', {
   )
 })
 
-
-###################################################################
-
-test_that('Mean Absolute Percentage Error', {
-  expect_equal(
-    mape(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    100 * mean(abs((ex_dat$obs - ex_dat$pred)/ex_dat$obs))
-  )
-  expect_equal(
-    mape(ex_dat, obs, pred_na)[[".estimate"]],
-    100 * mean(abs((ex_dat$obs[-ind] - ex_dat$pred[-ind])/ex_dat$obs[-ind]))
-  )
-})
-
-
 ###################################################################
 
 test_that('Symmetric Mean Absolute Percentage Error', {
