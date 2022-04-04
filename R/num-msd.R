@@ -39,33 +39,41 @@ msd <- new_numeric_metric(
 
 #' @rdname msd
 #' @export
-msd.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
-
+msd.data.frame <- function(data,
+                           truth,
+                           estimate,
+                           na_rm = TRUE,
+                           case_weights = NULL,
+                           ...) {
   metric_summarizer(
     metric_nm = "msd",
     metric_fn = msd_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
 #' @rdname msd
-msd_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
-  msd_impl <- function(truth, estimate) {
-    mean(truth - estimate)
-  }
-
+msd_vec <- function(truth,
+                    estimate,
+                    na_rm = TRUE,
+                    case_weights = NULL,
+                    ...) {
   metric_vec_template(
     metric_impl = msd_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric"
   )
+}
 
+msd_impl <- function(truth, estimate, ..., case_weights = NULL) {
+  check_dots_empty()
+  yardstick_mean(truth - estimate, case_weights = case_weights)
 }

@@ -25,3 +25,14 @@ test_that("positive and negative errors cancel each other out", {
 test_that("differences are computed as `truth - estimate`", {
   expect_identical(msd_vec(0, 1), -1)
 })
+
+test_that("weighted results are correct", {
+  truth <- c(1, 2, 3)
+  estimate <- c(1, 4, 4)
+  weights <- c(0, 1, 2)
+
+  expect_identical(
+    msd_vec(truth, estimate, case_weights = weights),
+    -4/3
+  )
+})
