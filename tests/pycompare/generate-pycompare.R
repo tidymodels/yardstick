@@ -157,6 +157,16 @@ py_mape <- list(
 )
 saveRDS(py_mape, test_path("py-data", "py-mape.rds"), version = 2)
 
+# R^2 Traditional
+py_rsq_trad <- list(
+  case_weight = skmetrics$r2_score(
+    y_true = solubility_test$solubility,
+    y_pred = solubility_test$prediction,
+    sample_weight = weights_solubility_test
+  )
+)
+saveRDS(py_rsq_trad, test_path("py-data", "py-rsq-trad.rds"), version = 2)
+
 # Balanced Accuracy
 # Not comparing multiclass against sklearn here, because they use a different definition
 py_bal_accuracy <- list(

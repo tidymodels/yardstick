@@ -107,6 +107,23 @@ yardstick_mean <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
   }
 }
 
+yardstick_sum <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
+  check_dots_empty()
+
+  if (is.null(case_weights)) {
+    sum(x, na.rm = na_remove)
+  } else {
+    if (na_remove) {
+      # Only remove `NA`s found in `x`, copies `stats::weighted.mean()`
+      keep <- !is.na(x)
+      x <- x[keep]
+      case_weights <- case_weights[keep]
+    }
+
+    sum(x * case_weights)
+  }
+}
+
 # ------------------------------------------------------------------------------
 
 yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
