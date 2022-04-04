@@ -64,9 +64,7 @@ mape_vec <- function(truth,
 }
 
 mape_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  numerator <- abs(truth - estimate)
-  denominator <- pmax(abs(truth), .Machine$double.eps)
-  errors <- numerator / denominator
+  errors <- abs((truth - estimate) / truth)
   out <- yardstick_mean(errors, case_weights = case_weights)
   out <- out * 100
   out

@@ -26,10 +26,6 @@
   
   * Probability:
 
-* `mape()` now takes the maximum of `abs(truth)` and `.Machine$double.eps` when
-  computing the denominator to avoid division by `0` errors. This is consistent
-  with the approach taken by scikit-learn (#271).
-
 * `j_index()` now throws a more correct warning if `0` is in the denominator
   when computing `sens()` internally. Additionally, in the multiclass case it
   now removes the levels where this occurs from the multiclass weighted average
