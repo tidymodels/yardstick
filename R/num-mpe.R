@@ -68,33 +68,49 @@ mpe <- new_numeric_metric(
 
 #' @rdname mpe
 #' @export
-mpe.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
-
+mpe.data.frame <- function(data,
+                           truth,
+                           estimate,
+                           na_rm = TRUE,
+                           case_weights = NULL,
+                           ...) {
   metric_summarizer(
     metric_nm = "mpe",
     metric_fn = mpe_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
 #' @rdname mpe
-mpe_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
-  mpe_impl <- function(truth, estimate) {
-    mean( (truth - estimate) / truth ) * 100
-  }
-
+mpe_vec <- function(truth,
+                    estimate,
+                    na_rm = TRUE,
+                    case_weights = NULL,
+                    ...) {
   metric_vec_template(
     metric_impl = mpe_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric"
   )
+}
 
+mpe_impl <- function(truth,
+                     estimate,
+                     ...,
+                     case_weights = NULL) {
+  check_dots_empty()
+
+  error <- (truth - estimate) / truth
+
+  out <- yardstick_mean(error, case_weights = case_weights)
+  out <- out * 100
+  out
 }

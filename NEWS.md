@@ -6,6 +6,7 @@
     * mae
     * mape
     * mase
+    * mpe
     * rmse
   
   * Class: 

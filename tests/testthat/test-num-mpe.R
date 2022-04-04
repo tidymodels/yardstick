@@ -33,3 +33,14 @@ test_that("`mpe()` computes expected values when singular `truth` is `0`", {
     NaN
   )
 })
+
+test_that("Weighted results are working", {
+  truth <- c(1, 2, 3)
+  estimate <- c(2, 4, 3)
+  weights <- c(1, 2, 1)
+
+  expect_identical(
+    mpe_vec(truth, estimate, case_weights = weights),
+    -3/4 * 100
+  )
+})
