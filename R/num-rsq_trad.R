@@ -47,35 +47,49 @@ rsq_trad <- new_numeric_metric(
 
 #' @rdname rsq_trad
 #' @export
-rsq_trad.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
-
+rsq_trad.data.frame <- function(data,
+                                truth,
+                                estimate,
+                                na_rm = TRUE,
+                                case_weights = NULL,
+                                ...) {
   metric_summarizer(
     metric_nm = "rsq_trad",
     metric_fn = rsq_trad_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
 #' @rdname rsq_trad
-rsq_trad_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
-  rsq_trad_impl <- function(truth, estimate) {
-    n <- length(truth)
-    ss <- sum( (estimate - truth) ^ 2)
-    1 - (ss / ((n - 1) * stats::var(truth)))
-  }
-
+rsq_trad_vec <- function(truth,
+                         estimate,
+                         na_rm = TRUE,
+                         case_weights = NULL,
+                         ...) {
   metric_vec_template(
     metric_impl = rsq_trad_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric"
   )
+}
 
+rsq_trad_impl <- function(truth, estimate, ..., case_weights = NULL) {
+  # Weighted calculation from the following, basically computing `y_bar`,
+  # `SS_res`, and `SS_tot` in weighted manners:
+  # https://stats.stackexchange.com/questions/83826/is-a-weighted-r2-in-robust-linear-model-meaningful-for-goodness-of-fit-analys/375752#375752
+  # https://github.com/scikit-learn/scikit-learn/blob/582fa30a31ffd1d2afc6325ec3506418e35b88c2/sklearn/metrics/_regression.py#L805
+  truth_mean <- yardstick_mean(truth, case_weights = case_weights)
+
+  SS_residuals <- yardstick_sum((truth - estimate) ^ 2, case_weights = case_weights)
+  SS_total <- yardstick_sum((truth - truth_mean) ^ 2, case_weights = case_weights)
+
+  1 - (SS_residuals / SS_total)
 }

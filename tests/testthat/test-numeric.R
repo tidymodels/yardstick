@@ -39,43 +39,6 @@ test_that("yardstick correlation warnings are thrown", {
 
 ###################################################################
 
-test_that('Traditional R^2', {
-  expect_equal(
-    rsq_trad(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    1 -
-      (
-        sum((ex_dat$obs - ex_dat$pred)^2)/
-        sum((ex_dat$obs - mean(ex_dat$obs))^2)
-      )
-  )
-  expect_equal(
-    rsq_trad(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    1 -
-      (
-        sum((ex_dat$obs[-ind] - ex_dat$pred[-ind])^2)/
-        sum((ex_dat$obs[-ind] - mean(ex_dat$obs[-ind]))^2)
-      )
-  )
-  expect_equal(
-    rsq_trad(ex_dat, truth = "obs", estimate = rand)[[".estimate"]],
-    1 -
-      (
-        sum((ex_dat$obs - ex_dat$rand)^2)/
-        sum((ex_dat$obs - mean(ex_dat$obs))^2)
-      )
-  )
-  expect_equal(
-    rsq_trad(ex_dat, obs, rand_na)[[".estimate"]],
-    1 -
-      (
-        sum((ex_dat$obs[-ind] - ex_dat$rand[-ind])^2)/
-        sum((ex_dat$obs[-ind] - mean(ex_dat$obs[-ind]))^2)
-      )
-  )
-})
-
-###################################################################
-
 test_that('Concordance Correlation Coefficient', {
   expect_equal(
     ccc(ex_dat, truth = "obs", estimate = "pred", bias = TRUE)[[".estimate"]],

@@ -78,3 +78,20 @@ test_that("case weights must be numeric", {
 })
 
 # ------------------------------------------------------------------------------
+# yardstick_sum()
+
+test_that("`na_remove` only removes NAs present in `x`", {
+  # For consistency with `stats::weighted.sum()`
+
+  x <- c(1, NA)
+  w <- c(2, 1)
+
+  expect_identical(yardstick_sum(x, case_weights = w), NA_real_)
+  expect_identical(yardstick_sum(x, case_weights = w, na_remove = TRUE), 2)
+
+  x <- c(1, 2)
+  w <- c(2, NA)
+
+  expect_identical(yardstick_sum(x, case_weights = w), NA_real_)
+  expect_identical(yardstick_sum(x, case_weights = w, na_remove = TRUE), NA_real_)
+})
