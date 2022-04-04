@@ -8,9 +8,24 @@
 \usage{
 huber_loss(data, ...)
 
-\method{huber_loss}{data.frame}(data, truth, estimate, delta = 1, na_rm = TRUE, ...)
+\method{huber_loss}{data.frame}(
+  data,
+  truth,
+  estimate,
+  delta = 1,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
 
-huber_loss_vec(truth, estimate, delta = 1, na_rm = TRUE, ...)
+huber_loss_vec(
+  truth,
+  estimate,
+  delta = 1,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -34,6 +49,10 @@ transitions from quadratic to linear. Defaults to 1.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+\code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
