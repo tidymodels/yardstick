@@ -55,7 +55,7 @@ jobs:
         with:
           dependencies: '"hard"'
           cache-version: 2
-          extra-packages: any::rcmdcheck, any::testthat
+          extra-packages: any::rcmdcheck, any::testthat, any::knitr
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
