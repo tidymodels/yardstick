@@ -46,43 +46,65 @@ iic <- new_numeric_metric(
 
 #' @rdname iic
 #' @export
-iic.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
-
+iic.data.frame <- function(data,
+                           truth,
+                           estimate,
+                           na_rm = TRUE,
+                           case_weights = NULL,
+                           ...) {
   metric_summarizer(
     metric_nm = "iic",
     metric_fn = iic_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
 #' @rdname iic
-iic_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
-  iic_impl <- function(truth, estimate) {
-    deltas <- truth - estimate
-
-    delta_neg <- deltas[deltas < 0]
-    delta_pos <- deltas[deltas >= 0]
-
-    mae_neg <- mean(abs(delta_neg))
-    mae_pos <- mean(abs(delta_pos))
-
-    adjustment <- min(mae_neg, mae_pos) / max(mae_neg, mae_pos)
-
-    yardstick_cor(truth, estimate) * adjustment
-  }
-
+iic_vec <- function(truth,
+                    estimate,
+                    na_rm = TRUE,
+                    case_weights = NULL,
+                    ...) {
   metric_vec_template(
     metric_impl = iic_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric"
   )
+}
 
+iic_impl <- function(truth, estimate, ..., case_weights = NULL) {
+  check_dots_empty()
+
+  deltas <- truth - estimate
+
+  neg <- deltas < 0
+  pos <- deltas >= 0
+
+  delta_neg <- deltas[neg]
+  delta_pos <- deltas[pos]
+
+  if (is.null(case_weights)) {
+    case_weights_neg <- NULL
+    case_weights_pos <- NULL
+  } else {
+    case_weights_neg <- case_weights[neg]
+    case_weights_pos <- case_weights[pos]
+  }
+
+  # Using a best guess that weighted means are computed from sliced weights
+  mae_neg <- yardstick_mean(abs(delta_neg), case_weights = case_weights_neg)
+  mae_pos <- yardstick_mean(abs(delta_pos), case_weights = case_weights_pos)
+
+  adjustment <- min(mae_neg, mae_pos) / max(mae_neg, mae_pos)
+  correlation <- yardstick_cor(truth, estimate, case_weights = case_weights)
+
+  correlation * adjustment
 }
