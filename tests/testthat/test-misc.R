@@ -95,3 +95,117 @@ test_that("`na_remove` only removes NAs present in `x`", {
   expect_identical(yardstick_sum(x, case_weights = w), NA_real_)
   expect_identical(yardstick_sum(x, case_weights = w, na_remove = TRUE), NA_real_)
 })
+
+# ------------------------------------------------------------------------------
+# yardstick_sd()
+
+test_that("works with constant inputs", {
+  x <- c(1, 1)
+
+  expect_identical(yardstick_sd(x), 0)
+  expect_identical(yardstick_sd(x), sd(x))
+})
+
+test_that("works with input of size 1", {
+  expect_identical(yardstick_sd(0), NA_real_)
+  expect_identical(yardstick_sd(0), sd(0))
+})
+
+test_that("works with input of size 0", {
+  expect_identical(yardstick_sd(double()), NA_real_)
+  expect_identical(yardstick_sd(double()), sd(double()))
+})
+
+# ------------------------------------------------------------------------------
+# yardstick_var()
+
+test_that("works with constant inputs", {
+  x <- c(1, 1)
+
+  expect_identical(yardstick_var(x), 0)
+  expect_identical(yardstick_var(x), var(x))
+})
+
+test_that("works with input of size 1", {
+  expect_identical(yardstick_var(0), NA_real_)
+  expect_identical(yardstick_var(0), var(0))
+})
+
+test_that("works with input of size 0", {
+  expect_identical(yardstick_var(double()), NA_real_)
+  expect_identical(yardstick_var(double()), var(double()))
+})
+
+# ------------------------------------------------------------------------------
+# yardstick_cov()
+
+test_that("works with constant inputs", {
+  x <- c(1, 1)
+  y <- c(2, 3)
+
+  expect_identical(yardstick_cov(x, y), 0)
+  expect_identical(yardstick_cov(x, y), cov(x, y))
+
+  x <- c(2, 3)
+  y <- c(1, 1)
+
+  expect_identical(yardstick_cov(x, y), 0)
+  expect_identical(yardstick_cov(x, y), cov(x, y))
+
+  x <- c(1, 1)
+  y <- c(1, 1)
+
+  expect_identical(yardstick_cov(x, y), 0)
+  expect_identical(yardstick_cov(x, y), cov(x, y))
+})
+
+test_that("works with input of size 1", {
+  expect_identical(yardstick_cov(0, 0), NA_real_)
+  expect_identical(yardstick_cov(0, 0), cov(0, 0))
+})
+
+test_that("works with input of size 0", {
+  expect_identical(yardstick_cov(double(), double()), NA_real_)
+  expect_identical(yardstick_cov(double(), double()), cov(double(), double()))
+})
+
+# ------------------------------------------------------------------------------
+# yardstick_cov()
+
+test_that("works with constant inputs", {
+  expect_snapshot({
+    (expect_warning(
+      object = out <- yardstick_cor(c(1, 2), c(1, 1)),
+      class = "yardstick_warning_correlation_undefined_constant_estimate"
+    ))
+  })
+  expect_identical(out, NA_real_)
+
+  expect_snapshot({
+    (expect_warning(
+      object = out <- yardstick_cor(c(1, 1), c(1, 2)),
+      class = "yardstick_warning_correlation_undefined_constant_truth"
+    ))
+  })
+  expect_identical(out, NA_real_)
+})
+
+test_that("warns with input of size 1", {
+  expect_snapshot({
+    (expect_warning(
+      object = out <- yardstick_cor(1, 1),
+      class = "yardstick_warning_correlation_undefined_size_zero_or_one"
+    ))
+  })
+  expect_identical(out, NA_real_)
+})
+
+test_that("warns with input of size 0", {
+  expect_snapshot({
+    (expect_warning(
+      object = out <- yardstick_cor(double(), double()),
+      class = "yardstick_warning_correlation_undefined_size_zero_or_one"
+    ))
+  })
+  expect_identical(out, NA_real_)
+})
