@@ -74,7 +74,7 @@ iic_vec <- function(truth, estimate, na_rm = TRUE, ...) {
 
     adjustment <- min(mae_neg, mae_pos) / max(mae_neg, mae_pos)
 
-    try_cor(truth, estimate) * adjustment
+    yardstick_cor(truth, estimate) * adjustment
   }
 
   metric_vec_template(

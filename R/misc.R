@@ -126,6 +126,107 @@ yardstick_sum <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
 
 # ------------------------------------------------------------------------------
 
+yardstick_cor <- function(truth, estimate, ..., case_weights = NULL) {
+  if (is.null(case_weights)) {
+    # To always go through `stats::cov.wt()` for consistency
+    case_weights <- rep(1, times = length(truth))
+  }
+
+  truth <- vec_cast(truth, to = double())
+  estimate <- vec_cast(estimate, to = double())
+  case_weights <- vec_cast(case_weights, to = double())
+
+  size <- vec_size(truth)
+  if (size != vec_size(estimate)) {
+    abort("`truth` and `estimate` must be the same size.", .internal = TRUE)
+  }
+  if (size != vec_size(case_weights)) {
+    abort("`truth` and `case_weights` must be the same size.", .internal = TRUE)
+  }
+
+  if (size == 0L || size == 1L) {
+    warn_correlation_undefined_size_zero_or_one()
+    return(NA_real_)
+  }
+  if (vec_unique_count(truth) == 1L) {
+    warn_correlation_undefined_constant_truth(truth)
+    return(NA_real_)
+  }
+  if (vec_unique_count(estimate) == 1L) {
+    warn_correlation_undefined_constant_estimate(estimate)
+    return(NA_real_)
+  }
+
+  input <- cbind(truth = truth, estimate = estimate)
+
+  cov <- stats::cov.wt(
+    x = input,
+    wt = case_weights,
+    cor = TRUE,
+    center = TRUE,
+    method = "unbiased"
+  )
+
+  cor <- cov$cor
+
+  # 2-column matrix generates 2x2 correlation matrix.
+  # Diagonals are 1s. Off-diagonals are correlations.
+  out <- cor[[1, 2]]
+
+  out
+}
+
+warn_correlation_undefined_size_zero_or_one <- function() {
+  message <- paste0(
+    "A correlation computation is required, but the inputs are size zero or ",
+    "one and the standard deviation cannot be computed. ",
+    "`NA` will be returned."
+  )
+
+  warn_correlation_undefined(
+    message = message,
+    class = "yardstick_warning_correlation_undefined_size_zero_or_one"
+  )
+}
+
+warn_correlation_undefined_constant_truth <- function(truth) {
+  message <- make_correlation_undefined_constant_message(what = "truth")
+
+  warn_correlation_undefined(
+    message = message,
+    truth = truth,
+    class = "yardstick_warning_correlation_undefined_constant_truth"
+  )
+}
+
+warn_correlation_undefined_constant_estimate <- function(estimate) {
+  message <- make_correlation_undefined_constant_message(what = "estimate")
+
+  warn_correlation_undefined(
+    message = message,
+    estimate = estimate,
+    class = "yardstick_warning_correlation_undefined_constant_estimate"
+  )
+}
+
+make_correlation_undefined_constant_message <- function(what) {
+  paste0(
+    "A correlation computation is required, but `", what, "` is constant ",
+    "and has 0 standard deviation, resulting in a divide by 0 error. ",
+    "`NA` will be returned."
+  )
+}
+
+warn_correlation_undefined <- function(message, ..., class = character()) {
+  rlang::warn(
+    message = message,
+    class = c(class, "yardstick_warning_correlation_undefined"),
+    ...
+  )
+}
+
+# ------------------------------------------------------------------------------
+
 yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
   check_dots_empty()
 
