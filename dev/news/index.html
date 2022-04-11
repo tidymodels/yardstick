@@ -62,7 +62,8 @@
 <ul><li>
 <p>yardstick metrics now support case weights.</p>
 <ul><li>Numeric:
-<ul><li>huber_loss</li>
+<ul><li>ccc</li>
+<li>huber_loss</li>
 <li>huber_loss_pseudo</li>
 <li>iic</li>
 <li>mae</li>
@@ -93,6 +94,7 @@
 </ul></li>
 <li>Probability:</li>
 </ul></li>
+<li><p>Fixed a small mistake in <code><a href="../reference/ccc.html">ccc()</a></code> where the unbiased covariance wasn’t being used when <code>bias = FALSE</code>.</p></li>
 <li><p><code><a href="../reference/j_index.html">j_index()</a></code> now throws a more correct warning if <code>0</code> is in the denominator when computing <code><a href="../reference/sens.html">sens()</a></code> internally. Additionally, in the multiclass case it now removes the levels where this occurs from the multiclass weighted average computation, which is consistent with how other metrics were updated to handle this in <a href="https://github.com/tidymodels/yardstick/issues/118" class="external-link">#118</a> (<a href="https://github.com/tidymodels/yardstick/issues/265" class="external-link">#265</a>).</p></li>
 <li><p>Moved the Custom Metrics vignette to tidymodels.org (<a href="https://github.com/tidymodels/yardstick/issues/236" class="external-link">#236</a>).</p></li>
 </ul></div>
