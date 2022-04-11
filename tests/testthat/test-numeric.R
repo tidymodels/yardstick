@@ -10,35 +10,6 @@ ex_dat$rand_na[ind] <- NA
 
 ###################################################################
 
-test_that('R^2', {
-  expect_equal(
-    rsq(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    stats::cor(ex_dat[, 1:2])[1,2]^2
-  )
-  expect_equal(
-    rsq(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    stats::cor(ex_dat[, c(1, 3)], use = "complete.obs")[1,2]^2
-  )
-  expect_equal(
-    rsq(ex_dat, truth = "obs", estimate = "rand")[[".estimate"]],
-    stats::cor(ex_dat[, c(1, 4)])[1,2]^2
-  )
-  expect_equal(
-    rsq(ex_dat, estimate = rand_na, truth = obs)[[".estimate"]],
-    stats::cor(ex_dat[, c(1, 5)], use = "complete.obs")[1,2]^2
-  )
-})
-
-test_that("yardstick correlation warnings are thrown", {
-  cnd <- rlang::catch_cnd(rsq_vec(c(1, 2), c(1, 1)))
-  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
-
-  cnd <- rlang::catch_cnd(rsq_vec(c(1, 1), c(1, 2)))
-  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_truth")
-})
-
-###################################################################
-
 test_that('Concordance Correlation Coefficient', {
   expect_equal(
     ccc(ex_dat, truth = "obs", estimate = "pred", bias = TRUE)[[".estimate"]],

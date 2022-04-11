@@ -59,33 +59,41 @@ rsq <- new_numeric_metric(
 
 #' @rdname rsq
 #' @export
-rsq.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
-
+rsq.data.frame <- function(data,
+                           truth,
+                           estimate,
+                           na_rm = TRUE,
+                           case_weights = NULL,
+                           ...) {
   metric_summarizer(
     metric_nm = "rsq",
     metric_fn = rsq_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
 #' @rdname rsq
-rsq_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
-  rsq_impl <- function(truth, estimate) {
-    try_cor(truth, estimate) ^ 2
-  }
-
+rsq_vec <- function(truth,
+                    estimate,
+                    na_rm = TRUE,
+                    case_weights = NULL,
+                    ...) {
   metric_vec_template(
     metric_impl = rsq_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric"
   )
+}
 
+rsq_impl <- function(truth, estimate, ..., case_weights = NULL) {
+  check_dots_empty()
+  yardstick_cor(truth, estimate, case_weights = case_weights) ^ 2
 }

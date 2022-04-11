@@ -12,6 +12,7 @@
     * msd
     * poisson_log_loss
     * rmse
+    * rsq
     * rsq_trad
     * smape
   
