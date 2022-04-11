@@ -8,9 +8,17 @@
 \usage{
 ccc(data, ...)
 
-\method{ccc}{data.frame}(data, truth, estimate, bias = FALSE, na_rm = TRUE, ...)
+\method{ccc}{data.frame}(
+  data,
+  truth,
+  estimate,
+  bias = FALSE,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
 
-ccc_vec(truth, estimate, bias = FALSE, na_rm = TRUE, ...)
+ccc_vec(truth, estimate, bias = FALSE, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -34,6 +42,10 @@ be used (as is Lin (1989))?}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+\code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},

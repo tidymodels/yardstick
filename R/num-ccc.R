@@ -44,7 +44,13 @@ ccc <- new_numeric_metric(
 
 #' @rdname ccc
 #' @export
-ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na_rm = TRUE, ...) {
+ccc.data.frame <- function(data,
+                           truth,
+                           estimate,
+                           bias = FALSE,
+                           na_rm = TRUE,
+                           case_weights = NULL,
+                           ...) {
 
   metric_summarizer(
     metric_nm = "ccc",
@@ -53,6 +59,7 @@ ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na_rm = TRUE, ..
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
+    case_weights = !!enquo(case_weights),
     # Extra argument for ccc_impl()
     metric_fn_options = list(bias = bias)
   )
@@ -61,35 +68,54 @@ ccc.data.frame <- function(data, truth, estimate, bias = FALSE, na_rm = TRUE, ..
 
 #' @export
 #' @rdname ccc
-ccc_vec <- function(truth, estimate, bias = FALSE, na_rm = TRUE, ...) {
-
-  ccc_impl <- function(truth, estimate, bias) {
-
-    m_e <- mean(estimate)
-    m_t <- mean(truth)
-    v_e <- stats::var(estimate)
-    v_t <- stats::var(truth)
-    cross <- scale(truth, scale = FALSE) *
-      scale(estimate, scale = FALSE)
-    cross <- mean(cross)
-
-    if (bias) {
-      n <- length(estimate)
-      v_e <- v_e * (n - 1) / n
-      v_t <- v_t * (n - 1) / n
-    }
-
-    2 * cross / (v_e + v_t + (m_e - m_t) ^ 2)
-
-  }
-
+ccc_vec <- function(truth,
+                    estimate,
+                    bias = FALSE,
+                    na_rm = TRUE,
+                    case_weights = NULL,
+                    ...) {
   metric_vec_template(
     metric_impl = ccc_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric",
     bias = bias
   )
+}
 
+ccc_impl <- function(truth,
+                     estimate,
+                     ...,
+                     bias = FALSE,
+                     case_weights = NULL) {
+  check_dots_empty()
+
+  truth_mean <- yardstick_mean(truth, case_weights = case_weights)
+  estimate_mean <- yardstick_mean(estimate, case_weights = case_weights)
+
+  truth_variance <- yardstick_var(truth, case_weights = case_weights)
+  estimate_variance <- yardstick_var(estimate, case_weights = case_weights)
+
+  covariance <- yardstick_cov(truth, estimate, case_weights = case_weights)
+
+  if (bias) {
+    # Assumes `case_weights` are frequency weights so we can generate an
+    # appropriate `n`
+    if (is.null(case_weights)) {
+      n <- length(estimate)
+    } else {
+      n <- sum(case_weights)
+    }
+
+    estimate_variance <- estimate_variance * (n - 1) / n
+    truth_variance <- truth_variance * (n - 1) / n
+    covariance <- covariance * (n - 1) / n
+  }
+
+  numerator <- 2 * covariance
+  denominator <- truth_variance + estimate_variance + (truth_mean - estimate_mean) ^ 2
+
+  numerator / denominator
 }
