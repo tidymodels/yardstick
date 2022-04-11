@@ -3,6 +3,7 @@
 * yardstick metrics now support case weights.
 
   * Numeric:
+    * ccc
     * huber_loss
     * huber_loss_pseudo
     * iic
@@ -33,6 +34,9 @@
     * spec
   
   * Probability:
+
+* Fixed a small mistake in `ccc()` where the unbiased covariance wasn't being
+  used when `bias = FALSE`.
 
 * `j_index()` now throws a more correct warning if `0` is in the denominator
   when computing `sens()` internally. Additionally, in the multiclass case it
