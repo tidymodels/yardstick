@@ -10,23 +10,6 @@ ex_dat$rand_na[ind] <- NA
 
 ###################################################################
 
-test_that('Concordance Correlation Coefficient', {
-  expect_equal(
-    ccc(ex_dat, truth = "obs", estimate = "pred", bias = TRUE)[[".estimate"]],
-    # epiR::epi.ccc(x = ex_dat$obs, y = ex_dat$pred)
-    0.8322669,
-    tolerance = 0.001
-  )
-  expect_equal(
-    ccc(ex_dat, truth = obs, estimate = "pred_na", bias = TRUE)[[".estimate"]],
-    # epiR::epi.ccc(x = ex_dat$obs[-ind], y = ex_dat$pred_na[-ind])
-    0.8161879,
-    tolerance = 0.001
-  )
-})
-
-###################################################################
-
 test_that('rpd', {
   expect_equal(
     rpd(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],

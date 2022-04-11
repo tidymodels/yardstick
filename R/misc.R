@@ -126,7 +126,83 @@ yardstick_sum <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
 
 # ------------------------------------------------------------------------------
 
-yardstick_cor <- function(truth, estimate, ..., case_weights = NULL) {
+yardstick_sd <- function(x,
+                         ...,
+                         case_weights = NULL) {
+  check_dots_empty()
+
+  variance <- yardstick_var(
+    x = x,
+    case_weights = case_weights
+  )
+
+  sqrt(variance)
+}
+
+yardstick_var <- function(x,
+                          ...,
+                          case_weights = NULL) {
+  check_dots_empty()
+
+  yardstick_cov(
+    truth = x,
+    estimate = x,
+    case_weights = case_weights
+  )
+}
+
+yardstick_cov <- function(truth,
+                          estimate,
+                          ...,
+                          case_weights = NULL) {
+  check_dots_empty()
+
+  if (is.null(case_weights)) {
+    # To always go through `stats::cov.wt()` for consistency
+    case_weights <- rep(1, times = length(truth))
+  }
+
+  truth <- vec_cast(truth, to = double())
+  estimate <- vec_cast(estimate, to = double())
+  case_weights <- vec_cast(case_weights, to = double())
+
+  size <- vec_size(truth)
+  if (size != vec_size(estimate)) {
+    abort("`truth` and `estimate` must be the same size.", .internal = TRUE)
+  }
+  if (size != vec_size(case_weights)) {
+    abort("`truth` and `case_weights` must be the same size.", .internal = TRUE)
+  }
+
+  if (size == 0L || size == 1L) {
+    # Like `cov(double(), double())` and `cov(0, 0)`,
+    # Otherwise `cov.wt()` returns `NaN` or an error.
+    return(NA_real_)
+  }
+
+  input <- cbind(truth = truth, estimate = estimate)
+
+  cov <- stats::cov.wt(
+    x = input,
+    wt = case_weights,
+    cor = FALSE,
+    center = TRUE,
+    method = "unbiased"
+  )
+
+  cov <- cov$cov
+
+  # 2-column matrix generates 2x2 covariance matrix.
+  # All values represent the variance.
+  cov[[1, 2]]
+}
+
+yardstick_cor <- function(truth,
+                          estimate,
+                          ...,
+                          case_weights = NULL) {
+  check_dots_empty()
+
   if (is.null(case_weights)) {
     # To always go through `stats::cov.wt()` for consistency
     case_weights <- rep(1, times = length(truth))
@@ -171,9 +247,7 @@ yardstick_cor <- function(truth, estimate, ..., case_weights = NULL) {
 
   # 2-column matrix generates 2x2 correlation matrix.
   # Diagonals are 1s. Off-diagonals are correlations.
-  out <- cor[[1, 2]]
-
-  out
+  cor[[1, 2]]
 }
 
 warn_correlation_undefined_size_zero_or_one <- function() {
