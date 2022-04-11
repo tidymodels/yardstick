@@ -5,6 +5,7 @@
   * Numeric:
     * huber_loss
     * huber_loss_pseudo
+    * iic
     * mae
     * mape
     * mase
