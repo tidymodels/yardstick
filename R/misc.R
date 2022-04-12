@@ -359,7 +359,6 @@ weighted_quantile <- function(x, weights, probabilities) {
     y = x,
     xout = probabilities,
     method = "linear",
-    na.rm = FALSE,
     rule = 2L
   )
 
