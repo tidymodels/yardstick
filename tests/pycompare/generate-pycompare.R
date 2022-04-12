@@ -203,3 +203,27 @@ py_ppv <- list(
   )
 )
 saveRDS(py_ppv, test_path("py-data", "py-ppv.rds"), version = 2)
+
+# mn_log_loss
+# log_loss() requires labels in alphabetical order, because that is what LabelBinarizer() does
+log_loss_two_class_example_levels <- c("Class1", "Class2")
+log_loss_two_class_example_estimate <- cbind(Class1 = two_class_example$Class1, Class2 = two_class_example$Class2)
+
+log_loss_hpc_cv_levels <- c("F", "L", "M", "VF")
+log_loss_hpc_cv_estimate <- as.matrix(hpc_cv[log_loss_hpc_cv_levels])
+
+mn_log_loss_eps <- .Machine$double.eps
+
+py_mn_log_loss <- list(
+  binary = skmetrics$log_loss(two_class_example$truth, log_loss_two_class_example_estimate, labels = log_loss_two_class_example_levels, eps = mn_log_loss_eps),
+  multiclass = skmetrics$log_loss(hpc_cv$obs, log_loss_hpc_cv_estimate, labels = log_loss_hpc_cv_levels, eps = mn_log_loss_eps),
+  binary_sum = skmetrics$log_loss(two_class_example$truth, log_loss_two_class_example_estimate, labels = log_loss_two_class_example_levels, normalize = FALSE),
+  multiclass_sum = skmetrics$log_loss(hpc_cv$obs, log_loss_hpc_cv_estimate, labels = log_loss_hpc_cv_levels, eps = mn_log_loss_eps, normalize = FALSE),
+  case_weight = list(
+    binary = skmetrics$log_loss(two_class_example$truth, log_loss_two_class_example_estimate, labels = log_loss_two_class_example_levels, eps = mn_log_loss_eps, sample_weight = weights_two_class_example),
+    multiclass = skmetrics$log_loss(hpc_cv$obs, log_loss_hpc_cv_estimate, labels = log_loss_hpc_cv_levels, eps = mn_log_loss_eps, sample_weight = weights_hpc_cv),
+    binary_sum = skmetrics$log_loss(two_class_example$truth, log_loss_two_class_example_estimate, labels = log_loss_two_class_example_levels, normalize = FALSE, sample_weight = weights_two_class_example),
+    multiclass_sum = skmetrics$log_loss(hpc_cv$obs, log_loss_hpc_cv_estimate, labels = log_loss_hpc_cv_levels, eps = mn_log_loss_eps, normalize = FALSE, sample_weight = weights_hpc_cv)
+  )
+)
+saveRDS(py_mn_log_loss, test_path("py-data", "py-mn_log_loss.rds"), version = 2)

@@ -14,7 +14,8 @@ mn_log_loss(data, ...)
   ...,
   na_rm = TRUE,
   sum = FALSE,
-  event_level = yardstick_event_level()
+  event_level = yardstick_event_level(),
+  case_weights = NULL
 )
 
 mn_log_loss_vec(
@@ -23,6 +24,7 @@ mn_log_loss_vec(
   na_rm = TRUE,
   sum = FALSE,
   event_level = yardstick_event_level(),
+  case_weights = NULL,
   ...
 )
 }
@@ -53,6 +55,10 @@ applicable when \code{estimator = "binary"}. The default uses an
 internal helper that generally defaults to \code{"first"}, however, if the
 deprecated global option \code{yardstick.event_first} is set, that will be
 used instead with a warning.}
+
+\item{case_weights}{The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+\code{data}. For \verb{_vec()} functions, a numeric vector.}
 
 \item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
 corresponding to the "relevant" class. Otherwise, a matrix with as many

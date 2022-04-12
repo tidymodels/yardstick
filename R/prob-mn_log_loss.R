@@ -28,6 +28,10 @@
 #' @param sum A `logical`. Should the sum of the likelihood contributions be
 #' returned (instead of the mean value)?
 #'
+#' @param case_weights The optional column identifier for case weights. This
+#' should be an unquoted column name that evaluates to a numeric column in
+#' `data`. For `_vec()` functions, a numeric vector.
+#'
 #' @author Max Kuhn
 #'
 #' @examples
@@ -84,7 +88,8 @@ mn_log_loss.data.frame <- function(data,
                                    ...,
                                    na_rm = TRUE,
                                    sum = FALSE,
-                                   event_level = yardstick_event_level()) {
+                                   event_level = yardstick_event_level(),
+                                   case_weights = NULL) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -95,6 +100,7 @@ mn_log_loss.data.frame <- function(data,
     estimate = !!estimate,
     na_rm = na_rm,
     event_level = event_level,
+    case_weights = !!enquo(case_weights),
     # Extra argument for mn_log_loss_impl()
     metric_fn_options = list(sum = sum)
   )
@@ -107,12 +113,26 @@ mn_log_loss_vec <- function(truth,
                             na_rm = TRUE,
                             sum = FALSE,
                             event_level = yardstick_event_level(),
+                            case_weights = NULL,
                             ...) {
   estimator <- finalize_estimator(truth, metric_class = "mn_log_loss")
 
   # estimate here is a matrix of class prob columns
-  mn_log_loss_impl <- function(truth, estimate, sum = FALSE) {
-    mn_log_loss_estimator_impl(truth, estimate, estimator, event_level, sum)
+  mn_log_loss_impl <- function(truth,
+                               estimate,
+                               ...,
+                               sum = FALSE,
+                               case_weights = NULL) {
+    check_dots_empty()
+
+    mn_log_loss_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = estimator,
+      event_level = event_level,
+      sum = sum,
+      case_weights = case_weights
+    )
   }
 
   metric_vec_template(
@@ -121,21 +141,42 @@ mn_log_loss_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = c("factor", "numeric"),
     sum = sum
   )
 }
 
-mn_log_loss_estimator_impl <- function(truth, estimate, estimator, event_level, sum = FALSE) {
+mn_log_loss_estimator_impl <- function(truth,
+                                       estimate,
+                                       estimator,
+                                       event_level,
+                                       sum,
+                                       case_weights) {
   if (is_binary(estimator)) {
-    mn_log_loss_binary(truth, estimate, event_level, sum)
+    mn_log_loss_binary(
+      truth = truth,
+      estimate = estimate,
+      event_level = event_level,
+      sum = sum,
+      case_weights = case_weights
+    )
   }
   else {
-    mn_log_loss_multiclass(truth, estimate, sum)
+    mn_log_loss_multiclass(
+      truth = truth,
+      estimate = estimate,
+      sum = sum,
+      case_weights = case_weights
+    )
   }
 }
 
-mn_log_loss_binary <- function(truth, estimate, event_level, sum) {
+mn_log_loss_binary <- function(truth,
+                               estimate,
+                               event_level,
+                               sum,
+                               case_weights) {
   if (!is_event_first(event_level)) {
     lvls <- levels(truth)
     truth <- stats::relevel(truth, lvls[[2]])
@@ -143,7 +184,12 @@ mn_log_loss_binary <- function(truth, estimate, event_level, sum) {
 
   estimate <- matrix(c(estimate, 1 - estimate), ncol = 2)
 
-  mn_log_loss_multiclass(truth, estimate, sum)
+  mn_log_loss_multiclass(
+    truth = truth,
+    estimate = estimate,
+    sum = sum,
+    case_weights = case_weights
+  )
 }
 
 # We apply the min/max rule to avoid undefined log() values (#103)
@@ -152,17 +198,23 @@ mn_log_loss_binary <- function(truth, estimate, event_level, sum) {
 # and it should be more precise)
 # https://github.com/wch/r-source/blob/582d94805aeee0c91f9bd9bdd63e421dd60e441f/src/library/stats/R/family.R#L83
 
-mn_log_loss_multiclass <- function(truth, estimate, sum) {
+mn_log_loss_multiclass <- function(truth,
+                                   estimate,
+                                   sum,
+                                   case_weights) {
+  # Binarize factor
   y <- stats::model.matrix(~ truth - 1)
 
   eps <- .Machine$double.eps
   estimate <- pmax(pmin(estimate, 1 - eps), eps)
 
-  out <- -sum(y * log(estimate))
+  loss <- y * log(estimate)
+  loss <- rowSums(loss)
+  loss <- -loss
 
-  if (!sum) {
-    out <- out / length(truth)
+  if (sum) {
+    yardstick_sum(loss, case_weights = case_weights)
+  } else {
+    yardstick_mean(loss, case_weights = case_weights)
   }
-
-  out
 }
