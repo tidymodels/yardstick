@@ -57,35 +57,45 @@ rpd <- new_numeric_metric(
 
 #' @rdname rpd
 #' @export
-rpd.data.frame <- function(data, truth, estimate, na_rm = TRUE, ...) {
-
+rpd.data.frame <- function(data,
+                           truth,
+                           estimate,
+                           na_rm = TRUE,
+                           case_weights = NULL,
+                           ...) {
   metric_summarizer(
     metric_nm = "rpd",
     metric_fn = rpd_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    na_rm = na_rm
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights)
   )
-
 }
 
 #' @export
 #' @rdname rpd
-rpd_vec <- function(truth, estimate, na_rm = TRUE, ...) {
-
-  rpd_impl <- function(truth, estimate) {
-
-    stats::sd(truth) / rmse_vec(truth, estimate)
-
-  }
-
+rpd_vec <- function(truth,
+                    estimate,
+                    na_rm = TRUE,
+                    case_weights = NULL,
+                    ...) {
   metric_vec_template(
     metric_impl = rpd_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = "numeric"
   )
+}
 
+rpd_impl <- function(truth, estimate, ..., case_weights = NULL) {
+  check_dots_empty()
+
+  sd <- yardstick_sd(truth, case_weights = case_weights)
+  rmse <- rmse_vec(truth, estimate, case_weights = case_weights)
+
+  sd / rmse
 }
