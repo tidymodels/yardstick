@@ -15,6 +15,7 @@
     * poisson_log_loss
     * rmse
     * rpd
+    * rpiq
     * rsq
     * rsq_trad
     * smape

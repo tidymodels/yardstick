@@ -91,3 +91,59 @@
       Warning:
       A correlation computation is required, but the inputs are size zero or one and the standard deviation cannot be computed. `NA` will be returned.
 
+# `x` is validated
+
+    Code
+      weighted_quantile("x", 1, 0.5)
+    Condition
+      Error in `weighted_quantile()`:
+      ! Can't convert `x` <character> to <double>.
+
+# `weights` is validated
+
+    Code
+      weighted_quantile(1, "x", 0.5)
+    Condition
+      Error in `weighted_quantile()`:
+      ! Can't convert `weights` <character> to <double>.
+
+# `x` and `weights` must be the same size
+
+    Code
+      weighted_quantile(1, 1:2, 0.5)
+    Condition
+      Error in `weighted_quantile()`:
+      ! `x` and `weights` must have the same size.
+
+# `probabilities` is validated
+
+    Code
+      weighted_quantile(1, 1, "x")
+    Condition
+      Error in `weighted_quantile()`:
+      ! Can't convert `probabilities` <character> to <double>.
+
+# `probabilities` must be in [0, 1]
+
+    Code
+      weighted_quantile(1, 1, -1)
+    Condition
+      Error in `weighted_quantile()`:
+      ! `probabilities` must be within `[0, 1]`.
+
+---
+
+    Code
+      weighted_quantile(1, 1, 2)
+    Condition
+      Error in `weighted_quantile()`:
+      ! `probabilities` must be within `[0, 1]`.
+
+# `probabilities` can't be missing
+
+    Code
+      weighted_quantile(1, 1, NA)
+    Condition
+      Error in `weighted_quantile()`:
+      ! `probabilities` can't be missing.
+

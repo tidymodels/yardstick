@@ -209,3 +209,62 @@ test_that("warns with input of size 0", {
   })
   expect_identical(out, NA_real_)
 })
+
+# ------------------------------------------------------------------------------
+# weighted_quantile()
+
+test_that("is a weighted variant of `quantile(type = 4)`", {
+  x <- 1:20 + 0
+  w <- rep(1, times = length(x))
+
+  expect_identical(
+    quantile(x, probs = c(0, .25, .5, .75, 1), type = 4, names = FALSE),
+    weighted_quantile(x, weights = w, probabilities = c(0, .25, .5, .75, 1))
+  )
+
+  x <- rev(0:20 + 0)
+  w <- rep(1, times = length(x))
+
+  expect_identical(
+    quantile(x, probs = c(0, .25, .5, .75, 1), type = 4, names = FALSE),
+    weighted_quantile(x, weights = w, probabilities = c(0, .25, .5, .75, 1))
+  )
+})
+
+test_that("works with zero values", {
+  expect_identical(weighted_quantile(numeric(), numeric(), c(.5, .6)), c(NA_real_, NA_real_))
+})
+
+test_that("works with one value", {
+  expect_identical(weighted_quantile(2, 5, c(.5, .6)), c(2, 2))
+})
+
+test_that("works with zero percentiles", {
+  expect_identical(weighted_quantile(1:5, 1:5, numeric()), numeric())
+})
+
+test_that("`x` is validated", {
+  expect_snapshot(error = TRUE, weighted_quantile("x", 1, .5))
+})
+
+test_that("`weights` is validated", {
+  expect_snapshot(error = TRUE, weighted_quantile(1, "x", .5))
+})
+
+test_that("`x` and `weights` must be the same size", {
+  expect_snapshot(error = TRUE, weighted_quantile(1, 1:2, .5))
+})
+
+test_that("`probabilities` is validated", {
+  expect_snapshot(error = TRUE, weighted_quantile(1, 1, "x"))
+})
+
+test_that("`probabilities` must be in [0, 1]", {
+  expect_snapshot(error = TRUE, weighted_quantile(1, 1, -1))
+  expect_snapshot(error = TRUE, weighted_quantile(1, 1, 2))
+})
+
+test_that("`probabilities` can't be missing", {
+  expect_snapshot(error = TRUE, weighted_quantile(1, 1, NA))
+})
+
