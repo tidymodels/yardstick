@@ -301,6 +301,75 @@ warn_correlation_undefined <- function(message, ..., class = character()) {
 
 # ------------------------------------------------------------------------------
 
+yardstick_quantile <- function(x, probabilities, ..., case_weights = NULL) {
+  # When this goes through `quantile()`, that uses `type = 7` by default,
+  # which does linear interpolation of modes. `weighted_quantile()` uses a
+  # weighted version of what `type = 4` does, which is a linear interpolation
+  # of the empirical CDF, so even if you supply `case_weights = 1`, the values
+  # will likely differ.
+
+  check_dots_empty()
+
+  if (is.null(case_weights)) {
+    stats::quantile(x, probs = probabilities, names = FALSE)
+  } else {
+    weighted_quantile(x, weights = case_weights, probabilities = probabilities)
+  }
+}
+
+weighted_quantile <- function(x, weights, probabilities) {
+  # For possible use in hardhat. A weighted variant of `quantile(type = 4)`,
+  # which does linear interpolation of the empirical CDF.
+
+  x <- vec_cast(x, to = double())
+  weights <- vec_cast(weights, to = double())
+  probabilities <- vec_cast(probabilities, to = double())
+
+  size <- vec_size(x)
+  if (size != vec_size(weights)) {
+    abort("`x` and `weights` must have the same size.")
+  }
+
+  if (any(is.na(probabilities))) {
+    abort("`probabilities` can't be missing.")
+  }
+  if (any(probabilities > 1 | probabilities < 0)) {
+    abort("`probabilities` must be within `[0, 1]`.")
+  }
+
+  if (size == 0L) {
+    # For compatibility with `quantile()`, since `approx()` requires >=2 points
+    out <- rep(NA_real_, times = length(probabilities))
+    return(out)
+  }
+  if (size == 1L) {
+    # For compatibility with `quantile()`, since `approx()` requires >=2 points
+    out <- rep(x, times = length(probabilities))
+    return(out)
+  }
+
+  o <- vec_order(x)
+  x <- vec_slice(x, o)
+  weights <- vec_slice(weights, o)
+
+  weighted_quantiles <- cumsum(weights) / sum(weights)
+
+  interpolation <- stats::approx(
+    x = weighted_quantiles,
+    y = x,
+    xout = probabilities,
+    method = "linear",
+    na.rm = FALSE,
+    rule = 2L
+  )
+
+  out <- interpolation$y
+
+  out
+}
+
+# ------------------------------------------------------------------------------
+
 yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
   check_dots_empty()
 
