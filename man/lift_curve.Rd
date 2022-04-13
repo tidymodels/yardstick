@@ -12,7 +12,8 @@ lift_curve(data, ...)
   truth,
   ...,
   na_rm = TRUE,
-  event_level = yardstick_event_level()
+  event_level = yardstick_event_level(),
+  case_weights = NULL
 )
 }
 \arguments{
@@ -39,41 +40,49 @@ applicable when \code{estimator = "binary"}. The default uses an
 internal helper that generally defaults to \code{"first"}, however, if the
 deprecated global option \code{yardstick.event_first} is set, that will be
 used instead with a warning.}
+
+\item{case_weights}{The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+\code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A tibble with class \code{lift_df} or \code{lift_grouped_df} having
 columns:
 \itemize{
-\item \code{.n} - The index of the current sample.
-\item \code{.n_events} - The index of the current \emph{unique} sample. Values with repeated
+\item \code{.n} The index of the current sample.
+\item \code{.n_events} The index of the current \emph{unique} sample. Values with repeated
 \code{estimate} values are given identical indices in this column.
-\item \code{.percent_tested} - The cumulative percentage of values tested.
-\item \code{.lift} - First calculate the cumulative percentage of true results relative to the
-total number of true results. Then divide that by \code{.percent_tested}.
+\item \code{.percent_tested} The cumulative percentage of values tested.
+\item \code{.lift} First calculate the cumulative percentage of true results relative
+to the total number of true results. Then divide that by \code{.percent_tested}.
 }
+
+If using the \code{case_weights} argument, all of the above columns will be
+weighted. This makes the most sense with frequency weights, which are integer
+weights representing the number of times a particular observation should be
+repeated.
 }
 \description{
-\code{lift_curve()} constructs the full lift curve and returns a
-tibble. See \code{\link[=gain_curve]{gain_curve()}} for a closely related concept.
+\code{lift_curve()} constructs the full lift curve and returns a tibble. See
+\code{\link[=gain_curve]{gain_curve()}} for a closely related concept.
 }
 \details{
-There is a \code{\link[ggplot2:autoplot]{ggplot2::autoplot()}}
-method for quickly visualizing the curve. This works for
-binary and multiclass output, and also works with grouped data (i.e. from
-resamples). See the examples.
+There is a \code{\link[ggplot2:autoplot]{ggplot2::autoplot()}} method for quickly visualizing the curve.
+This works for binary and multiclass output, and also works with grouped data
+(i.e. from resamples). See the examples.
 }
 \section{Gain and Lift Curves}{
 
 
-The motivation behind cumulative gain and lift charts is as a visual method to
-determine the effectiveness of a model when compared to the results one
-might expect without a model. As an example, without a model, if you were
-to advertise to a random 10\\% of your customer base, then you might expect
-to capture 10\\% of the of the total number of positive responses had you
-advertised to your entire customer base. Given a model that predicts
-which customers are more likely to respond, the hope is that you can more
-accurately target 10\\% of your customer base and capture
-\>10\\% of the total number of positive responses.
+The motivation behind cumulative gain and lift charts is as a visual method
+to determine the effectiveness of a model when compared to the results one
+might expect without a model. As an example, without a model, if you were to
+advertise to a random 10\% of your customer base, then you might expect to
+capture 10\% of the of the total number of positive responses had you
+advertised to your entire customer base. Given a model that predicts which
+customers are more likely to respond, the hope is that you can more
+accurately target 10\% of your customer base and capture \code{>}10\% of the total
+number of positive responses.
 
 The calculation to construct lift curves is as follows:
 \enumerate{
@@ -81,9 +90,9 @@ The calculation to construct lift curves is as follows:
 values (\code{estimate} here is a single column supplied in \code{...}).
 \item The cumulative number of samples with true results relative to the
 entire number of true results are found.
-\item The cumulative \\% found is divided by the cumulative \\% tested
+\item The cumulative \verb{\%} found is divided by the cumulative \verb{\%} tested
 to construct the lift value. This ratio represents the factor of improvement
-over an uninformed model. Values >1 represent a valuable model. This is the
+over an uninformed model. Values \code{>}1 represent a valuable model. This is the
 y-axis of the lift chart.
 }
 }

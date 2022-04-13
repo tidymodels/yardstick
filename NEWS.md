@@ -38,6 +38,7 @@
   * Probability:
     * classification_cost
     * gain_curve
+    * lift_curve
     * mn_log_loss
 
 * Fixed a small mistake in `ccc()` where the unbiased covariance wasn't being
