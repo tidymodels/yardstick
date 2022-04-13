@@ -252,3 +252,68 @@ test_that("costs$truth and costs$estimate cannot contain duplicate pairs", {
     "cannot have duplicate 'truth' / 'estimate' combinations"
   )
 })
+
+# ------------------------------------------------------------------------------
+
+test_that("binary - uses case weights", {
+  df <- data.frame(
+    obs = factor(c("B", "A", "B"), levels = c("A", "B")),
+    A = c(1, .80, .51),
+    weight = c(1, 2, 2)
+  )
+
+  costs <- dplyr::tribble(
+    ~truth, ~estimate, ~cost,
+    "A",    "B",       2,
+    "B",    "A",       3
+  )
+
+  exp_cost <-
+    ((1.00 * 3 + 0.00 * 0) * 1L) +
+    ((0.80 * 0 + 0.20 * 2) * 2L) +
+    ((0.51 * 3 + 0.49 * 0) * 2L)
+
+  exp_cost <- exp_cost / sum(df$weight)
+
+  expect_equal(
+    classification_cost(df, obs, A, costs = costs, case_weights = weight)[[".estimate"]],
+    exp_cost
+  )
+})
+
+test_that("multiclass - uses case weights", {
+  df <- data.frame(
+    obs  = factor(c("A", "A", "A", "B", "B", "C")),
+    A = c(1, .80, .51, .1, .2, .3),
+    B = c(0, .05, .29, .8, .6, .3),
+    C = c(0, .15, .20, .1, .2, .4),
+    weight = c(1, 2, 3, 4, 5, 6)
+  )
+  costs <- dplyr::tribble(
+    ~truth, ~estimate, ~cost,
+    "A",    "A",          0,
+    "A",    "B",          1,
+    "A",    "C",          2,
+    "B",    "A",          3,
+    "B",    "B",          0,
+    "B",    "C",          4,
+    "C",    "A",          5,
+    "C",    "B",          6,
+    "C",    "C",          0,
+  )
+
+  exp_cost <-
+    ((1.00 * 0 + 0.00 * 1 + 0.00 * 2) * 1) +
+    ((0.80 * 0 + 0.05 * 1 + 0.15 * 2) * 2) +
+    ((0.51 * 0 + 0.29 * 1 + 0.20 * 2) * 3) +
+    ((0.10 * 3 + 0.80 * 0 + 0.10 * 4) * 4) +
+    ((0.20 * 3 + 0.60 * 0 + 0.20 * 4) * 5) +
+    ((0.30 * 5 + 0.30 * 6 + 0.40 * 0) * 6)
+
+  exp_cost <- exp_cost / sum(df$weight)
+
+  expect_equal(
+    classification_cost(df, obs, A:C, costs = costs, case_weights = weight)[[".estimate"]],
+    exp_cost
+  )
+})
