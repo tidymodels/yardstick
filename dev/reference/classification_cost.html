@@ -79,7 +79,8 @@ probabilities and the mean cost is returned.</p>
   <span class="va">...</span>,
   costs <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
-  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>
+  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span>
 
 <span class="fu">classification_cost_vec</span><span class="op">(</span>
@@ -88,6 +89,7 @@ probabilities and the mean cost is returned.</p>
   costs <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
   event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -131,6 +133,10 @@ applicable when <code>estimator = "binary"</code>. The default uses an
 internal helper that generally defaults to <code>"first"</code>, however, if the
 deprecated global option <code>yardstick.event_first</code> is set, that will be
 used instead with a warning.</p></dd>
+<dt>case_weights</dt>
+<dd><p>The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+<code>data</code>. For <code>_vec()</code> functions, a numeric vector.</p></dd>
 <dt>estimate</dt>
 <dd><p>If <code>truth</code> is binary, a numeric vector of class probabilities
 corresponding to the "relevant" class. Otherwise, a matrix with as many
