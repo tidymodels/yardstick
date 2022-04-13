@@ -85,3 +85,73 @@ test_that("Grouped structure is correct", {
 
   expect_s3_class(res_lift, "grouped_lift_df")
 })
+
+# Case weights -----------------------------------------------------------------
+
+test_that("lift_curve() works with case weights (ideally, frequency weights)", {
+  df <- data.frame(
+    truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
+    estimate = c(.9, .8, .7, .68, .5),
+    weight = c(2, 1, 1, 3, 2)
+  )
+
+  out <- lift_curve(df, truth, estimate, case_weights = weight)
+
+  # Manually computed and verified
+  expect <- dplyr::tibble(
+    .n = c(0, 2, 3, 4, 7, 9),
+    .n_events = c(0, 2, 3, 3, 6, 6),
+    .percent_tested = .n / 9 * 100,
+    .percent_found = .n_events / 6 * 100,
+    .lift = .percent_found / .percent_tested
+  )
+  expect[[".percent_found"]] <- NULL
+  class(expect) <- class(out)
+
+  expect_s3_class(out, "lift_df")
+  expect_identical(out, expect)
+})
+
+test_that("lift_curve() works with case weights and multiclass (ideally, frequency weights)", {
+  df <- data.frame(
+    truth = factor(c("Yes", "Yes", "No", "Maybe", "Yes", "Maybe", "No"), levels = c("Yes", "No", "Maybe")),
+    Yes = c(.9, .8, .7, .68, .5, .7, .3),
+    No = c(.05, .05, .2, .2, .2, .1, .6),
+    Maybe = c(.05, .15, .1, .12, .3, .2, .1),
+    weight = c(2, 1, 1, 3, 2, 5, 2)
+  )
+
+  out <- lift_curve(df, truth, Yes, No, Maybe, case_weights = weight)
+
+  # Manually computed and verified
+  expect <- dplyr::tibble(
+    .level = c(
+      rep("Yes", 7),
+      rep("No", 5),
+      rep("Maybe", 7)
+    ),
+    .n = c(
+      0, 2, 3, 9, 12, 14, 16,
+      0, 2, 8, 13, 16,
+      0, 2, 7, 8, 11, 14, 16
+    ),
+    .n_events = c(
+      0, 2, 3, 3, 3, 5, 5,
+      0, 2, 3, 3, 3,
+      0, 0, 5, 5, 8, 8, 8
+    )
+  )
+  expect <- dplyr::group_by(expect, .level)
+  expect <- dplyr::mutate(
+    expect,
+    .percent_tested = .n / max(.n) * 100,
+    .percent_found = .n_events / max(.n_events) * 100
+  )
+  expect <- dplyr::ungroup(expect)
+  expect <- dplyr::mutate(expect, .lift = .percent_found / .percent_tested)
+  expect[[".percent_found"]] <- NULL
+  class(expect) <- class(out)
+
+  expect_s3_class(out, "lift_df")
+  expect_identical(out, expect)
+})

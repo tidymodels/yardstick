@@ -1,24 +1,23 @@
 #' Lift curve
 #'
-#' `lift_curve()` constructs the full lift curve and returns a
-#' tibble. See [gain_curve()] for a closely related concept.
+#' `lift_curve()` constructs the full lift curve and returns a tibble. See
+#' [gain_curve()] for a closely related concept.
 #'
-#' There is a [ggplot2::autoplot()]
-#' method for quickly visualizing the curve. This works for
-#' binary and multiclass output, and also works with grouped data (i.e. from
-#' resamples). See the examples.
+#' There is a [ggplot2::autoplot()] method for quickly visualizing the curve.
+#' This works for binary and multiclass output, and also works with grouped data
+#' (i.e. from resamples). See the examples.
 #'
 #' @section Gain and Lift Curves:
 #'
-#' The motivation behind cumulative gain and lift charts is as a visual method to
-#' determine the effectiveness of a model when compared to the results one
-#' might expect without a model. As an example, without a model, if you were
-#' to advertise to a random 10\% of your customer base, then you might expect
-#' to capture 10\% of the of the total number of positive responses had you
-#' advertised to your entire customer base. Given a model that predicts
-#' which customers are more likely to respond, the hope is that you can more
-#' accurately target 10\% of your customer base and capture
-#' \>10\% of the total number of positive responses.
+#' The motivation behind cumulative gain and lift charts is as a visual method
+#' to determine the effectiveness of a model when compared to the results one
+#' might expect without a model. As an example, without a model, if you were to
+#' advertise to a random 10% of your customer base, then you might expect to
+#' capture 10% of the of the total number of positive responses had you
+#' advertised to your entire customer base. Given a model that predicts which
+#' customers are more likely to respond, the hope is that you can more
+#' accurately target 10% of your customer base and capture `>`10% of the total
+#' number of positive responses.
 #'
 #' The calculation to construct lift curves is as follows:
 #'
@@ -28,9 +27,9 @@
 #' 2. The cumulative number of samples with true results relative to the
 #' entire number of true results are found.
 #'
-#' 3. The cumulative \% found is divided by the cumulative \% tested
+#' 3. The cumulative `%` found is divided by the cumulative `%` tested
 #' to construct the lift value. This ratio represents the factor of improvement
-#' over an uninformed model. Values >1 represent a valuable model. This is the
+#' over an uninformed model. Values `>`1 represent a valuable model. This is the
 #' y-axis of the lift chart.
 #'
 #' @family curve metrics
@@ -39,17 +38,26 @@
 #' @template event_first
 #'
 #' @inheritParams pr_auc
+#' @inheritParams mn_log_loss
 #'
 #' @return
 #' A tibble with class `lift_df` or `lift_grouped_df` having
 #' columns:
 #'
-#' - `.n` - The index of the current sample.
-#' - `.n_events` - The index of the current _unique_ sample. Values with repeated
-#'   `estimate` values are given identical indices in this column.
-#' - `.percent_tested` - The cumulative percentage of values tested.
-#' - `.lift` - First calculate the cumulative percentage of true results relative to the
-#'   total number of true results. Then divide that by `.percent_tested`.
+#' - `.n` The index of the current sample.
+#'
+#' - `.n_events` The index of the current _unique_ sample. Values with repeated
+#' `estimate` values are given identical indices in this column.
+#'
+#' - `.percent_tested` The cumulative percentage of values tested.
+#'
+#' - `.lift` First calculate the cumulative percentage of true results relative
+#' to the total number of true results. Then divide that by `.percent_tested`.
+#'
+#' If using the `case_weights` argument, all of the above columns will be
+#' weighted. This makes the most sense with frequency weights, which are integer
+#' weights representing the number of times a particular observation should be
+#' repeated.
 #'
 #' @author Max Kuhn
 #'
@@ -89,7 +97,8 @@ lift_curve.data.frame <- function(data,
                                   truth,
                                   ...,
                                   na_rm = TRUE,
-                                  event_level = yardstick_event_level()) {
+                                  event_level = yardstick_event_level(),
+                                  case_weights = NULL) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   result <- metric_summarizer(
@@ -99,7 +108,8 @@ lift_curve.data.frame <- function(data,
     truth = !!enquo(truth),
     estimate = !!estimate,
     na_rm = na_rm,
-    event_level = event_level
+    event_level = event_level,
+    case_weights = !!enquo(case_weights)
   )
 
   curve_finalize(result, data, "lift_df", "grouped_lift_df")
@@ -109,13 +119,15 @@ lift_curve_vec <- function(truth,
                            estimate,
                            na_rm = TRUE,
                            event_level = yardstick_event_level(),
+                           case_weights = NULL,
                            ...) {
   # tibble result, possibly grouped
   res <- gain_curve_vec(
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    event_level = event_level
+    event_level = event_level,
+    case_weights = case_weights
   )
 
   res <- dplyr::mutate(res, .lift = .percent_found / .percent_tested)
