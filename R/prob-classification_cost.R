@@ -19,6 +19,7 @@
 #' @template return
 #'
 #' @inheritParams pr_auc
+#' @inheritParams mn_log_loss
 #'
 #' @param costs A data frame with columns `"truth"`, `"estimate"`, and `"cost"`.
 #'
@@ -115,7 +116,8 @@ classification_cost.data.frame <- function(data,
                                            ...,
                                            costs = NULL,
                                            na_rm = TRUE,
-                                           event_level = yardstick_event_level()) {
+                                           event_level = yardstick_event_level(),
+                                           case_weights = NULL) {
    estimate <- dots_to_estimate(data, !!!enquos(...))
 
    metric_summarizer(
@@ -126,6 +128,7 @@ classification_cost.data.frame <- function(data,
       estimate = !!estimate,
       na_rm = na_rm,
       event_level = event_level,
+      case_weights = !!enquo(case_weights),
       # Extra argument for classification_cost_impl()
       metric_fn_options = list(costs = costs)
    )
@@ -138,11 +141,25 @@ classification_cost_vec <- function(truth,
                                     costs = NULL,
                                     na_rm = TRUE,
                                     event_level = yardstick_event_level(),
+                                    case_weights = NULL,
                                     ...) {
    estimator <- finalize_estimator(truth, metric_class = "classification_cost")
 
-   classification_cost_impl <- function(truth, estimate, costs) {
-      classification_cost_estimator_impl(truth, estimate, costs, estimator, event_level)
+   classification_cost_impl <- function(truth,
+                                        estimate,
+                                        ...,
+                                        costs = NULL,
+                                        case_weights = NULL) {
+     check_dots_empty()
+
+     classification_cost_estimator_impl(
+       truth = truth,
+       estimate = estimate,
+       costs = costs,
+       estimator = estimator,
+       event_level = event_level,
+       case_weights = case_weights
+     )
    }
 
    metric_vec_template(
@@ -151,6 +168,7 @@ classification_cost_vec <- function(truth,
       estimate = estimate,
       na_rm = na_rm,
       estimator = estimator,
+      case_weights = case_weights,
       cls = c("factor", "numeric"),
       costs = costs
    )
@@ -160,15 +178,20 @@ classification_cost_estimator_impl <- function(truth,
                                                estimate,
                                                costs,
                                                estimator,
-                                               event_level) {
+                                               event_level,
+                                               case_weights) {
    if (is_binary(estimator)) {
-      classification_cost_binary(truth, estimate, costs, event_level)
+      classification_cost_binary(truth, estimate, costs, event_level, case_weights)
    } else {
-      classification_cost_multiclass(truth, estimate, costs)
+      classification_cost_multiclass(truth, estimate, costs, case_weights)
    }
 }
 
-classification_cost_binary <- function(truth, estimate, costs, event_level) {
+classification_cost_binary <- function(truth,
+                                       estimate,
+                                       costs,
+                                       event_level,
+                                       case_weights) {
    if (is_event_first(event_level)) {
       level1 <- estimate
       level2 <- 1 - estimate
@@ -180,10 +203,10 @@ classification_cost_binary <- function(truth, estimate, costs, event_level) {
    estimate <- c(level1, level2)
    estimate <- matrix(estimate, ncol = 2)
 
-   classification_cost_multiclass(truth, estimate, costs)
+   classification_cost_multiclass(truth, estimate, costs, case_weights)
 }
 
-classification_cost_multiclass <- function(truth, estimate, costs) {
+classification_cost_multiclass <- function(truth, estimate, costs, case_weights) {
    levels <- levels(truth)
 
    costs <- validate_costs(costs, levels)
@@ -195,7 +218,7 @@ classification_cost_multiclass <- function(truth, estimate, costs) {
 
    out <- estimate * costs
    out <- rowSums(out)
-   out <- mean(out)
+   out <- yardstick_mean(out, case_weights = case_weights)
 
    out
 }

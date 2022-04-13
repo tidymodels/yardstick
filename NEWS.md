@@ -36,6 +36,7 @@
     * spec
   
   * Probability:
+    * classification_cost
     * mn_log_loss
 
 * Fixed a small mistake in `ccc()` where the unbiased covariance wasn't being
