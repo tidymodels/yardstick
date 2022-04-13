@@ -148,3 +148,17 @@ one_vs_all_with_level <- function(metric_fn, truth, estimate, ...) {
 
 }
 
+# TODO: Remove me when all one-vs-all users support case weights
+one_vs_all_with_level_case_weights <- function(metric_fn,
+                                               truth,
+                                               estimate,
+                                               case_weights,
+                                               ...) {
+  one_vs_all_with_level(
+    metric_fn = metric_fn,
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights,
+    ...
+  )
+}

@@ -1,31 +1,30 @@
 #' Gain curve
 #'
-#' `gain_curve()` constructs the full gain curve and returns a
-#' tibble. See [gain_capture()] for the relevant area under the gain curve.
-#' Also see [lift_curve()] for a closely related concept.
+#' `gain_curve()` constructs the full gain curve and returns a tibble. See
+#' [gain_capture()] for the relevant area under the gain curve. Also see
+#' [lift_curve()] for a closely related concept.
 #'
-#' There is a [ggplot2::autoplot()]
-#' method for quickly visualizing the curve. This works for
-#' binary and multiclass output, and also works with grouped data (i.e. from
-#' resamples). See the examples.
+#' There is a [ggplot2::autoplot()] method for quickly visualizing the curve.
+#' This works for binary and multiclass output, and also works with grouped data
+#' (i.e. from resamples). See the examples.
 #'
-#' The greater the area between the gain curve and the baseline, the better
-#' the model.
+#' The greater the area between the gain curve and the baseline, the better the
+#' model.
 #'
-#' Gain curves are identical to CAP curves (cumulative accuracy profile).
-#' See the Engelmann reference for more information on CAP curves.
+#' Gain curves are identical to CAP curves (cumulative accuracy profile). See
+#' the Engelmann reference for more information on CAP curves.
 #'
 #' @section Gain and Lift Curves:
 #'
 #' The motivation behind cumulative gain and lift charts is as a visual method to
 #' determine the effectiveness of a model when compared to the results one
 #' might expect without a model. As an example, without a model, if you were
-#' to advertise to a random 10\% of your customer base, then you might expect
-#' to capture 10\% of the of the total number of positive responses had you
+#' to advertise to a random 10% of your customer base, then you might expect
+#' to capture 10% of the of the total number of positive responses had you
 #' advertised to your entire customer base. Given a model that predicts
 #' which customers are more likely to respond, the hope is that you can more
-#' accurately target 10\% of your customer base and capture
-#' \>10\% of the total number of positive responses.
+#' accurately target 10% of your customer base and capture
+#' `>`10% of the total number of positive responses.
 #'
 #' The calculation to construct gain curves is as follows:
 #'
@@ -41,17 +40,25 @@
 #' @template event_first
 #'
 #' @inheritParams pr_auc
+#' @inheritParams mn_log_loss
 #'
 #' @return
-#' A tibble with class `gain_df` or `gain_grouped_df` having
-#' columns:
+#' A tibble with class `gain_df` or `gain_grouped_df` having columns:
 #'
-#' - `.n` - The index of the current sample.
-#' - `.n_events` - The index of the current _unique_ sample. Values with repeated
-#'   `estimate` values are given identical indices in this column.
-#' - `.percent_tested` - The cumulative percentage of values tested.
-#' - `.percent_found` - The cumulative percentage of true results relative to the
-#'   total number of true results.
+#' - `.n` The index of the current sample.
+#'
+#' - `.n_events` The index of the current _unique_ sample. Values with repeated
+#' `estimate` values are given identical indices in this column.
+#'
+#' - `.percent_tested` The cumulative percentage of values tested.
+#'
+#' - `.percent_found` The cumulative percentage of true results relative to the
+#' total number of true results.
+#'
+#' If using the `case_weights` argument, all of the above columns will be
+#' weighted. This makes the most sense with frequency weights, which are integer
+#' weights representing the number of times a particular observation should be
+#' repeated.
 #'
 #' @references
 #'
@@ -104,7 +111,8 @@ gain_curve.data.frame <- function(data,
                                   truth,
                                   ...,
                                   na_rm = TRUE,
-                                  event_level = yardstick_event_level()) {
+                                  event_level = yardstick_event_level(),
+                                  case_weights = NULL) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   result <- metric_summarizer(
@@ -114,7 +122,8 @@ gain_curve.data.frame <- function(data,
     truth = !!enquo(truth),
     estimate = !!estimate,
     na_rm = na_rm,
-    event_level = event_level
+    event_level = event_level,
+    case_weights = !!enquo(case_weights)
   )
 
   curve_finalize(result, data, "gain_df", "grouped_gain_df")
@@ -127,12 +136,24 @@ gain_curve_vec <- function(truth,
                            estimate,
                            na_rm = TRUE,
                            event_level = yardstick_event_level(),
+                           case_weights = NULL,
                            ...) {
   estimator <- finalize_estimator(truth, metric_class = "gain_curve")
 
   # estimate here is a matrix of class prob columns
-  gain_curve_impl <- function(truth, estimate) {
-    gain_curve_estimator_impl(truth, estimate, estimator, event_level)
+  gain_curve_impl <- function(truth,
+                              estimate,
+                              ...,
+                              case_weights = NULL) {
+    check_dots_empty()
+
+    gain_curve_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = estimator,
+      event_level = event_level,
+      case_weights = case_weights
+    )
   }
 
   metric_vec_template(
@@ -141,61 +162,74 @@ gain_curve_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = c("factor", "numeric")
   )
 }
 
-gain_curve_estimator_impl <- function(truth, estimate, estimator, event_level) {
+gain_curve_estimator_impl <- function(truth,
+                                      estimate,
+                                      estimator,
+                                      event_level,
+                                      case_weights) {
   if (is_binary(estimator)) {
-    gain_curve_binary(truth, estimate, event_level)
+    gain_curve_binary(truth, estimate, event_level, case_weights)
   }
   else {
-    gain_curve_multiclass(truth, estimate)
+    gain_curve_multiclass(truth, estimate, case_weights)
   }
 }
 
-gain_curve_binary <- function(truth, estimate, event_level) {
-  # Relevel if `event_level = "second"`
-  # The second level becomes the first so as.integer()
-  # holds the 1s and 2s in the correct slot
-  if (!is_event_first(event_level)) {
-    lvls <- levels(truth)
-    truth <- stats::relevel(truth, lvls[2])
-  }
-
-  # truth is now either 1 or 2
-  truth <- as.integer(truth)
-
-  gain_list <- gain_curve_binary_impl(truth, estimate)
-
+gain_curve_binary <- function(truth, estimate, event_level, case_weights) {
+  gain_list <- gain_curve_binary_impl(truth, estimate, event_level, case_weights)
   dplyr::tibble(!!!gain_list)
 }
 
-gain_curve_multiclass <- function(truth, estimate) {
-  one_vs_all_with_level(gain_curve_binary, truth, estimate)
+gain_curve_multiclass <- function(truth, estimate, case_weights) {
+  one_vs_all_with_level_case_weights(
+    metric_fn = gain_curve_binary,
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights
+  )
 }
 
 # Following the Example Problem 2 of:
 # http://www2.cs.uregina.ca/~dbd/cs831/notes/lift_chart/lift_chart.html
-gain_curve_binary_impl <- function(truth, estimate) {
+gain_curve_binary_impl <- function(truth,
+                                   estimate,
+                                   event_level,
+                                   case_weights) {
+  truth <- unclass(truth)
+
+  # Events are re-coded as 1, non-events are 0. Easier for cumulative calcs.
+  if (is_event_first(event_level)) {
+    truth <- as.integer(truth == 1L)
+  } else {
+    truth <- as.integer(truth == 2L)
+  }
+
+  if (is.null(case_weights)) {
+    case_weights <- rep(1, times = length(truth))
+  }
 
   # arrange in decreasing order by class probability score
   estimate_ord <- order(estimate, decreasing = TRUE)
   estimate <- estimate[estimate_ord]
   truth <- truth[estimate_ord]
+  case_weights <- case_weights[estimate_ord]
 
-  n_events <- sum(truth == 1)
-  n_predictions <- length(truth)
+  case_weights_event <- ifelse(truth, case_weights, 0)
+
+  n_events <- sum(case_weights_event)
+  n_predictions <- sum(case_weights)
 
   # uninformative model x and y axis
   # this is also the x axis in the gain / lift charts
-  cumulative_tested <- seq_along(truth)
+  cumulative_tested <- cumsum(case_weights)
   cumulative_percent_tested <- (cumulative_tested / n_predictions) * 100
 
-  # recode events as 1 and non-events as 0 for cumsum
-  truth <- ifelse(truth == 1, 1, 0)
-
-  cumulative_found <- cumsum(truth)
+  cumulative_found <- cumsum(case_weights_event)
   cumulative_percent_found <- (cumulative_found / n_events) * 100
 
   # remove all but the last of any duplicated estimates
