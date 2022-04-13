@@ -170,3 +170,24 @@ test_that("gain_curve() works with case weights and multiclass (ideally, frequen
   expect_s3_class(out, "gain_df")
   expect_identical(out, expect)
 })
+
+test_that("gain_curve() with case weights scales `.n` and `.n_events`", {
+  skip_if_not_installed("ggplot2")
+
+  # This is required for the `autoplot()` method
+  df <- data.frame(
+    truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
+    estimate = c(.9, .8, .7, .68, .5),
+    weight = c(2, 1, 1, 3, 2)
+  )
+
+  out <- gain_curve(df, truth, estimate, case_weights = weight)
+
+  plot <- ggplot2::autoplot(out)
+  data <- ggplot2::ggplot_build(plot)
+
+  grey_overlay_data <- data$data[[1]]
+
+  expect_equal(grey_overlay_data$x, c(0, 2/3 * 100, 100))
+  expect_equal(grey_overlay_data$y, c(0, 100, 100))
+})
