@@ -67,6 +67,24 @@ test_that("duplicates are removed", {
   expect_equal(gain_df$.n_events[2], 2)
 })
 
+test_that("ordering of `truth` values within duplicated `estimate` groups doesn't affect the result", {
+  dup_estimate <- c(.9, .9, .7, .68, .68)
+  dup_truth <- factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No"))
+
+  dup_df1 <- data.frame(estimate = dup_estimate, truth = dup_truth)
+
+  # Flip the order of the .68 estimate values
+  # From c(Yes, No) to c(No, Yes)
+  dup_df2 <- dup_df1[c(1, 2, 3, 5, 4),]
+
+  curve1 <- gain_curve(dup_df1, truth, estimate)
+  curve2 <- gain_curve(dup_df2, truth, estimate)
+
+  # If we didn't take unique values, these would generate different curves
+  # and therefore different plots
+  expect_identical(curve1, curve2)
+})
+
 # Multiclass -------------------------------------------------------------------
 
 test_that("Multiclass structure is correct", {
