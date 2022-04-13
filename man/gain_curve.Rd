@@ -12,7 +12,8 @@ gain_curve(data, ...)
   truth,
   ...,
   na_rm = TRUE,
-  event_level = yardstick_event_level()
+  event_level = yardstick_event_level(),
+  case_weights = NULL
 )
 }
 \arguments{
@@ -39,35 +40,42 @@ applicable when \code{estimator = "binary"}. The default uses an
 internal helper that generally defaults to \code{"first"}, however, if the
 deprecated global option \code{yardstick.event_first} is set, that will be
 used instead with a warning.}
+
+\item{case_weights}{The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+\code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
-A tibble with class \code{gain_df} or \code{gain_grouped_df} having
-columns:
+A tibble with class \code{gain_df} or \code{gain_grouped_df} having columns:
 \itemize{
-\item \code{.n} - The index of the current sample.
-\item \code{.n_events} - The index of the current \emph{unique} sample. Values with repeated
+\item \code{.n} The index of the current sample.
+\item \code{.n_events} The index of the current \emph{unique} sample. Values with repeated
 \code{estimate} values are given identical indices in this column.
-\item \code{.percent_tested} - The cumulative percentage of values tested.
-\item \code{.percent_found} - The cumulative percentage of true results relative to the
+\item \code{.percent_tested} The cumulative percentage of values tested.
+\item \code{.percent_found} The cumulative percentage of true results relative to the
 total number of true results.
 }
+
+If using the \code{case_weights} argument, all of the above columns will be
+weighted. This makes the most sense with frequency weights, which are integer
+weights representing the number of times a particular observation should be
+repeated.
 }
 \description{
-\code{gain_curve()} constructs the full gain curve and returns a
-tibble. See \code{\link[=gain_capture]{gain_capture()}} for the relevant area under the gain curve.
-Also see \code{\link[=lift_curve]{lift_curve()}} for a closely related concept.
+\code{gain_curve()} constructs the full gain curve and returns a tibble. See
+\code{\link[=gain_capture]{gain_capture()}} for the relevant area under the gain curve. Also see
+\code{\link[=lift_curve]{lift_curve()}} for a closely related concept.
 }
 \details{
-There is a \code{\link[ggplot2:autoplot]{ggplot2::autoplot()}}
-method for quickly visualizing the curve. This works for
-binary and multiclass output, and also works with grouped data (i.e. from
-resamples). See the examples.
+There is a \code{\link[ggplot2:autoplot]{ggplot2::autoplot()}} method for quickly visualizing the curve.
+This works for binary and multiclass output, and also works with grouped data
+(i.e. from resamples). See the examples.
 
-The greater the area between the gain curve and the baseline, the better
-the model.
+The greater the area between the gain curve and the baseline, the better the
+model.
 
-Gain curves are identical to CAP curves (cumulative accuracy profile).
-See the Engelmann reference for more information on CAP curves.
+Gain curves are identical to CAP curves (cumulative accuracy profile). See
+the Engelmann reference for more information on CAP curves.
 }
 \section{Gain and Lift Curves}{
 
@@ -75,12 +83,12 @@ See the Engelmann reference for more information on CAP curves.
 The motivation behind cumulative gain and lift charts is as a visual method to
 determine the effectiveness of a model when compared to the results one
 might expect without a model. As an example, without a model, if you were
-to advertise to a random 10\\% of your customer base, then you might expect
-to capture 10\\% of the of the total number of positive responses had you
+to advertise to a random 10\% of your customer base, then you might expect
+to capture 10\% of the of the total number of positive responses had you
 advertised to your entire customer base. Given a model that predicts
 which customers are more likely to respond, the hope is that you can more
-accurately target 10\\% of your customer base and capture
-\>10\\% of the total number of positive responses.
+accurately target 10\% of your customer base and capture
+\code{>}10\% of the total number of positive responses.
 
 The calculation to construct gain curves is as follows:
 \enumerate{
