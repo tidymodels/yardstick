@@ -413,3 +413,49 @@ yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
 
   out
 }
+
+yardstick_truth_table <- function(truth, ..., case_weights = NULL) {
+  # For usage in many of the prob-metric functions.
+  # A `truth` table is required for `"macro_weighted"` estimators.
+  # Case weights must be passed through to generate correct `"macro_weighted"`
+  # results. `"macro"` and `"micro"` don't require case weights for this
+  # particular part of the calculation.
+
+  # Modeled after the treatment of `average = "weighted"` in sklearn, which
+  # works the same as `"macro_weighted"` here.
+  # https://github.com/scikit-learn/scikit-learn/blob/baf828ca126bcb2c0ad813226963621cafe38adb/sklearn/metrics/_base.py#L23
+
+  check_dots_empty()
+
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+
+  if (!is.factor(truth)) {
+    abort("`truth` must be a factor.", .internal = TRUE)
+  }
+
+  levels <- levels(truth)
+  n_levels <- length(levels)
+
+  if (n_levels < 2) {
+    abort("`truth` must have at least 2 factor levels.", .internal = TRUE)
+  }
+
+  # Always return a double matrix for type stability
+  if (is.null(case_weights)) {
+    out <- table(truth, dnn = NULL)
+    out <- unclass(out)
+    storage.mode(out) <- "double"
+  } else {
+    out <- hardhat::weighted_table(
+      truth,
+      weights = case_weights
+    )
+  }
+
+  # Required to be a 1 row matrix for `get_weights()`
+  out <- matrix(out, nrow = 1L)
+
+  out
+}
