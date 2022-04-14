@@ -59,11 +59,11 @@ test_that("Multiclass gain capture", {
 
   expect_equal(
     gain_capture(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
-    prob_macro_metric(gain_capture_binary)
+    hpc_fold1_macro_metric(gain_capture_binary)
   )
   expect_equal(
     gain_capture(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
-    prob_macro_weighted_metric(gain_capture_binary)
+    hpc_fold1_macro_weighted_metric(gain_capture_binary)
   )
 })
 
@@ -92,5 +92,43 @@ test_that("gain_capture = 2 * ROCAUC - 1", {
   expect_equal(
     gain_capture(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
     stats::weighted.mean(2 * roc_auc_unweighted - 1, w)
+  )
+})
+
+# Case weights -----------------------------------------------------------------
+
+test_that('binary - case weights are applied correctly', {
+  df <- data.frame(
+    truth = factor(c("Yes", "No", "No", "Yes", "Yes"), levels = c("Yes", "No")),
+    estimate = c(.9, .8, .4, .68, .4),
+    weight = c(2, 1, 2, 1, 1)
+  )
+
+  df_expanded <- df[vec_rep_each(vec_seq_along(df), df$weight),]
+
+  expect_identical(
+    gain_capture(df, truth, estimate, case_weights = weight),
+    gain_capture(df_expanded, truth, estimate)
+  )
+})
+
+test_that("multiclass macro / macro_weighted - case weights are applied correctly", {
+  hpc_f1 <- data_hpc_fold1()
+
+  hpc_f1$weight <- rep(1L, times = nrow(hpc_f1))
+  hpc_f1$weight[c(2, 50, 200)] <- 3L
+
+  hpc_f1_expanded <- hpc_f1[vec_rep_each(vec_seq_along(hpc_f1), hpc_f1$weight),]
+
+  estimator <- "macro"
+  expect_identical(
+    gain_capture(hpc_f1, obs, VF:L, estimator = estimator, case_weights = weight)[[".estimate"]],
+    gain_capture(hpc_f1_expanded, obs, VF:L, estimator = estimator)[[".estimate"]]
+  )
+
+  estimator <- "macro_weighted"
+  expect_identical(
+    gain_capture(hpc_f1, obs, VF:L, estimator = estimator, case_weights = weight)[[".estimate"]],
+    gain_capture(hpc_f1_expanded, obs, VF:L, estimator = estimator)[[".estimate"]]
   )
 })

@@ -37,6 +37,7 @@
   
   * Probability:
     * classification_cost
+    * gain_capture
     * gain_curve
     * lift_curve
     * mn_log_loss
