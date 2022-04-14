@@ -227,3 +227,56 @@ py_mn_log_loss <- list(
   )
 )
 saveRDS(py_mn_log_loss, test_path("py-data", "py-mn_log_loss.rds"), version = 2)
+
+# PR Curve
+make_py_two_class_pr_curve <- function(case_weights) {
+  # - sklearn puts them in decreasing order of recall
+  # - sklearn doesn't add the `Inf` threshold value but does add the `0` recall and `1` precision value
+  # - sklearn stops the curve once we hit the first `recall == 1` value, we don't
+  # - reticulate brings all inputs in as arrays
+
+  if (!is.logical(case_weights) || length(case_weights) != 1L) {
+    stop("`case_weights` must be a single logical.")
+  }
+
+  if (case_weights) {
+    curve <- skmetrics$precision_recall_curve(
+      y_true = two_class_example$truth,
+      probas_pred = two_class_example$Class1,
+      pos_label = "Class1",
+      sample_weight = weights_two_class_example
+    )
+  } else {
+    curve <- skmetrics$precision_recall_curve(
+      y_true = two_class_example$truth,
+      probas_pred = two_class_example$Class1,
+      pos_label = "Class1"
+    )
+  }
+
+  names(curve) <- c("precision", "recall", ".threshold")
+
+  curve$recall <- as.vector(curve$recall)
+  curve$precision <- as.vector(curve$precision)
+  curve$.threshold <- as.vector(curve$.threshold)
+
+  curve$.threshold <- c(curve$.threshold, Inf)
+
+  curve <- tibble::tibble(!!!curve)
+  curve <- dplyr::select(curve, .threshold, recall, precision)
+
+  # Reverse rows to match yardstick
+  curve <- curve[rev(seq_len(nrow(curve))),]
+
+  class(curve) <- c("pr_df", class(curve))
+
+  curve
+}
+
+py_pr_curve <- list(
+  binary = make_py_two_class_pr_curve(case_weights = FALSE),
+  case_weight = list(
+    binary = make_py_two_class_pr_curve(case_weights = TRUE)
+  )
+)
+saveRDS(py_pr_curve, test_path("py-data", "py-pr-curve.rds"), version = 2)
