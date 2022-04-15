@@ -64,7 +64,8 @@ average_precision.data.frame <- function(data,
                                          ...,
                                          estimator = NULL,
                                          na_rm = TRUE,
-                                         event_level = yardstick_event_level()) {
+                                         event_level = yardstick_event_level(),
+                                         case_weights = NULL) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -75,7 +76,8 @@ average_precision.data.frame <- function(data,
     estimate = !!estimate,
     estimator = estimator,
     na_rm = na_rm,
-    event_level = event_level
+    event_level = event_level,
+    case_weights = !!enquo(case_weights)
   )
 }
 
@@ -86,11 +88,23 @@ average_precision_vec <- function(truth,
                                   estimator = NULL,
                                   na_rm = TRUE,
                                   event_level = yardstick_event_level(),
+                                  case_weights = NULL,
                                   ...) {
   estimator <- finalize_estimator(truth, estimator, "average_precision")
 
-  average_precision_impl <- function(truth, estimate) {
-    average_precision_estimator_impl(truth, estimate, estimator, event_level)
+  average_precision_impl <- function(truth,
+                                     estimate,
+                                     ...,
+                                     case_weights = NULL) {
+    check_dots_empty()
+
+    average_precision_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = estimator,
+      event_level = event_level,
+      case_weights = case_weights
+    )
   }
 
   metric_vec_template(
@@ -99,40 +113,56 @@ average_precision_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = c("factor", "numeric")
   )
 }
 
-average_precision_estimator_impl <- function(truth, estimate, estimator, event_level) {
+average_precision_estimator_impl <- function(truth,
+                                             estimate,
+                                             estimator,
+                                             event_level,
+                                             case_weights) {
   if (is_binary(estimator)) {
-    average_precision_binary(truth, estimate, event_level)
-  }
-  else {
+    average_precision_binary(truth, estimate, event_level, case_weights)
+  } else {
     # weights for macro / macro_weighted are based on truth frequencies
     # (this is the usual definition)
-    truth_table <- matrix(table(truth), nrow = 1)
+    truth_table <- yardstick_truth_table(truth, case_weights = case_weights)
     w <- get_weights(truth_table, estimator)
-    out_vec <- average_precision_multiclass(truth, estimate)
+    out_vec <- average_precision_multiclass(truth, estimate, case_weights)
     stats::weighted.mean(out_vec, w)
   }
 }
 
-average_precision_binary <- function(truth, estimate, event_level) {
+average_precision_binary <- function(truth,
+                                     estimate,
+                                     event_level,
+                                     case_weights) {
   # `na_rm` should already be done by `metric_vec_template()`
-  pr_list <- pr_curve_vec(
+  curve <- pr_curve_vec(
     truth = truth,
     estimate = estimate,
     na_rm = FALSE,
-    event_level = event_level
+    event_level = event_level,
+    case_weights = case_weights
   )
 
-  pr_recalls <- pr_list[["recall"]]
-  pr_precisions <- pr_list[["precision"]]
+  recalls <- curve[["recall"]]
+  precisions <- curve[["precision"]]
 
-  sum(diff(pr_recalls) * pr_precisions[-1])
+  sum(diff(recalls) * precisions[-1])
 }
 
-average_precision_multiclass <- function(truth, estimate) {
-  res_lst <- one_vs_all_impl(average_precision_binary, truth, estimate)
-  rlang::flatten_dbl(res_lst)
+average_precision_multiclass <- function(truth,
+                                         estimate,
+                                         case_weights) {
+  results <- one_vs_all_case_weights(
+    metric_fn = average_precision_binary,
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights
+  )
+
+  rlang::flatten_dbl(results)
 }

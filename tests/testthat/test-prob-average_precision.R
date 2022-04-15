@@ -44,3 +44,51 @@ test_that("`event_level = 'second'` works", {
     average_precision_vec(df_rev$truth, df_rev$Class1, event_level = "second")
   )
 })
+
+test_that('Two class average precision matches sklearn', {
+  py <- read_pydata("py-average-precision")
+
+  expect_equal(
+    average_precision(two_class_example, truth,  Class1)[[".estimate"]],
+    py$binary
+  )
+})
+
+test_that('Two class weighted average precision matches sklearn', {
+  py <- read_pydata("py-average-precision")
+
+  two_class_example$weight <- read_weights_two_class_example()
+
+  expect_equal(
+    average_precision(two_class_example, truth,  Class1, case_weights = weight)[[".estimate"]],
+    py$case_weight$binary
+  )
+})
+
+test_that('Multiclass average precision matches sklearn', {
+  py <- read_pydata("py-average-precision")
+
+  expect_equal(
+    average_precision(hpc_cv, obs, VF:L, estimator = "macro")[[".estimate"]],
+    py$macro
+  )
+  expect_equal(
+    average_precision(hpc_cv, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
+    py$macro_weighted
+  )
+})
+
+test_that('Multiclass weighted average precision matches sklearn', {
+  py <- read_pydata("py-average-precision")
+
+  hpc_cv$weight <- read_weights_hpc_cv()
+
+  expect_equal(
+    average_precision(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[".estimate"]],
+    py$case_weight$macro
+  )
+  expect_equal(
+    average_precision(hpc_cv, obs, VF:L, estimator = "macro_weighted", case_weights = weight)[[".estimate"]],
+    py$case_weight$macro_weighted
+  )
+})

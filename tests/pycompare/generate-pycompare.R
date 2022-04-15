@@ -280,3 +280,22 @@ py_pr_curve <- list(
   )
 )
 saveRDS(py_pr_curve, test_path("py-data", "py-pr-curve.rds"), version = 2)
+
+# Average precision
+# sklearn doesn't support >2 levels in `truth` directly, but does support
+# "multi-label" `truth`, which ends up being the same thing here.
+average_precision_hpc_cv_truth <- model.matrix(~ obs - 1, hpc_cv)
+colnames(average_precision_hpc_cv_truth) <- levels(hpc_cv$obs)
+average_precision_hpc_cv_estimate <- as.matrix(hpc_cv[levels(hpc_cv$obs)])
+
+py_average_precision <- list(
+  binary = skmetrics$average_precision_score(two_class_example$truth, two_class_example$Class1, pos_label = "Class1"),
+  macro = skmetrics$average_precision_score(average_precision_hpc_cv_truth, average_precision_hpc_cv_estimate, average = "macro"),
+  macro_weighted = skmetrics$average_precision_score(average_precision_hpc_cv_truth, average_precision_hpc_cv_estimate, average = "weighted"),
+  case_weight = list(
+    binary = skmetrics$average_precision_score(two_class_example$truth, two_class_example$Class1, pos_label = "Class1", sample_weight = weights_two_class_example),
+    macro = skmetrics$average_precision_score(average_precision_hpc_cv_truth, average_precision_hpc_cv_estimate, average = "macro", sample_weight = weights_hpc_cv),
+    macro_weighted = skmetrics$average_precision_score(average_precision_hpc_cv_truth, average_precision_hpc_cv_estimate, average = "weighted", sample_weight = weights_hpc_cv)
+  )
+)
+saveRDS(py_average_precision, test_path("py-data", "py-average-precision.rds"), version = 2)
