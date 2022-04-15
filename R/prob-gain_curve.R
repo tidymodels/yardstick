@@ -40,7 +40,6 @@
 #' @template event_first
 #'
 #' @inheritParams pr_auc
-#' @inheritParams mn_log_loss
 #'
 #' @return
 #' A tibble with class `gain_df` or `gain_grouped_df` having columns:

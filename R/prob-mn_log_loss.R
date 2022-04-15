@@ -28,10 +28,6 @@
 #' @param sum A `logical`. Should the sum of the likelihood contributions be
 #' returned (instead of the mean value)?
 #'
-#' @param case_weights The optional column identifier for case weights. This
-#' should be an unquoted column name that evaluates to a numeric column in
-#' `data`. For `_vec()` functions, a numeric vector.
-#'
 #' @author Max Kuhn
 #'
 #' @examples

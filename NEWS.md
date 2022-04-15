@@ -41,6 +41,7 @@
     * gain_curve
     * lift_curve
     * mn_log_loss
+    * pr_auc
     * pr_curve
 
 * Fixed a small mistake in `ccc()` where the unbiased covariance wasn't being
