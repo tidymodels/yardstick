@@ -20,7 +20,6 @@
 #' @template multiclass-prob
 #'
 #' @inheritParams pr_auc
-#' @inheritParams mn_log_loss
 #'
 #' @author Max Kuhn
 #'

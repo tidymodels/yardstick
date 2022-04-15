@@ -19,7 +19,6 @@
 #' @template return
 #'
 #' @inheritParams pr_auc
-#' @inheritParams mn_log_loss
 #'
 #' @param costs A data frame with columns `"truth"`, `"estimate"`, and `"cost"`.
 #'

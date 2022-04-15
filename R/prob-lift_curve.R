@@ -38,7 +38,6 @@
 #' @template event_first
 #'
 #' @inheritParams pr_auc
-#' @inheritParams mn_log_loss
 #'
 #' @return
 #' A tibble with class `lift_df` or `lift_grouped_df` having

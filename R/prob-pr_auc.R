@@ -56,7 +56,8 @@ pr_auc.data.frame  <- function(data,
                                ...,
                                estimator = NULL,
                                na_rm = TRUE,
-                               event_level = yardstick_event_level()) {
+                               event_level = yardstick_event_level(),
+                               case_weights = NULL) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   metric_summarizer(
@@ -67,7 +68,8 @@ pr_auc.data.frame  <- function(data,
     estimate = !!estimate,
     estimator = estimator,
     na_rm = na_rm,
-    event_level = event_level
+    event_level = event_level,
+    case_weights = !!enquo(case_weights)
   )
 }
 
@@ -78,11 +80,23 @@ pr_auc_vec <- function(truth,
                        estimator = NULL,
                        na_rm = TRUE,
                        event_level = yardstick_event_level(),
+                       case_weights = NULL,
                        ...) {
   estimator <- finalize_estimator(truth, estimator, "pr_auc")
 
-  pr_auc_impl <- function(truth, estimate) {
-    pr_auc_estimator_impl(truth, estimate, estimator, event_level)
+  pr_auc_impl <- function(truth,
+                          estimate,
+                          ...,
+                          case_weights = NULL) {
+    check_dots_empty()
+
+    pr_auc_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = estimator,
+      event_level = event_level,
+      case_weights = case_weights
+    )
   }
 
   metric_vec_template(
@@ -91,32 +105,58 @@ pr_auc_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = c("factor", "numeric")
   )
 }
 
-pr_auc_estimator_impl <- function(truth, estimate, estimator, event_level) {
+pr_auc_estimator_impl <- function(truth,
+                                  estimate,
+                                  estimator,
+                                  event_level,
+                                  case_weights) {
   if (is_binary(estimator)) {
-    pr_auc_binary(truth, estimate, event_level)
-  }
-  else {
+    pr_auc_binary(truth, estimate, event_level, case_weights)
+  } else {
     # weights for macro / macro_weighted are based on truth frequencies
     # (this is the usual definition)
-    truth_table <- matrix(table(truth), nrow = 1)
+    truth_table <- yardstick_truth_table(truth, case_weights = case_weights)
     w <- get_weights(truth_table, estimator)
-    out_vec <- pr_auc_multiclass(truth, estimate)
+    out_vec <- pr_auc_multiclass(truth, estimate, case_weights)
     stats::weighted.mean(out_vec, w)
   }
 }
 
 # Don't remove NA values so any errors propagate
 # (i.e. no if `truth` has no "events")
-pr_auc_binary <- function(truth, estimate, event_level) {
-  pr_list <- pr_curve_vec(truth, estimate, na_rm = TRUE, event_level = event_level)
-  auc(pr_list[["recall"]], pr_list[["precision"]], na_rm = FALSE)
+pr_auc_binary <- function(truth,
+                          estimate,
+                          event_level,
+                          case_weights) {
+  curve <- pr_curve_vec(
+    truth = truth,
+    estimate = estimate,
+    na_rm = TRUE,
+    event_level = event_level,
+    case_weights = case_weights
+  )
+
+  auc(
+    x = curve[["recall"]],
+    y = curve[["precision"]],
+    na_rm = FALSE
+  )
 }
 
-pr_auc_multiclass <- function(truth, estimate) {
-  res_lst <- one_vs_all_impl(pr_auc_binary, truth, estimate)
-  rlang::flatten_dbl(res_lst)
+pr_auc_multiclass <- function(truth,
+                              estimate,
+                              case_weights) {
+  results <- one_vs_all_case_weights(
+    metric_fn = pr_auc_binary,
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights
+  )
+
+  rlang::flatten_dbl(results)
 }

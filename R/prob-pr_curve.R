@@ -17,7 +17,6 @@
 #' @template event_first
 #'
 #' @inheritParams pr_auc
-#' @inheritParams mn_log_loss
 #'
 #' @return
 #' A tibble with class `pr_df` or `pr_grouped_df` having
