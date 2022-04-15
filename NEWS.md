@@ -36,6 +36,7 @@
     * spec
   
   * Probability:
+    * average_precision
     * classification_cost
     * gain_capture
     * gain_curve
