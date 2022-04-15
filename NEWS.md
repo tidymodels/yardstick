@@ -1,6 +1,7 @@
 # yardstick (development version)
 
 * yardstick metrics now support case weights.
+  * conf_mat
 
   * Numeric:
     * ccc
@@ -44,6 +45,11 @@
     * mn_log_loss
     * pr_auc
     * pr_curve
+
+* `conf_mat()` now ignores any inputs passed through `...` and warns if you
+  try to do such a thing. Previously, those were passed on to `base::table()`,
+  but with the addition of case weight support, `table()` is no longer used
+  (#295).
 
 * Fixed a small mistake in `ccc()` where the unbiased covariance wasn't being
   used when `bias = FALSE`.
