@@ -46,6 +46,13 @@
     * pr_auc
     * pr_curve
 
+* The `options` argument of `roc_curve()`, `roc_auc()`, `roc_aunp()`,
+  `roc_aunu()`, and `metrics()` that was passed along to the pROC package is
+  now deprecated and no longer has any affect. This is a result of changing to
+  an ROC curve implementation that supports case weights, but does not support
+  any of the previous options. If you need these options, we suggest wrapping
+  pROC yourself in a custom metric (#296).
+
 * `conf_mat()` now ignores any inputs passed through `...` and warns if you
   try to do such a thing. Previously, those were passed on to `base::table()`,
   but with the addition of case weight support, `table()` is no longer used
