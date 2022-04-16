@@ -61,7 +61,9 @@
 <h2 class="pkg-version" data-toc-text="development version" id="yardstick-development-version">yardstick (development version)<a class="anchor" aria-label="anchor" href="#yardstick-development-version"></a></h2>
 <ul><li>
 <p>yardstick metrics now support case weights.</p>
-<ul><li>Numeric:
+<ul><li><p>conf_mat</p></li>
+<li>
+<p>Numeric:</p>
 <ul><li>ccc</li>
 <li>huber_loss</li>
 <li>huber_loss_pseudo</li>
@@ -79,7 +81,8 @@
 <li>rsq_trad</li>
 <li>smape</li>
 </ul></li>
-<li>Class:
+<li>
+<p>Class:</p>
 <ul><li>accuracy</li>
 <li>bal_accuracy</li>
 <li>detection_prevalence</li>
@@ -94,7 +97,8 @@
 <li>sens</li>
 <li>spec</li>
 </ul></li>
-<li>Probability:
+<li>
+<p>Probability:</p>
 <ul><li>average_precision</li>
 <li>classification_cost</li>
 <li>gain_capture</li>
@@ -105,6 +109,7 @@
 <li>pr_curve</li>
 </ul></li>
 </ul></li>
+<li><p><code><a href="../reference/conf_mat.html">conf_mat()</a></code> now ignores any inputs passed through <code>...</code> and warns if you try to do such a thing. Previously, those were passed on to <code><a href="https://rdrr.io/r/base/table.html" class="external-link">base::table()</a></code>, but with the addition of case weight support, <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code> is no longer used (<a href="https://github.com/tidymodels/yardstick/issues/295" class="external-link">#295</a>).</p></li>
 <li><p>Fixed a small mistake in <code><a href="../reference/ccc.html">ccc()</a></code> where the unbiased covariance wasn’t being used when <code>bias = FALSE</code>.</p></li>
 <li><p><code><a href="../reference/j_index.html">j_index()</a></code> now throws a more correct warning if <code>0</code> is in the denominator when computing <code><a href="../reference/sens.html">sens()</a></code> internally. Additionally, in the multiclass case it now removes the levels where this occurs from the multiclass weighted average computation, which is consistent with how other metrics were updated to handle this in <a href="https://github.com/tidymodels/yardstick/issues/118" class="external-link">#118</a> (<a href="https://github.com/tidymodels/yardstick/issues/265" class="external-link">#265</a>).</p></li>
 <li><p>Moved the Custom Metrics vignette to tidymodels.org (<a href="https://github.com/tidymodels/yardstick/issues/236" class="external-link">#236</a>).</p></li>

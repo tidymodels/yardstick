@@ -67,7 +67,14 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">conf_mat</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for data.frame</span>
-<span class="fu">conf_mat</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">estimate</span>, dnn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Prediction"</span>, <span class="st">"Truth"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
+<span class="fu">conf_mat</span><span class="op">(</span>
+  <span class="va">data</span>,
+  <span class="va">truth</span>,
+  <span class="va">estimate</span>,
+  dnn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Prediction"</span>, <span class="st">"Truth"</span><span class="op">)</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
+  <span class="va">...</span>
+<span class="op">)</span>
 
 <span class="co"># S3 method for conf_mat</span>
 <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
@@ -78,9 +85,7 @@
     <dl><dt>data</dt>
 <dd><p>A data frame or a <code><a href="https://rdrr.io/r/base/table.html" class="external-link">base::table()</a></code>.</p></dd>
 <dt>...</dt>
-<dd><p>Options to pass to <code><a href="https://rdrr.io/r/base/table.html" class="external-link">base::table()</a></code> (not including
-<code>dnn</code>). This argument is not currently used for the <code>tidy</code>
-method.</p></dd>
+<dd><p>Not used.</p></dd>
 <dt>truth</dt>
 <dd><p>The column identifier for the true class results
 (that is a <code>factor</code>). This should be an unquoted column name although
@@ -94,6 +99,10 @@ specified different ways but the primary method is to use an
 unquoted variable name. For <code>_vec()</code> functions, a <code>factor</code> vector.</p></dd>
 <dt>dnn</dt>
 <dd><p>A character vector of dimnames for the table.</p></dd>
+<dt>case_weights</dt>
+<dd><p>The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in <code>data</code>. For <code>_vec()</code> functions, a numeric vector.</p></dd>
 <dt>x</dt>
 <dd><p>A <code>conf_mat</code> object.</p></dd>
 </dl></div>
@@ -135,11 +144,11 @@ confusion matrix.</p></div>
 <span class="r-in">  <span class="fu">conf_mat</span><span class="op">(</span><span class="va">obs</span>, <span class="va">pred</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">cm</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Truth</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Prediction  VF   F   M   L</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         VF 166  33   8   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         F   11  71  24   7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         M    0   3   5   3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         L    0   1   4  10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Prediction  VF  F  M  L</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         VF 166 33  8  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         F   11 71 24  7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         M    0  3  5  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         L    0  1  4 10</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Now compute the average confusion matrix across all folds in</span></span>
 <span class="r-in"><span class="co"># terms of the proportion of the data contained in each cell.</span></span>
