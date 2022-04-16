@@ -1,3 +1,13 @@
+# metrics() - `options` is deprecated
+
+    Code
+      out <- metrics(two_class_example, truth, predicted, Class1, options = 1)
+    Condition
+      Warning:
+      The `options` argument of `metrics()` is deprecated as of yardstick 1.0.0.
+      This argument no longer has any effect, and is being ignored.
+      Use the pROC package directly if you need these features.
+
 # print metric_set works
 
     Code

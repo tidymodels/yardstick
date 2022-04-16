@@ -9,9 +9,9 @@ class distribution}
 \usage{
 roc_aunu(data, ...)
 
-\method{roc_aunu}{data.frame}(data, truth, ..., options = list(), na_rm = TRUE)
+\method{roc_aunu}{data.frame}(data, truth, ..., na_rm = TRUE, options = list())
 
-roc_aunu_vec(truth, estimate, options = list(), na_rm = TRUE, ...)
+roc_aunu_vec(truth, estimate, na_rm = TRUE, options = list(), ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -27,12 +27,16 @@ this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
-\item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
-such as \code{smooth}. These options should not include \code{response},
-\code{predictor}, \code{levels}, \code{quiet}, or \code{direction}.}
-
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{options}{\verb{[deprecated]}
+
+No longer supported as of yardstick 1.0.0. If you pass something here it
+will be ignored with a warning.
+
+Previously, these were options passed on to \code{pROC::roc()}. If you need
+support for this, use the pROC package directly.}
 
 \item{estimate}{A matrix with as many
 columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
@@ -111,18 +115,6 @@ roc_aunu_vec(
     ncol = 4
   )
 )
-
-# ---------------------------------------------------------------------------
-# Options for `pROC::roc()`
-
-# Pass options via a named list and not through `...`!
-roc_aunu(
-  hpc_cv,
-  obs,
-  VF:L,
-  options = list(smooth = TRUE)
-)
-
 }
 \references{
 Ferri, C., Hernández-Orallo, J., & Modroiu, R. (2009). "An experimental

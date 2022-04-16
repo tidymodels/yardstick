@@ -11,9 +11,9 @@ roc_curve(data, ...)
   data,
   truth,
   ...,
-  options = list(),
   na_rm = TRUE,
-  event_level = yardstick_event_level()
+  event_level = yardstick_event_level(),
+  options = list()
 )
 }
 \arguments{
@@ -31,10 +31,6 @@ this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
-\item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
-such as \code{smooth}. These options should not include \code{response},
-\code{predictor}, \code{levels}, \code{quiet}, or \code{direction}.}
-
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
@@ -44,6 +40,14 @@ applicable when \code{estimator = "binary"}. The default uses an
 internal helper that generally defaults to \code{"first"}, however, if the
 deprecated global option \code{yardstick.event_first} is set, that will be
 used instead with a warning.}
+
+\item{options}{\verb{[deprecated]}
+
+No longer supported as of yardstick 1.0.0. If you pass something here it
+will be ignored with a warning.
+
+Previously, these were options passed on to \code{pROC::roc()}. If you need
+support for this, use the pROC package directly.}
 }
 \value{
 A tibble with class \code{roc_df} or \code{roc_grouped_df} having

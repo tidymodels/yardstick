@@ -139,7 +139,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(...)`.
+      ! Problem while computing `.estimate = metric_fn(truth = obs, estimate = VF, na_rm = na_rm, event_level = "first")`.
       Caused by error in `multiclass_checks.matrix()`:
       ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (1).
 

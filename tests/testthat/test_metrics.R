@@ -82,6 +82,22 @@ test_that('correct results', {
 
 ###################################################################
 
+test_that("metrics() - `options` is deprecated", {
+  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  local_lifecycle_warnings()
+
+  expect_snapshot({
+    out <- metrics(two_class_example, truth, predicted, Class1, options = 1)
+  })
+
+  expect_identical(
+    out,
+    metrics(two_class_example, truth, predicted, Class1)
+  )
+})
+
+###################################################################
+
 test_that('numeric metric sets', {
 
   reg_set <- metric_set(rmse, rsq, mae)

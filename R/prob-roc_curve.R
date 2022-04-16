@@ -69,17 +69,20 @@
 #'
 #' @export
 #'
-roc_curve <- function(data, ...)
+roc_curve <- function(data, ...) {
   UseMethod("roc_curve")
+}
 
 #' @export
 #' @rdname roc_curve
-roc_curve.data.frame <- function (data,
-                                  truth,
-                                  ...,
-                                  options = list(),
-                                  na_rm = TRUE,
-                                  event_level = yardstick_event_level()) {
+roc_curve.data.frame <- function(data,
+                                 truth,
+                                 ...,
+                                 na_rm = TRUE,
+                                 event_level = yardstick_event_level(),
+                                 options = list()) {
+  check_roc_options_deprecated("roc_curve", options)
+
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   result <- metric_summarizer(
@@ -89,8 +92,7 @@ roc_curve.data.frame <- function (data,
     truth = !!enquo(truth),
     estimate = !!estimate,
     na_rm = na_rm,
-    event_level = event_level,
-    metric_fn_options = list(options = options)
+    event_level = event_level
   )
 
   curve_finalize(result, data, "roc_df", "grouped_roc_df")
@@ -98,15 +100,14 @@ roc_curve.data.frame <- function (data,
 
 roc_curve_vec <- function(truth,
                           estimate,
-                          options = list(),
                           na_rm = TRUE,
                           event_level = yardstick_event_level(),
                           ...) {
   estimator <- finalize_estimator(truth, metric_class = "roc_curve")
 
   # estimate here is a matrix of class prob columns
-  roc_curve_impl <- function(truth, estimate, options = list()) {
-    roc_curve_estimator_impl(truth, estimate, estimator, event_level, options)
+  roc_curve_impl <- function(truth, estimate) {
+    roc_curve_estimator_impl(truth, estimate, estimator, event_level)
   }
 
   metric_vec_template(
@@ -115,21 +116,20 @@ roc_curve_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
-    cls = c("factor", "numeric"),
-    options = options
+    cls = c("factor", "numeric")
   )
 }
 
-roc_curve_estimator_impl <- function(truth, estimate, estimator, event_level, options) {
+roc_curve_estimator_impl <- function(truth, estimate, estimator, event_level) {
   if (is_binary(estimator)) {
-    roc_curve_binary(truth, estimate, event_level, options)
+    roc_curve_binary(truth, estimate, event_level)
   }
   else {
-    roc_curve_multiclass(truth, estimate, options)
+    roc_curve_multiclass(truth, estimate)
   }
 }
 
-roc_curve_binary <- function(truth, estimate, event_level, options) {
+roc_curve_binary <- function(truth, estimate, event_level) {
   lvls <- levels(truth)
 
   # pROC will actually expect the levels in the order of control, then event
@@ -149,19 +149,21 @@ roc_curve_binary <- function(truth, estimate, event_level, options) {
     stop_roc_truth_no_event(event)
   }
 
-  # working on a better way of doing this
-  options$response <- truth
-  options$predictor <- estimate
-  options$levels <- lvls
-  options$quiet <- TRUE
-  options$direction <- "<"
+  args <- list()
 
-  curv <- exec(pROC::roc, !!!options)
+  # working on a better way of doing this
+  args$response <- truth
+  args$predictor <- estimate
+  args$levels <- lvls
+  args$quiet <- TRUE
+  args$direction <- "<"
+
+  curv <- exec(pROC::roc, !!!args)
 
   if (!inherits(curv, "smooth.roc")) {
     res <- pROC::coords(
       curv,
-      x = unique(c(-Inf, options$predictor, Inf)),
+      x = unique(c(-Inf, args$predictor, Inf)),
       input = "threshold",
       transpose = FALSE
     )
@@ -189,8 +191,24 @@ roc_curve_binary <- function(truth, estimate, event_level, options) {
 }
 
 # One-VS-All approach
-roc_curve_multiclass <- function(truth, estimate, options) {
-  one_vs_all_with_level(roc_curve_binary, truth, estimate, options = options)
+roc_curve_multiclass <- function(truth, estimate) {
+  one_vs_all_with_level(roc_curve_binary, truth, estimate)
+}
+
+check_roc_options_deprecated <- function(what, options) {
+  if (!identical(options, list())) {
+    warn_roc_options_deprecated(what)
+  }
+}
+warn_roc_options_deprecated <- function(what) {
+  message <- c(
+    sprintf("The `options` argument of `%s()` is deprecated as of yardstick 1.0.0.", what),
+    "This argument no longer has any effect, and is being ignored.",
+    "Use the pROC package directly if you need these features."
+  )
+  message <- paste0(message, collapse = "\n")
+
+  warn_deprecated(message)
 }
 
 

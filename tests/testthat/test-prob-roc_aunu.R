@@ -25,3 +25,34 @@ test_that("AUNU results match mlr for soybean example", {
   )
 })
 
+# ------------------------------------------------------------------------------
+
+test_that("roc_aunu() - `options` is deprecated", {
+  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  local_lifecycle_warnings()
+
+  expect_snapshot({
+    out <- roc_aunu(two_class_example, truth, Class1, Class2, options = 1)
+  })
+
+  expect_identical(
+    out,
+    roc_aunu(two_class_example, truth, Class1, Class2),
+  )
+
+  expect_snapshot({
+    out <- roc_aunu_vec(
+      truth = two_class_example$truth,
+      estimate = as.matrix(two_class_example[c("Class1", "Class2")]),
+      options = 1
+    )
+  })
+
+  expect_identical(
+    out,
+    roc_aunu_vec(
+      truth = two_class_example$truth,
+      estimate = as.matrix(two_class_example[c("Class1", "Class2")])
+    )
+  )
+})
