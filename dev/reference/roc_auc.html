@@ -74,19 +74,19 @@ roc_curve() for the full curve."><meta property="og:image" content="https://yard
   <span class="va">data</span>,
   <span class="va">truth</span>,
   <span class="va">...</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
   estimator <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
-  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>
+  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
+  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span>
 
 <span class="fu">roc_auc_vec</span><span class="op">(</span>
   <span class="va">truth</span>,
   <span class="va">estimate</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
   estimator <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
   event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
+  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -107,10 +107,6 @@ Otherwise, there should be as many columns as factor levels of <code>truth</code
 this argument is passed by expression and supports
 <a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column
 names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></dd>
-<dt>options</dt>
-<dd><p>A <code>list</code> of named options to pass to <code><a href="https://rdrr.io/pkg/pROC/man/roc.html" class="external-link">pROC::roc()</a></code>
-such as <code>smooth</code>. These options should not include <code>response</code>,
-<code>predictor</code>, <code>levels</code>, <code>quiet</code>, or <code>direction</code>.</p></dd>
 <dt>estimator</dt>
 <dd><p>One of <code>"binary"</code>, <code>"hand_till"</code>, <code>"macro"</code>, or
 <code>"macro_weighted"</code> to specify the type of averaging to be done. <code>"binary"</code>
@@ -127,6 +123,12 @@ applicable when <code>estimator = "binary"</code>. The default uses an
 internal helper that generally defaults to <code>"first"</code>, however, if the
 deprecated global option <code>yardstick.event_first</code> is set, that will be
 used instead with a warning.</p></dd>
+<dt>options</dt>
+<dd><p><code>[deprecated]</code></p>
+<p>No longer supported as of yardstick 1.0.0. If you pass something here it
+will be ignored with a warning.</p>
+<p>Previously, these were options passed on to <code><a href="https://rdrr.io/pkg/pROC/man/roc.html" class="external-link">pROC::roc()</a></code>. If you need
+support for this, use the pROC package directly.</p></dd>
 <dt>estimate</dt>
 <dd><p>If <code>truth</code> is binary, a numeric vector of class probabilities
 corresponding to the "relevant" class. Otherwise, a matrix with as many
@@ -308,21 +310,6 @@ New York University, NY, NY 10012.</p>
 <span class="r-in">   <span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8131924</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ---------------------------------------------------------------------------</span></span>
-<span class="r-in"><span class="co"># Options for `pROC::roc()`</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Pass options via a named list and not through `...`!</span></span>
-<span class="r-in"><span class="fu">roc_auc</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">two_class_example</span>,</span>
-<span class="r-in">  truth <span class="op">=</span> <span class="va">truth</span>,</span>
-<span class="r-in">  <span class="va">Class1</span>,</span>
-<span class="r-in">  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>smooth <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .metric .estimator .estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> roc_auc binary         0.942</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

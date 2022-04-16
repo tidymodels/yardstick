@@ -73,7 +73,7 @@ below) and returns them in a three column tibble.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">metrics</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for data.frame</span>
-<span class="fu">metrics</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">...</span>, options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu">metrics</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">...</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -97,13 +97,15 @@ names).</p></dd>
 (that is also <code>numeric</code> or <code>factor</code>). As with <code>truth</code> this can be
 specified different ways but the primary method is to use an
 unquoted variable name.</p></dd>
-<dt>options</dt>
-<dd><p>A <code>list</code> of named options to pass to <code><a href="https://rdrr.io/pkg/pROC/man/roc.html" class="external-link">pROC::roc()</a></code>
-such as <code>smooth</code>. These options should not include <code>response</code>,
-<code>predictor</code>, <code>levels</code>, <code>quiet</code>, or <code>direction</code>.</p></dd>
 <dt>na_rm</dt>
 <dd><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></dd>
+<dt>options</dt>
+<dd><p><code>[deprecated]</code></p>
+<p>No longer supported as of yardstick 1.0.0. If you pass something here it
+will be ignored with a warning.</p>
+<p>Previously, these were options passed on to <code><a href="https://rdrr.io/pkg/pROC/man/roc.html" class="external-link">pROC::roc()</a></code>. If you need
+support for this, use the pROC package directly.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>

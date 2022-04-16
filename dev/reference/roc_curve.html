@@ -74,9 +74,9 @@ tibble. See <code><a href="roc_auc.html">roc_auc()</a></code> for the area under
   <span class="va">data</span>,
   <span class="va">truth</span>,
   <span class="va">...</span>,
-  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
-  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>
+  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
+  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -96,10 +96,6 @@ Otherwise, there should be as many columns as factor levels of <code>truth</code
 this argument is passed by expression and supports
 <a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column
 names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></dd>
-<dt>options</dt>
-<dd><p>A <code>list</code> of named options to pass to <code><a href="https://rdrr.io/pkg/pROC/man/roc.html" class="external-link">pROC::roc()</a></code>
-such as <code>smooth</code>. These options should not include <code>response</code>,
-<code>predictor</code>, <code>levels</code>, <code>quiet</code>, or <code>direction</code>.</p></dd>
 <dt>na_rm</dt>
 <dd><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></dd>
@@ -110,6 +106,12 @@ applicable when <code>estimator = "binary"</code>. The default uses an
 internal helper that generally defaults to <code>"first"</code>, however, if the
 deprecated global option <code>yardstick.event_first</code> is set, that will be
 used instead with a warning.</p></dd>
+<dt>options</dt>
+<dd><p><code>[deprecated]</code></p>
+<p>No longer supported as of yardstick 1.0.0. If you pass something here it
+will be ignored with a warning.</p>
+<p>Previously, these were options passed on to <code><a href="https://rdrr.io/pkg/pROC/man/roc.html" class="external-link">pROC::roc()</a></code>. If you need
+support for this, use the pROC package directly.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
