@@ -44,12 +44,14 @@ test_that("can tweak a class metric that doesn't use `estimator`", {
 })
 
 test_that("can tweak a class prob metric", {
-  roc_auc2 <- metric_tweak("roc_auc2", roc_auc, options = list(smooth = TRUE))
+  two_class_example$truth[1] <- NA
+
+  roc_auc2 <- metric_tweak("roc_auc2", roc_auc, na_rm = FALSE)
   result <- roc_auc2(two_class_example, truth, Class1)
 
   expect_identical(
     result[[".estimate"]],
-    roc_auc(two_class_example, truth, Class1, options = list(smooth = TRUE))[[".estimate"]]
+    roc_auc(two_class_example, truth, Class1, na_rm = FALSE)[[".estimate"]]
   )
 
   expect_identical(
@@ -87,7 +89,7 @@ test_that("can tweak a class prob metric that doesn't use `estimator`", {
 test_that("can combine tweaked metrics into a metric set", {
   f_meas2 <- metric_tweak("f_meas2", f_meas, beta = 2)
   ppv2 <- metric_tweak("ppv2", ppv, prevalence = .4)
-  roc_auc2 <- metric_tweak("roc_auc2", roc_auc, options = list(smooth = TRUE))
+  roc_auc2 <- metric_tweak("roc_auc2", roc_auc)
 
   set <- metric_set(f_meas2, ppv2, roc_auc2)
   result <- set(two_class_example, truth, Class1, estimate = predicted)

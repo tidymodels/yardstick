@@ -12,19 +12,19 @@ roc_auc(data, ...)
   data,
   truth,
   ...,
-  options = list(),
   estimator = NULL,
   na_rm = TRUE,
-  event_level = yardstick_event_level()
+  event_level = yardstick_event_level(),
+  options = list()
 )
 
 roc_auc_vec(
   truth,
   estimate,
-  options = list(),
   estimator = NULL,
   na_rm = TRUE,
   event_level = yardstick_event_level(),
+  options = list(),
   ...
 )
 }
@@ -43,10 +43,6 @@ this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
-\item{options}{A \code{list} of named options to pass to \code{\link[pROC:roc]{pROC::roc()}}
-such as \code{smooth}. These options should not include \code{response},
-\code{predictor}, \code{levels}, \code{quiet}, or \code{direction}.}
-
 \item{estimator}{One of \code{"binary"}, \code{"hand_till"}, \code{"macro"}, or
 \code{"macro_weighted"} to specify the type of averaging to be done. \code{"binary"}
 is only relevant for the two class case. The others are general methods for
@@ -62,6 +58,14 @@ applicable when \code{estimator = "binary"}. The default uses an
 internal helper that generally defaults to \code{"first"}, however, if the
 deprecated global option \code{yardstick.event_first} is set, that will be
 used instead with a warning.}
+
+\item{options}{\verb{[deprecated]}
+
+No longer supported as of yardstick 1.0.0. If you pass something here it
+will be ignored with a warning.
+
+Previously, these were options passed on to \code{pROC::roc()}. If you need
+support for this, use the pROC package directly.}
 
 \item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
 corresponding to the "relevant" class. Otherwise, a matrix with as many
@@ -178,17 +182,6 @@ roc_auc_vec(
      c(fold1$VF, fold1$F, fold1$M, fold1$L),
      ncol = 4
    )
-)
-
-# ---------------------------------------------------------------------------
-# Options for `pROC::roc()`
-
-# Pass options via a named list and not through `...`!
-roc_auc(
-  two_class_example,
-  truth = truth,
-  Class1,
-  options = list(smooth = TRUE)
 )
 
 }

@@ -72,8 +72,10 @@ metrics.data.frame <- function(data,
                                truth,
                                estimate,
                                ...,
-                               options = list(),
-                               na_rm = TRUE) {
+                               na_rm = TRUE,
+                               options = list()) {
+  check_roc_options_deprecated("metrics", options)
+
   names <- names(data)
 
   truth <- tidyselect::vars_pull(names, {{truth}})
@@ -88,7 +90,7 @@ metrics.data.frame <- function(data,
 
     if (length(probs) > 0L) {
       res2 <- mn_log_loss(data, !!truth, !!probs, na_rm = na_rm)
-      res3 <- roc_auc(data, !!truth, !!probs, na_rm = na_rm, options = options)
+      res3 <- roc_auc(data, !!truth, !!probs, na_rm = na_rm)
       res <- dplyr::bind_rows(res, res2, res3)
     }
   } else {

@@ -25,11 +25,6 @@ test_that('Two class', {
     roc_auc(two_class_example, truth = "truth", Class1)[[".estimate"]],
     roc_val
   )
-  expect_equal(
-    roc_auc(two_class_example, truth, Class1, options = list(smooth = TRUE))[[".estimate"]],
-    as.numeric(smooth_curv$auc),
-    tolerance = 0.001
-  )
 })
 
 test_that("`event_level = 'second'` works", {
@@ -93,10 +88,6 @@ test_that('ROC Curve', {
     as.data.frame(roc_curve(two_class_example, truth, Class1)),
     as.data.frame(points)
   )
-  expect_equal(
-    as.data.frame(roc_curve(two_class_example, truth, Class1, options = list(smooth = TRUE))),
-    as.data.frame(s_points)
-  )
 })
 
 test_that("Multiclass ROC Curve", {
@@ -113,71 +104,6 @@ test_that("Multiclass ROC Curve", {
 
   # structural tests
   expect_equal(colnames(res_g), c("Resample", ".level", ".threshold", "specificity", "sensitivity"))
-})
-
-# ------------------------------------------------------------------------------
-# Partial AUC tests
-# https://github.com/tidymodels/yardstick/issues/97
-
-test_that("pROC::auc() arguments are passed through", {
-
-  # levels = c(<control>, <event>)
-  curv <- pROC::roc(
-    response = two_class_example$truth,
-    predictor = two_class_example$Class1,
-    levels = c("Class2", "Class1"),
-    direction = "<"
-  )
-
-  proc_auc <- as.numeric(pROC::auc(curv, partial.auc = c(1, 0.75)))
-
-  ys_auc <- roc_auc(
-    two_class_example,
-    truth,
-    Class1,
-    options = list(partial.auc = c(1, 0.75))
-  )
-
-  expect_equal(
-    ys_auc[[".estimate"]],
-    proc_auc
-  )
-
-})
-
-test_that("pROC::auc() arguments are passed through - corrected and focused args", {
-
-  # From `?pROC::auc`
-  data("aSAH", package = "pROC")
-
-  suppressMessages({
-    curv <- pROC::roc(aSAH$outcome, aSAH$s100b, direction = "<")
-  })
-
-  proc_auc <- as.numeric(pROC::auc(
-    curv,
-    partial.auc = c(1, .8),
-    partial.auc.focus = "se",
-    partial.auc.correct = TRUE
-  ))
-
-  ys_auc <- roc_auc(
-    aSAH,
-    outcome,
-    s100b,
-    options = list(
-      partial.auc = c(1, .8),
-      partial.auc.focus = "se",
-      partial.auc.correct = TRUE
-    ),
-    event_level = "second"
-  )
-
-  expect_equal(
-    ys_auc[[".estimate"]],
-    proc_auc
-  )
-
 })
 
 # ------------------------------------------------------------------------------
@@ -289,11 +215,11 @@ test_that("Multiclass ROC AUC", {
 
   expect_equal(
     roc_auc(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
-    prob_macro_metric(roc_auc_binary, options = list())
+    prob_macro_metric(roc_auc_binary)
   )
   expect_equal(
     roc_auc(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
-    prob_macro_weighted_metric(roc_auc_binary, options = list())
+    prob_macro_weighted_metric(roc_auc_binary)
   )
 })
 
@@ -403,5 +329,51 @@ test_that("roc_curve() - multiclass one-vs-all approach results in error", {
     roc_curve_vec(no_event$obs, as.matrix(dplyr::select(no_event, VF:L)))[[".estimate"]],
     "No control observations were detected in `truth` with control level '..other'",
     class = "yardstick_error_roc_truth_no_control"
+  )
+})
+
+# ------------------------------------------------------------------------------
+
+test_that("roc_curve() - `options` is deprecated", {
+  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  local_lifecycle_warnings()
+
+  expect_snapshot({
+    out <- roc_curve(two_class_example, truth, Class1, options = 1)
+  })
+
+  expect_identical(
+    out,
+    roc_curve(two_class_example, truth, Class1)
+  )
+})
+
+test_that("roc_auc() - `options` is deprecated", {
+  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  local_lifecycle_warnings()
+
+  expect_snapshot({
+    out <- roc_auc(two_class_example, truth, Class1, options = 1)
+  })
+
+  expect_identical(
+    out,
+    roc_auc(two_class_example, truth, Class1)
+  )
+
+  expect_snapshot({
+    out <- roc_auc_vec(
+      truth = two_class_example$truth,
+      estimate = two_class_example$Class1,
+      options = 1
+    )
+  })
+
+  expect_identical(
+    out,
+    roc_auc_vec(
+      truth = two_class_example$truth,
+      estimate = two_class_example$Class1
+    )
   )
 })
