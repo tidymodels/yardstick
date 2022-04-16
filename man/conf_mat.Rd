@@ -10,16 +10,21 @@
 \usage{
 conf_mat(data, ...)
 
-\method{conf_mat}{data.frame}(data, truth, estimate, dnn = c("Prediction", "Truth"), ...)
+\method{conf_mat}{data.frame}(
+  data,
+  truth,
+  estimate,
+  dnn = c("Prediction", "Truth"),
+  case_weights = NULL,
+  ...
+)
 
 \method{tidy}{conf_mat}(x, ...)
 }
 \arguments{
 \item{data}{A data frame or a \code{\link[base:table]{base::table()}}.}
 
-\item{...}{Options to pass to \code{\link[base:table]{base::table()}} (not including
-\code{dnn}). This argument is not currently used for the \code{tidy}
-method.}
+\item{...}{Not used.}
 
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
@@ -33,6 +38,10 @@ specified different ways but the primary method is to use an
 unquoted variable name. For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{dnn}{A character vector of dimnames for the table.}
+
+\item{case_weights}{The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 
 \item{x}{A \code{conf_mat} object.}
 }

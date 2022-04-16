@@ -3,6 +3,10 @@ test_that('Three class format', {
   three_class <- lst$three_class
   three_class_tb <- lst$three_class_tb
 
+  # Because of case weight support, `conf_mat()` returns a matrix not a table
+  three_class_tb <- unclass(three_class_tb)
+  storage.mode(three_class_tb) <- "double"
+
   expect_identical(
    conf_mat(three_class, truth = "obs", estimate = "pred", dnn = c("", ""))$table,
    three_class_tb
@@ -118,4 +122,68 @@ test_that('Tidy method', {
     "cell_1_1"
   )
 
+})
+
+test_that("can change the dimnames names", {
+  out <- conf_mat(two_class_example, truth, predicted, dnn = c("Foo", "Bar"))
+  expect_identical(names(dimnames(out$table)), c("Foo", "Bar"))
+})
+
+test_that("case weights are supported in data frame method", {
+  two_class_example$weight <- read_weights_two_class_example()
+
+  expect_identical(
+    conf_mat(two_class_example, truth, predicted, case_weights = weight)$table,
+    yardstick_table(
+      truth = two_class_example$truth,
+      estimate = two_class_example$predicted,
+      case_weights = two_class_example$weight
+    )
+  )
+})
+
+test_that("case weights propagate through to summary method metrics", {
+  two_class_example$weight <- read_weights_two_class_example()
+
+  out <- conf_mat(two_class_example, truth, predicted, case_weights = weight)
+  metrics <- summary(out)
+
+  accuracy <- metrics[metrics$.metric == "accuracy", ]
+  accuracy <- accuracy$.estimate
+
+  expect <- accuracy(two_class_example, truth, predicted, case_weights = weight)
+  expect <- expect[[".estimate"]]
+
+  expect_identical(accuracy, expect)
+})
+
+test_that("case weights are supported in grouped-df method", {
+  hpc_cv$weight <- read_weights_hpc_cv()
+
+  hpc_cv_f1 <- dplyr::filter(hpc_cv, Resample == "Fold01")
+
+  table_f1 <- yardstick_table(
+    truth = hpc_cv_f1$obs,
+    estimate = hpc_cv_f1$pred,
+    case_weights = hpc_cv_f1$weight
+  )
+  table_f1 <- conf_mat(table_f1)
+
+  hpc_cv <- dplyr::group_by(hpc_cv, Resample)
+  result <- conf_mat(hpc_cv, obs, pred, case_weights = weight)
+
+  expect_identical(
+    result$conf_mat[[1]],
+    table_f1
+  )
+})
+
+test_that("`...` is deprecated with a warning", {
+  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  local_lifecycle_warnings()
+
+  expect_snapshot(conf_mat(two_class_example, truth, predicted, foo = 1))
+
+  hpc_cv <- dplyr::group_by(hpc_cv, Resample)
+  expect_snapshot(conf_mat(hpc_cv, obs, pred, foo = 1))
 })

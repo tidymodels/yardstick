@@ -23,9 +23,7 @@
 #'
 #' @param dnn A character vector of dimnames for the table.
 #'
-#' @param ... Options to pass to [base::table()] (not including
-#'  `dnn`). This argument is not currently used for the `tidy`
-#'  method.
+#' @param ... Not used.
 #'
 #' @return
 #' `conf_mat()` produces an object with class `conf_mat`. This contains the
@@ -96,56 +94,103 @@ conf_mat <- function(data, ...) {
 
 #' @export
 #' @rdname conf_mat
-conf_mat.data.frame <- function(data, truth, estimate,
-                                dnn = c("Prediction", "Truth"), ...) {
+conf_mat.data.frame <- function(data,
+                                truth,
+                                estimate,
+                                dnn = c("Prediction", "Truth"),
+                                case_weights = NULL,
+                                ...) {
+  if (dots_n(...) != 0L) {
+    warn_conf_mat_dots_deprecated()
+  }
+
   names <- names(data)
 
   truth <- tidyselect::vars_pull(names, {{truth}})
-  estimate <- tidyselect::vars_pull(names, {{estimate}})
-
   truth <- data[[truth]]
+
+  estimate <- tidyselect::vars_pull(names, {{estimate}})
   estimate <- data[[estimate]]
 
-  xtab <- vec2table(
+  case_weights <- enquo(case_weights)
+  if (quo_is_null(case_weights)) {
+    case_weights <- NULL
+  } else {
+    case_weights <- tidyselect::vars_pull(names, !!case_weights)
+    case_weights <- data[[case_weights]]
+  }
+
+  table <- yardstick_table(
     truth = truth,
     estimate = estimate,
-    dnn = dnn,
-    ...
+    case_weights = case_weights
   )
 
-  conf_mat.table(xtab, ...)
+  dimnames <- dimnames(table)
+  names(dimnames) <- dnn
+  dimnames(table) <- dimnames
+
+  conf_mat.matrix(table)
 }
 
 #' @export
-conf_mat.grouped_df <- function(data, truth, estimate,
-                                dnn = c("Prediction", "Truth"), ...) {
+conf_mat.grouped_df <- function(data,
+                                truth,
+                                estimate,
+                                dnn = c("Prediction", "Truth"),
+                                case_weights = NULL,
+                                ...) {
+  if (dots_n(...) != 0L) {
+    warn_conf_mat_dots_deprecated()
+  }
 
   names <- names(data)
 
   truth <- tidyselect::vars_pull(names, {{truth}})
-  estimate <- tidyselect::vars_pull(names, {{estimate}})
-
   truth <- as.name(truth)
+
+  estimate <- tidyselect::vars_pull(names, {{estimate}})
   estimate <- as.name(estimate)
+
+  case_weights <- enquo(case_weights)
+  if (quo_is_null(case_weights)) {
+    case_weights <- NULL
+  } else {
+    case_weights <- tidyselect::vars_pull(names, !!case_weights)
+    case_weights <- as.name(case_weights)
+  }
 
   dplyr::summarise(
     data,
     conf_mat = {
-      xtab <- vec2table(
-        truth = !! truth,
-        estimate = !! estimate,
-        dnn = dnn,
-        ...
+      table <- yardstick_table(
+        truth = !!truth,
+        estimate = !!estimate,
+        case_weights = !!case_weights
       )
-      list(conf_mat.table(xtab, ...))
+
+      dimnames <- dimnames(table)
+      names(dimnames) <- dnn
+      dimnames(table) <- dimnames
+
+      list(conf_mat.matrix(table))
     }
   )
-
 }
 
 #' @export
 conf_mat.table <- function(data, ...) {
+  # To handle case weight support, we need to treat the confusion matrix
+  # as a double matrix rather than an integer table. This converts a table
+  # to be consistent with that.
+  data <- unclass(data)
+  storage.mode(data) <- "double"
 
+  conf_mat.matrix(data)
+}
+
+#' @export
+conf_mat.matrix <- function(data, ...) {
   check_table(data)
 
   class_lev <- rownames(data)
@@ -156,24 +201,25 @@ conf_mat.table <- function(data, ...) {
   }
 
   structure(
-    list(table = data, dots = list(...)),
+    list(table = data),
     class = "conf_mat"
   )
+}
 
+warn_conf_mat_dots_deprecated <- function() {
+  message <- c(
+    "The `...` argument of `conf_mat()` is deprecated as of yardstick 1.0.0.",
+    "This argument no longer has any effect, and is being ignored."
+  )
+  message <- paste0(message, collapse = "\n")
+
+  warn_deprecated(message)
 }
 
 #' @export
-conf_mat.matrix <- function(data, ...) {
-
-  data <- as.table(data)
-  conf_mat.table(data, ...)
-
-}
-
-
-#' @export
-print.conf_mat <- function(x, ...)
+print.conf_mat <- function(x, ...) {
   print(x$table)
+}
 
 #' @export
 #' @rdname conf_mat
@@ -306,6 +352,9 @@ cm_heat <- function(x) {
   # order that matches the LHS of the confusion matrix
   lvls <- levels(df$Prediction)
   df$Prediction <- factor(df$Prediction, levels = rev(lvls))
+
+  # For case weighted confusion matrices this looks a little better
+  df$Freq <- round(df$Freq, digits = 3)
 
   axis_labels <- get_axis_labels(x)
 
