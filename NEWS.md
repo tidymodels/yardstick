@@ -45,6 +45,7 @@
     * mn_log_loss
     * pr_auc
     * pr_curve
+    * roc_curve
 
 * The `options` argument of `roc_curve()`, `roc_auc()`, `roc_aunp()`,
   `roc_aunu()`, and `metrics()` that was passed along to the pROC package is

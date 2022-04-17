@@ -21,6 +21,7 @@
 #' @template event_first
 #'
 #' @inheritParams roc_auc
+#' @inheritParams pr_auc
 #'
 #' @return
 #' A tibble with class `roc_df` or `roc_grouped_df` having
@@ -80,6 +81,7 @@ roc_curve.data.frame <- function(data,
                                  ...,
                                  na_rm = TRUE,
                                  event_level = yardstick_event_level(),
+                                 case_weights = NULL,
                                  options = list()) {
   check_roc_options_deprecated("roc_curve", options)
 
@@ -92,7 +94,8 @@ roc_curve.data.frame <- function(data,
     truth = !!enquo(truth),
     estimate = !!estimate,
     na_rm = na_rm,
-    event_level = event_level
+    event_level = event_level,
+    case_weights = !!enquo(case_weights)
   )
 
   curve_finalize(result, data, "roc_df", "grouped_roc_df")
@@ -102,12 +105,24 @@ roc_curve_vec <- function(truth,
                           estimate,
                           na_rm = TRUE,
                           event_level = yardstick_event_level(),
+                          case_weights = NULL,
                           ...) {
   estimator <- finalize_estimator(truth, metric_class = "roc_curve")
 
   # estimate here is a matrix of class prob columns
-  roc_curve_impl <- function(truth, estimate) {
-    roc_curve_estimator_impl(truth, estimate, estimator, event_level)
+  roc_curve_impl <- function(truth,
+                             estimate,
+                             ...,
+                             case_weights = NULL) {
+    check_dots_empty()
+
+    roc_curve_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = estimator,
+      event_level = event_level,
+      case_weights = case_weights
+    )
   }
 
   metric_vec_template(
@@ -116,83 +131,88 @@ roc_curve_vec <- function(truth,
     estimate = estimate,
     na_rm = na_rm,
     estimator = estimator,
+    case_weights = case_weights,
     cls = c("factor", "numeric")
   )
 }
 
-roc_curve_estimator_impl <- function(truth, estimate, estimator, event_level) {
+roc_curve_estimator_impl <- function(truth,
+                                     estimate,
+                                     estimator,
+                                     event_level,
+                                     case_weights) {
   if (is_binary(estimator)) {
-    roc_curve_binary(truth, estimate, event_level)
-  }
-  else {
-    roc_curve_multiclass(truth, estimate)
+    roc_curve_binary(truth, estimate, event_level, case_weights)
+  } else {
+    roc_curve_multiclass(truth, estimate, case_weights)
   }
 }
 
-roc_curve_binary <- function(truth, estimate, event_level) {
+roc_curve_binary <- function(truth,
+                             estimate,
+                             event_level,
+                             case_weights) {
   lvls <- levels(truth)
 
-  # pROC will actually expect the levels in the order of control, then event
-  # and confusingly that aligns with our interpretation of event being
-  # the first level
-  if (is_event_first(event_level)) {
+  if (!is_event_first(event_level)) {
     lvls <- rev(lvls)
   }
 
-  control <- lvls[[1]]
-  event <- lvls[[2]]
+  event <- lvls[[1]]
+  control <- lvls[[2]]
 
-  if (compute_n_occurrences(truth, control) == 0L) {
-    stop_roc_truth_no_control(control)
-  }
   if (compute_n_occurrences(truth, event) == 0L) {
     stop_roc_truth_no_event(event)
   }
-
-  args <- list()
-
-  # working on a better way of doing this
-  args$response <- truth
-  args$predictor <- estimate
-  args$levels <- lvls
-  args$quiet <- TRUE
-  args$direction <- "<"
-
-  curv <- exec(pROC::roc, !!!args)
-
-  if (!inherits(curv, "smooth.roc")) {
-    res <- pROC::coords(
-      curv,
-      x = unique(c(-Inf, args$predictor, Inf)),
-      input = "threshold",
-      transpose = FALSE
-    )
-  }
-  else {
-    res <- pROC::coords(
-      curv,
-      x = unique(c(0, curv$specificities, 1)),
-      input = "specificity",
-      transpose = FALSE
-    )
+  if (compute_n_occurrences(truth, control) == 0L) {
+    stop_roc_truth_no_control(control)
   }
 
-  res <- dplyr::as_tibble(res)
+  curve <- binary_threshold_curve(
+    truth = truth,
+    estimate = estimate,
+    event_level = event_level,
+    case_weights = case_weights
+  )
 
-  if (!inherits(curv, "smooth.roc")) {
-    res <- dplyr::arrange(res, threshold)
-    res <- dplyr::rename(res, .threshold = threshold)
-  }
-  else {
-    res <- dplyr::arrange(res, specificity)
-  }
+  threshold <- curve$threshold
+  tp <- curve$tp
+  fp <- curve$fp
 
-  res
+  tpr <- tp / tp[length(tp)]
+  fpr <- fp / fp[length(fp)]
+
+  sensitivity <- tpr
+  specificity <- 1 - fpr
+
+  # In order of increasing specificity
+  threshold <- rev(threshold)
+  sensitivity <- rev(sensitivity)
+  specificity <- rev(specificity)
+
+  # Add first/last rows to the data frame to ensure the curve and
+  # AUC metrics are computed correctly
+  threshold <- c(-Inf, threshold, Inf)
+  sensitivity <- c(1, sensitivity, 0)
+  specificity <- c(0, specificity, 1)
+
+  dplyr::tibble(
+    .threshold = threshold,
+    specificity = specificity,
+    sensitivity = sensitivity
+  )
 }
 
 # One-VS-All approach
-roc_curve_multiclass <- function(truth, estimate) {
-  one_vs_all_with_level(roc_curve_binary, truth, estimate)
+roc_curve_multiclass <- function(truth,
+                                 estimate,
+                                 case_weights) {
+  one_vs_all_with_level_case_weights(
+    metric_fn = roc_curve_binary,
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights
+  )
 }
 
 check_roc_options_deprecated <- function(what, options) {

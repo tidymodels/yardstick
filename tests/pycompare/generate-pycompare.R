@@ -299,3 +299,73 @@ py_average_precision <- list(
   )
 )
 saveRDS(py_average_precision, test_path("py-data", "py-average-precision.rds"), version = 2)
+
+# ROC Curve
+make_py_two_class_roc_curve <- function(case_weights) {
+  # - sklearn puts them in decreasing order of specificity
+  # - sklearn needs the "first" row and a tweak to the threshold of the "last" row
+  # - sklearn has a `drop_intermediate = TRUE` default to trim the curve
+  # - reticulate brings all inputs in as arrays
+
+  if (!is.logical(case_weights) || length(case_weights) != 1L) {
+    stop("`case_weights` must be a single logical.")
+  }
+
+  if (case_weights) {
+    curve <- skmetrics$roc_curve(
+      y_true = two_class_example$truth,
+      y_score = two_class_example$Class1,
+      pos_label = "Class1",
+      sample_weight = weights_two_class_example,
+      drop_intermediate = FALSE
+    )
+  } else {
+    curve <- skmetrics$roc_curve(
+      y_true = two_class_example$truth,
+      y_score = two_class_example$Class1,
+      pos_label = "Class1",
+      drop_intermediate = FALSE
+    )
+  }
+
+  names(curve) <- c("fpr", "tpr", ".threshold")
+
+  curve$fpr <- as.vector(curve$fpr)
+  curve$tpr <- as.vector(curve$tpr)
+  curve$.threshold <- as.vector(curve$.threshold)
+
+  curve$sensitivity <- curve$tpr
+  curve$specificity <- 1 - curve$fpr
+
+  curve$fpr <- NULL
+  curve$tpr <- NULL
+
+  # Reverse rows to match yardstick
+  curve$.threshold <- rev(curve$.threshold)
+  curve$sensitivity <- rev(curve$sensitivity)
+  curve$specificity <- rev(curve$specificity)
+
+  # Add "first" row to match yardstick
+  curve$.threshold <- c(-Inf, curve$.threshold)
+  curve$sensitivity <- c(1, curve$sensitivity)
+  curve$specificity <- c(0, curve$specificity)
+
+  # sklearn adds the "last" row, but their threshold value is
+  # `last_threshold + 1` rather than `Inf`
+  curve$.threshold[length(curve$.threshold)] <- Inf
+
+  curve <- tibble::tibble(!!!curve)
+  curve <- dplyr::select(curve, .threshold, specificity, sensitivity)
+
+  class(curve) <- c("roc_df", class(curve))
+
+  curve
+}
+
+py_roc_curve <- list(
+  binary = make_py_two_class_roc_curve(case_weights = FALSE),
+  case_weight = list(
+    binary = make_py_two_class_roc_curve(case_weights = TRUE)
+  )
+)
+saveRDS(py_roc_curve, test_path("py-data", "py-roc-curve.rds"), version = 2)
