@@ -107,6 +107,7 @@
 <li>mn_log_loss</li>
 <li>pr_auc</li>
 <li>pr_curve</li>
+<li>roc_curve</li>
 </ul></li>
 </ul></li>
 <li><p>The <code>options</code> argument of <code><a href="../reference/roc_curve.html">roc_curve()</a></code>, <code><a href="../reference/roc_auc.html">roc_auc()</a></code>, <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code>, <code><a href="../reference/roc_aunu.html">roc_aunu()</a></code>, and <code><a href="../reference/metrics.html">metrics()</a></code> that was passed along to the pROC package is now deprecated and no longer has any affect. This is a result of changing to an ROC curve implementation that supports case weights, but does not support any of the previous options. If you need these options, we suggest wrapping pROC yourself in a custom metric (<a href="https://github.com/tidymodels/yardstick/issues/296" class="external-link">#296</a>).</p></li>
