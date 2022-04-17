@@ -1,19 +1,17 @@
 #' Receiver operator curve
 #'
+#' @description
 #' `roc_curve()` constructs the full ROC curve and returns a
 #' tibble. See [roc_auc()] for the area under the ROC curve.
 #'
+#' @details
 #' `roc_curve()` computes the sensitivity at every unique
 #'  value of the probability column (in addition to infinity and
-#'  minus infinity). If a smooth ROC curve was produced, the unique
-#'  observed values of the specificity are used to create the curve
-#'  points. In either case, this may not be efficient for large data
-#'  sets.
+#'  minus infinity).
 #'
-#'  There is a [ggplot2::autoplot()]
-#'  method for quickly visualizing the curve. This works for
-#'  binary and multiclass output, and also works with grouped data (i.e. from
-#'  resamples). See the examples.
+#'  There is a [ggplot2::autoplot()] method for quickly visualizing the curve.
+#'  This works for binary and multiclass output, and also works with grouped
+#'  data (i.e. from resamples). See the examples.
 #'
 #' @family curve metrics
 #' @templateVar metric_fn roc_curve
@@ -25,10 +23,7 @@
 #'
 #' @return
 #' A tibble with class `roc_df` or `roc_grouped_df` having
-#' columns `specificity` and `sensitivity`.
-#'
-#' If an ordinary (i.e. non-smoothed) curve
-#' is used, there is also a column for `.threshold`.
+#' columns `.threshold`, `specificity`, and `sensitivity`.
 #'
 #' @seealso
 #' Compute the area under the ROC curve with [roc_auc()].
@@ -69,7 +64,6 @@
 #' }
 #'
 #' @export
-#'
 roc_curve <- function(data, ...) {
   UseMethod("roc_curve")
 }

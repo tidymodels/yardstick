@@ -56,10 +56,7 @@ support for this, use the pROC package directly.}
 }
 \value{
 A tibble with class \code{roc_df} or \code{roc_grouped_df} having
-columns \code{specificity} and \code{sensitivity}.
-
-If an ordinary (i.e. non-smoothed) curve
-is used, there is also a column for \code{.threshold}.
+columns \code{.threshold}, \code{specificity}, and \code{sensitivity}.
 }
 \description{
 \code{roc_curve()} constructs the full ROC curve and returns a
@@ -68,15 +65,11 @@ tibble. See \code{\link[=roc_auc]{roc_auc()}} for the area under the ROC curve.
 \details{
 \code{roc_curve()} computes the sensitivity at every unique
 value of the probability column (in addition to infinity and
-minus infinity). If a smooth ROC curve was produced, the unique
-observed values of the specificity are used to create the curve
-points. In either case, this may not be efficient for large data
-sets.
+minus infinity).
 
-There is a \code{\link[ggplot2:autoplot]{ggplot2::autoplot()}}
-method for quickly visualizing the curve. This works for
-binary and multiclass output, and also works with grouped data (i.e. from
-resamples). See the examples.
+There is a \code{\link[ggplot2:autoplot]{ggplot2::autoplot()}} method for quickly visualizing the curve.
+This works for binary and multiclass output, and also works with grouped
+data (i.e. from resamples). See the examples.
 }
 \section{Multiclass}{
 
