@@ -13,6 +13,7 @@ roc_curve(data, ...)
   ...,
   na_rm = TRUE,
   event_level = yardstick_event_level(),
+  case_weights = NULL,
   options = list()
 )
 }
@@ -40,6 +41,10 @@ applicable when \code{estimator = "binary"}. The default uses an
 internal helper that generally defaults to \code{"first"}, however, if the
 deprecated global option \code{yardstick.event_first} is set, that will be
 used instead with a warning.}
+
+\item{case_weights}{The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 
 \item{options}{\verb{[deprecated]}
 

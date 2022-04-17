@@ -39,73 +39,6 @@ test_that("`event_level = 'second'` works", {
   )
 })
 
-test_that("binary roc curve uses `direction = <`", {
-  # In yardstick we do events (or cases) as the first level
-  truth <- factor(c("control", "case", "case"), levels = c("case", "control"))
-
-  # Make really bad predictions
-  # This would force `direction = "auto"` to choose `>`,
-  # which would be incorrect. We are required to force `direction = <` for
-  # our purposes of having `estimate` match the event
-  estimate <- c(.8, .2, .1)
-
-  # pROC expects levels to be in the order of control, then event.
-  roc <- pROC::roc(
-    truth,
-    estimate,
-    levels = c("control", "case"),
-    direction = "<"
-  )
-
-  curve <- roc_curve_vec(truth, estimate)
-
-  expect_identical(curve$specificity, c(0, roc$specificities))
-  expect_identical(curve$sensitivity, c(1, roc$sensitivities))
-})
-
-test_that('ROC Curve', {
-  roc_curv <- pROC::roc(
-    two_class_example$truth,
-    two_class_example$Class1,
-    levels = rev(levels(two_class_example$truth)),
-    direction = "<"
-  )
-
-  smooth_curv <- pROC::roc(
-    two_class_example$truth,
-    two_class_example$Class1,
-    levels = rev(levels(two_class_example$truth)),
-    direction = "<",
-    smooth = TRUE
-  )
-
-  points <- pROC::coords(roc_curv, x = unique(c(-Inf, two_class_example$Class1, Inf)), input = "threshold", transpose = FALSE)
-  points <- dplyr::as_tibble(points) %>% dplyr::arrange(threshold) %>% dplyr::rename(.threshold = threshold)
-  s_points <- pROC::coords(smooth_curv, x = unique(c(0, smooth_curv$specificities, 1)), input = "specificity", transpose = FALSE)
-  s_points <- dplyr::as_tibble(s_points) %>% dplyr::arrange(specificity)
-
-  expect_equal(
-    as.data.frame(roc_curve(two_class_example, truth, Class1)),
-    as.data.frame(points)
-  )
-})
-
-test_that("Multiclass ROC Curve", {
-  # HPC_CV takes too long
-  hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10"))
-
-  res <- roc_curve(hpc_cv2, obs, VF:L)
-
-  # structural tests
-  expect_equal(colnames(res), c(".level", ".threshold", "specificity", "sensitivity"))
-  expect_equal(unique(res$.level), levels(hpc_cv2$obs))
-
-  res_g <- roc_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
-
-  # structural tests
-  expect_equal(colnames(res_g), c("Resample", ".level", ".threshold", "specificity", "sensitivity"))
-})
-
 # ------------------------------------------------------------------------------
 
 # HandTill2001::auc(HandTill2001::multcap(hpc_cv2$obs, as.matrix(select(hpc_cv2, VF:L))))
@@ -301,52 +234,6 @@ test_that("hand till approach throws warning and returns `NaN` when only 1 level
 })
 
 # ------------------------------------------------------------------------------
-
-test_that("roc_curve() - error is thrown when missing events", {
-  no_event <- dplyr::filter(two_class_example, truth == "Class2")
-
-  expect_error(
-    roc_curve_vec(no_event$truth, no_event$Class1)[[".estimate"]],
-    "No event observations were detected in `truth` with event level 'Class1'.",
-    class = "yardstick_error_roc_truth_no_event"
-  )
-})
-
-test_that("roc_curve() - error is thrown when missing controls", {
-  no_control <- dplyr::filter(two_class_example, truth == "Class1")
-
-  expect_error(
-    roc_curve_vec(no_control$truth, no_control$Class1)[[".estimate"]],
-    "No control observations were detected in `truth` with control level 'Class2'.",
-    class = "yardstick_error_roc_truth_no_control"
-  )
-})
-
-test_that("roc_curve() - multiclass one-vs-all approach results in error", {
-  no_event <- dplyr::filter(hpc_cv, Resample == "Fold01", obs == "VF")
-
-  expect_error(
-    roc_curve_vec(no_event$obs, as.matrix(dplyr::select(no_event, VF:L)))[[".estimate"]],
-    "No control observations were detected in `truth` with control level '..other'",
-    class = "yardstick_error_roc_truth_no_control"
-  )
-})
-
-# ------------------------------------------------------------------------------
-
-test_that("roc_curve() - `options` is deprecated", {
-  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
-  local_lifecycle_warnings()
-
-  expect_snapshot({
-    out <- roc_curve(two_class_example, truth, Class1, options = 1)
-  })
-
-  expect_identical(
-    out,
-    roc_curve(two_class_example, truth, Class1)
-  )
-})
 
 test_that("roc_auc() - `options` is deprecated", {
   skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
