@@ -8,8 +8,8 @@
 #' @templateVar metric_fn rmse
 #' @template return
 #'
-#' @param data A `data.frame` containing the `truth` and `estimate`
-#' columns.
+#' @param data A `data.frame` containing the columns specified by the `truth`
+#' and `estimate` arguments.
 #'
 #' @param truth The column identifier for the true results
 #' (that is `numeric`). This should be an unquoted column name although

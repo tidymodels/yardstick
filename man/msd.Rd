@@ -13,8 +13,8 @@ msd(data, ...)
 msd_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
-\item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
-columns.}
+\item{data}{A \code{data.frame} containing the columns specified by the \code{truth}
+and \code{estimate} arguments.}
 
 \item{...}{Not currently used.}
 

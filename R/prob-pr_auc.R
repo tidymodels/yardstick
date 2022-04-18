@@ -12,8 +12,8 @@
 #'
 #' @inheritParams sens
 #'
-#' @param data A `data.frame` containing the `truth` and `estimate`
-#' columns.
+#' @param data A `data.frame` containing the columns specified by `truth` and
+#' `...`.
 #'
 #' @param estimate If `truth` is binary, a numeric vector of class probabilities
 #' corresponding to the "relevant" class. Otherwise, a matrix with as many

@@ -32,9 +32,9 @@ f_meas_vec(
 )
 }
 \arguments{
-\item{data}{Either a \code{data.frame} containing the \code{truth} and \code{estimate}
-columns, or a \code{table}/\code{matrix} where the true class results should be
-in the columns of the table.}
+\item{data}{Either a \code{data.frame} containing the columns specified by the
+\code{truth} and \code{estimate} arguments, or a \code{table}/\code{matrix} where the true
+class results should be in the columns of the table.}
 
 \item{...}{Not currently used.}
 

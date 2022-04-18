@@ -6,8 +6,8 @@
 #'
 #' @inheritParams roc_auc
 #'
-#' @param data A `data.frame` containing the `truth` and `estimate`
-#' columns and any columns specified by `...`.
+#' @param data A `data.frame` containing the columns specified by `truth`,
+#' `estimate`, and `...`.
 #'
 #' @param truth The column identifier for the true results (that
 #' is `numeric` or `factor`). This should be an unquoted column name

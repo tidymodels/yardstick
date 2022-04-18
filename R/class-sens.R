@@ -23,9 +23,9 @@
 #' @template return
 #' @template table-positive
 #'
-#' @param data Either a `data.frame` containing the `truth` and `estimate`
-#'   columns, or a `table`/`matrix` where the true class results should be
-#'   in the columns of the table.
+#' @param data Either a `data.frame` containing the columns specified by the
+#'   `truth` and `estimate` arguments, or a `table`/`matrix` where the true
+#'   class results should be in the columns of the table.
 #'
 #' @param truth The column identifier for the true class results
 #'   (that is a `factor`). This should be an unquoted column name although
