@@ -59,60 +59,7 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="yardstick-development-version">yardstick (development version)<a class="anchor" aria-label="anchor" href="#yardstick-development-version"></a></h2>
-<ul><li>
-<p>yardstick metrics now support case weights.</p>
-<ul><li><p>conf_mat</p></li>
-<li>
-<p>Numeric:</p>
-<ul><li>ccc</li>
-<li>huber_loss</li>
-<li>huber_loss_pseudo</li>
-<li>iic</li>
-<li>mae</li>
-<li>mape</li>
-<li>mase</li>
-<li>mpe</li>
-<li>msd</li>
-<li>poisson_log_loss</li>
-<li>rmse</li>
-<li>rpd</li>
-<li>rpiq</li>
-<li>rsq</li>
-<li>rsq_trad</li>
-<li>smape</li>
-</ul></li>
-<li>
-<p>Class:</p>
-<ul><li>accuracy</li>
-<li>bal_accuracy</li>
-<li>detection_prevalence</li>
-<li>f_meas</li>
-<li>j_index</li>
-<li>kap</li>
-<li>mcc</li>
-<li>npv</li>
-<li>ppv</li>
-<li>precision</li>
-<li>recall</li>
-<li>sens</li>
-<li>spec</li>
-</ul></li>
-<li>
-<p>Probability:</p>
-<ul><li>average_precision</li>
-<li>classification_cost</li>
-<li>gain_capture</li>
-<li>gain_curve</li>
-<li>lift_curve</li>
-<li>mn_log_loss</li>
-<li>pr_auc</li>
-<li>pr_curve</li>
-<li>roc_auc</li>
-<li>roc_aunp</li>
-<li>roc_aunu</li>
-<li>roc_curve</li>
-</ul></li>
-</ul></li>
+<ul><li><p>All yardstick metrics now support case weights through the <code>case_weights</code> argument. This also includes metric-adjacent functions like <code><a href="../reference/roc_curve.html">roc_curve()</a></code>, <code><a href="../reference/pr_curve.html">pr_curve()</a></code>, <code><a href="../reference/conf_mat.html">conf_mat()</a></code>, and <code><a href="../reference/metric_set.html">metric_set()</a></code>.</p></li>
 <li><p>The <code>options</code> argument of <code><a href="../reference/roc_curve.html">roc_curve()</a></code>, <code><a href="../reference/roc_auc.html">roc_auc()</a></code>, <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code>, <code><a href="../reference/roc_aunu.html">roc_aunu()</a></code>, and <code><a href="../reference/metrics.html">metrics()</a></code> that was passed along to the pROC package is now deprecated and no longer has any affect. This is a result of changing to an ROC curve implementation that supports case weights, but does not support any of the previous options. If you need these options, we suggest wrapping pROC yourself in a custom metric (<a href="https://github.com/tidymodels/yardstick/issues/296" class="external-link">#296</a>).</p></li>
 <li><p><code><a href="../reference/conf_mat.html">conf_mat()</a></code> now ignores any inputs passed through <code>...</code> and warns if you try to do such a thing. Previously, those were passed on to <code><a href="https://rdrr.io/r/base/table.html" class="external-link">base::table()</a></code>, but with the addition of case weight support, <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code> is no longer used (<a href="https://github.com/tidymodels/yardstick/issues/295" class="external-link">#295</a>).</p></li>
 <li><p>Fixed a small mistake in <code><a href="../reference/ccc.html">ccc()</a></code> where the unbiased covariance wasn’t being used when <code>bias = FALSE</code>.</p></li>
