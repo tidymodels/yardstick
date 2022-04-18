@@ -77,6 +77,7 @@ roc_curve() for the full curve."><meta property="og:image" content="https://yard
   estimator <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
   event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
   options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span>
 
@@ -86,6 +87,7 @@ roc_curve() for the full curve."><meta property="og:image" content="https://yard
   estimator <span class="op">=</span> <span class="cn">NULL</span>,
   na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
   event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
   options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
@@ -112,7 +114,10 @@ names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></dd
 <code>"macro_weighted"</code> to specify the type of averaging to be done. <code>"binary"</code>
 is only relevant for the two class case. The others are general methods for
 calculating multiclass metrics. The default will automatically choose
-<code>"binary"</code> or <code>"hand_till"</code> based on <code>truth</code>.</p></dd>
+<code>"binary"</code> if <code>truth</code> is binary, <code>"hand_till"</code> if <code>truth</code> has &gt;2 levels and
+<code>case_weights</code> isn't specified, or <code>"macro"</code> if <code>truth</code> has &gt;2 levels and
+<code>case_weights</code> is specified (in which case <code>"hand_till"</code> isn't
+well-defined).</p></dd>
 <dt>na_rm</dt>
 <dd><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></dd>
@@ -123,6 +128,10 @@ applicable when <code>estimator = "binary"</code>. The default uses an
 internal helper that generally defaults to <code>"first"</code>, however, if the
 deprecated global option <code>yardstick.event_first</code> is set, that will be
 used instead with a warning.</p></dd>
+<dt>case_weights</dt>
+<dd><p>The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in <code>data</code>. For <code>_vec()</code> functions, a numeric vector.</p></dd>
 <dt>options</dt>
 <dd><p><code>[deprecated]</code></p>
 <p>No longer supported as of yardstick 1.0.0. If you pass something here it
@@ -145,15 +154,12 @@ For <code>roc_auc_vec()</code>, a single <code>numeric</code> value (or <code>NA
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The underlying <code>direction</code> option in <code><a href="https://rdrr.io/pkg/pROC/man/roc.html" class="external-link">pROC::roc()</a></code> is forced to
-<code>direction = "&lt;"</code>. This computes the ROC curve assuming that the <code>estimate</code>
-values are the probability that the "event" occurred, which is what they
-are always assumed to be in yardstick.</p>
-<p>Generally, an ROC AUC value is between <code>0.5</code> and <code>1</code>, with <code>1</code> being a
+    <p>Generally, an ROC AUC value is between <code>0.5</code> and <code>1</code>, with <code>1</code> being a
 perfect prediction model. If your value is between <code>0</code> and <code>0.5</code>, then
 this implies that you have meaningful information in your model, but it
 is being applied incorrectly because doing the opposite of what the model
 predicts would result in an AUC <code>&gt;0.5</code>.</p>
+<p>Note that you can't combine <code>estimator = "hand_till"</code> with <code>case_weights</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="relevant-level">Relevant Level<a class="anchor" aria-label="anchor" href="#relevant-level"></a></h2>
