@@ -11,7 +11,7 @@ hpc_fold1_macro_metric <- function(binary_metric, ...) {
   prob_mat <- as.matrix(dplyr::select(hpc_f1, VF:L))
   case_weights <- NULL
 
-  res <- rlang::flatten_dbl(one_vs_all_case_weights(
+  res <- rlang::flatten_dbl(one_vs_all_impl(
     metric_fn = binary_metric,
     truth = truth,
     estimate = prob_mat,
@@ -30,7 +30,7 @@ hpc_fold1_macro_weighted_metric <- function(binary_metric, ...) {
   prob_mat <- as.matrix(dplyr::select(hpc_f1, VF:L))
   case_weights <- NULL
 
-  res <- rlang::flatten_dbl(one_vs_all_case_weights(
+  res <- rlang::flatten_dbl(one_vs_all_impl(
     metric_fn = binary_metric,
     truth = truth,
     estimate = prob_mat,

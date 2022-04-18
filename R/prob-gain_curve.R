@@ -185,7 +185,7 @@ gain_curve_binary <- function(truth, estimate, event_level, case_weights) {
 }
 
 gain_curve_multiclass <- function(truth, estimate, case_weights) {
-  one_vs_all_with_level_case_weights(
+  one_vs_all_with_level(
     metric_fn = gain_curve_binary,
     truth = truth,
     estimate = estimate,

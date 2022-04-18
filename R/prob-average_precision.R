@@ -157,7 +157,7 @@ average_precision_binary <- function(truth,
 average_precision_multiclass <- function(truth,
                                          estimate,
                                          case_weights) {
-  results <- one_vs_all_case_weights(
+  results <- one_vs_all_impl(
     metric_fn = average_precision_binary,
     truth = truth,
     estimate = estimate,

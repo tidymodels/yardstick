@@ -200,7 +200,7 @@ roc_curve_binary <- function(truth,
 roc_curve_multiclass <- function(truth,
                                  estimate,
                                  case_weights) {
-  one_vs_all_with_level_case_weights(
+  one_vs_all_with_level(
     metric_fn = roc_curve_binary,
     truth = truth,
     estimate = estimate,

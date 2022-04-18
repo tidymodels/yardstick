@@ -151,7 +151,7 @@ pr_auc_binary <- function(truth,
 pr_auc_multiclass <- function(truth,
                               estimate,
                               case_weights) {
-  results <- one_vs_all_case_weights(
+  results <- one_vs_all_impl(
     metric_fn = pr_auc_binary,
     truth = truth,
     estimate = estimate,

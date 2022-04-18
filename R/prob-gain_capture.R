@@ -176,7 +176,7 @@ gain_capture_binary <- function(truth,
 }
 
 gain_capture_multiclass <- function(truth, estimate, case_weights) {
-  res_lst <- one_vs_all_case_weights(
+  res_lst <- one_vs_all_impl(
     metric_fn = gain_capture_binary,
     truth = truth,
     estimate = estimate,

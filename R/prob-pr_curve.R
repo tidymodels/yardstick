@@ -188,7 +188,7 @@ pr_curve_binary <- function(truth,
 
 # One vs all approach
 pr_curve_multiclass <- function(truth, estimate, case_weights) {
-  one_vs_all_with_level_case_weights(
+  one_vs_all_with_level(
     metric_fn = pr_curve_binary,
     truth = truth,
     estimate = estimate,

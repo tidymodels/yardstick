@@ -87,7 +87,11 @@ dots_to_estimate <- function(data, ...) {
 
 # One vs all helper ------------------------------------------------------------
 
-one_vs_all_impl <- function(metric_fn, truth, estimate, ...) {
+one_vs_all_impl <- function(metric_fn,
+                            truth,
+                            estimate,
+                            case_weights,
+                            ...) {
   lvls <- levels(truth)
   other <- "..other"
 
@@ -114,6 +118,7 @@ one_vs_all_impl <- function(metric_fn, truth, estimate, ...) {
     metric_lst[[i]] <- metric_fn(
       truth_temp,
       estimate_temp,
+      case_weights = case_weights,
       event_level = "first",
       ...
     )
@@ -123,9 +128,19 @@ one_vs_all_impl <- function(metric_fn, truth, estimate, ...) {
   metric_lst
 }
 
-one_vs_all_with_level <- function(metric_fn, truth, estimate, ...) {
+one_vs_all_with_level <- function(metric_fn,
+                                  truth,
+                                  estimate,
+                                  case_weights,
+                                  ...) {
 
-  res <- one_vs_all_impl(metric_fn, truth, estimate, ...)
+  res <- one_vs_all_impl(
+    metric_fn = metric_fn,
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights,
+    ...
+  )
 
   lvls <- levels(truth)
 
@@ -144,34 +159,4 @@ one_vs_all_with_level <- function(metric_fn, truth, estimate, ...) {
 
   dplyr::bind_rows(res)
 
-}
-
-# TODO: Remove me when all one-vs-all users support case weights
-one_vs_all_case_weights <- function(metric_fn,
-                                    truth,
-                                    estimate,
-                                    case_weights,
-                                    ...) {
-  one_vs_all_impl(
-    metric_fn = metric_fn,
-    truth = truth,
-    estimate = estimate,
-    case_weights = case_weights,
-    ...
-  )
-}
-
-# TODO: Remove me when all one-vs-all users support case weights
-one_vs_all_with_level_case_weights <- function(metric_fn,
-                                               truth,
-                                               estimate,
-                                               case_weights,
-                                               ...) {
-  one_vs_all_with_level(
-    metric_fn = metric_fn,
-    truth = truth,
-    estimate = estimate,
-    case_weights = case_weights,
-    ...
-  )
 }
