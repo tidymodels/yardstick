@@ -1,10 +1,29 @@
-# nocov start --- compat-lifecycle --- 2020-06-30
+# nocov start --- compat-lifecycle
 
 # This file serves as a reference for currently unexported rlang
 # lifecycle functions. Please find the most recent version in rlang's
 # repository. These functions require rlang in your `Imports`
 # DESCRIPTION field but you don't need to import rlang in your
 # namespace.
+
+# Changelog
+# =========
+#
+# 2021-04-19
+#
+# - Removed `lifecycle()` function. You can now use the following in
+#   your roxygen documentation to inline a badge:
+#
+#    ```
+#    `r lifecycle::badge()`
+#    ```
+#
+#   This is a build-time dependency on lifecycle so there is no need
+#   to add lifecycle to Imports just to use badges. See also
+#   `?usethis::use_lifecycle()` for importing or updating the badge
+#   images in your package.
+#
+# - Soft-namespaced private objects.
 
 
 #' Signal deprecation
@@ -55,11 +74,10 @@
 #' particularly useful in testthat blocks.
 #'
 #' @noRd
-#' @seealso [lifecycle()]
 NULL
 
 signal_soft_deprecated <- function(msg, id = msg, env = rlang::caller_env(2)) {
-  msg <- lifecycle_validate_message(msg)
+  msg <- .rlang_lifecycle_validate_message(msg)
   stopifnot(
     rlang::is_string(id),
     rlang::is_environment(env)
@@ -101,7 +119,7 @@ signal_soft_deprecated <- function(msg, id = msg, env = rlang::caller_env(2)) {
 }
 
 warn_deprecated <- function(msg, id = msg) {
-  msg <- lifecycle_validate_message(msg)
+  msg <- .rlang_lifecycle_validate_message(msg)
   stopifnot(rlang::is_string(id))
 
   if (rlang::is_true(rlang::peek_option("lifecycle_disable_warnings"))) {
@@ -109,11 +127,11 @@ warn_deprecated <- function(msg, id = msg) {
   }
 
   if (!rlang::is_true(rlang::peek_option("lifecycle_repeat_warnings")) &&
-        rlang::env_has(deprecation_env, id)) {
+        rlang::env_has(.rlang_lifecycle_deprecation_env, id)) {
     return(invisible(NULL))
   }
 
-  rlang::env_poke(deprecation_env, id, TRUE);
+  rlang::env_poke(.rlang_lifecycle_deprecation_env, id, TRUE);
 
   has_colour <- function() rlang::is_installed("crayon") && crayon::has_color()
   silver <- function(x) if (has_colour()) crayon::silver(x) else x
@@ -130,10 +148,10 @@ warn_deprecated <- function(msg, id = msg) {
 
   .Signal(msg = msg)
 }
-deprecation_env <- new.env(parent = emptyenv())
+.rlang_lifecycle_deprecation_env <- new.env(parent = emptyenv())
 
 stop_defunct <- function(msg) {
-  msg <- lifecycle_validate_message(msg)
+  msg <- .rlang_lifecycle_validate_message(msg)
   err <- rlang::cnd(
     c("defunctError", "error", "condition"),
     old = NULL,
@@ -177,87 +195,9 @@ with_lifecycle_errors <- function(expr) {
   expr
 }
 
-
-#' Embed a lifecycle badge in documentation
-#'
-#' @description
-#'
-#' Use `lifecycle()` within a `Sexpr` macro to embed a
-#' [lifecycle](https://www.tidyverse.org/lifecycle/) badge in your
-#' documentation. The badge should appear first in the description:
-#'
-#' ```
-#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
-#' ```
-#'
-#' The badge appears as an image in the HTML version of the
-#' documentation. To make them available in your package, visit
-#' <https://github.com/r-lib/rlang/tree/master/man/figures> and copy
-#' all the files starting with `lifecycle-` in your `man/figures/`
-#' folder.
-#'
-#' @param stage A lifecycle stage as a string, one of:
-#'   `"experimental"`, `"maturing"`, `"stable"`, `"questioning"`,
-#'   `"archived"`, `"soft-deprecated"`, `"deprecated"`, `"defunct"`.
-#'
-#' @keywords internal
-#' @noRd
-NULL
-
-lifecycle <- function(stage) {
-  url <- paste0("https://www.tidyverse.org/lifecycle/#", stage)
-  img <- lifecycle_img(stage, url)
-
-  sprintf(
-    "\\ifelse{html}{%s}{\\strong{%s}}",
-    img,
-    upcase1(stage)
-  )
-}
-
-lifecycle_img <- function(stage, url) {
-  file <- sprintf("lifecycle-%s.svg", stage)
-  stage_alt <- upcase1(stage)
-
-  switch(stage,
-
-    experimental = ,
-    maturing = ,
-    stable = ,
-    questioning = ,
-    retired = ,
-    superseded = ,
-    archived =
-      sprintf(
-        "\\out{<a href='%s'><img src='%s' alt='%s lifecycle'></a>}",
-        url,
-        file.path("figures", file),
-        stage_alt
-      )
-   ,
-
-    `soft-deprecated` = ,
-    deprecated = ,
-    defunct =
-      sprintf(
-        "\\figure{%s}{options: alt='%s lifecycle'}",
-        file,
-        stage_alt
-      ),
-
-    rlang::abort(sprintf("Unknown lifecycle stage `%s`", stage))
-
-  )
-}
-upcase1 <- function(x) {
-  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
-  x
-}
-
-lifecycle_validate_message <- function(msg) {
+.rlang_lifecycle_validate_message <- function(msg) {
   stopifnot(rlang::is_character(msg))
   paste0(msg, collapse = "\n")
 }
-
 
 # nocov end
