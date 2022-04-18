@@ -4,17 +4,15 @@
 # https://en.wikipedia.org/wiki/Trapezoidal_rule
 # assumes x is a partition and that x & y are the same length
 auc <- function(x, y, na_rm = TRUE) {
-
   if(na_rm) {
     comp <- stats::complete.cases(x, y)
     x <- x[comp]
     y <- y[comp]
   }
 
-  # order increasing by x
-  x_order <- order(x)
-  x <- x[x_order]
-  y <- y[x_order]
+  if (is.unsorted(x, na.rm = TRUE, strictly = FALSE)) {
+    abort("`x` must already be in weakly increasing order.", .internal = TRUE)
+  }
 
   # length x = length y
   n <- length(x)

@@ -81,8 +81,9 @@ test_that("gain_capture = 2 * ROCAUC - 1", {
   # must be careful to weight appropriately in the multiclass case
   # must do (2 * ROCAUC - 1) BEFORE weighting
   roc_auc_unweighted <- yardstick:::roc_auc_multiclass(
-    hpc_f1$obs,
-    as.matrix(hpc_f1[,c("VF", "F", "M", "L")])
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[,c("VF", "F", "M", "L")]),
+    case_weights = NULL
   )
 
   truth_table <- matrix(table(hpc_f1$obs), nrow = 1)

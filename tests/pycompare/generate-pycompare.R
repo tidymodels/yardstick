@@ -369,3 +369,25 @@ py_roc_curve <- list(
   )
 )
 saveRDS(py_roc_curve, test_path("py-data", "py-roc-curve.rds"), version = 2)
+
+# ROC AUC Score
+# - For binary, sklearn expects the probability of the class with the "greater
+#   label", so if you sort c("Class1", "Class2") and take the 2nd one, you get
+#   Class2, which is what we have to provide.
+# - Neither sklearn nor yardstick support case weights in combination with the
+#   Hand Till method
+roc_auc_hpc_cv_levels <- sort(levels(hpc_cv$obs))
+roc_auc_hpc_cv_estimate <- as.matrix(dplyr::select(hpc_cv, !!!syms(roc_auc_hpc_cv_levels)))
+
+py_roc_auc <- list(
+  binary = skmetrics$roc_auc_score(two_class_example$truth, two_class_example$Class2),
+  macro = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "macro", labels = roc_auc_hpc_cv_levels, multi_class = "ovr"),
+  macro_weighted = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "weighted", labels = roc_auc_hpc_cv_levels, multi_class = "ovr"),
+  hand_till = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "macro", labels = roc_auc_hpc_cv_levels, multi_class = "ovo"),
+  case_weight = list(
+    binary = skmetrics$roc_auc_score(two_class_example$truth, two_class_example$Class2, sample_weight = weights_two_class_example),
+    macro = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "macro", labels = roc_auc_hpc_cv_levels, multi_class = "ovr", sample_weight = weights_hpc_cv),
+    macro_weighted = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "weighted", labels = roc_auc_hpc_cv_levels, multi_class = "ovr", sample_weight = weights_hpc_cv)
+  )
+)
+saveRDS(py_roc_auc, test_path("py-data", "py-roc-auc.rds"), version = 2)
