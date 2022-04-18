@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* The pROC package has been removed as a dependency (#300).
+
 * All yardstick metrics now support case weights through the `case_weights`
   argument. This also includes metric-adjacent functions like `roc_curve()`,
   `pr_curve()`, `conf_mat()`, and `metric_set()`.
