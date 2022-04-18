@@ -52,13 +52,12 @@
 #' # Now compute the average confusion matrix across all folds in
 #' # terms of the proportion of the data contained in each cell.
 #' # First get the raw cell counts per fold using the `tidy` method
-#' library(purrr)
 #' library(tidyr)
 #'
 #' cells_per_resample <- hpc_cv %>%
 #'   group_by(Resample) %>%
 #'   conf_mat(obs, pred) %>%
-#'   mutate(tidied = map(conf_mat, tidy)) %>%
+#'   mutate(tidied = lapply(conf_mat, tidy)) %>%
 #'   unnest(tidied)
 #'
 #' # Get the totals per resample
@@ -86,7 +85,6 @@
 #'
 #' autoplot(cm, type = "mosaic")
 #' autoplot(cm, type = "heatmap")
-#'
 #' @export
 conf_mat <- function(data, ...) {
   UseMethod("conf_mat")
@@ -278,7 +276,6 @@ flatten <- function(xtab) {
 #' summary(cmat, prevalence = 0.70)
 #'
 #' library(dplyr)
-#' library(purrr)
 #' library(tidyr)
 #' data("hpc_cv")
 #'
@@ -286,7 +283,7 @@ flatten <- function(xtab) {
 #' all_metrics <- hpc_cv %>%
 #'   group_by(Resample) %>%
 #'   conf_mat(obs, pred) %>%
-#'   mutate(summary_tbl = map(conf_mat, summary)) %>%
+#'   mutate(summary_tbl = lapply(conf_mat, summary)) %>%
 #'   unnest(summary_tbl)
 #'
 #' all_metrics %>%
@@ -295,8 +292,6 @@ flatten <- function(xtab) {
 #'     mean = mean(.estimate, na.rm = TRUE),
 #'     sd = sd(.estimate, na.rm = TRUE)
 #'   )
-#'
-#'
 #' @export
 summary.conf_mat <- function(object,
                              prevalence = NULL,
@@ -415,9 +410,9 @@ cm_mosaic <- function(x) {
 
   x_data <- space_fun(colSums(cm_zero), 200)
 
-  full_data_list <- purrr::map(
+  full_data_list <- lapply(
     seq_len(ncol(cm_zero)),
-    ~ space_y_fun(cm_zero, .x, x_data)
+    FUN = function(.x) space_y_fun(cm_zero, .x, x_data)
   )
 
   full_data <- dplyr::bind_rows(full_data_list)

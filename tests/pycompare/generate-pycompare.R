@@ -4,7 +4,6 @@
 # reticulate::py_install("scikit-learn") # 1.0.2 is what was downloaded
 
 library(reticulate)
-library(purrr)
 
 # Inside yardstick
 devtools::load_all()

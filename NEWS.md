@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* purrr has been removed from Suggests.
+
 * The pROC package has been removed as a dependency (#300).
 
 * All yardstick metrics now support case weights through the `case_weights`

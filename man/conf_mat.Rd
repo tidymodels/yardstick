@@ -84,13 +84,12 @@ cm
 # Now compute the average confusion matrix across all folds in
 # terms of the proportion of the data contained in each cell.
 # First get the raw cell counts per fold using the `tidy` method
-library(purrr)
 library(tidyr)
 
 cells_per_resample <- hpc_cv \%>\%
   group_by(Resample) \%>\%
   conf_mat(obs, pred) \%>\%
-  mutate(tidied = map(conf_mat, tidy)) \%>\%
+  mutate(tidied = lapply(conf_mat, tidy)) \%>\%
   unnest(tidied)
 
 # Get the totals per resample
@@ -118,7 +117,6 @@ library(ggplot2)
 
 autoplot(cm, type = "mosaic")
 autoplot(cm, type = "heatmap")
-
 }
 \seealso{
 \code{\link[=summary.conf_mat]{summary.conf_mat()}} for computing a large number of metrics from one

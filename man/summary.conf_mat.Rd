@@ -67,7 +67,6 @@ summary(cmat)
 summary(cmat, prevalence = 0.70)
 
 library(dplyr)
-library(purrr)
 library(tidyr)
 data("hpc_cv")
 
@@ -75,7 +74,7 @@ data("hpc_cv")
 all_metrics <- hpc_cv \%>\%
   group_by(Resample) \%>\%
   conf_mat(obs, pred) \%>\%
-  mutate(summary_tbl = map(conf_mat, summary)) \%>\%
+  mutate(summary_tbl = lapply(conf_mat, summary)) \%>\%
   unnest(summary_tbl)
 
 all_metrics \%>\%
@@ -84,8 +83,6 @@ all_metrics \%>\%
     mean = mean(.estimate, na.rm = TRUE),
     sd = sd(.estimate, na.rm = TRUE)
   )
-
-
 }
 \seealso{
 \code{\link[=conf_mat]{conf_mat()}}
