@@ -1,54 +1,8 @@
 # yardstick (development version)
 
-* yardstick metrics now support case weights.
-  * conf_mat
-
-  * Numeric:
-    * ccc
-    * huber_loss
-    * huber_loss_pseudo
-    * iic
-    * mae
-    * mape
-    * mase
-    * mpe
-    * msd
-    * poisson_log_loss
-    * rmse
-    * rpd
-    * rpiq
-    * rsq
-    * rsq_trad
-    * smape
-  
-  * Class: 
-    * accuracy
-    * bal_accuracy
-    * detection_prevalence
-    * f_meas
-    * j_index
-    * kap
-    * mcc
-    * npv
-    * ppv
-    * precision
-    * recall
-    * sens
-    * spec
-  
-  * Probability:
-    * average_precision
-    * classification_cost
-    * gain_capture
-    * gain_curve
-    * lift_curve
-    * mn_log_loss
-    * pr_auc
-    * pr_curve
-    * roc_auc
-    * roc_aunp
-    * roc_aunu
-    * roc_curve
+* All yardstick metrics now support case weights through the `case_weights`
+  argument. This also includes metric-adjacent functions like `roc_curve()`,
+  `pr_curve()`, `conf_mat()`, and `metric_set()`.
 
 * The `options` argument of `roc_curve()`, `roc_auc()`, `roc_aunp()`,
   `roc_aunu()`, and `metrics()` that was passed along to the pROC package is
