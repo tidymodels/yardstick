@@ -1,21 +1,14 @@
 test_that('Two class', {
-  roc_curv <- pROC::roc(
-    two_class_example$truth,
-    two_class_example$Class1,
-    levels = rev(levels(two_class_example$truth)),
-    direction = "<"
-  )
-
-  lvls <- levels(two_class_example$truth)
-  roc_val <- as.numeric(roc_curv$auc)
-
-  smooth_curv <- pROC::roc(
-    two_class_example$truth,
-    two_class_example$Class1,
-    levels = rev(levels(two_class_example$truth)),
-    direction = "<",
-    smooth = TRUE
-  )
+  # roc_curv <- pROC::roc(
+  #   two_class_example$truth,
+  #   two_class_example$Class1,
+  #   levels = rev(levels(two_class_example$truth)),
+  #   direction = "<"
+  # )
+  #
+  # lvls <- levels(two_class_example$truth)
+  # roc_val <- as.numeric(roc_curv$auc)
+  roc_val <- 0.939313857389967
 
   expect_equal(
     roc_auc(two_class_example, truth, Class1)[[".estimate"]],
@@ -93,7 +86,7 @@ test_that("`roc_auc()` hand-till method ignores levels with 0 observations with 
 
 # ------------------------------------------------------------------------------
 
-test_that("binary roc auc uses `direction = <`", {
+test_that("binary roc auc uses equivalent of pROC `direction = <`", {
   # In yardstick we do events (or cases) as the first level
   truth <- factor(c("control", "case", "case"), levels = c("case", "control"))
 
@@ -103,20 +96,20 @@ test_that("binary roc auc uses `direction = <`", {
   # our purposes of having `estimate` match the event
   estimate <- c(.8, .2, .1)
 
-  # pROC() expects levels to be in the order of control, then event.
-  auc <- pROC::auc(
-    truth,
-    estimate,
-    levels = c("control", "case"),
-    direction = "<"
-  )
-
-  auc <- as.numeric(auc)
+  # # pROC() expects levels to be in the order of control, then event.
+  # auc <- pROC::auc(
+  #   truth,
+  #   estimate,
+  #   levels = c("control", "case"),
+  #   direction = "<"
+  # )
+  # auc <- as.numeric(auc)
+  auc <- 0
 
   expect_identical(roc_auc_vec(truth, estimate), auc)
 })
 
-test_that("`direction = <` is forced when individual binary AUCs are computed (#123)", {
+test_that("equivalent of `direction = <` is forced when individual binary AUCs are computed (#123)", {
   truth <- factor(
     c(
       "c", "c", "c", "d", "d", "a", "d", "c", "a",
@@ -148,11 +141,11 @@ test_that("Multiclass ROC AUC", {
 
   expect_equal(
     roc_auc(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
-    prob_macro_metric(roc_auc_binary)
+    hpc_fold1_macro_metric(roc_auc_binary)
   )
   expect_equal(
     roc_auc(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
-    prob_macro_weighted_metric(roc_auc_binary)
+    hpc_fold1_macro_weighted_metric(roc_auc_binary)
   )
 })
 
@@ -231,6 +224,131 @@ test_that("hand till approach throws warning and returns `NaN` when only 1 level
     out <- roc_auc_vec(x, estimate, estimator = "hand_till")
   )
   expect_identical(out, NaN)
+})
+
+# ------------------------------------------------------------------------------
+
+test_that("df method - presense of case weights affects default multiclass estimator", {
+  hpc_cv$weight <- read_weights_hpc_cv()
+
+  hpc_cv_estimate_matrix <- as.matrix(hpc_cv[c("VF", "F", "M", "L")])
+
+  # Generally hand-till
+  out <- roc_auc(hpc_cv, obs, VF:L)
+  expect_identical(out$.estimator, "hand_till")
+  expect_identical(
+    out$.estimate,
+    roc_auc_vec(hpc_cv$obs, hpc_cv_estimate_matrix, estimator = "hand_till")
+  )
+
+  # Unless case weights are supplied
+  out <- roc_auc(hpc_cv, obs, VF:L, case_weights = weight)
+  expect_identical(out$.estimator, "macro")
+  expect_identical(
+    out$.estimate,
+    roc_auc_vec(hpc_cv$obs, hpc_cv_estimate_matrix, estimator = "macro", case_weights = hpc_cv$weight)
+  )
+})
+
+test_that("vec method - presense of case weights affects default multiclass estimator", {
+  hpc_cv$weight <- read_weights_hpc_cv()
+
+  hpc_cv_estimate_matrix <- as.matrix(hpc_cv[c("VF", "F", "M", "L")])
+
+  # Generally hand-till
+  expect_identical(
+    roc_auc_vec(hpc_cv$obs, hpc_cv_estimate_matrix),
+    roc_auc_vec(hpc_cv$obs, hpc_cv_estimate_matrix, estimator = "hand_till")
+  )
+
+  # Unless case weights are supplied
+  expect_identical(
+    roc_auc_vec(hpc_cv$obs, hpc_cv_estimate_matrix, case_weights = hpc_cv$weight),
+    roc_auc_vec(hpc_cv$obs, hpc_cv_estimate_matrix, estimator = "macro", case_weights = hpc_cv$weight)
+  )
+})
+
+test_that("can't use case weights and hand-till method", {
+  hpc_cv$weight <- read_weights_hpc_cv()
+
+  expect_snapshot(error = TRUE, {
+    roc_auc(hpc_cv, obs, VF:L, estimator = "hand_till", case_weights = weight)
+  })
+})
+
+# ------------------------------------------------------------------------------
+
+test_that('Two class ROC AUC matches sklearn', {
+  sklearn <- read_pydata("py-roc-auc")
+
+  expect_equal(
+    roc_auc(two_class_example, truth,  Class1)[[".estimate"]],
+    sklearn$binary
+  )
+})
+
+test_that('Two class weighted ROC AUC matches sklearn', {
+  sklearn <- read_pydata("py-roc-auc")
+
+  two_class_example$weight <- read_weights_two_class_example()
+
+  expect_equal(
+    roc_auc(two_class_example, truth,  Class1, case_weights = weight)[[".estimate"]],
+    sklearn$case_weight$binary
+  )
+})
+
+test_that('Multiclass ROC AUC matches sklearn', {
+  sklearn <- read_pydata("py-roc-auc")
+
+  expect_equal(
+    roc_auc(hpc_cv, obs, VF:L, estimator = "macro")[[".estimate"]],
+    sklearn$macro
+  )
+  expect_equal(
+    roc_auc(hpc_cv, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
+    sklearn$macro_weighted
+  )
+  expect_equal(
+    roc_auc(hpc_cv, obs, VF:L, estimator = "hand_till")[[".estimate"]],
+    sklearn$hand_till
+  )
+})
+
+test_that('Multiclass weighted ROC AUC matches sklearn', {
+  sklearn <- read_pydata("py-roc-auc")
+
+  hpc_cv$weight <- read_weights_hpc_cv()
+
+  expect_equal(
+    roc_auc(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[".estimate"]],
+    sklearn$case_weight$macro
+  )
+  expect_equal(
+    roc_auc(hpc_cv, obs, VF:L, estimator = "macro_weighted", case_weights = weight)[[".estimate"]],
+    sklearn$case_weight$macro_weighted
+  )
+
+  # No support for hand_till + case weights
+})
+
+test_that("grouped multiclass (one-vs-all) weighted example matches expanded equivalent", {
+  hpc_cv$weight <- rep(1, times = nrow(hpc_cv))
+  hpc_cv$weight[c(100, 200, 150, 2)] <- 5
+
+  hpc_cv <- dplyr::group_by(hpc_cv, Resample)
+
+  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),]
+
+  expect_identical(
+    roc_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro"),
+    roc_auc(hpc_cv_expanded, obs, VF:L, estimator = "macro")
+  )
+
+  expect_identical(
+    roc_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro_weighted"),
+    roc_auc(hpc_cv_expanded, obs, VF:L, estimator = "macro_weighted")
+  )
 })
 
 # ------------------------------------------------------------------------------

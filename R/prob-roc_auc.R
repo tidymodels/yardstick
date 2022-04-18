@@ -1,18 +1,17 @@
 #' Area under the receiver operator curve
 #'
+#' @description
 #' `roc_auc()` is a metric that computes the area under the ROC curve. See
 #' [roc_curve()] for the full curve.
 #'
-#' The underlying `direction` option in [pROC::roc()] is forced to
-#' `direction = "<"`. This computes the ROC curve assuming that the `estimate`
-#' values are the probability that the "event" occurred, which is what they
-#' are always assumed to be in yardstick.
-#'
+#' @details
 #' Generally, an ROC AUC value is between `0.5` and `1`, with `1` being a
 #' perfect prediction model. If your value is between `0` and `0.5`, then
 #' this implies that you have meaningful information in your model, but it
 #' is being applied incorrectly because doing the opposite of what the model
 #' predicts would result in an AUC `>0.5`.
+#'
+#' Note that you can't combine `estimator = "hand_till"` with `case_weights`.
 #'
 #' @family class probability metrics
 #' @templateVar metric_fn roc_auc
@@ -42,13 +41,15 @@
 #'   support for this, use the pROC package directly.
 #'
 #' @param estimator One of `"binary"`, `"hand_till"`, `"macro"`, or
-#' `"macro_weighted"` to specify the type of averaging to be done. `"binary"`
-#' is only relevant for the two class case. The others are general methods for
-#' calculating multiclass metrics. The default will automatically choose
-#' `"binary"` or `"hand_till"` based on `truth`.
+#'   `"macro_weighted"` to specify the type of averaging to be done. `"binary"`
+#'   is only relevant for the two class case. The others are general methods for
+#'   calculating multiclass metrics. The default will automatically choose
+#'   `"binary"` if `truth` is binary, `"hand_till"` if `truth` has >2 levels and
+#'   `case_weights` isn't specified, or `"macro"` if `truth` has >2 levels and
+#'   `case_weights` is specified (in which case `"hand_till"` isn't
+#'   well-defined).
 #'
 #' @references
-#'
 #' Hand, Till (2001). "A Simple Generalisation of the Area Under the
 #' ROC Curve for Multiple Class Classification Problems". _Machine Learning_.
 #' Vol 45, Iss 2, pp 171-186.
@@ -61,7 +62,6 @@
 #' New York University, NY, NY 10012.
 #'
 #' @seealso
-#'
 #' [roc_curve()] for computing the full ROC curve.
 #'
 #' @author Max Kuhn
@@ -85,12 +85,15 @@ roc_auc.data.frame <- function(data,
                                estimator = NULL,
                                na_rm = TRUE,
                                event_level = yardstick_event_level(),
+                               case_weights = NULL,
                                options = list()) {
   check_roc_options_deprecated("roc_auc", options)
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
-  metric_summarizer(
+  case_weights_quo <- enquo(case_weights)
+
+  out <- metric_summarizer(
     metric_nm = "roc_auc",
     metric_fn = roc_auc_vec,
     data = data,
@@ -98,8 +101,17 @@ roc_auc.data.frame <- function(data,
     estimate = !!estimate,
     estimator = estimator,
     na_rm = na_rm,
-    event_level = event_level
+    event_level = event_level,
+    case_weights = !!case_weights_quo
   )
+
+  out <- roc_auc_adjust_result_estimator(
+    out = out,
+    estimator = estimator,
+    case_weights_quo = case_weights_quo
+  )
+
+  out
 }
 
 #' @rdname roc_auc
@@ -109,14 +121,31 @@ roc_auc_vec <- function(truth,
                         estimator = NULL,
                         na_rm = TRUE,
                         event_level = yardstick_event_level(),
+                        case_weights = NULL,
                         options = list(),
                         ...) {
   check_roc_options_deprecated("roc_auc_vec", options)
 
-  estimator <- finalize_estimator(truth, estimator, "roc_auc")
+  estimator <- finalize_estimator_roc_auc(
+    x = truth,
+    estimator = estimator,
+    metric_class = "roc_auc",
+    case_weights = case_weights
+  )
 
-  roc_auc_impl <- function(truth, estimate) {
-    roc_auc_estimator_impl(truth, estimate, estimator, event_level)
+  roc_auc_impl <- function(truth,
+                           estimate,
+                           ...,
+                           case_weights = NULL) {
+    check_dots_empty()
+
+    roc_auc_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = estimator,
+      event_level = event_level,
+      case_weights = case_weights
+    )
   }
 
   metric_vec_template(
@@ -125,63 +154,145 @@ roc_auc_vec <- function(truth,
     estimate = estimate,
     estimator = estimator,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = c("factor", "numeric")
   )
 }
 
-roc_auc_estimator_impl <- function(truth, estimate, estimator, event_level) {
+roc_auc_estimator_impl <- function(truth,
+                                   estimate,
+                                   estimator,
+                                   event_level,
+                                   case_weights) {
   if (is_binary(estimator)) {
-    roc_auc_binary(truth, estimate, event_level)
-  }
-  else if (estimator == "hand_till") {
+    roc_auc_binary(truth, estimate, event_level, case_weights)
+  } else if (estimator == "hand_till") {
+    if (!is.null(case_weights)) {
+      abort("`case_weights` should be `NULL` at this point for hand-till.", .internal = TRUE)
+    }
+
     roc_auc_hand_till(truth, estimate)
-  }
-  else {
+  } else {
     # weights for macro / macro_weighted are based on truth frequencies
     # (this is the usual definition)
-    truth_table <- matrix(table(truth), nrow = 1)
+    truth_table <- yardstick_truth_table(truth, case_weights = case_weights)
     w <- get_weights(truth_table, estimator)
-    out_vec <- roc_auc_multiclass(truth, estimate)
+    out_vec <- roc_auc_multiclass(truth, estimate, case_weights)
     stats::weighted.mean(out_vec, w)
   }
 }
 
-roc_auc_binary <- function(truth, estimate, event_level) {
+roc_auc_binary <- function(truth,
+                           estimate,
+                           event_level,
+                           case_weights) {
   lvls <- levels(truth)
 
-  if (is_event_first(event_level)) {
+  if (!is_event_first(event_level)) {
     lvls <- rev(lvls)
   }
 
-  control <- lvls[[1]]
-  event <- lvls[[2]]
+  event <- lvls[[1]]
+  control <- lvls[[2]]
 
-  if (compute_n_occurrences(truth, control) == 0L) {
-    warn_roc_truth_no_control(control)
-    return(NA_real_)
-  }
   if (compute_n_occurrences(truth, event) == 0L) {
+    # Warn here and return `NA`.
+    # The curve computation would error and we can be slightly more forgiving.
     warn_roc_truth_no_event(event)
     return(NA_real_)
   }
+  if (compute_n_occurrences(truth, control) == 0L) {
+    # Warn here and return `NA`.
+    # The curve computation would error and we can be slightly more forgiving.
+    warn_roc_truth_no_control(control)
+    return(NA_real_)
+  }
 
-  args <- quos(
-    response = truth,
-    predictor = estimate,
-    levels = lvls,
-    quiet = TRUE,
-    direction = "<"
+  curve <- roc_curve_vec(
+    truth = truth,
+    estimate = estimate,
+    na_rm = FALSE,
+    event_level = event_level,
+    case_weights = case_weights
   )
 
-  pROC_auc <- eval_tidy(call2("auc", !!! args, .ns = "pROC"))
+  sensitivity <- curve$sensitivity
+  specificity <- curve$specificity
 
-  as.numeric(pROC_auc)
+  auc(
+    x = specificity,
+    y = sensitivity,
+    na_rm = FALSE
+  )
 }
 
-roc_auc_multiclass <- function(truth, estimate) {
-  res_lst <- one_vs_all_impl(roc_auc_binary, truth, estimate)
-  rlang::flatten_dbl(res_lst)
+roc_auc_multiclass <- function(truth,
+                               estimate,
+                               case_weights) {
+  results <- one_vs_all_case_weights(
+    metric_fn = roc_auc_binary,
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights
+  )
+
+  rlang::flatten_dbl(results)
 }
+
+# ------------------------------------------------------------------------------
+
+finalize_estimator_roc_auc <- function(x,
+                                       estimator,
+                                       metric_class,
+                                       case_weights) {
+  # This is the `roc_auc_vec()` side of the hack we have to do to go from
+  # hand_till -> macro when case weights are supplied. See
+  # `roc_auc_adjust_result_estimator()` for all of the details.
+
+  automatic_estimator <- is.null(estimator)
+
+  estimator <- finalize_estimator(
+    x = x,
+    estimator = estimator,
+    metric_class = metric_class
+  )
+
+  if (identical(estimator, "hand_till") && !is.null(case_weights)) {
+    if (automatic_estimator) {
+      # Automatically chose hand-till. Adjust automatic decision to "macro"
+      estimator <- "macro"
+    } else {
+      # Manually chose hand-till and specified case weights. Not compatible!
+      abort("Can't specify both `estimator = 'hand_till'` and `case_weights`.")
+    }
+  }
+
+  estimator
+}
+
+roc_auc_adjust_result_estimator <- function(out,
+                                            estimator,
+                                            case_weights_quo) {
+  # This is a horrible hack that we have to do to support the fact that
+  # `"hand_till"` can be chosen automatically, but doesn't support case weights.
+  # In that case, `roc_auc_vec()` will switch to `"macro"`, but we need that
+  # to propagate up into the data frame method's `.estimator` column.
+  # The alternative is to adjust `finalize_estimator()` to know about the
+  # `case_weights` just for this one metric, and that seemed like too much work.
+  automatically_chose_hand_till_but_also_used_case_weights <-
+    is.null(estimator) &&
+    !quo_is_null(case_weights_quo) &&
+    identical(out[[".estimator"]][[1]], "hand_till")
+
+  if (automatically_chose_hand_till_but_also_used_case_weights) {
+    # `roc_auc_vec()` actually "automatically" used `"macro"` weighting here
+    out[[".estimator"]] <- "macro"
+  }
+
+  out
+}
+
+# ------------------------------------------------------------------------------
 
 roc_auc_hand_till <- function(truth, estimate) {
   lvls <- levels(truth)
@@ -257,11 +368,14 @@ roc_auc_subset <- function(lvl1, lvl2, truth, estimate) {
   truth_subset <- factor(truth[subset_idx], levels = c(lvl1, lvl2))
   estimate_subset <- estimate_lvl1[subset_idx]
 
-  # Hand Till method ignores event level (like macro-average)
+  # Hand Till method ignores event level (like macro-average).
+  # As far as we know, using case weights doesn't make any sense with Hand Till.
+  # See also: https://github.com/scikit-learn/scikit-learn/pull/12789
   auc_val <- roc_auc_binary(
     truth = truth_subset,
     estimate = estimate_subset,
-    event_level = "first"
+    event_level = "first",
+    case_weights = NULL
   )
 
   auc_val

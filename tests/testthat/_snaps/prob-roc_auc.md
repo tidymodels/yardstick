@@ -76,6 +76,16 @@
       No observations were detected in `truth` for level(s): 'y', 'z'
       Computation will proceed by ignoring those levels.
 
+# can't use case weights and hand-till method
+
+    Code
+      roc_auc(hpc_cv, obs, VF:L, estimator = "hand_till", case_weights = weight)
+    Condition
+      Error in `dplyr::summarise()`:
+      ! Problem while computing `.estimate = metric_fn(...)`.
+      Caused by error in `finalize_estimator_roc_auc()`:
+      ! Can't specify both `estimator = 'hand_till'` and `case_weights`.
+
 # roc_auc() - `options` is deprecated
 
     Code

@@ -19,7 +19,6 @@
 #' @template event_first
 #'
 #' @inheritParams roc_auc
-#' @inheritParams pr_auc
 #'
 #' @return
 #' A tibble with class `roc_df` or `roc_grouped_df` having

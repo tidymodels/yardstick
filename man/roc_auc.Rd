@@ -15,6 +15,7 @@ roc_auc(data, ...)
   estimator = NULL,
   na_rm = TRUE,
   event_level = yardstick_event_level(),
+  case_weights = NULL,
   options = list()
 )
 
@@ -24,6 +25,7 @@ roc_auc_vec(
   estimator = NULL,
   na_rm = TRUE,
   event_level = yardstick_event_level(),
+  case_weights = NULL,
   options = list(),
   ...
 )
@@ -47,7 +49,10 @@ names). For \verb{_vec()} functions, a \code{factor} vector.}
 \code{"macro_weighted"} to specify the type of averaging to be done. \code{"binary"}
 is only relevant for the two class case. The others are general methods for
 calculating multiclass metrics. The default will automatically choose
-\code{"binary"} or \code{"hand_till"} based on \code{truth}.}
+\code{"binary"} if \code{truth} is binary, \code{"hand_till"} if \code{truth} has >2 levels and
+\code{case_weights} isn't specified, or \code{"macro"} if \code{truth} has >2 levels and
+\code{case_weights} is specified (in which case \code{"hand_till"} isn't
+well-defined).}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
@@ -58,6 +63,10 @@ applicable when \code{estimator = "binary"}. The default uses an
 internal helper that generally defaults to \code{"first"}, however, if the
 deprecated global option \code{yardstick.event_first} is set, that will be
 used instead with a warning.}
+
+\item{case_weights}{The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 
 \item{options}{\verb{[deprecated]}
 
@@ -86,16 +95,13 @@ For \code{roc_auc_vec()}, a single \code{numeric} value (or \code{NA}).
 \code{\link[=roc_curve]{roc_curve()}} for the full curve.
 }
 \details{
-The underlying \code{direction} option in \code{\link[pROC:roc]{pROC::roc()}} is forced to
-\code{direction = "<"}. This computes the ROC curve assuming that the \code{estimate}
-values are the probability that the "event" occurred, which is what they
-are always assumed to be in yardstick.
-
 Generally, an ROC AUC value is between \code{0.5} and \code{1}, with \code{1} being a
 perfect prediction model. If your value is between \code{0} and \code{0.5}, then
 this implies that you have meaningful information in your model, but it
 is being applied incorrectly because doing the opposite of what the model
 predicts would result in an AUC \verb{>0.5}.
+
+Note that you can't combine \code{estimator = "hand_till"} with \code{case_weights}.
 }
 \section{Relevant Level}{
 
