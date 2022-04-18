@@ -9,9 +9,16 @@ class distribution}
 \usage{
 roc_aunu(data, ...)
 
-\method{roc_aunu}{data.frame}(data, truth, ..., na_rm = TRUE, options = list())
+\method{roc_aunu}{data.frame}(data, truth, ..., na_rm = TRUE, case_weights = NULL, options = list())
 
-roc_aunu_vec(truth, estimate, na_rm = TRUE, options = list(), ...)
+roc_aunu_vec(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  options = list(),
+  ...
+)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
@@ -29,6 +36,10 @@ names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 
 \item{options}{\verb{[deprecated]}
 

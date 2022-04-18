@@ -7,6 +7,15 @@ test_that("AUNU is equivalent to macro estimator", {
   )
 })
 
+test_that("AUNU is equivalent to macro estimator with case weights", {
+  hpc_cv$weight <- read_weights_hpc_cv()
+
+  expect_equal(
+    roc_auc(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[".estimate"]],
+    roc_aunu(hpc_cv, obs, VF:L, case_weights = weight)[[".estimate"]]
+  )
+})
+
 test_that("AUNU errors on binary case", {
   expect_snapshot((expect_error(
     roc_aunu(two_class_example, truth, Class1)

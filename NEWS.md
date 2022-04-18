@@ -47,6 +47,7 @@
     * pr_curve
     * roc_auc
     * roc_aunp
+    * roc_aunu
     * roc_curve
 
 * The `options` argument of `roc_curve()`, `roc_auc()`, `roc_aunp()`,
