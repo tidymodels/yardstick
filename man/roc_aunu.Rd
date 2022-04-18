@@ -21,8 +21,8 @@ roc_aunu_vec(
 )
 }
 \arguments{
-\item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
-columns.}
+\item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
+\code{...}.}
 
 \item{...}{A set of unquoted column names or one or more \code{dplyr} selector
 functions to choose which variables contain the class probabilities. There

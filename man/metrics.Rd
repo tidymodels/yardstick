@@ -10,8 +10,8 @@ metrics(data, ...)
 \method{metrics}{data.frame}(data, truth, estimate, ..., na_rm = TRUE, options = list())
 }
 \arguments{
-\item{data}{A \code{data.frame} containing the \code{truth} and \code{estimate}
-columns and any columns specified by \code{...}.}
+\item{data}{A \code{data.frame} containing the columns specified by \code{truth},
+\code{estimate}, and \code{...}.}
 
 \item{...}{A set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the

@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* Improved on some possible ambiguity in the documentation of the `data`
+  argument for all metrics (#255).
+
 * purrr has been removed from Suggests.
 
 * The pROC package has been removed as a dependency (#300).
