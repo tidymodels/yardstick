@@ -20,3 +20,14 @@
       2 rsq    numeric_metric maximize 
       3 ccc    numeric_metric maximize 
 
+# propagates 'caused by' error message when specifying the wrong column name
+
+    Code
+      set(two_class_example, truth, Class1, estimate = predicted, case_weights = weight)
+    Condition
+      Error:
+      ! In metric: `accuracy`
+      Problem while computing `.estimate = metric_fn(...)`.
+      Caused by error:
+      ! object 'weight' not found
+

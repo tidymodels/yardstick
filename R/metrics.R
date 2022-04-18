@@ -558,7 +558,7 @@ eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
     error = function(e) {
       abort(paste0(
         "In metric: `", expr_nm, "`\n",
-        e$message
+        conditionMessage(e)
       ))
     }
   )

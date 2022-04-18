@@ -267,8 +267,8 @@ test_that("`metric_set()` gives an informative error for a single non-metric fun
   )
 })
 
-test_that("`metric_set()` works with `case_weights`", {
-  # Mock a metric that doesn't support weights yet
+test_that("all class metrics - `metric_set()` works with `case_weights`", {
+  # Mock a metric that doesn't support weights
   accuracy_no_weights <- function(data, truth, estimate, na_rm = TRUE, ...) {
     # Eat the `...` silently
     accuracy(
@@ -294,3 +294,68 @@ test_that("`metric_set()` works with `case_weights`", {
   )
 })
 
+test_that("all numeric metrics - `metric_set()` works with `case_weights`", {
+  # Mock a metric that doesn't support weights
+  rmse_no_weights <- function(data, truth, estimate, na_rm = TRUE, ...) {
+    # Eat the `...` silently
+    rmse(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na_rm = na_rm
+    )
+  }
+  rmse_no_weights <- new_numeric_metric(rmse_no_weights, "minimize")
+
+  set <- metric_set(rmse, rmse_no_weights)
+
+  solubility_test$weight <- read_weights_solubility_test()
+
+  expect <- c(
+    rmse(solubility_test, solubility, prediction, case_weights = weight)[[".estimate"]],
+    rmse(solubility_test, solubility, prediction)[[".estimate"]]
+  )
+
+  expect_identical(
+    set(solubility_test, solubility, prediction, case_weights = weight)[[".estimate"]],
+    expect
+  )
+})
+
+test_that("class and prob metrics - `metric_set()` works with `case_weights`", {
+  # Mock a metric that doesn't support weights
+  accuracy_no_weights <- function(data, truth, estimate, na_rm = TRUE, ...) {
+    # Eat the `...` silently
+    accuracy(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na_rm = na_rm
+    )
+  }
+  accuracy_no_weights <- new_class_metric(accuracy_no_weights, "maximize")
+
+  set <- metric_set(accuracy, accuracy_no_weights, roc_auc)
+
+  two_class_example$weight <- read_weights_two_class_example()
+
+  expect <- c(
+    accuracy(two_class_example, truth, predicted, case_weights = weight)[[".estimate"]],
+    accuracy(two_class_example, truth, predicted)[[".estimate"]],
+    roc_auc(two_class_example, truth, Class1, case_weights = weight)[[".estimate"]]
+  )
+
+  expect_identical(
+    set(two_class_example, truth, Class1, estimate = predicted, case_weights = weight)[[".estimate"]],
+    expect
+  )
+})
+
+test_that("propagates 'caused by' error message when specifying the wrong column name", {
+  set <- metric_set(accuracy, kap)
+
+  # There is no `weight` column!
+  expect_snapshot(error = TRUE, {
+    set(two_class_example, truth, Class1, estimate = predicted, case_weights = weight)
+  })
+})
