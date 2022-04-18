@@ -76,9 +76,16 @@ This is equivalent to <code>roc_auc(estimator = "macro_weighted")</code>.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">roc_aunp</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for data.frame</span>
-<span class="fu">roc_aunp</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">...</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">roc_aunp</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">...</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, case_weights <span class="op">=</span> <span class="cn">NULL</span>, options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">roc_aunp_vec</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+<span class="fu">roc_aunp_vec</span><span class="op">(</span>
+  <span class="va">truth</span>,
+  <span class="va">estimate</span>,
+  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
+  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
+  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
+  <span class="va">...</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -99,6 +106,10 @@ names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></dd
 <dt>na_rm</dt>
 <dd><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></dd>
+<dt>case_weights</dt>
+<dd><p>The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in <code>data</code>. For <code>_vec()</code> functions, a numeric vector.</p></dd>
 <dt>options</dt>
 <dd><p><code>[deprecated]</code></p>
 <p>No longer supported as of yardstick 1.0.0. If you pass something here it
