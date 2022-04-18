@@ -7,6 +7,15 @@ test_that("AUNP is equivalent to macro_weighted estimator", {
   )
 })
 
+test_that("AUNP is equivalent to macro_weighted estimator with case weights", {
+  hpc_cv$weight <- read_weights_hpc_cv()
+
+  expect_equal(
+    roc_auc(hpc_cv, obs, VF:L, estimator = "macro_weighted", case_weights = weight)[[".estimate"]],
+    roc_aunp(hpc_cv, obs, VF:L, case_weights = weight)[[".estimate"]]
+  )
+})
+
 test_that("AUNP errors on binary case", {
   expect_snapshot((expect_error(
     roc_aunp(two_class_example, truth, Class1)

@@ -92,6 +92,7 @@ roc_aunp.data.frame <- function(data,
                                 truth,
                                 ...,
                                 na_rm = TRUE,
+                                case_weights = NULL,
                                 options = list()) {
   check_roc_options_deprecated("roc_aunp", options)
 
@@ -105,7 +106,8 @@ roc_aunp.data.frame <- function(data,
     estimate = !!estimate,
     estimator = NULL,
     na_rm = na_rm,
-    event_level = NULL
+    event_level = NULL,
+    case_weights = !!enquo(case_weights)
   )
 }
 
@@ -114,6 +116,7 @@ roc_aunp.data.frame <- function(data,
 roc_aunp_vec <- function(truth,
                          estimate,
                          na_rm = TRUE,
+                         case_weights = NULL,
                          options = list(),
                          ...) {
   check_roc_options_deprecated("roc_aunp_vec", options)
@@ -121,13 +124,19 @@ roc_aunp_vec <- function(truth,
   estimator <- "macro_weighted"
 
   # `event_level` doesn't really matter, but we set it anyways
-  roc_aunp_impl <- function(truth, estimate) {
+  roc_aunp_impl <- function(truth,
+                            estimate,
+                            ...,
+                            case_weights = NULL) {
+    check_dots_empty()
+
     roc_auc_vec(
       truth = truth,
       estimate = estimate,
       estimator = estimator,
       na_rm = FALSE,
-      event_level = "first"
+      event_level = "first",
+      case_weights = case_weights
     )
   }
 
@@ -137,6 +146,7 @@ roc_aunp_vec <- function(truth,
     estimate = estimate,
     estimator = estimator,
     na_rm = na_rm,
+    case_weights = case_weights,
     cls = c("factor", "numeric")
   )
 }
