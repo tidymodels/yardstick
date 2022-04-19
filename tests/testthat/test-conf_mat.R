@@ -3,8 +3,7 @@ test_that('Three class format', {
   three_class <- lst$three_class
   three_class_tb <- lst$three_class_tb
 
-  # Because of case weight support, `conf_mat()` returns a matrix not a table
-  three_class_tb <- unclass(three_class_tb)
+  # Because of case weight support, `conf_mat()` returns a double table
   storage.mode(three_class_tb) <- "double"
 
   expect_identical(
@@ -134,11 +133,11 @@ test_that("case weights are supported in data frame method", {
 
   expect_identical(
     conf_mat(two_class_example, truth, predicted, case_weights = weight)$table,
-    yardstick_table(
+    as.table(yardstick_table(
       truth = two_class_example$truth,
       estimate = two_class_example$predicted,
       case_weights = two_class_example$weight
-    )
+    ))
   )
 })
 
@@ -176,6 +175,32 @@ test_that("case weights are supported in grouped-df method", {
     result$conf_mat[[1]],
     table_f1
   )
+})
+
+test_that("`conf_mat()` returns a double table with or without case weights", {
+  two_class_example$weight <- read_weights_two_class_example()
+
+  out <- conf_mat(two_class_example, truth, predicted)
+  expect_s3_class(out$table, "table")
+  expect_type(out$table, "double")
+
+  out <- conf_mat(two_class_example, truth, predicted, case_weights = weight)
+  expect_s3_class(out$table, "table")
+  expect_type(out$table, "double")
+})
+
+test_that("`as.data.frame.table()` method is run on the underlying `table` object", {
+  # Used by tune, so this test ensures we don't break that. We have to keep the
+  # underlying object as a `table`, even though it can be numeric when combined
+  # with case weights.
+
+  two_class_example$weight <- read_weights_two_class_example()
+
+  out <- conf_mat(two_class_example, truth, predicted)
+  expect_named(as.data.frame(out$table), c("Prediction", "Truth", "Freq"))
+
+  out <- conf_mat(two_class_example, truth, predicted, case_weights = weight)
+  expect_named(as.data.frame(out$table), c("Prediction", "Truth", "Freq"))
 })
 
 test_that("`...` is deprecated with a warning", {

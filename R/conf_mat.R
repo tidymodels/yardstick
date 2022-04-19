@@ -178,18 +178,11 @@ conf_mat.grouped_df <- function(data,
 
 #' @export
 conf_mat.table <- function(data, ...) {
-  # To handle case weight support, we need to treat the confusion matrix
-  # as a double matrix rather than an integer table. This converts a table
-  # to be consistent with that.
-  data <- unclass(data)
-  storage.mode(data) <- "double"
-
-  conf_mat.matrix(data)
-}
-
-#' @export
-conf_mat.matrix <- function(data, ...) {
   check_table(data)
+
+  # To ensure that we always have a consistent output type, whether or not
+  # case weights were used when constructing the table
+  storage.mode(data) <- "double"
 
   class_lev <- rownames(data)
   num_lev <- length(class_lev)
@@ -202,6 +195,15 @@ conf_mat.matrix <- function(data, ...) {
     list(table = data),
     class = "conf_mat"
   )
+}
+
+#' @export
+conf_mat.matrix <- function(data, ...) {
+  # We want the conversion from a yardstick_table() result (i.e. a double
+  # matrix) to a table to occur. tune relies on the `as.data.frame.table()`
+  # method to run, so it has to be a table.
+  data <- as.table(data)
+  conf_mat.table(data)
 }
 
 warn_conf_mat_dots_deprecated <- function() {
