@@ -68,6 +68,16 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
   )
 })
 
+test_that("can use hardhat case weights", {
+  two_class_example$weight <- read_weights_two_class_example()
+  curve1 <- roc_curve(two_class_example, truth, Class1, case_weights = weight)
+
+  two_class_example$weight <- hardhat::importance_weights(two_class_example$weight)
+  curve2 <- roc_curve(two_class_example, truth, Class1, case_weights = weight)
+
+  expect_identical(curve1, curve2)
+})
+
 # ------------------------------------------------------------------------------
 
 test_that("zero weights don't affect the curve", {

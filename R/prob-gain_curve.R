@@ -211,6 +211,7 @@ gain_curve_binary_impl <- function(truth,
   if (is.null(case_weights)) {
     case_weights <- rep(1, times = length(truth))
   }
+  case_weights <- vec_cast(case_weights, to = double())
 
   # arrange in decreasing order by class probability score
   estimate_ord <- order(estimate, decreasing = TRUE)

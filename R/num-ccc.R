@@ -92,6 +92,8 @@ ccc_impl <- function(truth,
                      case_weights = NULL) {
   check_dots_empty()
 
+  case_weights <- vec_cast(case_weights, to = double())
+
   truth_mean <- yardstick_mean(truth, case_weights = case_weights)
   estimate_mean <- yardstick_mean(estimate, case_weights = case_weights)
 
