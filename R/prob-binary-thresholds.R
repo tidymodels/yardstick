@@ -13,7 +13,7 @@ binary_threshold_curve <- function(truth,
   if (is.null(case_weights)) {
     case_weights <- rep(1, times = length(truth))
   }
-  case_weights <- as.double(case_weights)
+  case_weights <- vec_cast(case_weights, to = double())
 
   if (!is.factor(truth)) {
     abort("`truth` must be a factor.", .internal = TRUE)

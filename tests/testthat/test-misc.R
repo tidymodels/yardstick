@@ -77,6 +77,29 @@ test_that("case weights must be numeric", {
   expect_snapshot(error = TRUE, yardstick_table(x, x, case_weights = "x"))
 })
 
+test_that("works with hardhat case weights", {
+  x <- factor(c("x", "y", "x"), levels = c("x", "y"))
+  w <- hardhat::frequency_weights(c(1, 3, 5))
+
+  expect_identical(
+    yardstick_table(x, x, case_weights = w),
+    yardstick_table(x, x, case_weights = as.integer(w))
+  )
+})
+
+# ------------------------------------------------------------------------------
+# yardstick_mean()
+
+test_that("works with hardhat case weights", {
+  x <- 1:3
+  w <- hardhat::frequency_weights(c(1, 3, 5))
+
+  expect_identical(
+    yardstick_mean(x, case_weights = w),
+    2 + 4/9
+  )
+})
+
 # ------------------------------------------------------------------------------
 # yardstick_sum()
 
@@ -94,6 +117,16 @@ test_that("`na_remove` only removes NAs present in `x`", {
 
   expect_identical(yardstick_sum(x, case_weights = w), NA_real_)
   expect_identical(yardstick_sum(x, case_weights = w, na_remove = TRUE), NA_real_)
+})
+
+test_that("works with hardhat case weights", {
+  x <- 1:3
+  w <- hardhat::frequency_weights(c(1, 3, 5))
+
+  expect_identical(
+    yardstick_sum(x, case_weights = w),
+    22
+  )
 })
 
 # ------------------------------------------------------------------------------
@@ -116,6 +149,16 @@ test_that("works with input of size 0", {
   expect_identical(yardstick_sd(double()), sd(double()))
 })
 
+test_that("works with hardhat case weights", {
+  x <- 1:3
+  w <- hardhat::frequency_weights(c(1, 3, 5))
+
+  expect_identical(
+    yardstick_sd(x, case_weights = w),
+    yardstick_sd(x, case_weights = as.integer(w))
+  )
+})
+
 # ------------------------------------------------------------------------------
 # yardstick_var()
 
@@ -134,6 +177,16 @@ test_that("works with input of size 1", {
 test_that("works with input of size 0", {
   expect_identical(yardstick_var(double()), NA_real_)
   expect_identical(yardstick_var(double()), var(double()))
+})
+
+test_that("works with hardhat case weights", {
+  x <- 1:3
+  w <- hardhat::frequency_weights(c(1, 3, 5))
+
+  expect_identical(
+    yardstick_var(x, case_weights = w),
+    yardstick_var(x, case_weights = as.integer(w))
+  )
 })
 
 # ------------------------------------------------------------------------------
@@ -169,8 +222,18 @@ test_that("works with input of size 0", {
   expect_identical(yardstick_cov(double(), double()), cov(double(), double()))
 })
 
+test_that("works with hardhat case weights", {
+  x <- 1:3
+  w <- hardhat::frequency_weights(c(1, 3, 5))
+
+  expect_identical(
+    yardstick_cov(x, x, case_weights = w),
+    yardstick_cov(x, x, case_weights = as.integer(w))
+  )
+})
+
 # ------------------------------------------------------------------------------
-# yardstick_cov()
+# yardstick_cor()
 
 test_that("works with constant inputs", {
   expect_snapshot({
@@ -210,6 +273,16 @@ test_that("warns with input of size 0", {
   expect_identical(out, NA_real_)
 })
 
+test_that("works with hardhat case weights", {
+  x <- 1:3
+  w <- hardhat::frequency_weights(c(1, 3, 5))
+
+  expect_identical(
+    yardstick_cor(x, x, case_weights = w),
+    yardstick_cor(x, x, case_weights = as.integer(w))
+  )
+})
+
 # ------------------------------------------------------------------------------
 # weighted_quantile()
 
@@ -241,6 +314,16 @@ test_that("works with one value", {
 
 test_that("works with zero percentiles", {
   expect_identical(weighted_quantile(1:5, 1:5, numeric()), numeric())
+})
+
+test_that("works with hardhat case weights", {
+  x <- 1:3
+  w <- hardhat::frequency_weights(c(1, 3, 5))
+
+  expect_identical(
+    weighted_quantile(x, w, .5),
+    weighted_quantile(x, as.integer(w), .5)
+  )
 })
 
 test_that("`x` is validated", {

@@ -191,3 +191,19 @@ test_that("gain_curve() with case weights scales `.n` and `.n_events`", {
   expect_equal(grey_overlay_data$x, c(0, 2/3 * 100, 100))
   expect_equal(grey_overlay_data$y, c(0, 100, 100))
 })
+
+test_that("gain_curve() works with hardhat case weights", {
+  df <- data.frame(
+    truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
+    estimate = c(.9, .8, .7, .68, .5),
+    weight = c(2, 1, 1, 3, 2)
+  )
+
+  curve1 <- gain_curve(df, truth, estimate, case_weights = weight)
+
+  df$weight <- hardhat::frequency_weights(df$weight)
+
+  curve2 <- gain_curve(df, truth, estimate, case_weights = weight)
+
+  expect_identical(curve1, curve2)
+})

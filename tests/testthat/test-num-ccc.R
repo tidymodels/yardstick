@@ -53,3 +53,16 @@ test_that("case weights are utilized", {
   expect_true(weighted_unbiased != unweighted_unbiased)
   expect_true(weighted_unbiased != weighted_biased)
 })
+
+test_that("can use hardhat case weights", {
+  solubility_test$weights <- read_weights_solubility_test()
+  expect1 <- ccc(solubility_test, solubility, prediction, case_weights = weights, bias = TRUE)
+  expect2 <- ccc(solubility_test, solubility, prediction, case_weights = weights, bias = FALSE)
+
+  solubility_test$weights <- hardhat::importance_weights(solubility_test$weights)
+  result1 <- ccc(solubility_test, solubility, prediction, case_weights = weights, bias = TRUE)
+  result2 <- ccc(solubility_test, solubility, prediction, case_weights = weights, bias = FALSE)
+
+  expect_identical(result1, expect1)
+  expect_identical(result2, expect2)
+})

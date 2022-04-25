@@ -103,6 +103,7 @@ yardstick_mean <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
   if (is.null(case_weights)) {
     mean(x, na.rm = na_remove)
   } else {
+    case_weights <- vec_cast(case_weights, to = double())
     stats::weighted.mean(x, w = case_weights, na.rm = na_remove)
   }
 }
@@ -113,6 +114,8 @@ yardstick_sum <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
   if (is.null(case_weights)) {
     sum(x, na.rm = na_remove)
   } else {
+    case_weights <- vec_cast(case_weights, to = double())
+
     if (na_remove) {
       # Only remove `NA`s found in `x`, copies `stats::weighted.mean()`
       keep <- !is.na(x)
