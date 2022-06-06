@@ -84,28 +84,8 @@ are numeric metrics, but not with <code><a href="accuracy.html">accuracy()</a></
 metric. But <code><a href="accuracy.html">accuracy()</a></code> can be used with <code><a href="roc_auc.html">roc_auc()</a></code>.</p>
 <p>The returned metric function will have a different argument list
 depending on whether numeric metrics or a mix of class/prob metrics were
-passed in.</p><div class="sourceCode"><pre><code><span class="co"># Numeric metric set signature:</span>
-<span class="fu">fn</span><span class="op">(</span>
-  <span class="va">data</span>,
-  <span class="va">truth</span>,
-  <span class="va">estimate</span>,
-  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
-  case_weights <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># Class / prob metric set signature:</span>
-<span class="fu">fn</span><span class="op">(</span>
-  <span class="va">data</span>,
-  <span class="va">truth</span>,
-  <span class="va">...</span>,
-  <span class="va">estimate</span>,
-  estimator <span class="op">=</span> <span class="cn">NULL</span>,
-  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,
-  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,
-  case_weights <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
-
+passed in.</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
 <p>When mixing class and class prob metrics, pass in the hard predictions
 (the factor column) as the named argument <code>estimate</code>, and the soft
 predictions (the class probability columns) as bare column names or
