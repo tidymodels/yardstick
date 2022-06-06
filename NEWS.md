@@ -1,4 +1,4 @@
-# yardstick (development version)
+# yardstick 1.0.0
 
 * All yardstick metrics now support case weights through the new `case_weights`
   argument. This also includes metric-adjacent functions like `roc_curve()`,
