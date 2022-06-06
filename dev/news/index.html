@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">yardstick</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.0.9.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,16 +57,17 @@
       <small>Source: <a href="https://github.com/tidymodels/yardstick/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2"><h2 class="pkg-version" data-toc-text="development version" id="yardstick-development-version">yardstick (development version)<a class="anchor" aria-label="anchor" href="#yardstick-development-version"></a></h2></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="yardstick-development-version">yardstick (development version)<a class="anchor" aria-label="anchor" href="#yardstick-development-version"></a></h2>
-<ul><li><p>Improved on some possible ambiguity in the documentation of the <code>data</code> argument for all metrics (<a href="https://github.com/tidymodels/yardstick/issues/255" class="external-link">#255</a>).</p></li>
-<li><p>purrr has been removed from Suggests.</p></li>
-<li><p>The pROC package has been removed as a dependency (<a href="https://github.com/tidymodels/yardstick/issues/300" class="external-link">#300</a>).</p></li>
-<li><p>All yardstick metrics now support case weights through the <code>case_weights</code> argument. This also includes metric-adjacent functions like <code><a href="../reference/roc_curve.html">roc_curve()</a></code>, <code><a href="../reference/pr_curve.html">pr_curve()</a></code>, <code><a href="../reference/conf_mat.html">conf_mat()</a></code>, and <code><a href="../reference/metric_set.html">metric_set()</a></code>.</p></li>
+<h2 class="pkg-version" data-toc-text="1.0.0" id="yardstick-100">yardstick 1.0.0<a class="anchor" aria-label="anchor" href="#yardstick-100"></a></h2>
+<ul><li><p>All yardstick metrics now support case weights through the new <code>case_weights</code> argument. This also includes metric-adjacent functions like <code><a href="../reference/roc_curve.html">roc_curve()</a></code>, <code><a href="../reference/pr_curve.html">pr_curve()</a></code>, <code><a href="../reference/conf_mat.html">conf_mat()</a></code>, and <code><a href="../reference/metric_set.html">metric_set()</a></code>.</p></li>
 <li><p>The <code>options</code> argument of <code><a href="../reference/roc_curve.html">roc_curve()</a></code>, <code><a href="../reference/roc_auc.html">roc_auc()</a></code>, <code><a href="../reference/roc_aunp.html">roc_aunp()</a></code>, <code><a href="../reference/roc_aunu.html">roc_aunu()</a></code>, and <code><a href="../reference/metrics.html">metrics()</a></code> that was passed along to the pROC package is now deprecated and no longer has any affect. This is a result of changing to an ROC curve implementation that supports case weights, but does not support any of the previous options. If you need these options, we suggest wrapping pROC yourself in a custom metric (<a href="https://github.com/tidymodels/yardstick/issues/296" class="external-link">#296</a>).</p></li>
 <li><p><code><a href="../reference/conf_mat.html">conf_mat()</a></code> now ignores any inputs passed through <code>...</code> and warns if you try to do such a thing. Previously, those were passed on to <code><a href="https://rdrr.io/r/base/table.html" class="external-link">base::table()</a></code>, but with the addition of case weight support, <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code> is no longer used (<a href="https://github.com/tidymodels/yardstick/issues/295" class="external-link">#295</a>).</p></li>
 <li><p>Fixed a small mistake in <code><a href="../reference/ccc.html">ccc()</a></code> where the unbiased covariance wasn’t being used when <code>bias = FALSE</code>.</p></li>
 <li><p><code><a href="../reference/j_index.html">j_index()</a></code> now throws a more correct warning if <code>0</code> is in the denominator when computing <code><a href="../reference/sens.html">sens()</a></code> internally. Additionally, in the multiclass case it now removes the levels where this occurs from the multiclass weighted average computation, which is consistent with how other metrics were updated to handle this in <a href="https://github.com/tidymodels/yardstick/issues/118" class="external-link">#118</a> (<a href="https://github.com/tidymodels/yardstick/issues/265" class="external-link">#265</a>).</p></li>
+<li><p>Improved on some possible ambiguity in the documentation of the <code>data</code> argument for all metrics (<a href="https://github.com/tidymodels/yardstick/issues/255" class="external-link">#255</a>).</p></li>
+<li><p>purrr has been removed from Suggests.</p></li>
+<li><p>The pROC package has been removed as a dependency (<a href="https://github.com/tidymodels/yardstick/issues/300" class="external-link">#300</a>).</p></li>
 <li><p>Moved the Custom Metrics vignette to tidymodels.org (<a href="https://github.com/tidymodels/yardstick/issues/236" class="external-link">#236</a>).</p></li>
 </ul></div>
     <div class="section level2">
@@ -200,7 +201,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="other-improvements-0-0-2">Other improvements<a class="anchor" aria-label="anchor" href="#other-improvements-0-0-2"></a></h3>
-<ul><li><p>The infrastructure for creating metrics has been exposed to allow users to extend yardstick to work with their own metrics. You might want to do this if you want your metrics to work with grouped data frames out of the box, or if you want the standardization and error checking that yardstick already provides. See <code><a href="https://yardstick.tidymodels.org/articles/custom-metrics.html">vignette("custom-metrics", "yardstick")</a></code> for a few examples.</p></li>
+<ul><li><p>The infrastructure for creating metrics has been exposed to allow users to extend yardstick to work with their own metrics. You might want to do this if you want your metrics to work with grouped data frames out of the box, or if you want the standardization and error checking that yardstick already provides. See <code>vignette("custom-metrics", "yardstick")</code> for a few examples.</p></li>
 <li><p>A vignette describing the three classes of metrics used in yardstick has been added. It also includes a list of every metric available, grouped by class. See <code><a href="../articles/metric-types.html">vignette("metric-types", "yardstick")</a></code>.</p></li>
 <li><p>The error messages in yardstick should now be much more informative, with better feedback about the types of input that each metric can use and about what kinds of metrics can be used together (i.e. in <code><a href="../reference/metric_set.html">metric_set()</a></code>).</p></li>
 <li><p>There is now a <code>grouped_df</code> method for <code><a href="../reference/conf_mat.html">conf_mat()</a></code> that returns a tibble with a list column of <code>conf_mat</code> objects.</p></li>
