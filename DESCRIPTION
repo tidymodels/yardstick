@@ -17,13 +17,13 @@ BugReports: https://github.com/tidymodels/yardstick/issues
 Depends:
     R (>= 3.4.0)
 Imports:
-    dplyr (>= 1.0.8),
-    generics,
+    dplyr (>= 1.0.9),
+    generics (>= 0.1.2),
     hardhat (>= 1.0.0),
-    rlang (>= 1.0.1),
+    rlang (>= 1.0.2),
     tidyselect (>= 1.1.2),
     utils,
-    vctrs (>= 0.4.0)
+    vctrs (>= 0.4.1)
 Suggests: 
     covr,
     crayon,
