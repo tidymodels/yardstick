@@ -5,6 +5,10 @@ We checked 22 reverse dependencies, comparing R CMD check results across CRAN an
  * We saw 0 new problems
  * We failed to check 0 packages
 
+## Submission 1.0.0
+
+This major release of yardstick adds case weight support throughout the package.
+
 ## Submission 0.0.9
 
 This release is mainly to avoid any issues from the upcoming dplyr 1.0.8
