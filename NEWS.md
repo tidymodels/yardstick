@@ -1,16 +1,9 @@
-# yardstick (development version)
+# yardstick 1.0.0
 
-* Improved on some possible ambiguity in the documentation of the `data`
-  argument for all metrics (#255).
-
-* purrr has been removed from Suggests.
-
-* The pROC package has been removed as a dependency (#300).
-
-* All yardstick metrics now support case weights through the `case_weights`
+* All yardstick metrics now support case weights through the new `case_weights`
   argument. This also includes metric-adjacent functions like `roc_curve()`,
   `pr_curve()`, `conf_mat()`, and `metric_set()`.
-
+  
 * The `options` argument of `roc_curve()`, `roc_auc()`, `roc_aunp()`,
   `roc_aunu()`, and `metrics()` that was passed along to the pROC package is
   now deprecated and no longer has any affect. This is a result of changing to
@@ -31,6 +24,13 @@
   now removes the levels where this occurs from the multiclass weighted average
   computation, which is consistent with how other metrics were updated to handle
   this in #118 (#265).
+
+* Improved on some possible ambiguity in the documentation of the `data`
+  argument for all metrics (#255).
+
+* purrr has been removed from Suggests.
+
+* The pROC package has been removed as a dependency (#300).
 
 * Moved the Custom Metrics vignette to tidymodels.org (#236).
 
