@@ -555,11 +555,9 @@ eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
     expr = {
       eval_tidy(expr, data = data, env = env)
     },
-    error = function(e) {
-      abort(paste0(
-        "In metric: `", expr_nm, "`\n",
-        conditionMessage(e)
-      ))
+    error = function(cnd) {
+      message <- paste0("Failed to compute `", expr_nm, "()`.")
+      abort(message, parent = cnd, call = call("metric_set"))
     }
   )
 }
