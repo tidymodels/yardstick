@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* Improved on the chained error thrown by `metric_set()` when one of the metric
+  computations fails (#313).
+
 # yardstick 1.0.0
 
 * All yardstick metrics now support case weights through the new `case_weights`
