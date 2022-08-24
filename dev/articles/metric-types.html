@@ -14,9 +14,9 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.1/font.css" rel="stylesheet">
-<link href="../deps/_Source%20Code%20Pro-0.4.1/font.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.2/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.2/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Metric types">
@@ -87,11 +87,11 @@
 
 
 <div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Metric types</h1>
                         <h4 data-toc-skip class="author">Davis Vaughan</h4>
             
-            <h4 data-toc-skip class="date">2022-06-06</h4>
+            <h4 data-toc-skip class="date">2022-08-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/HEAD/vignettes/metric-types.Rmd" class="external-link"><code>vignettes/metric-types.Rmd</code></a></small>
       <div class="d-none name"><code>metric-types.Rmd</code></div>
@@ -132,85 +132,86 @@
 </h2>
 <p>In the following example, the <code>hpc_cv</code> data set is used. It contains class probabilities and class predictions for a linear discriminant analysis fit to the HPC data set of Kuhn and Johnson (2013). It is fit with 10 fold cross-validation, and the predictions for all folds are included.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/yardstick" class="external-link">yardstick</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hpc_cv"</span><span class="op">)</span>
-
-<span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 30 × 7</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Groups:   Resample [10]</span></span>
-<span class="co">#&gt;    obs   pred     VF      F       M          L Resample</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> VF    VF    0.914 0.077<span style="text-decoration: underline;">9</span> 0.008<span style="text-decoration: underline;">48</span> 0.000<span style="text-decoration: underline;">019</span>9  Fold01  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> VF    VF    0.938 0.057<span style="text-decoration: underline;">1</span> 0.004<span style="text-decoration: underline;">82</span> 0.000<span style="text-decoration: underline;">010</span>1  Fold01  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> VF    VF    0.947 0.049<span style="text-decoration: underline;">5</span> 0.003<span style="text-decoration: underline;">16</span> 0.000<span style="text-decoration: underline;">005</span>00 Fold01  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> VF    VF    0.941 0.054<span style="text-decoration: underline;">4</span> 0.004<span style="text-decoration: underline;">41</span> 0.000<span style="text-decoration: underline;">012</span>3  Fold02  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> VF    VF    0.948 0.048<span style="text-decoration: underline;">3</span> 0.003<span style="text-decoration: underline;">47</span> 0.000<span style="text-decoration: underline;">007</span>92 Fold02  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> VF    VF    0.958 0.039<span style="text-decoration: underline;">5</span> 0.002<span style="text-decoration: underline;">36</span> 0.000<span style="text-decoration: underline;">003</span>10 Fold02  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> VF    VF    0.939 0.055<span style="text-decoration: underline;">6</span> 0.005<span style="text-decoration: underline;">13</span> 0.000<span style="text-decoration: underline;">007</span>90 Fold03  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> VF    VF    0.928 0.064<span style="text-decoration: underline;">2</span> 0.007<span style="text-decoration: underline;">77</span> 0.000<span style="text-decoration: underline;">014</span>8  Fold03  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> VF    VF    0.927 0.065<span style="text-decoration: underline;">3</span> 0.007<span style="text-decoration: underline;">86</span> 0.000<span style="text-decoration: underline;">015</span>0  Fold03  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> VF    VF    0.949 0.046<span style="text-decoration: underline;">9</span> 0.003<span style="text-decoration: underline;">98</span> 0.000<span style="text-decoration: underline;">009</span>35 Fold04  </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 20 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/yardstick" class="external-link">yardstick</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"hpc_cv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 30 × 7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   Resample [10]</span></span></span>
+<span><span class="co">#&gt;    obs   pred     VF      F       M          L Resample</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> VF    VF    0.914 0.077<span style="text-decoration: underline;">9</span> 0.008<span style="text-decoration: underline;">48</span> 0.000<span style="text-decoration: underline;">019</span>9  Fold01  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> VF    VF    0.938 0.057<span style="text-decoration: underline;">1</span> 0.004<span style="text-decoration: underline;">82</span> 0.000<span style="text-decoration: underline;">010</span>1  Fold01  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> VF    VF    0.947 0.049<span style="text-decoration: underline;">5</span> 0.003<span style="text-decoration: underline;">16</span> 0.000<span style="text-decoration: underline;">005</span>00 Fold01  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> VF    VF    0.941 0.054<span style="text-decoration: underline;">4</span> 0.004<span style="text-decoration: underline;">41</span> 0.000<span style="text-decoration: underline;">012</span>3  Fold02  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> VF    VF    0.948 0.048<span style="text-decoration: underline;">3</span> 0.003<span style="text-decoration: underline;">47</span> 0.000<span style="text-decoration: underline;">007</span>92 Fold02  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> VF    VF    0.958 0.039<span style="text-decoration: underline;">5</span> 0.002<span style="text-decoration: underline;">36</span> 0.000<span style="text-decoration: underline;">003</span>10 Fold02  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> VF    VF    0.939 0.055<span style="text-decoration: underline;">6</span> 0.005<span style="text-decoration: underline;">13</span> 0.000<span style="text-decoration: underline;">007</span>90 Fold03  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> VF    VF    0.928 0.064<span style="text-decoration: underline;">2</span> 0.007<span style="text-decoration: underline;">77</span> 0.000<span style="text-decoration: underline;">014</span>8  Fold03  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> VF    VF    0.927 0.065<span style="text-decoration: underline;">3</span> 0.007<span style="text-decoration: underline;">86</span> 0.000<span style="text-decoration: underline;">015</span>0  Fold03  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> VF    VF    0.949 0.046<span style="text-decoration: underline;">9</span> 0.003<span style="text-decoration: underline;">98</span> 0.000<span style="text-decoration: underline;">009</span>35 Fold04  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 20 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>1 metric, 1 resample</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Resample</span> <span class="op">==</span> <span class="st">"Fold01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="va">obs</span>, <span class="va">pred</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span>
-<span class="co">#&gt;   .metric  .estimator .estimate</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> accuracy multiclass     0.726</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Resample</span> <span class="op">==</span> <span class="st">"Fold01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="va">obs</span>, <span class="va">pred</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
+<span><span class="co">#&gt;   .metric  .estimator .estimate</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> accuracy multiclass     0.726</span></span></code></pre></div>
 <p>1 metric, 10 resamples</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="va">obs</span>, <span class="va">pred</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 4</span></span>
-<span class="co">#&gt;    Resample .metric  .estimator .estimate</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Fold01   accuracy multiclass     0.726</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fold02   accuracy multiclass     0.712</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Fold03   accuracy multiclass     0.758</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Fold04   accuracy multiclass     0.712</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Fold05   accuracy multiclass     0.712</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Fold06   accuracy multiclass     0.697</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Fold07   accuracy multiclass     0.675</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Fold08   accuracy multiclass     0.721</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Fold09   accuracy multiclass     0.673</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Fold10   accuracy multiclass     0.699</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="va">obs</span>, <span class="va">pred</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 4</span></span></span>
+<span><span class="co">#&gt;    Resample .metric  .estimator .estimate</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Fold01   accuracy multiclass     0.726</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fold02   accuracy multiclass     0.712</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Fold03   accuracy multiclass     0.758</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Fold04   accuracy multiclass     0.712</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Fold05   accuracy multiclass     0.712</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Fold06   accuracy multiclass     0.697</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Fold07   accuracy multiclass     0.675</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Fold08   accuracy multiclass     0.721</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Fold09   accuracy multiclass     0.673</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Fold10   accuracy multiclass     0.699</span></span></code></pre></div>
 <p>2 metrics, 10 resamples</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">class_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metric_set.html">metric_set</a></span><span class="op">(</span><span class="va">accuracy</span>, <span class="va">kap</span><span class="op">)</span>
-
-<span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu">class_metrics</span><span class="op">(</span><span class="va">obs</span>, estimate <span class="op">=</span> <span class="va">pred</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 4</span></span>
-<span class="co">#&gt;    Resample .metric  .estimator .estimate</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Fold01   accuracy multiclass     0.726</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fold02   accuracy multiclass     0.712</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Fold03   accuracy multiclass     0.758</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Fold04   accuracy multiclass     0.712</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Fold05   accuracy multiclass     0.712</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Fold06   accuracy multiclass     0.697</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Fold07   accuracy multiclass     0.675</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Fold08   accuracy multiclass     0.721</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Fold09   accuracy multiclass     0.673</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Fold10   accuracy multiclass     0.699</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Fold01   kap      multiclass     0.533</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Fold02   kap      multiclass     0.512</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Fold03   kap      multiclass     0.594</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Fold04   kap      multiclass     0.511</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Fold05   kap      multiclass     0.514</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> Fold06   kap      multiclass     0.486</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> Fold07   kap      multiclass     0.454</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">18</span> Fold08   kap      multiclass     0.531</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">19</span> Fold09   kap      multiclass     0.454</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">20</span> Fold10   kap      multiclass     0.492</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">class_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metric_set.html">metric_set</a></span><span class="op">(</span><span class="va">accuracy</span>, <span class="va">kap</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">hpc_cv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Resample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">class_metrics</span><span class="op">(</span><span class="va">obs</span>, estimate <span class="op">=</span> <span class="va">pred</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 4</span></span></span>
+<span><span class="co">#&gt;    Resample .metric  .estimator .estimate</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Fold01   accuracy multiclass     0.726</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Fold02   accuracy multiclass     0.712</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Fold03   accuracy multiclass     0.758</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Fold04   accuracy multiclass     0.712</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Fold05   accuracy multiclass     0.712</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Fold06   accuracy multiclass     0.697</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Fold07   accuracy multiclass     0.675</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Fold08   accuracy multiclass     0.721</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Fold09   accuracy multiclass     0.673</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Fold10   accuracy multiclass     0.699</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Fold01   kap      multiclass     0.533</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Fold02   kap      multiclass     0.512</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Fold03   kap      multiclass     0.594</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Fold04   kap      multiclass     0.511</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Fold05   kap      multiclass     0.514</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> Fold06   kap      multiclass     0.486</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> Fold07   kap      multiclass     0.454</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> Fold08   kap      multiclass     0.531</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> Fold09   kap      multiclass     0.454</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> Fold10   kap      multiclass     0.492</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="metrics">Metrics<a class="anchor" aria-label="anchor" href="#metrics"></a>
@@ -556,7 +557,7 @@ numeric
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
   </div></footer>
