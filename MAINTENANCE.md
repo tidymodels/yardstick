@@ -42,6 +42,11 @@ There are a few issues where this high cognitive overhead comes into play, makin
 
 -   <https://github.com/tidymodels/yardstick/issues/251>
 
+The complexity of `validate_truth_estimate_checks()` could be reduced by instead creating a few `check_*()` helpers that we force the metric writers to call themselves.
+If we provide useful ones, then they would just call them in their `metric_vec()` function themselves and we'd avoid the double dispatch altogether because they'd be in charge of calling the correct `check_*()` function based on the type of `truth` and `estimate` that their metric works with.
+Something like `check_factor_truth_factor_estimate(truth, estimate)`.
+That would probably help with #305.
+
 ## Future directions
 
 -   We'd like to officially hard deprecate support for `yardstick.event_first`, a global option that has been soft deprecated for awhile in favor of an explicit `event_level` argument.
@@ -51,6 +56,9 @@ There are a few issues where this high cognitive overhead comes into play, makin
 
 -   A number of people seem interested in calibration metrics and calibration curves.
     This might be combined with the probably package in some way <https://github.com/tidymodels/yardstick/issues/150>.
+
+-   Fairness metrics seem fairly popular and might fit in yardstick, but we don't have a clear sense of how they'd be implemented.
+    <https://github.com/tidymodels/yardstick/issues/176>
 
 -   We know that we want to add survival metrics to yardstick at some point.
     There is a POC pull request that adds some of the basic infrastructure, but it isn't fully fleshed out <https://github.com/tidymodels/yardstick/pull/222>.
