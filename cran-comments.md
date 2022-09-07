@@ -1,3 +1,7 @@
+## Submission 1.1.0
+
+This minor release of yardstick changes the maintainer from Davis to Emil.
+
 ## Submission 1.0.0
 
 This major release of yardstick adds case weight support throughout the package.
