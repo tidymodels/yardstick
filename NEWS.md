@@ -1,3 +1,5 @@
+# yardstick (development version)
+
 # yardstick 1.1.0
 
 * Emil Hvitfeldt is now the maintainer (#315).

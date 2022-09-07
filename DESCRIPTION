@@ -1,7 +1,7 @@
 Type: Package
 Package: yardstick
 Title: Tidy Characterizations of Model Performance
-Version: 1.1.0
+Version: 1.1.0.9000
 Authors@R: c(
     person("Max", "Kuhn", , "max@rstudio.com", role = "aut"),
     person("Davis", "Vaughan", , "davis@rstudio.com", role = "aut"),
