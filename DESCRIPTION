@@ -4,7 +4,9 @@ Title: Tidy Characterizations of Model Performance
 Version: 1.0.0.9000
 Authors@R: c(
     person("Max", "Kuhn", , "max@rstudio.com", role = "aut"),
-    person("Davis", "Vaughan", , "davis@rstudio.com", role = c("aut", "cre")),
+    person("Davis", "Vaughan", , "davis@rstudio.com", role = "aut"),
+    person("Emil", "Hvitfeldt", , "emil.hvitfeldt@rstudio.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-0679-1945")),
     person("RStudio", role = c("cph", "fnd"))
   )
 Description: Tidy tools for quantifying how well model fits to a data set
