@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* Emil Hvitfeldt is now the maintainer (#315).
+
 * Improved on the chained error thrown by `metric_set()` when one of the metric
   computations fails (#313).
 

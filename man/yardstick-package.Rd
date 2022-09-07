@@ -20,11 +20,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Davis Vaughan \email{davis@rstudio.com}
+\strong{Maintainer}: Emil Hvitfeldt \email{emil.hvitfeldt@rstudio.com} (\href{https://orcid.org/0000-0002-0679-1945}{ORCID})
 
 Authors:
 \itemize{
   \item Max Kuhn \email{max@rstudio.com}
+  \item Davis Vaughan \email{davis@rstudio.com}
 }
 
 Other contributors:
