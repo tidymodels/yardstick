@@ -108,7 +108,8 @@ metric_summarizer <- function(metric_nm,
     )
   )
 
-  dplyr::as_tibble(metric_tbl)
+  dplyr::as_tibble(metric_tbl) %>%
+    dplyr::mutate(.parameters = replicate(dplyr::n(), dplyr::tibble()))
 }
 
 #' Developer function for calling new metrics

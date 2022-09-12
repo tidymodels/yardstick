@@ -35,7 +35,7 @@ test_that('Three class', {
   )
   expect_equal(
     colnames(accuracy(three_class, truth = "obs", estimate = "pred")),
-    c(".metric", ".estimator", ".estimate")
+    c(".metric", ".estimator", ".estimate", ".parameters")
   )
   expect_equal(
     accuracy(three_class, truth = "obs", estimate = "pred")[[".metric"]],

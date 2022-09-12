@@ -41,7 +41,7 @@ test_that('Three class', {
   )
   expect_equal(
     colnames(kap(three_class, truth = "obs", estimate = "pred")),
-    c(".metric", ".estimator", ".estimate")
+    c(".metric", ".estimator", ".estimate", ".parameters")
   )
   expect_equal(
     kap(three_class, truth = "obs", estimate = "pred")[[".metric"]],
