@@ -1,0 +1,156 @@
+# yardstick modifications for censored data metrics
+
+**Champion**: Max Kuhn  
+**Co-champion**: Hannah Frick, Emil Hvitfeldt  
+**Status**: Proposal  
+
+## Abstract
+
+Censored regression models have an added dimension to their analysis. To compute model performance, some metrics require the specification of _analysis times_ (a.k.a. time prediction horizons). Thgesr are chosen by the user and depend on the data and the context of their application. For example, if 5- and 10-year cancer-free survival are clinically important quantities, the model's performance should be evaluated on how well it predicts at the 5 and 10 year marks. 
+
+This requires some changes in tidymodels, specifically yardstick performance metrics. 
+
+## Motivation
+
+With censored time-to-event data, there are performance metrics that are _dynamic_ in nature; one or more time points for the analysis must be specified. For example, the [Brier score](https://en.wikipedia.org/wiki/Brier_score) for [censored data](https://arxiv.org/abs/1912.08581) uses survivor probability predictions at specific time points. Users will typically want dynamic metrics computed at multiple points in time. 
+
+The results of a yardstick function or metrics set currently contain three columns: `.metric` (character), `.estimator` (double), and `.estimate` (double). There is no available slot for ancillary information, such as the time-of-analysis. We will suggest how to include this information into metric results.
+
+
+## Solution
+
+(Notation: in the discussion here, the vector of time points for the dynamic analyses will be denoted as `.time`.) 
+
+As background, there is some relevant discussions in the [tidymodels planning docs](https://github.com/tidymodels/planning/tree/main/survival-analysis) as well as the [yardstick maintainence documentation](https://github.com/tidymodels/yardstick/blob/main/MAINTENANCE.md). 
+
+### Potential solutions
+
+
+There were a few different proposals to alter the results of the metric results. 
+
+1. Add a new list column called `.parameters` to contain `.time` as well as any other information need for future metrics. 
+
+* Good: Using a general contain for future metrics adds some future-proofing. Keeps the structure of existing columns as-is.
+* Bad: Adding a new column changes the nature of the tibble and there the values in the `.metric` column are no longer unique.  
+
+
+2. Save the `.time` information as an attribute to the resulting tibble.
+
+* Good: No changes to columns in the tibble.
+* Bad: Attributes are not a good place to store data. Attributes are disconnected to the row order. Attributes are easily stripped out of objects. Values in the `.metric` column are no longer unique.  
+
+3. Make each result for a dynamic metric return a tibble with a column for `.time` and `.estimate`. The yardstick metric set results would then have its `.estimate` column made into a list column of tibbles.
+
+* Good: No new columns. Keeps the "one metric per row" structure of the tibble. Easily unnested. Some existing precedent in lists of tibbles in tidymodels (e.g. `multi_predict()`)
+* Bad: Different column types for different metrics. 
+
+### Proposed Solution
+
+The third option is the proposed solution with the caveat that only metrics associated with the censored regression mode.
+
+For example, the standard structure for classification and regression results: 
+
+```{r}
+#| include: false
+library(tidymodels)
+```
+```{r}
+library(tidymodels)
+
+tidymodels_prefer()
+options(pillar.advice = FALSE)
+
+reg_metrics <- metric_set(rmse, rsq, ccc)
+reg_metrics(solubility_test, truth = solubility, estimate = prediction)
+```
+
+As a mock-up of the new results, suppose that a static survival metric is used (`"surv_concordance"`) with a dynamic metric ("`surv_brier"`) used at time points 10, 20, and 30. The _metric set_ results would be: 
+
+```{r}
+#| echo: false
+surv_ex <- tribble(
+  ~.metric, ~.estimator,
+  "surv_concordance", "standard",
+  "surv_brier", "standard"
+) %>% 
+  mutate(.estimate = map(1:2, ~ list()))
+
+surv_ex$.estimate[[1]] <- tibble(.time = NA, .estimate = 0.5)
+surv_ex$.estimate[[2]] <- tibble(.time = c(10, 20, 30), .estimate = runif(3))
+surv_ex
+```
+
+The tibble corresponding to the row for concordance has a missing time point: 
+
+```{r}
+#| echo: false
+surv_ex$.estimate[[1]]
+```
+
+and the Brier score tibble has three rows: 
+
+```{r,}
+#| echo: false
+surv_ex$.estimate[[2]]
+```
+
+The list column of tibbles would only occur when the model mode is "censored regression". Since a metric set cannot mix metrics from different modes, the column will be type stable (conditional on the mode). 
+
+### Scope
+
+There very well might be other situations in the future where there are additional parameters (similar to `.time`). We believe that a list column approach may be used to address these issues. 
+
+Two potential uses are: 
+
+* For some spatial metrics, additional _data_ must be attached to compute additional metrics. The documentation for the [waywiser](https://github.com/mikemahoney218/waywiser) package shows an example where spatial geometry data is returned  to calculate spatial weights.
+
+* There is a tidymodels proposal to compute model characterization values to optionally return with performance metrics. For example, for a simple decision tree, we might return the number of terminal nodes, the number of predictors used in the splits, and the names of these predictors. While the first two quantities are scalars, the last is a vector of predictor names.
+
+It is possible that the approach listed above could accommodate situations such as these. 
+
+
+## Other issues issues around dynamic metrics
+
+While not part of the proposed changes discussed here, there are some other consequences of dynamic performance metrics worth mentioning.
+
+First, how would users specify time points when creating a metric set? Suppose that `surv_brier()` has an additional argument for `.time` that can take a vector of time values so that the function is invoked as: 
+
+```{r}
+#| eval: false
+predicted_values %>% 
+  surv_brier(surv_obj, .pred_survival, .time = c(10, 20, 30))
+```
+
+To use this in a metric set, [`metric_tweak()`](https://yardstick.tidymodels.org/reference/metric_tweak.html) would be used:
+
+```{r}
+#| eval: false
+
+surv_metrics <- 
+  metric_set(
+    surv_concordance,
+    metric_tweak("surv_brier", surv_brier, .time = c(10, 20, 30))
+  )
+```
+
+Second, if a user is tuning a censored regression model, how will they specify the metric to use for optimization? 
+
+For _post hoc_ selection of optimal parameters, we propose creating a function for censored regression that emulates the api of `select_best()`:
+
+```{r}
+#| eval: false
+select_best_at_time <- function(x, metric, .time, ...) {
+  # Used only when mode == "censored regression"
+  # Subsets on the metric/time combination to return
+}
+```
+
+Also, some tools such as Bayesian optimization, simulated annealing, and racing need to analyze a specific metric during tuning. The current approach is to use the _first_ metric specified in the metric set. This would also be the case for dynamic metrics although, if a dynamic metric is listed first, the first given value of `.time` is used. To have Bayesian optimization use the Brier score at time 20, the metric set would be
+
+```{r}
+#| eval: false
+metric_set(
+  metric_tweak("surv_brier", surv_brier, .time = c(20, 10, 30)),
+  surv_concordance
+)
+```
