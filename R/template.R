@@ -111,6 +111,34 @@ metric_summarizer <- function(metric_nm,
   dplyr::as_tibble(metric_tbl)
 }
 
+#' Developer function for summarizing new numeric metrics
+#'
+#' `metric_summarizer_numeric()` is useful alongside [metric_vec_template()] for
+#' implementing new custom metrics. `metric_summarizer_numeric()` calls the
+#' metric function inside `dplyr::summarise()`. `metric_vec_template()` is a
+#' generalized function that calls the core implementation of a metric function,
+#' and includes a number of checks on the types, lengths, and argument inputs.
+#' See [Custom performance
+#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
+#' information.
+#'
+#' @details
+#'
+#' `metric_summarizer_numeric()` is generally called from the data frame version
+#' of your metric function. It knows how to call your metric over grouped data
+#' frames and returns a `tibble` consistent with other metrics.
+#'
+#'
+#' @inheritParams metric_summarizer
+#' @param metric_nm A single character representing the name of the metric to
+#' use in the `tibble` output.
+#'
+#' @param estimate Generally, the unquoted column name corresponding to
+#' the `estimate` column.
+#'
+#' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
+#'
+#' @export
 metric_summarizer_numeric <- function(metric_nm,
                                       metric_fn,
                                       data,
@@ -120,7 +148,6 @@ metric_summarizer_numeric <- function(metric_nm,
                                       case_weights = NULL,
                                       ...,
                                       metric_fn_options = list()) {
-  browser()
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
