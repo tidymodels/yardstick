@@ -137,6 +137,7 @@ metric_summarizer <- function(metric_nm,
 #' the `estimate` column.
 #'
 #' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
+#'   [metric_summarizer_class()]
 #'
 #' @export
 metric_summarizer_numeric <- function(metric_nm,
@@ -180,7 +181,40 @@ metric_summarizer_numeric <- function(metric_nm,
   dplyr::as_tibble(metric_tbl)
 }
 
-
+#' Developer function for summarizing new class metrics
+#'
+#' `metric_summarizer_class()` is useful alongside [metric_vec_template()] for
+#' implementing new custom metrics. `metric_summarizer_class()` calls the metric
+#' function inside `dplyr::summarise()`. `metric_vec_template()` is a
+#' generalized function that calls the core implementation of a metric function,
+#' and includes a number of checks on the types, lengths, and argument inputs.
+#' See [Custom performance
+#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
+#' information.
+#'
+#' @details
+#'
+#' `metric_summarizer_class()` is generally called from the data frame version
+#' of your metric function. It knows how to call your metric over grouped data
+#' frames and returns a `tibble` consistent with other metrics.
+#'
+#' @inheritParams metric_summarizer
+#' @param estimate Generally, the unquoted column name corresponding to
+#' the `estimate` column.
+#'
+#' @param estimator This can either be `NULL` for the default auto-selection of
+#' averaging (`"binary"` or `"macro"`), or a single character to pass along
+#' to the metric implementation describing the kind of averaging to use.
+#'
+#' @param event_level For classification metrics, this can either be `NULL` to
+#' use the default `event_level` value of the `metric_fn` or a single string
+#' of either `"first"` or `"second"` to pass along describing which level
+#' should be considered the "event".
+#'
+#' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
+#'   [metric_summarizer_numeric()]
+#'
+#' @export
 metric_summarizer_class <- function(metric_nm,
                                     metric_fn,
                                     data,
