@@ -73,7 +73,7 @@ kap.data.frame  <- function(data,
                             case_weights = NULL,
                             ...) {
 
-  metric_summarizer(
+  metric_summarizer_class(
     metric_nm = "kap",
     metric_fn = kap_vec,
     data = data,

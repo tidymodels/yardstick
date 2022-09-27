@@ -55,7 +55,7 @@ ppv.data.frame <- function(data,
                            case_weights = NULL,
                            event_level = yardstick_event_level(),
                            ...) {
-  metric_summarizer(
+  metric_summarizer_class(
     metric_nm = "ppv",
     metric_fn = ppv_vec,
     data = data,

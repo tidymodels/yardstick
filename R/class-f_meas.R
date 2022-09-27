@@ -57,7 +57,7 @@ f_meas.data.frame <- function(data,
                               case_weights = NULL,
                               event_level = yardstick_event_level(),
                               ...) {
-  metric_summarizer(
+  metric_summarizer_class(
     metric_nm = "f_meas",
     metric_fn = f_meas_vec,
     data = data,

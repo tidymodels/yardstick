@@ -50,7 +50,7 @@ accuracy.data.frame <- function(data,
                                 na_rm = TRUE,
                                 case_weights = NULL,
                                 ...) {
-  metric_summarizer(
+  metric_summarizer_class(
     metric_nm = "accuracy",
     metric_fn = accuracy_vec,
     data = data,

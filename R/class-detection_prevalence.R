@@ -34,7 +34,7 @@ detection_prevalence.data.frame <- function(data,
                                             case_weights = NULL,
                                             event_level = yardstick_event_level(),
                                             ...) {
-  metric_summarizer(
+  metric_summarizer_class(
     metric_nm = "detection_prevalence",
     metric_fn = detection_prevalence_vec,
     data = data,

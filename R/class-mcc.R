@@ -53,7 +53,7 @@ mcc.data.frame <- function(data,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  metric_summarizer(
+  metric_summarizer_class(
     metric_nm = "mcc",
     metric_fn = mcc_vec,
     data = data,

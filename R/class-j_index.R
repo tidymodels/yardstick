@@ -55,7 +55,7 @@ j_index.data.frame <- function(data,
                                case_weights = NULL,
                                event_level = yardstick_event_level(),
                                ...) {
-  metric_summarizer(
+  metric_summarizer_class(
     metric_nm = "j_index",
     metric_fn = j_index_vec,
     data = data,
