@@ -111,6 +111,48 @@ metric_summarizer <- function(metric_nm,
   dplyr::as_tibble(metric_tbl)
 }
 
+metric_summarizer_numeric <- function(metric_nm,
+                                      metric_fn,
+                                      data,
+                                      truth,
+                                      estimate,
+                                      na_rm = TRUE,
+                                      case_weights = NULL,
+                                      ...,
+                                      metric_fn_options = list()) {
+  browser()
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+  case_weights <- enquo(case_weights)
+
+  validate_not_missing(truth, "truth")
+  validate_not_missing(estimate, "estimate")
+
+  # Explicit handling of length 1 character vectors as column names
+  nms <- colnames(data)
+  truth <- handle_chr_names(truth, nms)
+  estimate <- handle_chr_names(estimate, nms)
+
+  finalize_estimator_expr <- rlang::expr(
+    finalize_estimator(!! truth, metric_class = metric_nm)
+  )
+
+  metric_tbl <- dplyr::summarise(
+    data,
+    .metric = metric_nm,
+    .estimator = eval_tidy(finalize_estimator_expr),
+    .estimate = metric_fn(
+      truth = !! truth,
+      estimate = !! estimate,
+      na_rm = na_rm,
+      !!! spliceable_case_weights(case_weights),
+      !!! metric_fn_options
+    )
+  )
+
+  dplyr::as_tibble(metric_tbl)
+}
+
 #' Developer function for calling new metrics
 #'
 #' `metric_vec_template()` is useful alongside [metric_summarizer()] for
