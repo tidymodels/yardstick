@@ -1,13 +1,8 @@
 #' Developer function for summarizing new metrics
 #'
-#' `metric_summarizer()` is useful alongside [metric_vec_template()] for
-#' implementing new custom metrics. `metric_summarizer()` calls the metric
-#' function inside `dplyr::summarise()`. `metric_vec_template()` is a
-#' generalized function that calls the core implementation of a metric function,
-#' and includes a number of checks on the types, lengths, and argument inputs.
-#' See [Custom performance
-#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
-#' information.
+#' `metric_summarizer()` has been soft-deprecated. Please switch to use
+#' [metric_summarizer_class()], [metric_summarizer_numeric()], or
+#' [metric_summarizer_prob()].
 #'
 #' @details
 #'
@@ -77,6 +72,12 @@ metric_summarizer <- function(metric_nm,
                               case_weights = NULL,
                               ...,
                               metric_fn_options = list()) {
+  signal_soft_deprecated(
+    paste(
+      "`metric_summarizer()` has been soft-deprecated as of version 1.2.0.",
+      "Please see `?metric_summarizer()` for further instructions."
+      )
+  )
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)

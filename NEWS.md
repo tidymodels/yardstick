@@ -1,5 +1,9 @@
 # yardstick (development version)
 
+* `metric_summarizer()` is being soft deprecated in favor of the more specific
+  newly added `metric_summarizer_class()`, `metric_summarizer_numeric()`, and
+  `metric_summarizer_prob()`.
+
 # yardstick 1.1.0
 
 * Emil Hvitfeldt is now the maintainer (#315).

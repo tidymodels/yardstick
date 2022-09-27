@@ -67,13 +67,9 @@ are spliced into the metric function call using \verb{!!!} from \code{rlang}. Th
 default results in nothing being spliced into the call.}
 }
 \description{
-\code{metric_summarizer()} is useful alongside \code{\link[=metric_vec_template]{metric_vec_template()}} for
-implementing new custom metrics. \code{metric_summarizer()} calls the metric
-function inside \code{dplyr::summarise()}. \code{metric_vec_template()} is a
-generalized function that calls the core implementation of a metric function,
-and includes a number of checks on the types, lengths, and argument inputs.
-See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
-information.
+\code{metric_summarizer()} has been soft-deprecated. Please switch to use
+\code{\link[=metric_summarizer_class]{metric_summarizer_class()}}, \code{\link[=metric_summarizer_numeric]{metric_summarizer_numeric()}}, or
+\code{\link[=metric_summarizer_prob]{metric_summarizer_prob()}}.
 }
 \details{
 \code{metric_summarizer()} is generally called from the data frame version
