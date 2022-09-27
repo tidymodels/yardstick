@@ -93,7 +93,7 @@ roc_auc.data.frame <- function(data,
 
   case_weights_quo <- enquo(case_weights)
 
-  out <- metric_summarizer(
+  out <- metric_summarizer_prob(
     metric_nm = "roc_auc",
     metric_fn = roc_auc_vec,
     data = data,

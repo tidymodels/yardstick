@@ -98,7 +98,7 @@ roc_aunu.data.frame  <- function(data,
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
-  metric_summarizer(
+  metric_summarizer_prob(
     metric_nm = "roc_aunu",
     metric_fn = roc_aunu_vec,
     data = data,

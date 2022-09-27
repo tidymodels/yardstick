@@ -65,7 +65,7 @@ gain_capture.data.frame <- function(data,
                                     case_weights = NULL) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
-  metric_summarizer(
+  metric_summarizer_prob(
     metric_nm = "gain_capture",
     metric_fn = gain_capture_vec,
     data = data,

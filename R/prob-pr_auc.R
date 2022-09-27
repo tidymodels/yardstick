@@ -60,7 +60,7 @@ pr_auc.data.frame  <- function(data,
                                case_weights = NULL) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
-  metric_summarizer(
+  metric_summarizer_prob(
     metric_nm = "pr_auc",
     metric_fn = pr_auc_vec,
     data = data,

@@ -80,7 +80,7 @@ roc_curve.data.frame <- function(data,
 
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
-  result <- metric_summarizer(
+  result <- metric_summarizer_prob(
     metric_nm = "roc_curve",
     metric_fn = roc_curve_vec,
     data = data,

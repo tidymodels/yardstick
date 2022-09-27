@@ -68,7 +68,7 @@ average_precision.data.frame <- function(data,
                                          case_weights = NULL) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
-  metric_summarizer(
+  metric_summarizer_prob(
     metric_nm = "average_precision",
     metric_fn = average_precision_vec,
     data = data,
