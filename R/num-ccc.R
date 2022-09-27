@@ -52,7 +52,7 @@ ccc.data.frame <- function(data,
                            case_weights = NULL,
                            ...) {
 
-  metric_summarizer(
+  metric_summarizer_numeric(
     metric_nm = "ccc",
     metric_fn = ccc_vec,
     data = data,

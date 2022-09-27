@@ -35,7 +35,7 @@ smape.data.frame <- function(data,
                              na_rm = TRUE,
                              case_weights = NULL,
                              ...) {
-  metric_summarizer(
+  metric_summarizer_numeric(
     metric_nm = "smape",
     metric_fn = smape_vec,
     data = data,
