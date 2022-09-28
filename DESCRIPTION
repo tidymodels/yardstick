@@ -22,7 +22,7 @@ Imports:
     dplyr (>= 1.0.9),
     generics (>= 0.1.2),
     hardhat (>= 1.0.0),
-    rlang (>= 1.0.2),
+    rlang (>= 1.0.6),
     tidyselect (>= 1.1.2),
     utils,
     vctrs (>= 0.4.1)
