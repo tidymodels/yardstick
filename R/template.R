@@ -1,6 +1,6 @@
 #' Developer function for summarizing new metrics
 #'
-#' `metric_summarizer()` has been soft-deprecated. Please switch to use
+#' `metric_summarizer()` has been soft-deprecated as of yardstick 1.2.0. Please switch to use
 #' [metric_summarizer_class()], [metric_summarizer_numeric()], or
 #' [metric_summarizer_prob()].
 #'
