@@ -61,7 +61,7 @@ recall.data.frame <- function(data,
                               event_level = yardstick_event_level(),
                               ...) {
 
-  metric_summarizer_class(
+  class_metric_summarizer(
     metric_nm = "recall",
     metric_fn = recall_vec,
     data = data,

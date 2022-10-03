@@ -35,7 +35,7 @@ mape.data.frame <- function(data,
                             na_rm = TRUE,
                             case_weights = NULL,
                             ...) {
-  metric_summarizer_numeric(
+  numeric_metric_summarizer(
     metric_nm = "mape",
     metric_fn = mape_vec,
     data = data,

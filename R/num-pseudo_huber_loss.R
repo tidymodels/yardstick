@@ -40,7 +40,7 @@ huber_loss_pseudo.data.frame <- function(data,
                                          na_rm = TRUE,
                                          case_weights = NULL,
                                          ...) {
-  metric_summarizer_numeric(
+  numeric_metric_summarizer(
     metric_nm = "huber_loss_pseudo",
     metric_fn = huber_loss_pseudo_vec,
     data = data,

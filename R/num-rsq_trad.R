@@ -53,7 +53,7 @@ rsq_trad.data.frame <- function(data,
                                 na_rm = TRUE,
                                 case_weights = NULL,
                                 ...) {
-  metric_summarizer_numeric(
+  numeric_metric_summarizer(
     metric_nm = "rsq_trad",
     metric_fn = rsq_trad_vec,
     data = data,

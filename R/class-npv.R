@@ -49,7 +49,7 @@ npv.data.frame <- function(data,
                            case_weights = NULL,
                            event_level = yardstick_event_level(),
                            ...) {
-  metric_summarizer_class(
+  class_metric_summarizer(
     metric_nm = "npv",
     metric_fn = npv_vec,
     data = data,

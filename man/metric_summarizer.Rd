@@ -68,8 +68,8 @@ default results in nothing being spliced into the call.}
 }
 \description{
 \code{metric_summarizer()} has been soft-deprecated as of yardstick 1.2.0. Please switch to use
-\code{\link[=metric_summarizer_class]{metric_summarizer_class()}}, \code{\link[=metric_summarizer_numeric]{metric_summarizer_numeric()}}, or
-\code{\link[=metric_summarizer_prob]{metric_summarizer_prob()}}.
+\code{\link[=class_metric_summarizer]{class_metric_summarizer()}}, \code{\link[=numeric_metric_summarizer]{numeric_metric_summarizer()}}, or
+\code{\link[=prob_metric_summarizer]{prob_metric_summarizer()}}.
 }
 \details{
 \code{metric_summarizer()} is generally called from the data frame version

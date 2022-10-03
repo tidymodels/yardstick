@@ -1,8 +1,8 @@
 #' Developer function for summarizing new metrics
 #'
 #' `metric_summarizer()` has been soft-deprecated as of yardstick 1.2.0. Please switch to use
-#' [metric_summarizer_class()], [metric_summarizer_numeric()], or
-#' [metric_summarizer_prob()].
+#' [class_metric_summarizer()], [numeric_metric_summarizer()], or
+#' [prob_metric_summarizer()].
 #'
 #' @details
 #'
@@ -115,8 +115,8 @@ metric_summarizer <- function(metric_nm,
 
 #' Developer function for summarizing new numeric metrics
 #'
-#' `metric_summarizer_numeric()` is useful alongside [metric_vec_template()] for
-#' implementing new custom metrics. `metric_summarizer_numeric()` calls the
+#' `numeric_metric_summarizer()` is useful alongside [metric_vec_template()] for
+#' implementing new custom metrics. `numeric_metric_summarizer()` calls the
 #' metric function inside `dplyr::summarise()`. `metric_vec_template()` is a
 #' generalized function that calls the core implementation of a metric function,
 #' and includes a number of checks on the types, lengths, and argument inputs.
@@ -126,7 +126,7 @@ metric_summarizer <- function(metric_nm,
 #'
 #' @details
 #'
-#' `metric_summarizer_numeric()` is generally called from the data frame version
+#' `numeric_metric_summarizer()` is generally called from the data frame version
 #' of your metric function. It knows how to call your metric over grouped data
 #' frames and returns a `tibble` consistent with other metrics.
 #'
@@ -139,10 +139,10 @@ metric_summarizer <- function(metric_nm,
 #' the `estimate` column.
 #'
 #' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
-#'   [metric_summarizer_class()] [metric_summarizer_prob()]
+#'   [class_metric_summarizer()] [prob_metric_summarizer()]
 #'
 #' @export
-metric_summarizer_numeric <- function(metric_nm,
+numeric_metric_summarizer <- function(metric_nm,
                                       metric_fn,
                                       data,
                                       truth,
@@ -185,8 +185,8 @@ metric_summarizer_numeric <- function(metric_nm,
 
 #' Developer function for summarizing new class metrics
 #'
-#' `metric_summarizer_class()` is useful alongside [metric_vec_template()] for
-#' implementing new custom metrics. `metric_summarizer_class()` calls the metric
+#' `class_metric_summarizer()` is useful alongside [metric_vec_template()] for
+#' implementing new custom metrics. `class_metric_summarizer()` calls the metric
 #' function inside `dplyr::summarise()`. `metric_vec_template()` is a
 #' generalized function that calls the core implementation of a metric function,
 #' and includes a number of checks on the types, lengths, and argument inputs.
@@ -196,7 +196,7 @@ metric_summarizer_numeric <- function(metric_nm,
 #'
 #' @details
 #'
-#' `metric_summarizer_class()` is generally called from the data frame version
+#' `class_metric_summarizer()` is generally called from the data frame version
 #' of your metric function. It knows how to call your metric over grouped data
 #' frames and returns a `tibble` consistent with other metrics.
 #'
@@ -214,10 +214,10 @@ metric_summarizer_numeric <- function(metric_nm,
 #' "event".
 #'
 #' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
-#'   [metric_summarizer_numeric()] [metric_summarizer_prob()]
+#'   [numeric_metric_summarizer()] [prob_metric_summarizer()]
 #'
 #' @export
-metric_summarizer_class <- function(metric_nm,
+class_metric_summarizer <- function(metric_nm,
                                     metric_fn,
                                     data,
                                     truth,
@@ -264,8 +264,8 @@ metric_summarizer_class <- function(metric_nm,
 
 #' Developer function for summarizing new class probability metrics
 #'
-#' `metric_summarizer_prob()` is useful alongside [metric_vec_template()] for
-#' implementing new custom metrics. `metric_summarizer_prob()` calls the metric
+#' `prob_metric_summarizer()` is useful alongside [metric_vec_template()] for
+#' implementing new custom metrics. `prob_metric_summarizer()` calls the metric
 #' function inside `dplyr::summarise()`. `metric_vec_template()` is a
 #' generalized function that calls the core implementation of a metric function,
 #' and includes a number of checks on the types, lengths, and argument inputs.
@@ -275,7 +275,7 @@ metric_summarizer_class <- function(metric_nm,
 #'
 #' @details
 #'
-#' `metric_summarizer_prob()` is generally called from the data frame version
+#' `prob_metric_summarizer()` is generally called from the data frame version
 #' of your metric function. It knows how to call your metric over grouped data
 #' frames and returns a `tibble` consistent with other metrics.
 #'
@@ -298,9 +298,9 @@ metric_summarizer_class <- function(metric_nm,
 #' considered the "event".
 #'
 #' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
-#'. [metric_summarizer_class()] [metric_summarizer_numeric()]
+#'. [class_metric_summarizer()] [numeric_metric_summarizer()]
 #' @export
-metric_summarizer_prob <- function(metric_nm,
+prob_metric_summarizer <- function(metric_nm,
                                    metric_fn,
                                    data,
                                    truth,

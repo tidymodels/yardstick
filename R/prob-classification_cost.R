@@ -119,7 +119,7 @@ classification_cost.data.frame <- function(data,
                                            case_weights = NULL) {
    estimate <- dots_to_estimate(data, !!!enquos(...))
 
-   metric_summarizer_prob(
+   prob_metric_summarizer(
       metric_nm = "classification_cost",
       metric_fn = classification_cost_vec,
       data = data,

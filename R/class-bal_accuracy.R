@@ -34,7 +34,7 @@ bal_accuracy.data.frame <- function(data,
                                     event_level = yardstick_event_level(),
                                     ...) {
 
-  metric_summarizer_class(
+  class_metric_summarizer(
     metric_nm = "bal_accuracy",
     metric_fn = bal_accuracy_vec,
     data = data,

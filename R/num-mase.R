@@ -65,7 +65,7 @@ mase.data.frame <- function(data,
                             na_rm = TRUE,
                             case_weights = NULL,
                             ...) {
-  metric_summarizer_numeric(
+  numeric_metric_summarizer(
     metric_nm = "mase",
     metric_fn = mase_vec,
     data = data,

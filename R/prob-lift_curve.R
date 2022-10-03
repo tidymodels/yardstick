@@ -100,7 +100,7 @@ lift_curve.data.frame <- function(data,
                                   case_weights = NULL) {
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
-  result <- metric_summarizer_prob(
+  result <- prob_metric_summarizer(
     metric_nm = "lift_curve",
     metric_fn = lift_curve_vec,
     data = data,
