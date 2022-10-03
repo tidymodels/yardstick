@@ -67,7 +67,7 @@ are spliced into the metric function call using \verb{!!!} from \code{rlang}. Th
 default results in nothing being spliced into the call.}
 }
 \description{
-\code{metric_summarizer()} has been soft-deprecated. Please switch to use
+\code{metric_summarizer()} has been soft-deprecated as of yardstick 1.2.0. Please switch to use
 \code{\link[=metric_summarizer_class]{metric_summarizer_class()}}, \code{\link[=metric_summarizer_numeric]{metric_summarizer_numeric()}}, or
 \code{\link[=metric_summarizer_prob]{metric_summarizer_prob()}}.
 }
