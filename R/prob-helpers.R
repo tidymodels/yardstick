@@ -33,9 +33,9 @@ auc <- function(x, y, na_rm = TRUE) {
 #' Developer helpers
 #'
 #' Helpers to be used alongside [metric_vec_template()] and
-#' [metric_summarizer()] when creating new metrics. See [Custom performance
-#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
-#' information.
+#' [class_metric_summarizer()] when creating new metrics. See [Custom
+#' performance metrics](https://www.tidymodels.org/learn/develop/metrics/) for
+#' more information.
 #'
 #' @section Dots -> Estimate:
 #'

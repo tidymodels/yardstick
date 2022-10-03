@@ -49,8 +49,8 @@ this if your classification estimator does not support all of these methods.}
 }
 \description{
 Helpers to be used alongside \code{\link[=metric_vec_template]{metric_vec_template()}} and
-\code{\link[=metric_summarizer]{metric_summarizer()}} when creating new metrics. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
-information.
+\code{\link[=class_metric_summarizer]{class_metric_summarizer()}} when creating new metrics. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for
+more information.
 }
 \section{Weight Calculation}{
 
@@ -118,5 +118,5 @@ is of the right format and is one of the allowed values.
 }
 
 \seealso{
-\code{\link[=metric_summarizer]{metric_summarizer()}} \code{\link[=metric_vec_template]{metric_vec_template()}}
+\code{\link[=class_metric_summarizer]{class_metric_summarizer()}} \code{\link[=metric_vec_template]{metric_vec_template()}}
 }
