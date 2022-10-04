@@ -5,6 +5,6 @@
         truth = mpg, estimate = disp, na_rm = TRUE, case_weights = NULL)
     Condition
       Warning:
-      `metric_summarizer()` has been soft-deprecated as of version 1.2.0. Please see `?metric_summarizer()` for further instructions.
-      This warning is displayed once per session.
+      `metric_summarizer()` was deprecated in yardstick 1.2.0.
+      Please use `numeric_metric_summarizer()`, `class_metric_summarizer()`, or `prob_metric_summarizer()` instead.
 

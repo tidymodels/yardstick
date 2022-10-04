@@ -67,6 +67,10 @@ are spliced into the metric function call using \verb{!!!} from \code{rlang}. Th
 default results in nothing being spliced into the call.}
 }
 \description{
+#' @description
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 \code{metric_summarizer()} has been soft-deprecated as of yardstick 1.2.0. Please
 switch to use \code{\link[=class_metric_summarizer]{class_metric_summarizer()}}, \code{\link[=numeric_metric_summarizer]{numeric_metric_summarizer()}}, or
 \code{\link[=prob_metric_summarizer]{prob_metric_summarizer()}}.

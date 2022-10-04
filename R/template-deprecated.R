@@ -1,5 +1,8 @@
 #' Developer function for summarizing new metrics
 #'
+#'#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
 #' `metric_summarizer()` has been soft-deprecated as of yardstick 1.2.0. Please
 #' switch to use [class_metric_summarizer()], [numeric_metric_summarizer()], or
 #' [prob_metric_summarizer()].
@@ -66,11 +69,10 @@ metric_summarizer <- function(metric_nm,
                               case_weights = NULL,
                               ...,
                               metric_fn_options = list()) {
-  signal_soft_deprecated(
-    paste(
-      "`metric_summarizer()` has been soft-deprecated as of version 1.2.0.",
-      "Please see `?metric_summarizer()` for further instructions."
-    )
+  lifecycle::deprecate_soft(
+    when = "1.2.0",
+    what = "metric_summarizer()",
+    with = I("`numeric_metric_summarizer()`, `class_metric_summarizer()`, or `prob_metric_summarizer()`")
   )
   truth <- enquo(truth)
   estimate <- enquo(estimate)
