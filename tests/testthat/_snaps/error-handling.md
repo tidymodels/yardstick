@@ -49,7 +49,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimator = eval_tidy(finalize_estimator_expr)`.
+      ! Problem while computing `.estimator = finalize_estimator(pathology, estimator, name)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be one of: "binary", "macro", "micro", "macro_weighted". Not "blah".
 
@@ -71,7 +71,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimator = eval_tidy(finalize_estimator_expr)`.
+      ! Problem while computing `.estimator = finalize_estimator(obs, estimator, name)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be a character, not a numeric.
 
@@ -82,7 +82,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimator = eval_tidy(finalize_estimator_expr)`.
+      ! Problem while computing `.estimator = finalize_estimator(obs, estimator, name)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be length 1, not 2.
 

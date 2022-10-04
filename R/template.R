@@ -88,14 +88,10 @@ class_metric_summarizer <- function(name,
   truth <- handle_chr_names(truth, nms)
   estimate <- handle_chr_names(estimate, nms)
 
-  finalize_estimator_expr <- rlang::expr(
-    finalize_estimator(!! truth, estimator, name)
-  )
-
   metric_tbl <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = eval_tidy(finalize_estimator_expr),
+    .estimator = finalize_estimator(!! truth, estimator, name),
     .estimate = fn(
       truth = !! truth,
       estimate = !! estimate,
@@ -134,14 +130,10 @@ numeric_metric_summarizer <- function(name,
   truth <- handle_chr_names(truth, nms)
   estimate <- handle_chr_names(estimate, nms)
 
-  finalize_estimator_expr <- rlang::expr(
-    finalize_estimator(!! truth, metric_class = name)
-  )
-
   metric_tbl <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = eval_tidy(finalize_estimator_expr),
+    .estimator = finalize_estimator(!! truth, metric_class = name),
     .estimate = fn(
       truth = !! truth,
       estimate = !! estimate,
@@ -180,14 +172,10 @@ prob_metric_summarizer <- function(name,
   truth <- handle_chr_names(truth, nms)
   estimate <- handle_chr_names(estimate, nms)
 
-  finalize_estimator_expr <- rlang::expr(
-    finalize_estimator(!! truth, estimator, name)
-  )
-
   metric_tbl <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = eval_tidy(finalize_estimator_expr),
+    .estimator = finalize_estimator(!! truth, estimator, name),
     .estimate = fn(
       truth = !! truth,
       estimate = !! estimate,
