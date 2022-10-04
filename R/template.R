@@ -1,106 +1,69 @@
-#' Developer function for summarizing new numeric metrics
+#' Developer function for summarizing new metrics
 #'
-#' `numeric_metric_summarizer()` is useful alongside [metric_vec_template()] for
-#' implementing new custom metrics. `numeric_metric_summarizer()` calls the
-#' metric function inside `dplyr::summarise()`. `metric_vec_template()` is a
-#' generalized function that calls the core implementation of a metric function,
-#' and includes a number of checks on the types, lengths, and argument inputs.
+#' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
+#' `prob_metric_summarizer()` are useful alongside [metric_vec_template()] for
+#' implementing new custom metrics. These functions calls the metric function
+#' inside `dplyr::summarise()`. `metric_vec_template()` is a generalized
+#' function that calls the core implementation of a metric function, and
+#' includes a number of checks on the types, lengths, and argument inputs.
 #' See [Custom performance
 #' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
 #' information.
 #'
 #' @details
 #'
-#' `numeric_metric_summarizer()` is generally called from the data frame version
+#' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
+#' `prob_metric_summarizer()` are generally called from the data frame version
 #' of your metric function. It knows how to call your metric over grouped data
 #' frames and returns a `tibble` consistent with other metrics.
 #'
 #'
-#' @inheritParams metric_summarizer
 #' @param metric_nm A single character representing the name of the metric to
-#' use in the `tibble` output.
+#' use in the `tibble` output. This will be modified to include the type
+#' of averaging if appropriate.
+#'
+#' @param metric_fn The vector version of your custom metric function. It
+#' generally takes `truth`, `estimate`, `na_rm`, and any other extra arguments
+#' needed to calculate the metric.
+#'
+#' @param data The data frame with `truth` and `estimate` columns passed
+#' in from the data frame version of your metric function that called
+#' `numeric_metric_summarizer()`, `class_metric_summarizer()`, or
+#' `prob_metric_summarizer()`
+#'
+#' @param truth The unquoted column name corresponding to the `truth` column.
 #'
 #' @param estimate Generally, the unquoted column name corresponding to
-#' the `estimate` column.
-#'
-#' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
-#'   [class_metric_summarizer()] [prob_metric_summarizer()]
-#'
-#' @export
-numeric_metric_summarizer <- function(metric_nm,
-                                      metric_fn,
-                                      data,
-                                      truth,
-                                      estimate,
-                                      na_rm = TRUE,
-                                      case_weights = NULL,
-                                      ...,
-                                      metric_fn_options = list()) {
-  truth <- enquo(truth)
-  estimate <- enquo(estimate)
-  case_weights <- enquo(case_weights)
-
-  validate_not_missing(truth, "truth")
-  validate_not_missing(estimate, "estimate")
-
-  # Explicit handling of length 1 character vectors as column names
-  nms <- colnames(data)
-  truth <- handle_chr_names(truth, nms)
-  estimate <- handle_chr_names(estimate, nms)
-
-  finalize_estimator_expr <- rlang::expr(
-    finalize_estimator(!! truth, metric_class = metric_nm)
-  )
-
-  metric_tbl <- dplyr::summarise(
-    data,
-    .metric = metric_nm,
-    .estimator = eval_tidy(finalize_estimator_expr),
-    .estimate = metric_fn(
-      truth = !! truth,
-      estimate = !! estimate,
-      na_rm = na_rm,
-      !!! spliceable_case_weights(case_weights),
-      !!! metric_fn_options
-    )
-  )
-
-  dplyr::as_tibble(metric_tbl)
-}
-
-#' Developer function for summarizing new class metrics
-#'
-#' `class_metric_summarizer()` is useful alongside [metric_vec_template()] for
-#' implementing new custom metrics. `class_metric_summarizer()` calls the metric
-#' function inside `dplyr::summarise()`. `metric_vec_template()` is a
-#' generalized function that calls the core implementation of a metric function,
-#' and includes a number of checks on the types, lengths, and argument inputs.
-#' See [Custom performance
-#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
-#' information.
-#'
-#' @details
-#'
-#' `class_metric_summarizer()` is generally called from the data frame version
-#' of your metric function. It knows how to call your metric over grouped data
-#' frames and returns a `tibble` consistent with other metrics.
-#'
-#' @inheritParams metric_summarizer
-#' @param estimate Generally, the unquoted column name corresponding to
-#' the `estimate` column.
+#' the `estimate` column. For metrics that take multiple columns through `...`
+#' like class probability metrics, this is a result of [dots_to_estimate()].
 #'
 #' @param estimator This can either be `NULL` for the default auto-selection of
-#' averaging (`"binary"` or `"macro"`), or a single character to pass along
-#' to the metric implementation describing the kind of averaging to use.
+#' averaging (`"binary"` or `"macro"`), or a single character to pass along to
+#' the metric implementation describing the kind of averaging to use.
+#'
+#' @param na_rm A `logical` value indicating whether `NA` values should be
+#' stripped before the computation proceeds. The removal is executed in
+#' `metric_vec_template()`.
 #'
 #' @param event_level This can either be `NULL` to use the default `event_level`
-#' value of the `metric_fn` or a single string of either `"first"` or
-#' `"second"` to pass along describing which level should be considered the
-#' "event".
+#' value of the `metric_fn` or a single string of either `"first"` or `"second"`
+#' to pass along describing which level should be considered the `"event"`.
+#'
+#' @param case_weights For metrics supporting case weights, an unquoted
+#' column name corresponding to case weights can be passed here. If not `NULL`,
+#' the case weights will be passed on to `metric_fn` as the named argument
+#' `case_weights`.
+#'
+#' @param ... Currently not used. Metric specific options are passed in
+#' through `metric_fn_options`.
+#'
+#' @param metric_fn_options A named list of metric specific options. These
+#' are spliced into the metric function call using `!!!` from `rlang`. The
+#' default results in nothing being spliced into the call.
 #'
 #' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
-#'   [numeric_metric_summarizer()] [prob_metric_summarizer()]
 #'
+#' @keywords internal
 #' @export
 class_metric_summarizer <- function(metric_nm,
                                     metric_fn,
@@ -147,43 +110,52 @@ class_metric_summarizer <- function(metric_nm,
   dplyr::as_tibble(metric_tbl)
 }
 
-#' Developer function for summarizing new class probability metrics
-#'
-#' `prob_metric_summarizer()` is useful alongside [metric_vec_template()] for
-#' implementing new custom metrics. `prob_metric_summarizer()` calls the metric
-#' function inside `dplyr::summarise()`. `metric_vec_template()` is a
-#' generalized function that calls the core implementation of a metric function,
-#' and includes a number of checks on the types, lengths, and argument inputs.
-#' See [Custom performance
-#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
-#' information.
-#'
-#' @details
-#'
-#' `prob_metric_summarizer()` is generally called from the data frame version
-#' of your metric function. It knows how to call your metric over grouped data
-#' frames and returns a `tibble` consistent with other metrics.
-#'
-#' @inheritParams metric_summarizer
-#' @param metric_nm A single character representing the name of the metric to
-#' use in the `tibble` output. This will be modified to include the type
-#' of averaging if appropriate.
-#'
-#' @param estimate Generally, the unquoted column name corresponding to the
-#' `estimate` column. For metrics that take multiple columns through `...`
-#' this is a result of [dots_to_estimate()].
-#'
-#' @param estimator This can either be `NULL` for the default auto-selection of
-#' averaging (`"binary"` or `"macro"`), or a single character to pass along
-#' to the metric implementation describing the kind of averaging to use.
-#'
-#' @param event_level This can either be `NULL` to use the default
-#' `event_level` value of the `metric_fn` or a single string of either
-#' `"first"` or `"second"` to pass along describing which level should be
-#' considered the "event".
-#'
-#' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
-#'. [class_metric_summarizer()] [numeric_metric_summarizer()]
+#' @rdname class_metric_summarizer
+#' @keywords internal
+#' @export
+numeric_metric_summarizer <- function(metric_nm,
+                                      metric_fn,
+                                      data,
+                                      truth,
+                                      estimate,
+                                      na_rm = TRUE,
+                                      case_weights = NULL,
+                                      ...,
+                                      metric_fn_options = list()) {
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+  case_weights <- enquo(case_weights)
+
+  validate_not_missing(truth, "truth")
+  validate_not_missing(estimate, "estimate")
+
+  # Explicit handling of length 1 character vectors as column names
+  nms <- colnames(data)
+  truth <- handle_chr_names(truth, nms)
+  estimate <- handle_chr_names(estimate, nms)
+
+  finalize_estimator_expr <- rlang::expr(
+    finalize_estimator(!! truth, metric_class = metric_nm)
+  )
+
+  metric_tbl <- dplyr::summarise(
+    data,
+    .metric = metric_nm,
+    .estimator = eval_tidy(finalize_estimator_expr),
+    .estimate = metric_fn(
+      truth = !! truth,
+      estimate = !! estimate,
+      na_rm = na_rm,
+      !!! spliceable_case_weights(case_weights),
+      !!! metric_fn_options
+    )
+  )
+
+  dplyr::as_tibble(metric_tbl)
+}
+
+#' @rdname class_metric_summarizer
+#' @keywords internal
 #' @export
 prob_metric_summarizer <- function(metric_nm,
                                    metric_fn,

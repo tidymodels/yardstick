@@ -2,9 +2,37 @@
 % Please edit documentation in R/template.R
 \name{class_metric_summarizer}
 \alias{class_metric_summarizer}
-\title{Developer function for summarizing new class metrics}
+\alias{numeric_metric_summarizer}
+\alias{prob_metric_summarizer}
+\title{Developer function for summarizing new metrics}
 \usage{
 class_metric_summarizer(
+  metric_nm,
+  metric_fn,
+  data,
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = NULL,
+  case_weights = NULL,
+  ...,
+  metric_fn_options = list()
+)
+
+numeric_metric_summarizer(
+  metric_nm,
+  metric_fn,
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...,
+  metric_fn_options = list()
+)
+
+prob_metric_summarizer(
   metric_nm,
   metric_fn,
   data,
@@ -29,25 +57,26 @@ needed to calculate the metric.}
 
 \item{data}{The data frame with \code{truth} and \code{estimate} columns passed
 in from the data frame version of your metric function that called
-\code{metric_summarizer()}.}
+\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, or
+\code{prob_metric_summarizer()}}
 
 \item{truth}{The unquoted column name corresponding to the \code{truth} column.}
 
 \item{estimate}{Generally, the unquoted column name corresponding to
-the \code{estimate} column.}
+the \code{estimate} column. For metrics that take multiple columns through \code{...}
+like class probability metrics, this is a result of \code{\link[=dots_to_estimate]{dots_to_estimate()}}.}
 
 \item{estimator}{This can either be \code{NULL} for the default auto-selection of
-averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along
-to the metric implementation describing the kind of averaging to use.}
+averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along to
+the metric implementation describing the kind of averaging to use.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA} values should be
 stripped before the computation proceeds. The removal is executed in
 \code{metric_vec_template()}.}
 
 \item{event_level}{This can either be \code{NULL} to use the default \code{event_level}
-value of the \code{metric_fn} or a single string of either \code{"first"} or
-\code{"second"} to pass along describing which level should be considered the
-"event".}
+value of the \code{metric_fn} or a single string of either \code{"first"} or \code{"second"}
+to pass along describing which level should be considered the \code{"event"}.}
 
 \item{case_weights}{For metrics supporting case weights, an unquoted
 column name corresponding to case weights can be passed here. If not \code{NULL},
@@ -62,20 +91,22 @@ are spliced into the metric function call using \verb{!!!} from \code{rlang}. Th
 default results in nothing being spliced into the call.}
 }
 \description{
-\code{class_metric_summarizer()} is useful alongside \code{\link[=metric_vec_template]{metric_vec_template()}} for
-implementing new custom metrics. \code{class_metric_summarizer()} calls the metric
-function inside \code{dplyr::summarise()}. \code{metric_vec_template()} is a
-generalized function that calls the core implementation of a metric function,
-and includes a number of checks on the types, lengths, and argument inputs.
+\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and
+\code{prob_metric_summarizer()} are useful alongside \code{\link[=metric_vec_template]{metric_vec_template()}} for
+implementing new custom metrics. These functions calls the metric function
+inside \code{dplyr::summarise()}. \code{metric_vec_template()} is a generalized
+function that calls the core implementation of a metric function, and
+includes a number of checks on the types, lengths, and argument inputs.
 See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
 information.
 }
 \details{
-\code{class_metric_summarizer()} is generally called from the data frame version
+\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and
+\code{prob_metric_summarizer()} are generally called from the data frame version
 of your metric function. It knows how to call your metric over grouped data
 frames and returns a \code{tibble} consistent with other metrics.
 }
 \seealso{
 \code{\link[=metric_vec_template]{metric_vec_template()}} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
-\code{\link[=numeric_metric_summarizer]{numeric_metric_summarizer()}} \code{\link[=prob_metric_summarizer]{prob_metric_summarizer()}}
 }
+\keyword{internal}
