@@ -12,11 +12,11 @@ class_metric_summarizer(
   data,
   truth,
   estimate,
+  ...,
   estimator = NULL,
   na_rm = TRUE,
   event_level = NULL,
   case_weights = NULL,
-  ...,
   metric_fn_options = list()
 )
 
@@ -26,9 +26,9 @@ numeric_metric_summarizer(
   data,
   truth,
   estimate,
+  ...,
   na_rm = TRUE,
   case_weights = NULL,
-  ...,
   metric_fn_options = list()
 )
 
@@ -38,11 +38,11 @@ prob_metric_summarizer(
   data,
   truth,
   estimate,
+  ...,
   estimator = NULL,
   na_rm = TRUE,
   event_level = NULL,
   case_weights = NULL,
-  ...,
   metric_fn_options = list()
 )
 }
@@ -66,6 +66,8 @@ in from the data frame version of your metric function that called
 the \code{estimate} column. For metrics that take multiple columns through \code{...}
 like class probability metrics, this is a result of \code{\link[=dots_to_estimate]{dots_to_estimate()}}.}
 
+\item{...}{These dots are for future extensions and must be empty.}
+
 \item{estimator}{This can either be \code{NULL} for the default auto-selection of
 averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along to
 the metric implementation describing the kind of averaging to use.}
@@ -82,9 +84,6 @@ to pass along describing which level should be considered the \code{"event"}.}
 column name corresponding to case weights can be passed here. If not \code{NULL},
 the case weights will be passed on to \code{metric_fn} as the named argument
 \code{case_weights}.}
-
-\item{...}{Currently not used. Metric specific options are passed in
-through \code{metric_fn_options}.}
 
 \item{metric_fn_options}{A named list of metric specific options. These
 are spliced into the metric function call using \verb{!!!} from \code{rlang}. The

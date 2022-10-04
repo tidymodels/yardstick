@@ -37,6 +37,8 @@
 #' the `estimate` column. For metrics that take multiple columns through `...`
 #' like class probability metrics, this is a result of [dots_to_estimate()].
 #'
+#' @inheritParams rlang::args_dots_empty
+#'
 #' @param estimator This can either be `NULL` for the default auto-selection of
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along to
 #' the metric implementation describing the kind of averaging to use.
@@ -54,8 +56,6 @@
 #' the case weights will be passed on to `metric_fn` as the named argument
 #' `case_weights`.
 #'
-#' @param ... Currently not used. Metric specific options are passed in
-#' through `metric_fn_options`.
 #'
 #' @param metric_fn_options A named list of metric specific options. These
 #' are spliced into the metric function call using `!!!` from `rlang`. The
@@ -68,12 +68,14 @@ class_metric_summarizer <- function(metric_nm,
                                     data,
                                     truth,
                                     estimate,
+                                    ...,
                                     estimator = NULL,
                                     na_rm = TRUE,
                                     event_level = NULL,
                                     case_weights = NULL,
-                                    ...,
                                     metric_fn_options = list()) {
+  rlang::check_dots_empty()
+
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
@@ -116,9 +118,9 @@ numeric_metric_summarizer <- function(metric_nm,
                                       data,
                                       truth,
                                       estimate,
+                                      ...,
                                       na_rm = TRUE,
                                       case_weights = NULL,
-                                      ...,
                                       metric_fn_options = list()) {
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -160,11 +162,11 @@ prob_metric_summarizer <- function(metric_nm,
                                    data,
                                    truth,
                                    estimate,
+                                   ...,
                                    estimator = NULL,
                                    na_rm = TRUE,
                                    event_level = NULL,
                                    case_weights = NULL,
-                                   ...,
                                    metric_fn_options = list()) {
   truth <- enquo(truth)
   estimate <- enquo(estimate)
