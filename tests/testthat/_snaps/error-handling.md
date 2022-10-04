@@ -143,3 +143,19 @@
       Caused by error in `multiclass_checks.matrix()`:
       ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (1).
 
+# Missing arguments
+
+    Code
+      sens(two_class_example)
+    Condition
+      Error in `handle_chr_names()`:
+      ! argument "x_expr" is missing, with no default
+
+---
+
+    Code
+      sens(two_class_example, truth)
+    Condition
+      Error in `handle_chr_names()`:
+      ! argument "x_expr" is missing, with no default
+

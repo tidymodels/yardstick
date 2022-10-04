@@ -80,9 +80,6 @@ class_metric_summarizer <- function(name,
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
 
-  validate_not_missing(truth, "truth")
-  validate_not_missing(estimate, "estimate")
-
   # Explicit handling of length 1 character vectors as column names
   nms <- colnames(data)
   truth <- handle_chr_names(truth, nms)
@@ -122,9 +119,6 @@ numeric_metric_summarizer <- function(name,
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
 
-  validate_not_missing(truth, "truth")
-  validate_not_missing(estimate, "estimate")
-
   # Explicit handling of length 1 character vectors as column names
   nms <- colnames(data)
   truth <- handle_chr_names(truth, nms)
@@ -163,9 +157,6 @@ prob_metric_summarizer <- function(name,
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
-
-  validate_not_missing(truth, "truth")
-  validate_not_missing(estimate, "estimate")
 
   # Explicit handling of length 1 character vectors as column names
   nms <- colnames(data)

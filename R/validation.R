@@ -204,17 +204,6 @@ validate_truth_estimate_checks <- function(truth, estimate,
   validate_truth_estimate_lengths(truth, estimate)
 }
 
-# Validate that the user supplied an input -------------------------------------
-
-validate_not_missing <- function(x, nm) {
-  if(rlang::quo_is_missing(x)) {
-   abort(paste0(
-     "`", nm, "` ",
-     "is missing and must be supplied."
-   ))
-  }
-}
-
 # Validate estimator type is allowed -------------------------------------------
 
 #' @section Estimator Validation:

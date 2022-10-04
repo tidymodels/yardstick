@@ -96,13 +96,11 @@ test_that("`truth` and `estimate` of different lengths", {
 })
 
 test_that("Missing arguments", {
-  expect_error(
-    sens(two_class_example),
-    "`truth` is missing"
+  expect_snapshot(error = TRUE,
+    sens(two_class_example)
   )
-  expect_error(
-    sens(two_class_example, truth),
-    "`estimate` is missing"
+  expect_snapshot(error = TRUE,
+    sens(two_class_example, truth)
   )
 })
 
