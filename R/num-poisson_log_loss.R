@@ -4,7 +4,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn poisson_log_loss
+#' @templateVar fn poisson_log_loss
 #' @template return
 #'
 #' @inheritParams rmse
@@ -37,8 +37,8 @@ poisson_log_loss.data.frame <- function(data,
                                         case_weights = NULL,
                                         ...) {
   numeric_metric_summarizer(
-    metric_nm = "poisson_log_loss",
-    metric_fn = poisson_log_loss_vec,
+    name = "poisson_log_loss",
+    fn = poisson_log_loss_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

@@ -20,7 +20,7 @@
 #'
 #' @family numeric metrics
 #' @family consistency metrics
-#' @templateVar metric_fn rpd
+#' @templateVar fn rpd
 #' @template return
 #'
 #' @inheritParams rmse
@@ -64,8 +64,8 @@ rpd.data.frame <- function(data,
                            case_weights = NULL,
                            ...) {
   numeric_metric_summarizer(
-    metric_nm = "rpd",
-    metric_fn = rpd_vec,
+    name = "rpd",
+    fn = rpd_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

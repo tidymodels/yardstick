@@ -5,7 +5,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(truth = truth, estimate = Class1, na_rm = na_rm)`.
+      ! Problem while computing `.estimate = fn(truth = truth, estimate = Class1, na_rm = na_rm)`.
       Caused by error in `multiclass_checks.matrix()`:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (1).
 

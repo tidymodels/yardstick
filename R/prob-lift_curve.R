@@ -33,7 +33,7 @@
 #' y-axis of the lift chart.
 #'
 #' @family curve metrics
-#' @templateVar metric_fn lift_curve
+#' @templateVar fn lift_curve
 #' @template multiclass-curve
 #' @template event_first
 #'
@@ -101,8 +101,8 @@ lift_curve.data.frame <- function(data,
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   result <- prob_metric_summarizer(
-    metric_nm = "lift_curve",
-    metric_fn = lift_curve_vec,
+    name = "lift_curve",
+    fn = lift_curve_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!estimate,

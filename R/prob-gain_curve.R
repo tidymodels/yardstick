@@ -35,7 +35,7 @@
 #' entire number of true results are found. This is the y-axis in a gain chart.
 #'
 #' @family curve metrics
-#' @templateVar metric_fn gain_curve
+#' @templateVar fn gain_curve
 #' @template multiclass-curve
 #' @template event_first
 #'
@@ -115,8 +115,8 @@ gain_curve.data.frame <- function(data,
   estimate <- dots_to_estimate(data, !!! enquos(...))
 
   result <- prob_metric_summarizer(
-    metric_nm = "gain_curve",
-    metric_fn = gain_curve_vec,
+    name = "gain_curve",
+    fn = gain_curve_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!estimate,
@@ -186,7 +186,7 @@ gain_curve_binary <- function(truth, estimate, event_level, case_weights) {
 
 gain_curve_multiclass <- function(truth, estimate, case_weights) {
   one_vs_all_with_level(
-    metric_fn = gain_curve_binary,
+    fn = gain_curve_binary,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights

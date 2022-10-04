@@ -82,7 +82,7 @@
       roc_auc(hpc_cv, obs, VF:L, estimator = "hand_till", case_weights = weight)
     Condition
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(...)`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `finalize_estimator_roc_auc()`:
       ! Can't specify both `estimator = 'hand_till'` and `case_weights`.
 

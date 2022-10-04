@@ -17,7 +17,7 @@
 #' as defined in Powers, David M W (2011), equation (42).
 #'
 #' @family class metrics
-#' @templateVar metric_fn j_index
+#' @templateVar fn j_index
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -56,8 +56,8 @@ j_index.data.frame <- function(data,
                                event_level = yardstick_event_level(),
                                ...) {
   class_metric_summarizer(
-    metric_nm = "j_index",
-    metric_fn = j_index_vec,
+    name = "j_index",
+    fn = j_index_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

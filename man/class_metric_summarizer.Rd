@@ -7,8 +7,8 @@
 \title{Developer function for summarizing new metrics}
 \usage{
 class_metric_summarizer(
-  metric_nm,
-  metric_fn,
+  name,
+  fn,
   data,
   truth,
   estimate,
@@ -17,24 +17,24 @@ class_metric_summarizer(
   na_rm = TRUE,
   event_level = NULL,
   case_weights = NULL,
-  metric_fn_options = list()
+  fn_options = list()
 )
 
 numeric_metric_summarizer(
-  metric_nm,
-  metric_fn,
+  name,
+  fn,
   data,
   truth,
   estimate,
   ...,
   na_rm = TRUE,
   case_weights = NULL,
-  metric_fn_options = list()
+  fn_options = list()
 )
 
 prob_metric_summarizer(
-  metric_nm,
-  metric_fn,
+  name,
+  fn,
   data,
   truth,
   estimate,
@@ -43,15 +43,15 @@ prob_metric_summarizer(
   na_rm = TRUE,
   event_level = NULL,
   case_weights = NULL,
-  metric_fn_options = list()
+  fn_options = list()
 )
 }
 \arguments{
-\item{metric_nm}{A single character representing the name of the metric to
+\item{name}{A single character representing the name of the metric to
 use in the \code{tibble} output. This will be modified to include the type
 of averaging if appropriate.}
 
-\item{metric_fn}{The vector version of your custom metric function. It
+\item{fn}{The vector version of your custom metric function. It
 generally takes \code{truth}, \code{estimate}, \code{na_rm}, and any other extra arguments
 needed to calculate the metric.}
 
@@ -77,15 +77,15 @@ stripped before the computation proceeds. The removal is executed in
 \code{metric_vec_template()}.}
 
 \item{event_level}{This can either be \code{NULL} to use the default \code{event_level}
-value of the \code{metric_fn} or a single string of either \code{"first"} or \code{"second"}
+value of the \code{fn} or a single string of either \code{"first"} or \code{"second"}
 to pass along describing which level should be considered the \code{"event"}.}
 
 \item{case_weights}{For metrics supporting case weights, an unquoted
 column name corresponding to case weights can be passed here. If not \code{NULL},
-the case weights will be passed on to \code{metric_fn} as the named argument
+the case weights will be passed on to \code{fn} as the named argument
 \code{case_weights}.}
 
-\item{metric_fn_options}{A named list of metric specific options. These
+\item{fn_options}{A named list of metric specific options. These
 are spliced into the metric function call using \verb{!!!} from \code{rlang}. The
 default results in nothing being spliced into the call.}
 }

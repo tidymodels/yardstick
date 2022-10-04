@@ -1,7 +1,7 @@
 #' Matthews correlation coefficient
 #'
 #' @family class metrics
-#' @templateVar metric_fn mcc
+#' @templateVar fn mcc
 #' @template event_first
 #' @template return
 #'
@@ -54,8 +54,8 @@ mcc.data.frame <- function(data,
                            case_weights = NULL,
                            ...) {
   class_metric_summarizer(
-    metric_nm = "mcc",
-    metric_fn = mcc_vec,
+    name = "mcc",
+    fn = mcc_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

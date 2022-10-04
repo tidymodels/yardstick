@@ -9,7 +9,7 @@
 #'
 #' @family class metrics
 #' @family relevance metrics
-#' @templateVar metric_fn f_meas
+#' @templateVar fn f_meas
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -58,8 +58,8 @@ f_meas.data.frame <- function(data,
                               event_level = yardstick_event_level(),
                               ...) {
   class_metric_summarizer(
-    metric_nm = "f_meas",
-    metric_fn = f_meas_vec,
+    name = "f_meas",
+    fn = f_meas_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -67,7 +67,7 @@ f_meas.data.frame <- function(data,
     na_rm = na_rm,
     case_weights = !!enquo(case_weights),
     event_level = event_level,
-    metric_fn_options = list(beta = beta)
+    fn_options = list(beta = beta)
   )
 }
 

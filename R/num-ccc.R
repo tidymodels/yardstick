@@ -9,7 +9,7 @@
 #' @family numeric metrics
 #' @family consistency metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn ccc
+#' @templateVar fn ccc
 #' @template return
 #'
 #' @inheritParams rmse
@@ -53,15 +53,15 @@ ccc.data.frame <- function(data,
                            ...) {
 
   numeric_metric_summarizer(
-    metric_nm = "ccc",
-    metric_fn = ccc_vec,
+    name = "ccc",
+    fn = ccc_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights),
     # Extra argument for ccc_impl()
-    metric_fn_options = list(bias = bias)
+    fn_options = list(bias = bias)
   )
 
 }

@@ -5,7 +5,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(truth = 1, estimate = factor("A"), na_rm = na_rm, event_level = "first")`.
+      ! Problem while computing `.estimate = fn(truth = 1, estimate = factor("A"), na_rm = na_rm, event_level = "first")`.
       Caused by error in `validate_class()`:
       ! `truth` should be a factor but a numeric was supplied.
 
@@ -16,7 +16,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(...)`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `binary_checks()`:
       ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 1 levels was provided.
 
@@ -27,7 +27,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(...)`.
+      ! Problem while computing `.estimate = fn(truth = "a", estimate = factor("A"), na_rm = na_rm, event_level = "first")`.
       Caused by error in `validate_class()`:
       ! `truth` should be a factor but a character was supplied.
 
@@ -38,7 +38,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(...)`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `validate_class()`:
       ! `truth` should be a factor but a character was supplied.
 
@@ -60,7 +60,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(...)`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `binary_checks()`:
       ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 4 levels was provided.
 
@@ -93,7 +93,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(truth = matrix(1:5), estimate = prediction, na_rm = na_rm)`.
+      ! Problem while computing `.estimate = fn(truth = matrix(1:5), estimate = prediction, na_rm = na_rm)`.
       Caused by error in `validate_truth_estimate_types()`:
       ! `truth` should be a numeric vector, not a numeric matrix.
 
@@ -104,7 +104,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(truth = solubility, estimate = matrix(1:5), na_rm = na_rm)`.
+      ! Problem while computing `.estimate = fn(truth = solubility, estimate = matrix(1:5), na_rm = na_rm)`.
       Caused by error in `validate_truth_estimate_types()`:
       ! `estimate` should be a numeric vector, not a numeric matrix.
 
@@ -115,7 +115,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(truth = x, estimate = y, na_rm = na_rm, event_level = "first")`.
+      ! Problem while computing `.estimate = fn(truth = x, estimate = y, na_rm = na_rm, event_level = "first")`.
       Caused by error in `multiclass_checks()`:
       ! `truth` and `estimate` levels must be equivalent.
       `truth`: a, b, c
@@ -128,7 +128,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(...)`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `binary_checks()`:
       ! You are using a `binary` metric but have passed multiple columns to `...`
 
@@ -139,7 +139,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(truth = obs, estimate = VF, na_rm = na_rm, event_level = "first")`.
+      ! Problem while computing `.estimate = fn(truth = obs, estimate = VF, na_rm = na_rm, event_level = "first")`.
       Caused by error in `multiclass_checks.matrix()`:
       ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (1).
 

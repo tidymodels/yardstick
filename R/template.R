@@ -18,11 +18,11 @@
 #' frames and returns a `tibble` consistent with other metrics.
 #'
 #'
-#' @param metric_nm A single character representing the name of the metric to
+#' @param name A single character representing the name of the metric to
 #' use in the `tibble` output. This will be modified to include the type
 #' of averaging if appropriate.
 #'
-#' @param metric_fn The vector version of your custom metric function. It
+#' @param fn The vector version of your custom metric function. It
 #' generally takes `truth`, `estimate`, `na_rm`, and any other extra arguments
 #' needed to calculate the metric.
 #'
@@ -48,23 +48,23 @@
 #' `metric_vec_template()`.
 #'
 #' @param event_level This can either be `NULL` to use the default `event_level`
-#' value of the `metric_fn` or a single string of either `"first"` or `"second"`
+#' value of the `fn` or a single string of either `"first"` or `"second"`
 #' to pass along describing which level should be considered the `"event"`.
 #'
 #' @param case_weights For metrics supporting case weights, an unquoted
 #' column name corresponding to case weights can be passed here. If not `NULL`,
-#' the case weights will be passed on to `metric_fn` as the named argument
+#' the case weights will be passed on to `fn` as the named argument
 #' `case_weights`.
 #'
 #'
-#' @param metric_fn_options A named list of metric specific options. These
+#' @param fn_options A named list of metric specific options. These
 #' are spliced into the metric function call using `!!!` from `rlang`. The
 #' default results in nothing being spliced into the call.
 #'
 #' @keywords internal
 #' @export
-class_metric_summarizer <- function(metric_nm,
-                                    metric_fn,
+class_metric_summarizer <- function(name,
+                                    fn,
                                     data,
                                     truth,
                                     estimate,
@@ -73,7 +73,7 @@ class_metric_summarizer <- function(metric_nm,
                                     na_rm = TRUE,
                                     event_level = NULL,
                                     case_weights = NULL,
-                                    metric_fn_options = list()) {
+                                    fn_options = list()) {
   rlang::check_dots_empty()
 
   truth <- enquo(truth)
@@ -89,21 +89,21 @@ class_metric_summarizer <- function(metric_nm,
   estimate <- handle_chr_names(estimate, nms)
 
   finalize_estimator_expr <- rlang::expr(
-    finalize_estimator(!! truth, estimator, metric_nm)
+    finalize_estimator(!! truth, estimator, name)
   )
 
   metric_tbl <- dplyr::summarise(
     data,
-    .metric = metric_nm,
+    .metric = name,
     .estimator = eval_tidy(finalize_estimator_expr),
-    .estimate = metric_fn(
+    .estimate = fn(
       truth = !! truth,
       estimate = !! estimate,
       !!! spliceable_estimator(estimator),
       na_rm = na_rm,
       !!! spliceable_event_level(event_level),
       !!! spliceable_case_weights(case_weights),
-      !!! metric_fn_options
+      !!! fn_options
     )
   )
 
@@ -113,15 +113,15 @@ class_metric_summarizer <- function(metric_nm,
 #' @rdname class_metric_summarizer
 #' @keywords internal
 #' @export
-numeric_metric_summarizer <- function(metric_nm,
-                                      metric_fn,
+numeric_metric_summarizer <- function(name,
+                                      fn,
                                       data,
                                       truth,
                                       estimate,
                                       ...,
                                       na_rm = TRUE,
                                       case_weights = NULL,
-                                      metric_fn_options = list()) {
+                                      fn_options = list()) {
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
@@ -135,19 +135,19 @@ numeric_metric_summarizer <- function(metric_nm,
   estimate <- handle_chr_names(estimate, nms)
 
   finalize_estimator_expr <- rlang::expr(
-    finalize_estimator(!! truth, metric_class = metric_nm)
+    finalize_estimator(!! truth, metric_class = name)
   )
 
   metric_tbl <- dplyr::summarise(
     data,
-    .metric = metric_nm,
+    .metric = name,
     .estimator = eval_tidy(finalize_estimator_expr),
-    .estimate = metric_fn(
+    .estimate = fn(
       truth = !! truth,
       estimate = !! estimate,
       na_rm = na_rm,
       !!! spliceable_case_weights(case_weights),
-      !!! metric_fn_options
+      !!! fn_options
     )
   )
 
@@ -157,8 +157,8 @@ numeric_metric_summarizer <- function(metric_nm,
 #' @rdname class_metric_summarizer
 #' @keywords internal
 #' @export
-prob_metric_summarizer <- function(metric_nm,
-                                   metric_fn,
+prob_metric_summarizer <- function(name,
+                                   fn,
                                    data,
                                    truth,
                                    estimate,
@@ -167,7 +167,7 @@ prob_metric_summarizer <- function(metric_nm,
                                    na_rm = TRUE,
                                    event_level = NULL,
                                    case_weights = NULL,
-                                   metric_fn_options = list()) {
+                                   fn_options = list()) {
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
@@ -181,21 +181,21 @@ prob_metric_summarizer <- function(metric_nm,
   estimate <- handle_chr_names(estimate, nms)
 
   finalize_estimator_expr <- rlang::expr(
-    finalize_estimator(!! truth, estimator, metric_nm)
+    finalize_estimator(!! truth, estimator, name)
   )
 
   metric_tbl <- dplyr::summarise(
     data,
-    .metric = metric_nm,
+    .metric = name,
     .estimator = eval_tidy(finalize_estimator_expr),
-    .estimate = metric_fn(
+    .estimate = fn(
       truth = !! truth,
       estimate = !! estimate,
       !!! spliceable_estimator(estimator),
       na_rm = na_rm,
       !!! spliceable_event_level(event_level),
       !!! spliceable_case_weights(case_weights),
-      !!! metric_fn_options
+      !!! fn_options
     )
   )
 

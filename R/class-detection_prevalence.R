@@ -4,7 +4,7 @@
 #' true positive and false positive) divided by the total number of predictions.
 #'
 #' @family class metrics
-#' @templateVar metric_fn detection_prevalence
+#' @templateVar fn detection_prevalence
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -35,8 +35,8 @@ detection_prevalence.data.frame <- function(data,
                                             event_level = yardstick_event_level(),
                                             ...) {
   class_metric_summarizer(
-    metric_nm = "detection_prevalence",
-    metric_fn = detection_prevalence_vec,
+    name = "detection_prevalence",
+    fn = detection_prevalence_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

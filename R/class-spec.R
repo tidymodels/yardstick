@@ -16,7 +16,7 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
-#' @templateVar metric_fn spec
+#' @templateVar fn spec
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -55,8 +55,8 @@ spec.data.frame <- function(data,
                             event_level = yardstick_event_level(),
                             ...) {
   class_metric_summarizer(
-    metric_nm = "spec",
-    metric_fn = spec_vec,
+    name = "spec",
+    fn = spec_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -144,8 +144,8 @@ specificity.data.frame <- function(data,
                                    event_level = yardstick_event_level(),
                                    ...) {
   class_metric_summarizer(
-    metric_nm = "specificity",
-    metric_fn = spec_vec,
+    name = "specificity",
+    fn = spec_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

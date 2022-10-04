@@ -8,7 +8,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn smape
+#' @templateVar fn smape
 #' @template return
 #'
 #' @inheritParams rmse
@@ -36,8 +36,8 @@ smape.data.frame <- function(data,
                              case_weights = NULL,
                              ...) {
   numeric_metric_summarizer(
-    metric_nm = "smape",
-    metric_fn = smape_vec,
+    name = "smape",
+    fn = smape_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

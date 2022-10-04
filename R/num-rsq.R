@@ -21,7 +21,7 @@
 #'
 #' @family numeric metrics
 #' @family consistency metrics
-#' @templateVar metric_fn rsq
+#' @templateVar fn rsq
 #' @template return
 #'
 #' @inheritParams rmse
@@ -66,8 +66,8 @@ rsq.data.frame <- function(data,
                            case_weights = NULL,
                            ...) {
   numeric_metric_summarizer(
-    metric_nm = "rsq",
-    metric_fn = rsq_vec,
+    name = "rsq",
+    fn = rsq_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
