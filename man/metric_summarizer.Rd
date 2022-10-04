@@ -71,11 +71,6 @@ default results in nothing being spliced into the call.}
 switch to use \code{\link[=class_metric_summarizer]{class_metric_summarizer()}}, \code{\link[=numeric_metric_summarizer]{numeric_metric_summarizer()}}, or
 \code{\link[=prob_metric_summarizer]{prob_metric_summarizer()}}.
 }
-\details{
-\code{metric_summarizer()} is generally called from the data frame version
-of your metric function. It knows how to call your metric over grouped data
-frames and returns a \code{tibble} consistent with other metrics.
-}
 \seealso{
 \code{\link[=metric_vec_template]{metric_vec_template()}} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
 }
