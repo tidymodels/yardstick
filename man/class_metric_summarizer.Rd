@@ -106,7 +106,4 @@ information.
 of your metric function. It knows how to call your metric over grouped data
 frames and returns a \code{tibble} consistent with other metrics.
 }
-\seealso{
-\code{\link[=metric_vec_template]{metric_vec_template()}} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
-}
 \keyword{internal}
