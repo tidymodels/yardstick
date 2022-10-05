@@ -5,6 +5,16 @@
 #' @family class probability metrics
 #' @templateVar metric_fn brier_class
 #' @template return
+#' @details
+#'
+#' The Brier score is analogous to the mean squared error in regression models.
+#' The difference between a binary indicator for a class and its corresponding
+#' class probability are squared and averaged.
+#'
+#' This function uses the convention in Kruppa _et al_ (2014) and divides the
+#' result by two.
+#'
+#' Smaller values of the score are associated with better model performance.
 #'
 #' @section Multiclass:
 #' Brier scores can be computed in the same way for any number of classes.
@@ -14,6 +24,10 @@
 #'
 #' @author Max Kuhn
 #'
+#' @references Kruppa, J., Liu, Y., Diener, H.-C., Holste, T., Weimar, C.,
+#' Koonig, I. R., and Ziegler, A. (2014) Probability estimation with machine
+#' learning methods for dichotomous and multicategory outcome: Applications.
+#' Biometrical Journal, 56 (4): 564-583.
 #' @examples
 #' # Two class
 #' data("two_class_example")

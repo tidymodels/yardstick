@@ -51,6 +51,16 @@ For \code{brier_class_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Compute the Brier score for a classification model.
 }
+\details{
+The Brier score is analogous to the mean squared error in regression models.
+The difference between a binary indicator for a class and its corresponding
+class probability are squared and averaged.
+
+This function uses the convention in Kruppa \emph{et al} (2014) and divides the
+result by two.
+
+Smaller values of the score are associated with better model performance.
+}
 \section{Multiclass}{
 
 Brier scores can be computed in the same way for any number of classes.
@@ -76,6 +86,12 @@ hpc_cv \%>\%
   group_by(Resample) \%>\%
   brier_class(obs, VF:L)
 
+}
+\references{
+Kruppa, J., Liu, Y., Diener, H.-C., Holste, T., Weimar, C.,
+Koonig, I. R., and Ziegler, A. (2014) Probability estimation with machine
+learning methods for dichotomous and multicategory outcome: Applications.
+Biometrical Journal, 56 (4): 564-583.
 }
 \seealso{
 Other class probability metrics: 
