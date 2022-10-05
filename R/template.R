@@ -115,6 +115,8 @@ numeric_metric_summarizer <- function(name,
                                       na_rm = TRUE,
                                       case_weights = NULL,
                                       fn_options = list()) {
+  rlang::check_dots_empty()
+
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
@@ -154,6 +156,8 @@ prob_metric_summarizer <- function(name,
                                    event_level = NULL,
                                    case_weights = NULL,
                                    fn_options = list()) {
+  rlang::check_dots_empty()
+
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
