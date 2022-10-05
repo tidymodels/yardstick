@@ -123,6 +123,8 @@ finalize_estimator_internal.accuracy <- function(metric_dispatcher, x, estimator
 finalize_estimator_internal.kap <- finalize_estimator_internal.accuracy
 finalize_estimator_internal.mcc <- finalize_estimator_internal.accuracy
 finalize_estimator_internal.mn_log_loss <- finalize_estimator_internal.accuracy
+finalize_estimator_internal.brier_class <- finalize_estimator_internal.accuracy
+
 
 # Classification cost extends naturally to multiclass and produce the same
 # result regardless of the "event" level.

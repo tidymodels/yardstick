@@ -195,6 +195,7 @@ average_precision_vec(
 the trapezoidal rule.
 
 Other class probability metrics: 
+\code{\link{brier_class}()},
 \code{\link{classification_cost}()},
 \code{\link{gain_capture}()},
 \code{\link{mn_log_loss}()},
