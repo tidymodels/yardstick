@@ -7,6 +7,7 @@
 #' @import vctrs
 #' @importFrom dplyr %>%
 #' @importFrom dplyr as_tibble
+#' @importFrom stats complete.cases
 ## usethis namespace: end
 NULL
 

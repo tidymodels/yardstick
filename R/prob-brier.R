@@ -140,7 +140,7 @@ brier_ind <- function(truth, estimate, case_weights = NULL) {
     case_weights <- rep(1, nrow(resids))
   }
 
-  not_missing <- complete.cases(resids) & !is.na(case_weights)
+  not_missing <- stats::complete.cases(resids) & !is.na(case_weights)
   resids <- resids[not_missing,, drop = FALSE]
   case_weights <- case_weights[not_missing]
 
