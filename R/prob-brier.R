@@ -156,7 +156,11 @@ brier_factor <- function(truth, estimate, case_weights = NULL) {
   if (!is.factor(truth)) {
     rlang::abort("'truth' should be a factor.")
   }
+  old_opt <- options()
+  options(na.action = 'na.pass')
   inds <- stats::model.matrix(~ . -1, data = data.frame(y = truth))
+  options(old_opt)
+
   colnames(inds) <- levels(truth)
   brier_ind(inds, estimate, case_weights)
 }

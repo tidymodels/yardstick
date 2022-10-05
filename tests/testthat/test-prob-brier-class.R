@@ -1,0 +1,75 @@
+
+test_that('basic results', {
+
+  # With the mclust pakcage, BrierScore(hpc_cv %>% select(VF:L) %>% as.matrix, hpc_cv$obs)
+  hpc_exp <- 0.21083946
+
+  expect_equal(
+    yardstick:::brier_factor(hpc_cv$obs, hpc_cv %>% dplyr::select(VF:L)),
+    hpc_exp,
+    tolerance = 0.01
+  )
+
+  hpc_inds <- model.matrix(~ . - 1, data = hpc_cv %>% dplyr::select(obs))
+  expect_equal(
+    yardstick:::brier_ind(hpc_inds, hpc_cv %>% dplyr::select(VF:L)),
+    hpc_exp,
+    tolerance = 0.01
+  )
+
+  expect_equal(
+    yardstick:::brier_class(hpc_cv, obs, VF:L),
+    tibble::tibble(.metric = "brier_class", .estimator = "multiclass", .estimate = hpc_exp),
+    tolerance = 0.01
+  )
+
+
+
+  # ----------------------------------------------------------------------------
+  # two classes
+
+  # BrierScore(two_class_example %>% dplyr::select(Class1, Class2) %>% as.matrix, two_class_example$truth)
+  two_cls_exp <- 0.10561859
+
+  expect_equal(
+    yardstick:::brier_factor(two_class_example$truth, two_class_example[, 2:3]),
+    two_cls_exp,
+    tolerance = 0.01
+  )
+  expect_equal(
+    yardstick:::brier_factor(two_class_example$truth, two_class_example[, 2, drop = FALSE]),
+    two_cls_exp,
+    tolerance = 0.01
+  )
+
+  # ----------------------------------------------------------------------------
+  # with missing data
+  hpc_miss <- hpc_cv
+  hpc_miss$obs[1] <- NA
+  hpc_miss$L[2] <- NA
+
+  # With the mclust pakcage, BrierScore(hpc_cv[-(1:2), 3:6]%>% as.matrix, hpc_cv$obs[-(1:2)])
+  hpc_miss_exp <- 0.21095817
+  expect_equal(
+    yardstick:::brier_factor(hpc_miss$obs, hpc_miss %>% dplyr::select(VF:L)),
+    hpc_miss_exp,
+    tolerance = 0.01
+  )
+
+  # Make sure that we reset options correctly
+  expect_equal(options()$na.action, "na.omit")
+
+  # ----------------------------------------------------------------------------
+  # with case weights
+  wts <- rep(1, nrow(hpc_cv))
+  wts[1] <- 5
+  hpc_wts <- hpc_cv[c(rep(1, 4), 1:nrow(hpc_cv)), ]
+
+  expect_equal(
+    yardstick:::brier_factor(hpc_cv$obs, hpc_cv %>% dplyr::select(VF:L)),
+    yardstick:::brier_factor(hpc_wts$obs, hpc_wts %>% dplyr::select(VF:L)),
+    tolerance = 0.01
+  )
+
+})
+
