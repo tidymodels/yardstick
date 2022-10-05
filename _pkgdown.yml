@@ -47,6 +47,7 @@ reference:
     - gain_capture
     - mn_log_loss
     - classification_cost
+    - brier_class
 
   - title: Regression Metrics
     contents:
