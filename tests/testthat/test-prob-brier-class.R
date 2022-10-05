@@ -19,7 +19,7 @@ test_that('basic results', {
 
   expect_equal(
     yardstick:::brier_class(hpc_cv, obs, VF:L),
-    tibble::tibble(.metric = "brier_class", .estimator = "multiclass", .estimate = hpc_exp),
+    dplyr::tibble(.metric = "brier_class", .estimator = "multiclass", .estimate = hpc_exp),
     tolerance = 0.01
   )
 
