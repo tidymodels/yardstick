@@ -264,7 +264,7 @@ as_tibble.metric_set <- function(x, ...) {
   metrics <- unname(metrics)
 
   classes <- map_chr(metrics, class1)
-  directions <- map_chr(metrics, get_fn_direction)
+  directions <- map_chr(metrics, get_metric_fn_direction)
 
   dplyr::tibble(
     metric = names,
@@ -281,7 +281,7 @@ class1 <- function(x) {
   class(x)[[1]]
 }
 
-get_fn_direction <- function(x) {
+get_metric_fn_direction <- function(x) {
   attr(x, "direction")
 }
 
