@@ -54,8 +54,6 @@
 #' are spliced into the metric function call using `!!!` from `rlang`. The
 #' default results in nothing being spliced into the call.
 #'
-#' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
-#'
 #' @keywords internal
 #' @export
 metric_summarizer <- function(metric_nm,
