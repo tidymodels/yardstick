@@ -49,7 +49,7 @@ this if your classification estimator does not support all of these methods.}
 }
 \description{
 Helpers to be used alongside \code{\link[=metric_vec_template]{metric_vec_template()}} and
-\code{\link[=class_metric_summarizer]{class_metric_summarizer()}} when creating new metrics. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for
+\link[=class_metric_summarizer]{metric summarizers} when creating new metrics. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for
 more information.
 }
 \section{Weight Calculation}{

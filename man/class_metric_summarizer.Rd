@@ -78,7 +78,7 @@ stripped before the computation proceeds. The removal is executed in
 
 \item{event_level}{This can either be \code{NULL} to use the default \code{event_level}
 value of the \code{fn} or a single string of either \code{"first"} or \code{"second"}
-to pass along describing which level should be considered the \code{"event"}.}
+to pass along describing which level should be considered the "event".}
 
 \item{case_weights}{For metrics supporting case weights, an unquoted
 column name corresponding to case weights can be passed here. If not \code{NULL},
@@ -92,7 +92,7 @@ default results in nothing being spliced into the call.}
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and
 \code{prob_metric_summarizer()} are useful alongside \code{\link[=metric_vec_template]{metric_vec_template()}} for
-implementing new custom metrics. These functions calls the metric function
+implementing new custom metrics. These functions call the metric function
 inside \code{dplyr::summarise()}. \code{metric_vec_template()} is a generalized
 function that calls the core implementation of a metric function, and
 includes a number of checks on the types, lengths, and argument inputs.
