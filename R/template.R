@@ -89,13 +89,13 @@ numeric_metric_summarizer <- function(name,
   metric_tbl <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = finalize_estimator(!! truth, metric_class = name),
+    .estimator = finalize_estimator(!!truth, metric_class = name),
     .estimate = fn(
-      truth = !! truth,
-      estimate = !! estimate,
+      truth = !!truth,
+      estimate = !!estimate,
       na_rm = na_rm,
-      !!! spliceable_case_weights(case_weights),
-      !!! fn_options
+      !!!spliceable_case_weights(case_weights),
+      !!!fn_options
     )
   )
 
@@ -129,15 +129,15 @@ class_metric_summarizer <- function(name,
   metric_tbl <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = finalize_estimator(!! truth, estimator, name),
+    .estimator = finalize_estimator(!!truth, estimator, name),
     .estimate = fn(
-      truth = !! truth,
-      estimate = !! estimate,
-      !!! spliceable_estimator(estimator),
+      truth = !!truth,
+      estimate = !!estimate,
+      !!!spliceable_estimator(estimator),
       na_rm = na_rm,
-      !!! spliceable_event_level(event_level),
-      !!! spliceable_case_weights(case_weights),
-      !!! fn_options
+      !!!spliceable_event_level(event_level),
+      !!!spliceable_case_weights(case_weights),
+      !!!fn_options
     )
   )
 
@@ -171,15 +171,15 @@ prob_metric_summarizer <- function(name,
   metric_tbl <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = finalize_estimator(!! truth, estimator, name),
+    .estimator = finalize_estimator(!!truth, estimator, name),
     .estimate = fn(
-      truth = !! truth,
-      estimate = !! estimate,
-      !!! spliceable_estimator(estimator),
+      truth = !!truth,
+      estimate = !!estimate,
+      !!!spliceable_estimator(estimator),
       na_rm = na_rm,
-      !!! spliceable_event_level(event_level),
-      !!! spliceable_case_weights(case_weights),
-      !!! fn_options
+      !!!spliceable_event_level(event_level),
+      !!!spliceable_case_weights(case_weights),
+      !!!fn_options
     )
   )
 
