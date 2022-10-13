@@ -2,7 +2,7 @@
 #'
 #' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
 #' `prob_metric_summarizer()` are useful alongside [metric_vec_template()] for
-#' implementing new custom metrics. These functions calls the metric function
+#' implementing new custom metrics. These functions call the metric function
 #' inside `dplyr::summarise()`. `metric_vec_template()` is a generalized
 #' function that calls the core implementation of a metric function, and
 #' includes a number of checks on the types, lengths, and argument inputs.
@@ -49,7 +49,7 @@
 #'
 #' @param event_level This can either be `NULL` to use the default `event_level`
 #' value of the `fn` or a single string of either `"first"` or `"second"`
-#' to pass along describing which level should be considered the `"event"`.
+#' to pass along describing which level should be considered the "event".
 #'
 #' @param case_weights For metrics supporting case weights, an unquoted
 #' column name corresponding to case weights can be passed here. If not `NULL`,
@@ -74,7 +74,7 @@ class_metric_summarizer <- function(name,
                                     event_level = NULL,
                                     case_weights = NULL,
                                     fn_options = list()) {
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)

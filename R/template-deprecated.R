@@ -6,7 +6,7 @@
 #' `metric_summarizer()` has been soft-deprecated as of yardstick 1.2.0. Please
 #' switch to use [class_metric_summarizer()], [numeric_metric_summarizer()], or
 #' [prob_metric_summarizer()].
-
+#'
 #' @param metric_nm A single character representing the name of the metric to
 #' use in the `tibble` output. This will be modified to include the type
 #' of averaging if appropriate.
