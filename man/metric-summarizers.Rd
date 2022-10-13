@@ -2,11 +2,23 @@
 % Please edit documentation in R/template.R
 \name{metric-summarizers}
 \alias{metric-summarizers}
-\alias{class_metric_summarizer}
 \alias{numeric_metric_summarizer}
+\alias{class_metric_summarizer}
 \alias{prob_metric_summarizer}
 \title{Developer function for summarizing new metrics}
 \usage{
+numeric_metric_summarizer(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list()
+)
+
 class_metric_summarizer(
   name,
   fn,
@@ -17,18 +29,6 @@ class_metric_summarizer(
   estimator = NULL,
   na_rm = TRUE,
   event_level = NULL,
-  case_weights = NULL,
-  fn_options = list()
-)
-
-numeric_metric_summarizer(
-  name,
-  fn,
-  data,
-  truth,
-  estimate,
-  ...,
-  na_rm = TRUE,
   case_weights = NULL,
   fn_options = list()
 )
@@ -69,17 +69,9 @@ like class probability metrics, this is a result of \code{\link[=dots_to_estimat
 
 \item{...}{These dots are for future extensions and must be empty.}
 
-\item{estimator}{This can either be \code{NULL} for the default auto-selection of
-averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along to
-the metric implementation describing the kind of averaging to use.}
-
 \item{na_rm}{A \code{logical} value indicating whether \code{NA} values should be
 stripped before the computation proceeds. The removal is executed in
 \code{metric_vec_template()}.}
-
-\item{event_level}{This can either be \code{NULL} to use the default \code{event_level}
-value of the \code{fn} or a single string of either \code{"first"} or \code{"second"}
-to pass along describing which level should be considered the "event".}
 
 \item{case_weights}{For metrics supporting case weights, an unquoted
 column name corresponding to case weights can be passed here. If not \code{NULL},
@@ -89,6 +81,14 @@ the case weights will be passed on to \code{fn} as the named argument
 \item{fn_options}{A named list of metric specific options. These
 are spliced into the metric function call using \verb{!!!} from \code{rlang}. The
 default results in nothing being spliced into the call.}
+
+\item{estimator}{This can either be \code{NULL} for the default auto-selection of
+averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along to
+the metric implementation describing the kind of averaging to use.}
+
+\item{event_level}{This can either be \code{NULL} to use the default \code{event_level}
+value of the \code{fn} or a single string of either \code{"first"} or \code{"second"}
+to pass along describing which level should be considered the "event".}
 }
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and

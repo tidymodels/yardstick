@@ -66,6 +66,44 @@ NULL
 
 #' @rdname metric-summarizers
 #' @export
+numeric_metric_summarizer <- function(name,
+                                      fn,
+                                      data,
+                                      truth,
+                                      estimate,
+                                      ...,
+                                      na_rm = TRUE,
+                                      case_weights = NULL,
+                                      fn_options = list()) {
+  check_dots_empty()
+
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+  case_weights <- enquo(case_weights)
+
+  # Explicit handling of length 1 character vectors as column names
+  nms <- colnames(data)
+  truth <- handle_chr_names(truth, nms)
+  estimate <- handle_chr_names(estimate, nms)
+
+  metric_tbl <- dplyr::summarise(
+    data,
+    .metric = name,
+    .estimator = finalize_estimator(!! truth, metric_class = name),
+    .estimate = fn(
+      truth = !! truth,
+      estimate = !! estimate,
+      na_rm = na_rm,
+      !!! spliceable_case_weights(case_weights),
+      !!! fn_options
+    )
+  )
+
+  dplyr::as_tibble(metric_tbl)
+}
+
+#' @rdname metric-summarizers
+#' @export
 class_metric_summarizer <- function(name,
                                     fn,
                                     data,
@@ -98,44 +136,6 @@ class_metric_summarizer <- function(name,
       !!! spliceable_estimator(estimator),
       na_rm = na_rm,
       !!! spliceable_event_level(event_level),
-      !!! spliceable_case_weights(case_weights),
-      !!! fn_options
-    )
-  )
-
-  dplyr::as_tibble(metric_tbl)
-}
-
-#' @rdname metric-summarizers
-#' @export
-numeric_metric_summarizer <- function(name,
-                                      fn,
-                                      data,
-                                      truth,
-                                      estimate,
-                                      ...,
-                                      na_rm = TRUE,
-                                      case_weights = NULL,
-                                      fn_options = list()) {
-  check_dots_empty()
-
-  truth <- enquo(truth)
-  estimate <- enquo(estimate)
-  case_weights <- enquo(case_weights)
-
-  # Explicit handling of length 1 character vectors as column names
-  nms <- colnames(data)
-  truth <- handle_chr_names(truth, nms)
-  estimate <- handle_chr_names(estimate, nms)
-
-  metric_tbl <- dplyr::summarise(
-    data,
-    .metric = name,
-    .estimator = finalize_estimator(!! truth, metric_class = name),
-    .estimate = fn(
-      truth = !! truth,
-      estimate = !! estimate,
-      na_rm = na_rm,
       !!! spliceable_case_weights(case_weights),
       !!! fn_options
     )
