@@ -115,7 +115,7 @@ numeric_metric_summarizer <- function(name,
                                       na_rm = TRUE,
                                       case_weights = NULL,
                                       fn_options = list()) {
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -156,7 +156,7 @@ prob_metric_summarizer <- function(name,
                                    event_level = NULL,
                                    case_weights = NULL,
                                    fn_options = list()) {
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -364,7 +364,7 @@ spliceable_event_level <- function(event_level) {
 }
 
 spliceable_case_weights <- function(case_weights) {
-  if (rlang::quo_is_null(case_weights)) {
+  if (quo_is_null(case_weights)) {
     return(list())
   }
 
