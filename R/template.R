@@ -17,6 +17,7 @@
 #' of your metric function. It knows how to call your metric over grouped data
 #' frames and returns a `tibble` consistent with other metrics.
 #'
+#' @inheritParams rlang::args_dots_empty
 #'
 #' @param name A single character representing the name of the metric to
 #' use in the `tibble` output. This will be modified to include the type
@@ -37,8 +38,6 @@
 #' the `estimate` column. For metrics that take multiple columns through `...`
 #' like class probability metrics, this is a result of [dots_to_estimate()].
 #'
-#' @inheritParams rlang::args_dots_empty
-#'
 #' @param estimator This can either be `NULL` for the default auto-selection of
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along to
 #' the metric implementation describing the kind of averaging to use.
@@ -56,12 +55,16 @@
 #' the case weights will be passed on to `fn` as the named argument
 #' `case_weights`.
 #'
-#'
 #' @param fn_options A named list of metric specific options. These
 #' are spliced into the metric function call using `!!!` from `rlang`. The
 #' default results in nothing being spliced into the call.
 #'
-#' @keywords internal
+#' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
+#'
+#' @name metric-summarizers
+NULL
+
+#' @rdname metric-summarizers
 #' @export
 class_metric_summarizer <- function(name,
                                     fn,
@@ -103,8 +106,7 @@ class_metric_summarizer <- function(name,
   dplyr::as_tibble(metric_tbl)
 }
 
-#' @rdname class_metric_summarizer
-#' @keywords internal
+#' @rdname metric-summarizers
 #' @export
 numeric_metric_summarizer <- function(name,
                                       fn,
@@ -142,8 +144,7 @@ numeric_metric_summarizer <- function(name,
   dplyr::as_tibble(metric_tbl)
 }
 
-#' @rdname class_metric_summarizer
-#' @keywords internal
+#' @rdname metric-summarizers
 #' @export
 prob_metric_summarizer <- function(name,
                                    fn,
