@@ -38,6 +38,7 @@
 #' like class probability metrics, this is a result of [dots_to_estimate()].
 #'
 #' @inheritParams rlang::args_dots_empty
+#' @inheritParams rlang::args_error_context
 #'
 #' @param estimator This can either be `NULL` for the default auto-selection of
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along to
@@ -114,32 +115,50 @@ numeric_metric_summarizer <- function(name,
                                       ...,
                                       na_rm = TRUE,
                                       case_weights = NULL,
-                                      fn_options = list()) {
+                                      fn_options = list(),
+                                      error_call = caller_env()) {
   rlang::check_dots_empty()
 
-  truth <- enquo(truth)
-  estimate <- enquo(estimate)
-  case_weights <- enquo(case_weights)
+  truth <- yardstick_eval_select(
+    expr = {{truth}},
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select(
+    expr = {{estimate}},
+    data = data,
+    arg = "estimate",
+    error_call = error_call
+  )
+  case_weights <- yardstick_eval_select(
+    {{case_weights}},
+    data,
+    arg = "case_weights",
+    allow_null = TRUE,
+    error_call = error_call
+  )
 
-  # Explicit handling of length 1 character vectors as column names
-  nms <- colnames(data)
-  truth <- handle_chr_names(truth, nms)
-  estimate <- handle_chr_names(estimate, nms)
-
-  metric_tbl <- dplyr::summarise(
+  out <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = finalize_estimator(!! truth, metric_class = name),
+    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
     .estimate = fn(
-      truth = !! truth,
-      estimate = !! estimate,
+      truth = .data[[truth]],
+      estimate = .data[[estimate]],
+      case_weights =
+        if (is.null(case_weights)) {
+          NULL
+        } else {
+          .data[[case_weights]]
+        }
+      ,
       na_rm = na_rm,
-      !!! spliceable_case_weights(case_weights),
-      !!! fn_options
+      !!!fn_options
     )
   )
 
-  dplyr::as_tibble(metric_tbl)
+  dplyr::as_tibble(out)
 }
 
 #' @rdname class_metric_summarizer
@@ -149,40 +168,66 @@ prob_metric_summarizer <- function(name,
                                    fn,
                                    data,
                                    truth,
-                                   estimate,
                                    ...,
                                    estimator = NULL,
                                    na_rm = TRUE,
                                    event_level = NULL,
                                    case_weights = NULL,
-                                   fn_options = list()) {
-  rlang::check_dots_empty()
+                                   fn_options = list(),
+                                   error_call = caller_env()) {
+  truth <- yardstick_eval_select(
+    expr = {{truth}},
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select_dots(
+    ...,
+    data = data,
+    error_call = error_call
+  )
+  case_weights <- yardstick_eval_select(
+    {{case_weights}},
+    data,
+    arg = "case_weights",
+    allow_null = TRUE,
+    error_call = error_call
+  )
 
-  truth <- enquo(truth)
-  estimate <- enquo(estimate)
-  case_weights <- enquo(case_weights)
-
-  # Explicit handling of length 1 character vectors as column names
-  nms <- colnames(data)
-  truth <- handle_chr_names(truth, nms)
-  estimate <- handle_chr_names(estimate, nms)
-
-  metric_tbl <- dplyr::summarise(
+  out <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = finalize_estimator(!! truth, estimator, name),
+    .estimator = finalize_estimator(.data[[truth]], estimator, name),
     .estimate = fn(
-      truth = !! truth,
-      estimate = !! estimate,
-      !!! spliceable_estimator(estimator),
+      truth = .data[[truth]],
+      estimate = {
+        # TODO: Use `pick()`
+        estimate <- dplyr::across(all_of(estimate), .fns = identity)
+        n_estimate <- ncol(estimate)
+
+        if (n_estimate == 0L) {
+          abort("`estimate` should have errored during tidy-selection.", .internal = TRUE)
+        } else if (n_estimate == 1L) {
+          estimate[[1L]]
+        } else {
+          as.matrix(estimate)
+        }
+      },
+      case_weights =
+        if (is.null(case_weights)) {
+          NULL
+        } else {
+          .data[[case_weights]]
+        }
+      ,
       na_rm = na_rm,
+      !!! spliceable_estimator(estimator),
       !!! spliceable_event_level(event_level),
-      !!! spliceable_case_weights(case_weights),
       !!! fn_options
     )
   )
 
-  dplyr::as_tibble(metric_tbl)
+  dplyr::as_tibble(out)
 }
 
 #' Developer function for calling new metrics
@@ -371,4 +416,52 @@ spliceable_case_weights <- function(case_weights) {
   list(case_weights = case_weights)
 }
 
+yardstick_eval_select <- function(expr,
+                                  data,
+                                  arg,
+                                  ...,
+                                  allow_null = FALSE,
+                                  error_call = caller_env()) {
+  check_dots_empty()
 
+  expr <- enquo(expr)
+
+  if (allow_null && quo_is_null(expr)) {
+    # i.e. for `case_weights`
+    return(NULL)
+  }
+
+  out <- tidyselect::eval_select(
+    expr = expr,
+    data = data,
+    allow_predicates = FALSE,
+    allow_rename = FALSE,
+    allow_empty = FALSE,
+    error_call = error_call
+  )
+  out <- names(out)
+
+  if (length(out) != 1L) {
+    message <- paste0("`", arg, "` must select exactly 1 column from `data`.")
+    abort(message, call = error_call)
+  }
+
+  out
+}
+
+yardstick_eval_select_dots <- function(...,
+                                       data,
+                                       error_call = caller_env()) {
+  out <- tidyselect::eval_select(
+    expr = expr(c(...)),
+    data = data,
+    allow_predicates = FALSE,
+    allow_rename = FALSE,
+    allow_empty = FALSE,
+    error_call = error_call
+  )
+
+  out <- names(out)
+
+  out
+}
