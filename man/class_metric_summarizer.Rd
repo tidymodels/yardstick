@@ -17,7 +17,8 @@ class_metric_summarizer(
   na_rm = TRUE,
   event_level = NULL,
   case_weights = NULL,
-  fn_options = list()
+  fn_options = list(),
+  error_call = caller_env()
 )
 
 numeric_metric_summarizer(
@@ -29,7 +30,8 @@ numeric_metric_summarizer(
   ...,
   na_rm = TRUE,
   case_weights = NULL,
-  fn_options = list()
+  fn_options = list(),
+  error_call = caller_env()
 )
 
 prob_metric_summarizer(
@@ -37,13 +39,13 @@ prob_metric_summarizer(
   fn,
   data,
   truth,
-  estimate,
   ...,
   estimator = NULL,
   na_rm = TRUE,
   event_level = NULL,
   case_weights = NULL,
-  fn_options = list()
+  fn_options = list(),
+  error_call = caller_env()
 )
 }
 \arguments{
@@ -88,6 +90,11 @@ the case weights will be passed on to \code{fn} as the named argument
 \item{fn_options}{A named list of metric specific options. These
 are spliced into the metric function call using \verb{!!!} from \code{rlang}. The
 default results in nothing being spliced into the call.}
+
+\item{error_call}{The execution environment of a currently
+running function, e.g. \code{caller_env()}. The function will be
+mentioned in error messages as the source of the error. See the
+\code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
 }
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and
