@@ -56,6 +56,7 @@ auc <- function(x, y, na_rm = TRUE) {
 #'
 #' @inheritParams roc_auc
 dots_to_estimate <- function(data, ...) {
+  # TODO: Soft deprecate this too because it won't be required anymore!
 
   # Capture dots
   dot_vars <- rlang::with_handlers(
