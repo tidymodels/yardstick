@@ -70,14 +70,12 @@ pr_curve.data.frame <- function(data,
                                 na_rm = TRUE,
                                 event_level = yardstick_event_level(),
                                 case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
   result <- prob_metric_summarizer(
     name = "pr_curve",
     fn = pr_curve_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     na_rm = na_rm,
     event_level = event_level,
     case_weights = !!enquo(case_weights)

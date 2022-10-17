@@ -86,14 +86,12 @@ mn_log_loss.data.frame <- function(data,
                                    sum = FALSE,
                                    event_level = yardstick_event_level(),
                                    case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
   prob_metric_summarizer(
     name = "mn_log_loss",
     fn = mn_log_loss_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     na_rm = na_rm,
     event_level = event_level,
     case_weights = !!enquo(case_weights),
