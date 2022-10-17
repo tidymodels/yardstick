@@ -296,6 +296,7 @@ test_that("class_metric_summarizer()'s na_rm argument work", {
 
 test_that("class_metric_summarizer()'s case_weights argument work", {
   three_class <- data_three_class()$three_class
+  three_class$weights <- rep(c(1, 0), c(100, 50))
 
   accuracy_res <- class_metric_summarizer(
     name = "accuracy",
@@ -304,7 +305,7 @@ test_that("class_metric_summarizer()'s case_weights argument work", {
     truth = obs,
     estimate = pred,
     na_rm = TRUE,
-    case_weights = rep(c(1, 0), c(100, 50))
+    case_weights = weights
   )
 
   accuracy_exp <- dplyr::tibble(
@@ -383,7 +384,7 @@ test_that("prob_metric_summarizer() works as expected", {
     fn = roc_auc_vec,
     data = hpc_f1,
     truth = obs,
-    estimate = matrix(data = c(VF = VF, F = F, M = M, L = L), ncol = 4L),
+    VF:L,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -401,7 +402,7 @@ test_that("prob_metric_summarizer() works as expected", {
     fn = roc_auc_vec,
     data = hpc_f1,
     truth = obs,
-    estimate = matrix(data = c(VF = VF, F = F, M = M, L = L), ncol = 4L),
+    VF:L,
     estimator = "macro",
     na_rm = TRUE,
     case_weights = NULL
@@ -427,7 +428,7 @@ test_that("class_metric_summarizer()'s event_level works as expected", {
     fn = gain_capture_vec,
     data = hpc_f1,
     truth = obs,
-    estimate = VF,
+    VF,
     event_level = "first"
   )
 
@@ -436,7 +437,7 @@ test_that("class_metric_summarizer()'s event_level works as expected", {
     fn = gain_capture_vec,
     data = hpc_f1,
     truth = obs,
-    estimate = VF,
+    VF,
     event_level = "second"
   )
 
@@ -474,7 +475,7 @@ test_that("prob_metric_summarizer()'s na_rm argument work", {
     fn = roc_auc_vec,
     data = hpc_f1_na,
     truth = obs,
-    estimate = matrix(data = c(VF = VF, F = F, M = M, L = L), ncol = 4L),
+    VF:L,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -492,7 +493,7 @@ test_that("prob_metric_summarizer()'s na_rm argument work", {
     fn = roc_auc_vec,
     data = hpc_f1_na,
     truth = obs,
-    estimate = matrix(data = c(VF = VF, F = F, M = M, L = L), ncol = 4L),
+    VF:L,
     na_rm = FALSE,
     case_weights = NULL
   )
@@ -508,15 +509,16 @@ test_that("prob_metric_summarizer()'s na_rm argument work", {
 
 test_that("prob_metric_summarizer()'s case_weights argument work", {
   hpc_f1 <- data_hpc_fold1()
+  hpc_f1$weights <- rep(c(1, 0), c(340, 7))
 
   roc_auc_res <- prob_metric_summarizer(
     name = "roc_auc",
     fn = roc_auc_vec,
     data = hpc_f1,
     truth = obs,
-    estimate = matrix(data = c(VF = VF, F = F, M = M, L = L), ncol = 4L),
+    VF:L,
     na_rm = TRUE,
-    case_weights = rep(c(1, 0), c(340, 7))
+    case_weights = weights
   )
 
   roc_auc_exp <- dplyr::tibble(
@@ -541,7 +543,7 @@ test_that("prob_metric_summarizer()'s errors when wrong things are passes", {
       fn = roc_auc_vec,
       data = hpc_f1,
       truth = obs,
-      estimate = matrix(data = c(HELLO = HELLO, F = F, M = M, L = L), ncol = 4L)
+      c(HELLO, F, M, L)
     )
   )
 
@@ -551,7 +553,7 @@ test_that("prob_metric_summarizer()'s errors when wrong things are passes", {
       fn = roc_auc_vec,
       data = hpc_f1,
       truth = obviouslywrong,
-      estimate = matrix(data = c(VF = VF, F = F, M = M, L = L), ncol = 4L)
+      VF:L
     )
   )
 
@@ -561,7 +563,7 @@ test_that("prob_metric_summarizer()'s errors when wrong things are passes", {
       fn = roc_auc_vec,
       data = hpc_f1,
       truth = obs,
-      estimate = matrix(data = c(VF = VF, F = F, M = M, L = L), ncol = 4L),
+      VF:L,
       obviouslywrong = TRUE
     )
   )
@@ -576,7 +578,7 @@ test_that("prob_metric_summarizer() deals with characters in truth", {
     fn = roc_auc_vec,
     data = hpc_f1,
     truth = "obs",
-    estimate = matrix(data = c(VF = VF, F = F, M = M, L = L), ncol = 4L),
+    VF:L,
     na_rm = TRUE,
     case_weights = NULL
   )

@@ -6,7 +6,7 @@
     Condition
       Warning:
       `metric_summarizer()` was deprecated in yardstick 1.2.0.
-      Please use `numeric_metric_summarizer()`, `class_metric_summarizer()`, or `prob_metric_summarizer()` instead.
+      i Please use `numeric_metric_summarizer()`, `class_metric_summarizer()`, or `prob_metric_summarizer()` instead.
 
 # metric_summarizer()'s errors when wrong things are passes
 

@@ -1,25 +1,28 @@
 # Bad input --------------------------------------------------------------------
 
 test_that('bad args', {
-  expect_error(sens(pathology, truth = "pathology", estimate = c("scan", "scan")))
   expect_error(sens(pathology, truth = "patholosgy", estimate = "scan"))
 })
 
 test_that("`truth` should be factor", {
+  df <- dplyr::tibble(truth = 1, estimate = factor("A"))
+
   expect_snapshot((expect_error(
-    sens(pathology, 1, factor("A"))
+    sens(df, truth, estimate)
   )))
 })
 
 test_that("At least 2 levels in truth", {
+  df <- dplyr::tibble(truth = factor("A"), estimate = factor("A"))
+
   expect_snapshot((expect_error(
-    sens(pathology, factor("A"), factor("A"))
+    sens(df, truth, estimate)
   )))
 })
 
 test_that("Single character values are caught with correct errors", {
   expect_snapshot((expect_error(
-    sens(pathology, "a", factor("A"))
+    sens(pathology, "a", scan)
   )))
 })
 
@@ -27,7 +30,7 @@ test_that("Bad unquoted input is caught", {
   bad <- rlang::expr(c("a", "b"))
 
   expect_snapshot((expect_error(
-    sens(pathology, !! bad, factor("A"))
+    sens(pathology, !! bad, scan)
   )))
 })
 
@@ -56,12 +59,14 @@ test_that("Bad estimator type", {
 })
 
 test_that("Numeric matrix in numeric metric", {
+  solubility_test$a <- matrix(rep(1, nrow(solubility_test)), ncol = 1)
+
   expect_snapshot((expect_error(
-    rmse(solubility_test, matrix(1:5), prediction)
+    rmse(solubility_test, a, prediction)
   )))
 
   expect_snapshot((expect_error(
-    rmse(solubility_test, solubility, matrix(1:5))
+    rmse(solubility_test, solubility, a)
   )))
 })
 
