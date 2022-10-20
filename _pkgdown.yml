@@ -85,7 +85,9 @@ reference:
 
   - title: Development Functions
     contents:
-    - metric_summarizer
+    - class_metric_summarizer
+    - numeric_metric_summarizer
+    - prob_metric_summarizer
     - metric_vec_template
     - get_weights
     - new-metric

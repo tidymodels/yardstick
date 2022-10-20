@@ -3,7 +3,7 @@
 #' Balanced accuracy is computed here as the average of [sens()] and [spec()].
 #'
 #' @family class metrics
-#' @templateVar metric_fn bal_accuracy
+#' @templateVar fn bal_accuracy
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -34,9 +34,9 @@ bal_accuracy.data.frame <- function(data,
                                     event_level = yardstick_event_level(),
                                     ...) {
 
-  metric_summarizer(
-    metric_nm = "bal_accuracy",
-    metric_fn = bal_accuracy_vec,
+  class_metric_summarizer(
+    name = "bal_accuracy",
+    fn = bal_accuracy_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

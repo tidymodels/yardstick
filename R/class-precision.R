@@ -19,7 +19,7 @@
 #'
 #' @family class metrics
 #' @family relevance metrics
-#' @templateVar metric_fn precision
+#' @templateVar fn precision
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -60,9 +60,9 @@ precision.data.frame <- function(data,
                                  case_weights = NULL,
                                  event_level = yardstick_event_level(),
                                  ...) {
-  metric_summarizer(
-    metric_nm = "precision",
-    metric_fn = precision_vec,
+  class_metric_summarizer(
+    name = "precision",
+    fn = precision_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

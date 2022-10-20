@@ -22,7 +22,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn iic
+#' @templateVar fn iic
 #' @template return
 #'
 #' @inheritParams rmse
@@ -52,9 +52,9 @@ iic.data.frame <- function(data,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  metric_summarizer(
-    metric_nm = "iic",
-    metric_fn = iic_vec,
+  numeric_metric_summarizer(
+    name = "iic",
+    fn = iic_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

@@ -15,7 +15,7 @@
 #' calculation is done for each sample and the individual costs are averaged.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn class_cost
+#' @templateVar fn class_cost
 #' @template return
 #'
 #' @inheritParams pr_auc
@@ -117,19 +117,17 @@ classification_cost.data.frame <- function(data,
                                            na_rm = TRUE,
                                            event_level = yardstick_event_level(),
                                            case_weights = NULL) {
-   estimate <- dots_to_estimate(data, !!!enquos(...))
-
-   metric_summarizer(
-      metric_nm = "classification_cost",
-      metric_fn = classification_cost_vec,
+   prob_metric_summarizer(
+      name = "classification_cost",
+      fn = classification_cost_vec,
       data = data,
       truth = !!enquo(truth),
-      estimate = !!estimate,
+      ...,
       na_rm = na_rm,
       event_level = event_level,
       case_weights = !!enquo(case_weights),
       # Extra argument for classification_cost_impl()
-      metric_fn_options = list(costs = costs)
+      fn_options = list(costs = costs)
    )
 }
 

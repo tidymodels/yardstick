@@ -5,7 +5,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn rmse
+#' @templateVar fn rmse
 #' @template return
 #'
 #' @param data A `data.frame` containing the columns specified by the `truth`
@@ -53,9 +53,9 @@ rmse.data.frame <- function(data,
                             na_rm = TRUE,
                             case_weights = NULL,
                             ...) {
-  metric_summarizer(
-    metric_nm = "rmse",
-    metric_fn = rmse_vec,
+  numeric_metric_summarizer(
+    name = "rmse",
+    fn = rmse_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

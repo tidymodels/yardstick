@@ -5,7 +5,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn huber_loss_pseudo
+#' @templateVar fn huber_loss_pseudo
 #' @template return
 #'
 #' @inheritParams huber_loss
@@ -40,16 +40,16 @@ huber_loss_pseudo.data.frame <- function(data,
                                          na_rm = TRUE,
                                          case_weights = NULL,
                                          ...) {
-  metric_summarizer(
-    metric_nm = "huber_loss_pseudo",
-    metric_fn = huber_loss_pseudo_vec,
+  numeric_metric_summarizer(
+    name = "huber_loss_pseudo",
+    fn = huber_loss_pseudo_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights),
     # Extra argument for huber_loss_pseudo_impl()
-    metric_fn_options = list(delta = delta)
+    fn_options = list(delta = delta)
   )
 }
 

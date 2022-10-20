@@ -17,7 +17,7 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
-#' @templateVar metric_fn sens
+#' @templateVar fn sens
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -90,9 +90,9 @@ sens.data.frame <- function(data,
                             case_weights = NULL,
                             event_level = yardstick_event_level(),
                             ...) {
-  metric_summarizer(
-    metric_nm = "sens",
-    metric_fn = sens_vec,
+  class_metric_summarizer(
+    name = "sens",
+    fn = sens_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -178,9 +178,9 @@ sensitivity.data.frame <- function(data,
                                    case_weights = NULL,
                                    event_level = yardstick_event_level(),
                                    ...) {
-  metric_summarizer(
-    metric_nm = "sensitivity",
-    metric_fn = sens_vec,
+  class_metric_summarizer(
+    name = "sensitivity",
+    fn = sens_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

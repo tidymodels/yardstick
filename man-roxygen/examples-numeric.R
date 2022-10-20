@@ -1,6 +1,6 @@
 #' @examples
 #' # Supply truth and predictions as bare column names
-#' <%=metric_fn %>(solubility_test, solubility, prediction)
+#' <%=fn %>(solubility_test, solubility, prediction)
 #'
 #' library(dplyr)
 #'
@@ -21,7 +21,7 @@
 #' # Compute the metric by group
 #' metric_results <- solubility_resampled %>%
 #'   group_by(resample) %>%
-#'   <%=metric_fn %>(solubility, prediction)
+#'   <%=fn %>(solubility, prediction)
 #'
 #' metric_results
 #'

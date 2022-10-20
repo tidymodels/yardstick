@@ -1,5 +1,12 @@
 # yardstick (development version)
 
+* `metric_summarizer()` is being soft deprecated in favor of the more specific
+  newly added `class_metric_summarizer()`, `numeric_metric_summarizer()`, and
+  `prob_metric_summarizer()` (#322).
+  
+* yardstick metric functions now use a pure tidyselect interface for `truth`, 
+  `estimate`, and the `...` of class probability metrics (#322).
+
 # yardstick 1.1.0
 
 * Emil Hvitfeldt is now the maintainer (#315).

@@ -12,7 +12,7 @@ hpc_fold1_macro_metric <- function(binary_metric, ...) {
   case_weights <- NULL
 
   res <- rlang::flatten_dbl(one_vs_all_impl(
-    metric_fn = binary_metric,
+    fn = binary_metric,
     truth = truth,
     estimate = prob_mat,
     case_weights = case_weights,
@@ -31,7 +31,7 @@ hpc_fold1_macro_weighted_metric <- function(binary_metric, ...) {
   case_weights <- NULL
 
   res <- rlang::flatten_dbl(one_vs_all_impl(
-    metric_fn = binary_metric,
+    fn = binary_metric,
     truth = truth,
     estimate = prob_mat,
     case_weights = case_weights,

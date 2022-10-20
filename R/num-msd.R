@@ -19,7 +19,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn msd
+#' @templateVar fn msd
 #' @template return
 #'
 #' @inheritParams rmse
@@ -45,9 +45,9 @@ msd.data.frame <- function(data,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  metric_summarizer(
-    metric_nm = "msd",
-    metric_fn = msd_vec,
+  numeric_metric_summarizer(
+    name = "msd",
+    fn = msd_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

@@ -11,7 +11,7 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
-#' @templateVar metric_fn ppv
+#' @templateVar fn ppv
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -55,9 +55,9 @@ ppv.data.frame <- function(data,
                            case_weights = NULL,
                            event_level = yardstick_event_level(),
                            ...) {
-  metric_summarizer(
-    metric_nm = "ppv",
-    metric_fn = ppv_vec,
+  class_metric_summarizer(
+    name = "ppv",
+    fn = ppv_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -65,7 +65,7 @@ ppv.data.frame <- function(data,
     na_rm = na_rm,
     case_weights = !!enquo(case_weights),
     event_level = event_level,
-    metric_fn_options = list(prevalence = prevalence)
+    fn_options = list(prevalence = prevalence)
   )
 }
 

@@ -31,7 +31,7 @@
 #' values are often very close to one another.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn average_precision
+#' @templateVar fn average_precision
 #' @template return
 #' @template multiclass-prob
 #' @template event_first
@@ -66,18 +66,16 @@ average_precision.data.frame <- function(data,
                                          na_rm = TRUE,
                                          event_level = yardstick_event_level(),
                                          case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "average_precision",
-    metric_fn = average_precision_vec,
+  prob_metric_summarizer(
+    name = "average_precision",
+    fn = average_precision_vec,
     data = data,
-    truth = !!enquo(truth),
-    estimate = !!estimate,
+    truth = {{truth}},
+    ...,
     estimator = estimator,
     na_rm = na_rm,
     event_level = event_level,
-    case_weights = !!enquo(case_weights)
+    case_weights = {{case_weights}}
   )
 }
 
@@ -158,7 +156,7 @@ average_precision_multiclass <- function(truth,
                                          estimate,
                                          case_weights) {
   results <- one_vs_all_impl(
-    metric_fn = average_precision_binary,
+    fn = average_precision_binary,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights

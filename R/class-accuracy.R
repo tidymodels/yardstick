@@ -3,7 +3,7 @@
 #' Accuracy is the proportion of the data that are predicted correctly.
 #'
 #' @family class metrics
-#' @templateVar metric_fn accuracy
+#' @templateVar fn accuracy
 #' @template return
 #'
 #' @section Multiclass:
@@ -50,9 +50,9 @@ accuracy.data.frame <- function(data,
                                 na_rm = TRUE,
                                 case_weights = NULL,
                                 ...) {
-  metric_summarizer(
-    metric_nm = "accuracy",
-    metric_fn = accuracy_vec,
+  class_metric_summarizer(
+    name = "accuracy",
+    fn = accuracy_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

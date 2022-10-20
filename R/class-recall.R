@@ -19,7 +19,7 @@
 #'
 #' @family class metrics
 #' @family relevance metrics
-#' @templateVar metric_fn recall
+#' @templateVar fn recall
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -61,9 +61,9 @@ recall.data.frame <- function(data,
                               event_level = yardstick_event_level(),
                               ...) {
 
-  metric_summarizer(
-    metric_nm = "recall",
-    metric_fn = recall_vec,
+  class_metric_summarizer(
+    name = "recall",
+    fn = recall_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

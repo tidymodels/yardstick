@@ -10,7 +10,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn mpe
+#' @templateVar fn mpe
 #' @template return
 #'
 #' @inheritParams rmse
@@ -74,9 +74,9 @@ mpe.data.frame <- function(data,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  metric_summarizer(
-    metric_nm = "mpe",
-    metric_fn = mpe_vec,
+  numeric_metric_summarizer(
+    name = "mpe",
+    fn = mpe_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

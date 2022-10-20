@@ -87,7 +87,7 @@ get_weights <- function(data, estimator) {
 #' @param estimator Either `NULL` for auto-selection, or a single character
 #' for the type of estimator to use.
 #'
-#' @seealso [metric_summarizer()] [metric_vec_template()]
+#' @seealso [class_metric_summarizer()] [metric_vec_template()]
 #'
 #' @export
 finalize_estimator <- function(x, estimator = NULL, metric_class = "default") {

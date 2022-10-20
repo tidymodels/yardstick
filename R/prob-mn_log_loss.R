@@ -15,7 +15,7 @@
 #' of `.9`.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn mn_log_loss
+#' @templateVar fn mn_log_loss
 #' @template return
 #'
 #' @section Multiclass:
@@ -86,19 +86,17 @@ mn_log_loss.data.frame <- function(data,
                                    sum = FALSE,
                                    event_level = yardstick_event_level(),
                                    case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "mn_log_loss",
-    metric_fn = mn_log_loss_vec,
+  prob_metric_summarizer(
+    name = "mn_log_loss",
+    fn = mn_log_loss_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     na_rm = na_rm,
     event_level = event_level,
     case_weights = !!enquo(case_weights),
     # Extra argument for mn_log_loss_impl()
-    metric_fn_options = list(sum = sum)
+    fn_options = list(sum = sum)
   )
 }
 

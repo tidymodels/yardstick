@@ -14,7 +14,7 @@
 #' Note that you can't combine `estimator = "hand_till"` with `case_weights`.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn roc_auc
+#' @templateVar fn roc_auc
 #' @template return
 #' @template event_first
 #'
@@ -89,16 +89,14 @@ roc_auc.data.frame <- function(data,
                                options = list()) {
   check_roc_options_deprecated("roc_auc", options)
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
   case_weights_quo <- enquo(case_weights)
 
-  out <- metric_summarizer(
-    metric_nm = "roc_auc",
-    metric_fn = roc_auc_vec,
+  out <- prob_metric_summarizer(
+    name = "roc_auc",
+    fn = roc_auc_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     estimator = estimator,
     na_rm = na_rm,
     event_level = event_level,
@@ -230,7 +228,7 @@ roc_auc_multiclass <- function(truth,
                                estimate,
                                case_weights) {
   results <- one_vs_all_impl(
-    metric_fn = roc_auc_binary,
+    fn = roc_auc_binary,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights

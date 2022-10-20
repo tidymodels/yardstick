@@ -11,7 +11,7 @@
 #'
 #' @family numeric metrics
 #' @family consistency metrics
-#' @templateVar metric_fn rpd
+#' @templateVar fn rpd
 #' @template return
 #'
 #' @inheritParams rmse
@@ -41,9 +41,9 @@ rpiq.data.frame <- function(data,
                             na_rm = TRUE,
                             case_weights = NULL,
                             ...) {
-  metric_summarizer(
-    metric_nm = "rpiq",
-    metric_fn = rpiq_vec,
+  numeric_metric_summarizer(
+    name = "rpiq",
+    fn = rpiq_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

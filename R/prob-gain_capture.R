@@ -14,7 +14,7 @@
 #' a gain curve. See the Engelmann reference for more information.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn gain_capture
+#' @templateVar fn gain_capture
 #' @template event_first
 #' @template return
 #' @template multiclass-prob
@@ -63,14 +63,12 @@ gain_capture.data.frame <- function(data,
                                     na_rm = TRUE,
                                     event_level = yardstick_event_level(),
                                     case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "gain_capture",
-    metric_fn = gain_capture_vec,
+  prob_metric_summarizer(
+    name = "gain_capture",
+    fn = gain_capture_vec,
     data = data,
     truth = !! enquo(truth),
-    estimate = !! estimate,
+    ...,
     estimator = estimator,
     na_rm = na_rm,
     event_level = event_level,
@@ -177,7 +175,7 @@ gain_capture_binary <- function(truth,
 
 gain_capture_multiclass <- function(truth, estimate, case_weights) {
   res_lst <- one_vs_all_impl(
-    metric_fn = gain_capture_binary,
+    fn = gain_capture_binary,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights

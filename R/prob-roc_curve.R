@@ -14,7 +14,7 @@
 #'  data (i.e. from resamples). See the examples.
 #'
 #' @family curve metrics
-#' @templateVar metric_fn roc_curve
+#' @templateVar fn roc_curve
 #' @template multiclass-curve
 #' @template event_first
 #'
@@ -78,14 +78,12 @@ roc_curve.data.frame <- function(data,
                                  options = list()) {
   check_roc_options_deprecated("roc_curve", options)
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  result <- metric_summarizer(
-    metric_nm = "roc_curve",
-    metric_fn = roc_curve_vec,
+  result <- prob_metric_summarizer(
+    name = "roc_curve",
+    fn = roc_curve_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     na_rm = na_rm,
     event_level = event_level,
     case_weights = !!enquo(case_weights)
@@ -201,7 +199,7 @@ roc_curve_multiclass <- function(truth,
                                  estimate,
                                  case_weights) {
   one_vs_all_with_level(
-    metric_fn = roc_curve_binary,
+    fn = roc_curve_binary,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights

@@ -5,7 +5,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn mae
+#' @templateVar fn mae
 #' @template return
 #'
 #' @inheritParams rmse
@@ -31,9 +31,9 @@ mae.data.frame <- function(data,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  metric_summarizer(
-    metric_nm = "mae",
-    metric_fn = mae_vec,
+  numeric_metric_summarizer(
+    name = "mae",
+    fn = mae_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

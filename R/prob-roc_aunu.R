@@ -6,7 +6,7 @@
 #' This is equivalent to `roc_auc(estimator = "macro")`.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn roc_aunu
+#' @templateVar fn roc_aunu
 #' @template return
 #' @template event_first
 #'
@@ -96,14 +96,12 @@ roc_aunu.data.frame  <- function(data,
                                  options = list()) {
   check_roc_options_deprecated("roc_aunu", options)
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "roc_aunu",
-    metric_fn = roc_aunu_vec,
+  prob_metric_summarizer(
+    name = "roc_aunu",
+    fn = roc_aunu_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     estimator = NULL,
     na_rm = na_rm,
     event_level = NULL,

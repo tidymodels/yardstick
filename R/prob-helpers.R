@@ -33,9 +33,9 @@ auc <- function(x, y, na_rm = TRUE) {
 #' Developer helpers
 #'
 #' Helpers to be used alongside [metric_vec_template()] and
-#' [metric_summarizer()] when creating new metrics. See [Custom performance
-#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
-#' information.
+#' [metric summarizers][class_metric_summarizer()] when creating new metrics. See [Custom
+#' performance metrics](https://www.tidymodels.org/learn/develop/metrics/) for
+#' more information.
 #'
 #' @section Dots -> Estimate:
 #'
@@ -87,7 +87,7 @@ dots_to_estimate <- function(data, ...) {
 
 # One vs all helper ------------------------------------------------------------
 
-one_vs_all_impl <- function(metric_fn,
+one_vs_all_impl <- function(fn,
                             truth,
                             estimate,
                             case_weights,
@@ -115,7 +115,7 @@ one_vs_all_impl <- function(metric_fn,
 
     # `one_vs_all_impl()` always ignores the event level ordering when
     # computing each individual binary metric
-    metric_lst[[i]] <- metric_fn(
+    metric_lst[[i]] <- fn(
       truth_temp,
       estimate_temp,
       case_weights = case_weights,
@@ -128,14 +128,14 @@ one_vs_all_impl <- function(metric_fn,
   metric_lst
 }
 
-one_vs_all_with_level <- function(metric_fn,
+one_vs_all_with_level <- function(fn,
                                   truth,
                                   estimate,
                                   case_weights,
                                   ...) {
 
   res <- one_vs_all_impl(
-    metric_fn = metric_fn,
+    fn = fn,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights,

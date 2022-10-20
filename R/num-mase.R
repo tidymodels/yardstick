@@ -20,7 +20,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn mase
+#' @templateVar fn mase
 #' @template return
 #'
 #' @inheritParams rmse
@@ -65,16 +65,16 @@ mase.data.frame <- function(data,
                             na_rm = TRUE,
                             case_weights = NULL,
                             ...) {
-  metric_summarizer(
-    metric_nm = "mase",
-    metric_fn = mase_vec,
+  numeric_metric_summarizer(
+    name = "mase",
+    fn = mase_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights),
     # Extra argument for mase_impl()
-    metric_fn_options = list(mae_train = mae_train, m = m)
+    fn_options = list(mae_train = mae_train, m = m)
   )
 }
 

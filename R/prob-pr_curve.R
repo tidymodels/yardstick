@@ -12,7 +12,7 @@
 #'  resamples). See the examples.
 #'
 #' @family curve metrics
-#' @templateVar metric_fn pr_curve
+#' @templateVar fn pr_curve
 #' @template multiclass-curve
 #' @template event_first
 #'
@@ -70,14 +70,12 @@ pr_curve.data.frame <- function(data,
                                 na_rm = TRUE,
                                 event_level = yardstick_event_level(),
                                 case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  result <- metric_summarizer(
-    metric_nm = "pr_curve",
-    metric_fn = pr_curve_vec,
+  result <- prob_metric_summarizer(
+    name = "pr_curve",
+    fn = pr_curve_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     na_rm = na_rm,
     event_level = event_level,
     case_weights = !!enquo(case_weights)
@@ -189,7 +187,7 @@ pr_curve_binary <- function(truth,
 # One vs all approach
 pr_curve_multiclass <- function(truth, estimate, case_weights) {
   one_vs_all_with_level(
-    metric_fn = pr_curve_binary,
+    fn = pr_curve_binary,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights
