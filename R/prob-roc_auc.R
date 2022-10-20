@@ -89,8 +89,6 @@ roc_auc.data.frame <- function(data,
                                options = list()) {
   check_roc_options_deprecated("roc_auc", options)
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
   case_weights_quo <- enquo(case_weights)
 
   out <- prob_metric_summarizer(
@@ -98,7 +96,7 @@ roc_auc.data.frame <- function(data,
     fn = roc_auc_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     estimator = estimator,
     na_rm = na_rm,
     event_level = event_level,

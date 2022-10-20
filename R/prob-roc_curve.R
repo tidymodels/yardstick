@@ -78,14 +78,12 @@ roc_curve.data.frame <- function(data,
                                  options = list()) {
   check_roc_options_deprecated("roc_curve", options)
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
   result <- prob_metric_summarizer(
     name = "roc_curve",
     fn = roc_curve_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     na_rm = na_rm,
     event_level = event_level,
     case_weights = !!enquo(case_weights)

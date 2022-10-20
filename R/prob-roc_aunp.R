@@ -96,14 +96,12 @@ roc_aunp.data.frame <- function(data,
                                 options = list()) {
   check_roc_options_deprecated("roc_aunp", options)
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
   prob_metric_summarizer(
     name = "roc_aunp",
     fn = roc_aunp_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     estimator = NULL,
     na_rm = na_rm,
     event_level = NULL,
