@@ -27,8 +27,7 @@
     Condition
       Error in `metric_set()`:
       ! Failed to compute `accuracy()`.
-      Caused by error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(truth = truth, estimate = predicted, na_rm = na_rm, case_weights = weight)`.
       Caused by error:
-      ! object 'weight' not found
+      ! Can't subset columns that don't exist.
+      x Column `weight` doesn't exist.
 

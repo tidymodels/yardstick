@@ -6,7 +6,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(truth = obs, estimate = pred_na, na_rm = na_rm, delta = -1)`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `metric_impl()`:
       ! `delta` must be a positive value.
 

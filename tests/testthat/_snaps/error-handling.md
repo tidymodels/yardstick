@@ -1,18 +1,18 @@
 # `truth` should be factor
 
     Code
-      (expect_error(sens(pathology, 1, factor("A"))))
+      (expect_error(sens(df, truth, estimate)))
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(truth = 1, estimate = factor("A"), na_rm = na_rm, event_level = "first")`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `validate_class()`:
       ! `truth` should be a factor but a numeric was supplied.
 
 # At least 2 levels in truth
 
     Code
-      (expect_error(sens(pathology, factor("A"), factor("A"))))
+      (expect_error(sens(df, truth, estimate)))
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
@@ -23,24 +23,22 @@
 # Single character values are caught with correct errors
 
     Code
-      (expect_error(sens(pathology, "a", factor("A"))))
+      (expect_error(sens(pathology, "a", scan)))
     Output
-      <error/rlang_error>
-      Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(truth = "a", estimate = factor("A"), na_rm = na_rm, event_level = "first")`.
-      Caused by error in `validate_class()`:
-      ! `truth` should be a factor but a character was supplied.
+      <error/vctrs_error_subscript_oob>
+      Error in `sens()`:
+      ! Can't subset columns that don't exist.
+      x Column `a` doesn't exist.
 
 # Bad unquoted input is caught
 
     Code
-      (expect_error(sens(pathology, !!bad, factor("A"))))
+      (expect_error(sens(pathology, !!bad, scan)))
     Output
-      <error/rlang_error>
-      Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_class()`:
-      ! `truth` should be a factor but a character was supplied.
+      <error/vctrs_error_subscript_oob>
+      Error in `sens()`:
+      ! Can't subset columns that don't exist.
+      x Column `a` doesn't exist.
 
 # Non-allowed estimator
 
@@ -49,7 +47,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimator = finalize_estimator(pathology, estimator, name)`.
+      ! Problem while computing `.estimator = finalize_estimator(.data[["pathology"]], estimator, name)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be one of: "binary", "macro", "micro", "macro_weighted". Not "blah".
 
@@ -71,7 +69,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimator = finalize_estimator(obs, estimator, name)`.
+      ! Problem while computing `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be a character, not a numeric.
 
@@ -82,29 +80,29 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimator = finalize_estimator(obs, estimator, name)`.
+      ! Problem while computing `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be length 1, not 2.
 
 # Numeric matrix in numeric metric
 
     Code
-      (expect_error(rmse(solubility_test, matrix(1:5), prediction)))
+      (expect_error(rmse(solubility_test, a, prediction)))
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(truth = matrix(1:5), estimate = prediction, na_rm = na_rm)`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `validate_truth_estimate_types()`:
       ! `truth` should be a numeric vector, not a numeric matrix.
 
 ---
 
     Code
-      (expect_error(rmse(solubility_test, solubility, matrix(1:5))))
+      (expect_error(rmse(solubility_test, solubility, a)))
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(truth = solubility, estimate = matrix(1:5), na_rm = na_rm)`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `validate_truth_estimate_types()`:
       ! `estimate` should be a numeric vector, not a numeric matrix.
 
@@ -115,7 +113,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(truth = x, estimate = y, na_rm = na_rm, event_level = "first")`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `multiclass_checks()`:
       ! `truth` and `estimate` levels must be equivalent.
       `truth`: a, b, c
@@ -139,7 +137,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(truth = obs, estimate = VF, na_rm = na_rm, event_level = "first")`.
+      ! Problem while computing `.estimate = fn(...)`.
       Caused by error in `multiclass_checks.matrix()`:
       ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (1).
 
@@ -148,14 +146,14 @@
     Code
       sens(two_class_example)
     Condition
-      Error in `handle_chr_names()`:
-      ! argument "x_expr" is missing, with no default
+      Error in `sens()`:
+      ! Must select at least one item.
 
 ---
 
     Code
       sens(two_class_example, truth)
     Condition
-      Error in `handle_chr_names()`:
-      ! argument "x_expr" is missing, with no default
+      Error in `sens()`:
+      ! Must select at least one item.
 
