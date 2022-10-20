@@ -18,6 +18,7 @@
 #' frames and returns a `tibble` consistent with other metrics.
 #'
 #' @inheritParams rlang::args_dots_empty
+#' @inheritParams rlang::args_error_context
 #'
 #' @param name A single character representing the name of the metric to
 #' use in the `tibble` output. This will be modified to include the type
@@ -74,32 +75,52 @@ numeric_metric_summarizer <- function(name,
                                       ...,
                                       na_rm = TRUE,
                                       case_weights = NULL,
-                                      fn_options = list()) {
-  check_dots_empty()
+                                      fn_options = list(),
+                                      error_call = caller_env()) {
+  rlang::check_dots_empty()
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
 
-  # Explicit handling of length 1 character vectors as column names
-  nms <- colnames(data)
-  truth <- handle_chr_names(truth, nms)
-  estimate <- handle_chr_names(estimate, nms)
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select(
+    expr = estimate,
+    data = data,
+    arg = "estimate",
+    error_call = error_call
+  )
 
-  metric_tbl <- dplyr::summarise(
+  if (!quo_is_null(case_weights)) {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights",
+      error_call = error_call
+    )
+
+    case_weights <- expr(.data[[!!case_weights]])
+  }
+
+  out <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = finalize_estimator(!!truth, metric_class = name),
+    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
     .estimate = fn(
-      truth = !!truth,
-      estimate = !!estimate,
+      truth = .data[[truth]],
+      estimate = .data[[estimate]],
+      case_weights = !!case_weights,
       na_rm = na_rm,
-      !!!spliceable_case_weights(case_weights),
       !!!fn_options
     )
   )
 
-  dplyr::as_tibble(metric_tbl)
+  dplyr::as_tibble(out)
 }
 
 #' @rdname metric-summarizers
@@ -114,34 +135,54 @@ class_metric_summarizer <- function(name,
                                     na_rm = TRUE,
                                     event_level = NULL,
                                     case_weights = NULL,
-                                    fn_options = list()) {
-  check_dots_empty()
+                                    fn_options = list(),
+                                    error_call = caller_env()) {
+  rlang::check_dots_empty()
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
 
-  # Explicit handling of length 1 character vectors as column names
-  nms <- colnames(data)
-  truth <- handle_chr_names(truth, nms)
-  estimate <- handle_chr_names(estimate, nms)
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select(
+    expr = estimate,
+    data = data,
+    arg = "estimate",
+    error_call = error_call
+  )
 
-  metric_tbl <- dplyr::summarise(
+  if (!quo_is_null(case_weights)) {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights",
+      error_call = error_call
+    )
+
+    case_weights <- expr(.data[[!!case_weights]])
+  }
+
+  out <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = finalize_estimator(!!truth, estimator, name),
+    .estimator = finalize_estimator(.data[[truth]], estimator, name),
     .estimate = fn(
-      truth = !!truth,
-      estimate = !!estimate,
-      !!!spliceable_estimator(estimator),
+      truth = .data[[truth]],
+      estimate = .data[[estimate]],
+      case_weights = !!case_weights,
       na_rm = na_rm,
-      !!!spliceable_event_level(event_level),
-      !!!spliceable_case_weights(case_weights),
-      !!!fn_options
+      !!! spliceable_argument(estimator, "estimator"),
+      !!! spliceable_argument(event_level, "event_level"),
+      !!! fn_options
     )
   )
 
-  dplyr::as_tibble(metric_tbl)
+  dplyr::as_tibble(out)
 }
 
 #' @rdname metric-summarizers
@@ -150,40 +191,77 @@ prob_metric_summarizer <- function(name,
                                    fn,
                                    data,
                                    truth,
-                                   estimate,
                                    ...,
                                    estimator = NULL,
                                    na_rm = TRUE,
                                    event_level = NULL,
                                    case_weights = NULL,
-                                   fn_options = list()) {
-  check_dots_empty()
-
+                                   fn_options = list(),
+                                   error_call = caller_env()) {
   truth <- enquo(truth)
-  estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
 
-  # Explicit handling of length 1 character vectors as column names
-  nms <- colnames(data)
-  truth <- handle_chr_names(truth, nms)
-  estimate <- handle_chr_names(estimate, nms)
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select_dots(
+    ...,
+    data = data,
+    error_call = error_call
+  )
 
-  metric_tbl <- dplyr::summarise(
+  if (!quo_is_null(case_weights)) {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights",
+      error_call = error_call
+    )
+
+    case_weights <- expr(.data[[!!case_weights]])
+  }
+
+  out <- dplyr::summarise(
     data,
     .metric = name,
-    .estimator = finalize_estimator(!!truth, estimator, name),
+    .estimator = finalize_estimator(.data[[truth]], estimator, name),
     .estimate = fn(
-      truth = !!truth,
-      estimate = !!estimate,
-      !!!spliceable_estimator(estimator),
+      truth = .data[[truth]],
+      estimate = {
+        # TODO: Use `dplyr::pick()` from dplyr 1.1.0
+        estimate <- dplyr::across(tidyselect::all_of(estimate), .fns = identity)
+        prob_estimate_convert(estimate)
+      },
+      case_weights = !!case_weights,
       na_rm = na_rm,
-      !!!spliceable_event_level(event_level),
-      !!!spliceable_case_weights(case_weights),
-      !!!fn_options
+      !!! spliceable_argument(estimator, "estimator"),
+      !!! spliceable_argument(event_level, "event_level"),
+      !!! fn_options
     )
   )
 
-  dplyr::as_tibble(metric_tbl)
+  dplyr::as_tibble(out)
+}
+
+prob_estimate_convert <- function(estimate) {
+  if (!is.data.frame(estimate)) {
+    abort("`estimate` should be a data frame.", .internal = TRUE)
+  }
+
+  n_estimate <- ncol(estimate)
+
+  if (n_estimate == 0L) {
+    abort("`estimate` should have errored during tidy-selection.", .internal = TRUE)
+  } else if (n_estimate == 1L) {
+    # Unwrap single column `estimate`s
+    estimate[[1L]]
+  } else {
+    # Otherwise multiclass case requires a matrix
+    as.matrix(estimate)
+  }
 }
 
 #' Developer function for calling new metrics
@@ -317,23 +395,6 @@ validate_case_weights <- function(case_weights, size) {
   invisible()
 }
 
-handle_chr_names <- function(x, nms) {
-  x_expr <- get_expr(x)
-
-  # Replace character with bare name
-  if(is.character(x_expr) && length(x_expr) == 1) {
-    # Only replace if it is actually a column name in `data`
-    if(x_expr %in% nms) {
-      # Replace the quosure with just the name
-      # Don't replace the quosure expression, this
-      # breaks with dplyr 0.8.0.1 and R <= 3.4.4
-      x <- as.name(x_expr)
-    }
-  }
-
-  x
-}
-
 metric_tibbler <- function(.metric, .estimator, .estimate) {
   dplyr::tibble(
     .metric = .metric,
@@ -342,34 +403,55 @@ metric_tibbler <- function(.metric, .estimator, .estimate) {
   )
 }
 
-# if estimator = NULL, we don't want to pass it along
-# as an argument. (autoselection will do the work for us)
-# splicing in an empty list essentially is equivalent
-# to splicing in nothing.
-spliceable_estimator <- function(estimator) {
-  if (!is.null(estimator)) {
-    return(list(estimator = estimator))
-  }
-  else {
-    return(list())
-  }
-}
-
-spliceable_event_level <- function(event_level) {
-  if (!is.null(event_level)) {
-    return(list(event_level = event_level))
-  }
-  else {
-    return(list())
-  }
-}
-
-spliceable_case_weights <- function(case_weights) {
-  if (quo_is_null(case_weights)) {
+spliceable_argument <- function(x, name) {
+  if (is.null(x)) {
     return(list())
   }
 
-  list(case_weights = case_weights)
+  out <- list(x)
+  names(out) <- name
+
+  out
 }
 
+yardstick_eval_select <- function(expr,
+                                  data,
+                                  arg,
+                                  ...,
+                                  error_call = caller_env()) {
+  check_dots_empty()
 
+  out <- tidyselect::eval_select(
+    expr = expr,
+    data = data,
+    allow_predicates = FALSE,
+    allow_rename = FALSE,
+    allow_empty = FALSE,
+    error_call = error_call
+  )
+  out <- names(out)
+
+  if (length(out) != 1L) {
+    message <- paste0("`", arg, "` must select exactly 1 column from `data`.")
+    abort(message, call = error_call)
+  }
+
+  out
+}
+
+yardstick_eval_select_dots <- function(...,
+                                       data,
+                                       error_call = caller_env()) {
+  out <- tidyselect::eval_select(
+    expr = expr(c(...)),
+    data = data,
+    allow_predicates = FALSE,
+    allow_rename = FALSE,
+    allow_empty = FALSE,
+    error_call = error_call
+  )
+
+  out <- names(out)
+
+  out
+}

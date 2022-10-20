@@ -95,9 +95,9 @@ metric_summarizer <- function(metric_nm,
     .estimate = metric_fn(
       truth = !! truth,
       estimate = !! estimate,
-      !!! spliceable_estimator(estimator),
+      !!! spliceable_argument(estimator, "estimator"),
       na_rm = na_rm,
-      !!! spliceable_event_level(event_level),
+      !!! spliceable_argument(event_level, "event_level"),
       !!! spliceable_case_weights(case_weights),
       !!! metric_fn_options
     )
@@ -106,7 +106,8 @@ metric_summarizer <- function(metric_nm,
   dplyr::as_tibble(metric_tbl)
 }
 
-# Validate that the user supplied an input -------------------------------------
+# ------------------------------------------------------------------------------
+# Utilities
 
 validate_not_missing <- function(x, nm) {
   if(rlang::quo_is_missing(x)) {
@@ -115,4 +116,30 @@ validate_not_missing <- function(x, nm) {
       "is missing and must be supplied."
     ))
   }
+}
+
+
+handle_chr_names <- function(x, nms) {
+  x_expr <- get_expr(x)
+
+  # Replace character with bare name
+  if(is.character(x_expr) && length(x_expr) == 1) {
+    # Only replace if it is actually a column name in `data`
+    if(x_expr %in% nms) {
+      # Replace the quosure with just the name
+      # Don't replace the quosure expression, this
+      # breaks with dplyr 0.8.0.1 and R <= 3.4.4
+      x <- as.name(x_expr)
+    }
+  }
+
+  x
+}
+
+spliceable_case_weights <- function(case_weights) {
+  if (rlang::quo_is_null(case_weights)) {
+    return(list())
+  }
+
+  list(case_weights = case_weights)
 }
