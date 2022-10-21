@@ -374,27 +374,6 @@ metric_vec_template <- function(metric_impl,
   }
 }
 
-validate_case_weights <- function(case_weights, size) {
-  if (is.null(case_weights)) {
-    return(invisible())
-  }
-
-  if (!is.integer(case_weights) && !is.double(case_weights)) {
-    abort("`case_weights` must be an integer or double vector.")
-  }
-
-  size_case_weights <- length(case_weights)
-
-  if (size_case_weights != size) {
-    abort(paste0(
-      "`case_weights` (", size_case_weights, ") must have the same ",
-      "length as `truth` (", size, ")."
-    ))
-  }
-
-  invisible()
-}
-
 metric_tibbler <- function(.metric, .estimator, .estimate) {
   dplyr::tibble(
     .metric = .metric,
