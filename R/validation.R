@@ -1,3 +1,41 @@
+validate_numeric_truth_numeric_estimate <- function(truth, estimate) {
+  if (!is.numeric(truth)) {
+    cls <- class(truth)[[1]]
+    abort(paste0(
+      "`truth` should be a numeric, not a `", cls, "`."
+    ))
+  }
+
+  if (!is.numeric(estimate)) {
+    cls <- class(estimate)[[1]]
+    abort(paste0(
+      "`estimate` should be a numeric, not a `", cls, "`."
+    ))
+  }
+
+  if (is.matrix(estimate)) {
+    abort(paste0(
+      "`estimate` should be a numeric vector, not a numeric matrix."
+    ))
+  }
+
+  if (is.matrix(truth)) {
+    abort(paste0(
+      "`truth` should be a numeric vector, not a numeric matrix."
+    ))
+  }
+
+  n_truth <- length(truth)
+  n_estimate <- length(estimate)
+
+  if (n_truth != n_estimate) {
+    abort(paste0(
+      "Length of `truth` (", n_truth, ") ",
+      "and `estimate` (", n_estimate, ") must match."
+    ))
+  }
+}
+
 # Checking column types and number supplied ------------------------------------
 
 validate_truth_estimate_types <- function(truth, estimate, estimator) {

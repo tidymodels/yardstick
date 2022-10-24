@@ -61,6 +61,8 @@ huber_loss_pseudo_vec <- function(truth,
                                   na_rm = TRUE,
                                   case_weights = NULL,
                                   ...) {
+  validate_numeric_truth_numeric_estimate(truth, estimate)
+
   metric_vec_template(
     metric_impl = huber_loss_pseudo_impl,
     truth = truth,

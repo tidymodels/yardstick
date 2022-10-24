@@ -54,6 +54,9 @@ poisson_log_loss_vec <- function(truth,
                                  na_rm = TRUE,
                                  case_weights = NULL,
                                  ...) {
+
+  validate_numeric_truth_numeric_estimate(truth, estimate)
+
   metric_vec_template(
     metric_impl = poisson_log_loss_impl,
     truth = truth,

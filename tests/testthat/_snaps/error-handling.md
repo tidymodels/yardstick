@@ -92,7 +92,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_truth_estimate_types()`:
+      Caused by error in `validate_numeric_truth_numeric_estimate()`:
       ! `truth` should be a numeric vector, not a numeric matrix.
 
 ---
@@ -103,7 +103,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_truth_estimate_types()`:
+      Caused by error in `validate_numeric_truth_numeric_estimate()`:
       ! `estimate` should be a numeric vector, not a numeric matrix.
 
 # Factors with non identical levels
