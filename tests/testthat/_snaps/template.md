@@ -103,7 +103,6 @@
         truth = obs, VF:L, obviouslywrong = TRUE)
     Condition
       Error:
-      ! Must subset columns with a valid subscript vector.
-      x Subscript `TRUE` has the wrong type `logical`.
-      i It must be numeric or character.
+      ! Can't subset columns with `TRUE`.
+      x `TRUE` must be numeric or character, not `TRUE`.
 
