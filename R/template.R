@@ -320,6 +320,97 @@ prob_estimate_convert <- function(estimate) {
 #'
 #' @seealso [metric_summarizer()] [finalize_estimator()] [dots_to_estimate()]
 #'
+#' @name metric-vec_template
+NULL
+
+#' @rdname metric-vec_template
+#' @export
+numeric_metric_vec_template <- function(metric_impl,
+                                        truth,
+                                        estimate,
+                                        na_rm = TRUE,
+                                        case_weights = NULL,
+                                        ...) {
+  validate_case_weights(case_weights, size = length(truth))
+
+  if (na_rm) {
+    complete_cases <- stats::complete.cases(truth, estimate, case_weights)
+    truth <- truth[complete_cases]
+
+    estimate <- estimate[complete_cases]
+    case_weights <- case_weights[complete_cases]
+  } else {
+    any_na <-
+      anyNA(truth) ||
+      anyNA(estimate) ||
+      (!is.null(case_weights) && anyNA(case_weights))
+
+    # return NA if any NA
+    if (any_na) {
+      return(NA_real_)
+    }
+  }
+
+  metric_impl(truth = truth, estimate = estimate, case_weights = case_weights, ...)
+}
+
+
+#' Developer function for calling new metrics
+#'
+#' `metric_vec_template()` is useful alongside [metric_summarizer()] for
+#' implementing new custom metrics. `metric_summarizer()` calls the metric
+#' function inside `dplyr::summarise()`. `metric_vec_template()` is a
+#' generalized function that calls the core implementation of a metric function,
+#' and includes a number of checks on the types, lengths, and argument inputs.
+#'
+#' @param metric_impl The core implementation function of your custom metric.
+#' This core implementation function is generally defined inside the vector
+#' method of your metric function.
+#'
+#' @param truth The realized vector of `truth`. This is either a factor
+#' or a numeric.
+#'
+#' @param estimate The realized `estimate` result. This is either a numeric
+#' vector, a factor vector, or a numeric matrix (in the case of multiple
+#' class probability columns) depending on your metric function.
+#'
+#' @param na_rm A `logical` value indicating whether `NA` values should be
+#' stripped before the computation proceeds. `NA` values are removed
+#' before getting to your core implementation function so you do not have to
+#' worry about handling them yourself. If `na_rm=FALSE` and any `NA` values
+#' exist, then `NA` is automatically returned.
+#'
+#' @param cls A character vector of length 1 or 2 corresponding to the
+#' class that `truth` and `estimate` should be, respectively. If `truth` and
+#' `estimate` are of the same class, just supply a vector of length 1. If
+#' they are different, supply a vector of length 2. For matrices, it is best
+#' to supply `"numeric"` as the class to check here.
+#'
+#' @param estimator The type of averaging to use. By this point, the averaging
+#' type should be finalized, so this should be a character vector of length 1\.
+#' By default, this character value is required to be one of: `"binary"`,
+#' `"macro"`, `"micro"`, or `"macro_weighted"`. If your metric allows more
+#' or less averaging methods, override this with `averaging_override`.
+#'
+#' @param case_weights Optionally, the realized case weights, as a numeric
+#' vector. This must be the same length as `truth`, and will be considered in
+#' the `na_rm` checks. If supplied, this will be passed on to `metric_impl` as
+#' the named argument `case_weights`.
+#'
+#' @param ... Extra arguments to your core metric function, `metric_impl`, can
+#' technically be passed here, but generally the extra args are added through
+#' R's scoping rules because the core metric function is created on the fly
+#' when the vector method is called.
+#'
+#' @details
+#'
+#' `metric_vec_template()` is called from the vector implementation of your
+#' metric. Also defined inside your vector implementation is a separate
+#' function performing the core implementation of the metric function. This
+#' core function is passed along to `metric_vec_template()` as `metric_impl`.
+#'
+#' @seealso [metric_summarizer()] [finalize_estimator()] [dots_to_estimate()]
+#'
 #' @export
 metric_vec_template <- function(metric_impl,
                                 truth,
