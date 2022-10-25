@@ -73,7 +73,7 @@ like class probability metrics, this is a result of \code{\link[=dots_to_estimat
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA} values should be
 stripped before the computation proceeds. The removal is executed in
-\code{metric_vec_template()}.}
+\code{\link[=metric-vec_template]{metric-vec_template()}}.}
 
 \item{case_weights}{For metrics supporting case weights, an unquoted
 column name corresponding to case weights can be passed here. If not \code{NULL},
@@ -113,5 +113,5 @@ of your metric function. It knows how to call your metric over grouped data
 frames and returns a \code{tibble} consistent with other metrics.
 }
 \seealso{
-\code{\link[=metric_vec_template]{metric_vec_template()}} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
+\code{\link[=metric-vec_template]{metric-vec_template()}} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
 }

@@ -1,5 +1,9 @@
 # yardstick (development version)
 
+* `metric_vec_template()` is being soft deprecated in favor of the more specific
+  newly added `class_metric_vec_template()`, `numeric_metric_vec_template()`, 
+  and `prob_metric_vec_template()`.
+
 * `metric_summarizer()` is being soft deprecated in favor of the more specific
   newly added `class_metric_summarizer()`, `numeric_metric_summarizer()`, and
   `prob_metric_summarizer()` (#322).
