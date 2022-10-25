@@ -102,6 +102,13 @@ validate_factor_truth_metrix_estimate <- function(truth, estimate, estimator) {
       ))
     }
 
+    if (!is.numeric(estimate)) {
+      cls <- class(estimate)[[1]]
+      abort(paste0(
+        "`estimate` should be a numeric vector, not a `", cls, "` vector."
+      ))
+    }
+
     n_lvls <- length(levels(truth))
     if (n_lvls != 2) {
       abort(paste0(
@@ -120,6 +127,13 @@ validate_factor_truth_metrix_estimate <- function(truth, estimate, estimator) {
       abort(paste0(
         "The number of levels in `truth` (", n_lvls, ") ",
         "must match the number of columns supplied in `...` (", n_cols, ")."
+      ))
+    }
+
+    if (!is.numeric(as.vector(estimate))) {
+      cls <- class(as.vector(estimate))[[1]]
+      abort(paste0(
+        "The columns supplied in `...` should be numerics, not `", cls, "`s."
       ))
     }
   }
