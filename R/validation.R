@@ -125,6 +125,18 @@ validate_factor_truth_metrix_estimate <- function(truth, estimate, estimator) {
   }
 }
 
+validate_binary_estimator <- function(truth, estimator) {
+  if (estimator != "binary") return()
+
+  lvls <- levels(truth)
+  if (length(lvls) != 2) {
+    abort(paste0(
+      "`estimator` is binary, only two class `truth` factors are allowed. ",
+      "A factor with ", length(lvls), " levels was provided."
+    ))
+  }
+}
+
 # Checking column types and number supplied ------------------------------------
 
 validate_truth_estimate_types <- function(truth, estimate, estimator) {
@@ -325,10 +337,10 @@ validate_truth_estimate_checks <- function(truth, estimate,
     cls <- c(cls, cls)
   }
 
-  validate_class(truth, "truth", cls[1])
-  validate_class(estimate, "estimate", cls[2])
-  validate_truth_estimate_types(truth, estimate, estimator)
-  validate_truth_estimate_lengths(truth, estimate)
+  # validate_class(truth, "truth", cls[1])
+  # validate_class(estimate, "estimate", cls[2])
+  # validate_truth_estimate_types(truth, estimate, estimator)
+  # validate_truth_estimate_lengths(truth, estimate)
 }
 
 # Validate estimator type is allowed -------------------------------------------
