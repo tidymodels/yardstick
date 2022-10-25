@@ -6,8 +6,8 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_class()`:
-      ! `truth` should be a factor but a numeric was supplied.
+      Caused by error in `validate_factor_truth_factor_estimate()`:
+      ! `truth` should be a factor, not a `numeric`.
 
 # At least 2 levels in truth
 
@@ -114,7 +114,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `multiclass_checks()`:
+      Caused by error in `validate_factor_truth_factor_estimate()`:
       ! `truth` and `estimate` levels must be equivalent.
       `truth`: a, b, c
       `estimate`: a, b

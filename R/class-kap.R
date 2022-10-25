@@ -72,7 +72,6 @@ kap.data.frame  <- function(data,
                             na_rm = TRUE,
                             case_weights = NULL,
                             ...) {
-
   class_metric_summarizer(
     name = "kap",
     fn = kap_vec,
@@ -114,6 +113,8 @@ kap_vec <- function(truth,
                     na_rm = TRUE,
                     case_weights = NULL,
                     ...) {
+  validate_factor_truth_factor_estimate(truth, estimate)
+
   estimator <- finalize_estimator(truth, metric_class = "kap")
 
   metric_vec_template(

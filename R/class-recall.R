@@ -60,7 +60,6 @@ recall.data.frame <- function(data,
                               case_weights = NULL,
                               event_level = yardstick_event_level(),
                               ...) {
-
   class_metric_summarizer(
     name = "recall",
     fn = recall_vec,
@@ -108,6 +107,8 @@ recall_vec <- function(truth,
                        case_weights = NULL,
                        event_level = yardstick_event_level(),
                        ...) {
+  validate_factor_truth_factor_estimate(truth, estimate)
+
   estimator <- finalize_estimator(truth, estimator)
 
   recall_impl <- function(truth, estimate, ..., case_weights = NULL) {

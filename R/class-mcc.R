@@ -97,6 +97,8 @@ mcc_vec <- function(truth,
                     na_rm = TRUE,
                     case_weights = NULL,
                     ...) {
+  validate_factor_truth_factor_estimate(truth, estimate)
+
   estimator <- finalize_estimator(truth, metric_class = "mcc")
 
   mcc_impl <- function(truth, estimate, ..., case_weights = NULL) {

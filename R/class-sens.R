@@ -136,6 +136,8 @@ sens_vec <- function(truth,
                      case_weights = NULL,
                      event_level = yardstick_event_level(),
                      ...) {
+  validate_factor_truth_factor_estimate(truth, estimate)
+
   estimator <- finalize_estimator(truth, estimator)
 
   sens_impl <- function(truth, estimate, ..., case_weights = NULL) {

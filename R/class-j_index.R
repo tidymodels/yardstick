@@ -101,6 +101,8 @@ j_index_vec <- function(truth,
                         case_weights = NULL,
                         event_level = yardstick_event_level(),
                         ...) {
+  validate_factor_truth_factor_estimate(truth, estimate)
+
   estimator <- finalize_estimator(truth, estimator)
 
   j_index_impl <- function(truth, estimate, ..., case_weights = NULL) {
