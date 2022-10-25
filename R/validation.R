@@ -95,7 +95,7 @@ validate_factor_truth_metrix_estimate <- function(truth, estimate, estimator) {
     ))
   }
 
-  if (isTRUE(estimator == "binary")) {
+  if (estimator == "binary") {
     if (is.matrix(estimate)) {
       abort(paste0(
         "You are using a `binary` metric but have passed multiple columns to `...`"
