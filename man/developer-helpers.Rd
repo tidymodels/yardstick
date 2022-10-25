@@ -106,8 +106,8 @@ as no auto-selection is needed.
 name if 1 input is provided to \code{...} or it constructs a quosure where the
 expression constructs a matrix of as many columns as are provided to \code{...}.
 These are eventually evaluated in the \code{summarise()} call in
-\code{\link[=metric_summarizer]{metric_summarizer()}} and evaluate to either a vector or a matrix for further
-use in the underlying vector functions.
+\code{\link[=metric-summarizers]{metric-summarizers()}} and evaluate to either a vector or a matrix for
+further use in the underlying vector functions.
 }
 
 \section{Estimator Validation}{

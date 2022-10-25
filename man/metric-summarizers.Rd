@@ -99,11 +99,10 @@ to pass along describing which level should be considered the "event".}
 }
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and
-\code{prob_metric_summarizer()} are useful alongside \code{\link[=metric_vec_template]{metric_vec_template()}} for
+\code{prob_metric_summarizer()} are useful alongside \code{\link[=metric-vec_template]{metric-vec_template()}} for
 implementing new custom metrics. These functions call the metric function
-inside \code{dplyr::summarise()}. \code{metric_vec_template()} is a generalized
-function that calls the core implementation of a metric function, and
-includes a number of checks on the types, lengths, and argument inputs.
+inside \code{dplyr::summarise()}. The \code{\link[=metric-vec_template]{metric-vec_template()}} functions are
+generalized function that calls the core implementation of a metric function.
 See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
 information.
 }

@@ -1,11 +1,10 @@
 #' Developer function for summarizing new metrics
 #'
 #' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
-#' `prob_metric_summarizer()` are useful alongside [metric_vec_template()] for
+#' `prob_metric_summarizer()` are useful alongside [metric-vec_template()] for
 #' implementing new custom metrics. These functions call the metric function
-#' inside `dplyr::summarise()`. `metric_vec_template()` is a generalized
-#' function that calls the core implementation of a metric function, and
-#' includes a number of checks on the types, lengths, and argument inputs.
+#' inside `dplyr::summarise()`. The [metric-vec_template()] functions are
+#' generalized function that calls the core implementation of a metric function.
 #' See [Custom performance
 #' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
 #' information.
@@ -266,59 +265,50 @@ prob_estimate_convert <- function(estimate) {
 
 #' Developer function for calling new metrics
 #'
-#' `metric_vec_template()` is useful alongside [metric_summarizer()] for
-#' implementing new custom metrics. `metric_summarizer()` calls the metric
-#' function inside `dplyr::summarise()`. `metric_vec_template()` is a
-#' generalized function that calls the core implementation of a metric function,
-#' and includes a number of checks on the types, lengths, and argument inputs.
+#' `class_metric_vec_template()`, `numeric_metric_vec_template()`, and
+#' `prob_metric_vec_template()` are useful alongside the [metric-summarizers()]
+#' functions for implementing new custom metrics. [metric-summarizers()] calls
+#' the metric function inside `dplyr::summarise()`.
+#' `class_metric_vec_template()`, `numeric_metric_vec_template()`, and
+#' `prob_metric_vec_template()` are generalized function that calls the core
+#' implementation of a metric function.
 #'
 #' @param metric_impl The core implementation function of your custom metric.
-#' This core implementation function is generally defined inside the vector
-#' method of your metric function.
+#'   This core implementation function is generally defined inside the vector
+#'   method of your metric function.
 #'
-#' @param truth The realized vector of `truth`. This is either a factor
-#' or a numeric.
+#' @param truth The realized vector of `truth`. This is either a factor or a
+#'   numeric.
 #'
 #' @param estimate The realized `estimate` result. This is either a numeric
-#' vector, a factor vector, or a numeric matrix (in the case of multiple
-#' class probability columns) depending on your metric function.
+#'   vector, a factor vector, or a numeric matrix (in the case of multiple class
+#'   probability columns) depending on your metric function.
 #'
 #' @param na_rm A `logical` value indicating whether `NA` values should be
-#' stripped before the computation proceeds. `NA` values are removed
-#' before getting to your core implementation function so you do not have to
-#' worry about handling them yourself. If `na_rm=FALSE` and any `NA` values
-#' exist, then `NA` is automatically returned.
+#'   stripped before the computation proceeds. `NA` values are removed before
+#'   getting to your core implementation function so you do not have to worry
+#'   about handling them yourself. If `na_rm=FALSE` and any `NA` values exist,
+#'   then `NA` is automatically returned.
 #'
-#' @param cls A character vector of length 1 or 2 corresponding to the
-#' class that `truth` and `estimate` should be, respectively. If `truth` and
-#' `estimate` are of the same class, just supply a vector of length 1. If
-#' they are different, supply a vector of length 2. For matrices, it is best
-#' to supply `"numeric"` as the class to check here.
-#'
-#' @param estimator The type of averaging to use. By this point, the averaging
-#' type should be finalized, so this should be a character vector of length 1\.
-#' By default, this character value is required to be one of: `"binary"`,
-#' `"macro"`, `"micro"`, or `"macro_weighted"`. If your metric allows more
-#' or less averaging methods, override this with `averaging_override`.
-#'
-#' @param case_weights Optionally, the realized case weights, as a numeric
-#' vector. This must be the same length as `truth`, and will be considered in
-#' the `na_rm` checks. If supplied, this will be passed on to `metric_impl` as
-#' the named argument `case_weights`.
+#' @param case_weights the realized case weights, as a numeric vector. This must
+#'   be the same length as `truth`, and will be considered in the `na_rm`
+#'   checks. If supplied, this will be passed on to `metric_impl` as the named
+#'   argument `case_weights`.
 #'
 #' @param ... Extra arguments to your core metric function, `metric_impl`, can
-#' technically be passed here, but generally the extra args are added through
-#' R's scoping rules because the core metric function is created on the fly
-#' when the vector method is called.
+#'   technically be passed here, but generally the extra args are added through
+#'   R's scoping rules because the core metric function is created on the fly
+#'   when the vector method is called.
 #'
 #' @details
 #'
-#' `metric_vec_template()` is called from the vector implementation of your
-#' metric. Also defined inside your vector implementation is a separate
+#' `class_metric_vec_template()`, `numeric_metric_vec_template()`, and
+#' `prob_metric_vec_template()` are called from the vector implementation of
+#' your metric. Also defined inside your vector implementation is a separate
 #' function performing the core implementation of the metric function. This
-#' core function is passed along to `metric_vec_template()` as `metric_impl`.
+#' core function is passed along as `metric_impl`.
 #'
-#' @seealso [metric_summarizer()] [finalize_estimator()] [dots_to_estimate()]
+#' @seealso [metric-summarizers()] [finalize_estimator()] [dots_to_estimate()]
 #'
 #' @name metric-vec_template
 NULL
