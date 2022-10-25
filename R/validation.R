@@ -83,6 +83,47 @@ validate_factor_truth_factor_estimate <- function(truth, estimate) {
   }
 }
 
+validate_factor_truth_metrix_estimate <- function(truth, estimate, estimator) {
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+
+  if (!is.factor(truth)) {
+    cls <- class(truth)[[1]]
+    abort(paste0(
+      "`truth` should be a factor, not a `", cls, "`."
+    ))
+  }
+
+  if (isTRUE(estimator == "binary")) {
+    if (is.matrix(estimate)) {
+      abort(paste0(
+        "You are using a `binary` metric but have passed multiple columns to `...`"
+      ))
+    }
+
+    n_lvls <- length(levels(truth))
+    if (n_lvls != 2) {
+      abort(paste0(
+        "`estimator` is binary, only two class `truth` factors are allowed. ",
+        "A factor with ", n_lvls, " levels was provided."
+      ))
+    }
+  } else {
+    n_lvls <- length(levels(truth))
+    n_cols <- ncol(estimate)
+
+    if (is.null(n_cols) || n_lvls != n_cols) {
+      if (is.null(n_cols)) {
+        n_cols <- 1
+      }
+      abort(paste0(
+        "The number of levels in `truth` (", n_lvls, ") ",
+        "must match the number of columns supplied in `...` (", n_cols, ")."
+      ))
+    }
+  }
+}
 
 # Checking column types and number supplied ------------------------------------
 
