@@ -85,6 +85,7 @@ accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...
   validate_factor_truth_factor_estimate(truth, estimate)
 
   estimator <- finalize_estimator(truth, metric_class = "accuracy")
+  validate_binary_estimator(truth, estimator)
 
   metric_vec_template(
     metric_impl = accuracy_impl,

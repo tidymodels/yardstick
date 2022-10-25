@@ -17,7 +17,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `binary_checks()`:
+      Caused by error in `validate_binary_estimator()`:
       ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 1 levels was provided.
 
 # Single character values are caught with correct errors
@@ -59,7 +59,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `binary_checks()`:
+      Caused by error in `validate_binary_estimator()`:
       ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 4 levels was provided.
 
 # Bad estimator type

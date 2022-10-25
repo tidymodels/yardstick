@@ -130,8 +130,8 @@ roc_auc_vec <- function(truth,
     metric_class = "roc_auc",
     case_weights = case_weights
   )
-
   validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+  validate_binary_estimator(truth, estimator)
 
   roc_auc_impl <- function(truth,
                            estimate,

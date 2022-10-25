@@ -141,8 +141,8 @@ classification_cost_vec <- function(truth,
                                     case_weights = NULL,
                                     ...) {
    estimator <- finalize_estimator(truth, metric_class = "classification_cost")
-
   validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+   validate_binary_estimator(truth, estimator)
 
    classification_cost_impl <- function(truth,
                                         estimate,

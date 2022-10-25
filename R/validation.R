@@ -337,10 +337,10 @@ validate_truth_estimate_checks <- function(truth, estimate,
     cls <- c(cls, cls)
   }
 
-  # validate_class(truth, "truth", cls[1])
-  # validate_class(estimate, "estimate", cls[2])
-  # validate_truth_estimate_types(truth, estimate, estimator)
-  # validate_truth_estimate_lengths(truth, estimate)
+  validate_class(truth, "truth", cls[1])
+  validate_class(estimate, "estimate", cls[2])
+  validate_truth_estimate_types(truth, estimate, estimator)
+  validate_truth_estimate_lengths(truth, estimate)
 }
 
 # Validate estimator type is allowed -------------------------------------------

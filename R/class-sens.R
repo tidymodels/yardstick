@@ -139,6 +139,7 @@ sens_vec <- function(truth,
   validate_factor_truth_factor_estimate(truth, estimate)
 
   estimator <- finalize_estimator(truth, estimator)
+  validate_binary_estimator(truth, estimator)
 
   sens_impl <- function(truth, estimate, ..., case_weights = NULL) {
     check_dots_empty()
