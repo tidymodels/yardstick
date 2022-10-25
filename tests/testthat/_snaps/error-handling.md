@@ -127,7 +127,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `binary_checks()`:
+      Caused by error in `validate_factor_truth_metrix_estimate()`:
       ! You are using a `binary` metric but have passed multiple columns to `...`
 
 # 1 estimate column for a multiclass metric
@@ -138,7 +138,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `multiclass_checks.matrix()`:
+      Caused by error in `validate_factor_truth_metrix_estimate()`:
       ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (1).
 
 # Missing arguments

@@ -18,9 +18,9 @@ test_that("lift_curve() matches known result", {
 test_that("error handling", {
   df <- data.frame(truth = 1, estimate = factor("x"))
 
-  expect_error(
-    lift_curve(df, truth, estimate),
-    "`truth` should be a factor but a numeric was supplied."
+  expect_snapshot(
+    error = TRUE,
+    lift_curve(df, truth, estimate)
   )
 })
 
