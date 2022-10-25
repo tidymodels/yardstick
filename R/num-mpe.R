@@ -94,13 +94,12 @@ mpe_vec <- function(truth,
                     ...) {
   validate_numeric_truth_numeric_estimate(truth, estimate)
 
-  metric_vec_template(
+  numeric_metric_vec_template(
     metric_impl = mpe_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    case_weights = case_weights,
-    cls = "numeric"
+    case_weights = case_weights
   )
 }
 
