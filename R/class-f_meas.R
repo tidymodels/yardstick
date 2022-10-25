@@ -118,14 +118,12 @@ f_meas_vec <- function(truth,
     f_meas_table_impl(data, estimator, event_level, beta = beta)
   }
 
-  metric_vec_template(
+  class_metric_vec_template(
     metric_impl = f_meas_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    estimator = estimator,
     case_weights = case_weights,
-    cls = "factor",
     beta = beta
   )
 }

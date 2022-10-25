@@ -131,14 +131,12 @@ ppv_vec <- function(truth,
     ppv_table_impl(data, estimator, event_level, prevalence = prevalence)
   }
 
-  metric_vec_template(
+  class_metric_vec_template(
     metric_impl = ppv_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    estimator = estimator,
     case_weights = case_weights,
-    cls = "factor",
     prevalence = prevalence
   )
 }

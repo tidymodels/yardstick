@@ -91,14 +91,12 @@ detection_prevalence_vec <- function(truth,
     detection_prevalence_table_impl(data, estimator, event_level)
   }
 
-  metric_vec_template(
+  class_metric_vec_template(
     metric_impl = detection_prevalence_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = "factor"
+    case_weights = case_weights
   )
 }
 

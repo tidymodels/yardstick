@@ -108,14 +108,12 @@ mcc_vec <- function(truth,
     mcc_table_impl(data, estimator)
   }
 
-  metric_vec_template(
+  class_metric_vec_template(
     metric_impl = mcc_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = "factor"
+    case_weights = case_weights
   )
 }
 

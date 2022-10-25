@@ -112,13 +112,11 @@ j_index_vec <- function(truth,
     j_index_table_impl(data, estimator, event_level)
   }
 
-  metric_vec_template(
+  class_metric_vec_template(
     metric_impl = j_index_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    cls = "factor",
-    estimator = estimator,
     case_weights = case_weights
   )
 }

@@ -118,14 +118,12 @@ kap_vec <- function(truth,
   estimator <- finalize_estimator(truth, metric_class = "kap")
   validate_binary_estimator(truth, estimator)
 
-  metric_vec_template(
+  class_metric_vec_template(
     metric_impl = kap_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    estimator = estimator,
     case_weights = case_weights,
-    cls = "factor",
     weighting = weighting
   )
 }
