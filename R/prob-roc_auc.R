@@ -148,14 +148,12 @@ roc_auc_vec <- function(truth,
     )
   }
 
-  metric_vec_template(
+  prob_metric_vec_template(
     metric_impl = roc_auc_impl,
     truth = truth,
     estimate = estimate,
-    estimator = estimator,
     na_rm = na_rm,
-    case_weights = case_weights,
-    cls = c("factor", "numeric")
+    case_weights = case_weights
   )
 }
 
@@ -384,7 +382,7 @@ roc_auc_subset <- function(lvl1, lvl2, truth, estimate) {
 # ------------------------------------------------------------------------------
 
 compute_n_occurrences <- function(x, what) {
-  # `NA` values have already been removed by `metric_vec_template()`
+  # `NA` values have already been removed by `prob_metric_vec_template()`
   sum(x == what)
 }
 

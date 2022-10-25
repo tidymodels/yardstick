@@ -140,13 +140,11 @@ roc_aunu_vec <- function(truth,
     )
   }
 
-  metric_vec_template(
+  prob_metric_vec_template(
     metric_impl = roc_aunu_impl,
     truth = truth,
     estimate = estimate,
-    estimator = estimator,
     na_rm = na_rm,
-    case_weights = case_weights,
-    cls = c("factor", "numeric")
+    case_weights = case_weights
   )
 }

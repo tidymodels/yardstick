@@ -107,14 +107,12 @@ average_precision_vec <- function(truth,
     )
   }
 
-  metric_vec_template(
+  prob_metric_vec_template(
     metric_impl = average_precision_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = c("factor", "numeric")
+    case_weights = case_weights
   )
 }
 
@@ -139,7 +137,7 @@ average_precision_binary <- function(truth,
                                      estimate,
                                      event_level,
                                      case_weights) {
-  # `na_rm` should already be done by `metric_vec_template()`
+  # `na_rm` should already be done by `prob_metric_vec_template()`
   curve <- pr_curve_vec(
     truth = truth,
     estimate = estimate,

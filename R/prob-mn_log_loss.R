@@ -131,14 +131,12 @@ mn_log_loss_vec <- function(truth,
     )
   }
 
-  metric_vec_template(
+  prob_metric_vec_template(
     metric_impl = mn_log_loss_impl,
     truth = truth,
     estimate = estimate,
     na_rm = na_rm,
-    estimator = estimator,
     case_weights = case_weights,
-    cls = c("factor", "numeric"),
     sum = sum
   )
 }
