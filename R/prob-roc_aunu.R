@@ -121,6 +121,8 @@ roc_aunu_vec <- function(truth,
 
   estimator <- "macro"
 
+  validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+
   # `event_level` doesn't really matter, but we set it anyways
   roc_aunu_impl <- function(truth,
                             estimate,

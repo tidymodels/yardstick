@@ -82,6 +82,8 @@ pr_auc_vec <- function(truth,
                        ...) {
   estimator <- finalize_estimator(truth, estimator, "pr_auc")
 
+  validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+
   pr_auc_impl <- function(truth,
                           estimate,
                           ...,

@@ -137,6 +137,8 @@ gain_curve_vec <- function(truth,
                            ...) {
   estimator <- finalize_estimator(truth, metric_class = "gain_curve")
 
+  validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+
   # estimate here is a matrix of class prob columns
   gain_curve_impl <- function(truth,
                               estimate,

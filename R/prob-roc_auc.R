@@ -131,6 +131,8 @@ roc_auc_vec <- function(truth,
     case_weights = case_weights
   )
 
+  validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+
   roc_auc_impl <- function(truth,
                            estimate,
                            ...,

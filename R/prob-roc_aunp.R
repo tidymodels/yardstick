@@ -121,6 +121,8 @@ roc_aunp_vec <- function(truth,
 
   estimator <- "macro_weighted"
 
+  validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+
   # `event_level` doesn't really matter, but we set it anyways
   roc_aunp_impl <- function(truth,
                             estimate,

@@ -90,6 +90,8 @@ average_precision_vec <- function(truth,
                                   ...) {
   estimator <- finalize_estimator(truth, estimator, "average_precision")
 
+  validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+
   average_precision_impl <- function(truth,
                                      estimate,
                                      ...,
