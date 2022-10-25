@@ -36,6 +36,54 @@ validate_numeric_truth_numeric_estimate <- function(truth, estimate) {
   }
 }
 
+validate_factor_truth_factor_estimate <- function(truth, estimate) {
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+  if (is_class_pred(estimate)) {
+    estimate <- as_factor_from_class_pred(estimate)
+  }
+  if (!is.factor(truth)) {
+    cls <- class(truth)[[1]]
+    abort(paste0(
+      "`truth` should be a factor, not a `", cls, "`."
+    ))
+  }
+
+  if (!is.factor(estimate)) {
+    cls <- class(estimate)[[1]]
+    abort(paste0(
+      "`estimate` should be a factor, not a `", cls, "`."
+    ))
+  }
+
+  lvls_t <- levels(truth)
+  lvls_e <- levels(estimate)
+
+  if (!identical(lvls_t, lvls_e)) {
+    lvls_t <- paste0(lvls_t, collapse = ", ")
+    lvls_e <- paste0(lvls_e, collapse = ", ")
+    abort(
+      paste0(
+        "`truth` and `estimate` levels must be equivalent.\n",
+        "`truth`: ",    lvls_t, "\n",
+        "`estimate`: ", lvls_e, "\n"
+      )
+    )
+  }
+
+  n_truth <- length(truth)
+  n_estimate <- length(estimate)
+
+  if (n_truth != n_estimate) {
+    abort(paste0(
+      "Length of `truth` (", n_truth, ") ",
+      "and `estimate` (", n_estimate, ") must match."
+    ))
+  }
+}
+
+
 # Checking column types and number supplied ------------------------------------
 
 validate_truth_estimate_types <- function(truth, estimate, estimator) {
