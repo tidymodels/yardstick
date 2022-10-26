@@ -592,3 +592,638 @@ test_that("prob_metric_summarizer() deals with characters in truth", {
   expect_identical(roc_auc_res, roc_auc_exp)
 })
 
+## numeric_metric_vec_template ------------------------------------------------
+
+test_that("numeric_metric_vec_template() works as expected", {
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    na_rm = FALSE,
+    case_weights = NULL,
+    bias = FALSE
+  )
+
+  exp_res <- ccc_impl(
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    bias = FALSE,
+    case_weights = NULL
+  )
+
+  expect_identical(res, exp_res)
+})
+
+test_that("numeric_metric_vec_template() validates case_weights", {
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    na_rm = FALSE,
+    case_weights = mtcars$mpg,
+    bias = FALSE
+  )
+
+  exp_res <- ccc_impl(
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    bias = FALSE,
+    case_weights = mtcars$mpg
+  )
+
+  expect_identical(res, exp_res)
+
+  expect_snapshot(
+    error = TRUE,
+    numeric_metric_vec_template(
+      metric_impl = ccc_impl,
+      truth = mtcars$mpg,
+      estimate = mtcars$disp,
+      na_rm = FALSE,
+      case_weights = mtcars$mpg[-1],
+      bias = FALSE
+    )
+  )
+})
+
+test_that("numeric_metric_vec_template() na_rm argument works", {
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    na_rm = TRUE,
+    case_weights = NULL,
+    bias = FALSE
+  )
+
+  exp_res <- ccc_impl(
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    bias = FALSE,
+    case_weights = NULL
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = c(mtcars$mpg[1:20], rep(NA, 12)),
+    estimate = mtcars$disp,
+    na_rm = TRUE,
+    case_weights = mtcars$mpg,
+    bias = FALSE
+  )
+
+  exp_res <- ccc_impl(
+    truth = mtcars$mpg[1:20],
+    estimate = mtcars$disp[1:20],
+    bias = FALSE,
+    case_weights = mtcars$mpg[1:20]
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = mtcars$mpg,
+    estimate = c(mtcars$disp[1:20], rep(NA, 12)),
+    na_rm = TRUE,
+    case_weights = mtcars$mpg,
+    bias = FALSE
+  )
+
+  exp_res <- ccc_impl(
+    truth = mtcars$mpg[1:20],
+    estimate = mtcars$disp[1:20],
+    bias = FALSE,
+    case_weights = mtcars$mpg[1:20]
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    na_rm = TRUE,
+    case_weights = c(mtcars$mpg[1:20], rep(NA, 12)),
+    bias = FALSE
+  )
+
+  exp_res <- ccc_impl(
+    truth = mtcars$mpg[1:20],
+    estimate = mtcars$disp[1:20],
+    bias = FALSE,
+    case_weights = mtcars$mpg[1:20]
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = c(mtcars$mpg[1:20], rep(NA, 12)),
+    estimate = mtcars$disp,
+    na_rm = FALSE,
+    case_weights = mtcars$mpg,
+    bias = FALSE
+  )
+
+  expect_identical(res, NA_real_)
+
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = mtcars$mpg,
+    estimate = c(mtcars$disp[1:20], rep(NA, 12)),
+    na_rm = FALSE,
+    case_weights = mtcars$mpg,
+    bias = FALSE
+  )
+
+  expect_identical(res, NA_real_)
+
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    na_rm = FALSE,
+    case_weights = c(mtcars$mpg[1:20], rep(NA, 12)),
+    bias = FALSE
+  )
+
+  expect_identical(res, NA_real_)
+})
+
+test_that("numeric_metric_vec_template() dots are passed through", {
+  res <- numeric_metric_vec_template(
+    metric_impl = ccc_impl,
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    na_rm = FALSE,
+    case_weights = NULL,
+    bias = TRUE
+  )
+
+  exp_res <- ccc_impl(
+    truth = mtcars$mpg,
+    estimate = mtcars$disp,
+    bias = TRUE,
+    case_weights = NULL
+  )
+
+  expect_identical(res, exp_res)
+})
+
+## class_metric_vec_template --------------------------------------------------
+
+test_that("class_metric_vec_template() works as expected", {
+  lst <- data_altman()$pathology
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = lst$pathology,
+    estimate = lst$scan,
+    na_rm = FALSE,
+    case_weights = NULL,
+    weighting = "none"
+  )
+
+  exp_res <- kap_impl(
+    truth = lst$pathology,
+    estimate = lst$scan,
+    weighting = "none",
+    case_weights = NULL
+  )
+
+  expect_identical(res, exp_res)
+})
+
+test_that("class_metric_vec_template() validates case_weights", {
+  lst <- data_altman()$pathology
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = lst$pathology,
+    estimate = lst$scan,
+    na_rm = FALSE,
+    case_weights = seq_along(lst$pathology),
+    weighting = "none"
+  )
+
+  exp_res <- kap_impl(
+    truth = lst$pathology,
+    estimate = lst$scan,
+    weighting = "none",
+    case_weights = seq_along(lst$pathology)
+  )
+
+  expect_identical(res, exp_res)
+
+  expect_snapshot(
+    error = TRUE,
+    class_metric_vec_template(
+      metric_impl = kap_impl,
+      truth = lst$pathology,
+      estimate = lst$scan,
+      na_rm = FALSE,
+      case_weights = seq_along(lst$pathology)[-1],
+      weighting = "none"
+    )
+  )
+})
+
+test_that("class_metric_vec_template() na_rm argument works", {
+  lst <- data_altman()$pathology
+  inject_na <- function(x) {
+    x[201:344] <- NA
+    x
+  }
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = lst$pathology,
+    estimate = lst$scan,
+    na_rm = TRUE,
+    case_weights = NULL,
+    weighting = "none"
+  )
+
+  exp_res <- kap_impl(
+    truth = lst$pathology,
+    estimate = lst$scan,
+    weighting = "none",
+    case_weights = NULL
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = inject_na(lst$pathology),
+    estimate = lst$scan,
+    na_rm = TRUE,
+    case_weights = seq_along(lst$pathology),
+    weighting = "none"
+  )
+
+  exp_res <- kap_impl(
+    truth = lst$pathology[1:200],
+    estimate = lst$scan[1:200],
+    weighting = "none",
+    case_weights = seq_along(lst$pathology)[1:200]
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = lst$pathology,
+    estimate = inject_na(lst$scan),
+    na_rm = TRUE,
+    case_weights = seq_along(lst$pathology),
+    weighting = "none"
+  )
+
+  exp_res <- kap_impl(
+    truth = lst$pathology[1:200],
+    estimate = lst$scan[1:200],
+    weighting = "none",
+    case_weights = seq_along(lst$pathology)[1:200]
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = lst$pathology,
+    estimate = lst$scan,
+    na_rm = TRUE,
+    case_weights = c(seq_along(lst$pathology)[1:200], rep(NA, 144)),
+    weighting = "none"
+  )
+
+  exp_res <- kap_impl(
+    truth = lst$pathology[1:200],
+    estimate = lst$scan[1:200],
+    weighting = "none",
+    case_weights = seq_along(lst$pathology)[1:200]
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = inject_na(lst$pathology),
+    estimate = lst$scan,
+    na_rm = FALSE,
+    case_weights = seq_along(lst$pathology),
+    weighting = "none"
+  )
+
+  expect_identical(res, NA_real_)
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = lst$pathology,
+    estimate = inject_na(lst$scan),
+    na_rm = FALSE,
+    case_weights = seq_along(lst$pathology),
+    weighting = "none"
+  )
+
+  expect_identical(res, NA_real_)
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = lst$pathology,
+    estimate = lst$scan,
+    na_rm = FALSE,
+    case_weights = c(seq_along(lst$pathology)[1:200], rep(NA, 144)),
+    weighting = "none"
+  )
+
+  expect_identical(res, NA_real_)
+})
+
+test_that("class_metric_vec_template() dots are passed through", {
+  lst <- data_altman()$pathology
+
+  res <- class_metric_vec_template(
+    metric_impl = kap_impl,
+    truth = lst$pathology,
+    estimate = lst$scan,
+    na_rm = FALSE,
+    case_weights = NULL,
+    weighting = "linear"
+  )
+
+  exp_res <- kap_impl(
+    truth = lst$pathology,
+    estimate = lst$scan,
+    weighting = "linear",
+    case_weights = NULL
+  )
+
+  expect_identical(res, exp_res)
+})
+
+## prob_metric_vec_template --------------------------------------------------
+
+test_that("prob_metric_vec_template() works as expected", {
+  hpc_f1 <- data_hpc_fold1()
+
+  mn_log_loss_impl <- function(truth,
+                               estimate,
+                               ...,
+                               sum = FALSE,
+                               case_weights = NULL) {
+    check_dots_empty()
+
+    mn_log_loss_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = "multiclass",
+      event_level = "first",
+      sum = sum,
+      case_weights = case_weights
+    )
+  }
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    na_rm = FALSE,
+    case_weights = NULL,
+    sum = FALSE
+  )
+
+  exp_res <- mn_log_loss_impl(
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    sum = FALSE,
+    case_weights = NULL
+  )
+
+  expect_identical(res, exp_res)
+})
+
+test_that("prob_metric_vec_template() validates case_weights", {
+  hpc_f1 <- data_hpc_fold1()
+
+  mn_log_loss_impl <- function(truth,
+                               estimate,
+                               ...,
+                               sum = FALSE,
+                               case_weights = NULL) {
+    check_dots_empty()
+
+    mn_log_loss_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = "multiclass",
+      event_level = "first",
+      sum = sum,
+      case_weights = case_weights
+    )
+  }
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    na_rm = FALSE,
+    case_weights = seq_along(hpc_f1$obs),
+    sum = FALSE
+  )
+
+  exp_res <- mn_log_loss_impl(
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    sum = FALSE,
+    case_weights = seq_along(hpc_f1$obs)
+  )
+
+  expect_identical(res, exp_res)
+
+  expect_snapshot(
+    error = TRUE,
+    prob_metric_vec_template(
+      metric_impl = mn_log_loss_impl,
+      truth = hpc_f1$obs,
+      estimate = as.matrix(hpc_f1[, 3:6]),
+      na_rm = FALSE,
+      case_weights = seq_along(lst$pathology)[-1],
+      sum = FALSE
+    )
+  )
+})
+
+test_that("prob_metric_vec_template() na_rm argument works", {
+  hpc_f1 <- data_hpc_fold1()
+
+  mn_log_loss_impl <- function(truth,
+                               estimate,
+                               ...,
+                               sum = FALSE,
+                               case_weights = NULL) {
+    check_dots_empty()
+
+    mn_log_loss_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = "multiclass",
+      event_level = "first",
+      sum = sum,
+      case_weights = case_weights
+    )
+  }
+
+  inject_na <- function(x) {
+    x[201:347] <- NA
+    x
+  }
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    na_rm = TRUE,
+    case_weights = NULL,
+    sum = FALSE
+  )
+
+  exp_res <- mn_log_loss_impl(
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    sum = FALSE,
+    case_weights = NULL
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = inject_na(hpc_f1$obs),
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    na_rm = TRUE,
+    case_weights = seq_along(hpc_f1$obs),
+    sum = FALSE
+  )
+
+  exp_res <- mn_log_loss_impl(
+    truth = hpc_f1$obs[1:200],
+    estimate = as.matrix(hpc_f1[, 3:6])[1:200, ],
+    sum = FALSE,
+    case_weights = seq_along(hpc_f1$obs)[1:200]
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = hpc_f1$obs,
+    estimate = inject_na(as.matrix(hpc_f1[, 3:6])),
+    na_rm = TRUE,
+    case_weights = seq_along(hpc_f1$obs),
+    sum = FALSE
+  )
+
+  exp_res <- mn_log_loss_impl(
+    truth = hpc_f1$obs[1:200],
+    estimate = as.matrix(hpc_f1[, 3:6])[1:200, ],
+    sum = FALSE,
+    case_weights = seq_along(hpc_f1$obs)[1:200]
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    na_rm = TRUE,
+    case_weights = c(seq_along(hpc_f1$obs)[1:200], rep(NA, 147)),
+    sum = FALSE
+  )
+
+  exp_res <- mn_log_loss_impl(
+    truth = hpc_f1$obs[1:200],
+    estimate = as.matrix(hpc_f1[, 3:6])[1:200, ],
+    sum = FALSE,
+    case_weights = seq_along(hpc_f1$obs)[1:200]
+  )
+
+  expect_identical(res, exp_res)
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = inject_na(hpc_f1$obs),
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    na_rm = FALSE,
+    case_weights = seq_along(hpc_f1$obs),
+    sum = FALSE
+  )
+
+  expect_identical(res, NA_real_)
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = hpc_f1$obs,
+    estimate = inject_na(as.matrix(hpc_f1[, 3:6])),
+    na_rm = FALSE,
+    case_weights = seq_along(hpc_f1$obs),
+    sum = FALSE
+  )
+
+  expect_identical(res, NA_real_)
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    na_rm = FALSE,
+    case_weights = c(seq_along(hpc_f1$obs)[1:200], rep(NA, 147)),
+    sum = FALSE
+  )
+
+  expect_identical(res, NA_real_)
+})
+
+test_that("prob_metric_vec_template() dots are passed through", {
+  hpc_f1 <- data_hpc_fold1()
+
+  mn_log_loss_impl <- function(truth,
+                               estimate,
+                               ...,
+                               sum = FALSE,
+                               case_weights = NULL) {
+    check_dots_empty()
+
+    mn_log_loss_estimator_impl(
+      truth = truth,
+      estimate = estimate,
+      estimator = "multiclass",
+      event_level = "first",
+      sum = sum,
+      case_weights = case_weights
+    )
+  }
+
+  res <- prob_metric_vec_template(
+    metric_impl = mn_log_loss_impl,
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    na_rm = FALSE,
+    case_weights = NULL,
+    sum = TRUE
+  )
+
+  exp_res <- mn_log_loss_impl(
+    truth = hpc_f1$obs,
+    estimate = as.matrix(hpc_f1[, 3:6]),
+    sum = TRUE,
+    case_weights = NULL
+  )
+
+  expect_identical(res, exp_res)
+})
