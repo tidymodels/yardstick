@@ -89,9 +89,10 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Multiclass averaging</h1>
-                        <h4 data-toc-skip class="author">Davis Vaughan</h4>
+                        <h4 data-toc-skip class="author">Davis
+Vaughan</h4>
             
-            <h4 data-toc-skip class="date">2022-10-24</h4>
+            <h4 data-toc-skip class="date">2022-10-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/HEAD/vignettes/multiclass.Rmd" class="external-link"><code>vignettes/multiclass.Rmd</code></a></small>
       <div class="d-none name"><code>multiclass.Rmd</code></div>
@@ -102,42 +103,91 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Classification metrics in <code>yardstick</code> where both the <code>truth</code> and <code>estimate</code> columns are factors are implemented for the binary and the multiclass case. The multiclass implementations use <code>micro</code>, <code>macro</code>, and <code>macro_weighted</code> averaging where applicable, and some metrics have their own specialized multiclass implementations.</p>
+<p>Classification metrics in <code>yardstick</code> where both the
+<code>truth</code> and <code>estimate</code> columns are factors are
+implemented for the binary and the multiclass case. The multiclass
+implementations use <code>micro</code>, <code>macro</code>, and
+<code>macro_weighted</code> averaging where applicable, and some metrics
+have their own specialized multiclass implementations.</p>
 </div>
 <div class="section level2">
 <h2 id="macro-averaging">Macro averaging<a class="anchor" aria-label="anchor" href="#macro-averaging"></a>
 </h2>
-<p>Macro averaging reduces your multiclass predictions down to multiple sets of binary predictions, calculates the corresponding metric for each of the binary cases, and then averages the results together. As an example, consider <code>precision</code> for the binary case.</p>
+<p>Macro averaging reduces your multiclass predictions down to multiple
+sets of binary predictions, calculates the corresponding metric for each
+of the binary cases, and then averages the results together. As an
+example, consider <code>precision</code> for the binary case.</p>
 <p><span class="math display">\[
-Pr = \frac{TP}{TP + FP} 
+Pr = \frac{TP}{TP + FP}
 \]</span></p>
-<p>In the multiclass case, if there were levels <code>A</code>, <code>B</code>, <code>C</code> and <code>D</code>, macro averaging reduces the problem to multiple one-vs-all comparisons. The <code>truth</code> and <code>estimate</code> columns are recoded such that the only two levels are <code>A</code> and <code>other</code>, and then precision is calculated based on those recoded columns, with <code>A</code> being the “relevant” column. This process is repeated for the other 3 levels to get a total of 4 precision values. The results are then averaged together.</p>
-<p>The formula representation looks like this. For <code>k</code> classes:</p>
+<p>In the multiclass case, if there were levels <code>A</code>,
+<code>B</code>, <code>C</code> and <code>D</code>, macro averaging
+reduces the problem to multiple one-vs-all comparisons. The
+<code>truth</code> and <code>estimate</code> columns are recoded such
+that the only two levels are <code>A</code> and <code>other</code>, and
+then precision is calculated based on those recoded columns, with
+<code>A</code> being the “relevant” column. This process is repeated for
+the other 3 levels to get a total of 4 precision values. The results are
+then averaged together.</p>
+<p>The formula representation looks like this. For <code>k</code>
+classes:</p>
 <p><span class="math display">\[
-Pr_{macro} = \frac{Pr_1 + Pr_2 + \ldots + Pr_k}{k} = Pr_1 \frac{1}{k} + Pr_2 \frac{1}{k} + \ldots + Pr_k \frac{1}{k}
+Pr_{macro} = \frac{Pr_1 + Pr_2 + \ldots + Pr_k}{k} = Pr_1 \frac{1}{k} +
+Pr_2 \frac{1}{k} + \ldots + Pr_k \frac{1}{k}
 \]</span></p>
-<p>where <span class="math inline">\(PR_1\)</span> is the precision calculated from recoding the multiclass predictions down to just <code>class 1</code> and <code>other</code>.</p>
-<p>Note that in macro averaging, all classes get equal weight when contributing their portion of the precision value to the total (here <code>1/4</code>). This might not be a realistic calculation when you have a large amount of class imbalance. In that case, a <em>weighted macro average</em> might make more sense, where the weights are calculated by the frequency of that class in the <code>truth</code> column.</p>
+<p>where <span class="math inline">\(PR_1\)</span> is the precision
+calculated from recoding the multiclass predictions down to just
+<code>class 1</code> and <code>other</code>.</p>
+<p>Note that in macro averaging, all classes get equal weight when
+contributing their portion of the precision value to the total (here
+<code>1/4</code>). This might not be a realistic calculation when you
+have a large amount of class imbalance. In that case, a <em>weighted
+macro average</em> might make more sense, where the weights are
+calculated by the frequency of that class in the <code>truth</code>
+column.</p>
 <p><span class="math display">\[
-Pr_{weighted-macro} = Pr_1 \frac{\#Obs_1}{N} + Pr_2 \frac{\#Obs_2}{N} + \ldots + Pr_k \frac{\#Obs_k}{N}
+Pr_{weighted-macro} = Pr_1 \frac{\#Obs_1}{N} + Pr_2 \frac{\#Obs_2}{N} +
+\ldots + Pr_k \frac{\#Obs_k}{N}
 \]</span></p>
 </div>
 <div class="section level2">
 <h2 id="micro-averaging">Micro averaging<a class="anchor" aria-label="anchor" href="#micro-averaging"></a>
 </h2>
-<p>Micro averaging treats the entire set of data as an aggregate result, and calculates 1 metric rather than <code>k</code> metrics that get averaged together.</p>
-<p>For precision, this works by calculating all of the true positive results for each class and using that as the numerator, and then calculating all of the true positive and false positive results for each class, and using that as the denominator.</p>
+<p>Micro averaging treats the entire set of data as an aggregate result,
+and calculates 1 metric rather than <code>k</code> metrics that get
+averaged together.</p>
+<p>For precision, this works by calculating all of the true positive
+results for each class and using that as the numerator, and then
+calculating all of the true positive and false positive results for each
+class, and using that as the denominator.</p>
 <p><span class="math display">\[
-Pr_{micro} = \frac{TP_1 + TP_2 + \ldots + TP_k}{(TP_1 + TP_2 + \ldots + TP_k) + (FP_1 + FP_2 + \ldots + FP_k)}
-\]</span> In this case, rather than each <em>class</em> having equal weight, each <em>observation</em> gets equal weight. This gives the classes with the most observations more power.</p>
+Pr_{micro} = \frac{TP_1 + TP_2 + \ldots + TP_k}{(TP_1 + TP_2 + \ldots +
+TP_k) + (FP_1 + FP_2 + \ldots + FP_k)}
+\]</span> In this case, rather than each <em>class</em> having equal
+weight, each <em>observation</em> gets equal weight. This gives the
+classes with the most observations more power.</p>
 </div>
 <div class="section level2">
 <h2 id="specialized-multiclass-implementations">Specialized multiclass implementations<a class="anchor" aria-label="anchor" href="#specialized-multiclass-implementations"></a>
 </h2>
-<p>Some metrics have known analytical multiclass extensions, and do not need to use averaging to get an estimate of multiclass performance.</p>
-<p>Accuracy and Kappa use the same definitions as their binary counterpart, with accuracy counting up the number of correctly predicted true values out of the total number of true values, and kappa being a linear combination of two accuracy values.</p>
-<p>Matthews correlation coefficient (MCC) has a known multiclass generalization as well, sometimes called the <span class="math inline">\(R_K\)</span> statistic. Refer to <a href="https://en.wikipedia.org/wiki/Matthews_correlation_coefficient#Multiclass_case" class="external-link">this page</a> for more details.</p>
-<p>ROC AUC is an interesting metric in that it intuitively makes sense to perform macro averaging, which computes a multiclass AUC as the average of the area under multiple binary ROC curves. However, this loses an important property of the ROC AUC statistic in that its binary case is insensitive to class distribution. To combat this, a multiclass metric was created that retains insensitivity to class distribution, but does not have an easy visual interpretation like macro averaging. This is implemented as the <code>"hand_till"</code> method, and is the default for this metric.</p>
+<p>Some metrics have known analytical multiclass extensions, and do not
+need to use averaging to get an estimate of multiclass performance.</p>
+<p>Accuracy and Kappa use the same definitions as their binary
+counterpart, with accuracy counting up the number of correctly predicted
+true values out of the total number of true values, and kappa being a
+linear combination of two accuracy values.</p>
+<p>Matthews correlation coefficient (MCC) has a known multiclass
+generalization as well, sometimes called the <span class="math inline">\(R_K\)</span> statistic. Refer to <a href="https://en.wikipedia.org/wiki/Matthews_correlation_coefficient#Multiclass_case" class="external-link">this
+page</a> for more details.</p>
+<p>ROC AUC is an interesting metric in that it intuitively makes sense
+to perform macro averaging, which computes a multiclass AUC as the
+average of the area under multiple binary ROC curves. However, this
+loses an important property of the ROC AUC statistic in that its binary
+case is insensitive to class distribution. To combat this, a multiclass
+metric was created that retains insensitivity to class distribution, but
+does not have an easy visual interpretation like macro averaging. This
+is implemented as the <code>"hand_till"</code> method, and is the
+default for this metric.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

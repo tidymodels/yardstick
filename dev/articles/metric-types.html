@@ -89,9 +89,10 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Metric types</h1>
-                        <h4 data-toc-skip class="author">Davis Vaughan</h4>
+                        <h4 data-toc-skip class="author">Davis
+Vaughan</h4>
             
-            <h4 data-toc-skip class="date">2022-10-24</h4>
+            <h4 data-toc-skip class="date">2022-10-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/HEAD/vignettes/metric-types.Rmd" class="external-link"><code>vignettes/metric-types.Rmd</code></a></small>
       <div class="d-none name"><code>metric-types.Rmd</code></div>
@@ -102,7 +103,13 @@
 <div class="section level2">
 <h2 id="metric-types">Metric types<a class="anchor" aria-label="anchor" href="#metric-types"></a>
 </h2>
-<p>There are three main metric types in <code>yardstick</code>: class, class probability, and numeric. Each type of metric has standardized argument syntax, and all metrics return the same kind of output (a tibble with 3 columns). This standardization allows metrics to easily be grouped together and used with grouped data frames for computing on multiple resamples at once. Below are the three types of metrics, along with the types of the inputs they take.</p>
+<p>There are three main metric types in <code>yardstick</code>: class,
+class probability, and numeric. Each type of metric has standardized
+argument syntax, and all metrics return the same kind of output (a
+tibble with 3 columns). This standardization allows metrics to easily be
+grouped together and used with grouped data frames for computing on
+multiple resamples at once. Below are the three types of metrics, along
+with the types of the inputs they take.</p>
 <ol style="list-style-type: decimal">
 <li>
 <p><strong>Class metrics</strong> (hard predictions)</p>
@@ -115,7 +122,8 @@
 <p><strong>Class probability metrics</strong> (soft predictions)</p>
 <ul>
 <li><p><code>truth</code> - factor</p></li>
-<li><p><code>estimate / ...</code> - multiple numeric columns containing class probabilities</p></li>
+<li><p><code>estimate / ...</code> - multiple numeric columns containing
+class probabilities</p></li>
 </ul>
 </li>
 <li>
@@ -130,7 +138,11 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>In the following example, the <code>hpc_cv</code> data set is used. It contains class probabilities and class predictions for a linear discriminant analysis fit to the HPC data set of Kuhn and Johnson (2013). It is fit with 10 fold cross-validation, and the predictions for all folds are included.</p>
+<p>In the following example, the <code>hpc_cv</code> data set is used.
+It contains class probabilities and class predictions for a linear
+discriminant analysis fit to the HPC data set of Kuhn and Johnson
+(2013). It is fit with 10 fold cross-validation, and the predictions for
+all folds are included.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/yardstick" class="external-link">yardstick</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -215,7 +227,8 @@
 <div class="section level2">
 <h2 id="metrics">Metrics<a class="anchor" aria-label="anchor" href="#metrics"></a>
 </h2>
-<p>Below is a table of all of the metrics available in <code>yardstick</code>, grouped by type.</p>
+<p>Below is a table of all of the metrics available in
+<code>yardstick</code>, grouped by type.</p>
 <table class="table">
 <thead><tr>
 <th style="text-align:left;">
