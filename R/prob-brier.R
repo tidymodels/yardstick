@@ -131,7 +131,8 @@ brier_ind <- function(truth, estimate, case_weights = NULL) {
   }
   # In the binary case:
   if (ncol(estimate) == 1 & ncol(truth) == 2) {
-    estimate <- cbind(estimate, 1 - estimate)
+    estimate <- unname(estimate)
+    estimate <- vec_cbind(estimate, 1 - estimate)
   }
 
   resids <- (truth - estimate)^2
@@ -147,7 +148,7 @@ brier_ind <- function(truth, estimate, case_weights = NULL) {
   # Normalize weights (in case negative weights)
   case_weights <- exp(case_weights) / sum(exp(case_weights))
 
-  res <- sum(resids * case_weights) / (2 * sum(case_weights) )
+  res <- sum(resids * case_weights) / (2 * sum(case_weights))
   res
 }
 
