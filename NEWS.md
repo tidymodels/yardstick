@@ -6,6 +6,8 @@
   
 * yardstick metric functions now use a pure tidyselect interface for `truth`, 
   `estimate`, and the `...` of class probability metrics (#322).
+  
+* Changed the default aspect ratio for PR curves to be 1.0. 
 
 # yardstick 1.1.0
 

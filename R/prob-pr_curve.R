@@ -235,7 +235,7 @@ autoplot.pr_df <- function(object, ...) {
   pr_chart <- pr_chart %+%
     ggplot2::geom_path(mapping = aes_spliced) %+%
     ggplot2::lims(x = c(0, 1), y = c(0, 1)) %+%
-    ggplot2::coord_equal(ratio = .75) %+%
+    ggplot2::coord_equal(ratio = 1) %+%
     ggplot2::theme_bw()
 
   # If we have .level, that means this was multiclass
