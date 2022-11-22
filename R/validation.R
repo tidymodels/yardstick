@@ -83,7 +83,7 @@ validate_factor_truth_factor_estimate <- function(truth, estimate) {
   }
 }
 
-validate_factor_truth_metrix_estimate <- function(truth, estimate, estimator) {
+validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
   }
@@ -98,7 +98,7 @@ validate_factor_truth_metrix_estimate <- function(truth, estimate, estimator) {
   if (estimator == "binary") {
     if (is.matrix(estimate)) {
       abort(paste0(
-        "You are using a `binary` metric but have passed multiple columns to `...`"
+        "You are using a binary metric but have passed multiple columns to `...`."
       ))
     }
 

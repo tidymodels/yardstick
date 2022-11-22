@@ -290,7 +290,7 @@ prob_estimate_convert <- function(estimate) {
 #'   about handling them yourself. If `na_rm=FALSE` and any `NA` values exist,
 #'   then `NA` is automatically returned.
 #'
-#' @param case_weights the realized case weights, as a numeric vector. This must
+#' @param case_weights The realized case weights, as a numeric vector. This must
 #'   be the same length as `truth`, and will be considered in the `na_rm`
 #'   checks. If supplied, this will be passed on to `metric_impl` as the named
 #'   argument `case_weights`.
