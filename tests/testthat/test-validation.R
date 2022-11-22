@@ -109,9 +109,9 @@ test_that("validate_factor_truth_factor_estimate errors as expected", {
   )
 })
 
-test_that("validate_factor_truth_metrix_estimate errors as expected for binary", {
+test_that("validate_factor_truth_matrix_estimate errors as expected for binary", {
   expect_no_error(
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a", "b", "a"), levels = c("a", "b")),
       1:3,
       estimator = "binary"
@@ -119,7 +119,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for binary",
   )
 
   expect_no_error(
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a"), levels = c("a", "b")),
       1,
       estimator = "binary"
@@ -127,7 +127,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for binary",
   )
 
   expect_no_error(
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(character(), levels = c("a", "b")),
       numeric(),
       estimator = "binary"
@@ -136,7 +136,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for binary",
 
   expect_snapshot(
     error = TRUE,
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       c("a", "b", "a"),
       1:3,
       estimator = "binary"
@@ -145,7 +145,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for binary",
 
   expect_snapshot(
     error = TRUE,
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a", "b", "a"), levels = c("a", "b")),
       c("a", "b", "a"),
       estimator = "binary"
@@ -154,7 +154,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for binary",
 
   expect_snapshot(
     error = TRUE,
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(character(), levels = c("a", "b")),
       matrix(1:6, ncol = 2),
       estimator = "binary"
@@ -163,7 +163,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for binary",
 
   expect_snapshot(
     error = TRUE,
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a", "b", "a"), levels = c("a", "b", "c")),
       1:3,
       estimator = "binary"
@@ -171,9 +171,9 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for binary",
   )
 })
 
-test_that("validate_factor_truth_metrix_estimate errors as expected for non-binary", {
+test_that("validate_factor_truth_matrix_estimate errors as expected for non-binary", {
   expect_no_error(
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a", "b", "a"), levels = c("a", "b")),
       matrix(1:6, ncol = 2),
       estimator = "non binary"
@@ -181,7 +181,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for non-bina
   )
 
   expect_no_error(
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a", "b", "a"), levels = c("a", "b", "c", "d")),
       matrix(1:12, ncol = 4),
       estimator = "non binary"
@@ -189,7 +189,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for non-bina
   )
 
   expect_no_error(
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a"), levels = c("a", "b")),
       matrix(1:2, ncol = 2),
       estimator = "non binary"
@@ -197,7 +197,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for non-bina
   )
 
   expect_no_error(
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(character(), levels = c("a", "b")),
       matrix(numeric(), ncol = 2),
       estimator = "non binary"
@@ -206,7 +206,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for non-bina
 
   expect_snapshot(
     error = TRUE,
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       c("a", "b", "a"),
       matrix(1:6, ncol = 2),
       estimator = "non binary"
@@ -215,7 +215,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for non-bina
 
   expect_snapshot(
     error = TRUE,
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a", "b", "a"), levels = c("a", "b")),
       1:3,
       estimator = "non binary"
@@ -224,7 +224,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for non-bina
 
   expect_snapshot(
     error = TRUE,
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a", "b", "a"), levels = c("a", "b")),
       matrix(as.character(1:6), ncol = 2),
       estimator = "non binary"
@@ -233,7 +233,7 @@ test_that("validate_factor_truth_metrix_estimate errors as expected for non-bina
 
   expect_snapshot(
     error = TRUE,
-    validate_factor_truth_metrix_estimate(
+    validate_factor_truth_matrix_estimate(
       factor(c("a", "b", "a"), levels = c("a", "b")),
       matrix(1:15, ncol = 5),
       estimator = "non binary"

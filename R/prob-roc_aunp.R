@@ -120,7 +120,7 @@ roc_aunp_vec <- function(truth,
   check_roc_options_deprecated("roc_aunp_vec", options)
 
   estimator <- "macro_weighted"
-  validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+  validate_factor_truth_matrix_estimate(truth, estimate, estimator)
   validate_binary_estimator(truth, estimator)
 
   # `event_level` doesn't really matter, but we set it anyways

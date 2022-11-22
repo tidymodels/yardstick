@@ -102,74 +102,74 @@
       Error in `validate_factor_truth_factor_estimate()`:
       ! Length of `truth` (3) and `estimate` (4) must match.
 
-# validate_factor_truth_metrix_estimate errors as expected for binary
+# validate_factor_truth_matrix_estimate errors as expected for binary
 
     Code
-      validate_factor_truth_metrix_estimate(c("a", "b", "a"), 1:3, estimator = "binary")
+      validate_factor_truth_matrix_estimate(c("a", "b", "a"), 1:3, estimator = "binary")
     Condition
-      Error in `validate_factor_truth_metrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! `truth` should be a factor, not a `character`.
 
 ---
 
     Code
-      validate_factor_truth_metrix_estimate(factor(c("a", "b", "a"), levels = c("a",
+      validate_factor_truth_matrix_estimate(factor(c("a", "b", "a"), levels = c("a",
         "b")), c("a", "b", "a"), estimator = "binary")
     Condition
-      Error in `validate_factor_truth_metrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! `estimate` should be a numeric vector, not a `character` vector.
 
 ---
 
     Code
-      validate_factor_truth_metrix_estimate(factor(character(), levels = c("a", "b")),
+      validate_factor_truth_matrix_estimate(factor(character(), levels = c("a", "b")),
       matrix(1:6, ncol = 2), estimator = "binary")
     Condition
-      Error in `validate_factor_truth_metrix_estimate()`:
-      ! You are using a `binary` metric but have passed multiple columns to `...`
+      Error in `validate_factor_truth_matrix_estimate()`:
+      ! You are using a binary metric but have passed multiple columns to `...`.
 
 ---
 
     Code
-      validate_factor_truth_metrix_estimate(factor(c("a", "b", "a"), levels = c("a",
+      validate_factor_truth_matrix_estimate(factor(c("a", "b", "a"), levels = c("a",
         "b", "c")), 1:3, estimator = "binary")
     Condition
-      Error in `validate_factor_truth_metrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 3 levels was provided.
 
-# validate_factor_truth_metrix_estimate errors as expected for non-binary
+# validate_factor_truth_matrix_estimate errors as expected for non-binary
 
     Code
-      validate_factor_truth_metrix_estimate(c("a", "b", "a"), matrix(1:6, ncol = 2),
+      validate_factor_truth_matrix_estimate(c("a", "b", "a"), matrix(1:6, ncol = 2),
       estimator = "non binary")
     Condition
-      Error in `validate_factor_truth_metrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! `truth` should be a factor, not a `character`.
 
 ---
 
     Code
-      validate_factor_truth_metrix_estimate(factor(c("a", "b", "a"), levels = c("a",
+      validate_factor_truth_matrix_estimate(factor(c("a", "b", "a"), levels = c("a",
         "b")), 1:3, estimator = "non binary")
     Condition
-      Error in `validate_factor_truth_metrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (1).
 
 ---
 
     Code
-      validate_factor_truth_metrix_estimate(factor(c("a", "b", "a"), levels = c("a",
+      validate_factor_truth_matrix_estimate(factor(c("a", "b", "a"), levels = c("a",
         "b")), matrix(as.character(1:6), ncol = 2), estimator = "non binary")
     Condition
-      Error in `validate_factor_truth_metrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! The columns supplied in `...` should be numerics, not `character`s.
 
 ---
 
     Code
-      validate_factor_truth_metrix_estimate(factor(c("a", "b", "a"), levels = c("a",
+      validate_factor_truth_matrix_estimate(factor(c("a", "b", "a"), levels = c("a",
         "b")), matrix(1:15, ncol = 5), estimator = "non binary")
     Condition
-      Error in `validate_factor_truth_metrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (5).
 

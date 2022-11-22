@@ -86,7 +86,7 @@ gain_capture_vec <- function(truth,
                              case_weights = NULL,
                              ...) {
   estimator <- finalize_estimator(truth, estimator, "gain_capture")
-  validate_factor_truth_metrix_estimate(truth, estimate, estimator)
+  validate_factor_truth_matrix_estimate(truth, estimate, estimator)
   validate_binary_estimator(truth, estimator)
 
   gain_capture_impl <- function(truth,

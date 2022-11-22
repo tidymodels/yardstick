@@ -67,7 +67,7 @@ test_that("costs$truth can be factor", {
 })
 
 test_that("binary - requires 1 column of probabilities", {
-  expect_error(classification_cost(two_class_example, truth, Class1:Class2), "`binary` metric")
+  expect_error(classification_cost(two_class_example, truth, Class1:Class2), "binary metric")
 })
 
 # ------------------------------------------------------------------------------
