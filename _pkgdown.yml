@@ -88,9 +88,11 @@ reference:
     - class_metric_summarizer
     - numeric_metric_summarizer
     - prob_metric_summarizer
-    - class_metric_vec_template
-    - numeric_metric_vec_template
-    - prob_metric_vec_template
+    - check_numeric_metric
+    - check_class_metric
+    - check_prob_metric
+    - handle_missings
+    - detect_missings
     - get_weights
     - new-metric
 
