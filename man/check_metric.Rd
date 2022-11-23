@@ -3,9 +3,12 @@
 \name{check_metric}
 \alias{check_metric}
 \alias{check_numeric_metric}
+\alias{check_class_metric}
 \title{Developer function for calling new metrics}
 \usage{
 check_numeric_metric(truth, estimate, case_weights)
+
+check_class_metric(truth, estimate, case_weights, estimator)
 }
 \arguments{
 \item{truth}{The realized vector of \code{truth}. This is either a factor or a
@@ -19,6 +22,10 @@ probability columns) depending on your metric function.}
 be the same length as \code{truth}, and will be considered in the \code{na_rm}
 checks. This will be passed on to \code{metric_impl} as the named argument
 \code{case_weights}.}
+
+\item{estimator}{This can either be \code{NULL} for the default auto-selection of
+averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along to
+the metric implementation describing the kind of averaging to use.}
 }
 \description{
 \code{check_numeric_metric()}, \code{check_class_metric()}, and \code{check_prob_metric()}

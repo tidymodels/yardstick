@@ -18,6 +18,10 @@
 #'   checks. This will be passed on to `metric_impl` as the named argument
 #'   `case_weights`.
 #'
+#' @param estimator This can either be `NULL` for the default auto-selection of
+#' averaging (`"binary"` or `"macro"`), or a single character to pass along to
+#' the metric implementation describing the kind of averaging to use.
+#'
 #' @seealso [metric-summarizers()]
 #'
 #' @name check_metric
@@ -28,4 +32,12 @@ NULL
 check_numeric_metric <- function(truth, estimate, case_weights) {
   validate_case_weights(case_weights, size = length(truth))
   validate_numeric_truth_numeric_estimate(truth, estimate)
+}
+
+#' @rdname check_metric
+#' @export
+check_class_metric <- function(truth, estimate, case_weights, estimator) {
+  validate_case_weights(case_weights, size = length(truth))
+  validate_factor_truth_factor_estimate(truth, estimate)
+  validate_binary_estimator(truth, estimator)
 }
