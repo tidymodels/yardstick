@@ -90,13 +90,3 @@
       ! Can't subset columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
-# prob_metric_vec_template() validates case_weights
-
-    Code
-      prob_metric_vec_template(metric_impl = mn_log_loss_impl, truth = hpc_f1$obs,
-      estimate = as.matrix(hpc_f1[, 3:6]), na_rm = FALSE, case_weights = seq_along(
-        lst$pathology)[-1], sum = FALSE)
-    Condition
-      Error in `validate_case_weights()`:
-      ! object 'lst' not found
-
