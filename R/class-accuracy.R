@@ -99,13 +99,7 @@ accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...
     }
   }
 
-  class_metric_vec_template(
-    metric_impl = accuracy_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights
-  )
+  accuracy_impl(truth, estimate, case_weights = case_weights)
 }
 
 # binary and multiclass case are equivalent

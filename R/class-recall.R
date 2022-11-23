@@ -124,19 +124,8 @@ recall_vec <- function(truth,
     }
   }
 
-  recall_impl <- function(truth, estimate, ..., case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    recall_table_impl(data, estimator, event_level)
-  }
-
-  class_metric_vec_template(
-    metric_impl = recall_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  recall_table_impl(data, estimator, event_level)
 }
 
 recall_table_impl <- function(data, estimator, event_level) {

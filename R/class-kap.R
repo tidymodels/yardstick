@@ -130,14 +130,7 @@ kap_vec <- function(truth,
     }
   }
 
-  class_metric_vec_template(
-    metric_impl = kap_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    weighting = weighting
-  )
+  kap_impl(truth, estimate, weighting = weighting, case_weights = case_weights)
 }
 
 kap_impl <- function(truth,

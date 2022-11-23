@@ -204,7 +204,12 @@ metric_vec_template <- function(metric_impl,
   lifecycle::deprecate_soft(
     when = "1.2.0",
     what = "metric_vec_template()",
-    with = I("`numeric_metric_vec_template()`, `class_metric_vec_template()`, or `prob_metric_vec_template()`")
+    with = I(
+      paste(
+        "`check_numeric_metric()`, `check_class_metric()`,",
+        "`check_class_metric()`, `handle_missings()`, and `detect_missings()`"
+      )
+    )
   )
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)

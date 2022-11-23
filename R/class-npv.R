@@ -116,24 +116,8 @@ npv_vec <- function(truth,
     }
   }
 
-  npv_impl <- function(truth,
-                       estimate,
-                       ...,
-                       prevalence = NULL,
-                       case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    npv_table_impl(data, estimator, event_level, prevalence = prevalence)
-  }
-
-  class_metric_vec_template(
-    metric_impl = npv_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    prevalence = prevalence
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  npv_table_impl(data, estimator, event_level, prevalence = prevalence)
 }
 
 npv_table_impl <- function(data,

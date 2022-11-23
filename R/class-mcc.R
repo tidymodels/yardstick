@@ -114,19 +114,8 @@ mcc_vec <- function(truth,
     }
   }
 
-  mcc_impl <- function(truth, estimate, ..., case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    mcc_table_impl(data, estimator)
-  }
-
-  class_metric_vec_template(
-    metric_impl = mcc_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  mcc_table_impl(data, estimator)
 }
 
 mcc_table_impl <- function(data, estimator) {

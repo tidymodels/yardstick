@@ -97,19 +97,8 @@ detection_prevalence_vec <- function(truth,
     }
   }
 
-  detection_prevalence_impl <- function(truth, estimate, ..., case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    detection_prevalence_table_impl(data, estimator, event_level)
-  }
-
-  class_metric_vec_template(
-    metric_impl = detection_prevalence_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  detection_prevalence_table_impl(data, estimator, event_level)
 }
 
 detection_prevalence_table_impl <- function(data, estimator, event_level) {
