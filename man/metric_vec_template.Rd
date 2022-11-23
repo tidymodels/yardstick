@@ -59,7 +59,6 @@ when the vector method is called.}
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 \code{metric_vec_template()} has been soft-deprecated as of yardstick 1.2.0.
-Please switch to use \code{\link[=class_metric_vec_template]{class_metric_vec_template()}},
-\code{\link[=numeric_metric_vec_template]{numeric_metric_vec_template()}}, or \code{\link[=prob_metric_vec_template]{prob_metric_vec_template()}}.
+Please switch to use \link{check_metric} and \link{handle_missings} functions.
 }
 \keyword{internal}

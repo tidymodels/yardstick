@@ -150,8 +150,7 @@ spliceable_case_weights <- function(case_weights) {
 #' `r lifecycle::badge("deprecated")`
 #'
 #' `metric_vec_template()` has been soft-deprecated as of yardstick 1.2.0.
-#' Please switch to use [class_metric_vec_template()],
-#' [numeric_metric_vec_template()], or [prob_metric_vec_template()].
+#' Please switch to use [check_metric] and [handle_missings] functions.
 #'
 #' @param metric_impl The core implementation function of your custom metric.
 #' This core implementation function is generally defined inside the vector

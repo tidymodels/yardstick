@@ -90,15 +90,6 @@
       ! Can't subset columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
-# numeric_metric_vec_template() validates case_weights
-
-    Code
-      numeric_metric_vec_template(metric_impl = ccc_impl, truth = mtcars$mpg,
-      estimate = mtcars$disp, na_rm = FALSE, case_weights = mtcars$mpg[-1], bias = FALSE)
-    Condition
-      Error in `validate_case_weights()`:
-      ! `case_weights` (31) must have the same length as `truth` (32).
-
 # class_metric_vec_template() validates case_weights
 
     Code
