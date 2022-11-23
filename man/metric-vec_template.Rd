@@ -52,10 +52,10 @@ getting to your core implementation function so you do not have to worry
 about handling them yourself. If \code{na_rm=FALSE} and any \code{NA} values exist,
 then \code{NA} is automatically returned.}
 
-\item{case_weights}{the realized case weights, as a numeric vector. This must
+\item{case_weights}{The realized case weights, as a numeric vector. This must
 be the same length as \code{truth}, and will be considered in the \code{na_rm}
-checks. If supplied, this will be passed on to \code{metric_impl} as the named
-argument \code{case_weights}.}
+checks. This will be passed on to \code{metric_impl} as the named argument
+\code{case_weights}.}
 
 \item{...}{Extra arguments to your core metric function, \code{metric_impl}, can
 technically be passed here, but generally the extra args are added through

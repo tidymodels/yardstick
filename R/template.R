@@ -292,8 +292,8 @@ prob_estimate_convert <- function(estimate) {
 #'
 #' @param case_weights The realized case weights, as a numeric vector. This must
 #'   be the same length as `truth`, and will be considered in the `na_rm`
-#'   checks. If supplied, this will be passed on to `metric_impl` as the named
-#'   argument `case_weights`.
+#'   checks. This will be passed on to `metric_impl` as the named argument
+#'   `case_weights`.
 #'
 #' @param ... Extra arguments to your core metric function, `metric_impl`, can
 #'   technically be passed here, but generally the extra args are added through
