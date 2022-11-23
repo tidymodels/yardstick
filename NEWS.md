@@ -1,8 +1,18 @@
 # yardstick (development version)
 
-* `metric_vec_template()` is being soft deprecated in favor of the more specific
-  newly added `class_metric_vec_template()`, `numeric_metric_vec_template()`, 
-  and `prob_metric_vec_template()` (#337).
+* `metric_vec_template()` is being soft deprecated in favor of a more manual
+  and flexible metric creation approach. `handle_missings()` and 
+  `detect_missings()` have been added for treatment of missing values. 
+  `check_class_metric()`, `check_numeric_metric()`,
+  and `check_prob_metric()` have been added to perform standardized input
+  checking classification, regression and class probability metrics.   
+  `validate_factor_truth_factor_estimate()`,
+  `validate_factor_truth_metrix_estimate()`,
+  `validate_numeric_truth_numeric_estimate()`, `validate_binary_estimator()` and
+  `validate_case_weights()` have been also been exposed for more granular 
+  validation then the `check_*_metric()` functions. These changes mean that it 
+  is the developer's responsibility to perform validation of `turth` and 
+  `estimate` input. (#337).
 
 * `metric_summarizer()` is being soft deprecated in favor of the more specific
   newly added `class_metric_summarizer()`, `numeric_metric_summarizer()`, and
