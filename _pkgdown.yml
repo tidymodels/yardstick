@@ -95,6 +95,7 @@ reference:
     - detect_missings
     - get_weights
     - new-metric
+    - validate-helpers
 
   - title: Data Sets
     contents:
