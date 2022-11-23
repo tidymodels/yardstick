@@ -41,3 +41,11 @@ check_class_metric <- function(truth, estimate, case_weights, estimator) {
   validate_factor_truth_factor_estimate(truth, estimate)
   validate_binary_estimator(truth, estimator)
 }
+
+#' @rdname check_metric
+#' @export
+check_prob_metric <- function(truth, estimate, case_weights, estimator) {
+  validate_case_weights(case_weights, size = length(truth))
+  validate_factor_truth_matrix_estimate(truth, estimate, estimator)
+  validate_binary_estimator(truth, estimator)
+}

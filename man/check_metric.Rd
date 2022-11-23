@@ -4,11 +4,14 @@
 \alias{check_metric}
 \alias{check_numeric_metric}
 \alias{check_class_metric}
+\alias{check_prob_metric}
 \title{Developer function for calling new metrics}
 \usage{
 check_numeric_metric(truth, estimate, case_weights)
 
 check_class_metric(truth, estimate, case_weights, estimator)
+
+check_prob_metric(truth, estimate, case_weights, estimator)
 }
 \arguments{
 \item{truth}{The realized vector of \code{truth}. This is either a factor or a
