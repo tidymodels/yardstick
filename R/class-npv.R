@@ -103,6 +103,19 @@ npv_vec <- function(truth,
 
   check_class_metric(truth, estimate, case_weights, estimator)
 
+  if (na_rm) {
+    result <- handle_missings(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else {
+    any_na <- detect_missings(truth, estimate, case_weights)
+    if (any_na) {
+      return(NA_real_)
+    }
+  }
+
   npv_impl <- function(truth,
                        estimate,
                        ...,

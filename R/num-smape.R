@@ -53,8 +53,20 @@ smape_vec <- function(truth,
                       na_rm = TRUE,
                       case_weights = NULL,
                       ...) {
-
   check_numeric_metric(truth, estimate, case_weights)
+
+  if (na_rm) {
+    result <- handle_missings(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else {
+    any_na <- detect_missings(truth, estimate, case_weights)
+    if (any_na) {
+      return(NA_real_)
+    }
+  }
 
   numeric_metric_vec_template(
     metric_impl = smape_impl,
