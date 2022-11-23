@@ -70,7 +70,7 @@ iic_vec <- function(truth,
                     na_rm = TRUE,
                     case_weights = NULL,
                     ...) {
-  validate_numeric_truth_numeric_estimate(truth, estimate)
+  check_numeric_metric(truth, estimate, case_weights)
 
   numeric_metric_vec_template(
     metric_impl = iic_impl,
