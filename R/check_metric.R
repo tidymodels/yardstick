@@ -1,4 +1,4 @@
-#' Developer function for calling new metrics
+#' Developer function for checking inputs in new metrics
 #'
 #' `check_numeric_metric()`, `check_class_metric()`, and `check_prob_metric()`
 #' are useful alongside the [metric-summarizers()] functions for implementing

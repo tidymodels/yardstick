@@ -5,7 +5,7 @@
 \alias{check_numeric_metric}
 \alias{check_class_metric}
 \alias{check_prob_metric}
-\title{Developer function for calling new metrics}
+\title{Developer function for checking inputs in new metrics}
 \usage{
 check_numeric_metric(truth, estimate, case_weights)
 
