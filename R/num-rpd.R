@@ -96,13 +96,7 @@ rpd_vec <- function(truth,
     }
   }
 
-  numeric_metric_vec_template(
-    metric_impl = rpd_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights
-  )
+  rpd_impl(truth, estimate, case_weights = case_weights)
 }
 
 rpd_impl <- function(truth, estimate, ..., case_weights = NULL) {

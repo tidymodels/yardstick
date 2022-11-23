@@ -107,13 +107,7 @@ mpe_vec <- function(truth,
     }
   }
 
-  numeric_metric_vec_template(
-    metric_impl = mpe_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights
-  )
+  mpe_impl(truth, estimate, case_weights = case_weights)
 }
 
 mpe_impl <- function(truth,

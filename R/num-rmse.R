@@ -86,13 +86,7 @@ rmse_vec <- function(truth,
     }
   }
 
-  numeric_metric_vec_template(
-    metric_impl = rmse_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights
-  )
+  rmse_impl(truth, estimate, case_weights = case_weights)
 }
 
 rmse_impl <- function(truth, estimate, ..., case_weights = NULL) {

@@ -77,14 +77,7 @@ huber_loss_vec <- function(truth,
     }
   }
 
-  numeric_metric_vec_template(
-    metric_impl = huber_loss_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    delta = delta
-  )
+  huber_loss_impl(truth, estimate, delta = delta, case_weights = case_weights)
 }
 
 huber_loss_impl <- function(truth,

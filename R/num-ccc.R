@@ -89,14 +89,7 @@ ccc_vec <- function(truth,
     }
   }
 
-  numeric_metric_vec_template(
-    metric_impl = ccc_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    bias = bias
-  )
+  ccc_impl(truth, estimate, bias = bias, case_weights = case_weights)
 }
 
 ccc_impl <- function(truth,

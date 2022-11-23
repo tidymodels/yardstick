@@ -102,14 +102,12 @@ mase_vec <- function(truth,
     }
   }
 
-  numeric_metric_vec_template(
-    metric_impl = mase_impl,
+  mase_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
+    m = m,
     mae_train = mae_train,
-    m = m
+    case_weights = case_weights
   )
 }
 
