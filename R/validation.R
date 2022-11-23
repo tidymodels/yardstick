@@ -206,10 +206,6 @@ validate_case_weights <- function(case_weights, size) {
     return(invisible())
   }
 
-  if (!is.integer(case_weights) && !is.double(case_weights)) {
-    abort("`case_weights` must be an integer or double vector.")
-  }
-
   size_case_weights <- length(case_weights)
 
   if (size_case_weights != size) {
