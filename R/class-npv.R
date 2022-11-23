@@ -99,10 +99,9 @@ npv_vec <- function(truth,
                     case_weights = NULL,
                     event_level = yardstick_event_level(),
                     ...) {
-  validate_factor_truth_factor_estimate(truth, estimate)
-
   estimator <- finalize_estimator(truth, estimator)
-  validate_binary_estimator(truth, estimator)
+
+  check_class_metric(truth, estimate, case_weights, estimator)
 
   npv_impl <- function(truth,
                        estimate,

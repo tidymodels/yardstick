@@ -82,10 +82,9 @@ accuracy.matrix <- function(data, ...) {
 #' @export
 #' @rdname accuracy
 accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
-  validate_factor_truth_factor_estimate(truth, estimate)
-
   estimator <- finalize_estimator(truth, metric_class = "accuracy")
-  validate_binary_estimator(truth, estimator)
+
+  check_class_metric(truth, estimate, case_weights, estimator)
 
   class_metric_vec_template(
     metric_impl = accuracy_impl,

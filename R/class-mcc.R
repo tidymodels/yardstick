@@ -97,10 +97,9 @@ mcc_vec <- function(truth,
                     na_rm = TRUE,
                     case_weights = NULL,
                     ...) {
-  validate_factor_truth_factor_estimate(truth, estimate)
-
   estimator <- finalize_estimator(truth, metric_class = "mcc")
-  validate_binary_estimator(truth, estimator)
+
+  check_class_metric(truth, estimate, case_weights, estimator)
 
   mcc_impl <- function(truth, estimate, ..., case_weights = NULL) {
     check_dots_empty()
