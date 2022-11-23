@@ -114,4 +114,3 @@ all_metrics <- bind_rows(
 
 kable(all_metrics, format = "html")
 ```
-

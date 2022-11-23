@@ -101,26 +101,3 @@ class distribution. To combat this, a multiclass metric was created that retains
 insensitivity to class distribution, but does not have an easy visual interpretation
 like macro averaging. This is implemented as the `"hand_till"` method, and is
 the default for this metric.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
