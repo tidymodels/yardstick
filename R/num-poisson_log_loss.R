@@ -69,15 +69,12 @@ poisson_log_loss_vec <- function(truth,
     }
   }
 
-  poisson_log_loss_impl(truth, estimate, case_weights = case_weights)
+  poisson_log_loss_impl(truth, estimate, case_weights)
 }
 
 poisson_log_loss_impl <- function(truth,
                                   estimate,
-                                  ...,
-                                  case_weights = NULL) {
-  check_dots_empty()
-
+                                  case_weights) {
   if (!is.integer(truth)) {
     truth <- as.integer(truth)
   }

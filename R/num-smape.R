@@ -68,15 +68,12 @@ smape_vec <- function(truth,
     }
   }
 
-  smape_impl(truth, estimate, case_weights = case_weights)
+  smape_impl(truth, estimate, case_weights)
 }
 
 smape_impl <- function(truth,
                        estimate,
-                       ...,
-                       case_weights = NULL) {
-  check_dots_empty()
-
+                       case_weights) {
   numer <- abs(estimate - truth)
   denom <- (abs(truth) + abs(estimate)) / 2
   error <- numer / denom

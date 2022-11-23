@@ -98,10 +98,9 @@ rsq_vec <- function(truth,
     }
   }
 
-  rsq_impl(truth, estimate, case_weights = case_weights)
+  rsq_impl(truth, estimate, case_weights)
 }
 
-rsq_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
+rsq_impl <- function(truth, estimate, case_weights) {
   yardstick_cor(truth, estimate, case_weights = case_weights) ^ 2
 }

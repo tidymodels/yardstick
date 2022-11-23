@@ -113,11 +113,9 @@ mase_vec <- function(truth,
 
 mase_impl <- function(truth,
                       estimate,
-                      ...,
                       m = 1L,
                       mae_train = NULL,
                       case_weights = NULL) {
-  check_dots_empty()
   validate_m(m)
   validate_mae_train(mae_train)
 

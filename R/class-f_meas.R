@@ -125,10 +125,10 @@ f_meas_vec <- function(truth,
   }
 
   data <- yardstick_table(truth, estimate, case_weights = case_weights)
-  f_meas_table_impl(data, estimator, event_level, beta = beta)
+  f_meas_table_impl(data, estimator, event_level, beta)
 }
 
-f_meas_table_impl <- function(data, estimator, event_level, beta = 1) {
+f_meas_table_impl <- function(data, estimator, event_level, beta) {
   if(is_binary(estimator)) {
     f_meas_binary(data, event_level, beta)
   } else {

@@ -107,15 +107,12 @@ mpe_vec <- function(truth,
     }
   }
 
-  mpe_impl(truth, estimate, case_weights = case_weights)
+  mpe_impl(truth, estimate, case_weights)
 }
 
 mpe_impl <- function(truth,
                      estimate,
-                     ...,
-                     case_weights = NULL) {
-  check_dots_empty()
-
+                     case_weights) {
   error <- (truth - estimate) / truth
 
   out <- yardstick_mean(error, case_weights = case_weights)

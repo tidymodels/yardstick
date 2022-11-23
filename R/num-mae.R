@@ -64,11 +64,10 @@ mae_vec <- function(truth,
     }
   }
 
-  mae_impl(truth, estimate, case_weights = case_weights)
+  mae_impl(truth, estimate, case_weights)
 }
 
-mae_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
+mae_impl <- function(truth, estimate, case_weights) {
   errors <- abs(truth - estimate)
   yardstick_mean(errors, case_weights = case_weights)
 }

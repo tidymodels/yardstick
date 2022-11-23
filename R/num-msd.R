@@ -78,10 +78,9 @@ msd_vec <- function(truth,
     }
   }
 
-  msd_impl(truth, estimate, case_weights = case_weights)
+  msd_impl(truth, estimate, case_weights)
 }
 
-msd_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
+msd_impl <- function(truth, estimate, case_weights) {
   yardstick_mean(truth - estimate, case_weights = case_weights)
 }

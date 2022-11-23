@@ -74,12 +74,10 @@ rpiq_vec <- function(truth,
     }
   }
 
-  rpiq_impl(truth, estimate, case_weights = case_weights)
+  rpiq_impl(truth, estimate, case_weights)
 }
 
-rpiq_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
-
+rpiq_impl <- function(truth, estimate, case_weights) {
   quantiles <- yardstick_quantile(
     x = truth,
     probabilities = c(0.25, 0.75),

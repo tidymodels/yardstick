@@ -77,14 +77,13 @@ huber_loss_vec <- function(truth,
     }
   }
 
-  huber_loss_impl(truth, estimate, delta = delta, case_weights = case_weights)
+  huber_loss_impl(truth, estimate, delta, case_weights)
 }
 
 huber_loss_impl <- function(truth,
                             estimate,
-                            ...,
-                            delta = 1,
-                            case_weights = NULL) {
+                            delta,
+                            case_weights) {
   # Weighted Huber Loss implementation confirmed against matlab:
   # https://www.mathworks.com/help/deeplearning/ref/dlarray.huber.html
 

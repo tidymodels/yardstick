@@ -89,8 +89,7 @@ rmse_vec <- function(truth,
   rmse_impl(truth, estimate, case_weights = case_weights)
 }
 
-rmse_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
+rmse_impl <- function(truth, estimate, case_weights) {
   errors <- (truth - estimate) ^ 2
   sqrt(yardstick_mean(errors, case_weights = case_weights))
 }

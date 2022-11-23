@@ -96,12 +96,10 @@ rpd_vec <- function(truth,
     }
   }
 
-  rpd_impl(truth, estimate, case_weights = case_weights)
+  rpd_impl(truth, estimate, case_weights)
 }
 
-rpd_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
-
+rpd_impl <- function(truth, estimate, case_weights) {
   sd <- yardstick_sd(truth, case_weights = case_weights)
   rmse <- rmse_vec(truth, estimate, case_weights = case_weights)
 

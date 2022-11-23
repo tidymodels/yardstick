@@ -99,12 +99,6 @@ accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...
     }
   }
 
-  accuracy_impl(truth, estimate, case_weights = case_weights)
-}
-
-# binary and multiclass case are equivalent
-accuracy_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
   data <- yardstick_table(truth, estimate, case_weights = case_weights)
   accuracy_table_impl(data)
 }

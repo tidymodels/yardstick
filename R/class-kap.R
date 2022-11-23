@@ -130,15 +130,6 @@ kap_vec <- function(truth,
     }
   }
 
-  kap_impl(truth, estimate, weighting = weighting, case_weights = case_weights)
-}
-
-kap_impl <- function(truth,
-                     estimate,
-                     ...,
-                     weighting = "none",
-                     case_weights = NULL) {
-  check_dots_empty()
   data <- yardstick_table(truth, estimate, case_weights = case_weights)
   kap_table_impl(data, weighting = weighting)
 }

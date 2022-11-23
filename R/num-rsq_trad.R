@@ -86,10 +86,10 @@ rsq_trad_vec <- function(truth,
     }
   }
 
-  rsq_trad_impl(truth, estimate, case_weights = case_weights)
+  rsq_trad_impl(truth, estimate, case_weights)
 }
 
-rsq_trad_impl <- function(truth, estimate, ..., case_weights = NULL) {
+rsq_trad_impl <- function(truth, estimate, case_weights) {
   # Weighted calculation from the following, basically computing `y_bar`,
   # `SS_res`, and `SS_tot` in weighted manners:
   # https://stats.stackexchange.com/questions/83826/is-a-weighted-r2-in-robust-linear-model-meaningful-for-goodness-of-fit-analys/375752#375752

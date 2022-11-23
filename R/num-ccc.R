@@ -89,16 +89,13 @@ ccc_vec <- function(truth,
     }
   }
 
-  ccc_impl(truth, estimate, bias = bias, case_weights = case_weights)
+  ccc_impl(truth, estimate, bias, case_weights)
 }
 
 ccc_impl <- function(truth,
                      estimate,
-                     ...,
-                     bias = FALSE,
-                     case_weights = NULL) {
-  check_dots_empty()
-
+                     bias,
+                     case_weights) {
   case_weights <- vec_cast(case_weights, to = double())
 
   truth_mean <- yardstick_mean(truth, case_weights = case_weights)

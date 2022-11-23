@@ -85,12 +85,10 @@ iic_vec <- function(truth,
     }
   }
 
-  iic_impl(truth, estimate, case_weights = case_weights)
+  iic_impl(truth, estimate, case_weights)
 }
 
-iic_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
-
+iic_impl <- function(truth, estimate, case_weights) {
   deltas <- truth - estimate
 
   neg <- deltas < 0
