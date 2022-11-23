@@ -43,6 +43,12 @@ handle_missings <- function(truth, estimate, case_weights) {
 #' @rdname handle_missings
 #' @export
 detect_missings <- function(truth, estimate, case_weights) {
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+  if (is_class_pred(estimate)) {
+    estimate <- as_factor_from_class_pred(estimate)
+  }
   any_na <-
     anyNA(truth) ||
     anyNA(estimate) ||
