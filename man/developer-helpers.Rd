@@ -48,7 +48,7 @@ estimator list of
 this if your classification estimator does not support all of these methods.}
 }
 \description{
-Helpers to be used alongside \code{\link[=metric-vec_template]{metric-vec_template()}} and
+Helpers to be used alongside \link{check_metric}, \link{handle_missings} and
 \link[=class_metric_summarizer]{metric summarizers} when creating new metrics. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for
 more information.
 }
@@ -118,5 +118,5 @@ is of the right format and is one of the allowed values.
 }
 
 \seealso{
-\code{\link[=metric-summarizers]{metric-summarizers()}} \code{\link[=metric-vec_template]{metric-vec_template()}}
+\code{\link[=metric-summarizers]{metric-summarizers()}} \link{check_metric} \link{handle_missings}
 }
