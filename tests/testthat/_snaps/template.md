@@ -90,16 +90,6 @@
       ! Can't subset columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
-# class_metric_vec_template() validates case_weights
-
-    Code
-      class_metric_vec_template(metric_impl = kap_impl, truth = lst$pathology,
-      estimate = lst$scan, na_rm = FALSE, case_weights = seq_along(lst$pathology)[-1],
-      weighting = "none")
-    Condition
-      Error in `validate_case_weights()`:
-      ! `case_weights` (343) must have the same length as `truth` (344).
-
 # prob_metric_vec_template() validates case_weights
 
     Code

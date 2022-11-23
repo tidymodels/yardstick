@@ -2,19 +2,9 @@
 % Please edit documentation in R/template.R
 \name{metric-vec_template}
 \alias{metric-vec_template}
-\alias{class_metric_vec_template}
 \alias{prob_metric_vec_template}
 \title{Developer function for calling new metrics}
 \usage{
-class_metric_vec_template(
-  metric_impl,
-  truth,
-  estimate,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
-
 prob_metric_vec_template(
   metric_impl,
   truth,

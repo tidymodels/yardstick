@@ -315,44 +315,6 @@ NULL
 
 #' @rdname metric-vec_template
 #' @export
-class_metric_vec_template <- function(metric_impl,
-                                      truth,
-                                      estimate,
-                                      na_rm = TRUE,
-                                      case_weights = NULL,
-                                      ...) {
-  validate_case_weights(case_weights, size = length(truth))
-
-  if (is_class_pred(truth)) {
-    truth <- as_factor_from_class_pred(truth)
-  }
-  if (is_class_pred(estimate)) {
-    estimate <- as_factor_from_class_pred(estimate)
-  }
-
-  if (na_rm) {
-    complete_cases <- stats::complete.cases(truth, estimate, case_weights)
-    truth <- truth[complete_cases]
-
-    estimate <- estimate[complete_cases]
-    case_weights <- case_weights[complete_cases]
-  } else {
-    any_na <-
-      anyNA(truth) ||
-      anyNA(estimate) ||
-      (!is.null(case_weights) && anyNA(case_weights))
-
-    # return NA if any NA
-    if (any_na) {
-      return(NA_real_)
-    }
-  }
-
-  metric_impl(truth = truth, estimate = estimate, case_weights = case_weights, ...)
-}
-
-#' @rdname metric-vec_template
-#' @export
 prob_metric_vec_template <- function(metric_impl,
                                      truth,
                                      estimate,
