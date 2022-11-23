@@ -108,27 +108,11 @@ pr_curve_vec <- function(truth,
     }
   }
 
-  # `estimate` here is a matrix of class prob columns
-  pr_curve_impl <- function(truth,
-                            estimate,
-                            ...,
-                            case_weights = NULL) {
-    check_dots_empty()
-
-    pr_curve_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      event_level = event_level,
-      case_weights = case_weights
-    )
-  }
-
-  prob_metric_vec_template(
-    metric_impl = pr_curve_impl,
+  pr_curve_estimator_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
+    estimator = estimator,
+    event_level = event_level,
     case_weights = case_weights
   )
 }

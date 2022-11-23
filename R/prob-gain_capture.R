@@ -102,26 +102,11 @@ gain_capture_vec <- function(truth,
     }
   }
 
-  gain_capture_impl <- function(truth,
-                                estimate,
-                                ...,
-                                case_weights = NULL) {
-    check_dots_empty()
-
-    gain_capture_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      event_level = event_level,
-      case_weights = case_weights
-    )
-  }
-
-  prob_metric_vec_template(
-    metric_impl = gain_capture_impl,
+  gain_capture_estimator_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
+    estimator = estimator,
+    event_level = event_level,
     case_weights = case_weights
   )
 }

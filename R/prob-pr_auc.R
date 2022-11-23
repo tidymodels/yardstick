@@ -97,26 +97,11 @@ pr_auc_vec <- function(truth,
     }
   }
 
-  pr_auc_impl <- function(truth,
-                          estimate,
-                          ...,
-                          case_weights = NULL) {
-    check_dots_empty()
-
-    pr_auc_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      event_level = event_level,
-      case_weights = case_weights
-    )
-  }
-
-  prob_metric_vec_template(
-    metric_impl = pr_auc_impl,
+  pr_auc_estimator_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
+    estimator = estimator,
+    event_level = event_level,
     case_weights = case_weights
   )
 }

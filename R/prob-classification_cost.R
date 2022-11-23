@@ -157,30 +157,13 @@ classification_cost_vec <- function(truth,
      }
    }
 
-   classification_cost_impl <- function(truth,
-                                        estimate,
-                                        ...,
-                                        costs = NULL,
-                                        case_weights = NULL) {
-     check_dots_empty()
-
-     classification_cost_estimator_impl(
-       truth = truth,
-       estimate = estimate,
-       costs = costs,
-       estimator = estimator,
-       event_level = event_level,
-       case_weights = case_weights
-     )
-   }
-
-   prob_metric_vec_template(
-      metric_impl = classification_cost_impl,
-      truth = truth,
-      estimate = estimate,
-      na_rm = na_rm,
-      case_weights = case_weights,
-      costs = costs
+   classification_cost_estimator_impl(
+     truth = truth,
+     estimate = estimate,
+     costs = costs,
+     estimator = estimator,
+     event_level = event_level,
+     case_weights = case_weights
    )
 }
 

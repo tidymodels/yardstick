@@ -137,27 +137,12 @@ roc_aunu_vec <- function(truth,
   }
 
   # `event_level` doesn't really matter, but we set it anyways
-  roc_aunu_impl <- function(truth,
-                            estimate,
-                            ...,
-                            case_weights = NULL) {
-    check_dots_empty()
-
-    roc_auc_vec(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      na_rm = FALSE,
-      event_level = "first",
-      case_weights = case_weights
-    )
-  }
-
-  prob_metric_vec_template(
-    metric_impl = roc_aunu_impl,
+  roc_auc_vec(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
+    estimator = estimator,
+    na_rm = FALSE,
+    event_level = "first",
     case_weights = case_weights
   )
 }

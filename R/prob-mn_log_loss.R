@@ -126,31 +126,13 @@ mn_log_loss_vec <- function(truth,
     }
   }
 
-  # estimate here is a matrix of class prob columns
-  mn_log_loss_impl <- function(truth,
-                               estimate,
-                               ...,
-                               sum = FALSE,
-                               case_weights = NULL) {
-    check_dots_empty()
-
-    mn_log_loss_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      event_level = event_level,
-      sum = sum,
-      case_weights = case_weights
-    )
-  }
-
-  prob_metric_vec_template(
-    metric_impl = mn_log_loss_impl,
+  mn_log_loss_estimator_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    sum = sum
+    estimator = estimator,
+    event_level = event_level,
+    sum = sum,
+    case_weights = case_weights
   )
 }
 

@@ -82,6 +82,13 @@ metrics.data.frame <- function(data,
   estimate <- tidyselect::vars_pull(names, {{estimate}})
   probs <- unname(tidyselect::vars_select(names, ...))
 
+  if (is_class_pred(data[[truth]])) {
+    data[[truth]] <- as_factor_from_class_pred(data[[truth]])
+  }
+  if (is_class_pred(data[[estimate]])) {
+    data[[estimate]] <- as_factor_from_class_pred(data[[estimate]])
+  }
+
   is_class <- is.factor(data[[truth]]) || is_class_pred(data[[truth]])
 
   if (is_class) {
