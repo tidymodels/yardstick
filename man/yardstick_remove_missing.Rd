@@ -10,17 +10,10 @@ yardstick_remove_missing(truth, estimate, case_weights)
 yardstick_any_missing(truth, estimate, case_weights)
 }
 \arguments{
-\item{truth}{The realized vector of \code{truth}. This is either a factor or a
-numeric.}
+\item{truth, }{estimate Vectors of the same length.}
 
-\item{estimate}{The realized \code{estimate} result. This is either a numeric
-vector, a factor vector, or a numeric matrix (in the case of multiple class
-probability columns) depending on your metric function.}
-
-\item{case_weights}{The realized case weights, as a numeric vector. This must
-be the same length as \code{truth}, and will be considered in the \code{na_rm}
-checks. This will be passed on to \code{metric_impl} as the named argument
-\code{case_weights}.}
+\item{case_weights}{A vector of the same length as \code{truth} and \code{estimate}, or \code{NULL}
+if case weights are not being used.}
 }
 \description{
 \code{yardstick_remove_missing()},  and \code{yardstick_any_missing()} are useful alongside the
