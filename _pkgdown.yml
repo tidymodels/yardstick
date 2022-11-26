@@ -95,7 +95,6 @@ reference:
     - yardstick_any_missing
     - get_weights
     - new-metric
-    - validate-helpers
 
   - title: Data Sets
     contents:
