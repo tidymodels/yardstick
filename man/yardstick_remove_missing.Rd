@@ -10,7 +10,7 @@ yardstick_remove_missing(truth, estimate, case_weights)
 yardstick_any_missing(truth, estimate, case_weights)
 }
 \arguments{
-\item{truth, }{estimate Vectors of the same length.}
+\item{truth, estimate}{Vectors of the same length.}
 
 \item{case_weights}{A vector of the same length as \code{truth} and \code{estimate}, or \code{NULL}
 if case weights are not being used.}

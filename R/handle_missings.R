@@ -6,9 +6,9 @@
 #' across, truth, estimate and case_weights. `yardstick_any_missing()` returns an
 #' indicator if there is any missing values in the inputs.
 #'
-#' @param truth, estimate Vectors of the same length.
+#' @param truth,estimate Vectors of the same length.
 #'
-#' @param case_weights A vector of the same length as `truth` and `estimate`, or `NULL` 
+#' @param case_weights A vector of the same length as `truth` and `estimate`, or `NULL`
 #'   if case weights are not being used.
 #'
 #' @seealso [metric-summarizers]

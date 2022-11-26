@@ -14,8 +14,12 @@ check_class_metric(truth, estimate, case_weights, estimator)
 check_prob_metric(truth, estimate, case_weights, estimator)
 }
 \arguments{
-\item{truth}{The realized vector of \code{truth}. This is either a factor or a
-numeric.}
+\item{truth}{The realized vector of \code{truth}.
+\itemize{
+\item For \code{check_numeric_metric()}, a numeric vector.
+\item For \code{check_class_metric()}, a factor.
+\item For \code{check_prob_metric()}, a factor.
+}}
 
 \item{estimate}{The realized \code{estimate} result. This is either a numeric
 vector, a factor vector, or a numeric matrix (in the case of multiple class
@@ -33,9 +37,9 @@ the metric implementation describing the kind of averaging to use.}
 \description{
 \code{check_numeric_metric()}, \code{check_class_metric()}, and \code{check_prob_metric()}
 are useful alongside \link{metric-summarizers} for implementing new custom
-metrics. \link{metric-summarizers} calls the metric function inside
-\code{dplyr::summarise()}. These functions perform checks for the input in
-accordance to the type of metric that is used.
+metrics. \link{metric-summarizers} call the metric function inside
+\code{dplyr::summarise()}. These functions perform checks on the inputs in
+accordance with the type of metric that is used.
 }
 \seealso{
 \link{metric-summarizers}

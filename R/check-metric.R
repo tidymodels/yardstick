@@ -2,12 +2,14 @@
 #'
 #' `check_numeric_metric()`, `check_class_metric()`, and `check_prob_metric()`
 #' are useful alongside [metric-summarizers] for implementing new custom
-#' metrics. [metric-summarizers] calls the metric function inside
-#' `dplyr::summarise()`. These functions perform checks for the input in
-#' accordance to the type of metric that is used.
+#' metrics. [metric-summarizers] call the metric function inside
+#' `dplyr::summarise()`. These functions perform checks on the inputs in
+#' accordance with the type of metric that is used.
 #'
-#' @param truth The realized vector of `truth`. This is either a factor or a
-#'   numeric.
+#' @param truth The realized vector of `truth`.
+#'   - For `check_numeric_metric()`, a numeric vector.
+#'   - For `check_class_metric()`, a factor.
+#'   - For `check_prob_metric()`, a factor.
 #'
 #' @param estimate The realized `estimate` result. This is either a numeric
 #'   vector, a factor vector, or a numeric matrix (in the case of multiple class
