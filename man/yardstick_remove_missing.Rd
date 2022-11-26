@@ -12,15 +12,16 @@ yardstick_any_missing(truth, estimate, case_weights)
 \arguments{
 \item{truth, estimate}{Vectors of the same length.}
 
-\item{case_weights}{A vector of the same length as \code{truth} and \code{estimate}, or \code{NULL}
-if case weights are not being used.}
+\item{case_weights}{A vector of the same length as \code{truth} and \code{estimate}, or
+\code{NULL} if case weights are not being used.}
 }
 \description{
-\code{yardstick_remove_missing()},  and \code{yardstick_any_missing()} are useful alongside the
-\link{metric-summarizers} functions for implementing new custom metrics.
-\code{yardstick_remove_missing()} removes any observations that contains missing values
-across, truth, estimate and case_weights. \code{yardstick_any_missing()} returns an
-indicator if there is any missing values in the inputs.
+\code{yardstick_remove_missing()},  and \code{yardstick_any_missing()} are useful
+alongside the \link{metric-summarizers} functions for implementing new custom
+metrics. \code{yardstick_remove_missing()} removes any observations that contains
+missing values across, \code{truth}, \code{estimate} and \code{case_weights}.
+\code{yardstick_any_missing()} returns an indicator if there is any missing values
+in the inputs.
 }
 \seealso{
 \link{metric-summarizers}
