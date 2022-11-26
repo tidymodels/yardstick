@@ -127,7 +127,7 @@ ppv_vec <- function(truth,
     estimate <- result$estimate
     case_weights <- result$case_weights
   } else {
-    any_na <- detect_missings(truth, estimate, case_weights)
+    any_na <- yardstick_any_missing(truth, estimate, case_weights)
     if (any_na) {
       return(NA_real_)
     }
@@ -140,7 +140,7 @@ ppv_vec <- function(truth,
     estimate <- result$estimate
     case_weights <- result$case_weights
   } else {
-    any_na <- detect_missings(truth, estimate, case_weights)
+    any_na <- yardstick_any_missing(truth, estimate, case_weights)
     if (any_na) {
       return(NA_real_)
     }

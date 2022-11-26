@@ -54,28 +54,28 @@ test_that("yardstick_remove_missing works", {
   )
 })
 
-test_that("detect_missings works", {
+test_that("yardstick_any_missing works", {
   expect_false(
-    detect_missings(1:10, 1:10, 1:10)
+    yardstick_any_missing(1:10, 1:10, 1:10)
   )
 
   expect_true(
-    detect_missings(c(1:4, NA, NA, 7:10), 1:10, 1:10)
+    yardstick_any_missing(c(1:4, NA, NA, 7:10), 1:10, 1:10)
   )
 
   expect_true(
-    detect_missings(1:10, c(1:4, NA, NA, 7:10), 1:10)
+    yardstick_any_missing(1:10, c(1:4, NA, NA, 7:10), 1:10)
   )
 
   expect_true(
-    detect_missings(1:10, 1:10, c(1:4, NA, NA, 7:10))
+    yardstick_any_missing(1:10, 1:10, c(1:4, NA, NA, 7:10))
   )
 
   expect_true(
-    detect_missings(1:10, c(1:4, NA, NA, 7:10), 1:10)
+    yardstick_any_missing(1:10, c(1:4, NA, NA, 7:10), 1:10)
   )
 
   expect_true(
-    detect_missings(c(NA, 2:10), c(1:9, NA), c(1:4, NA, NA, 7:10))
+    yardstick_any_missing(c(NA, 2:10), c(1:9, NA), c(1:4, NA, NA, 7:10))
   )
 })

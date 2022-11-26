@@ -2,12 +2,12 @@
 % Please edit documentation in R/handle_missings.R
 \name{yardstick_remove_missing}
 \alias{yardstick_remove_missing}
-\alias{detect_missings}
+\alias{yardstick_any_missing}
 \title{Developer function for handling missing values in new metrics}
 \usage{
 yardstick_remove_missing(truth, estimate, case_weights)
 
-detect_missings(truth, estimate, case_weights)
+yardstick_any_missing(truth, estimate, case_weights)
 }
 \arguments{
 \item{truth}{The realized vector of \code{truth}. This is either a factor or a
@@ -23,10 +23,10 @@ checks. This will be passed on to \code{metric_impl} as the named argument
 \code{case_weights}.}
 }
 \description{
-\code{yardstick_remove_missing()},  and \code{detect_missings()} are useful alongside the
+\code{yardstick_remove_missing()},  and \code{yardstick_any_missing()} are useful alongside the
 \code{\link[=metric-summarizers]{metric-summarizers()}} functions for implementing new custom metrics.
 \code{yardstick_remove_missing()} removes any observations that contains missing values
-across, truth, estimate and case_weights. \code{detect_missings()} returns an
+across, truth, estimate and case_weights. \code{yardstick_any_missing()} returns an
 indicator if there is any missing values in the inputs.
 }
 \seealso{

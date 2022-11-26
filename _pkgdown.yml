@@ -92,7 +92,7 @@ reference:
     - check_class_metric
     - check_prob_metric
     - yardstick_remove_missing
-    - detect_missings
+    - yardstick_any_missing
     - get_weights
     - new-metric
     - validate-helpers

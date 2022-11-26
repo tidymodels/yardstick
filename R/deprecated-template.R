@@ -207,7 +207,7 @@ metric_vec_template <- function(metric_impl,
     with = I(
       paste(
         "`check_numeric_metric()`, `check_class_metric()`,",
-        "`check_class_metric()`, `yardstick_remove_missing()`, and `detect_missings()`"
+        "`check_class_metric()`, `yardstick_remove_missing()`, and `yardstick_any_missing()`"
       )
     )
   )

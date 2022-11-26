@@ -2,7 +2,7 @@
 
 * `metric_vec_template()` is being soft deprecated in favor of a more manual
   and flexible metric creation approach. `yardstick_remove_missing()` and 
-  `detect_missings()` have been added for treatment of missing values. 
+  `yardstick_any_missing()` have been added for treatment of missing values. 
   `check_class_metric()`, `check_numeric_metric()`,
   and `check_prob_metric()` have been added to perform standardized input
   checking classification, regression and class probability metrics.   

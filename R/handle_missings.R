@@ -1,9 +1,9 @@
 #' Developer function for handling missing values in new metrics
 #'
-#' `yardstick_remove_missing()`,  and `detect_missings()` are useful alongside the
+#' `yardstick_remove_missing()`,  and `yardstick_any_missing()` are useful alongside the
 #' [metric-summarizers()] functions for implementing new custom metrics.
 #' `yardstick_remove_missing()` removes any observations that contains missing values
-#' across, truth, estimate and case_weights. `detect_missings()` returns an
+#' across, truth, estimate and case_weights. `yardstick_any_missing()` returns an
 #' indicator if there is any missing values in the inputs.
 #'
 #' @param truth The realized vector of `truth`. This is either a factor or a
@@ -42,7 +42,7 @@ yardstick_remove_missing <- function(truth, estimate, case_weights) {
 
 #' @rdname yardstick_remove_missing
 #' @export
-detect_missings <- function(truth, estimate, case_weights) {
+yardstick_any_missing <- function(truth, estimate, case_weights) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
   }
