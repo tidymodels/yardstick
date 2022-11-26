@@ -21,9 +21,13 @@ check_prob_metric(truth, estimate, case_weights, estimator)
 \item For \code{check_prob_metric()}, a factor.
 }}
 
-\item{estimate}{The realized \code{estimate} result. This is either a numeric
-vector, a factor vector, or a numeric matrix (in the case of multiple class
-probability columns) depending on your metric function.}
+\item{estimate}{The realized \code{estimate} result.
+\itemize{
+\item For \code{check_numeric_metric()}, a numeric vector.
+\item For \code{check_class_metric()}, a factor.
+\item For \code{check_prob_metric()}, a numeric vector for binary \code{truth},
+a numeric matrix for multic-class \code{truth}.
+}}
 
 \item{case_weights}{The realized case weights, as a numeric vector. This must
 be the same length as \code{truth}, and will be considered in the \code{na_rm}

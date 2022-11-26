@@ -11,9 +11,11 @@
 #'   - For `check_class_metric()`, a factor.
 #'   - For `check_prob_metric()`, a factor.
 #'
-#' @param estimate The realized `estimate` result. This is either a numeric
-#'   vector, a factor vector, or a numeric matrix (in the case of multiple class
-#'   probability columns) depending on your metric function.
+#' @param estimate The realized `estimate` result.
+#'   - For `check_numeric_metric()`, a numeric vector.
+#'   - For `check_class_metric()`, a factor.
+#'   - For `check_prob_metric()`, a numeric vector for binary `truth`,
+#'     a numeric matrix for multic-class `truth`.
 #'
 #' @param case_weights The realized case weights, as a numeric vector. This must
 #'   be the same length as `truth`, and will be considered in the `na_rm`
