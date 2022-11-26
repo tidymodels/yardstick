@@ -18,9 +18,7 @@
 #'     a numeric matrix for multic-class `truth`.
 #'
 #' @param case_weights The realized case weights, as a numeric vector. This must
-#'   be the same length as `truth`, and will be considered in the `na_rm`
-#'   checks. This will be passed on to `metric_impl` as the named argument
-#'   `case_weights`.
+#'   be the same length as `truth`.
 #'
 #' @param estimator This can either be `NULL` for the default auto-selection of
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along to

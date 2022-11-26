@@ -30,9 +30,7 @@ a numeric matrix for multic-class \code{truth}.
 }}
 
 \item{case_weights}{The realized case weights, as a numeric vector. This must
-be the same length as \code{truth}, and will be considered in the \code{na_rm}
-checks. This will be passed on to \code{metric_impl} as the named argument
-\code{case_weights}.}
+be the same length as \code{truth}.}
 
 \item{estimator}{This can either be \code{NULL} for the default auto-selection of
 averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along to
