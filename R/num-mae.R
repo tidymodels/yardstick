@@ -57,11 +57,8 @@ mae_vec <- function(truth,
     truth <- result$truth
     estimate <- result$estimate
     case_weights <- result$case_weights
-  } else {
-    any_na <- yardstick_any_missing(truth, estimate, case_weights)
-    if (any_na) {
-      return(NA_real_)
-    }
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
   mae_impl(truth, estimate, case_weights)
