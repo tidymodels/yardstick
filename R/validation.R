@@ -1,19 +1,3 @@
-#' Developer function for validating input in new metrics
-#'
-#' @section Estimator Validation:
-#' `validate_estimator()` is called from your metric specific method of
-#' `finalize_estimator_internal()` and ensures that a user provided estimator
-#' is of the right format and is one of the allowed values.
-#'
-#' @inheritParams roc_auc
-#' @param estimator_override A character vector overriding the default allowed
-#' estimator list of `c("binary", "macro", "micro", "macro_weighted")`. Set
-#' this if your classification estimator does not support all of these methods.
-#' @param size, expected size.
-#' @name validate-helpers
-NULL
-
-#' @rdname validate-helpers
 validate_numeric_truth_numeric_estimate <- function(truth, estimate) {
   if (!is.numeric(truth)) {
     cls <- class(truth)[[1]]
@@ -52,7 +36,6 @@ validate_numeric_truth_numeric_estimate <- function(truth, estimate) {
   }
 }
 
-#' @rdname validate-helpers
 validate_factor_truth_factor_estimate <- function(truth, estimate) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
@@ -100,7 +83,6 @@ validate_factor_truth_factor_estimate <- function(truth, estimate) {
   }
 }
 
-#' @rdname validate-helpers
 validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
@@ -141,7 +123,7 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
     } else {
       n_cols <- 1L
     }
-    
+
 
     if (n_lvls != n_cols) {
       abort(paste0(
@@ -159,7 +141,6 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   }
 }
 
-#' @rdname validate-helpers
 validate_binary_estimator <- function(truth, estimator) {
   if (estimator != "binary") return()
 
@@ -171,7 +152,17 @@ validate_binary_estimator <- function(truth, estimator) {
     ))
   }
 }
-#' @rdname validate-helpers
+
+#' @section Estimator Validation:
+#' `validate_estimator()` is called from your metric specific method of
+#' `finalize_estimator_internal()` and ensures that a user provided estimator
+#' is of the right format and is one of the allowed values.
+#'
+#' @param estimator_override A character vector overriding the default allowed
+#' estimator list of
+#' `c("binary", "macro", "micro", "macro_weighted")`. Set
+#' this if your classification estimator does not support all of these methods.
+#' @rdname developer-helpers
 #' @export
 validate_estimator <- function(estimator, estimator_override = NULL) {
 
@@ -210,7 +201,6 @@ validate_estimator <- function(estimator, estimator_override = NULL) {
 
 }
 
-#' @rdname validate-helpers
 validate_case_weights <- function(case_weights, size) {
   if (is.null(case_weights)) {
     return(invisible())
