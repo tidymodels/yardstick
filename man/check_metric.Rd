@@ -32,8 +32,8 @@ the metric implementation describing the kind of averaging to use.}
 }
 \description{
 \code{check_numeric_metric()}, \code{check_class_metric()}, and \code{check_prob_metric()}
-are useful alongside the \link{metric-summarizers} functions for implementing
-new custom metrics. \link{metric-summarizers} calls the metric function inside
+are useful alongside \link{metric-summarizers} for implementing new custom
+metrics. \link{metric-summarizers} calls the metric function inside
 \code{dplyr::summarise()}. These functions perform checks for the input in
 accordance to the type of metric that is used.
 }
