@@ -14,7 +14,6 @@
 NULL
 
 #' @rdname validate-helpers
-#' @export
 validate_numeric_truth_numeric_estimate <- function(truth, estimate) {
   if (!is.numeric(truth)) {
     cls <- class(truth)[[1]]
@@ -54,7 +53,6 @@ validate_numeric_truth_numeric_estimate <- function(truth, estimate) {
 }
 
 #' @rdname validate-helpers
-#' @export
 validate_factor_truth_factor_estimate <- function(truth, estimate) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
@@ -103,7 +101,6 @@ validate_factor_truth_factor_estimate <- function(truth, estimate) {
 }
 
 #' @rdname validate-helpers
-#' @export
 validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
@@ -161,7 +158,6 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
 }
 
 #' @rdname validate-helpers
-#' @export
 validate_binary_estimator <- function(truth, estimator) {
   if (estimator != "binary") return()
 
@@ -213,7 +209,6 @@ validate_estimator <- function(estimator, estimator_override = NULL) {
 }
 
 #' @rdname validate-helpers
-#' @export
 validate_case_weights <- function(case_weights, size) {
   if (is.null(case_weights)) {
     return(invisible())
