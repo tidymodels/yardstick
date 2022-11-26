@@ -2,7 +2,7 @@
 #'
 #' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
 #' `prob_metric_summarizer()` are useful alongside [check_metric] and
-#' [handle_missings] for implementing new custom metrics. These functions call
+#' [yardstick_remove_missing] for implementing new custom metrics. These functions call
 #' the metric function inside `dplyr::summarise()`. See [Custom performance
 #' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
 #' information.
@@ -42,7 +42,7 @@
 #'
 #' @param na_rm A `logical` value indicating whether `NA` values should be
 #' stripped before the computation proceeds. The removal is executed in
-#' [handle_missings()].
+#' [yardstick_remove_missing()].
 #'
 #' @param event_level This can either be `NULL` to use the default `event_level`
 #' value of the `fn` or a single string of either `"first"` or `"second"`
@@ -57,7 +57,7 @@
 #' are spliced into the metric function call using `!!!` from `rlang`. The
 #' default results in nothing being spliced into the call.
 #'
-#' @seealso [check_metric] [handle_missings] [finalize_estimator()] [dots_to_estimate()]
+#' @seealso [check_metric] [yardstick_remove_missing] [finalize_estimator()] [dots_to_estimate()]
 #'
 #' @name metric-summarizers
 NULL

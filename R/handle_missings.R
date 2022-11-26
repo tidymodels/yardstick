@@ -1,8 +1,8 @@
 #' Developer function for handling missing values in new metrics
 #'
-#' `handle_missings()`,  and `detect_missings()` are useful alongside the
+#' `yardstick_remove_missing()`,  and `detect_missings()` are useful alongside the
 #' [metric-summarizers()] functions for implementing new custom metrics.
-#' `handle_missings()` removes any observations that contains missing values
+#' `yardstick_remove_missing()` removes any observations that contains missing values
 #' across, truth, estimate and case_weights. `detect_missings()` returns an
 #' indicator if there is any missing values in the inputs.
 #'
@@ -20,12 +20,12 @@
 #'
 #' @seealso [metric-summarizers()]
 #'
-#' @name handle_missings
+#' @name yardstick_remove_missing
 NULL
 
-#' @rdname handle_missings
+#' @rdname yardstick_remove_missing
 #' @export
-handle_missings <- function(truth, estimate, case_weights) {
+yardstick_remove_missing <- function(truth, estimate, case_weights) {
   complete_cases <- stats::complete.cases(truth, estimate, case_weights)
   truth <- truth[complete_cases]
 
@@ -40,7 +40,7 @@ handle_missings <- function(truth, estimate, case_weights) {
   list(truth = truth, estimate = estimate, case_weights = case_weights)
 }
 
-#' @rdname handle_missings
+#' @rdname yardstick_remove_missing
 #' @export
 detect_missings <- function(truth, estimate, case_weights) {
   if (is_class_pred(truth)) {

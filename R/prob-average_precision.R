@@ -93,7 +93,7 @@ average_precision_vec <- function(truth,
   check_prob_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {
-    result <- handle_missings(truth, estimate, case_weights)
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
 
     truth <- result$truth
     estimate <- result$estimate

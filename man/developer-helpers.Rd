@@ -39,7 +39,7 @@ class probabilities. If \code{truth} is binary, only 1 column should be selected
 Otherwise, there should be as many columns as factor levels of \code{truth}.}
 }
 \description{
-Helpers to be used alongside \link{check_metric}, \link{handle_missings} and
+Helpers to be used alongside \link{check_metric}, \link{yardstick_remove_missing} and
 \link[=class_metric_summarizer]{metric summarizers} when creating new metrics. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for
 more information.
 }
@@ -102,5 +102,5 @@ further use in the underlying vector functions.
 }
 
 \seealso{
-\code{\link[=metric-summarizers]{metric-summarizers()}} \link{check_metric} \link{handle_missings}
+\code{\link[=metric-summarizers]{metric-summarizers()}} \link{check_metric} \link{yardstick_remove_missing}
 }

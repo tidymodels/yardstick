@@ -32,7 +32,7 @@ auc <- function(x, y, na_rm = TRUE) {
 
 #' Developer helpers
 #'
-#' Helpers to be used alongside [check_metric], [handle_missings] and
+#' Helpers to be used alongside [check_metric], [yardstick_remove_missing] and
 #' [metric summarizers][class_metric_summarizer()] when creating new metrics. See [Custom
 #' performance metrics](https://www.tidymodels.org/learn/develop/metrics/) for
 #' more information.

@@ -91,7 +91,7 @@ reference:
     - check_numeric_metric
     - check_class_metric
     - check_prob_metric
-    - handle_missings
+    - yardstick_remove_missing
     - detect_missings
     - get_weights
     - new-metric

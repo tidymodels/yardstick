@@ -150,7 +150,7 @@ spliceable_case_weights <- function(case_weights) {
 #' `r lifecycle::badge("deprecated")`
 #'
 #' `metric_vec_template()` has been soft-deprecated as of yardstick 1.2.0.
-#' Please switch to use [check_metric] and [handle_missings] functions.
+#' Please switch to use [check_metric] and [yardstick_remove_missing] functions.
 #'
 #' @param metric_impl The core implementation function of your custom metric.
 #' This core implementation function is generally defined inside the vector
@@ -207,7 +207,7 @@ metric_vec_template <- function(metric_impl,
     with = I(
       paste(
         "`check_numeric_metric()`, `check_class_metric()`,",
-        "`check_class_metric()`, `handle_missings()`, and `detect_missings()`"
+        "`check_class_metric()`, `yardstick_remove_missing()`, and `detect_missings()`"
       )
     )
   )

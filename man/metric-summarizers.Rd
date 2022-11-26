@@ -73,7 +73,7 @@ like class probability metrics, this is a result of \code{\link[=dots_to_estimat
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA} values should be
 stripped before the computation proceeds. The removal is executed in
-\code{\link[=handle_missings]{handle_missings()}}.}
+\code{\link[=yardstick_remove_missing]{yardstick_remove_missing()}}.}
 
 \item{case_weights}{For metrics supporting case weights, an unquoted
 column name corresponding to case weights can be passed here. If not \code{NULL},
@@ -100,7 +100,7 @@ to pass along describing which level should be considered the "event".}
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and
 \code{prob_metric_summarizer()} are useful alongside \link{check_metric} and
-\link{handle_missings} for implementing new custom metrics. These functions call
+\link{yardstick_remove_missing} for implementing new custom metrics. These functions call
 the metric function inside \code{dplyr::summarise()}. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
 information.
 }
@@ -111,5 +111,5 @@ of your metric function. It knows how to call your metric over grouped data
 frames and returns a \code{tibble} consistent with other metrics.
 }
 \seealso{
-\link{check_metric} \link{handle_missings} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
+\link{check_metric} \link{yardstick_remove_missing} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
 }

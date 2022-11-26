@@ -87,7 +87,7 @@ get_weights <- function(data, estimator) {
 #' @param estimator Either `NULL` for auto-selection, or a single character
 #' for the type of estimator to use.
 #'
-#' @seealso [metric-summarizers()] [check_metric] [handle_missings]
+#' @seealso [metric-summarizers()] [check_metric] [yardstick_remove_missing]
 #'
 #' @export
 finalize_estimator <- function(x, estimator = NULL, metric_class = "default") {
