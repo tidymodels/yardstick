@@ -44,7 +44,7 @@ auc <- function(x, y, na_rm = TRUE) {
 #' name if 1 input is provided to `...` or it constructs a quosure where the
 #' expression constructs a matrix of as many columns as are provided to `...`.
 #' These are eventually evaluated in the `summarise()` call in
-#' [metric-summarizers()] and evaluate to either a vector or a matrix for
+#' [metric-summarizers] and evaluate to either a vector or a matrix for
 #' further use in the underlying vector functions.
 #'
 #'

@@ -1,7 +1,7 @@
 #' Developer function for handling missing values in new metrics
 #'
 #' `yardstick_remove_missing()`,  and `yardstick_any_missing()` are useful alongside the
-#' [metric-summarizers()] functions for implementing new custom metrics.
+#' [metric-summarizers] functions for implementing new custom metrics.
 #' `yardstick_remove_missing()` removes any observations that contains missing values
 #' across, truth, estimate and case_weights. `yardstick_any_missing()` returns an
 #' indicator if there is any missing values in the inputs.
@@ -18,7 +18,7 @@
 #'   checks. This will be passed on to `metric_impl` as the named argument
 #'   `case_weights`.
 #'
-#' @seealso [metric-summarizers()]
+#' @seealso [metric-summarizers]
 #'
 #' @name yardstick_remove_missing
 NULL

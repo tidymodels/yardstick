@@ -1,8 +1,8 @@
 #' Developer function for checking inputs in new metrics
 #'
 #' `check_numeric_metric()`, `check_class_metric()`, and `check_prob_metric()`
-#' are useful alongside the [metric-summarizers()] functions for implementing
-#' new custom metrics. [metric-summarizers()] calls the metric function inside
+#' are useful alongside the [metric-summarizers] functions for implementing
+#' new custom metrics. [metric-summarizers] calls the metric function inside
 #' `dplyr::summarise()`. These functions perform checks for the input in
 #' accordance to the type of metric that is used.
 #'
@@ -22,7 +22,7 @@
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along to
 #' the metric implementation describing the kind of averaging to use.
 #'
-#' @seealso [metric-summarizers()]
+#' @seealso [metric-summarizers]
 #'
 #' @name check_metric
 NULL
