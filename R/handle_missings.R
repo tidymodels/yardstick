@@ -6,17 +6,10 @@
 #' across, truth, estimate and case_weights. `yardstick_any_missing()` returns an
 #' indicator if there is any missing values in the inputs.
 #'
-#' @param truth The realized vector of `truth`. This is either a factor or a
-#'   numeric.
+#' @param truth, estimate Vectors of the same length.
 #'
-#' @param estimate The realized `estimate` result. This is either a numeric
-#'   vector, a factor vector, or a numeric matrix (in the case of multiple class
-#'   probability columns) depending on your metric function.
-#'
-#' @param case_weights The realized case weights, as a numeric vector. This must
-#'   be the same length as `truth`, and will be considered in the `na_rm`
-#'   checks. This will be passed on to `metric_impl` as the named argument
-#'   `case_weights`.
+#' @param case_weights A vector of the same length as `truth` and `estimate`, or `NULL` 
+#'   if case weights are not being used.
 #'
 #' @seealso [metric-summarizers]
 #'

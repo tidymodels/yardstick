@@ -136,12 +136,14 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
     }
   } else {
     n_lvls <- length(levels(truth))
-    n_cols <- ncol(estimate)
+    if (is.matrix(estimate)) {
+      n_cols <- ncol(estimate)
+    } else {
+      n_cols <- 1L
+    }
+    
 
-    if (is.null(n_cols) || n_lvls != n_cols) {
-      if (is.null(n_cols)) {
-        n_cols <- 1
-      }
+    if (n_lvls != n_cols) {
       abort(paste0(
         "The number of levels in `truth` (", n_lvls, ") ",
         "must match the number of columns supplied in `...` (", n_cols, ")."
