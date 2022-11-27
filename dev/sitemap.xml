@@ -46,6 +46,9 @@
     <loc>https://yardstick.tidymodels.org/dev/reference/ccc.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/dev/reference/check_metric.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/dev/reference/classification_cost.html</loc>
   </url>
   <url>
@@ -206,5 +209,8 @@
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/dev/reference/yardstick-package.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.html</loc>
   </url>
 </urlset>
