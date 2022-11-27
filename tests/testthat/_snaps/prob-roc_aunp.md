@@ -6,7 +6,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `multiclass_checks.matrix()`:
+      Caused by error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (1).
 
 # roc_aunp() - `options` is deprecated

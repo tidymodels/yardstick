@@ -118,6 +118,8 @@ lift_curve_vec <- function(truth,
                            event_level = yardstick_event_level(),
                            case_weights = NULL,
                            ...) {
+  # Doesn't validate inputs here since it is done in gain_curve_vec()
+
   # tibble result, possibly grouped
   res <- gain_curve_vec(
     truth = truth,

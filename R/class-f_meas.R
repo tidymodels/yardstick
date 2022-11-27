@@ -109,25 +109,23 @@ f_meas_vec <- function(truth,
                        ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  f_meas_impl <- function(truth, estimate, ..., beta = 1, case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    f_meas_table_impl(data, estimator, event_level, beta = beta)
+  check_class_metric(truth, estimate, case_weights, estimator)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = f_meas_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = "factor",
-    beta = beta
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  f_meas_table_impl(data, estimator, event_level, beta)
 }
 
-f_meas_table_impl <- function(data, estimator, event_level, beta = 1) {
+f_meas_table_impl <- function(data, estimator, event_level, beta) {
   if(is_binary(estimator)) {
     f_meas_binary(data, event_level, beta)
   } else {

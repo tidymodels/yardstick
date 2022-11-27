@@ -62,22 +62,25 @@ huber_loss_vec <- function(truth,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  metric_vec_template(
-    metric_impl = huber_loss_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = "numeric",
-    delta = delta
-  )
+  check_numeric_metric(truth, estimate, case_weights)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
+  huber_loss_impl(truth, estimate, delta, case_weights)
 }
 
 huber_loss_impl <- function(truth,
                             estimate,
-                            ...,
-                            delta = 1,
-                            case_weights = NULL) {
+                            delta,
+                            case_weights) {
   # Weighted Huber Loss implementation confirmed against matlab:
   # https://www.mathworks.com/help/deeplearning/ref/dlarray.huber.html
 

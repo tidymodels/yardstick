@@ -19,9 +19,9 @@ test_that("gain_curve() matches known result", {
 test_that("error handling", {
   df <- data.frame(truth = 1, estimate = factor("x"))
 
-  expect_error(
-    gain_curve(df, truth, estimate),
-    "`truth` should be a factor but a numeric was supplied."
+  expect_snapshot(
+    error = TRUE,
+    gain_curve(df, truth, estimate)
   )
 })
 

@@ -131,29 +131,24 @@ roc_auc_vec <- function(truth,
     case_weights = case_weights
   )
 
-  roc_auc_impl <- function(truth,
-                           estimate,
-                           ...,
-                           case_weights = NULL) {
-    check_dots_empty()
+  check_prob_metric(truth, estimate, case_weights, estimator)
 
-    roc_auc_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      event_level = event_level,
-      case_weights = case_weights
-    )
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = roc_auc_impl,
+  roc_auc_estimator_impl(
     truth = truth,
     estimate = estimate,
     estimator = estimator,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = c("factor", "numeric")
+    event_level = event_level,
+    case_weights = case_weights
   )
 }
 
@@ -382,7 +377,7 @@ roc_auc_subset <- function(lvl1, lvl2, truth, estimate) {
 # ------------------------------------------------------------------------------
 
 compute_n_occurrences <- function(x, what) {
-  # `NA` values have already been removed by `metric_vec_template()`
+  # `NA` values have already been removed by `roc_auc_vec()`
   sum(x == what)
 }
 

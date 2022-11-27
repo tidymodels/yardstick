@@ -48,7 +48,7 @@ estimator list of
 this if your classification estimator does not support all of these methods.}
 }
 \description{
-Helpers to be used alongside \code{\link[=metric_vec_template]{metric_vec_template()}} and
+Helpers to be used alongside \link{check_metric}, \link{yardstick_remove_missing} and
 \link[=class_metric_summarizer]{metric summarizers} when creating new metrics. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for
 more information.
 }
@@ -106,8 +106,8 @@ as no auto-selection is needed.
 name if 1 input is provided to \code{...} or it constructs a quosure where the
 expression constructs a matrix of as many columns as are provided to \code{...}.
 These are eventually evaluated in the \code{summarise()} call in
-\code{\link[=metric_summarizer]{metric_summarizer()}} and evaluate to either a vector or a matrix for further
-use in the underlying vector functions.
+\link{metric-summarizers} and evaluate to either a vector or a matrix for
+further use in the underlying vector functions.
 }
 
 \section{Estimator Validation}{
@@ -118,5 +118,5 @@ is of the right format and is one of the allowed values.
 }
 
 \seealso{
-\code{\link[=class_metric_summarizer]{class_metric_summarizer()}} \code{\link[=metric_vec_template]{metric_vec_template()}}
+\link{metric-summarizers} \link{check_metric} \link{yardstick_remove_missing}
 }

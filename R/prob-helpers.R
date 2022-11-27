@@ -32,7 +32,7 @@ auc <- function(x, y, na_rm = TRUE) {
 
 #' Developer helpers
 #'
-#' Helpers to be used alongside [metric_vec_template()] and
+#' Helpers to be used alongside [check_metric], [yardstick_remove_missing] and
 #' [metric summarizers][class_metric_summarizer()] when creating new metrics. See [Custom
 #' performance metrics](https://www.tidymodels.org/learn/develop/metrics/) for
 #' more information.
@@ -44,8 +44,8 @@ auc <- function(x, y, na_rm = TRUE) {
 #' name if 1 input is provided to `...` or it constructs a quosure where the
 #' expression constructs a matrix of as many columns as are provided to `...`.
 #' These are eventually evaluated in the `summarise()` call in
-#' [metric_summarizer()] and evaluate to either a vector or a matrix for further
-#' use in the underlying vector functions.
+#' [metric-summarizers] and evaluate to either a vector or a matrix for
+#' further use in the underlying vector functions.
 #'
 #'
 #' @name developer-helpers

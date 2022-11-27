@@ -49,18 +49,22 @@ mae_vec <- function(truth,
                     na_rm = TRUE,
                     case_weights = NULL,
                     ...) {
-  metric_vec_template(
-    metric_impl = mae_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = "numeric"
-  )
+  check_numeric_metric(truth, estimate, case_weights)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
+  mae_impl(truth, estimate, case_weights)
 }
 
-mae_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
+mae_impl <- function(truth, estimate, case_weights) {
   errors <- abs(truth - estimate)
   yardstick_mean(errors, case_weights = case_weights)
 }

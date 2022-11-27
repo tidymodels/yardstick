@@ -14,18 +14,6 @@ test_that("missing values in case weights are considered by `na_rm`", {
   )
 })
 
-test_that("case weights are validated", {
-  truth <- factor(c("x", "y"), levels = c("x", "y"))
-  estimate <- factor(c("x", "x"), levels = c("x", "y"))
-
-  expect_snapshot(error = TRUE, {
-    accuracy_vec(truth, estimate, case_weights = 1)
-  })
-  expect_snapshot(error = TRUE, {
-    accuracy_vec(truth, estimate, case_weights = c("x", "y"))
-  })
-})
-
 ## numeric_metric_summarizer --------------------------------------------------
 
 test_that("numeric_metric_summarizer() works as expected", {
@@ -591,4 +579,3 @@ test_that("prob_metric_summarizer() deals with characters in truth", {
 
   expect_identical(roc_auc_res, roc_auc_exp)
 })
-

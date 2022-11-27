@@ -101,26 +101,20 @@ npv_vec <- function(truth,
                     ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  npv_impl <- function(truth,
-                       estimate,
-                       ...,
-                       prevalence = NULL,
-                       case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    npv_table_impl(data, estimator, event_level, prevalence = prevalence)
+  check_class_metric(truth, estimate, case_weights, estimator)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = npv_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = "factor",
-    prevalence = prevalence
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  npv_table_impl(data, estimator, event_level, prevalence = prevalence)
 }
 
 npv_table_impl <- function(data,

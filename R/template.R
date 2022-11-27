@@ -1,14 +1,11 @@
 #' Developer function for summarizing new metrics
 #'
 #' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
-#' `prob_metric_summarizer()` are useful alongside [metric_vec_template()] for
-#' implementing new custom metrics. These functions call the metric function
-#' inside `dplyr::summarise()`. `metric_vec_template()` is a generalized
-#' function that calls the core implementation of a metric function, and
-#' includes a number of checks on the types, lengths, and argument inputs.
-#' See [Custom performance
-#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
-#' information.
+#' `prob_metric_summarizer()` are useful alongside [check_metric] and
+#' [yardstick_remove_missing] for implementing new custom metrics. These
+#' functions call the metric function inside `dplyr::summarise()`. See [Custom
+#' performance metrics](https://www.tidymodels.org/learn/develop/metrics/) for
+#' more information.
 #'
 #' @details
 #'
@@ -45,7 +42,7 @@
 #'
 #' @param na_rm A `logical` value indicating whether `NA` values should be
 #' stripped before the computation proceeds. The removal is executed in
-#' `metric_vec_template()`.
+#' [yardstick_remove_missing()].
 #'
 #' @param event_level This can either be `NULL` to use the default `event_level`
 #' value of the `fn` or a single string of either `"first"` or `"second"`
@@ -60,7 +57,7 @@
 #' are spliced into the metric function call using `!!!` from `rlang`. The
 #' default results in nothing being spliced into the call.
 #'
-#' @seealso [metric_vec_template()] [finalize_estimator()] [dots_to_estimate()]
+#' @seealso [check_metric] [yardstick_remove_missing] [finalize_estimator()] [dots_to_estimate()]
 #'
 #' @name metric-summarizers
 NULL
@@ -262,137 +259,6 @@ prob_estimate_convert <- function(estimate) {
     # Otherwise multiclass case requires a matrix
     as.matrix(estimate)
   }
-}
-
-#' Developer function for calling new metrics
-#'
-#' `metric_vec_template()` is useful alongside [metric_summarizer()] for
-#' implementing new custom metrics. `metric_summarizer()` calls the metric
-#' function inside `dplyr::summarise()`. `metric_vec_template()` is a
-#' generalized function that calls the core implementation of a metric function,
-#' and includes a number of checks on the types, lengths, and argument inputs.
-#'
-#' @param metric_impl The core implementation function of your custom metric.
-#' This core implementation function is generally defined inside the vector
-#' method of your metric function.
-#'
-#' @param truth The realized vector of `truth`. This is either a factor
-#' or a numeric.
-#'
-#' @param estimate The realized `estimate` result. This is either a numeric
-#' vector, a factor vector, or a numeric matrix (in the case of multiple
-#' class probability columns) depending on your metric function.
-#'
-#' @param na_rm A `logical` value indicating whether `NA` values should be
-#' stripped before the computation proceeds. `NA` values are removed
-#' before getting to your core implementation function so you do not have to
-#' worry about handling them yourself. If `na_rm=FALSE` and any `NA` values
-#' exist, then `NA` is automatically returned.
-#'
-#' @param cls A character vector of length 1 or 2 corresponding to the
-#' class that `truth` and `estimate` should be, respectively. If `truth` and
-#' `estimate` are of the same class, just supply a vector of length 1. If
-#' they are different, supply a vector of length 2. For matrices, it is best
-#' to supply `"numeric"` as the class to check here.
-#'
-#' @param estimator The type of averaging to use. By this point, the averaging
-#' type should be finalized, so this should be a character vector of length 1\.
-#' By default, this character value is required to be one of: `"binary"`,
-#' `"macro"`, `"micro"`, or `"macro_weighted"`. If your metric allows more
-#' or less averaging methods, override this with `averaging_override`.
-#'
-#' @param case_weights Optionally, the realized case weights, as a numeric
-#' vector. This must be the same length as `truth`, and will be considered in
-#' the `na_rm` checks. If supplied, this will be passed on to `metric_impl` as
-#' the named argument `case_weights`.
-#'
-#' @param ... Extra arguments to your core metric function, `metric_impl`, can
-#' technically be passed here, but generally the extra args are added through
-#' R's scoping rules because the core metric function is created on the fly
-#' when the vector method is called.
-#'
-#' @details
-#'
-#' `metric_vec_template()` is called from the vector implementation of your
-#' metric. Also defined inside your vector implementation is a separate
-#' function performing the core implementation of the metric function. This
-#' core function is passed along to `metric_vec_template()` as `metric_impl`.
-#'
-#' @seealso [metric_summarizer()] [finalize_estimator()] [dots_to_estimate()]
-#'
-#' @export
-metric_vec_template <- function(metric_impl,
-                                truth,
-                                estimate,
-                                na_rm = TRUE,
-                                cls = "numeric",
-                                estimator = NULL,
-                                case_weights = NULL,
-                                ...) {
-  if (is_class_pred(truth)) {
-    truth <- as_factor_from_class_pred(truth)
-  }
-  if (is_class_pred(estimate)) {
-    estimate <- as_factor_from_class_pred(estimate)
-  }
-
-  validate_truth_estimate_checks(truth, estimate, cls, estimator)
-  validate_case_weights(case_weights, size = length(truth))
-
-  has_case_weights <- !is.null(case_weights)
-
-  if (na_rm) {
-    complete_cases <- stats::complete.cases(truth, estimate, case_weights)
-    truth <- truth[complete_cases]
-
-    if (is.matrix(estimate)) {
-      estimate <- estimate[complete_cases, , drop = FALSE]
-    } else {
-      estimate <- estimate[complete_cases]
-    }
-
-    if (has_case_weights) {
-      case_weights <- case_weights[complete_cases]
-    }
-  } else {
-    any_na <-
-      anyNA(truth) ||
-      anyNA(estimate) ||
-      (has_case_weights && anyNA(case_weights))
-
-    # return NA if any NA
-    if (any_na) {
-      return(NA_real_)
-    }
-  }
-
-  if (has_case_weights) {
-    metric_impl(truth = truth, estimate = estimate, case_weights = case_weights, ...)
-  } else {
-    # Assume signature doesn't have `case_weights =`
-    metric_impl(truth = truth, estimate = estimate, ...)
-  }
-}
-
-validate_case_weights <- function(case_weights, size) {
-  if (is.null(case_weights)) {
-    return(invisible())
-  }
-
-  if (!is.integer(case_weights) && !is.double(case_weights)) {
-    abort("`case_weights` must be an integer or double vector.")
-  }
-
-  size_case_weights <- length(case_weights)
-
-  if (size_case_weights != size) {
-    abort(paste0(
-      "`case_weights` (", size_case_weights, ") must have the same ",
-      "length as `truth` (", size, ")."
-    ))
-  }
-
-  invisible()
 }
 
 metric_tibbler <- function(.metric, .estimator, .estimate) {

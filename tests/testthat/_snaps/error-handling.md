@@ -6,8 +6,8 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_class()`:
-      ! `truth` should be a factor but a numeric was supplied.
+      Caused by error in `validate_factor_truth_factor_estimate()`:
+      ! `truth` should be a factor, not a `numeric`.
 
 # At least 2 levels in truth
 
@@ -17,7 +17,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `binary_checks()`:
+      Caused by error in `validate_binary_estimator()`:
       ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 1 levels was provided.
 
 # Single character values are caught with correct errors
@@ -59,7 +59,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `binary_checks()`:
+      Caused by error in `validate_binary_estimator()`:
       ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 4 levels was provided.
 
 # Bad estimator type
@@ -92,7 +92,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_truth_estimate_types()`:
+      Caused by error in `validate_numeric_truth_numeric_estimate()`:
       ! `truth` should be a numeric vector, not a numeric matrix.
 
 ---
@@ -103,7 +103,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_truth_estimate_types()`:
+      Caused by error in `validate_numeric_truth_numeric_estimate()`:
       ! `estimate` should be a numeric vector, not a numeric matrix.
 
 # Factors with non identical levels
@@ -114,7 +114,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `multiclass_checks()`:
+      Caused by error in `validate_factor_truth_factor_estimate()`:
       ! `truth` and `estimate` levels must be equivalent.
       `truth`: a, b, c
       `estimate`: a, b
@@ -127,8 +127,8 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `binary_checks()`:
-      ! You are using a `binary` metric but have passed multiple columns to `...`
+      Caused by error in `validate_factor_truth_matrix_estimate()`:
+      ! You are using a binary metric but have passed multiple columns to `...`.
 
 # 1 estimate column for a multiclass metric
 
@@ -138,7 +138,7 @@
       <error/rlang_error>
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `multiclass_checks.matrix()`:
+      Caused by error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (1).
 
 # Missing arguments
