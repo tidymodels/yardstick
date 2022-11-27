@@ -2,10 +2,10 @@
 #'
 #' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
 #' `prob_metric_summarizer()` are useful alongside [check_metric] and
-#' [yardstick_remove_missing] for implementing new custom metrics. These functions call
-#' the metric function inside `dplyr::summarise()`. See [Custom performance
-#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
-#' information.
+#' [yardstick_remove_missing] for implementing new custom metrics. These
+#' functions call the metric function inside `dplyr::summarise()`. See [Custom
+#' performance metrics](https://www.tidymodels.org/learn/develop/metrics/) for
+#' more information.
 #'
 #' @details
 #'

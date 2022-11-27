@@ -100,9 +100,9 @@ to pass along describing which level should be considered the "event".}
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and
 \code{prob_metric_summarizer()} are useful alongside \link{check_metric} and
-\link{yardstick_remove_missing} for implementing new custom metrics. These functions call
-the metric function inside \code{dplyr::summarise()}. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
-information.
+\link{yardstick_remove_missing} for implementing new custom metrics. These
+functions call the metric function inside \code{dplyr::summarise()}. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for
+more information.
 }
 \details{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and

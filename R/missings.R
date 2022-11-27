@@ -4,8 +4,8 @@
 #' alongside the [metric-summarizers] functions for implementing new custom
 #' metrics. `yardstick_remove_missing()` removes any observations that contains
 #' missing values across, `truth`, `estimate` and `case_weights`.
-#' `yardstick_any_missing()` returns an indicator if there is any missing values
-#' in the inputs.
+#' `yardstick_any_missing()` returns `FALSE` if there is any missing values in
+#' the inputs.
 #'
 #' @param truth,estimate Vectors of the same length.
 #'

@@ -5,9 +5,9 @@
   `yardstick_any_missing()` have been added for treatment of missing values. 
   `check_class_metric()`, `check_numeric_metric()`,
   and `check_prob_metric()` have been added to perform standardized input
-  checking classification, regression and class probability metrics.   
-  These changes mean that it is the developer's responsibility to perform 
-  validation of `truth` and `estimate` input. (#337).
+  checking for classification, regression and class probability metrics 
+  respectively. These changes mean that it is the developer's responsibility 
+  to perform validation of `truth` and `estimate` input. (#337).
 
 * `metric_summarizer()` is being soft deprecated in favor of the more specific
   newly added `class_metric_summarizer()`, `numeric_metric_summarizer()`, and

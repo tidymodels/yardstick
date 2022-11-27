@@ -20,8 +20,8 @@ yardstick_any_missing(truth, estimate, case_weights)
 alongside the \link{metric-summarizers} functions for implementing new custom
 metrics. \code{yardstick_remove_missing()} removes any observations that contains
 missing values across, \code{truth}, \code{estimate} and \code{case_weights}.
-\code{yardstick_any_missing()} returns an indicator if there is any missing values
-in the inputs.
+\code{yardstick_any_missing()} returns \code{FALSE} if there is any missing values in
+the inputs.
 }
 \seealso{
 \link{metric-summarizers}
