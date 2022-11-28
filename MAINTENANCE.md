@@ -21,14 +21,6 @@ It is likely that the internal helpers will have to be improved first before you
 
 ## Known issues
 
-The main issue with yardstick is that changing any of the underlying infrastructure has a high cognitive overhead.
-Adding new metrics that fit nicely into the system is really easy, but changing or extending the system is quite hard.
-For example, the `metric_summarizer()` is really a rather complicated call to `dplyr::summarize()`.
-Extending this to support something new in, say, class metrics, can be difficult because all the numeric metrics also go through this function, and you need to be careful you don't accidentally break something there.
-It might be worth creating different kinds of summarizer helpers, possibly one per major class of metric (class, class prob, numeric, maybe survival), and then deprecating the existing one.
-That way you can add features to a particular metric type without worrying about the others.
-Remember that `metric_summarizer()` is currently exported and people have written custom metrics using it.
-
 There is a very similar problem with `metric_vec_template()`.
 It currently tries to handle validation and function calling for *all* of the different types of metrics.
 This makes it extremely complex, hard to extend, and probably a bit brittle.

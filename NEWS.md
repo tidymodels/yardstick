@@ -1,5 +1,23 @@
 # yardstick (development version)
 
+* `metric_vec_template()` is being soft deprecated in favor of a more manual
+  and flexible metric creation approach. `yardstick_remove_missing()` and 
+  `yardstick_any_missing()` have been added for treatment of missing values. 
+  `check_class_metric()`, `check_numeric_metric()`,
+  and `check_prob_metric()` have been added to perform standardized input
+  checking for classification, regression and class probability metrics 
+  respectively. These changes mean that it is the developer's responsibility 
+  to perform validation of `truth` and `estimate` input. (#337).
+
+* `metric_summarizer()` is being soft deprecated in favor of the more specific
+  newly added `class_metric_summarizer()`, `numeric_metric_summarizer()`, and
+  `prob_metric_summarizer()` (#322).
+  
+* yardstick metric functions now use a pure tidyselect interface for `truth`, 
+  `estimate`, and the `...` of class probability metrics (#322).
+  
+* Changed the default aspect ratio for PR curves to be 1.0. 
+
 # yardstick 1.1.0
 
 * Emil Hvitfeldt is now the maintainer (#315).

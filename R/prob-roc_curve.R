@@ -14,7 +14,7 @@
 #'  data (i.e. from resamples). See the examples.
 #'
 #' @family curve metrics
-#' @templateVar metric_fn roc_curve
+#' @templateVar fn roc_curve
 #' @template multiclass-curve
 #' @template event_first
 #'
@@ -78,14 +78,12 @@ roc_curve.data.frame <- function(data,
                                  options = list()) {
   check_roc_options_deprecated("roc_curve", options)
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  result <- metric_summarizer(
-    metric_nm = "roc_curve",
-    metric_fn = roc_curve_vec,
+  result <- prob_metric_summarizer(
+    name = "roc_curve",
+    fn = roc_curve_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     na_rm = na_rm,
     event_level = event_level,
     case_weights = !!enquo(case_weights)
@@ -102,30 +100,25 @@ roc_curve_vec <- function(truth,
                           ...) {
   estimator <- finalize_estimator(truth, metric_class = "roc_curve")
 
-  # estimate here is a matrix of class prob columns
-  roc_curve_impl <- function(truth,
-                             estimate,
-                             ...,
-                             case_weights = NULL) {
-    check_dots_empty()
+  check_prob_metric(truth, estimate, case_weights, estimator)
 
-    roc_curve_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      event_level = event_level,
-      case_weights = case_weights
-    )
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = roc_curve_impl,
+  # estimate here is a matrix of class prob columns
+  roc_curve_estimator_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
     estimator = estimator,
-    case_weights = case_weights,
-    cls = c("factor", "numeric")
+    event_level = event_level,
+    case_weights = case_weights
   )
 }
 
@@ -201,7 +194,7 @@ roc_curve_multiclass <- function(truth,
                                  estimate,
                                  case_weights) {
   one_vs_all_with_level(
-    metric_fn = roc_curve_binary,
+    fn = roc_curve_binary,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights

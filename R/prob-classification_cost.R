@@ -15,7 +15,7 @@
 #' calculation is done for each sample and the individual costs are averaged.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn class_cost
+#' @templateVar fn class_cost
 #' @template return
 #'
 #' @inheritParams pr_auc
@@ -117,19 +117,17 @@ classification_cost.data.frame <- function(data,
                                            na_rm = TRUE,
                                            event_level = yardstick_event_level(),
                                            case_weights = NULL) {
-   estimate <- dots_to_estimate(data, !!!enquos(...))
-
-   metric_summarizer(
-      metric_nm = "classification_cost",
-      metric_fn = classification_cost_vec,
+   prob_metric_summarizer(
+      name = "classification_cost",
+      fn = classification_cost_vec,
       data = data,
       truth = !!enquo(truth),
-      estimate = !!estimate,
+      ...,
       na_rm = na_rm,
       event_level = event_level,
       case_weights = !!enquo(case_weights),
       # Extra argument for classification_cost_impl()
-      metric_fn_options = list(costs = costs)
+      fn_options = list(costs = costs)
    )
 }
 
@@ -144,32 +142,25 @@ classification_cost_vec <- function(truth,
                                     ...) {
    estimator <- finalize_estimator(truth, metric_class = "classification_cost")
 
-   classification_cost_impl <- function(truth,
-                                        estimate,
-                                        ...,
-                                        costs = NULL,
-                                        case_weights = NULL) {
-     check_dots_empty()
+   check_prob_metric(truth, estimate, case_weights, estimator)
 
-     classification_cost_estimator_impl(
-       truth = truth,
-       estimate = estimate,
-       costs = costs,
-       estimator = estimator,
-       event_level = event_level,
-       case_weights = case_weights
-     )
+   if (na_rm) {
+     result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+     truth <- result$truth
+     estimate <- result$estimate
+     case_weights <- result$case_weights
+   } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+     return(NA_real_)
    }
 
-   metric_vec_template(
-      metric_impl = classification_cost_impl,
-      truth = truth,
-      estimate = estimate,
-      na_rm = na_rm,
-      estimator = estimator,
-      case_weights = case_weights,
-      cls = c("factor", "numeric"),
-      costs = costs
+   classification_cost_estimator_impl(
+     truth = truth,
+     estimate = estimate,
+     costs = costs,
+     estimator = estimator,
+     event_level = event_level,
+     case_weights = case_weights
    )
 }
 

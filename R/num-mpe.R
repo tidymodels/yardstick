@@ -10,7 +10,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn mpe
+#' @templateVar fn mpe
 #' @template return
 #'
 #' @inheritParams rmse
@@ -74,9 +74,9 @@ mpe.data.frame <- function(data,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  metric_summarizer(
-    metric_nm = "mpe",
-    metric_fn = mpe_vec,
+  numeric_metric_summarizer(
+    name = "mpe",
+    fn = mpe_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -92,22 +92,24 @@ mpe_vec <- function(truth,
                     na_rm = TRUE,
                     case_weights = NULL,
                     ...) {
-  metric_vec_template(
-    metric_impl = mpe_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = "numeric"
-  )
+  check_numeric_metric(truth, estimate, case_weights)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
+  mpe_impl(truth, estimate, case_weights)
 }
 
 mpe_impl <- function(truth,
                      estimate,
-                     ...,
-                     case_weights = NULL) {
-  check_dots_empty()
-
+                     case_weights) {
   error <- (truth - estimate) / truth
 
   out <- yardstick_mean(error, case_weights = case_weights)

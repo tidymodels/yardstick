@@ -16,7 +16,7 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
-#' @templateVar metric_fn spec
+#' @templateVar fn spec
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -54,9 +54,9 @@ spec.data.frame <- function(data,
                             case_weights = NULL,
                             event_level = yardstick_event_level(),
                             ...) {
-  metric_summarizer(
-    metric_nm = "spec",
-    metric_fn = spec_vec,
+  class_metric_summarizer(
+    name = "spec",
+    fn = spec_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -104,21 +104,20 @@ spec_vec <- function(truth,
                      ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  spec_impl <- function(truth, estimate, ..., case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    spec_table_impl(data, estimator, event_level)
+  check_class_metric(truth, estimate, case_weights, estimator)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = spec_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = "factor"
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  spec_table_impl(data, estimator, event_level)
 }
 
 # ------------------------------------------------------------------------------
@@ -143,9 +142,9 @@ specificity.data.frame <- function(data,
                                    case_weights = NULL,
                                    event_level = yardstick_event_level(),
                                    ...) {
-  metric_summarizer(
-    metric_nm = "specificity",
-    metric_fn = spec_vec,
+  class_metric_summarizer(
+    name = "specificity",
+    fn = spec_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),

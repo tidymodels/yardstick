@@ -4,7 +4,7 @@
 #' true positive and false positive) divided by the total number of predictions.
 #'
 #' @family class metrics
-#' @templateVar metric_fn detection_prevalence
+#' @templateVar fn detection_prevalence
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -34,9 +34,9 @@ detection_prevalence.data.frame <- function(data,
                                             case_weights = NULL,
                                             event_level = yardstick_event_level(),
                                             ...) {
-  metric_summarizer(
-    metric_nm = "detection_prevalence",
-    metric_fn = detection_prevalence_vec,
+  class_metric_summarizer(
+    name = "detection_prevalence",
+    fn = detection_prevalence_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -82,21 +82,20 @@ detection_prevalence_vec <- function(truth,
                                      ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  detection_prevalence_impl <- function(truth, estimate, ..., case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    detection_prevalence_table_impl(data, estimator, event_level)
+  check_class_metric(truth, estimate, case_weights, estimator)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = detection_prevalence_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = "factor"
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  detection_prevalence_table_impl(data, estimator, event_level)
 }
 
 detection_prevalence_table_impl <- function(data, estimator, event_level) {

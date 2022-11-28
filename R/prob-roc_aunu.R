@@ -6,7 +6,7 @@
 #' This is equivalent to `roc_auc(estimator = "macro")`.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn roc_aunu
+#' @templateVar fn roc_aunu
 #' @template return
 #' @template event_first
 #'
@@ -96,14 +96,12 @@ roc_aunu.data.frame  <- function(data,
                                  options = list()) {
   check_roc_options_deprecated("roc_aunu", options)
 
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "roc_aunu",
-    metric_fn = roc_aunu_vec,
+  prob_metric_summarizer(
+    name = "roc_aunu",
+    fn = roc_aunu_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     estimator = NULL,
     na_rm = na_rm,
     event_level = NULL,
@@ -123,30 +121,25 @@ roc_aunu_vec <- function(truth,
 
   estimator <- "macro"
 
-  # `event_level` doesn't really matter, but we set it anyways
-  roc_aunu_impl <- function(truth,
-                            estimate,
-                            ...,
-                            case_weights = NULL) {
-    check_dots_empty()
+  check_prob_metric(truth, estimate, case_weights, estimator)
 
-    roc_auc_vec(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      na_rm = FALSE,
-      event_level = "first",
-      case_weights = case_weights
-    )
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = roc_aunu_impl,
+  # `event_level` doesn't really matter, but we set it anyways
+  roc_auc_vec(
     truth = truth,
     estimate = estimate,
     estimator = estimator,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = c("factor", "numeric")
+    na_rm = FALSE,
+    event_level = "first",
+    case_weights = case_weights
   )
 }

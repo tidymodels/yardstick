@@ -5,7 +5,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn huber_loss_pseudo
+#' @templateVar fn huber_loss_pseudo
 #' @template return
 #'
 #' @inheritParams huber_loss
@@ -40,16 +40,16 @@ huber_loss_pseudo.data.frame <- function(data,
                                          na_rm = TRUE,
                                          case_weights = NULL,
                                          ...) {
-  metric_summarizer(
-    metric_nm = "huber_loss_pseudo",
-    metric_fn = huber_loss_pseudo_vec,
+  numeric_metric_summarizer(
+    name = "huber_loss_pseudo",
+    fn = huber_loss_pseudo_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights),
     # Extra argument for huber_loss_pseudo_impl()
-    metric_fn_options = list(delta = delta)
+    fn_options = list(delta = delta)
   )
 }
 
@@ -61,24 +61,30 @@ huber_loss_pseudo_vec <- function(truth,
                                   na_rm = TRUE,
                                   case_weights = NULL,
                                   ...) {
-  metric_vec_template(
-    metric_impl = huber_loss_pseudo_impl,
+  check_numeric_metric(truth, estimate, case_weights)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
+  huber_loss_pseudo_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = "numeric",
-    delta = delta
+    delta = delta,
+    case_weights = case_weights
   )
 }
 
 huber_loss_pseudo_impl <- function(truth,
                                    estimate,
-                                   ...,
-                                   delta = 1,
-                                   case_weights = NULL) {
-  check_dots_empty()
-
+                                   delta,
+                                   case_weights) {
   if (!rlang::is_bare_numeric(delta, n = 1L)) {
     abort("`delta` must be a single numeric value.")
   }

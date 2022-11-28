@@ -4,6 +4,6 @@
 #' count_results <- dplyr::tibble(count = count_truth, pred = count_pred)
 #'
 #' # Supply truth and predictions as bare column names
-#' <%=metric_fn %>(count_results, count, pred)
+#' <%=fn %>(count_results, count, pred)
 #'
 

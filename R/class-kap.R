@@ -5,7 +5,7 @@
 #' when one or more classes have large frequency distributions.
 #'
 #' @family class metrics
-#' @templateVar metric_fn kap
+#' @templateVar fn kap
 #' @template return
 #'
 #' @section Multiclass:
@@ -72,16 +72,15 @@ kap.data.frame  <- function(data,
                             na_rm = TRUE,
                             case_weights = NULL,
                             ...) {
-
-  metric_summarizer(
-    metric_nm = "kap",
-    metric_fn = kap_vec,
+  class_metric_summarizer(
+    name = "kap",
+    fn = kap_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights),
-    metric_fn_options = list(weighting = weighting)
+    fn_options = list(weighting = weighting)
   )
 
 }
@@ -116,24 +115,18 @@ kap_vec <- function(truth,
                     ...) {
   estimator <- finalize_estimator(truth, metric_class = "kap")
 
-  metric_vec_template(
-    metric_impl = kap_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = "factor",
-    weighting = weighting
-  )
-}
+  check_class_metric(truth, estimate, case_weights, estimator)
 
-kap_impl <- function(truth,
-                     estimate,
-                     ...,
-                     weighting = "none",
-                     case_weights = NULL) {
-  check_dots_empty()
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
   data <- yardstick_table(truth, estimate, case_weights = case_weights)
   kap_table_impl(data, weighting = weighting)
 }

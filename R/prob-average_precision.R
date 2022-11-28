@@ -31,7 +31,7 @@
 #' values are often very close to one another.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn average_precision
+#' @templateVar fn average_precision
 #' @template return
 #' @template multiclass-prob
 #' @template event_first
@@ -66,18 +66,16 @@ average_precision.data.frame <- function(data,
                                          na_rm = TRUE,
                                          event_level = yardstick_event_level(),
                                          case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "average_precision",
-    metric_fn = average_precision_vec,
+  prob_metric_summarizer(
+    name = "average_precision",
+    fn = average_precision_vec,
     data = data,
-    truth = !!enquo(truth),
-    estimate = !!estimate,
+    truth = {{truth}},
+    ...,
     estimator = estimator,
     na_rm = na_rm,
     event_level = event_level,
-    case_weights = !!enquo(case_weights)
+    case_weights = {{case_weights}}
   )
 }
 
@@ -92,29 +90,24 @@ average_precision_vec <- function(truth,
                                   ...) {
   estimator <- finalize_estimator(truth, estimator, "average_precision")
 
-  average_precision_impl <- function(truth,
-                                     estimate,
-                                     ...,
-                                     case_weights = NULL) {
-    check_dots_empty()
+  check_prob_metric(truth, estimate, case_weights, estimator)
 
-    average_precision_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      event_level = event_level,
-      case_weights = case_weights
-    )
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = average_precision_impl,
+  average_precision_estimator_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
     estimator = estimator,
-    case_weights = case_weights,
-    cls = c("factor", "numeric")
+    event_level = event_level,
+    case_weights = case_weights
   )
 }
 
@@ -139,7 +132,7 @@ average_precision_binary <- function(truth,
                                      estimate,
                                      event_level,
                                      case_weights) {
-  # `na_rm` should already be done by `metric_vec_template()`
+  # `na_rm` should already be done by `average_precision_vec()`
   curve <- pr_curve_vec(
     truth = truth,
     estimate = estimate,
@@ -158,7 +151,7 @@ average_precision_multiclass <- function(truth,
                                          estimate,
                                          case_weights) {
   results <- one_vs_all_impl(
-    metric_fn = average_precision_binary,
+    fn = average_precision_binary,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights

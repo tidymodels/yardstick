@@ -22,7 +22,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn iic
+#' @templateVar fn iic
 #' @template return
 #'
 #' @inheritParams rmse
@@ -52,9 +52,9 @@ iic.data.frame <- function(data,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  metric_summarizer(
-    metric_nm = "iic",
-    metric_fn = iic_vec,
+  numeric_metric_summarizer(
+    name = "iic",
+    fn = iic_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -70,19 +70,22 @@ iic_vec <- function(truth,
                     na_rm = TRUE,
                     case_weights = NULL,
                     ...) {
-  metric_vec_template(
-    metric_impl = iic_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = "numeric"
-  )
+  check_numeric_metric(truth, estimate, case_weights)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
+  iic_impl(truth, estimate, case_weights)
 }
 
-iic_impl <- function(truth, estimate, ..., case_weights = NULL) {
-  check_dots_empty()
-
+iic_impl <- function(truth, estimate, case_weights) {
   deltas <- truth - estimate
 
   neg <- deltas < 0

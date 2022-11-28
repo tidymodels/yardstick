@@ -5,8 +5,8 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(truth = truth, estimate = Class1, na_rm = na_rm)`.
-      Caused by error in `multiclass_checks.matrix()`:
+      ! Problem while computing `.estimate = fn(...)`.
+      Caused by error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (1).
 
 # roc_aunu() - `options` is deprecated

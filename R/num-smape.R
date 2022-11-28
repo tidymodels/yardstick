@@ -8,7 +8,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn smape
+#' @templateVar fn smape
 #' @template return
 #'
 #' @inheritParams rmse
@@ -35,9 +35,9 @@ smape.data.frame <- function(data,
                              na_rm = TRUE,
                              case_weights = NULL,
                              ...) {
-  metric_summarizer(
-    metric_nm = "smape",
-    metric_fn = smape_vec,
+  numeric_metric_summarizer(
+    name = "smape",
+    fn = smape_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -53,22 +53,24 @@ smape_vec <- function(truth,
                       na_rm = TRUE,
                       case_weights = NULL,
                       ...) {
-  metric_vec_template(
-    metric_impl = smape_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = "numeric"
-  )
+  check_numeric_metric(truth, estimate, case_weights)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
+  smape_impl(truth, estimate, case_weights)
 }
 
 smape_impl <- function(truth,
                        estimate,
-                       ...,
-                       case_weights = NULL) {
-  check_dots_empty()
-
+                       case_weights) {
   numer <- abs(estimate - truth)
   denom <- (abs(truth) + abs(estimate)) / 2
   error <- numer / denom

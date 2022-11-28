@@ -3,7 +3,7 @@
 #' Balanced accuracy is computed here as the average of [sens()] and [spec()].
 #'
 #' @family class metrics
-#' @templateVar metric_fn bal_accuracy
+#' @templateVar fn bal_accuracy
 #' @template event_first
 #' @template multiclass
 #' @template return
@@ -34,9 +34,9 @@ bal_accuracy.data.frame <- function(data,
                                     event_level = yardstick_event_level(),
                                     ...) {
 
-  metric_summarizer(
-    metric_nm = "bal_accuracy",
-    metric_fn = bal_accuracy_vec,
+  class_metric_summarizer(
+    name = "bal_accuracy",
+    fn = bal_accuracy_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -83,21 +83,20 @@ bal_accuracy_vec <- function(truth,
                              ...) {
   estimator <- finalize_estimator(truth, estimator)
 
-  bal_accuracy_impl <- function(truth, estimate, ..., case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    bal_accuracy_table_impl(data, estimator, event_level)
+  check_class_metric(truth, estimate, case_weights, estimator)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = bal_accuracy_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = "factor"
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  bal_accuracy_table_impl(data, estimator, event_level)
 }
 
 bal_accuracy_table_impl <- function(data, estimator, event_level) {

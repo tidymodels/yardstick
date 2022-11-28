@@ -14,7 +14,7 @@
 #'
 #' @family numeric metrics
 #' @family consistency metrics
-#' @templateVar metric_fn rsq_trad
+#' @templateVar fn rsq_trad
 #' @template return
 #'
 #' @inheritParams rmse
@@ -53,9 +53,9 @@ rsq_trad.data.frame <- function(data,
                                 na_rm = TRUE,
                                 case_weights = NULL,
                                 ...) {
-  metric_summarizer(
-    metric_nm = "rsq_trad",
-    metric_fn = rsq_trad_vec,
+  numeric_metric_summarizer(
+    name = "rsq_trad",
+    fn = rsq_trad_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -71,17 +71,22 @@ rsq_trad_vec <- function(truth,
                          na_rm = TRUE,
                          case_weights = NULL,
                          ...) {
-  metric_vec_template(
-    metric_impl = rsq_trad_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = "numeric"
-  )
+  check_numeric_metric(truth, estimate, case_weights)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
+  rsq_trad_impl(truth, estimate, case_weights)
 }
 
-rsq_trad_impl <- function(truth, estimate, ..., case_weights = NULL) {
+rsq_trad_impl <- function(truth, estimate, case_weights) {
   # Weighted calculation from the following, basically computing `y_bar`,
   # `SS_res`, and `SS_tot` in weighted manners:
   # https://stats.stackexchange.com/questions/83826/is-a-weighted-r2-in-robust-linear-model-meaningful-for-goodness-of-fit-analys/375752#375752

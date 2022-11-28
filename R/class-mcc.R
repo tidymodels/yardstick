@@ -1,7 +1,7 @@
 #' Matthews correlation coefficient
 #'
 #' @family class metrics
-#' @templateVar metric_fn mcc
+#' @templateVar fn mcc
 #' @template event_first
 #' @template return
 #'
@@ -53,9 +53,9 @@ mcc.data.frame <- function(data,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  metric_summarizer(
-    metric_nm = "mcc",
-    metric_fn = mcc_vec,
+  class_metric_summarizer(
+    name = "mcc",
+    fn = mcc_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -99,21 +99,20 @@ mcc_vec <- function(truth,
                     ...) {
   estimator <- finalize_estimator(truth, metric_class = "mcc")
 
-  mcc_impl <- function(truth, estimate, ..., case_weights = NULL) {
-    check_dots_empty()
-    data <- yardstick_table(truth, estimate, case_weights = case_weights)
-    mcc_table_impl(data, estimator)
+  check_class_metric(truth, estimate, case_weights, estimator)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = mcc_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = "factor"
-  )
+  data <- yardstick_table(truth, estimate, case_weights = case_weights)
+  mcc_table_impl(data, estimator)
 }
 
 mcc_table_impl <- function(data, estimator) {

@@ -5,7 +5,7 @@
 #'
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn pr_auc
+#' @templateVar fn pr_auc
 #' @template return
 #' @template multiclass-prob
 #' @template event_first
@@ -58,14 +58,12 @@ pr_auc.data.frame  <- function(data,
                                na_rm = TRUE,
                                event_level = yardstick_event_level(),
                                case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "pr_auc",
-    metric_fn = pr_auc_vec,
+  prob_metric_summarizer(
+    name = "pr_auc",
+    fn = pr_auc_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     estimator = estimator,
     na_rm = na_rm,
     event_level = event_level,
@@ -84,29 +82,24 @@ pr_auc_vec <- function(truth,
                        ...) {
   estimator <- finalize_estimator(truth, estimator, "pr_auc")
 
-  pr_auc_impl <- function(truth,
-                          estimate,
-                          ...,
-                          case_weights = NULL) {
-    check_dots_empty()
+  check_prob_metric(truth, estimate, case_weights, estimator)
 
-    pr_auc_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      event_level = event_level,
-      case_weights = case_weights
-    )
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = pr_auc_impl,
+  pr_auc_estimator_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
     estimator = estimator,
-    case_weights = case_weights,
-    cls = c("factor", "numeric")
+    event_level = event_level,
+    case_weights = case_weights
   )
 }
 
@@ -152,7 +145,7 @@ pr_auc_multiclass <- function(truth,
                               estimate,
                               case_weights) {
   results <- one_vs_all_impl(
-    metric_fn = pr_auc_binary,
+    fn = pr_auc_binary,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights

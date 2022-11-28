@@ -4,7 +4,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @templateVar metric_fn poisson_log_loss
+#' @templateVar fn poisson_log_loss
 #' @template return
 #'
 #' @inheritParams rmse
@@ -36,9 +36,9 @@ poisson_log_loss.data.frame <- function(data,
                                         na_rm = TRUE,
                                         case_weights = NULL,
                                         ...) {
-  metric_summarizer(
-    metric_nm = "poisson_log_loss",
-    metric_fn = poisson_log_loss_vec,
+  numeric_metric_summarizer(
+    name = "poisson_log_loss",
+    fn = poisson_log_loss_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -54,22 +54,24 @@ poisson_log_loss_vec <- function(truth,
                                  na_rm = TRUE,
                                  case_weights = NULL,
                                  ...) {
-  metric_vec_template(
-    metric_impl = poisson_log_loss_impl,
-    truth = truth,
-    estimate = estimate,
-    na_rm = na_rm,
-    case_weights = case_weights,
-    cls = "numeric"
-  )
+  check_numeric_metric(truth, estimate, case_weights)
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
+  poisson_log_loss_impl(truth, estimate, case_weights)
 }
 
 poisson_log_loss_impl <- function(truth,
                                   estimate,
-                                  ...,
-                                  case_weights = NULL) {
-  check_dots_empty()
-
+                                  case_weights) {
   if (!is.integer(truth)) {
     truth <- as.integer(truth)
   }

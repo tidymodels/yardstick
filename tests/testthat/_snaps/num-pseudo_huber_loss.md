@@ -6,8 +6,8 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(truth = obs, estimate = pred_na, na_rm = na_rm, delta = -1)`.
-      Caused by error in `metric_impl()`:
+      ! Problem while computing `.estimate = fn(...)`.
+      Caused by error in `huber_loss_pseudo_impl()`:
       ! `delta` must be a positive value.
 
 ---
@@ -18,7 +18,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = metric_fn(...)`.
-      Caused by error in `metric_impl()`:
+      ! Problem while computing `.estimate = fn(...)`.
+      Caused by error in `huber_loss_pseudo_impl()`:
       ! `delta` must be a single numeric value.
 

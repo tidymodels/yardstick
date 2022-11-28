@@ -15,7 +15,7 @@
 #' of `.9`.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn mn_log_loss
+#' @templateVar fn mn_log_loss
 #' @template return
 #'
 #' @section Multiclass:
@@ -86,19 +86,17 @@ mn_log_loss.data.frame <- function(data,
                                    sum = FALSE,
                                    event_level = yardstick_event_level(),
                                    case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
-
-  metric_summarizer(
-    metric_nm = "mn_log_loss",
-    metric_fn = mn_log_loss_vec,
+  prob_metric_summarizer(
+    name = "mn_log_loss",
+    fn = mn_log_loss_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     na_rm = na_rm,
     event_level = event_level,
     case_weights = !!enquo(case_weights),
     # Extra argument for mn_log_loss_impl()
-    metric_fn_options = list(sum = sum)
+    fn_options = list(sum = sum)
   )
 }
 
@@ -113,33 +111,25 @@ mn_log_loss_vec <- function(truth,
                             ...) {
   estimator <- finalize_estimator(truth, metric_class = "mn_log_loss")
 
-  # estimate here is a matrix of class prob columns
-  mn_log_loss_impl <- function(truth,
-                               estimate,
-                               ...,
-                               sum = FALSE,
-                               case_weights = NULL) {
-    check_dots_empty()
+  check_prob_metric(truth, estimate, case_weights, estimator)
 
-    mn_log_loss_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      estimator = estimator,
-      event_level = event_level,
-      sum = sum,
-      case_weights = case_weights
-    )
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = mn_log_loss_impl,
+  mn_log_loss_estimator_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
     estimator = estimator,
-    case_weights = case_weights,
-    cls = c("factor", "numeric"),
-    sum = sum
+    event_level = event_level,
+    sum = sum,
+    case_weights = case_weights
   )
 }
 
