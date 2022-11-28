@@ -63,16 +63,16 @@ brier_class.data.frame <- function(data,
                                    ...,
                                    na_rm = TRUE,
                                    case_weights = NULL) {
-  estimate <- dots_to_estimate(data, !!! enquos(...))
+  case_weights_quo <- enquo(case_weights)
 
-  metric_summarizer(
-    metric_nm = "brier_class",
-    metric_fn = brier_class_vec,
+  prob_metric_summarizer(
+    name = "brier_class",
+    fn = brier_class_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!estimate,
+    ...,
     na_rm = na_rm,
-    case_weights = !!enquo(case_weights)
+    case_weights = !!case_weights_quo
   )
 }
 
@@ -85,28 +85,22 @@ brier_class_vec <- function(truth,
                             ...) {
   estimator <- finalize_estimator(truth, metric_class = "brier_class")
 
-  # estimate here is a matrix of class prob columns
-  brier_class_impl <- function(truth,
-                               estimate,
-                               ...,
-                               case_weights = NULL) {
-    check_dots_empty()
+  check_prob_metric(truth, estimate, case_weights, estimator)
 
-    brier_class_estimator_impl(
-      truth = truth,
-      estimate = estimate,
-      case_weights = case_weights
-    )
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
   }
 
-  metric_vec_template(
-    metric_impl = brier_class_impl,
+  brier_class_estimator_impl(
     truth = truth,
     estimate = estimate,
-    na_rm = na_rm,
-    estimator = estimator,
-    case_weights = case_weights,
-    cls = c("factor", "numeric")
+    case_weights = case_weights
   )
 }
 
