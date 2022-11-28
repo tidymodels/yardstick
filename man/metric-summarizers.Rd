@@ -5,6 +5,7 @@
 \alias{numeric_metric_summarizer}
 \alias{class_metric_summarizer}
 \alias{prob_metric_summarizer}
+\alias{surv_dynamic_metric_summarizer}
 \title{Developer function for summarizing new metrics}
 \usage{
 numeric_metric_summarizer(
@@ -44,6 +45,20 @@ prob_metric_summarizer(
   estimator = NULL,
   na_rm = TRUE,
   event_level = NULL,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+)
+
+surv_dynamic_metric_summarizer(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
+  .time,
+  ...,
+  na_rm = TRUE,
   case_weights = NULL,
   fn_options = list(),
   error_call = caller_env()
@@ -96,6 +111,9 @@ the metric implementation describing the kind of averaging to use.}
 \item{event_level}{This can either be \code{NULL} to use the default \code{event_level}
 value of the \code{fn} or a single string of either \code{"first"} or \code{"second"}
 to pass along describing which level should be considered the "event".}
+
+\item{.time}{A \code{numeric} vector. Indicating time points where dynamic
+survival metrics should be calculated at.}
 }
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and

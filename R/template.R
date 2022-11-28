@@ -40,6 +40,9 @@
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along to
 #' the metric implementation describing the kind of averaging to use.
 #'
+#' @param .time A `numeric` vector. Indicating time points where dynamic
+#' survival metrics should be calculated at.
+#'
 #' @param na_rm A `logical` value indicating whether `NA` values should be
 #' stripped before the computation proceeds. The removal is executed in
 #' [yardstick_remove_missing()].
@@ -242,6 +245,67 @@ prob_metric_summarizer <- function(name,
 
   dplyr::as_tibble(out)
 }
+
+#' @rdname metric-summarizers
+#' @export
+surv_dynamic_metric_summarizer <- function(name,
+                                           fn,
+                                           data,
+                                           truth,
+                                           estimate,
+                                           .time,
+                                           ...,
+                                           na_rm = TRUE,
+                                           case_weights = NULL,
+                                           fn_options = list(),
+                                           error_call = caller_env()) {
+  rlang::check_dots_empty()
+
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+  case_weights <- enquo(case_weights)
+
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select(
+    expr = estimate,
+    data = data,
+    arg = "estimate",
+    error_call = error_call
+  )
+
+  if (!quo_is_null(case_weights)) {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights",
+      error_call = error_call
+    )
+
+    case_weights <- expr(.data[[!!case_weights]])
+  }
+
+  out <- dplyr::summarise(
+    data,
+    .metric = name,
+    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
+    .estimate = fn(
+      truth = .data[[truth]],
+      estimate = .data[[estimate]],
+      .time = .time,
+      case_weights = !!case_weights,
+      na_rm = na_rm,
+      !!!fn_options
+    )
+  )
+
+  dplyr::as_tibble(out)
+}
+
 
 prob_estimate_convert <- function(estimate) {
   if (!is.data.frame(estimate)) {
