@@ -138,6 +138,7 @@ the rest, using the uniform class distribution.
 
 Other class probability metrics: 
 \code{\link{average_precision}()},
+\code{\link{brier_class}()},
 \code{\link{classification_cost}()},
 \code{\link{gain_capture}()},
 \code{\link{mn_log_loss}()},

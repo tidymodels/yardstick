@@ -6,6 +6,7 @@
 #' @import vctrs
 #' @importFrom dplyr %>%
 #' @importFrom dplyr as_tibble
+#' @importFrom stats complete.cases
 #' @importFrom lifecycle deprecated
 #' @useDynLib yardstick, .registration = TRUE
 ## usethis namespace: end
