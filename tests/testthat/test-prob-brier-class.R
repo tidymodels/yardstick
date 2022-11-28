@@ -37,7 +37,7 @@ test_that('basic results', {
     tolerance = 0.01
   )
   expect_equal(
-    yardstick:::brier_factor(two_class_example$truth, two_class_example[, 2, drop = FALSE]),
+    yardstick:::brier_factor(two_class_example$truth, two_class_example[, 2, drop = TRUE]),
     two_cls_exp,
     tolerance = 0.01
   )
