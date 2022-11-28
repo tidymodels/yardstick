@@ -46,7 +46,7 @@ and \code{.estimate} and 1 row of values.
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
-For \code{brier_class_vec()}, a single \code{numeric} value (or \code{NA}).
+For `
 }
 \description{
 Compute the Brier score for a classification model.

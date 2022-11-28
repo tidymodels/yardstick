@@ -51,13 +51,10 @@ test_that('basic results', {
   # With the mclust pakcage, BrierScore(hpc_cv[-(1:2), 3:6]%>% as.matrix, hpc_cv$obs[-(1:2)])
   hpc_miss_exp <- 0.21095817
   expect_equal(
-    yardstick:::brier_factor(hpc_miss$obs, hpc_miss %>% dplyr::select(VF:L)),
+    brier_class(hpc_miss, obs, VF:L)$.estimate,
     hpc_miss_exp,
     tolerance = 0.01
   )
-
-  # Make sure that we reset options correctly
-  expect_equal(options()$na.action, "na.omit")
 
   # ----------------------------------------------------------------------------
   # with case weights
