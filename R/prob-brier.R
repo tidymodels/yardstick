@@ -3,7 +3,7 @@
 #' Compute the Brier score for a classification model.
 #'
 #' @family class probability metrics
-#' @templateVar metric_fn brier_class
+#' @templateVar fn brier_class
 #' @template return
 #' @details
 #'

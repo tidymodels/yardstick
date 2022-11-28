@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* The Brier score for classification was added (#139).
+
 * `metric_vec_template()` is being soft deprecated in favor of a more manual
   and flexible metric creation approach. `yardstick_remove_missing()` and 
   `yardstick_any_missing()` have been added for treatment of missing values. 
@@ -25,8 +27,6 @@
 * Improved on the chained error thrown by `metric_set()` when one of the metric
   computations fails (#313).
   
-* The Brier score for classification was added (#139).
-
 # yardstick 1.0.0
 
 * All yardstick metrics now support case weights through the new `case_weights`
