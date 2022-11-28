@@ -46,6 +46,12 @@ new_numeric_metric <- function(fn, direction) {
   new_metric(fn, direction, class = "numeric_metric")
 }
 
+#' @rdname new-metric
+#' @export
+new_surv_metric <- function(fn, direction) {
+  new_metric(fn, direction, class = "surv_metric")
+}
+
 new_metric <- function(fn, direction, class = NULL) {
   if (!is.function(fn)) {
     rlang::abort("`fn` must be a function.")
