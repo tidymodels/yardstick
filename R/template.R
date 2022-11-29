@@ -300,7 +300,8 @@ surv_dynamic_metric_summarizer <- function(name,
       case_weights = !!case_weights,
       na_rm = na_rm,
       !!!fn_options
-    )
+    ),
+    .time = .time
   )
 
   dplyr::as_tibble(out)

@@ -5,6 +5,7 @@
 \alias{check_numeric_metric}
 \alias{check_class_metric}
 \alias{check_prob_metric}
+\alias{check_surv_dynamic_metric}
 \title{Developer function for checking inputs in new metrics}
 \usage{
 check_numeric_metric(truth, estimate, case_weights)
@@ -12,6 +13,8 @@ check_numeric_metric(truth, estimate, case_weights)
 check_class_metric(truth, estimate, case_weights, estimator)
 
 check_prob_metric(truth, estimate, case_weights, estimator)
+
+check_surv_dynamic_metric(truth, estimate, case_weights, .time)
 }
 \arguments{
 \item{truth}{The realized vector of \code{truth}.
@@ -35,6 +38,8 @@ be the same length as \code{truth}.}
 \item{estimator}{This can either be \code{NULL} for the default auto-selection of
 averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along to
 the metric implementation describing the kind of averaging to use.}
+
+\item{.time}{Numeric vector.}
 }
 \description{
 \code{check_numeric_metric()}, \code{check_class_metric()}, and \code{check_prob_metric()}

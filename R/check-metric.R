@@ -17,6 +17,8 @@
 #'   - For `check_prob_metric()`, a numeric vector for binary `truth`,
 #'     a numeric matrix for multic-class `truth`.
 #'
+#' @param .time Numeric vector.
+#'
 #' @param case_weights The realized case weights, as a numeric vector. This must
 #'   be the same length as `truth`.
 #'
@@ -50,4 +52,12 @@ check_prob_metric <- function(truth, estimate, case_weights, estimator) {
   validate_case_weights(case_weights, size = length(truth))
   validate_factor_truth_matrix_estimate(truth, estimate, estimator)
   validate_binary_estimator(truth, estimator)
+}
+
+#' @rdname check_metric
+#' @export
+check_surv_dynamic_metric <- function(truth, estimate, case_weights, .time) {
+  validate_case_weights(case_weights, size = length(truth))
+  validate_time(.time)
+  validate_numeric_truth_numeric_estimate(truth, estimate)
 }
