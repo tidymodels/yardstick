@@ -68,6 +68,10 @@ reference:
     - iic
     - poisson_log_loss
 
+  - title: Dynamic Censored Metrics
+    contents:
+    - brier_surv
+
   - title: Curve Functions
     contents:
     - roc_curve
