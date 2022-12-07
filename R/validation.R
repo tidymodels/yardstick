@@ -141,6 +141,38 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   }
 }
 
+validate_surv_truth_numeric_estimate <- function(truth, estimate) {
+  if (!inherits(truth, "Surv")) {
+    cls <- class(truth)[[1]]
+    abort(paste0(
+      "`truth` should be a Surv object, not a `", cls, "`."
+    ))
+  }
+
+  if (!is.numeric(estimate)) {
+    cls <- class(estimate)[[1]]
+    abort(paste0(
+      "`estimate` should be a numeric, not a `", cls, "`."
+    ))
+  }
+
+  if (is.matrix(estimate)) {
+    abort(paste0(
+      "`estimate` should be a numeric vector, not a numeric matrix."
+    ))
+  }
+
+  n_truth <- nrow(truth)
+  n_estimate <- length(estimate)
+
+  if (n_truth != n_estimate) {
+    abort(paste0(
+      "Length of `truth` (", n_truth, ") ",
+      "and `estimate` (", n_estimate, ") must match."
+    ))
+  }
+}
+
 validate_binary_estimator <- function(truth, estimator) {
   if (estimator != "binary") return()
 
