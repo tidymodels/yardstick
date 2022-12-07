@@ -303,6 +303,7 @@ surv_dynamic_metric_summarizer <- function(name,
     ),
     .time = .time
   )
+  out <- tidyr::nest(out, .estimate = c(.time, .estimate))
 
   dplyr::as_tibble(out)
 }
