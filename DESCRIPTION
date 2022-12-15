@@ -34,6 +34,7 @@ Suggests:
     knitr,
     probably (>= 0.0.6),
     rmarkdown,
+    survival,
     testthat (>= 3.0.0),
     tidyr
 VignetteBuilder: 
