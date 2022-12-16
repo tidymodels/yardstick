@@ -166,7 +166,7 @@ validate_surv_truth_list_estimate <- function(truth, estimate) {
     FUN.VALUE = logical(1)
   )
 
-  if (!all(vapply(estimate, is.data.frame, FUN.VALUE = logical(1)))) {
+  if (!all(has_names)) {
     abort(paste0(
       "All data.frames of `estimate` should include column names: ",
       "`.time` and `.pred_survival`."

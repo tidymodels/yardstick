@@ -90,3 +90,58 @@
       ! Can't subset columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
+# surv_dynamic_metric_summarizer()'s errors when wrong things are passes
+
+    Code
+      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
+        truth = inst, estimate = .pred, .time = .time)
+    Condition
+      Error in `dplyr::summarise()`:
+      ! Problem while computing `.estimate = fn(...)`.
+      Caused by error in `validate_surv_truth_list_estimate()`:
+      ! `truth` should be a Surv object, not a `numeric`.
+
+---
+
+    Code
+      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
+        truth = surv_obj, estimate = age, .time = .time)
+    Condition
+      Error in `dplyr::summarise()`:
+      ! Problem while computing `.estimate = fn(...)`.
+      Caused by error in `validate_surv_truth_list_estimate()`:
+      ! `estimate` should be a list, not a `numeric`.
+
+---
+
+    Code
+      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
+        truth = surv_obj, estimate = list, .time = .time)
+    Condition
+      Error in `dplyr::summarise()`:
+      ! Problem while computing `.estimate = fn(...)`.
+      Caused by error in `validate_surv_truth_list_estimate()`:
+      ! All elements of `estimate` should be data.frames.
+
+---
+
+    Code
+      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
+        truth = surv_obj, estimate = list2, .time = .time)
+    Condition
+      Error in `dplyr::summarise()`:
+      ! Problem while computing `.estimate = fn(...)`.
+      Caused by error in `validate_surv_truth_list_estimate()`:
+      ! All data.frames of `estimate` should include column names: `.time` and `.pred_survival`.
+
+---
+
+    Code
+      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
+        truth = surv_obj, estimate = .pred, .time = .time, obviouslywrong = TRUE)
+    Condition
+      Error in `surv_dynamic_metric_summarizer()`:
+      ! `...` must be empty.
+      x Problematic argument:
+      * obviouslywrong = TRUE
+
