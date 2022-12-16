@@ -59,5 +59,5 @@ check_prob_metric <- function(truth, estimate, case_weights, estimator) {
 check_surv_dynamic_metric <- function(truth, estimate, case_weights, .time) {
   validate_case_weights(case_weights, size = length(truth))
   validate_time(.time)
-  validate_surv_truth_numeric_estimate(truth, estimate)
+  validate_surv_truth_list_estimate(truth, estimate)
 }

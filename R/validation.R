@@ -141,7 +141,7 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   }
 }
 
-validate_surv_truth_numeric_estimate <- function(truth, estimate) {
+validate_surv_truth_list_estimate <- function(truth, estimate) {
   if (!inherits(truth, "Surv")) {
     cls <- class(truth)[[1]]
     abort(paste0(
@@ -149,16 +149,27 @@ validate_surv_truth_numeric_estimate <- function(truth, estimate) {
     ))
   }
 
-  if (!is.numeric(estimate)) {
+  if (!is.list(estimate)) {
     cls <- class(estimate)[[1]]
     abort(paste0(
-      "`estimate` should be a numeric, not a `", cls, "`."
+      "`estimate` should be a list, not a `", cls, "`."
     ))
   }
 
-  if (is.matrix(estimate)) {
+  if (!all(vapply(estimate, is.data.frame, FUN.VALUE = logical(1)))) {
+    abort("All elements of `estimate` should be data.frames.")
+  }
+
+  has_names <- vapply(
+    estimate,
+    function(x) all(names(x) %in% c(".time", ".pred_survival")),
+    FUN.VALUE = logical(1)
+  )
+
+  if (!all(vapply(estimate, is.data.frame, FUN.VALUE = logical(1)))) {
     abort(paste0(
-      "`estimate` should be a numeric vector, not a numeric matrix."
+      "All data.frames of `estimate` should include column names: ",
+      "`.time` and `.pred_survival`."
     ))
   }
 
