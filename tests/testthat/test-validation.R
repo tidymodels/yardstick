@@ -241,8 +241,7 @@ test_that("validate_factor_truth_matrix_estimate errors as expected for non-bina
   )
 })
 
-
-test_that("validate_numeric_truth_numeric_estimate errors as expected", {
+test_that("validate_binary_estimator errors as expected", {
   expect_no_error(
     validate_binary_estimator(
       factor(c("a", "b", "a"), levels = c("a", "b", "c")),

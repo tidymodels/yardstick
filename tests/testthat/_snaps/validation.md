@@ -38,15 +38,6 @@
       Error in `validate_numeric_truth_numeric_estimate()`:
       ! Length of `truth` (4) and `estimate` (5) must match.
 
----
-
-    Code
-      validate_binary_estimator(factor(c("a", "b", "a"), levels = c("a", "b", "c")),
-      estimator = "binary")
-    Condition
-      Error in `validate_binary_estimator()`:
-      ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 3 levels was provided.
-
 # validate_factor_truth_factor_estimate errors as expected
 
     Code
@@ -172,4 +163,13 @@
     Condition
       Error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (5).
+
+# validate_binary_estimator errors as expected
+
+    Code
+      validate_binary_estimator(factor(c("a", "b", "a"), levels = c("a", "b", "c")),
+      estimator = "binary")
+    Condition
+      Error in `validate_binary_estimator()`:
+      ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 3 levels was provided.
 
