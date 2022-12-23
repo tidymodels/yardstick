@@ -241,6 +241,66 @@ test_that("validate_factor_truth_matrix_estimate errors as expected for non-bina
   )
 })
 
+test_that("validate_surv_truth_list_estimate errors as expected", {
+  lung_surv <- data_lung_surv()
+  lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
+  lung_surv$list2 <- lapply(
+    seq_len(nrow(lung_surv)),
+    function(x) data.frame(wrong = 1, names = 2)
+  )
+
+  expect_no_error(
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj,
+      lung_surv$.pred
+    )
+  )
+
+  expect_no_error(
+    validate_surv_truth_list_estimate(
+      survival::Surv(1, 0),
+      lung_surv$.pred[1]
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate("1", 1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$list,
+      lung_surv$.pred
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$list2,
+      lung_surv$.pred
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj,
+      lung_surv$inst
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj[1:5],
+      lung_surv$.pred
+    )
+  )
+})
+
 test_that("validate_binary_estimator errors as expected", {
   expect_no_error(
     validate_binary_estimator(
