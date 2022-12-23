@@ -204,6 +204,30 @@
       Error in `validate_surv_truth_list_estimate()`:
       ! Length of `truth` (5) and `estimate` (50) must match.
 
+# validate_time errors as expected
+
+    Code
+      validate_time(numeric())
+    Condition
+      Error in `validate_time()`:
+      ! `.time` (0) must have length greater than 0.
+
+---
+
+    Code
+      validate_time(matrix(1:6, nrow = 2))
+    Condition
+      Error in `validate_time()`:
+      ! `.time` should be a numeric vector, not a numeric matrix.
+
+---
+
+    Code
+      validate_time(letters)
+    Condition
+      Error in `validate_time()`:
+      ! `.time` should be a numeric vector, not a `character` vector.
+
 # validate_binary_estimator errors as expected
 
     Code

@@ -301,6 +301,31 @@ test_that("validate_surv_truth_list_estimate errors as expected", {
   )
 })
 
+test_that("validate_time errors as expected", {
+  expect_no_error(
+    validate_time(1:5)
+  )
+
+  expect_no_error(
+    validate_time(1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_time(numeric())
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_time(matrix(1:6, nrow = 2))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_time(letters)
+  )
+})
+
 test_that("validate_binary_estimator errors as expected", {
   expect_no_error(
     validate_binary_estimator(

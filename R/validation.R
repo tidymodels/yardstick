@@ -273,8 +273,14 @@ validate_time <- function(.time) {
 
   if (!is.numeric(.time)) {
     cls <- class(.time)[[1]]
-    abort(.time(
+    abort(paste0(
       "`.time` should be a numeric vector, not a `", cls, "` vector."
+    ))
+  }
+
+  if (is.matrix(.time)) {
+    abort(paste0(
+      "`.time` should be a numeric vector, not a numeric matrix."
     ))
   }
 
