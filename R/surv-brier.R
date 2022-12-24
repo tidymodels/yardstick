@@ -58,16 +58,16 @@ brier_surv_vec <- function(truth,
                            ...) {
   check_surv_dynamic_metric(truth, estimate, case_weights, .time)
 
-  if (na_rm) {
-    estimate_index <- seq_along(estimate)
-    result <- yardstick_remove_missing(truth, estimate_index, case_weights)
-
-    truth <- result$truth
-    estimate <- estimate[result$estimate]
-    case_weights <- result$case_weights
-  } else if (yardstick_any_missing(truth, seq_along(estimate), case_weights)) {
-    return(NA_real_)
-  }
+  # if (na_rm) {
+  #   estimate_index <- seq_along(estimate)
+  #   result <- yardstick_remove_missing(truth, estimate_index, case_weights)
+  #
+  #   truth <- result$truth
+  #   estimate <- estimate[result$estimate]
+  #   case_weights <- result$case_weights
+  # } else if (yardstick_any_missing(truth, seq_along(estimate), case_weights)) {
+  #   return(NA_real_)
+  # }
 
   brier_surv_impl(truth, estimate, case_weights, .time)
 }
@@ -75,6 +75,21 @@ brier_surv_vec <- function(truth,
 brier_surv_impl <- function(truth, estimate, case_weights, .time) {
   res <- numeric(length(.time))
 
-  .time
+  data <- dplyr::tibble(truth, estimate)
+  data <- tidyr::unnest(data, estimate)
+
+  vapply(.time, calc_rcbs, data = data, FUN.VALUE = numeric(1))
 }
 
+calc_rcbs <- function(.t, data) {
+  data <- dplyr::filter(data, .time == .t)
+
+  category_1 <- data$truth[, 1] < .t & data$truth[, 2] == 1
+  category_2 = data$truth[, 1] > .t & data$truth[, 2] == 0
+
+  km_est <- rep(1, nrow(data))
+  point_est <- 1
+
+  mean(data$.pred_survival * category_1 / km_est +
+         (1 - data$.pred_survival) * category_2 / point_est)
+}
