@@ -22,8 +22,10 @@
 #'
 #' @param ... A set of unquoted column names or one or more
 #' `dplyr` selector functions to choose which variables contain the
-#' class probabilities. If `truth` is binary, only 1 column should be selected.
-#' Otherwise, there should be as many columns as factor levels of `truth`.
+#' class probabilities. If `truth` is binary, only 1 column should be selected,
+#' and it should correspond to the value of `event_level`. Otherwise, there
+#' should be as many columns as factor levels of `truth` and the ordering of
+#' the columns should be the same as the factor levels of `truth`.
 #'
 #' @param estimator One of `"binary"`, `"macro"`, or `"macro_weighted"` to
 #' specify the type of averaging to be done. `"binary"` is only relevant for
