@@ -68,9 +68,13 @@ reference:
     - iic
     - poisson_log_loss
 
-  - title: Dynamic Censored Metrics
+  - title: Dynamic Survival Metrics
     contents:
     - brier_survival
+
+  - title: Static Survival Metrics
+    contents:
+    - concordance_survival
 
   - title: Curve Functions
     contents:
