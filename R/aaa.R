@@ -11,6 +11,9 @@ utils::globalVariables(
     ".level",
     ".",
 
+    # for survival metrics
+    ".time",
+
     # for surv_dynamic_metric_summarizer
     ".estimate",
 
