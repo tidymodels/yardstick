@@ -22,7 +22,7 @@
 brier_survival <- function(data, ...) {
   UseMethod("brier_survival")
 }
-brier_survival <- new_survival_metric(
+brier_survival <- new_dynamic_survival_metric(
   brier_survival,
   direction = "minimize"
 )
