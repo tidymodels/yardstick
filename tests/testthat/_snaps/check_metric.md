@@ -57,19 +57,20 @@
       Error in `validate_factor_truth_matrix_estimate()`:
       ! You are using a binary metric but have passed multiple columns to `...`.
 
-# check_surv_dynamic_metric() validates case_weights
+# check_survival_dynamic_metric() validates case_weights
 
     Code
-      check_surv_dynamic_metric(lung_surv$surv_obj, lung_surv$.pred, 1:51, .time = 1:
-      3)
+      check_survival_dynamic_metric(lung_surv$surv_obj, lung_surv$.pred, 1:51, .time = 1:
+        3)
     Condition
       Error in `validate_case_weights()`:
       ! `case_weights` (51) must have the same length as `truth` (50).
 
-# check_surv_dynamic_metric() validates inputs
+# check_survival_dynamic_metric() validates inputs
 
     Code
-      check_surv_dynamic_metric(lung_surv$surv_obj, lung_surv$inst, 1:50, .time = 1:3)
+      check_survival_dynamic_metric(lung_surv$surv_obj, lung_surv$inst, 1:50, .time = 1:
+        3)
     Condition
       Error in `validate_surv_truth_list_estimate()`:
       ! `estimate` should be a list, not a `numeric`.

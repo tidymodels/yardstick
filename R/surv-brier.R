@@ -56,7 +56,7 @@ brier_survival_vec <- function(truth,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-  check_surv_dynamic_metric(truth, estimate, case_weights, .time)
+  check_survival_dynamic_metric(truth, estimate, case_weights, .time)
 
   if (na_rm) {
     estimate_index <- seq_along(estimate)
