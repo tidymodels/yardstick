@@ -93,8 +93,8 @@
 # surv_dynamic_metric_summarizer()'s errors when wrong things are passes
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
-        truth = inst, estimate = .pred, .time = .time)
+      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+        data = lung_surv, truth = inst, estimate = .pred, .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
@@ -104,8 +104,8 @@
 ---
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
-        truth = surv_obj, estimate = age, .time = .time)
+      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+        data = lung_surv, truth = surv_obj, estimate = age, .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
@@ -115,8 +115,8 @@
 ---
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
-        truth = surv_obj, estimate = list, .time = .time)
+      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+        data = lung_surv, truth = surv_obj, estimate = list, .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
@@ -126,8 +126,8 @@
 ---
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
-        truth = surv_obj, estimate = list2, .time = .time)
+      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+        data = lung_surv, truth = surv_obj, estimate = list2, .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
@@ -137,8 +137,9 @@
 ---
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_surv", fn = brier_surv_vec, data = lung_surv,
-        truth = surv_obj, estimate = .pred, .time = .time, obviouslywrong = TRUE)
+      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+        data = lung_surv, truth = surv_obj, estimate = .pred, .time = .time,
+        obviouslywrong = TRUE)
     Condition
       Error in `surv_dynamic_metric_summarizer()`:
       ! `...` must be empty.

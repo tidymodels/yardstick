@@ -3,7 +3,7 @@
 #' Compute the Brier score for a censored data model.
 #'
 #' @family dynamic survival metrics
-#' @templateVar fn brier_surv
+#' @templateVar fn brier_survival
 #' @template return
 #' @details
 #'
@@ -19,17 +19,17 @@
 #' @author Emil Hvitfeldt
 #'
 #' @export
-brier_surv <- function(data, ...) {
-  UseMethod("brier_surv")
+brier_survival <- function(data, ...) {
+  UseMethod("brier_survival")
 }
-brier_surv <- new_surv_metric(
-  brier_surv,
+brier_survival <- new_surv_metric(
+  brier_survival,
   direction = "minimize"
 )
 
-#' @rdname brier_surv
+#' @rdname brier_survival
 #' @export
-brier_surv.data.frame <- function(data,
+brier_survival.data.frame <- function(data,
                                   truth,
                                   estimate,
                                   .time,
@@ -37,8 +37,8 @@ brier_surv.data.frame <- function(data,
                                   case_weights = NULL,
                                   ...) {
   surv_dynamic_metric_summarizer(
-    name = "brier_surv",
-    fn = brier_surv_vec,
+    name = "brier_survival",
+    fn = brier_survival_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -49,8 +49,8 @@ brier_surv.data.frame <- function(data,
 }
 
 #' @export
-#' @rdname brier_surv
-brier_surv_vec <- function(truth,
+#' @rdname brier_survival
+brier_survival_vec <- function(truth,
                            estimate,
                            .time,
                            na_rm = TRUE,
@@ -69,10 +69,10 @@ brier_surv_vec <- function(truth,
     return(NA_real_)
   }
 
-  brier_surv_impl(truth, estimate, case_weights, .time)
+  brier_survival_impl(truth, estimate, case_weights, .time)
 }
 
-brier_surv_impl <- function(truth, estimate, case_weights, .time) {
+brier_survival_impl <- function(truth, estimate, case_weights, .time) {
   res <- numeric(length(.time))
 
   data <- dplyr::tibble(truth, estimate)

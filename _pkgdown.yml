@@ -70,7 +70,7 @@ reference:
 
   - title: Dynamic Censored Metrics
     contents:
-    - brier_surv
+    - brier_survival
 
   - title: Curve Functions
     contents:

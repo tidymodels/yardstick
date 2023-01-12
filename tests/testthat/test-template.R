@@ -586,9 +586,9 @@ test_that("surv_dynamic_metric_summarizer() works as expected", {
   lung_surv <- data_lung_surv()
   .time <- c(50, 100, 150)
 
-  brier_surv_res <- surv_dynamic_metric_summarizer(
-    name = "brier_surv",
-    fn = brier_surv_vec,
+  brier_survival_res <- surv_dynamic_metric_summarizer(
+    name = "brier_survival",
+    fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
     estimate = .pred,
@@ -597,20 +597,20 @@ test_that("surv_dynamic_metric_summarizer() works as expected", {
     case_weights = NULL
   )
 
-  brier_surv_exp <- dplyr::tibble(
-    .metric = "brier_surv",
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
     .estimator = "binary",
     .estimate = list(
       dplyr::tibble(
         .time = .time,
-        .estimate = brier_surv_vec(
+        .estimate = brier_survival_vec(
           lung_surv$surv_obj, lung_surv$.pred, .time = .time
         )
       )
     )
   )
 
-  expect_identical(brier_surv_res, brier_surv_exp)
+  expect_identical(brier_survival_res, brier_survival_exp)
 })
 
 test_that("surv_dynamic_metric_summarizer()'s na_rm argument work", {
@@ -619,9 +619,9 @@ test_that("surv_dynamic_metric_summarizer()'s na_rm argument work", {
 
   .time <- c(50, 100, 150)
 
-  brier_surv_res <- surv_dynamic_metric_summarizer(
-    name = "brier_surv",
-    fn = brier_surv_vec,
+  brier_survival_res <- surv_dynamic_metric_summarizer(
+    name = "brier_survival",
+    fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
     estimate = .pred,
@@ -637,13 +637,13 @@ test_that("surv_dynamic_metric_summarizer()'s na_rm argument work", {
     res
   }
 
-  brier_surv_exp <- dplyr::tibble(
-    .metric = "brier_surv",
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
     .estimator = "binary",
     .estimate = list(
       dplyr::tibble(
         .time = .time,
-        .estimate = brier_surv_vec(
+        .estimate = brier_survival_vec(
           truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
           estimate = lung_surv$.pred[-c(1:5)],
           .time = .time
@@ -652,11 +652,11 @@ test_that("surv_dynamic_metric_summarizer()'s na_rm argument work", {
     )
   )
 
-  expect_identical(brier_surv_res, brier_surv_exp)
+  expect_identical(brier_survival_res, brier_survival_exp)
 
-  brier_surv_res <- surv_dynamic_metric_summarizer(
-    name = "brier_surv",
-    fn = brier_surv_vec,
+  brier_survival_res <- surv_dynamic_metric_summarizer(
+    name = "brier_survival",
+    fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
     estimate = .pred,
@@ -665,8 +665,8 @@ test_that("surv_dynamic_metric_summarizer()'s na_rm argument work", {
     case_weights = NULL
   )
 
-  brier_surv_exp <- dplyr::tibble(
-    .metric = "brier_surv",
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
     .estimator = "binary",
     .estimate = list(
       dplyr::tibble(
@@ -676,16 +676,16 @@ test_that("surv_dynamic_metric_summarizer()'s na_rm argument work", {
     )
   )
 
-  expect_identical(brier_surv_res, brier_surv_exp)
+  expect_identical(brier_survival_res, brier_survival_exp)
 })
 
 test_that("surv_dynamic_metric_summarizer()'s case_weights argument work", {
   lung_surv <- data_lung_surv()
   .time <- c(50, 100, 150)
 
-  brier_surv_res <- surv_dynamic_metric_summarizer(
-    name = "brier_surv",
-    fn = brier_surv_vec,
+  brier_survival_res <- surv_dynamic_metric_summarizer(
+    name = "brier_survival",
+    fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
     estimate = .pred,
@@ -694,13 +694,13 @@ test_that("surv_dynamic_metric_summarizer()'s case_weights argument work", {
     case_weights = ph.ecog
   )
 
-  brier_surv_exp <- dplyr::tibble(
-    .metric = "brier_surv",
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
     .estimator = "binary",
     .estimate = list(
       dplyr::tibble(
         .time = .time,
-        .estimate = brier_surv_vec(
+        .estimate = brier_survival_vec(
           lung_surv$surv_obj, lung_surv$.pred, .time = .time,
           case_weights = lung_surv$ph.ecog
         )
@@ -708,7 +708,7 @@ test_that("surv_dynamic_metric_summarizer()'s case_weights argument work", {
     )
   )
 
-  expect_identical(brier_surv_res, brier_surv_exp)
+  expect_identical(brier_survival_res, brier_survival_exp)
 })
 
 test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passes", {
@@ -720,9 +720,9 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
   )
   .time <- c(50, 100, 150)
 
-  brier_surv_res <- surv_dynamic_metric_summarizer(
-    name = "brier_surv",
-    fn = brier_surv_vec,
+  brier_survival_res <- surv_dynamic_metric_summarizer(
+    name = "brier_survival",
+    fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
     estimate = .pred,
@@ -734,8 +734,8 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
   expect_snapshot(
     error = TRUE,
     surv_dynamic_metric_summarizer(
-      name = "brier_surv",
-      fn = brier_surv_vec,
+      name = "brier_survival",
+      fn = brier_survival_vec,
       data = lung_surv,
       truth = inst,
       estimate = .pred,
@@ -746,8 +746,8 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
   expect_snapshot(
     error = TRUE,
     surv_dynamic_metric_summarizer(
-      name = "brier_surv",
-      fn = brier_surv_vec,
+      name = "brier_survival",
+      fn = brier_survival_vec,
       data = lung_surv,
       truth = surv_obj,
       estimate = age,
@@ -758,8 +758,8 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
   expect_snapshot(
     error = TRUE,
     surv_dynamic_metric_summarizer(
-      name = "brier_surv",
-      fn = brier_surv_vec,
+      name = "brier_survival",
+      fn = brier_survival_vec,
       data = lung_surv,
       truth = surv_obj,
       estimate = list,
@@ -770,8 +770,8 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
   expect_snapshot(
     error = TRUE,
     surv_dynamic_metric_summarizer(
-      name = "brier_surv",
-      fn = brier_surv_vec,
+      name = "brier_survival",
+      fn = brier_survival_vec,
       data = lung_surv,
       truth = surv_obj,
       estimate = list2,
@@ -782,8 +782,8 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
   expect_snapshot(
     error = TRUE,
     surv_dynamic_metric_summarizer(
-      name = "brier_surv",
-      fn = brier_surv_vec,
+      name = "brier_survival",
+      fn = brier_survival_vec,
       data = lung_surv,
       truth = surv_obj,
       estimate = .pred,
@@ -797,9 +797,9 @@ test_that("surv_dynamic_metric_summarizer() deals with characters in truth and e
   lung_surv <- data_lung_surv()
   .time <- c(50, 100, 150)
 
-  brier_surv_res <- surv_dynamic_metric_summarizer(
-    name = "brier_surv",
-    fn = brier_surv_vec,
+  brier_survival_res <- surv_dynamic_metric_summarizer(
+    name = "brier_survival",
+    fn = brier_survival_vec,
     data = lung_surv,
     truth = "surv_obj",
     estimate = ".pred",
@@ -808,18 +808,18 @@ test_that("surv_dynamic_metric_summarizer() deals with characters in truth and e
     case_weights = NULL
   )
 
-  brier_surv_exp <- dplyr::tibble(
-    .metric = "brier_surv",
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
     .estimator = "binary",
     .estimate = list(
       dplyr::tibble(
         .time = .time,
-        .estimate = brier_surv_vec(
+        .estimate = brier_survival_vec(
           lung_surv$surv_obj, lung_surv$.pred, .time = .time
         )
       )
     )
   )
 
-  expect_identical(brier_surv_res, brier_surv_exp)
+  expect_identical(brier_survival_res, brier_survival_exp)
 })
