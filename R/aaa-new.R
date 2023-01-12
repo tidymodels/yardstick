@@ -48,8 +48,8 @@ new_numeric_metric <- function(fn, direction) {
 
 #' @rdname new-metric
 #' @export
-new_surv_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "surv_metric")
+new_survival_metric <- function(fn, direction) {
+  new_metric(fn, direction, class = "survival_metric")
 }
 
 new_metric <- function(fn, direction, class = NULL) {
