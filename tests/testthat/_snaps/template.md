@@ -90,10 +90,10 @@
       ! Can't subset columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
-# surv_dynamic_metric_summarizer()'s errors when wrong things are passes
+# dynamic_survival_metric_summarizer()'s errors when wrong things are passes
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = inst, estimate = .pred, .time = .time)
     Condition
       Error in `dplyr::summarise()`:
@@ -104,7 +104,7 @@
 ---
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = age, .time = .time)
     Condition
       Error in `dplyr::summarise()`:
@@ -115,7 +115,7 @@
 ---
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = list, .time = .time)
     Condition
       Error in `dplyr::summarise()`:
@@ -126,7 +126,7 @@
 ---
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = list2, .time = .time)
     Condition
       Error in `dplyr::summarise()`:
@@ -137,11 +137,11 @@
 ---
 
     Code
-      surv_dynamic_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = .pred, .time = .time,
         obviouslywrong = TRUE)
     Condition
-      Error in `surv_dynamic_metric_summarizer()`:
+      Error in `dynamic_survival_metric_summarizer()`:
       ! `...` must be empty.
       x Problematic argument:
       * obviouslywrong = TRUE

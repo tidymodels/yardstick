@@ -580,13 +580,13 @@ test_that("prob_metric_summarizer() deals with characters in truth", {
   expect_identical(roc_auc_res, roc_auc_exp)
 })
 
-## surv_dynamic_metric_summarizer --------------------------------------------------
+## dynamic_survival_metric_summarizer --------------------------------------------------
 
-test_that("surv_dynamic_metric_summarizer() works as expected", {
+test_that("dynamic_survival_metric_summarizer() works as expected", {
   lung_surv <- data_lung_surv()
   .time <- c(50, 100, 150)
 
-  brier_survival_res <- surv_dynamic_metric_summarizer(
+  brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = lung_surv,
@@ -613,13 +613,13 @@ test_that("surv_dynamic_metric_summarizer() works as expected", {
   expect_identical(brier_survival_res, brier_survival_exp)
 })
 
-test_that("surv_dynamic_metric_summarizer()'s na_rm argument work", {
+test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
   lung_surv <- data_lung_surv()
   lung_surv[1:5, 1] <- NA
 
   .time <- c(50, 100, 150)
 
-  brier_survival_res <- surv_dynamic_metric_summarizer(
+  brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = lung_surv,
@@ -654,7 +654,7 @@ test_that("surv_dynamic_metric_summarizer()'s na_rm argument work", {
 
   expect_identical(brier_survival_res, brier_survival_exp)
 
-  brier_survival_res <- surv_dynamic_metric_summarizer(
+  brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = lung_surv,
@@ -679,11 +679,11 @@ test_that("surv_dynamic_metric_summarizer()'s na_rm argument work", {
   expect_identical(brier_survival_res, brier_survival_exp)
 })
 
-test_that("surv_dynamic_metric_summarizer()'s case_weights argument work", {
+test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
   lung_surv <- data_lung_surv()
   .time <- c(50, 100, 150)
 
-  brier_survival_res <- surv_dynamic_metric_summarizer(
+  brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = lung_surv,
@@ -711,7 +711,7 @@ test_that("surv_dynamic_metric_summarizer()'s case_weights argument work", {
   expect_identical(brier_survival_res, brier_survival_exp)
 })
 
-test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passes", {
+test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are passes", {
   lung_surv <- data_lung_surv()
   lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
   lung_surv$list2 <- lapply(
@@ -720,7 +720,7 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
   )
   .time <- c(50, 100, 150)
 
-  brier_survival_res <- surv_dynamic_metric_summarizer(
+  brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = lung_surv,
@@ -733,7 +733,7 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
 
   expect_snapshot(
     error = TRUE,
-    surv_dynamic_metric_summarizer(
+    dynamic_survival_metric_summarizer(
       name = "brier_survival",
       fn = brier_survival_vec,
       data = lung_surv,
@@ -745,7 +745,7 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
 
   expect_snapshot(
     error = TRUE,
-    surv_dynamic_metric_summarizer(
+    dynamic_survival_metric_summarizer(
       name = "brier_survival",
       fn = brier_survival_vec,
       data = lung_surv,
@@ -757,7 +757,7 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
 
   expect_snapshot(
     error = TRUE,
-    surv_dynamic_metric_summarizer(
+    dynamic_survival_metric_summarizer(
       name = "brier_survival",
       fn = brier_survival_vec,
       data = lung_surv,
@@ -769,7 +769,7 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
 
   expect_snapshot(
     error = TRUE,
-    surv_dynamic_metric_summarizer(
+    dynamic_survival_metric_summarizer(
       name = "brier_survival",
       fn = brier_survival_vec,
       data = lung_surv,
@@ -781,7 +781,7 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
 
   expect_snapshot(
     error = TRUE,
-    surv_dynamic_metric_summarizer(
+    dynamic_survival_metric_summarizer(
       name = "brier_survival",
       fn = brier_survival_vec,
       data = lung_surv,
@@ -793,11 +793,11 @@ test_that("surv_dynamic_metric_summarizer()'s errors when wrong things are passe
   )
 })
 
-test_that("surv_dynamic_metric_summarizer() deals with characters in truth and estimate", {
+test_that("dynamic_survival_metric_summarizer() deals with characters in truth and estimate", {
   lung_surv <- data_lung_surv()
   .time <- c(50, 100, 150)
 
-  brier_survival_res <- surv_dynamic_metric_summarizer(
+  brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = lung_surv,

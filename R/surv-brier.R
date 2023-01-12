@@ -36,7 +36,7 @@ brier_survival.data.frame <- function(data,
                                   na_rm = TRUE,
                                   case_weights = NULL,
                                   ...) {
-  surv_dynamic_metric_summarizer(
+  dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = data,

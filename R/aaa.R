@@ -14,7 +14,7 @@ utils::globalVariables(
     # for survival metrics
     ".time",
 
-    # for surv_dynamic_metric_summarizer
+    # for dynamic_survival_metric_summarizer
     ".estimate",
 
     # for autoplot methods

@@ -248,7 +248,7 @@ prob_metric_summarizer <- function(name,
 
 #' @rdname metric-summarizers
 #' @export
-surv_dynamic_metric_summarizer <- function(name,
+dynamic_survival_metric_summarizer <- function(name,
                                            fn,
                                            data,
                                            truth,

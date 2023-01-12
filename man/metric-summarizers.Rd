@@ -5,7 +5,7 @@
 \alias{numeric_metric_summarizer}
 \alias{class_metric_summarizer}
 \alias{prob_metric_summarizer}
-\alias{surv_dynamic_metric_summarizer}
+\alias{dynamic_survival_metric_summarizer}
 \title{Developer function for summarizing new metrics}
 \usage{
 numeric_metric_summarizer(
@@ -50,7 +50,7 @@ prob_metric_summarizer(
   error_call = caller_env()
 )
 
-surv_dynamic_metric_summarizer(
+dynamic_survival_metric_summarizer(
   name,
   fn,
   data,
