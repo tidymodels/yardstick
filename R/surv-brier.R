@@ -58,16 +58,16 @@ brier_surv_vec <- function(truth,
                            ...) {
   check_surv_dynamic_metric(truth, estimate, case_weights, .time)
 
-  # if (na_rm) {
-  #   estimate_index <- seq_along(estimate)
-  #   result <- yardstick_remove_missing(truth, estimate_index, case_weights)
-  #
-  #   truth <- result$truth
-  #   estimate <- estimate[result$estimate]
-  #   case_weights <- result$case_weights
-  # } else if (yardstick_any_missing(truth, seq_along(estimate), case_weights)) {
-  #   return(NA_real_)
-  # }
+  if (na_rm) {
+    estimate_index <- seq_along(estimate)
+    result <- yardstick_remove_missing(truth, estimate_index, case_weights)
+
+    truth <- result$truth
+    estimate <- estimate[result$estimate]
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, seq_along(estimate), case_weights)) {
+    return(NA_real_)
+  }
 
   brier_surv_impl(truth, estimate, case_weights, .time)
 }

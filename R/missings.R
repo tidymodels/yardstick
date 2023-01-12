@@ -21,7 +21,17 @@ NULL
 #' @export
 yardstick_remove_missing <- function(truth, estimate, case_weights) {
   complete_cases <- stats::complete.cases(truth, estimate, case_weights)
-  truth <- truth[complete_cases]
+
+  if (inherits(truth, "Surv")) {
+    Surv_type <- attr(truth, "type")
+
+    truth <- truth[complete_cases, ]
+
+    attr(truth, "type") <- Surv_type
+    attr(truth, "class") <- "Surv"
+  } else {
+    truth <- truth[complete_cases]
+  }
 
   if (is.matrix(estimate)) {
     estimate <- estimate[complete_cases, , drop = FALSE]
