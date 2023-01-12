@@ -6,6 +6,7 @@
 \alias{check_class_metric}
 \alias{check_prob_metric}
 \alias{check_survival_dynamic_metric}
+\alias{check_survival_static_metric}
 \title{Developer function for checking inputs in new metrics}
 \usage{
 check_numeric_metric(truth, estimate, case_weights)
@@ -15,6 +16,8 @@ check_class_metric(truth, estimate, case_weights, estimator)
 check_prob_metric(truth, estimate, case_weights, estimator)
 
 check_survival_dynamic_metric(truth, estimate, case_weights, .time)
+
+check_survival_static_metric(truth, estimate, case_weights)
 }
 \arguments{
 \item{truth}{The realized vector of \code{truth}.

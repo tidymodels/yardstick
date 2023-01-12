@@ -6,6 +6,7 @@
 \alias{class_metric_summarizer}
 \alias{prob_metric_summarizer}
 \alias{dynamic_survival_metric_summarizer}
+\alias{static_survival_metric_summarizer}
 \title{Developer function for summarizing new metrics}
 \usage{
 numeric_metric_summarizer(
@@ -57,6 +58,19 @@ dynamic_survival_metric_summarizer(
   truth,
   estimate,
   .time,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+)
+
+static_survival_metric_summarizer(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
   ...,
   na_rm = TRUE,
   case_weights = NULL,
