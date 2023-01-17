@@ -34,8 +34,10 @@ gain_capture_vec(
 
 \item{...}{A set of unquoted column names or one or more
 \code{dplyr} selector functions to choose which variables contain the
-class probabilities. If \code{truth} is binary, only 1 column should be selected.
-Otherwise, there should be as many columns as factor levels of \code{truth}.}
+class probabilities. If \code{truth} is binary, only 1 column should be selected,
+and it should correspond to the value of \code{event_level}. Otherwise, there
+should be as many columns as factor levels of \code{truth} and the ordering of
+the columns should be the same as the factor levels of \code{truth}.}
 
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
