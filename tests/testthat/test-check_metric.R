@@ -30,8 +30,8 @@ test_that("check_class_metric() validates estimator", {
   expect_snapshot(
     error = TRUE,
     check_class_metric(
-      factor(c("a", "b", "a"), levels = c("a", "b", "c")),
-      factor(c("a", "b", "a"), levels = c("a", "b", "c")),
+      truth = factor(c("a", "b", "a"), levels = c("a", "b", "c")),
+      estimate = factor(c("a", "b", "a"), levels = c("a", "b", "c")),
       case_weights = 1:3,
       estimator = "binary"
     )
@@ -42,9 +42,9 @@ test_that("check_prob_metric() validates case_weights", {
   expect_snapshot(
     error = TRUE,
     check_prob_metric(
-      factor(c("a", "b", "a")),
-      matrix(1:6, nrow = 2),
-      1:4,
+      truth = factor(c("a", "b", "a")),
+      estimate = matrix(1:6, nrow = 2),
+      case_weights = 1:4,
       estimator = "binary"
     )
   )
@@ -54,9 +54,9 @@ test_that("check_prob_metric() validates inputs", {
   expect_snapshot(
     error = TRUE,
     check_prob_metric(
-      factor(c("a", "b", "a")),
-      matrix(1:6, nrow = 2),
-      1:3,
+      truth = factor(c("a", "b", "a")),
+      estimate = matrix(1:6, nrow = 2),
+      case_weights = 1:3,
       estimator = "binary"
     )
   )
@@ -68,9 +68,9 @@ test_that("check_survival_dynamic_metric() validates case_weights", {
   expect_snapshot(
     error = TRUE,
     check_survival_dynamic_metric(
-      lung_surv$surv_obj,
-      lung_surv$.pred,
-      1:51,
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred,
+      case_weights = 1:51,
       .time = 1:3
     )
   )
@@ -82,9 +82,9 @@ test_that("check_survival_dynamic_metric() validates inputs", {
   expect_snapshot(
     error = TRUE,
     check_survival_dynamic_metric(
-      lung_surv$surv_obj,
-      lung_surv$inst,
-      1:50,
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$inst,
+      case_weights = 1:50,
       .time = 1:3
     )
   )
@@ -96,9 +96,9 @@ test_that("check_survival_static_metric() validates case_weights", {
   expect_snapshot(
     error = TRUE,
     check_survival_static_metric(
-      lung_surv$surv_obj,
-      lung_surv$.pred,
-      1:51
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred,
+      case_weights = 1:51
     )
   )
 })
@@ -109,9 +109,9 @@ test_that("check_survival_static_metric() validates inputs", {
   expect_snapshot(
     error = TRUE,
     check_survival_static_metric(
-      lung_surv$surv_obj,
-      as.character(lung_surv$inst),
-      1:50
+      truth = lung_surv$surv_obj,
+      estimate = as.character(lung_surv$inst),
+      case_weights = 1:50
     )
   )
 })
