@@ -823,3 +823,193 @@ test_that("dynamic_survival_metric_summarizer() deals with characters in truth a
 
   expect_identical(brier_survival_res, brier_survival_exp)
 })
+
+## static_survival_metric_summarizer --------------------------------------------------
+
+test_that("static_survival_metric_summarizer() works as expected", {
+  lung_surv <- data_lung_surv()
+
+  concordance_survival_res <- static_survival_metric_summarizer(
+    name = "concordance_survival",
+    fn = concordance_survival_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = age,
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  concordance_survival_exp <- dplyr::tibble(
+    .metric = "concordance_survival",
+    .estimator = "binary",
+    .estimate = concordance_survival_vec(
+      lung_surv$surv_obj, lung_surv$age
+    )
+  )
+
+  expect_identical(concordance_survival_res, concordance_survival_exp)
+})
+
+test_that("static_survival_metric_summarizer()'s na_rm argument work", {
+  lung_surv <- data_lung_surv()
+  lung_surv[1:5, 1] <- NA
+
+  concordance_survival_res <- static_survival_metric_summarizer(
+    name = "concordance_survival",
+    fn = concordance_survival_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = age,
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  surv_subset <- function(x, i) {
+    res <- x[i, ]
+    class(res) <- class(x)
+    attr(res, "type") <- attr(x, "type")
+    res
+  }
+
+  concordance_survival_exp <- dplyr::tibble(
+    .metric = "concordance_survival",
+    .estimator = "binary",
+    .estimate = concordance_survival_vec(
+       truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
+       estimate = lung_surv$age[-c(1:5)]
+    )
+  )
+
+  expect_identical(concordance_survival_res, concordance_survival_exp)
+
+  concordance_survival_res <- static_survival_metric_summarizer(
+    name = "concordance_survival",
+    fn = concordance_survival_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = age,
+    na_rm = FALSE,
+    case_weights = NULL
+  )
+
+  concordance_survival_exp <- dplyr::tibble(
+    .metric = "concordance_survival",
+    .estimator = "binary",
+    .estimate = NA_real_
+  )
+
+  expect_identical(concordance_survival_res, concordance_survival_exp)
+})
+
+test_that("static_survival_metric_summarizer()'s case_weights argument work", {
+  lung_surv <- data_lung_surv()
+
+  concordance_survival_res <- static_survival_metric_summarizer(
+    name = "concordance_survival",
+    fn = concordance_survival_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = age,
+    na_rm = TRUE,
+    case_weights = ph.ecog
+  )
+
+  concordance_survival_exp <- dplyr::tibble(
+    .metric = "concordance_survival",
+    .estimator = "binary",
+    .estimate = concordance_survival_vec(
+       lung_surv$surv_obj, lung_surv$age,
+       case_weights = lung_surv$ph.ecog
+    )
+  )
+
+  expect_identical(concordance_survival_res, concordance_survival_exp)
+})
+
+test_that("static_survival_metric_summarizer()'s errors when wrong things are passes", {
+  lung_surv <- data_lung_surv()
+  lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
+  lung_surv$list2 <- lapply(
+    seq_len(nrow(lung_surv)),
+    function(x) data.frame(wrong = 1, names = 2)
+  )
+
+  concordance_survival_res <- static_survival_metric_summarizer(
+    name = "concordance_survival",
+    fn = concordance_survival_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = age,
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    static_survival_metric_summarizer(
+      name = "concordance_survival",
+      fn = concordance_survival_vec,
+      data = lung_surv,
+      truth = inst,
+      estimate = age
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    static_survival_metric_summarizer(
+      name = "concordance_survival",
+      fn = concordance_survival_vec,
+      data = lung_surv,
+      truth = surv_obj,
+      estimate = surv_obj
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    static_survival_metric_summarizer(
+      name = "concordance_survival",
+      fn = concordance_survival_vec,
+      data = lung_surv,
+      truth = surv_obj,
+      estimate = list
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    static_survival_metric_summarizer(
+      name = "concordance_survival",
+      fn = concordance_survival_vec,
+      data = lung_surv,
+      truth = surv_obj,
+      estimate = age,
+      obviouslywrong = TRUE
+    )
+  )
+})
+
+test_that("static_survival_metric_summarizer() deals with characters in truth and estimate", {
+  lung_surv <- data_lung_surv()
+
+  concordance_survival_res <- static_survival_metric_summarizer(
+    name = "concordance_survival",
+    fn = concordance_survival_vec,
+    data = lung_surv,
+    truth = "surv_obj",
+    estimate = "age",
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  concordance_survival_exp <- dplyr::tibble(
+    .metric = "concordance_survival",
+    .estimator = "binary",
+    .estimate = concordance_survival_vec(
+       lung_surv$surv_obj, lung_surv$age
+    )
+  )
+
+  expect_identical(concordance_survival_res, concordance_survival_exp)
+})
