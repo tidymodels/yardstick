@@ -75,3 +75,20 @@
       Error in `validate_surv_truth_list_estimate()`:
       ! `estimate` should be a list, not a `numeric`.
 
+# check_survival_static_metric() validates case_weights
+
+    Code
+      check_survival_static_metric(lung_surv$surv_obj, lung_surv$.pred, 1:51)
+    Condition
+      Error in `validate_case_weights()`:
+      ! `case_weights` (51) must have the same length as `truth` (50).
+
+# check_survival_static_metric() validates inputs
+
+    Code
+      check_survival_static_metric(lung_surv$surv_obj, as.character(lung_surv$inst),
+      1:50)
+    Condition
+      Error in `validate_surv_truth_numeric_estimate()`:
+      ! `estimate` should be a numeric, not a `character`.
+
