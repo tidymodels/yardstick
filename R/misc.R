@@ -469,7 +469,7 @@ censor_probs <- function(x) {
   # JFC prodlim check for the right class by inspecting the call :-O
   dat <- data.frame(time = x[, "time"], status = x[, "status"])
   # TODO check for 2+ censored values
-  kn_cens <- prodlim::prodlim(Surv(time, status) ~ 1, dat, reverse = TRUE)
+  kn_cens <- prodlim::prodlim(survival::Surv(time, status) ~ 1, dat, reverse = TRUE)
 
   cen_times <- as.data.frame(kn_cens[c("time", "n.lost", "surv")])
   cen_times <- cen_times[cen_times$n.lost > 0, -2]

@@ -33,6 +33,7 @@ Suggests:
     ggplot2,
     knitr,
     probably (>= 0.0.6),
+    prodlim,
     rmarkdown,
     survival,
     testthat (>= 3.0.0),

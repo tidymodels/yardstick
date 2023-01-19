@@ -14,6 +14,9 @@ utils::globalVariables(
     # for survival metrics
     ".time",
 
+    # for calc_rcbs
+    "time",
+
     # for dynamic_survival_metric_summarizer
     ".estimate",
 
