@@ -124,37 +124,8 @@ data_counts <- function() {
   list(basic = count_results, missing = count_missing, poor = count_poor)
 }
 
-## Build a small example with Surv() objects and censored output to test
-## Dynamic survival metrics
-# library(tidymodels)
-# library(censored)
-#
-# data(cancer)
-#
-# lung <- lung %>% drop_na()
-# lung_train <- lung[-c(1:50), ]
-# lung_test <- lung[1:50, ]
-#
-# sr_spec <-
-#   survival_reg(dist = "weibull") %>%
-#   set_engine("survival") %>%
-#   set_mode("censored regression")
-#
-# set.seed(1)
-# sr_fit <- sr_spec %>% fit(Surv(time, status) ~ ., data = lung_train)
-#
-# lung_surv <- lung_test %>%
-#   as_tibble() %>%
-#   mutate(surv_obj = Surv(time, status)) %>%
-#   bind_cols(predict(
-#     sr_fit,
-#     lung_test,
-#     type = "survival",
-#     time = c(100, 500, 1000)
-#   )) %>%
-#   relocate(surv_obj, .pred)
-#
-# saveRDS(lung_surv, testthat::test_path("data/lung_surv.rds"))
 data_lung_surv <- function() {
-  readRDS(test_path("data/lung_surv.rds"))
+  data("lung_surv")
+
+  lung_surv
 }
