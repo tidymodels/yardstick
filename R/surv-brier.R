@@ -73,28 +73,25 @@ brier_survival_vec <- function(truth,
 }
 
 brier_survival_impl <- function(truth, estimate, case_weights, .time) {
-  res <- numeric(length(.time))
-
   data <- dplyr::tibble(truth, estimate)
   data <- tidyr::unnest(data, estimate)
 
-  vapply(.time, calc_rcbs, data = data, FUN.VALUE = numeric(1))
+  res <- numeric(length(.time))
+
+  for (i in seq_along(.time)) {
+    .time_loc <- .time[i] == data[[".time"]]
+
+    res[i] <- calc_rcbs(
+      data[["truth"]][.time_loc],
+      data[[".pred_survival"]][.time_loc],
+      .time[i]
+    )
+  }
+
+  res
 }
 
-calc_rcbs <- function(.t, data) {
-  data <- dplyr::filter(data, .time == .t)
-
-  category_1 <- data$truth[, 1] < .t & data$truth[, 2] == 1
-  category_2 = data$truth[, 1] > .t & data$truth[, 2] == 0
-
-  km_est <- rep(1, nrow(data))
-  point_est <- 1
-
-  mean(data$.pred_survival * category_1 / km_est +
-         (1 - data$.pred_survival) * category_2 / point_est)
-}
-
-calc_rcbs0 <- function(surv, pred_val, .t) {
+calc_rcbs <- function(surv, pred_val, .t) {
   surv_time <- surv[, "time"]
   surv_status <- surv[, "status"]
 

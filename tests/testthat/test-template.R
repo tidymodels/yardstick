@@ -584,7 +584,9 @@ test_that("prob_metric_summarizer() deals with characters in truth", {
 
 test_that("dynamic_survival_metric_summarizer() works as expected", {
   lung_surv <- data_lung_surv()
-  .time <- c(50, 100, 150)
+  .time <- c(100, 500, 1000)
+
+  Surv <- survival::Surv
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
@@ -617,7 +619,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
   lung_surv <- data_lung_surv()
   lung_surv[1:5, 1] <- NA
 
-  .time <- c(50, 100, 150)
+  .time <- c(100, 500, 1000)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
@@ -681,7 +683,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
 
 test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
   lung_surv <- data_lung_surv()
-  .time <- c(50, 100, 150)
+  .time <- c(100, 500, 1000)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
@@ -718,7 +720,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
     seq_len(nrow(lung_surv)),
     function(x) data.frame(wrong = 1, names = 2)
   )
-  .time <- c(50, 100, 150)
+  .time <- c(100, 500, 1000)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
@@ -795,7 +797,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
 
 test_that("dynamic_survival_metric_summarizer() deals with characters in truth and estimate", {
   lung_surv <- data_lung_surv()
-  .time <- c(50, 100, 150)
+  .time <- c(100, 500, 1000)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
