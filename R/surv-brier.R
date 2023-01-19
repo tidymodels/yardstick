@@ -1,27 +1,50 @@
-#' Brier score for censored data models
+#' Brier score for right censored data
 #'
-#' Compute the Brier score for a censored data model.
+#' Compute the time-dependent Brier score for right censored data. Which is the
+#' mean squared error at time point `.time`.
 #'
 #' @family dynamic survival metrics
 #' @templateVar fn brier_survival
-#' @template return
+#' @template return-dynamic-survival
 #' @details
 #'
 #' Smaller values of the score are associated with better model performance.
 #'
-#' @section Multiclass:
-#' Brier scores can be computed in the same way for any number of classes.
-#' Because of this, no averaging types are supported.
-#'
 #' @inheritParams pr_auc
+#'
+#' @param data A `data.frame` containing the columns specified by `truth` and
+#' `estimate`.
+#'
+#' @param truth The column identifier for the true class survival result (that
+#' is created using [survival::Surv()].). This should be an unquoted column name
+#' although this argument is passed by expression and supports
+#' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
+#' `_vec()` functions, an [survival::Surv()] object.
+#'
+#' @param estimate The column identifier for the survival probabilities. This is
+#'  expected as a list of tibbles, containing 2 columns `.time` and
+#'  `.pred_survival`. This should be an unquoted column name although this
+#'  argument is passed by expression and supports
+#'  [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
+#' `_vec()` functions, a list of tibbles, each containing 2 columns `.time` and
+#'  `.pred_survival`.
+#'
 #' @param .time A vector of time points.
 #'
+#' @param ... Not currently used.
+#'
 #' @author Emil Hvitfeldt
+#'
+#' @references
+#'   E. Graf, C. Schmoor, W. Sauerbrei, and M. Schumacher, “Assessment and
+#'   comparison of prognostic classification schemes for survival data,”
+#'   Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 #'
 #' @export
 brier_survival <- function(data, ...) {
   UseMethod("brier_survival")
 }
+
 brier_survival <- new_dynamic_survival_metric(
   brier_survival,
   direction = "minimize"
@@ -30,12 +53,12 @@ brier_survival <- new_dynamic_survival_metric(
 #' @rdname brier_survival
 #' @export
 brier_survival.data.frame <- function(data,
-                                  truth,
-                                  estimate,
-                                  .time,
-                                  na_rm = TRUE,
-                                  case_weights = NULL,
-                                  ...) {
+                                      truth,
+                                      estimate,
+                                      .time,
+                                      na_rm = TRUE,
+                                      case_weights = NULL,
+                                      ...) {
   dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
@@ -51,11 +74,11 @@ brier_survival.data.frame <- function(data,
 #' @export
 #' @rdname brier_survival
 brier_survival_vec <- function(truth,
-                           estimate,
-                           .time,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+                               estimate,
+                               .time,
+                               na_rm = TRUE,
+                               case_weights = NULL,
+                               ...) {
   check_survival_dynamic_metric(truth, estimate, case_weights, .time)
 
   if (na_rm) {
@@ -91,7 +114,7 @@ brier_survival_impl <- function(truth, estimate, case_weights, .time) {
   res
 }
 
-calc_rcbs <- function(surv, pred_val, .t) {
+calc_rcbs <- function(surv, pred_val, .time) {
   surv_time <- surv[, "time"]
   surv_status <- surv[, "status"]
 
@@ -103,11 +126,11 @@ calc_rcbs <- function(surv, pred_val, .t) {
 
   censor_dist <- censor_probs(surv)
 
-  ipcw_dot_time <- get_single_censor_prob(.t, censor_dist)
+  ipcw_dot_time <- get_single_censor_prob(.time, censor_dist)
   ipcw_dot_time <- 1 - ipcw_dot_time
 
-  category_1 <- surv_time < .t & surv_status == 1
-  category_2 <- surv_time >= .t
+  category_1 <- surv_time < .time & surv_status == 1
+  category_2 <- surv_time >= .time
 
   ipcw_vals <- vapply(
     surv_time,

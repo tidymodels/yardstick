@@ -4,7 +4,7 @@
 \alias{brier_survival}
 \alias{brier_survival.data.frame}
 \alias{brier_survival_vec}
-\title{Brier score for censored data models}
+\title{Brier score for right censored data}
 \usage{
 brier_survival(data, ...)
 
@@ -29,25 +29,23 @@ brier_survival_vec(
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
-\code{...}.}
+\code{estimate}.}
 
-\item{...}{A set of unquoted column names or one or more
-\code{dplyr} selector functions to choose which variables contain the
-class probabilities. If \code{truth} is binary, only 1 column should be selected,
-and it should correspond to the value of \code{event_level}. Otherwise, there
-should be as many columns as factor levels of \code{truth} and the ordering of
-the columns should be the same as the factor levels of \code{truth}.}
+\item{...}{Not currently used.}
 
-\item{truth}{The column identifier for the true class results
-(that is a \code{factor}). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a \code{factor} vector.}
+\item{truth}{The column identifier for the true class survival result (that
+is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
+although this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
 
-\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
-corresponding to the "relevant" class. Otherwise, a matrix with as many
-columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
-same order as the levels of \code{truth}.}}
+\item{estimate}{The column identifier for the survival probabilities. This is
+expected as a list of tibbles, containing 2 columns \code{.time} and
+\code{.pred_survival}. This should be an unquoted column name although this
+argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, a list of tibbles, each containing 2 columns \code{.time} and
+\code{.pred_survival}.}
 
 \item{.time}{A vector of time points.}
 
@@ -60,25 +58,28 @@ in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
-and \code{.estimate} and 1 row of values.
+and \code{.estimate} and 1 row of values. \code{.estimate} will be a list column of
+tibbles. Each containing 2 columns \code{.time} and \code{.estimate}, with the number
+of rows corresponding to the input argument \code{.time}.
 
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
-For \code{brier_survival_vec()}, a single \code{numeric} value (or \code{NA}).
+For \code{brier_survival_vec()}, a \code{numeric} vector same length as the input argument
+\code{.time}. (or \code{NA}).
 }
 \description{
-Compute the Brier score for a censored data model.
+Compute the time-dependent Brier score for right censored data. Which is the
+mean squared error at time point \code{.time}.
 }
 \details{
 Smaller values of the score are associated with better model performance.
 }
-\section{Multiclass}{
-
-Brier scores can be computed in the same way for any number of classes.
-Because of this, no averaging types are supported.
+\references{
+E. Graf, C. Schmoor, W. Sauerbrei, and M. Schumacher, “Assessment and
+comparison of prognostic classification schemes for survival data,”
+Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 }
-
 \author{
 Emil Hvitfeldt
 }
