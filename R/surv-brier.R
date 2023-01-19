@@ -93,3 +93,39 @@ calc_rcbs <- function(.t, data) {
   mean(data$.pred_survival * category_1 / km_est +
          (1 - data$.pred_survival) * category_2 / point_est)
 }
+
+calc_rcbs0 <- function(surv, pred_val, .t) {
+  surv_time <- surv[, "time"]
+  surv_status <- surv[, "status"]
+
+  time_order <- order(surv_time)
+  surv_time <- surv_time[time_order]
+  surv_status <- surv_status[time_order]
+  pred_val <- pred_val[time_order]
+  surv <- survival::Surv(surv_time, surv_status)
+
+  censor_dist <- censor_probs(surv)
+
+  ipcw_dot_time <- get_single_censor_prob(.t, censor_dist)
+  ipcw_dot_time <- 1 - ipcw_dot_time
+
+  category_1 <- surv_time < .t & surv_status == 1
+  category_2 <- surv_time >= .t
+
+  ipcw_vals <- vapply(
+    surv_time,
+    get_single_censor_prob,
+    probs = censor_dist,
+    FUN.VALUE = numeric(1)
+  )
+  ipcw_vals <- 1 - ipcw_vals
+
+  # (0 - pred_val) ^ 2 == pred_val ^ 2
+  category_1_vals <- pred_val ^ 2 / ipcw_vals
+  category_2_vals <- (1 - pred_val) ^ 2 / ipcw_dot_time
+
+  category_1_sum <- sum(category_1_vals[category_1])
+  category_2_sum <- sum(category_2_vals[category_2])
+
+  (category_1_sum + category_2_sum) / length(pred_val)
+}
