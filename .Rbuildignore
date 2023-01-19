@@ -17,3 +17,4 @@ contributors.md
 ^LICENSE\.md$
 ^CRAN-SUBMISSION$
 ^MAINTENANCE\.md$
+^data-raw$

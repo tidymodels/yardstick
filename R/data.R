@@ -42,7 +42,6 @@ NULL
 #' str(solubility_test)
 NULL
 
-
 #' Multiclass Probability Predictions
 #'
 #' @details This data frame contains the predicted classes and
@@ -74,7 +73,6 @@ NULL
 #' levels(hpc_cv$obs)
 NULL
 
-
 #' Two Class Predictions
 #'
 #' @details These data are a test set form a model built for two
@@ -99,3 +97,22 @@ NULL
 #' levels(hpc_cv$obs)
 NULL
 
+#' Survival Analysis Results
+#'
+#' @details This data contain plausible results, when applying predictive
+#' survival models to the [lung] data set using the censored package.
+#'
+#' @name lung_surv
+#' @aliases lung_surv
+#' @docType data
+#' @return \item{lung_surv}{a data frame}
+#'
+#' @keywords datasets
+#' @examples
+#' data(lung_surv)
+#' str(lung_surv)
+#'
+#' # `surv_obj` is a `Surv()` object, `.pred` is the result of using
+#' # `predict(model, type = "survival")` from censored and parsnip. And
+#' # `prob_censored` is censoring weights
+NULL

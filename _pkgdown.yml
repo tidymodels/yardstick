@@ -108,6 +108,7 @@ reference:
   - title: Data Sets
     contents:
     - hpc_cv
+    - lung_surv
     - pathology
     - solubility_test
     - two_class_example
