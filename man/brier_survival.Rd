@@ -75,6 +75,13 @@ mean squared error at time point \code{.time}.
 \details{
 Smaller values of the score are associated with better model performance.
 }
+\examples{
+res <- brier_survival(lung_surv, surv_obj, .pred, .time = c(100, 500, 1000))
+
+res
+
+res[[".estimate"]]
+}
 \references{
 E. Graf, C. Schmoor, W. Sauerbrei, and M. Schumacher, “Assessment and
 comparison of prognostic classification schemes for survival data,”

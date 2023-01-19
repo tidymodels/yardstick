@@ -40,6 +40,12 @@
 #'   comparison of prognostic classification schemes for survival data,”
 #'   Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 #'
+#' @examples
+#' res <- brier_survival(lung_surv, surv_obj, .pred, .time = c(100, 500, 1000))
+#'
+#' res
+#'
+#' res[[".estimate"]]
 #' @export
 brier_survival <- function(data, ...) {
   UseMethod("brier_survival")
@@ -115,6 +121,7 @@ brier_survival_impl <- function(truth, estimate, case_weights, .time) {
 }
 
 calc_rcbs <- function(surv, pred_val, .time) {
+  Surv <- survival::Surv
   surv_time <- surv[, "time"]
   surv_status <- surv[, "status"]
 
