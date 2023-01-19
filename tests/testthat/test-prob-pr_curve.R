@@ -233,10 +233,6 @@ test_that("zero weights don't affect the curve", {
 test_that("Binary results are the same as scikit-learn", {
   curve <- pr_curve(two_class_example, truth, Class1)
 
-  # sklearn stops their curve at the first `recall == 1` value but we don't
-  first_recall_of_one <- which(curve$recall == 1)[[1]]
-  curve <- curve[seq_len(first_recall_of_one),]
-
   expect_identical(
     curve,
     read_pydata("py-pr-curve")$binary
@@ -247,10 +243,6 @@ test_that("Binary weighted results are the same as scikit-learn", {
   two_class_example$weight <- read_weights_two_class_example()
 
   curve <- pr_curve(two_class_example, truth, Class1, case_weights = weight)
-
-  # sklearn stops their curve at the first `recall == 1` value but we don't
-  first_recall_of_one <- which(curve$recall == 1)[[1]]
-  curve <- curve[seq_len(first_recall_of_one),]
 
   expect_identical(
     curve,

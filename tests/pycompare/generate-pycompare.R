@@ -1,8 +1,7 @@
 # reticulate::install_python("3.10.4")
 # reticulate::virtualenv_create("yardstick-environment", version = "3.10.4")
 # reticulate::use_virtualenv("yardstick-environment")
-# reticulate::py_install("scikit-learn") # 1.0.2 is what was downloaded
-
+# reticulate::py_install("scikit-learn") # 1.2.0 is what was downloaded
 library(reticulate)
 
 # Inside yardstick
