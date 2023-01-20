@@ -148,13 +148,6 @@ calc_rcbs <- function(surv, pred_val, censoring_weights, .time) {
   surv_time <- surv[, "time"]
   surv_status <- surv[, "status"]
 
-  time_order <- order(surv_time)
-  surv_time <- surv_time[time_order]
-  surv_status <- surv_status[time_order]
-  censoring_weights <- censoring_weights[time_order]
-  pred_val <- pred_val[time_order]
-  surv <- survival::Surv(surv_time, surv_status)
-
   ipcw_dot_time <- get_single_censor_prob(.time, surv_time, censoring_weights)
 
   category_1 <- surv_time < .time & surv_status == 1
