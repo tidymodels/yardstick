@@ -16,7 +16,7 @@ concordance_survival <- function(data, ...) {
   UseMethod("concordance_survival")
 }
 
-concordance_survival <- new_dynamic_survival_metric(
+concordance_survival <- new_static_survival_metric(
   concordance_survival,
   direction = "minimize"
 )

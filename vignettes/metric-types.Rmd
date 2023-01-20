@@ -24,8 +24,8 @@ There are three main metric types in `yardstick`: class, class probability, and
 numeric. Each type of metric has standardized argument syntax, and all metrics 
 return the same kind of output (a tibble with 3 columns). This standardization 
 allows metrics to easily be grouped together and used with grouped data frames 
-for computing on multiple resamples at once. Below are the three types of metrics, along with the
-types of the inputs they take.
+for computing on multiple resamples at once. Below are the five types of 
+metrics, along with the types of the inputs they take.
 
 1) **Class metrics** (hard predictions)
 
@@ -43,6 +43,23 @@ types of the inputs they take.
     - `truth` - numeric
     
     - `estimate` - numeric
+
+
+4) **Static survival metircs**
+
+    - `truth` - Surv
+    
+    - `estimate` - numeric
+
+5) **dynamic survival metrics**
+
+    - `turth` - Surv
+    
+    - `estimate` - list of tibbles with `.time` and `.pred_survival` columns
+    
+    - `censoring_weights` - numeric
+    
+    - `.time` - numeric
 
 ## Example
 
@@ -109,7 +126,9 @@ get_metrics <- function(fns, type) {
 all_metrics <- bind_rows(
   tibble(type = "class", metric = get_metrics(fns, "class_metric")),
   tibble(type = "class prob", metric = get_metrics(fns, "prob_metric")),
-  tibble(type = "numeric", metric = get_metrics(fns, "numeric_metric"))
+  tibble(type = "numeric", metric = get_metrics(fns, "numeric_metric")),
+  tibble(type = "dynamic survival", metric = get_metrics(fns, "dynamic_survival_metric")),
+  tibble(type = "static survival", metric = get_metrics(fns, "static_survival_metric"))
 )
 
 kable(all_metrics, format = "html")
