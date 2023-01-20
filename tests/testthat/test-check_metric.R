@@ -72,7 +72,22 @@ test_that("check_dynamic_survival_metric() validates case_weights", {
       estimate = lung_surv$.pred,
       censoring_weights = lung_surv$prob_censored,
       case_weights = 1:51,
-      .time = 1:3
+      .time = c(100, 500, 1000)
+    )
+  )
+})
+
+test_that("check_dynamic_survival_metric() validates censoring_weights", {
+  lung_surv <- data_lung_surv()
+
+  expect_snapshot(
+    error = TRUE,
+    check_dynamic_survival_metric(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred,
+      censoring_weights = lung_surv$prob_censored[-1],
+      case_weights = 1:50,
+      .time = c(100, 500, 1000)
     )
   )
 })
