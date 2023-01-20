@@ -136,6 +136,7 @@ brier_survival_impl <- function(truth,
       data[["truth"]][.time_loc, ],
       data[[".pred_survival"]][.time_loc],
       censoring_weights,
+      case_weights,
       .time[i]
     )
   }
@@ -143,9 +144,13 @@ brier_survival_impl <- function(truth,
   res
 }
 
-calc_rcbs <- function(surv, pred_val, censoring_weights, .time) {
+calc_rcbs <- function(surv, pred_val, censoring_weights, case_weights, .time) {
   surv_time <- surv[, "time"]
   surv_status <- surv[, "status"]
+
+  if (!is.null(case_weights)) {
+    censoring_weights <- censoring_weights * case_weights
+  }
 
   ipcw_dot_time <- get_single_censor_prob(.time, surv_time, censoring_weights)
 
