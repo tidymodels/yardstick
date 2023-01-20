@@ -58,37 +58,37 @@
       Error in `validate_factor_truth_matrix_estimate()`:
       ! You are using a binary metric but have passed multiple columns to `...`.
 
-# check_survival_dynamic_metric() validates case_weights
+# check_dynamic_survival_metric() validates case_weights
 
     Code
-      check_survival_dynamic_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
+      check_dynamic_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
         .pred, case_weights = 1:51, .time = 1:3)
     Condition
       Error in `validate_case_weights()`:
       ! `case_weights` (51) must have the same length as `truth` (50).
 
-# check_survival_dynamic_metric() validates inputs
+# check_dynamic_survival_metric() validates inputs
 
     Code
-      check_survival_dynamic_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
+      check_dynamic_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
         inst, case_weights = 1:50, .time = 1:3)
     Condition
       Error in `validate_surv_truth_list_estimate()`:
       ! `estimate` should be a list, not a `numeric`.
 
-# check_survival_static_metric() validates case_weights
+# check_static_survival_metric() validates case_weights
 
     Code
-      check_survival_static_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
+      check_static_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
         .pred, case_weights = 1:51)
     Condition
       Error in `validate_case_weights()`:
       ! `case_weights` (51) must have the same length as `truth` (50).
 
-# check_survival_static_metric() validates inputs
+# check_static_survival_metric() validates inputs
 
     Code
-      check_survival_static_metric(truth = lung_surv$surv_obj, estimate = as.character(
+      check_static_survival_metric(truth = lung_surv$surv_obj, estimate = as.character(
         lung_surv$inst), case_weights = 1:50)
     Condition
       Error in `validate_surv_truth_numeric_estimate()`:

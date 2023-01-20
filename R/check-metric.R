@@ -56,7 +56,7 @@ check_prob_metric <- function(truth, estimate, case_weights, estimator) {
 
 #' @rdname check_metric
 #' @export
-check_survival_dynamic_metric <- function(truth, estimate, case_weights, .time) {
+check_dynamic_survival_metric <- function(truth, estimate, case_weights, .time) {
   validate_case_weights(case_weights, size = nrow(truth))
   validate_surv_truth_list_estimate(truth, estimate)
   validate_time(.time, estimate)
@@ -64,7 +64,7 @@ check_survival_dynamic_metric <- function(truth, estimate, case_weights, .time) 
 
 #' @rdname check_metric
 #' @export
-check_survival_static_metric <- function(truth, estimate, case_weights) {
+check_static_survival_metric <- function(truth, estimate, case_weights) {
   validate_case_weights(case_weights, size = nrow(truth))
   validate_surv_truth_numeric_estimate(truth, estimate)
 }

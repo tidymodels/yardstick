@@ -62,12 +62,12 @@ test_that("check_prob_metric() validates inputs", {
   )
 })
 
-test_that("check_survival_dynamic_metric() validates case_weights", {
+test_that("check_dynamic_survival_metric() validates case_weights", {
   lung_surv <- data_lung_surv()
 
   expect_snapshot(
     error = TRUE,
-    check_survival_dynamic_metric(
+    check_dynamic_survival_metric(
       truth = lung_surv$surv_obj,
       estimate = lung_surv$.pred,
       case_weights = 1:51,
@@ -76,12 +76,12 @@ test_that("check_survival_dynamic_metric() validates case_weights", {
   )
 })
 
-test_that("check_survival_dynamic_metric() validates inputs", {
+test_that("check_dynamic_survival_metric() validates inputs", {
   lung_surv <- data_lung_surv()
 
   expect_snapshot(
     error = TRUE,
-    check_survival_dynamic_metric(
+    check_dynamic_survival_metric(
       truth = lung_surv$surv_obj,
       estimate = lung_surv$inst,
       case_weights = 1:50,
@@ -90,12 +90,12 @@ test_that("check_survival_dynamic_metric() validates inputs", {
   )
 })
 
-test_that("check_survival_static_metric() validates case_weights", {
+test_that("check_static_survival_metric() validates case_weights", {
   lung_surv <- data_lung_surv()
 
   expect_snapshot(
     error = TRUE,
-    check_survival_static_metric(
+    check_static_survival_metric(
       truth = lung_surv$surv_obj,
       estimate = lung_surv$.pred,
       case_weights = 1:51
@@ -103,12 +103,12 @@ test_that("check_survival_static_metric() validates case_weights", {
   )
 })
 
-test_that("check_survival_static_metric() validates inputs", {
+test_that("check_static_survival_metric() validates inputs", {
   lung_surv <- data_lung_surv()
 
   expect_snapshot(
     error = TRUE,
-    check_survival_static_metric(
+    check_static_survival_metric(
       truth = lung_surv$surv_obj,
       estimate = as.character(lung_surv$inst),
       case_weights = 1:50

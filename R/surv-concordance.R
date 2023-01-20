@@ -47,7 +47,7 @@ concordance_survival_vec <- function(truth,
                                      na_rm = TRUE,
                                      case_weights = NULL,
                                      ...) {
-  check_survival_static_metric(truth, estimate, case_weights)
+  check_static_survival_metric(truth, estimate, case_weights)
 
   if (na_rm) {
     result <- yardstick_remove_missing(truth, estimate, case_weights)
