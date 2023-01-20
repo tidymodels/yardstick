@@ -35,7 +35,7 @@ get_single_censor_prob <- function(x, probs) {
   probs$prob_censored[max(which(x > probs$time))]
 }
 
-censor_dist <- censor_probs(Surv(lung_train$time, lung_train$status))
+censor_dist <- censor_probs(Surv(lung_test$time, lung_test$status))
 
 lung_surv <- lung_test %>%
   as_tibble() %>%
@@ -46,7 +46,7 @@ lung_surv <- lung_test %>%
     type = "survival",
     time = c(100, 500, 1000)
   )) %>%
-  mutate(prob_censored = map_dbl(time, get_single_censor_prob, censor_dist)) %>%
+  mutate(prob_censored = 1 - map_dbl(time, get_single_censor_prob, censor_dist)) %>%
   relocate(surv_obj, .pred, prob_censored)
 
 usethis::use_data(lung_surv, overwrite = TRUE)

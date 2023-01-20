@@ -124,7 +124,7 @@ brier_survival_impl <- function(truth,
                                 censoring_weights,
                                 case_weights,
                                 .time) {
-  data <- dplyr::tibble(truth, estimate)
+  data <- dplyr::tibble(truth, estimate, censoring_weights)
   data <- tidyr::unnest(data, estimate)
 
   res <- numeric(length(.time))
@@ -135,6 +135,7 @@ brier_survival_impl <- function(truth,
     res[i] <- calc_rcbs(
       data[["truth"]][.time_loc],
       data[[".pred_survival"]][.time_loc],
+      data[["censoring_weights"]][.time_loc],
       .time[i]
     )
   }
@@ -142,7 +143,7 @@ brier_survival_impl <- function(truth,
   res
 }
 
-calc_rcbs <- function(surv, pred_val, .time) {
+calc_rcbs <- function(surv, pred_val, censoring_weights, .time) {
   Surv <- survival::Surv
   surv_time <- surv[, "time"]
   surv_status <- surv[, "status"]
@@ -150,31 +151,35 @@ calc_rcbs <- function(surv, pred_val, .time) {
   time_order <- order(surv_time)
   surv_time <- surv_time[time_order]
   surv_status <- surv_status[time_order]
+  censoring_weights <- censoring_weights[time_order]
   pred_val <- pred_val[time_order]
   surv <- survival::Surv(surv_time, surv_status)
 
-  censor_dist <- censor_probs(surv)
-
-  ipcw_dot_time <- get_single_censor_prob(.time, censor_dist)
-  ipcw_dot_time <- 1 - ipcw_dot_time
+  ipcw_dot_time <- get_single_censor_prob(.time, surv_time, censoring_weights)
 
   category_1 <- surv_time < .time & surv_status == 1
   category_2 <- surv_time >= .time
 
-  ipcw_vals <- vapply(
-    surv_time,
-    get_single_censor_prob,
-    probs = censor_dist,
-    FUN.VALUE = numeric(1)
-  )
-  ipcw_vals <- 1 - ipcw_vals
-
   # (0 - pred_val) ^ 2 == pred_val ^ 2
-  category_1_vals <- pred_val ^ 2 / ipcw_vals
+  category_1_vals <- pred_val ^ 2 / censoring_weights
   category_2_vals <- (1 - pred_val) ^ 2 / ipcw_dot_time
 
   category_1_sum <- sum(category_1_vals[category_1])
   category_2_sum <- sum(category_2_vals[category_2])
 
   (category_1_sum + category_2_sum) / length(pred_val)
+}
+
+get_single_censor_prob <- function(.time, time, x) {
+  time_order <- order(time)
+  time <- time[time_order]
+  x <- x[time_order]
+
+  which_loc <- which(.time < time)
+
+  if (length(which_loc) == 0) {
+    return(1)
+  }
+
+  x[min(which_loc)]
 }
