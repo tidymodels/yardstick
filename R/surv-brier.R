@@ -124,7 +124,7 @@ brier_survival_impl <- function(truth,
                                 censoring_weights,
                                 case_weights,
                                 .time) {
-  data <- dplyr::tibble(truth, estimate, censoring_weights)
+  data <- dplyr::tibble(truth, estimate)
   data <- tidyr::unnest(data, estimate)
 
   res <- numeric(length(.time))
@@ -135,7 +135,7 @@ brier_survival_impl <- function(truth,
     res[i] <- calc_rcbs(
       data[["truth"]][.time_loc, ],
       data[[".pred_survival"]][.time_loc],
-      data[["censoring_weights"]][.time_loc],
+      censoring_weights,
       .time[i]
     )
   }
