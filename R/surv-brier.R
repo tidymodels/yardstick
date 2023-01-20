@@ -133,7 +133,7 @@ brier_survival_impl <- function(truth,
     .time_loc <- .time[i] == data[[".time"]]
 
     res[i] <- calc_rcbs(
-      data[["truth"]][.time_loc],
+      data[["truth"]][.time_loc, ],
       data[[".pred_survival"]][.time_loc],
       data[["censoring_weights"]][.time_loc],
       .time[i]
@@ -144,7 +144,6 @@ brier_survival_impl <- function(truth,
 }
 
 calc_rcbs <- function(surv, pred_val, censoring_weights, .time) {
-  Surv <- survival::Surv
   surv_time <- surv[, "time"]
   surv_status <- surv[, "status"]
 
