@@ -362,27 +362,34 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
 })
 
 test_that("validate_time errors as expected", {
-  expect_no_error(
-    validate_time(1:5)
-  )
+  lung_surv <- data_lung_surv()
 
   expect_no_error(
-    validate_time(1)
+    validate_time(c(100, 500, 1000), estimate = lung_surv$.pred)
+  )
+
+  expect_no_error(
+    validate_time(100, estimate = lung_surv$.pred)
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_time(numeric())
+    validate_time(numeric(), estimate = lung_surv$.pred)
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_time(matrix(1:6, nrow = 2))
+    validate_time(matrix(1:6, nrow = 2), estimate = lung_surv$.pred)
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_time(letters)
+    validate_time(letters, estimate = lung_surv$.pred)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_time(c(101, 501, 1001), estimate = lung_surv$.pred)
   )
 })
 

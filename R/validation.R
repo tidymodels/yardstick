@@ -294,7 +294,7 @@ validate_case_weights <- function(case_weights, size) {
   invisible()
 }
 
-validate_time <- function(.time) {
+validate_time <- function(.time, estimate) {
 
   size_time <- length(.time)
 
@@ -315,6 +315,14 @@ validate_time <- function(.time) {
     abort(paste0(
       "`.time` should be a numeric vector, not a numeric matrix."
     ))
+  }
+
+  estimate_times <- lapply(estimate, function(x) x[[".time"]])
+  estimate_times <- unlist(estimate_times)
+  estimate_times <- unique(estimate_times)
+
+  if (!any(.time %in% estimate_times)) {
+    rlang::abort("`.time` doesn't have corresponding `.estimate` values.")
   }
 
   invisible()

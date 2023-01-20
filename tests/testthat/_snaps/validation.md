@@ -248,7 +248,7 @@
 # validate_time errors as expected
 
     Code
-      validate_time(numeric())
+      validate_time(numeric(), estimate = lung_surv$.pred)
     Condition
       Error in `validate_time()`:
       ! `.time` (0) must have length greater than 0.
@@ -256,7 +256,7 @@
 ---
 
     Code
-      validate_time(matrix(1:6, nrow = 2))
+      validate_time(matrix(1:6, nrow = 2), estimate = lung_surv$.pred)
     Condition
       Error in `validate_time()`:
       ! `.time` should be a numeric vector, not a numeric matrix.
@@ -264,10 +264,18 @@
 ---
 
     Code
-      validate_time(letters)
+      validate_time(letters, estimate = lung_surv$.pred)
     Condition
       Error in `validate_time()`:
       ! `.time` should be a numeric vector, not a `character` vector.
+
+---
+
+    Code
+      validate_time(c(101, 501, 1001), estimate = lung_surv$.pred)
+    Condition
+      Error in `validate_time()`:
+      ! `.time` doesn't have corresponding `.estimate` values.
 
 # validate_binary_estimator errors as expected
 
