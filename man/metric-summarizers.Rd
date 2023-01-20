@@ -90,8 +90,9 @@ needed to calculate the metric.}
 
 \item{data}{The data frame with \code{truth} and \code{estimate} columns passed
 in from the data frame version of your metric function that called
-\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, or
-\code{prob_metric_summarizer()}}
+\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
+\code{prob_metric_summarizer()} \code{dynamic_survival_metric_summarizer()}, or
+\code{static_survival_metric_summarizer()}.}
 
 \item{truth}{The unquoted column name corresponding to the \code{truth} column.}
 
@@ -134,17 +135,19 @@ column name corresponding to censoring weights can be passed here.}
 survival metrics should be calculated at.}
 }
 \description{
-\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and
-\code{prob_metric_summarizer()} are useful alongside \link{check_metric} and
-\link{yardstick_remove_missing} for implementing new custom metrics. These
+\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
+\code{prob_metric_summarizer()}, \code{dynamic_survival_metric_summarizer()}, and
+\code{static_survival_metric_summarizer()}. are useful alongside \link{check_metric}
+and \link{yardstick_remove_missing} for implementing new custom metrics. These
 functions call the metric function inside \code{dplyr::summarise()}. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for
 more information.
 }
 \details{
-\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()}, and
-\code{prob_metric_summarizer()} are generally called from the data frame version
-of your metric function. It knows how to call your metric over grouped data
-frames and returns a \code{tibble} consistent with other metrics.
+\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
+\code{prob_metric_summarizer()}, \code{dynamic_survival_metric_summarizer()}, and
+\code{static_survival_metric_summarizer()}. are generally called from the data
+frame version of your metric function. It knows how to call your metric over
+grouped data frames and returns a \code{tibble} consistent with other metrics.
 }
 \seealso{
 \link{check_metric} \link{yardstick_remove_missing} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
