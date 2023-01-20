@@ -51,6 +51,9 @@
 #' value of the `fn` or a single string of either `"first"` or `"second"`
 #' to pass along describing which level should be considered the "event".
 #'
+#' @param censoring_weights For dynamic survival metrics, an unquoted
+#' column name corresponding to censoring weights can be passed here.
+#'
 #' @param case_weights For metrics supporting case weights, an unquoted
 #' column name corresponding to case weights can be passed here. If not `NULL`,
 #' the case weights will be passed on to `fn` as the named argument
@@ -249,20 +252,22 @@ prob_metric_summarizer <- function(name,
 #' @rdname metric-summarizers
 #' @export
 dynamic_survival_metric_summarizer <- function(name,
-                                           fn,
-                                           data,
-                                           truth,
-                                           estimate,
-                                           .time,
-                                           ...,
-                                           na_rm = TRUE,
-                                           case_weights = NULL,
-                                           fn_options = list(),
-                                           error_call = caller_env()) {
+                                               fn,
+                                               data,
+                                               truth,
+                                               estimate,
+                                               censoring_weights,
+                                               .time,
+                                               ...,
+                                               na_rm = TRUE,
+                                               case_weights = NULL,
+                                               fn_options = list(),
+                                               error_call = caller_env()) {
   rlang::check_dots_empty()
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
+  censoring_weights <- enquo(censoring_weights)
   case_weights <- enquo(case_weights)
 
   truth <- yardstick_eval_select(
@@ -275,6 +280,12 @@ dynamic_survival_metric_summarizer <- function(name,
     expr = estimate,
     data = data,
     arg = "estimate",
+    error_call = error_call
+  )
+  censoring_weights <- yardstick_eval_select(
+    expr = censoring_weights,
+    data = data,
+    arg = "censoring_weights",
     error_call = error_call
   )
 
@@ -296,6 +307,7 @@ dynamic_survival_metric_summarizer <- function(name,
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
+      censoring_weights = .data[[censoring_weights]],
       .time = .time,
       case_weights = !!case_weights,
       na_rm = na_rm,

@@ -29,6 +29,12 @@
 #' `_vec()` functions, a list of tibbles, each containing 2 columns `.time` and
 #'  `.pred_survival`.
 #'
+#' @param censoring_weights The column identifier for censoring weights. This is
+#' expected to a numeric vector. This should be an unquoted column name although
+#' this argument is passed by expression and supports
+#' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
+#' `_vec()` functions, a numeric vector.
+#'
 #' @param .time A vector of time points.
 #'
 #' @param ... Not currently used.
@@ -41,7 +47,13 @@
 #'   Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 #'
 #' @examples
-#' res <- brier_survival(lung_surv, surv_obj, .pred, .time = c(100, 500, 1000))
+#' res <- brier_survival(
+#'   data = lung_surv,
+#'   truth = surv_obj,
+#'   estimate = .pred,
+#'   censoring_weights = prob_censored,
+#'   .time = c(100, 500, 1000)
+#' )
 #'
 #' res
 #'
@@ -61,6 +73,7 @@ brier_survival <- new_dynamic_survival_metric(
 brier_survival.data.frame <- function(data,
                                       truth,
                                       estimate,
+                                      censoring_weights,
                                       .time,
                                       na_rm = TRUE,
                                       case_weights = NULL,
@@ -71,6 +84,7 @@ brier_survival.data.frame <- function(data,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
+    censoring_weights = !!enquo(censoring_weights),
     .time = .time,
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
@@ -81,11 +95,14 @@ brier_survival.data.frame <- function(data,
 #' @rdname brier_survival
 brier_survival_vec <- function(truth,
                                estimate,
+                               censoring_weights,
                                .time,
                                na_rm = TRUE,
                                case_weights = NULL,
                                ...) {
-  check_dynamic_survival_metric(truth, estimate, case_weights, .time)
+  check_dynamic_survival_metric(
+    truth, estimate, censoring_weights, case_weights, .time
+  )
 
   if (na_rm) {
     estimate_index <- seq_along(estimate)
@@ -93,15 +110,20 @@ brier_survival_vec <- function(truth,
 
     truth <- result$truth
     estimate <- estimate[result$estimate]
+    censoring_weights <- censoring_weights[result$estimate]
     case_weights <- result$case_weights
   } else if (yardstick_any_missing(truth, seq_along(estimate), case_weights)) {
     return(NA_real_)
   }
 
-  brier_survival_impl(truth, estimate, case_weights, .time)
+  brier_survival_impl(truth, estimate, censoring_weights, case_weights, .time)
 }
 
-brier_survival_impl <- function(truth, estimate, case_weights, .time) {
+brier_survival_impl <- function(truth,
+                                estimate,
+                                censoring_weights,
+                                case_weights,
+                                .time) {
   data <- dplyr::tibble(truth, estimate)
   data <- tidyr::unnest(data, estimate)
 

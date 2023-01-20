@@ -70,6 +70,7 @@ test_that("check_dynamic_survival_metric() validates case_weights", {
     check_dynamic_survival_metric(
       truth = lung_surv$surv_obj,
       estimate = lung_surv$.pred,
+      censoring_weights = lung_surv$prob_censored,
       case_weights = 1:51,
       .time = 1:3
     )
@@ -84,6 +85,7 @@ test_that("check_dynamic_survival_metric() validates inputs", {
     check_dynamic_survival_metric(
       truth = lung_surv$surv_obj,
       estimate = lung_surv$inst,
+      censoring_weights = lung_surv$prob_censored,
       case_weights = 1:50,
       .time = 1:3
     )

@@ -57,6 +57,7 @@ dynamic_survival_metric_summarizer(
   data,
   truth,
   estimate,
+  censoring_weights,
   .time,
   ...,
   na_rm = TRUE,
@@ -125,6 +126,9 @@ the metric implementation describing the kind of averaging to use.}
 \item{event_level}{This can either be \code{NULL} to use the default \code{event_level}
 value of the \code{fn} or a single string of either \code{"first"} or \code{"second"}
 to pass along describing which level should be considered the "event".}
+
+\item{censoring_weights}{For dynamic survival metrics, an unquoted
+column name corresponding to censoring weights can be passed here.}
 
 \item{.time}{A \code{numeric} vector. Indicating time points where dynamic
 survival metrics should be calculated at.}

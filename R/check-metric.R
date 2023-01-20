@@ -17,6 +17,9 @@
 #'   - For `check_prob_metric()`, a numeric vector for binary `truth`,
 #'     a numeric matrix for multic-class `truth`.
 #'
+#' @param censoring_weights The realized case weights, as a numeric vector. This
+#'   must be the same length as `truth`.
+#'
 #' @param .time Numeric vector.
 #'
 #' @param case_weights The realized case weights, as a numeric vector. This must
@@ -56,9 +59,14 @@ check_prob_metric <- function(truth, estimate, case_weights, estimator) {
 
 #' @rdname check_metric
 #' @export
-check_dynamic_survival_metric <- function(truth, estimate, case_weights, .time) {
-  validate_case_weights(case_weights, size = nrow(truth))
+check_dynamic_survival_metric <- function(truth,
+                                          estimate,
+                                          censoring_weights,
+                                          case_weights,
+                                          .time) {
   validate_surv_truth_list_estimate(truth, estimate)
+  validate_case_weights(case_weights, size = nrow(truth))
+  validate_censoring_weights(censoring_weights, size = nrow(truth))
   validate_time(.time, estimate)
 }
 

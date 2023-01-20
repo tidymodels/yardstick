@@ -9,7 +9,7 @@ test_that('sklearn equivalent', {
 
   surv <- survival::Surv
 
-  brier_res <- brier_survival(lung_surv, surv_obj, .pred, .time = .times)
+  brier_res <- brier_survival(lung_surv, surv_obj, .pred, prob_censored, .time = .times)
   brier_res <- brier_res[[".estimate"]][[1]][[".estimate"]]
   brier_res <- setNames(brier_res, .times)
 

@@ -62,7 +62,8 @@
 
     Code
       check_dynamic_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
-        .pred, case_weights = 1:51, .time = 1:3)
+        .pred, censoring_weights = lung_surv$prob_censored, case_weights = 1:51,
+      .time = 1:3)
     Condition
       Error in `validate_case_weights()`:
       ! `case_weights` (51) must have the same length as `truth` (50).
@@ -71,7 +72,8 @@
 
     Code
       check_dynamic_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
-        inst, case_weights = 1:50, .time = 1:3)
+        inst, censoring_weights = lung_surv$prob_censored, case_weights = 1:50,
+      .time = 1:3)
     Condition
       Error in `validate_surv_truth_list_estimate()`:
       ! `estimate` should be a list, not a `numeric`.

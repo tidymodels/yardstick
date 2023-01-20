@@ -94,7 +94,8 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = inst, estimate = .pred, .time = .time)
+        data = lung_surv, truth = inst, estimate = .pred, censoring_weights = prob_censored,
+        .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
@@ -105,7 +106,8 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = age, .time = .time)
+        data = lung_surv, truth = surv_obj, estimate = age, censoring_weights = prob_censored,
+        .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
@@ -116,7 +118,8 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = list, .time = .time)
+        data = lung_surv, truth = surv_obj, estimate = list, censoring_weights = prob_censored,
+        .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
@@ -127,7 +130,8 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = list2, .time = .time)
+        data = lung_surv, truth = surv_obj, estimate = list2, censoring_weights = prob_censored,
+        .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
@@ -138,8 +142,8 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = .pred, .time = .time,
-        obviouslywrong = TRUE)
+        data = lung_surv, truth = surv_obj, estimate = .pred, censoring_weights = prob_censored,
+        .time = .time, obviouslywrong = TRUE)
     Condition
       Error in `dynamic_survival_metric_summarizer()`:
       ! `...` must be empty.

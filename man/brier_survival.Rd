@@ -12,6 +12,7 @@ brier_survival(data, ...)
   data,
   truth,
   estimate,
+  censoring_weights,
   .time,
   na_rm = TRUE,
   case_weights = NULL,
@@ -21,6 +22,7 @@ brier_survival(data, ...)
 brier_survival_vec(
   truth,
   estimate,
+  censoring_weights,
   .time,
   na_rm = TRUE,
   case_weights = NULL,
@@ -46,6 +48,12 @@ argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a list of tibbles, each containing 2 columns \code{.time} and
 \code{.pred_survival}.}
+
+\item{censoring_weights}{The column identifier for censoring weights. This is
+expected to a numeric vector. This should be an unquoted column name although
+this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, a numeric vector.}
 
 \item{.time}{A vector of time points.}
 
@@ -76,7 +84,13 @@ mean squared error at time point \code{.time}.
 Smaller values of the score are associated with better model performance.
 }
 \examples{
-res <- brier_survival(lung_surv, surv_obj, .pred, .time = c(100, 500, 1000))
+res <- brier_survival(
+  data = lung_surv,
+  truth = surv_obj,
+  estimate = .pred,
+  censoring_weights = prob_censored,
+  .time = c(100, 500, 1000)
+)
 
 res
 

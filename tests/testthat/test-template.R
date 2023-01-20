@@ -594,6 +594,7 @@ test_that("dynamic_survival_metric_summarizer() works as expected", {
     data = lung_surv,
     truth = surv_obj,
     estimate = .pred,
+    censoring_weights = prob_censored,
     .time = .time,
     na_rm = TRUE,
     case_weights = NULL
@@ -606,7 +607,7 @@ test_that("dynamic_survival_metric_summarizer() works as expected", {
       dplyr::tibble(
         .time = .time,
         .estimate = brier_survival_vec(
-          lung_surv$surv_obj, lung_surv$.pred, .time = .time
+          lung_surv$surv_obj, lung_surv$.pred, lung_surv$prob_censored, .time = .time
         )
       )
     )
@@ -626,6 +627,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
+    censoring_weights = prob_censored,
     estimate = .pred,
     .time = .time,
     na_rm = TRUE,
@@ -648,6 +650,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
         .estimate = brier_survival_vec(
           truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
           estimate = lung_surv$.pred[-c(1:5)],
+          censoring_weights = lung_surv$prob_censored[-c(1:5)],
           .time = .time
         )
       )
@@ -661,6 +664,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
+    censoring_weights = prob_censored,
     estimate = .pred,
     .time = .time,
     na_rm = FALSE,
@@ -690,6 +694,7 @@ test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
+    censoring_weights = prob_censored,
     estimate = .pred,
     .time = .time,
     na_rm = TRUE,
@@ -704,6 +709,7 @@ test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
         .time = .time,
         .estimate = brier_survival_vec(
           lung_surv$surv_obj, lung_surv$.pred, .time = .time,
+          censoring_weights = lung_surv$prob_censored,
           case_weights = lung_surv$ph.ecog
         )
       )
@@ -727,6 +733,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
+    censoring_weights = prob_censored,
     estimate = .pred,
     .time = .time,
     na_rm = TRUE,
@@ -741,6 +748,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
       data = lung_surv,
       truth = inst,
       estimate = .pred,
+      censoring_weights = prob_censored,
       .time = .time
     )
   )
@@ -753,6 +761,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
       data = lung_surv,
       truth = surv_obj,
       estimate = age,
+      censoring_weights = prob_censored,
       .time = .time
     )
   )
@@ -765,6 +774,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
       data = lung_surv,
       truth = surv_obj,
       estimate = list,
+      censoring_weights = prob_censored,
       .time = .time
     )
   )
@@ -777,6 +787,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
       data = lung_surv,
       truth = surv_obj,
       estimate = list2,
+      censoring_weights = prob_censored,
       .time = .time
     )
   )
@@ -789,6 +800,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
       data = lung_surv,
       truth = surv_obj,
       estimate = .pred,
+      censoring_weights = prob_censored,
       .time = .time,
       obviouslywrong = TRUE
     )
@@ -805,6 +817,7 @@ test_that("dynamic_survival_metric_summarizer() deals with characters in truth a
     data = lung_surv,
     truth = "surv_obj",
     estimate = ".pred",
+    censoring_weights = "prob_censored",
     .time = .time,
     na_rm = TRUE,
     case_weights = NULL
@@ -817,7 +830,8 @@ test_that("dynamic_survival_metric_summarizer() deals with characters in truth a
       dplyr::tibble(
         .time = .time,
         .estimate = brier_survival_vec(
-          lung_surv$surv_obj, lung_surv$.pred, .time = .time
+          lung_surv$surv_obj, lung_surv$.pred, lung_surv$prob_censored,
+          .time = .time
         )
       )
     )
