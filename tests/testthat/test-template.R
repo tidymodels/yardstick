@@ -586,8 +586,6 @@ test_that("dynamic_survival_metric_summarizer() works as expected", {
   lung_surv <- data_lung_surv()
   .time <- c(100, 500, 1000)
 
-  Surv <- survival::Surv
-
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
