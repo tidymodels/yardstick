@@ -5,12 +5,34 @@
 #' @family static survival metrics
 #' @templateVar fn concordance_survival
 #' @template return
-#' @details TODO
+#' @details
+#'
+#' The concordance index is defined as the proportion of all comparable pairs in
+#' which the predictions and outcomes are concordant.
 #'
 #' @inheritParams pr_auc
 #'
+#' @param data A `data.frame` containing the columns specified by `truth` and
+#' `estimate`.
+#'
+#' @param truth The column identifier for the true class survival result (that
+#' is created using [survival::Surv()].). This should be an unquoted column name
+#' although this argument is passed by expression and supports
+#' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
+#' `_vec()` functions, an [survival::Surv()] object.
+#'
+#' @param estimate The column identifier for the survival probabilities. This
+#' needs to be a numeric vector.This should be an unquoted column name although
+#' this argument is passed by expression and supports
+#' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
+#' `_vec()` functions, a numeric vector.
+#'
+#' @param ... Not currently used.
+#'
 #' @author Emil Hvitfeldt
 #'
+#' @examples
+#' concordance_survival(data = lung_surv, truth = surv_obj, estimate = age)
 #' @export
 concordance_survival <- function(data, ...) {
   UseMethod("concordance_survival")
@@ -18,7 +40,7 @@ concordance_survival <- function(data, ...) {
 
 concordance_survival <- new_static_survival_metric(
   concordance_survival,
-  direction = "minimize"
+  direction = "maximize"
 )
 
 #' @rdname concordance_survival
