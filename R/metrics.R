@@ -247,8 +247,12 @@ metric_set <- function(...) {
   # signature of the function is different depending on input functions
   if (fn_cls == "numeric_metric") {
     make_numeric_metric_function(fns)
-  } else if(fn_cls %in% c("prob_metric", "class_metric")) {
+  } else if (fn_cls %in% c("prob_metric", "class_metric")) {
     make_prob_class_metric_function(fns)
+  } else if (fn_cls %in% "dynamic_survival_metric") {
+    make_dynamic_survival_metric_function(fns)
+  } else if (fn_cls %in% "static_survival_metric") {
+    make_static_survival_metric_function(fns)
   } else {
     abort(paste0(
       "Internal error: `validate_function_class()` should have ",
@@ -453,6 +457,103 @@ make_numeric_metric_function <- function(fns) {
   metric_function
 }
 
+make_static_survival_metric_function <- function(fns) {
+  metric_function <- function(data,
+                              truth,
+                              estimate,
+                              na_rm = TRUE,
+                              case_weights = NULL,
+                              ...) {
+
+    # Construct common argument set for each metric call
+    # Doing this dynamically inside the generated function means
+    # we capture the correct arguments
+    call_args <- quos(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na_rm = na_rm,
+      case_weights = !!enquo(case_weights),
+      ... = ...
+    )
+
+    # Construct calls from the functions + arguments
+    calls <- lapply(fns, call2, !!! call_args)
+
+    # Evaluate
+    metric_list <- mapply(
+      FUN = eval_safely,
+      calls, # .x
+      names(calls), # .y
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE
+    )
+
+    dplyr::bind_rows(metric_list)
+  }
+
+  class(metric_function) <- c(
+    "static_survival_metric_set",
+    "metric_set",
+    class(metric_function)
+  )
+
+  attr(metric_function, "metrics") <- fns
+
+  metric_function
+}
+
+
+make_dynamic_survival_metric_function <- function(fns) {
+  metric_function <- function(data,
+                              truth,
+                              estimate,
+                              censoring_weights,
+                              .time,
+                              na_rm = TRUE,
+                              case_weights = NULL,
+                              ...) {
+
+    # Construct common argument set for each metric call
+    # Doing this dynamically inside the generated function means
+    # we capture the correct arguments
+    call_args <- quos(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      censoring_weights = !!enquo(censoring_weights),
+      .time = .time,
+      na_rm = na_rm,
+      case_weights = !!enquo(case_weights),
+      ... = ...
+    )
+
+    # Construct calls from the functions + arguments
+    calls <- lapply(fns, call2, !!! call_args)
+
+    # Evaluate
+    metric_list <- mapply(
+      FUN = eval_safely,
+      calls, # .x
+      names(calls), # .y
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE
+    )
+
+    dplyr::bind_rows(metric_list)
+  }
+
+  class(metric_function) <- c(
+    "dynamic_survival_metric_set",
+    "metric_set",
+    class(metric_function)
+  )
+
+  attr(metric_function, "metrics") <- fns
+
+  metric_function
+}
+
 validate_not_empty <- function(x) {
   if (rlang::is_empty(x)) {
     abort("`metric_set()` requires at least 1 function supplied to `...`.")
@@ -488,8 +589,11 @@ validate_function_class <- function(fns) {
     return(invisible(fns))
   }
 
+  valid_cls <- c("class_metric", "prob_metric", "numeric_metric",
+                 "dynamic_survival_metric", "static_survival_metric")
+
   if (n_unique == 1L) {
-    if (fn_cls_unique %in% c("class_metric", "prob_metric", "numeric_metric")) {
+    if (fn_cls_unique %in% valid_cls) {
       return(invisible(fns))
     }
   }
