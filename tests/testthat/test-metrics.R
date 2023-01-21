@@ -136,6 +136,25 @@ test_that('can mix class and class prob metrics together', {
   )
 })
 
+test_that('dynamic survival metric sets', {
+  my_set <- metric_set(brier_survival)
+
+  expect_equal(
+    my_set(lung_surv, surv_obj, .pred, prob_censored, .time = c(100, 500, 1000)),
+    brier_survival(lung_surv, surv_obj, .pred, prob_censored, .time = c(100, 500, 1000))
+  )
+})
+
+test_that('static survival metric sets', {
+  my_set <- metric_set(concordance_survival)
+
+  expect_equal(
+    my_set(lung_surv, surv_obj, age),
+    concordance_survival(lung_surv, surv_obj, age)
+  )
+})
+
+
 test_that("can supply `event_level` even with metrics that don't use it", {
   df <- two_class_example
 
