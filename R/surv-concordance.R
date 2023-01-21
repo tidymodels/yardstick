@@ -85,5 +85,9 @@ concordance_survival_vec <- function(truth,
 }
 
 concordance_survival_impl <- function(truth, estimate, case_weights) {
-  survival::concordance(truth ~ estimate)$concordance
+  if (is.null(case_weights)) {
+    case_weights <- rep(1, length(estimate))
+  }
+
+  survival::concordance(truth ~ estimate, weights = case_weights)$concordance
 }
