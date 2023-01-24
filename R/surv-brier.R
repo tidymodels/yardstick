@@ -149,34 +149,21 @@ calc_rcbs <- function(surv, pred_val, censoring_weights, case_weights, .time) {
   surv_status <- surv[, "status"]
 
   if (!is.null(case_weights)) {
-    censoring_weights <- censoring_weights * case_weights
+    norm_const <- sum(case_weights)
+    censoring_weights <- censoring_weights / case_weights
+  } else {
+    case_weights <- rep(1, length(pred_val))
+    norm_const <- sum(!is.na(surv))
   }
-
-  ipcw_dot_time <- get_single_censor_prob(.time, surv_time, censoring_weights)
 
   category_1 <- surv_time < .time & surv_status == 1
   category_2 <- surv_time >= .time
 
   # (0 - pred_val) ^ 2 == pred_val ^ 2
-  category_1_vals <- pred_val ^ 2 / censoring_weights
-  category_2_vals <- (1 - pred_val) ^ 2 / ipcw_dot_time
+  res <- (category_1 * pred_val ^ 2 * censoring_weights) +
+    (category_2 * (1 - pred_val) ^ 2 * censoring_weights)
 
-  category_1_sum <- sum(category_1_vals[category_1])
-  category_2_sum <- sum(category_2_vals[category_2])
-
-  (category_1_sum + category_2_sum) / length(pred_val)
-}
-
-get_single_censor_prob <- function(.time, time, x) {
-  time_order <- order(time)
-  time <- time[time_order]
-  x <- x[time_order]
-
-  which_loc <- which(.time < time)
-
-  if (length(which_loc) == 0) {
-    return(1)
-  }
-
-  x[min(which_loc)]
+  res <- res * case_weights
+  res <- sum(res, na.rm = TRUE)
+  res / norm_const
 }
