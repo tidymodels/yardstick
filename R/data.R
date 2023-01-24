@@ -112,7 +112,5 @@ NULL
 #' data(lung_surv)
 #' str(lung_surv)
 #'
-#' # `surv_obj` is a `Surv()` object, `.pred` is the result of using
-#' # `predict(model, type = "survival")` from censored and parsnip. And
-#' # `prob_censored` is censoring weights
+#' # `surv_obj` is a `Surv()` object
 NULL
