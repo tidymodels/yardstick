@@ -17,7 +17,7 @@ test_that('case weights', {
 
   expect_equal(
     brier_res$.estimate[[1]]$.estimate,
-    brier_res_case_wts$.estimate[[1]]$.estimate * 2
+    brier_res_case_wts$.estimate[[1]]$.estimate
   )
 })
 
