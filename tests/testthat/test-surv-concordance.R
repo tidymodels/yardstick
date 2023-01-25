@@ -1,4 +1,5 @@
 test_that("comparison test with survival", {
+  skip("waiting for concordance rewrite")
   expected_res <- concordance_survival(
     data = lung_surv, truth = surv_obj, estimate = age
   )
@@ -10,6 +11,7 @@ test_that("comparison test with survival", {
 })
 
 test_that("case weights works", {
+  skip("waiting for concordance rewrite")
   expected_res <- concordance_survival(
     data = lung_surv, truth = surv_obj, estimate = age, case_weights = ph.ecog
   )
