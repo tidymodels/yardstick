@@ -134,7 +134,7 @@ brier_survival_impl <- function(truth,
     # censoring_weights <- censoring_weights / case_weights
   } else {
     case_weights <- rep(1, length(estimate))
-    norm_const <- sum(!is.na(truth))
+    norm_const <- sum(!survival::is.na.Surv(truth))
   }
 
   category_1 <- surv_time < .time & surv_status == 1
