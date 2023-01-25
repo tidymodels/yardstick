@@ -4,7 +4,8 @@ test_that("yardstick_remove_missing works", {
     list(
       truth = 1:10,
       estimate = 1:10,
-      case_weights = 1:10
+      case_weights = 1:10,
+      censoring_weights = NULL
     )
   )
 
@@ -13,7 +14,8 @@ test_that("yardstick_remove_missing works", {
     list(
       truth = c(1:4, 7:10),
       estimate = c(1:4, 7:10),
-      case_weights = c(1:4, 7:10)
+      case_weights = c(1:4, 7:10),
+      censoring_weights = NULL
     )
   )
 
@@ -22,7 +24,8 @@ test_that("yardstick_remove_missing works", {
     list(
       truth = c(1:4, 7:10),
       estimate = c(1:4, 7:10),
-      case_weights = c(1:4, 7:10)
+      case_weights = c(1:4, 7:10),
+      censoring_weights = NULL
     )
   )
 
@@ -31,7 +34,8 @@ test_that("yardstick_remove_missing works", {
     list(
       truth = c(1:4, 7:10),
       estimate = c(1:4, 7:10),
-      case_weights = c(1:4, 7:10)
+      case_weights = c(1:4, 7:10),
+      censoring_weights = NULL
     )
   )
 
@@ -40,7 +44,8 @@ test_that("yardstick_remove_missing works", {
     list(
       truth = c(1:4, 7:10),
       estimate = c(1:4, 7:10),
-      case_weights = c(1:4, 7:10)
+      case_weights = c(1:4, 7:10),
+      censoring_weights = NULL
     )
   )
 
@@ -49,7 +54,8 @@ test_that("yardstick_remove_missing works", {
     list(
       truth = c(2:4, 7:9),
       estimate = c(2:4, 7:9),
-      case_weights = c(2:4, 7:9)
+      case_weights = c(2:4, 7:9),
+      censoring_weights = NULL
     )
   )
 })

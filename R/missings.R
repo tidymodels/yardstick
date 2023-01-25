@@ -12,6 +12,10 @@
 #' @param case_weights A vector of the same length as `truth` and `estimate`, or
 #'   `NULL` if case weights are not being used.
 #'
+#' @param censoring_weights A vector of the same length as `truth` and
+#'   `estimate`, or `NULL` if censoring weights are not being used. Defaults to
+#'   `NULL`.
+#'
 #' @seealso [metric-summarizers]
 #'
 #' @name yardstick_remove_missing
@@ -19,8 +23,13 @@ NULL
 
 #' @rdname yardstick_remove_missing
 #' @export
-yardstick_remove_missing <- function(truth, estimate, case_weights) {
-  complete_cases <- stats::complete.cases(truth, estimate, case_weights)
+yardstick_remove_missing <- function(truth,
+                                     estimate,
+                                     case_weights,
+                                     censoring_weights = NULL) {
+  complete_cases <- stats::complete.cases(
+    truth, estimate, case_weights, censoring_weights
+  )
 
   if (inherits(truth, "Surv")) {
     Surv_type <- attr(truth, "type")
@@ -40,13 +49,22 @@ yardstick_remove_missing <- function(truth, estimate, case_weights) {
   }
 
   case_weights <- case_weights[complete_cases]
+  censoring_weights <- censoring_weights[complete_cases]
 
-  list(truth = truth, estimate = estimate, case_weights = case_weights)
+  list(
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights,
+    censoring_weights = censoring_weights
+  )
 }
 
 #' @rdname yardstick_remove_missing
 #' @export
-yardstick_any_missing <- function(truth, estimate, case_weights) {
+yardstick_any_missing <- function(truth,
+                                  estimate,
+                                  case_weights,
+                                  censoring_weights = NULL) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
   }
@@ -56,5 +74,6 @@ yardstick_any_missing <- function(truth, estimate, case_weights) {
 
   anyNA(truth) ||
     anyNA(estimate) ||
-    (!is.null(case_weights) && anyNA(case_weights))
+    (!is.null(case_weights) && anyNA(case_weights)) ||
+    (!is.null(censoring_weights) && anyNA(censoring_weights))
 }
