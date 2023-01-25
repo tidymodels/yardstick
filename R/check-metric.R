@@ -18,14 +18,15 @@
 #'   - For `check_class_metric()`, a factor.
 #'   - For `check_prob_metric()`, a numeric vector for binary `truth`,
 #'     a numeric matrix for multic-class `truth`.
-#'   - For `check_dynamic_survival_metric()` a list of tibbles with 2 columns
-#'     `.time` and `.pred_survival`.
+#'   - For `check_dynamic_survival_metric()` a numeric vector.
 #'   - For `check_static_survival_metric()` a numeric vector.
 #'
 #' @param censoring_weights The realized case weights, as a numeric vector. This
 #'   must be the same length as `truth`.
 #'
-#' @param .time Numeric vector.
+#' @param .time The realized time points, as a numeric vector. This
+#'   must be the same length as `truth`. There should only be 1 unique value
+#'   per group
 #'
 #' @param case_weights The realized case weights, as a numeric vector. This must
 #'   be the same length as `truth`.
@@ -69,10 +70,10 @@ check_dynamic_survival_metric <- function(truth,
                                           censoring_weights,
                                           case_weights,
                                           .time) {
-  validate_surv_truth_list_estimate(truth, estimate)
+  validate_surv_truth_numeric_estimate(truth, estimate)
   validate_case_weights(case_weights, size = nrow(truth))
   validate_censoring_weights(censoring_weights, size = nrow(truth))
-  validate_time(.time, estimate)
+  validate_time(.time, size = nrow(truth))
 }
 
 #' @rdname check_metric

@@ -522,7 +522,7 @@ make_dynamic_survival_metric_function <- function(fns) {
       truth = !!enquo(truth),
       estimate = !!enquo(estimate),
       censoring_weights = !!enquo(censoring_weights),
-      .time = .time,
+      .time = !!enquo(.time),
       na_rm = na_rm,
       case_weights = !!enquo(case_weights),
       ... = ...

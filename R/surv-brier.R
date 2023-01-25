@@ -21,13 +21,11 @@
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, an [survival::Surv()] object.
 #'
-#' @param estimate The column identifier for the survival probabilities. This is
-#'  expected as a list of tibbles, containing 2 columns `.time` and
-#'  `.pred_survival`. This should be an unquoted column name although this
-#'  argument is passed by expression and supports
+#' @param estimate The column identifier for the survival probabilities. This
+#' should be a numeric vector. This should be an unquoted column name although
+#' this argument is passed by expression and supports
 #'  [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#' `_vec()` functions, a list of tibbles, each containing 2 columns `.time` and
-#'  `.pred_survival`.
+#' `_vec()` functions, a numeric vector.
 #'
 #' @param censoring_weights The column identifier for censoring weights. This is
 #' expected to a numeric vector. This should be an unquoted column name although
@@ -35,7 +33,11 @@
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, a numeric vector.
 #'
-#' @param .time A vector of time points.
+#' @param .time The column identifier for the time point. This
+#' should be a numeric vector, with 1 unique value for each group. This should
+#' be an unquoted column name although this argument is passed by expression and
+#' supports [quasiquotation][rlang::quasiquotation] (you can unquote column
+#' names). For `_vec()` functions, a numeric vector.
 #'
 #' @param ... Not currently used.
 #'
@@ -47,17 +49,16 @@
 #'   Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 #'
 #' @examples
-#' res <- brier_survival(
-#'   data = lung_surv,
-#'   truth = surv_obj,
-#'   estimate = .pred,
-#'   censoring_weights = prob_censored,
-#'   .time = c(100, 500, 1000)
-#' )
+#' library(dplyr)
 #'
-#' res
-#'
-#' res[[".estimate"]]
+#' lung_surv %>%
+#'   group_by(.time) %>%
+#'   brier_survival(
+#'     truth = surv_obj,
+#'     estimate = .pred_survival,
+#'     censoring_weights = prob_censored,
+#'     .time = .time
+#'   )
 #' @export
 brier_survival <- function(data, ...) {
   UseMethod("brier_survival")
@@ -85,7 +86,7 @@ brier_survival.data.frame <- function(data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     censoring_weights = !!enquo(censoring_weights),
-    .time = .time,
+    .time = !!enquo(.time),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )
@@ -111,6 +112,7 @@ brier_survival_vec <- function(truth,
     truth <- result$truth
     estimate <- estimate[result$estimate]
     censoring_weights <- censoring_weights[result$estimate]
+    .time <- .time[result$estimate]
     case_weights <- result$case_weights
   } else if (yardstick_any_missing(truth, seq_along(estimate), case_weights)) {
     return(NA_real_)
@@ -124,24 +126,27 @@ brier_survival_impl <- function(truth,
                                 censoring_weights,
                                 case_weights,
                                 .time) {
-  data <- dplyr::tibble(truth, estimate)
-  data <- tidyr::unnest(data, estimate)
+  surv_time <- truth[, "time"]
+  surv_status <- truth[, "status"]
 
-  res <- numeric(length(.time))
-
-  for (i in seq_along(.time)) {
-    .time_loc <- .time[i] == data[[".time"]]
-
-    res[i] <- calc_rcbs(
-      data[["truth"]][.time_loc, ],
-      data[[".pred_survival"]][.time_loc],
-      censoring_weights,
-      case_weights,
-      .time[i]
-    )
+  if (!is.null(case_weights)) {
+    norm_const <- sum(case_weights)
+    censoring_weights <- censoring_weights / case_weights
+  } else {
+    case_weights <- rep(1, length(estimate))
+    norm_const <- sum(!is.na(truth))
   }
 
-  res
+  category_1 <- surv_time < .time & surv_status == 1
+  category_2 <- surv_time >= .time
+
+  # (0 - estimate) ^ 2 == estimate ^ 2
+  res <- (category_1 * estimate ^ 2 * censoring_weights) +
+    (category_2 * (1 - estimate) ^ 2 * censoring_weights)
+
+  res <- res * case_weights
+  res <- sum(res, na.rm = TRUE)
+  res / norm_const
 }
 
 calc_rcbs <- function(surv, pred_val, censoring_weights, case_weights, .time) {

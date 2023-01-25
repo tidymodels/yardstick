@@ -241,66 +241,6 @@ test_that("validate_factor_truth_matrix_estimate errors as expected for non-bina
   )
 })
 
-test_that("validate_surv_truth_list_estimate errors as expected", {
-  lung_surv <- data_lung_surv()
-  lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
-  lung_surv$list2 <- lapply(
-    seq_len(nrow(lung_surv)),
-    function(x) data.frame(wrong = 1, names = 2)
-  )
-
-  expect_no_error(
-    validate_surv_truth_list_estimate(
-      lung_surv$surv_obj,
-      lung_surv$.pred
-    )
-  )
-
-  expect_no_error(
-    validate_surv_truth_list_estimate(
-      survival::Surv(1, 0),
-      lung_surv$.pred[1]
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_surv_truth_list_estimate("1", 1)
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_surv_truth_list_estimate(
-      lung_surv$list,
-      lung_surv$.pred
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_surv_truth_list_estimate(
-      lung_surv$list2,
-      lung_surv$.pred
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_surv_truth_list_estimate(
-      lung_surv$surv_obj,
-      lung_surv$inst
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_surv_truth_list_estimate(
-      lung_surv$surv_obj[1:5],
-      lung_surv$.pred
-    )
-  )
-})
-
 test_that("validate_surv_truth_numeric_estimate errors as expected", {
   lung_surv <- data_lung_surv()
   lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
@@ -355,7 +295,7 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
   expect_snapshot(
     error = TRUE,
     validate_surv_truth_numeric_estimate(
-      lung_surv$surv_obj[1:5],
+      lung_surv$surv_obj[1:5, ],
       lung_surv$age
     )
   )
@@ -365,31 +305,30 @@ test_that("validate_time errors as expected", {
   lung_surv <- data_lung_surv()
 
   expect_no_error(
-    validate_time(c(100, 500, 1000), estimate = lung_surv$.pred)
-  )
-
-  expect_no_error(
-    validate_time(100, estimate = lung_surv$.pred)
+    validate_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv))
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_time(numeric(), estimate = lung_surv$.pred)
+    validate_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_time(matrix(1:6, nrow = 2), estimate = lung_surv$.pred)
+    validate_time(
+      .time = rep(c(100, 200), length.out = nrow(lung_surv)),
+      size = nrow(lung_surv)
+    )
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_time(letters, estimate = lung_surv$.pred)
+    validate_time(matrix(1:150, nrow = 2), size = nrow(lung_surv))
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_time(c(101, 501, 1001), estimate = lung_surv$.pred)
+    validate_time(rep("100", nrow(lung_surv)), size = nrow(lung_surv))
   )
 })
 

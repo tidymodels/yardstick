@@ -94,49 +94,25 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = inst, estimate = .pred, censoring_weights = prob_censored,
+        data = lung_surv, truth = inst, estimate = .pred_survival, censoring_weights = prob_censored,
         .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_list_estimate()`:
+      Caused by error in `validate_surv_truth_numeric_estimate()`:
       ! `truth` should be a Surv object, not a `numeric`.
 
 ---
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = age, censoring_weights = prob_censored,
+        data = lung_surv, truth = surv_obj, estimate = surv_obj, censoring_weights = prob_censored,
         .time = .time)
     Condition
       Error in `dplyr::summarise()`:
       ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_list_estimate()`:
-      ! `estimate` should be a list, not a `numeric`.
-
----
-
-    Code
-      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = list, censoring_weights = prob_censored,
-        .time = .time)
-    Condition
-      Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_list_estimate()`:
-      ! All elements of `estimate` should be data.frames.
-
----
-
-    Code
-      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = list2, censoring_weights = prob_censored,
-        .time = .time)
-    Condition
-      Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_list_estimate()`:
-      ! All data.frames of `estimate` should include column names: `.time` and `.pred_survival`.
+      Caused by error in `validate_surv_truth_numeric_estimate()`:
+      ! `estimate` should be a numeric vector, not a numeric matrix.
 
 ---
 

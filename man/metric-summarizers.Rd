@@ -131,8 +131,8 @@ to pass along describing which level should be considered the "event".}
 \item{censoring_weights}{For dynamic survival metrics, an unquoted
 column name corresponding to censoring weights can be passed here.}
 
-\item{.time}{A \code{numeric} vector. Indicating time points where dynamic
-survival metrics should be calculated at.}
+\item{.time}{For dynamic survival metrics, The unquoted column name
+corresponding to the \code{truth} column.}
 }
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},

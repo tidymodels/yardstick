@@ -62,46 +62,46 @@
 
     Code
       check_dynamic_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
-        .pred, censoring_weights = lung_surv$prob_censored, case_weights = 1:51,
-      .time = c(100, 500, 1000))
+        .pred_survival, censoring_weights = lung_surv$prob_censored, case_weights = 1:
+        51, .time = lung_surv$.time)
     Condition
       Error in `validate_case_weights()`:
-      ! `case_weights` (51) must have the same length as `truth` (50).
+      ! `case_weights` (51) must have the same length as `truth` (150).
 
 # check_dynamic_survival_metric() validates censoring_weights
 
     Code
       check_dynamic_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
-        .pred, censoring_weights = lung_surv$prob_censored[-1], case_weights = 1:50,
-      .time = c(100, 500, 1000))
+        .pred_survival, censoring_weights = lung_surv$prob_censored[-1],
+      case_weights = 1:150, .time = lung_surv$.time)
     Condition
       Error in `validate_censoring_weights()`:
-      ! `censoring_weights` (49) must have the same length as `truth` (50).
+      ! `censoring_weights` (149) must have the same length as `truth` (150).
 
 # check_dynamic_survival_metric() validates inputs
 
     Code
-      check_dynamic_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
-        inst, censoring_weights = lung_surv$prob_censored, case_weights = 1:50,
-      .time = 1:3)
+      check_dynamic_survival_metric(truth = lung_surv$age, estimate = lung_surv$
+        .pred_survival, censoring_weights = lung_surv$prob_censored, case_weights = 1:
+        150, .time = lung_surv$.time)
     Condition
-      Error in `validate_surv_truth_list_estimate()`:
-      ! `estimate` should be a list, not a `numeric`.
+      Error in `validate_surv_truth_numeric_estimate()`:
+      ! `truth` should be a Surv object, not a `numeric`.
 
 # check_static_survival_metric() validates case_weights
 
     Code
       check_static_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
-        .pred, case_weights = 1:51)
+        .pred_survival, case_weights = 1:151)
     Condition
       Error in `validate_case_weights()`:
-      ! `case_weights` (51) must have the same length as `truth` (50).
+      ! `case_weights` (151) must have the same length as `truth` (150).
 
 # check_static_survival_metric() validates inputs
 
     Code
       check_static_survival_metric(truth = lung_surv$surv_obj, estimate = as.character(
-        lung_surv$inst), case_weights = 1:50)
+        lung_surv$inst), case_weights = 1:150)
     Condition
       Error in `validate_surv_truth_numeric_estimate()`:
       ! `estimate` should be a numeric, not a `character`.

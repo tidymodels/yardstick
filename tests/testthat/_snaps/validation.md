@@ -164,46 +164,6 @@
       Error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (5).
 
-# validate_surv_truth_list_estimate errors as expected
-
-    Code
-      validate_surv_truth_list_estimate("1", 1)
-    Condition
-      Error in `validate_surv_truth_list_estimate()`:
-      ! `truth` should be a Surv object, not a `character`.
-
----
-
-    Code
-      validate_surv_truth_list_estimate(lung_surv$list, lung_surv$.pred)
-    Condition
-      Error in `validate_surv_truth_list_estimate()`:
-      ! `truth` should be a Surv object, not a `list`.
-
----
-
-    Code
-      validate_surv_truth_list_estimate(lung_surv$list2, lung_surv$.pred)
-    Condition
-      Error in `validate_surv_truth_list_estimate()`:
-      ! `truth` should be a Surv object, not a `list`.
-
----
-
-    Code
-      validate_surv_truth_list_estimate(lung_surv$surv_obj, lung_surv$inst)
-    Condition
-      Error in `validate_surv_truth_list_estimate()`:
-      ! `estimate` should be a list, not a `numeric`.
-
----
-
-    Code
-      validate_surv_truth_list_estimate(lung_surv$surv_obj[1:5], lung_surv$.pred)
-    Condition
-      Error in `validate_surv_truth_list_estimate()`:
-      ! Length of `truth` (5) and `estimate` (50) must match.
-
 # validate_surv_truth_numeric_estimate errors as expected
 
     Code
@@ -240,23 +200,32 @@
 ---
 
     Code
-      validate_surv_truth_numeric_estimate(lung_surv$surv_obj[1:5], lung_surv$age)
+      validate_surv_truth_numeric_estimate(lung_surv$surv_obj[1:5, ], lung_surv$age)
     Condition
       Error in `validate_surv_truth_numeric_estimate()`:
-      ! Length of `truth` (5) and `estimate` (50) must match.
+      ! Length of `truth` (5) and `estimate` (150) must match.
 
 # validate_time errors as expected
 
     Code
-      validate_time(numeric(), estimate = lung_surv$.pred)
+      validate_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
     Condition
       Error in `validate_time()`:
-      ! `.time` (0) must have length greater than 0.
+      ! `.time` (150) must have the same length as `truth` (149).
 
 ---
 
     Code
-      validate_time(matrix(1:6, nrow = 2), estimate = lung_surv$.pred)
+      validate_time(.time = rep(c(100, 200), length.out = nrow(lung_surv)), size = nrow(
+        lung_surv))
+    Condition
+      Error in `validate_time()`:
+      ! `.time` should have at most 1 unique value. But 2 was detected.
+
+---
+
+    Code
+      validate_time(matrix(1:150, nrow = 2), size = nrow(lung_surv))
     Condition
       Error in `validate_time()`:
       ! `.time` should be a numeric vector, not a numeric matrix.
@@ -264,18 +233,10 @@
 ---
 
     Code
-      validate_time(letters, estimate = lung_surv$.pred)
+      validate_time(rep("100", nrow(lung_surv)), size = nrow(lung_surv))
     Condition
       Error in `validate_time()`:
       ! `.time` should be a numeric vector, not a `character` vector.
-
----
-
-    Code
-      validate_time(c(101, 501, 1001), estimate = lung_surv$.pred)
-    Condition
-      Error in `validate_time()`:
-      ! `.time` doesn't have corresponding `.estimate` values.
 
 # validate_binary_estimator errors as expected
 

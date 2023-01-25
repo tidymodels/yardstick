@@ -41,13 +41,11 @@ although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
 
-\item{estimate}{The column identifier for the survival probabilities. This is
-expected as a list of tibbles, containing 2 columns \code{.time} and
-\code{.pred_survival}. This should be an unquoted column name although this
-argument is passed by expression and supports
+\item{estimate}{The column identifier for the survival probabilities. This
+should be a numeric vector. This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a list of tibbles, each containing 2 columns \code{.time} and
-\code{.pred_survival}.}
+\verb{_vec()} functions, a numeric vector.}
 
 \item{censoring_weights}{The column identifier for censoring weights. This is
 expected to a numeric vector. This should be an unquoted column name although
@@ -55,7 +53,11 @@ this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
 
-\item{.time}{A vector of time points.}
+\item{.time}{The column identifier for the time point. This
+should be a numeric vector, with 1 unique value for each group. This should
+be an unquoted column name although this argument is passed by expression and
+supports \link[rlang:topic-inject]{quasiquotation} (you can unquote column
+names). For \verb{_vec()} functions, a numeric vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
@@ -84,17 +86,16 @@ mean squared error at time point \code{.time}.
 Smaller values of the score are associated with better model performance.
 }
 \examples{
-res <- brier_survival(
-  data = lung_surv,
-  truth = surv_obj,
-  estimate = .pred,
-  censoring_weights = prob_censored,
-  .time = c(100, 500, 1000)
-)
+library(dplyr)
 
-res
-
-res[[".estimate"]]
+lung_surv \%>\%
+  group_by(.time) \%>\%
+  brier_survival(
+    truth = surv_obj,
+    estimate = .pred_survival,
+    censoring_weights = prob_censored,
+    .time = .time
+  )
 }
 \references{
 E. Graf, C. Schmoor, W. Sauerbrei, and M. Schumacher, “Assessment and

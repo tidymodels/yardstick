@@ -141,49 +141,6 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   }
 }
 
-validate_surv_truth_list_estimate <- function(truth, estimate) {
-  if (!inherits(truth, "Surv")) {
-    cls <- class(truth)[[1]]
-    abort(paste0(
-      "`truth` should be a Surv object, not a `", cls, "`."
-    ))
-  }
-
-  if (!is.list(estimate)) {
-    cls <- class(estimate)[[1]]
-    abort(paste0(
-      "`estimate` should be a list, not a `", cls, "`."
-    ))
-  }
-
-  if (!all(vapply(estimate, is.data.frame, FUN.VALUE = logical(1)))) {
-    abort("All elements of `estimate` should be data.frames.")
-  }
-
-  has_names <- vapply(
-    estimate,
-    function(x) all(names(x) %in% c(".time", ".pred_survival")),
-    FUN.VALUE = logical(1)
-  )
-
-  if (!all(has_names)) {
-    abort(paste0(
-      "All data.frames of `estimate` should include column names: ",
-      "`.time` and `.pred_survival`."
-    ))
-  }
-
-  n_truth <- nrow(truth)
-  n_estimate <- length(estimate)
-
-  if (n_truth != n_estimate) {
-    abort(paste0(
-      "Length of `truth` (", n_truth, ") ",
-      "and `estimate` (", n_estimate, ") must match."
-    ))
-  }
-}
-
 validate_surv_truth_numeric_estimate <- function(truth, estimate) {
   if (!inherits(truth, "Surv")) {
     cls <- class(truth)[[1]]
@@ -311,13 +268,14 @@ validate_censoring_weights <- function(censoring_weights, size) {
   invisible()
 }
 
-validate_time <- function(.time, estimate) {
+validate_time <- function(.time, size) {
 
   size_time <- length(.time)
 
-  if (size_time < 1) {
+  if (size_time != size) {
     abort(paste0(
-      "`.time` (", size_time, ") must have length greater than 0."
+      "`.time` (", size_time, ") must have the same ",
+      "length as `truth` (", size, ")."
     ))
   }
 
@@ -334,12 +292,12 @@ validate_time <- function(.time, estimate) {
     ))
   }
 
-  estimate_times <- lapply(estimate, function(x) x[[".time"]])
-  estimate_times <- unlist(estimate_times)
-  estimate_times <- unique(estimate_times)
-
-  if (!any(.time %in% estimate_times)) {
-    rlang::abort("`.time` doesn't have corresponding `.estimate` values.")
+  n_distinct_time <- dplyr::n_distinct(.time)
+  if (n_distinct_time != 1) {
+    abort(paste0(
+      "`.time` should have at most 1 unique value. But ", n_distinct_time,
+      " was detected."
+    ))
   }
 
   invisible()

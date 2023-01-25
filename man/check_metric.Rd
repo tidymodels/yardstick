@@ -41,8 +41,7 @@ check_static_survival_metric(truth, estimate, case_weights)
 \item For \code{check_class_metric()}, a factor.
 \item For \code{check_prob_metric()}, a numeric vector for binary \code{truth},
 a numeric matrix for multic-class \code{truth}.
-\item For \code{check_dynamic_survival_metric()} a list of tibbles with 2 columns
-\code{.time} and \code{.pred_survival}.
+\item For \code{check_dynamic_survival_metric()} a numeric vector.
 \item For \code{check_static_survival_metric()} a numeric vector.
 }}
 
@@ -56,7 +55,9 @@ the metric implementation describing the kind of averaging to use.}
 \item{censoring_weights}{The realized case weights, as a numeric vector. This
 must be the same length as \code{truth}.}
 
-\item{.time}{Numeric vector.}
+\item{.time}{The realized time points, as a numeric vector. This
+must be the same length as \code{truth}. There should only be 1 unique value
+per group}
 }
 \description{
 \code{check_numeric_metric()}, \code{check_class_metric()}, and \code{check_prob_metric()}

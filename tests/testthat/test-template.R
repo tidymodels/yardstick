@@ -583,15 +583,14 @@ test_that("prob_metric_summarizer() deals with characters in truth", {
 ## dynamic_survival_metric_summarizer --------------------------------------------------
 
 test_that("dynamic_survival_metric_summarizer() works as expected", {
-  lung_surv <- data_lung_surv()
-  .time <- c(100, 500, 1000)
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    estimate = .pred_survival,
     censoring_weights = prob_censored,
     .time = .time,
     na_rm = TRUE,
@@ -600,14 +599,12 @@ test_that("dynamic_survival_metric_summarizer() works as expected", {
 
   brier_survival_exp <- dplyr::tibble(
     .metric = "brier_survival",
-    .estimator = "binary",
-    .estimate = list(
-      dplyr::tibble(
-        .time = .time,
-        .estimate = brier_survival_vec(
-          lung_surv$surv_obj, lung_surv$.pred, lung_surv$prob_censored, .time = .time
-        )
-      )
+    .estimator = "standard",
+    .estimate = brier_survival_vec(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_survival,
+      censoring_weights = lung_surv$prob_censored,
+      .time = lung_surv$.time
     )
   )
 
@@ -615,10 +612,8 @@ test_that("dynamic_survival_metric_summarizer() works as expected", {
 })
 
 test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
-  lung_surv <- data_lung_surv()
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
   lung_surv[1:5, 1] <- NA
-
-  .time <- c(100, 500, 1000)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
@@ -626,7 +621,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
     data = lung_surv,
     truth = surv_obj,
     censoring_weights = prob_censored,
-    estimate = .pred,
+    estimate = .pred_survival,
     .time = .time,
     na_rm = TRUE,
     case_weights = NULL
@@ -641,17 +636,12 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
 
   brier_survival_exp <- dplyr::tibble(
     .metric = "brier_survival",
-    .estimator = "binary",
-    .estimate = list(
-      dplyr::tibble(
-        .time = .time,
-        .estimate = brier_survival_vec(
-          truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
-          estimate = lung_surv$.pred[-c(1:5)],
-          censoring_weights = lung_surv$prob_censored[-c(1:5)],
-          .time = .time
-        )
-      )
+    .estimator = "standard",
+    .estimate = brier_survival_vec(
+     truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
+     estimate = lung_surv$.pred_survival[-c(1:5)],
+     censoring_weights = lung_surv$prob_censored[-c(1:5)],
+     .time = lung_surv$.time[-c(1:5)]
     )
   )
 
@@ -663,7 +653,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
     data = lung_surv,
     truth = surv_obj,
     censoring_weights = prob_censored,
-    estimate = .pred,
+    estimate = .pred_survival,
     .time = .time,
     na_rm = FALSE,
     case_weights = NULL
@@ -671,21 +661,15 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
 
   brier_survival_exp <- dplyr::tibble(
     .metric = "brier_survival",
-    .estimator = "binary",
-    .estimate = list(
-      dplyr::tibble(
-        .time = .time,
-        .estimate = na_dbl
-      )
-    )
+    .estimator = "standard",
+    .estimate = na_dbl
   )
 
   expect_identical(brier_survival_res, brier_survival_exp)
 })
 
 test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
-  lung_surv <- data_lung_surv()
-  .time <- c(100, 500, 1000)
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
@@ -693,7 +677,7 @@ test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
     data = lung_surv,
     truth = surv_obj,
     censoring_weights = prob_censored,
-    estimate = .pred,
+    estimate = .pred_survival,
     .time = .time,
     na_rm = TRUE,
     case_weights = ph.ecog
@@ -701,16 +685,13 @@ test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
 
   brier_survival_exp <- dplyr::tibble(
     .metric = "brier_survival",
-    .estimator = "binary",
-    .estimate = list(
-      dplyr::tibble(
-        .time = .time,
-        .estimate = brier_survival_vec(
-          lung_surv$surv_obj, lung_surv$.pred, .time = .time,
-          censoring_weights = lung_surv$prob_censored,
-          case_weights = lung_surv$ph.ecog
-        )
-      )
+    .estimator = "standard",
+    .estimate = brier_survival_vec(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_survival,
+      censoring_weights = lung_surv$prob_censored,
+      .time = lung_surv$.time,
+      case_weights = lung_surv$ph.ecog
     )
   )
 
@@ -718,13 +699,7 @@ test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
 })
 
 test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are passes", {
-  lung_surv <- data_lung_surv()
-  lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
-  lung_surv$list2 <- lapply(
-    seq_len(nrow(lung_surv)),
-    function(x) data.frame(wrong = 1, names = 2)
-  )
-  .time <- c(100, 500, 1000)
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
@@ -732,7 +707,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
     data = lung_surv,
     truth = surv_obj,
     censoring_weights = prob_censored,
-    estimate = .pred,
+    estimate = .pred_survival,
     .time = .time,
     na_rm = TRUE,
     case_weights = NULL
@@ -745,7 +720,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
       fn = brier_survival_vec,
       data = lung_surv,
       truth = inst,
-      estimate = .pred,
+      estimate = .pred_survival,
       censoring_weights = prob_censored,
       .time = .time
     )
@@ -758,33 +733,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
       fn = brier_survival_vec,
       data = lung_surv,
       truth = surv_obj,
-      estimate = age,
-      censoring_weights = prob_censored,
-      .time = .time
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    dynamic_survival_metric_summarizer(
-      name = "brier_survival",
-      fn = brier_survival_vec,
-      data = lung_surv,
-      truth = surv_obj,
-      estimate = list,
-      censoring_weights = prob_censored,
-      .time = .time
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    dynamic_survival_metric_summarizer(
-      name = "brier_survival",
-      fn = brier_survival_vec,
-      data = lung_surv,
-      truth = surv_obj,
-      estimate = list2,
+      estimate = surv_obj,
       censoring_weights = prob_censored,
       .time = .time
     )
@@ -806,32 +755,28 @@ test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are p
 })
 
 test_that("dynamic_survival_metric_summarizer() deals with characters in truth and estimate", {
-  lung_surv <- data_lung_surv()
-  .time <- c(100, 500, 1000)
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = lung_surv,
     truth = "surv_obj",
-    estimate = ".pred",
+    estimate = ".pred_survival",
     censoring_weights = "prob_censored",
-    .time = .time,
+    .time = ".time",
     na_rm = TRUE,
     case_weights = NULL
   )
 
   brier_survival_exp <- dplyr::tibble(
     .metric = "brier_survival",
-    .estimator = "binary",
-    .estimate = list(
-      dplyr::tibble(
-        .time = .time,
-        .estimate = brier_survival_vec(
-          lung_surv$surv_obj, lung_surv$.pred, lung_surv$prob_censored,
-          .time = .time
-        )
-      )
+    .estimator = "standard",
+    .estimate = brier_survival_vec(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_survival,
+      censoring_weights = lung_surv$prob_censored,
+      .time = lung_surv$.time
     )
   )
 
@@ -855,7 +800,7 @@ test_that("static_survival_metric_summarizer() works as expected", {
 
   concordance_survival_exp <- dplyr::tibble(
     .metric = "concordance_survival",
-    .estimator = "binary",
+    .estimator = "standard",
     .estimate = concordance_survival_vec(
       lung_surv$surv_obj, lung_surv$age
     )
@@ -887,7 +832,7 @@ test_that("static_survival_metric_summarizer()'s na_rm argument work", {
 
   concordance_survival_exp <- dplyr::tibble(
     .metric = "concordance_survival",
-    .estimator = "binary",
+    .estimator = "standard",
     .estimate = concordance_survival_vec(
        truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
        estimate = lung_surv$age[-c(1:5)]
@@ -908,7 +853,7 @@ test_that("static_survival_metric_summarizer()'s na_rm argument work", {
 
   concordance_survival_exp <- dplyr::tibble(
     .metric = "concordance_survival",
-    .estimator = "binary",
+    .estimator = "standard",
     .estimate = NA_real_
   )
 
@@ -930,7 +875,7 @@ test_that("static_survival_metric_summarizer()'s case_weights argument work", {
 
   concordance_survival_exp <- dplyr::tibble(
     .metric = "concordance_survival",
-    .estimator = "binary",
+    .estimator = "standard",
     .estimate = concordance_survival_vec(
        lung_surv$surv_obj, lung_surv$age,
        case_weights = lung_surv$ph.ecog
@@ -1019,7 +964,7 @@ test_that("static_survival_metric_summarizer() deals with characters in truth an
 
   concordance_survival_exp <- dplyr::tibble(
     .metric = "concordance_survival",
-    .estimator = "binary",
+    .estimator = "standard",
     .estimate = concordance_survival_vec(
        lung_surv$surv_obj, lung_surv$age
     )

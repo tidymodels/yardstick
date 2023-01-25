@@ -69,10 +69,10 @@ test_that("check_dynamic_survival_metric() validates case_weights", {
     error = TRUE,
     check_dynamic_survival_metric(
       truth = lung_surv$surv_obj,
-      estimate = lung_surv$.pred,
+      estimate = lung_surv$.pred_survival,
       censoring_weights = lung_surv$prob_censored,
       case_weights = 1:51,
-      .time = c(100, 500, 1000)
+      .time = lung_surv$.time
     )
   )
 })
@@ -84,10 +84,10 @@ test_that("check_dynamic_survival_metric() validates censoring_weights", {
     error = TRUE,
     check_dynamic_survival_metric(
       truth = lung_surv$surv_obj,
-      estimate = lung_surv$.pred,
+      estimate = lung_surv$.pred_survival,
       censoring_weights = lung_surv$prob_censored[-1],
-      case_weights = 1:50,
-      .time = c(100, 500, 1000)
+      case_weights = 1:150,
+      .time = lung_surv$.time
     )
   )
 })
@@ -98,11 +98,11 @@ test_that("check_dynamic_survival_metric() validates inputs", {
   expect_snapshot(
     error = TRUE,
     check_dynamic_survival_metric(
-      truth = lung_surv$surv_obj,
-      estimate = lung_surv$inst,
+      truth = lung_surv$age,
+      estimate = lung_surv$.pred_survival,
       censoring_weights = lung_surv$prob_censored,
-      case_weights = 1:50,
-      .time = 1:3
+      case_weights = 1:150,
+      .time = lung_surv$.time
     )
   )
 })
@@ -114,8 +114,8 @@ test_that("check_static_survival_metric() validates case_weights", {
     error = TRUE,
     check_static_survival_metric(
       truth = lung_surv$surv_obj,
-      estimate = lung_surv$.pred,
-      case_weights = 1:51
+      estimate = lung_surv$.pred_survival,
+      case_weights = 1:151
     )
   )
 })
@@ -128,7 +128,7 @@ test_that("check_static_survival_metric() validates inputs", {
     check_static_survival_metric(
       truth = lung_surv$surv_obj,
       estimate = as.character(lung_surv$inst),
-      case_weights = 1:50
+      case_weights = 1:150
     )
   )
 })
