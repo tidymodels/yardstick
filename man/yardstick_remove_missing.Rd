@@ -9,10 +9,17 @@ yardstick_remove_missing(
   truth,
   estimate,
   case_weights,
-  censoring_weights = NULL
+  censoring_weights = NULL,
+  .time = NULL
 )
 
-yardstick_any_missing(truth, estimate, case_weights, censoring_weights = NULL)
+yardstick_any_missing(
+  truth,
+  estimate,
+  case_weights,
+  censoring_weights = NULL,
+  .time = NULL
+)
 }
 \arguments{
 \item{truth, estimate}{Vectors of the same length.}
@@ -22,6 +29,10 @@ yardstick_any_missing(truth, estimate, case_weights, censoring_weights = NULL)
 
 \item{censoring_weights}{A vector of the same length as \code{truth} and
 \code{estimate}, or \code{NULL} if censoring weights are not being used. Defaults to
+\code{NULL}.}
+
+\item{.time}{A vector of the same length as \code{truth} and
+\code{estimate}, or \code{NULL} if time points are not being used. Defaults to
 \code{NULL}.}
 }
 \description{

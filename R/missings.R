@@ -16,6 +16,10 @@
 #'   `estimate`, or `NULL` if censoring weights are not being used. Defaults to
 #'   `NULL`.
 #'
+#' @param .time A vector of the same length as `truth` and
+#'   `estimate`, or `NULL` if time points are not being used. Defaults to
+#'   `NULL`.
+#'
 #' @seealso [metric-summarizers]
 #'
 #' @name yardstick_remove_missing
@@ -26,9 +30,10 @@ NULL
 yardstick_remove_missing <- function(truth,
                                      estimate,
                                      case_weights,
-                                     censoring_weights = NULL) {
+                                     censoring_weights = NULL,
+                                     .time = NULL) {
   complete_cases <- stats::complete.cases(
-    truth, estimate, case_weights, censoring_weights
+    truth, estimate, case_weights, censoring_weights, .time
   )
 
   if (inherits(truth, "Surv")) {
@@ -50,12 +55,14 @@ yardstick_remove_missing <- function(truth,
 
   case_weights <- case_weights[complete_cases]
   censoring_weights <- censoring_weights[complete_cases]
+  .time <- .time[complete_cases]
 
   list(
     truth = truth,
     estimate = estimate,
     case_weights = case_weights,
-    censoring_weights = censoring_weights
+    censoring_weights = censoring_weights,
+    .time = .time
   )
 }
 
@@ -64,7 +71,8 @@ yardstick_remove_missing <- function(truth,
 yardstick_any_missing <- function(truth,
                                   estimate,
                                   case_weights,
-                                  censoring_weights = NULL) {
+                                  censoring_weights = NULL,
+                                  .time = NULL) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
   }
@@ -75,5 +83,6 @@ yardstick_any_missing <- function(truth,
   anyNA(truth) ||
     anyNA(estimate) ||
     (!is.null(case_weights) && anyNA(case_weights)) ||
-    (!is.null(censoring_weights) && anyNA(censoring_weights))
+    (!is.null(censoring_weights) && anyNA(censoring_weights)) ||
+    (!is.null(.time) && anyNA(.time))
 }
