@@ -131,7 +131,7 @@ brier_survival_impl <- function(truth,
 
   if (!is.null(case_weights)) {
     norm_const <- sum(case_weights)
-    censoring_weights <- censoring_weights / case_weights
+    # censoring_weights <- censoring_weights / case_weights
   } else {
     case_weights <- rep(1, length(estimate))
     norm_const <- sum(!is.na(truth))
@@ -143,30 +143,6 @@ brier_survival_impl <- function(truth,
   # (0 - estimate) ^ 2 == estimate ^ 2
   res <- (category_1 * estimate ^ 2 * censoring_weights) +
     (category_2 * (1 - estimate) ^ 2 * censoring_weights)
-
-  res <- res * case_weights
-  res <- sum(res, na.rm = TRUE)
-  res / norm_const
-}
-
-calc_rcbs <- function(surv, pred_val, censoring_weights, case_weights, .time) {
-  surv_time <- surv[, "time"]
-  surv_status <- surv[, "status"]
-
-  if (!is.null(case_weights)) {
-    norm_const <- sum(case_weights)
-    censoring_weights <- censoring_weights / case_weights
-  } else {
-    case_weights <- rep(1, length(pred_val))
-    norm_const <- sum(!is.na(surv))
-  }
-
-  category_1 <- surv_time < .time & surv_status == 1
-  category_2 <- surv_time >= .time
-
-  # (0 - pred_val) ^ 2 == pred_val ^ 2
-  res <- (category_1 * pred_val ^ 2 * censoring_weights) +
-    (category_2 * (1 - pred_val) ^ 2 * censoring_weights)
 
   res <- res * case_weights
   res <- sum(res, na.rm = TRUE)
