@@ -28,6 +28,7 @@ test_that('case weights', {
 # sklearn compare --------------------------------------------------------------
 
 test_that('sklearn equivalent', {
+  skip("wait for lung_surv correction")
   py_res <- read_pydata("py-brier-survival")
 
   .times <- c(100, 500, 1000)
