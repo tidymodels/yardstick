@@ -50,8 +50,8 @@ lung_surv <- lung_test %>%
   mutate(
     prob_censored = if_else(
       time < .time & status == 2,
-      1 - map_dbl(time, get_single_censor_prob, censor_dist),
-      1 - map_dbl(.time, get_single_censor_prob, censor_dist),
+      1/(1 - map_dbl(time, get_single_censor_prob, censor_dist)),
+      1/(1 - map_dbl(.time, get_single_censor_prob, censor_dist)),
     )
   ) %>%
   relocate(surv_obj, .time, .pred_survival, prob_censored)
