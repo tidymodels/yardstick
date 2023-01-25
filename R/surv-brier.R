@@ -106,16 +106,22 @@ brier_survival_vec <- function(truth,
   )
 
   if (na_rm) {
-    estimate_index <- seq_along(estimate)
-    result <- yardstick_remove_missing(truth, estimate_index, case_weights)
+    result <- yardstick_remove_missing(
+      truth, estimate, case_weights, censoring_weights, .time
+    )
 
     truth <- result$truth
-    estimate <- estimate[result$estimate]
-    censoring_weights <- censoring_weights[result$estimate]
-    .time <- .time[result$estimate]
+    estimate <- result$estimate
+    censoring_weights <- result$censoring_weights
+    .time <- result$.time
     case_weights <- result$case_weights
-  } else if (yardstick_any_missing(truth, seq_along(estimate), case_weights)) {
-    return(NA_real_)
+  } else {
+    any_missing <- yardstick_any_missing(
+      truth, estimate, case_weights, censoring_weights, .time
+    )
+    if (any_missing) {
+      return(NA_real_)
+    }
   }
 
   brier_survival_impl(truth, estimate, censoring_weights, case_weights, .time)
