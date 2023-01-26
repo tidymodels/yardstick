@@ -292,13 +292,5 @@ validate_time <- function(.time, size) {
     ))
   }
 
-  n_distinct_time <- dplyr::n_distinct(.time)
-  if (n_distinct_time != 1) {
-    abort(paste0(
-      "`.time` should have at most 1 unique value. But ", n_distinct_time,
-      " was detected."
-    ))
-  }
-
   invisible()
 }

@@ -216,27 +216,10 @@
 ---
 
     Code
-      validate_time(.time = rep(c(100, 200), length.out = nrow(lung_surv)), size = nrow(
-        lung_surv))
-    Condition
-      Error in `validate_time()`:
-      ! `.time` should have at most 1 unique value. But 2 was detected.
-
----
-
-    Code
       validate_time(matrix(1:150, nrow = 2), size = nrow(lung_surv))
     Condition
       Error in `validate_time()`:
       ! `.time` should be a numeric vector, not a numeric matrix.
-
----
-
-    Code
-      validate_time(rep("100", nrow(lung_surv)), size = nrow(lung_surv))
-    Condition
-      Error in `validate_time()`:
-      ! `.time` should be a numeric vector, not a `character` vector.
 
 # validate_binary_estimator errors as expected
 

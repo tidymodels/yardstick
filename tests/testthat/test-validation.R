@@ -315,20 +315,7 @@ test_that("validate_time errors as expected", {
 
   expect_snapshot(
     error = TRUE,
-    validate_time(
-      .time = rep(c(100, 200), length.out = nrow(lung_surv)),
-      size = nrow(lung_surv)
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
     validate_time(matrix(1:150, nrow = 2), size = nrow(lung_surv))
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_time(rep("100", nrow(lung_surv)), size = nrow(lung_surv))
   )
 })
 

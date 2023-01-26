@@ -105,6 +105,14 @@ brier_survival_vec <- function(truth,
     truth, estimate, censoring_weights, case_weights, .time
   )
 
+  n_distinct_time <- dplyr::n_distinct(.time)
+  if (n_distinct_time != 1) {
+    abort(paste0(
+      "`.time` should have at most 1 unique value. But ", n_distinct_time,
+      " was detected."
+    ))
+  }
+
   if (na_rm) {
     result <- yardstick_remove_missing(
       truth, estimate, case_weights, censoring_weights, .time
