@@ -13,6 +13,7 @@ utils::globalVariables(
 
     # for survival metrics
     ".time",
+    "bs",
 
     # for calc_rcbs
     "time",

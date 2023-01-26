@@ -71,6 +71,7 @@ reference:
   - title: Dynamic Survival Metrics
     contents:
     - brier_survival
+    - integrated_brier_survival
 
   - title: Static Survival Metrics
     contents:
