@@ -68,9 +68,7 @@ in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
-and \code{.estimate} and 1 row of values. \code{.estimate} will be a list column of
-tibbles. Each containing 2 columns \code{.time} and \code{.estimate}, with the number
-of rows corresponding to the input argument \code{.time}.
+and \code{.estimate} and 1 row of values.
 
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.

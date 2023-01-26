@@ -56,8 +56,7 @@ the metric implementation describing the kind of averaging to use.}
 must be the same length as \code{truth}.}
 
 \item{.time}{The realized time points, as a numeric vector. This
-must be the same length as \code{truth}. There should only be 1 unique value
-per group}
+must be the same length as \code{truth}.}
 }
 \description{
 \code{check_numeric_metric()}, \code{check_class_metric()}, and \code{check_prob_metric()}

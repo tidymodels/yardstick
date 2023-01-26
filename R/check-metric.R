@@ -25,8 +25,7 @@
 #'   must be the same length as `truth`.
 #'
 #' @param .time The realized time points, as a numeric vector. This
-#'   must be the same length as `truth`. There should only be 1 unique value
-#'   per group
+#'   must be the same length as `truth`.
 #'
 #' @param case_weights The realized case weights, as a numeric vector. This must
 #'   be the same length as `truth`.
