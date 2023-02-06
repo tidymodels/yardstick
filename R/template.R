@@ -1,18 +1,21 @@
 #' Developer function for summarizing new metrics
 #'
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
-#' `prob_metric_summarizer()` are useful alongside [check_metric] and
-#' [yardstick_remove_missing] for implementing new custom metrics. These
-#' functions call the metric function inside `dplyr::summarise()`. See [Custom
-#' performance metrics](https://www.tidymodels.org/learn/develop/metrics/) for
-#' more information.
+#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
+#' `prob_metric_summarizer()`, and `curve_metric_summarizer()` are useful
+#' alongside [check_metric] and [yardstick_remove_missing] for implementing new
+#' custom metrics. These functions call the metric function inside
+#' `dplyr::summarise()` or `dplyr::reframe()` for `curve_metric_summarizer()`.
+#' See [Custom performance
+#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
+#' information.
 #'
 #' @details
 #'
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
-#' `prob_metric_summarizer()` are generally called from the data frame version
-#' of your metric function. It knows how to call your metric over grouped data
-#' frames and returns a `tibble` consistent with other metrics.
+#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
+#' `prob_metric_summarizer()`, and `curve_metric_summarizer()` are generally
+#' called from the data frame version of your metric function. It knows how to
+#' call your metric over grouped data frames and returns a `tibble` consistent
+#' with other metrics.
 #'
 #' @inheritParams rlang::args_dots_empty
 #' @inheritParams rlang::args_error_context
@@ -27,8 +30,8 @@
 #'
 #' @param data The data frame with `truth` and `estimate` columns passed
 #' in from the data frame version of your metric function that called
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`, or
-#' `prob_metric_summarizer()`
+#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
+#' `prob_metric_summarizer()`, or `curve_metric_summarizer()`.
 #'
 #' @param truth The unquoted column name corresponding to the `truth` column.
 #'

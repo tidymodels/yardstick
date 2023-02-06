@@ -4,8 +4,8 @@
 #' `r lifecycle::badge("deprecated")`
 #'
 #' `metric_summarizer()` has been soft-deprecated as of yardstick 1.2.0. Please
-#' switch to use [class_metric_summarizer()], [numeric_metric_summarizer()], or
-#' [prob_metric_summarizer()].
+#' switch to use [class_metric_summarizer()], [numeric_metric_summarizer()],
+#' [prob_metric_summarizer()], or [curve_metric_summarizer()].
 #'
 #' @param metric_nm A single character representing the name of the metric to
 #' use in the `tibble` output. This will be modified to include the type
@@ -70,7 +70,11 @@ metric_summarizer <- function(metric_nm,
   lifecycle::deprecate_soft(
     when = "1.2.0",
     what = "metric_summarizer()",
-    with = I("`numeric_metric_summarizer()`, `class_metric_summarizer()`, or `prob_metric_summarizer()`")
+    with = I(
+      paste(
+        "`numeric_metric_summarizer()`, `class_metric_summarizer()`,",
+        "`prob_metric_summarizer()`, or `curve_metric_summarizer()`")
+    )
   )
   truth <- enquo(truth)
   estimate <- enquo(estimate)
