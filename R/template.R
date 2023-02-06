@@ -1,18 +1,21 @@
 #' Developer function for summarizing new metrics
 #'
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
-#' `prob_metric_summarizer()` are useful alongside [check_metric] and
-#' [yardstick_remove_missing] for implementing new custom metrics. These
-#' functions call the metric function inside `dplyr::summarise()`. See [Custom
-#' performance metrics](https://www.tidymodels.org/learn/develop/metrics/) for
-#' more information.
+#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
+#' `prob_metric_summarizer()`, and `curve_metric_summarizer()` are useful
+#' alongside [check_metric] and [yardstick_remove_missing] for implementing new
+#' custom metrics. These functions call the metric function inside
+#' `dplyr::summarise()` or `dplyr::reframe()` for `curve_metric_summarizer()`.
+#' See [Custom performance
+#' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
+#' information.
 #'
 #' @details
 #'
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`, and
-#' `prob_metric_summarizer()` are generally called from the data frame version
-#' of your metric function. It knows how to call your metric over grouped data
-#' frames and returns a `tibble` consistent with other metrics.
+#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
+#' `prob_metric_summarizer()`, and `curve_metric_summarizer()` are generally
+#' called from the data frame version of your metric function. It knows how to
+#' call your metric over grouped data frames and returns a `tibble` consistent
+#' with other metrics.
 #'
 #' @inheritParams rlang::args_dots_empty
 #' @inheritParams rlang::args_error_context
@@ -27,8 +30,8 @@
 #'
 #' @param data The data frame with `truth` and `estimate` columns passed
 #' in from the data frame version of your metric function that called
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`, or
-#' `prob_metric_summarizer()`
+#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
+#' `prob_metric_summarizer()`, or `curve_metric_summarizer()`.
 #'
 #' @param truth The unquoted column name corresponding to the `truth` column.
 #'
@@ -242,6 +245,68 @@ prob_metric_summarizer <- function(name,
 
   dplyr::as_tibble(out)
 }
+
+#' @rdname metric-summarizers
+#' @export
+curve_metric_summarizer <- function(name,
+                                    fn,
+                                    data,
+                                    truth,
+                                    ...,
+                                    estimator = NULL,
+                                    na_rm = TRUE,
+                                    event_level = NULL,
+                                    case_weights = NULL,
+                                    fn_options = list(),
+                                    error_call = caller_env()) {
+  truth <- enquo(truth)
+  case_weights <- enquo(case_weights)
+
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select_dots(
+    ...,
+    data = data,
+    error_call = error_call
+  )
+
+  if (!quo_is_null(case_weights)) {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights",
+      error_call = error_call
+    )
+
+    case_weights <- expr(.data[[!!case_weights]])
+  }
+
+  out <- dplyr::reframe(
+    data,
+    .metric = name,
+    .estimator = finalize_estimator(.data[[truth]], estimator, name),
+    .estimate = fn(
+      truth = .data[[truth]],
+      estimate = {
+        # TODO: Use `dplyr::pick()` from dplyr 1.1.0
+        estimate <- dplyr::across(tidyselect::all_of(estimate), .fns = identity)
+        prob_estimate_convert(estimate)
+      },
+      case_weights = !!case_weights,
+      na_rm = na_rm,
+      !!! spliceable_argument(estimator, "estimator"),
+      !!! spliceable_argument(event_level, "event_level"),
+      !!! fn_options
+    )
+  )
+
+  dplyr::as_tibble(out)
+}
+
 
 prob_estimate_convert <- function(estimate) {
   if (!is.data.frame(estimate)) {

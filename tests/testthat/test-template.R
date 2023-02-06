@@ -579,3 +579,202 @@ test_that("prob_metric_summarizer() deals with characters in truth", {
 
   expect_identical(roc_auc_res, roc_auc_exp)
 })
+
+## curve_metric_summarizer --------------------------------------------------
+
+test_that("curve_metric_summarizer() works as expected", {
+  hpc_f1 <- data_hpc_fold1()
+
+  roc_curve_res <- curve_metric_summarizer(
+    name = "roc_curve",
+    fn = roc_curve_vec,
+    data = hpc_f1,
+    truth = obs,
+    VF:L,
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  roc_curve_exp <- dplyr::tibble(
+    .metric = "roc_curve",
+    .estimator = "multiclass",
+    .estimate = roc_curve_vec(hpc_f1$obs, as.matrix(hpc_f1[3:6]))
+  )
+
+  expect_identical(roc_curve_res, roc_curve_exp)
+})
+
+test_that("class_metric_summarizer()'s event_level works as expected", {
+  hpc_f1 <- data_hpc_fold1()
+  hpc_f1$obs <- factor(hpc_f1$obs == "VF",
+                       levels = c(TRUE, FALSE),
+                       labels = c("VF", "nVF"))
+
+  first_res <- curve_metric_summarizer(
+    name = "gain_capture",
+    fn = gain_capture_vec,
+    data = hpc_f1,
+    truth = obs,
+    VF,
+    event_level = "first"
+  )
+
+  second_res <- curve_metric_summarizer(
+    name = "gain_capture",
+    fn = gain_capture_vec,
+    data = hpc_f1,
+    truth = obs,
+    VF,
+    event_level = "second"
+  )
+
+  first_exp <- dplyr::tibble(
+    .metric = "gain_capture",
+    .estimator = "binary",
+    .estimate = gain_capture_vec(
+      truth = hpc_f1$obs,
+      estimate = hpc_f1$VF,
+      event_level = "first"
+    )
+  )
+
+  second_exp <- dplyr::tibble(
+    .metric = "gain_capture",
+    .estimator = "binary",
+    .estimate = gain_capture_vec(
+      truth = hpc_f1$obs,
+      estimate = hpc_f1$VF,
+      event_level = "second"
+    )
+  )
+
+  expect_identical(first_res, first_exp)
+  expect_identical(second_res, second_exp)
+})
+
+test_that("curve_metric_summarizer()'s na_rm argument work", {
+  hpc_f1 <- data_hpc_fold1()
+  hpc_f1_na <- hpc_f1
+  hpc_f1_na$VF[1:5] <- NA
+
+  roc_curve_res <- curve_metric_summarizer(
+    name = "roc_curve",
+    fn = roc_curve_vec,
+    data = hpc_f1_na,
+    truth = obs,
+    VF:L,
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  roc_curve_exp <- dplyr::tibble(
+    .metric = "roc_curve",
+    .estimator = "multiclass",
+    .estimate = roc_curve_vec(hpc_f1$obs[-(1:5)], as.matrix(hpc_f1[-(1:5), 3:6]))
+  )
+
+  expect_identical(roc_curve_res, roc_curve_exp)
+
+  roc_curve_res <- curve_metric_summarizer(
+    name = "roc_curve",
+    fn = roc_curve_vec,
+    data = hpc_f1_na,
+    truth = obs,
+    VF:L,
+    na_rm = FALSE,
+    case_weights = NULL
+  )
+
+  roc_curve_exp <- dplyr::tibble(
+    .metric = "roc_curve",
+    .estimator = "multiclass",
+    .estimate = na_dbl
+  )
+
+  expect_identical(roc_curve_res, roc_curve_exp)
+})
+
+test_that("curve_metric_summarizer()'s case_weights argument work", {
+  hpc_f1 <- data_hpc_fold1()
+  hpc_f1$weights <- rep(c(1, 0), c(340, 7))
+
+  roc_curve_res <- curve_metric_summarizer(
+    name = "roc_curve",
+    fn = roc_curve_vec,
+    data = hpc_f1,
+    truth = obs,
+    VF:L,
+    na_rm = TRUE,
+    case_weights = weights
+  )
+
+  roc_curve_exp <- dplyr::tibble(
+    .metric = "roc_curve",
+    .estimator = "multiclass",
+    .estimate = roc_curve_vec(
+      truth = hpc_f1$obs,
+      estimate = as.matrix(hpc_f1[3:6]),
+      case_weights = rep(c(1, 0), c(340, 7))
+    )
+  )
+
+  expect_identical(roc_curve_res, roc_curve_exp)
+})
+
+test_that("curve_metric_summarizer()'s errors when wrong things are passes", {
+  hpc_f1 <- data_hpc_fold1()
+
+  expect_snapshot(error = TRUE,
+                  curve_metric_summarizer(
+                    name = "roc_curve",
+                    fn = roc_curve_vec,
+                    data = hpc_f1,
+                    truth = obs,
+                    c(HELLO, F, M, L)
+                  )
+  )
+
+  expect_snapshot(error = TRUE,
+                  curve_metric_summarizer(
+                    name = "roc_curve",
+                    fn = roc_curve_vec,
+                    data = hpc_f1,
+                    truth = obviouslywrong,
+                    VF:L
+                  )
+  )
+
+  expect_snapshot(error = TRUE,
+                  curve_metric_summarizer(
+                    name = "roc_curve",
+                    fn = roc_curve_vec,
+                    data = hpc_f1,
+                    truth = obs,
+                    VF:L,
+                    obviouslywrong = TRUE
+                  )
+  )
+
+})
+
+test_that("curve_metric_summarizer() deals with characters in truth", {
+  hpc_f1 <- data_hpc_fold1()
+
+  roc_curve_res <- curve_metric_summarizer(
+    name = "roc_curve",
+    fn = roc_curve_vec,
+    data = hpc_f1,
+    truth = "obs",
+    VF:L,
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  roc_curve_exp <- dplyr::tibble(
+    .metric = "roc_curve",
+    .estimator = "multiclass",
+    .estimate = roc_curve_vec(hpc_f1$obs, as.matrix(hpc_f1[3:6]))
+  )
+
+  expect_identical(roc_curve_res, roc_curve_exp)
+})

@@ -70,7 +70,7 @@ default results in nothing being spliced into the call.}
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 \code{metric_summarizer()} has been soft-deprecated as of yardstick 1.2.0. Please
-switch to use \code{\link[=class_metric_summarizer]{class_metric_summarizer()}}, \code{\link[=numeric_metric_summarizer]{numeric_metric_summarizer()}}, or
-\code{\link[=prob_metric_summarizer]{prob_metric_summarizer()}}.
+switch to use \code{\link[=class_metric_summarizer]{class_metric_summarizer()}}, \code{\link[=numeric_metric_summarizer]{numeric_metric_summarizer()}},
+\code{\link[=prob_metric_summarizer]{prob_metric_summarizer()}}, or \code{\link[=curve_metric_summarizer]{curve_metric_summarizer()}}.
 }
 \keyword{internal}

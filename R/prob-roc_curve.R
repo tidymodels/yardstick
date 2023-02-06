@@ -78,7 +78,7 @@ roc_curve.data.frame <- function(data,
                                  options = list()) {
   check_roc_options_deprecated("roc_curve", options)
 
-  result <- prob_metric_summarizer(
+  result <- curve_metric_summarizer(
     name = "roc_curve",
     fn = roc_curve_vec,
     data = data,

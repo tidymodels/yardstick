@@ -90,3 +90,33 @@
       ! Can't subset columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
+# curve_metric_summarizer()'s errors when wrong things are passes
+
+    Code
+      curve_metric_summarizer(name = "roc_curve", fn = roc_curve_vec, data = hpc_f1,
+        truth = obs, c(HELLO, F, M, L))
+    Condition
+      Error:
+      ! Can't subset columns that don't exist.
+      x Column `HELLO` doesn't exist.
+
+---
+
+    Code
+      curve_metric_summarizer(name = "roc_curve", fn = roc_curve_vec, data = hpc_f1,
+        truth = obviouslywrong, VF:L)
+    Condition
+      Error:
+      ! Can't subset columns that don't exist.
+      x Column `obviouslywrong` doesn't exist.
+
+---
+
+    Code
+      curve_metric_summarizer(name = "roc_curve", fn = roc_curve_vec, data = hpc_f1,
+        truth = obs, VF:L, obviouslywrong = TRUE)
+    Condition
+      Error:
+      ! Can't subset columns with `TRUE`.
+      x `TRUE` must be numeric or character, not `TRUE`.
+
