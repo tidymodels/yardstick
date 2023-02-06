@@ -5,6 +5,7 @@
 \alias{numeric_metric_summarizer}
 \alias{class_metric_summarizer}
 \alias{prob_metric_summarizer}
+\alias{curve_metric_summarizer}
 \title{Developer function for summarizing new metrics}
 \usage{
 numeric_metric_summarizer(
@@ -36,6 +37,20 @@ class_metric_summarizer(
 )
 
 prob_metric_summarizer(
+  name,
+  fn,
+  data,
+  truth,
+  ...,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = NULL,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+)
+
+curve_metric_summarizer(
   name,
   fn,
   data,

@@ -243,6 +243,68 @@ prob_metric_summarizer <- function(name,
   dplyr::as_tibble(out)
 }
 
+#' @rdname metric-summarizers
+#' @export
+curve_metric_summarizer <- function(name,
+                                    fn,
+                                    data,
+                                    truth,
+                                    ...,
+                                    estimator = NULL,
+                                    na_rm = TRUE,
+                                    event_level = NULL,
+                                    case_weights = NULL,
+                                    fn_options = list(),
+                                    error_call = caller_env()) {
+  truth <- enquo(truth)
+  case_weights <- enquo(case_weights)
+
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select_dots(
+    ...,
+    data = data,
+    error_call = error_call
+  )
+
+  if (!quo_is_null(case_weights)) {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights",
+      error_call = error_call
+    )
+
+    case_weights <- expr(.data[[!!case_weights]])
+  }
+
+  out <- dplyr::reframe(
+    data,
+    .metric = name,
+    .estimator = finalize_estimator(.data[[truth]], estimator, name),
+    .estimate = fn(
+      truth = .data[[truth]],
+      estimate = {
+        # TODO: Use `dplyr::pick()` from dplyr 1.1.0
+        estimate <- dplyr::across(tidyselect::all_of(estimate), .fns = identity)
+        prob_estimate_convert(estimate)
+      },
+      case_weights = !!case_weights,
+      na_rm = na_rm,
+      !!! spliceable_argument(estimator, "estimator"),
+      !!! spliceable_argument(event_level, "event_level"),
+      !!! fn_options
+    )
+  )
+
+  dplyr::as_tibble(out)
+}
+
+
 prob_estimate_convert <- function(estimate) {
   if (!is.data.frame(estimate)) {
     abort("`estimate` should be a data frame.", .internal = TRUE)
