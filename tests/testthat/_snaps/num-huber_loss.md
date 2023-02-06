@@ -6,7 +6,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `huber_loss_impl()`:
       ! `delta` must be a positive value.
 
@@ -18,7 +18,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `huber_loss_impl()`:
       ! `delta` must be a single numeric value.
 
