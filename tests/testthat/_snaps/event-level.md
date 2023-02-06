@@ -1,22 +1,20 @@
-# `yardstick_event_level()` respects option - TRUE, with a warning
+# `yardstick_event_level()` ignores option - TRUE, with a warning
 
     Code
       out <- yardstick_event_level()
     Condition
       Warning:
-      The `yardstick.event_first` option has been deprecated as of yardstick 0.0.7 and will be completely ignored in a future version.
-      Instead, set the following argument directly in the metric function:
-      `options(yardstick.event_first = TRUE)`  -> `event_level = 'first'` (the default)
-      `options(yardstick.event_first = FALSE)` -> `event_level = 'second'`
+      The global option `yardstick.event_first` was deprecated in yardstick 0.0.7.
+      i Please use the metric function argument `event_level` instead.
+      i The global option is being ignored entirely.
 
-# `yardstick_event_level()` respects option - FALSE, with a warning
+# `yardstick_event_level()` ignores option - FALSE, with a warning
 
     Code
       out <- yardstick_event_level()
     Condition
       Warning:
-      The `yardstick.event_first` option has been deprecated as of yardstick 0.0.7 and will be completely ignored in a future version.
-      Instead, set the following argument directly in the metric function:
-      `options(yardstick.event_first = TRUE)`  -> `event_level = 'first'` (the default)
-      `options(yardstick.event_first = FALSE)` -> `event_level = 'second'`
+      The global option `yardstick.event_first` was deprecated in yardstick 0.0.7.
+      i Please use the metric function argument `event_level` instead.
+      i The global option is being ignored entirely.
 
