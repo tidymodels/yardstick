@@ -5,7 +5,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_factor_estimate()`:
       ! `truth` should be a factor, not a `numeric`.
 
@@ -16,7 +16,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_binary_estimator()`:
       ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 1 levels was provided.
 
@@ -47,7 +47,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimator = finalize_estimator(.data[["pathology"]], estimator, name)`.
+      i In argument: `.estimator = finalize_estimator(.data[["pathology"]], estimator, name)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be one of: "binary", "macro", "micro", "macro_weighted". Not "blah".
 
@@ -58,7 +58,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_binary_estimator()`:
       ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 4 levels was provided.
 
@@ -69,7 +69,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
+      i In argument: `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be a character, not a numeric.
 
@@ -80,7 +80,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
+      i In argument: `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be length 1, not 2.
 
@@ -91,7 +91,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_numeric_truth_numeric_estimate()`:
       ! `truth` should be a numeric vector, not a numeric matrix.
 
@@ -102,7 +102,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_numeric_truth_numeric_estimate()`:
       ! `estimate` should be a numeric vector, not a numeric matrix.
 
@@ -113,7 +113,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_factor_estimate()`:
       ! `truth` and `estimate` levels must be equivalent.
       `truth`: a, b, c
@@ -126,7 +126,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_matrix_estimate()`:
       ! You are using a binary metric but have passed multiple columns to `...`.
 
@@ -137,7 +137,7 @@
     Output
       <error/rlang_error>
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (1).
 

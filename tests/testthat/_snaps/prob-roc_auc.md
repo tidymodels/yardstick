@@ -4,7 +4,10 @@
       out <- roc_auc(no_event, truth, Class1)[[".estimate"]]
     Condition
       Warning:
-      No event observations were detected in `truth` with event level 'Class1'.
+      There was 1 warning in `dplyr::summarise()`.
+      i In argument: `.estimate = fn(...)`.
+      Caused by warning:
+      ! No event observations were detected in `truth` with event level 'Class1'.
 
 # warning is thrown when missing controls
 
@@ -12,7 +15,10 @@
       out <- roc_auc(no_control, truth, Class1)[[".estimate"]]
     Condition
       Warning:
-      No control observations were detected in `truth` with control level 'Class2'.
+      There was 1 warning in `dplyr::summarise()`.
+      i In argument: `.estimate = fn(...)`.
+      Caused by warning:
+      ! No control observations were detected in `truth` with control level 'Class2'.
 
 # multiclass one-vs-all approach results in multiple warnings
 
@@ -21,9 +27,12 @@
         ".estimate"]]
     Condition
       Warning:
-      No event observations were detected in `truth` with event level 'Class1'.
-      Warning:
-      No control observations were detected in `truth` with control level '..other'.
+      There were 2 warnings in `dplyr::summarise()`.
+      The first warning was:
+      i In argument: `.estimate = fn(...)`.
+      Caused by warning:
+      ! No event observations were detected in `truth` with event level 'Class1'.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
 
 ---
 
@@ -32,9 +41,12 @@
         ".estimate"]]
     Condition
       Warning:
-      No event observations were detected in `truth` with event level 'Class1'.
-      Warning:
-      No control observations were detected in `truth` with control level '..other'.
+      There were 2 warnings in `dplyr::summarise()`.
+      The first warning was:
+      i In argument: `.estimate = fn(...)`.
+      Caused by warning:
+      ! No event observations were detected in `truth` with event level 'Class1'.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
 
 ---
 
@@ -43,9 +55,12 @@
         ".estimate"]]
     Condition
       Warning:
-      No event observations were detected in `truth` with event level 'Class1'.
-      Warning:
-      No control observations were detected in `truth` with control level '..other'.
+      There were 2 warnings in `dplyr::summarise()`.
+      The first warning was:
+      i In argument: `.estimate = fn(...)`.
+      Caused by warning:
+      ! No event observations were detected in `truth` with event level 'Class1'.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
 
 ---
 
@@ -54,9 +69,12 @@
         ".estimate"]]
     Condition
       Warning:
-      No event observations were detected in `truth` with event level 'Class1'.
-      Warning:
-      No control observations were detected in `truth` with control level '..other'.
+      There were 2 warnings in `dplyr::summarise()`.
+      The first warning was:
+      i In argument: `.estimate = fn(...)`.
+      Caused by warning:
+      ! No event observations were detected in `truth` with event level 'Class1'.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
 
 # hand till approach throws warning and returns `NaN` when only 1 level has observations
 
@@ -82,7 +100,7 @@
       roc_auc(hpc_cv, obs, VF:L, estimator = "hand_till", case_weights = weight)
     Condition
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `finalize_estimator_roc_auc()`:
       ! Can't specify both `estimator = 'hand_till'` and `case_weights`.
 
