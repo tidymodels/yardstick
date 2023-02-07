@@ -135,7 +135,7 @@ conf_mat.data.frame <- function(data,
     case_weights <- data[[case_weights]]
   }
 
-  table <- yardstick_table(
+  table <- conf_mat_impl(
     truth = truth,
     estimate = estimate,
     case_weights = case_weights
@@ -190,7 +190,7 @@ conf_mat.grouped_df <- function(data,
   dplyr::summarise(
     data,
     conf_mat = {
-      table <- yardstick_table(
+      table <- conf_mat_impl(
         truth = .data[[truth]],
         estimate = .data[[estimate]],
         case_weights = !!case_weights
