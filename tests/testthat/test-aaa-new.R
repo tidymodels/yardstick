@@ -16,9 +16,15 @@ test_that("can create metric functions", {
 })
 
 test_that("`fn` is validated", {
-  expect_error(new_class_metric(1, "maximize"), "must be a function")
+  expect_snapshot(
+    error = TRUE,
+    new_class_metric(1, "maximize")
+  )
 })
 
 test_that("`direction` is validated", {
-  expect_error(new_class_metric(function() 1, "min"))
+  expect_snapshot(
+    error = TRUE,
+    new_class_metric(function() 1, "min")
+  )
 })

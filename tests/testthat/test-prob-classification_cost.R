@@ -67,7 +67,10 @@ test_that("costs$truth can be factor", {
 })
 
 test_that("binary - requires 1 column of probabilities", {
-  expect_error(classification_cost(two_class_example, truth, Class1:Class2), "binary metric")
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(two_class_example, truth, Class1:Class2)
+  )
 })
 
 # ------------------------------------------------------------------------------
@@ -172,9 +175,20 @@ test_that("costs must be a data frame with the right column names", {
     A = c(1, .80, .51)
   )
 
-  expect_error(classification_cost(df, obs, A, costs = 1), "`NULL` or a data.frame")
-  expect_error(classification_cost(df, obs, A, costs = data.frame()), "3 columns")
-  expect_error(classification_cost(df, obs, A, costs = data.frame(x = 1, y = 2, z = 3)), "'truth', 'estimate', and 'cost'")
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(df, obs, A, costs = 1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(df, obs, A, costs = data.frame())
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(df, obs, A, costs = data.frame(x = 1, y = 2, z = 3))
+  )
 })
 
 test_that("costs$estimate must contain the right levels", {
@@ -189,7 +203,10 @@ test_that("costs$estimate must contain the right levels", {
     "B",    "A",       3
   )
 
-  expect_error(classification_cost(df, obs, A, costs = costs), "can only contain 'A', 'B'")
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(df, obs, A, costs = costs)
+  )
 })
 
 test_that("costs$truth must contain the right levels", {
@@ -204,7 +221,10 @@ test_that("costs$truth must contain the right levels", {
     "B",    "A",       3
   )
 
-  expect_error(classification_cost(df, obs, A, costs = costs), "can only contain 'A', 'B'")
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(df, obs, A, costs = costs)
+  )
 })
 
 test_that("costs$truth, costs$estimate, and costs$cost must have the right type", {
@@ -218,21 +238,30 @@ test_that("costs$truth, costs$estimate, and costs$cost must have the right type"
     1,    "B",       2,
     2,    "A",       3
   )
-  expect_error(classification_cost(df, obs, A, costs = costs), "character or factor")
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(df, obs, A, costs = costs)
+  )
 
   costs <- dplyr::tribble(
     ~truth, ~estimate, ~cost,
     "A",    1,       2,
     "B",    2,       3
   )
-  expect_error(classification_cost(df, obs, A, costs = costs), "character or factor")
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(df, obs, A, costs = costs)
+  )
 
   costs <- dplyr::tribble(
     ~truth, ~estimate, ~cost,
     "A",    "B",       "1",
     "B",    "A",       "2"
   )
-  expect_error(classification_cost(df, obs, A, costs = costs), "numeric column")
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(df, obs, A, costs = costs)
+  )
 })
 
 test_that("costs$truth and costs$estimate cannot contain duplicate pairs", {
@@ -247,9 +276,9 @@ test_that("costs$truth and costs$estimate cannot contain duplicate pairs", {
     "A",    "B",       3
   )
 
-  expect_error(
-    classification_cost(df, obs, A, costs = costs),
-    "cannot have duplicate 'truth' / 'estimate' combinations"
+  expect_snapshot(
+    error = TRUE,
+    classification_cost(df, obs, A, costs = costs)
   )
 })
 

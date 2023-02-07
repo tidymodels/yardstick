@@ -120,19 +120,37 @@ test_that("can set `estimator` in the tweaked metric", {
 })
 
 test_that("cannot use protected names", {
-  expect_error(metric_tweak("f_meas2", f_meas, data = 2), "cannot be named")
-  expect_error(metric_tweak("f_meas2", f_meas, truth = 2), "cannot be named")
-  expect_error(metric_tweak("f_meas2", f_meas, estimate = 2), "cannot be named")
+  expect_snapshot(
+    error = TRUE,
+    metric_tweak("f_meas2", f_meas, data = 2)
+  )
+  expect_snapshot(
+    error = TRUE,
+    metric_tweak("f_meas2", f_meas, truth = 2)
+  )
+  expect_snapshot(
+    error = TRUE,
+    metric_tweak("f_meas2", f_meas, estimate = 2)
+  )
 })
 
 test_that("`name` must be a string", {
-  expect_error(metric_tweak(1, f_meas, beta = 2), "must be a string")
+  expect_snapshot(
+    error = TRUE,
+    metric_tweak(1, f_meas, beta = 2)
+  )
 })
 
 test_that("`fn` must be a metric function", {
-  expect_error(metric_tweak("foo", function() {}, beta = 2), "must be a metric function")
+  expect_snapshot(
+    error = TRUE,
+    metric_tweak("foo", function() {}, beta = 2)
+  )
 })
 
 test_that("All `...` must be named", {
-  expect_error(metric_tweak("foo", accuracy, 1), "must be named")
+  expect_snapshot(
+    error = TRUE,
+    metric_tweak("foo", accuracy, 1)
+  )
 })
