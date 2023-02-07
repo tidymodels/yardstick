@@ -1,5 +1,9 @@
 # yardstick (development version)
 
+* The global option, `yardstick.event_first`, has been hard deprecated in favor
+  of using explicit argument, `event_level`. Setting this option will now 
+  produce an warning, but won't have any effect. (#173)
+
 * The Brier score for classification was added (#139).
 
 * `metric_vec_template()` is being soft deprecated in favor of a more manual
