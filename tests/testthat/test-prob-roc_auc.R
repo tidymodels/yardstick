@@ -355,7 +355,7 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 
 test_that("roc_auc() - `options` is deprecated", {
   skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
-  local_lifecycle_warnings()
+  rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot({
     out <- roc_auc(two_class_example, truth, Class1, options = 1)
