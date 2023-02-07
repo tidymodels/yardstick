@@ -24,6 +24,8 @@
   
 * Changed the default aspect ratio for PR curves to be 1.0. 
 
+* `conf_mat()` no longer throw errors listed as internal (#327).
+
 # yardstick 1.1.0
 
 * Emil Hvitfeldt is now the maintainer (#315).
