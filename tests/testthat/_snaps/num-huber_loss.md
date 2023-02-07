@@ -1,10 +1,8 @@
 # Huber Loss
 
     Code
-      (expect_error(huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = -
-        1)))
-    Output
-      <error/rlang_error>
+      huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = -1)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `huber_loss_impl()`:
@@ -13,10 +11,8 @@
 ---
 
     Code
-      (expect_error(huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = c(
-        1, 2))))
-    Output
-      <error/rlang_error>
+      huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1, 2))
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `huber_loss_impl()`:

@@ -1,9 +1,17 @@
+# bad args
+
+    Code
+      sens(pathology, truth = "patholosgy", estimate = "scan")
+    Condition
+      Error in `sens()`:
+      ! Can't subset columns that don't exist.
+      x Column `patholosgy` doesn't exist.
+
 # `truth` should be factor
 
     Code
-      (expect_error(sens(df, truth, estimate)))
-    Output
-      <error/rlang_error>
+      sens(df, truth, estimate)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_factor_estimate()`:
@@ -12,9 +20,8 @@
 # At least 2 levels in truth
 
     Code
-      (expect_error(sens(df, truth, estimate)))
-    Output
-      <error/rlang_error>
+      sens(df, truth, estimate)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_binary_estimator()`:
@@ -23,9 +30,8 @@
 # Single character values are caught with correct errors
 
     Code
-      (expect_error(sens(pathology, "a", scan)))
-    Output
-      <error/vctrs_error_subscript_oob>
+      sens(pathology, "a", scan)
+    Condition
       Error in `sens()`:
       ! Can't subset columns that don't exist.
       x Column `a` doesn't exist.
@@ -33,9 +39,8 @@
 # Bad unquoted input is caught
 
     Code
-      (expect_error(sens(pathology, !!bad, scan)))
-    Output
-      <error/vctrs_error_subscript_oob>
+      sens(pathology, !!bad, scan)
+    Condition
       Error in `sens()`:
       ! Can't subset columns that don't exist.
       x Column `a` doesn't exist.
@@ -43,9 +48,8 @@
 # Non-allowed estimator
 
     Code
-      (expect_error(sens(pathology, pathology, scan, estimator = "blah")))
-    Output
-      <error/rlang_error>
+      sens(pathology, pathology, scan, estimator = "blah")
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimator = finalize_estimator(.data[["pathology"]], estimator, name)`.
       Caused by error in `validate_estimator()`:
@@ -54,9 +58,8 @@
 # Bad estimator + truth combination
 
     Code
-      (expect_error(sens(hpc_cv, obs, pred, estimator = "binary")))
-    Output
-      <error/rlang_error>
+      sens(hpc_cv, obs, pred, estimator = "binary")
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_binary_estimator()`:
@@ -65,9 +68,8 @@
 # Bad estimator type
 
     Code
-      (expect_error(sens(hpc_cv, obs, pred, estimator = 1)))
-    Output
-      <error/rlang_error>
+      sens(hpc_cv, obs, pred, estimator = 1)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
       Caused by error in `validate_estimator()`:
@@ -76,9 +78,8 @@
 ---
 
     Code
-      (expect_error(sens(hpc_cv, obs, pred, estimator = c("1", "2"))))
-    Output
-      <error/rlang_error>
+      sens(hpc_cv, obs, pred, estimator = c("1", "2"))
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
       Caused by error in `validate_estimator()`:
@@ -87,9 +88,8 @@
 # Numeric matrix in numeric metric
 
     Code
-      (expect_error(rmse(solubility_test, a, prediction)))
-    Output
-      <error/rlang_error>
+      rmse(solubility_test, a, prediction)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_numeric_truth_numeric_estimate()`:
@@ -98,9 +98,8 @@
 ---
 
     Code
-      (expect_error(rmse(solubility_test, solubility, a)))
-    Output
-      <error/rlang_error>
+      rmse(solubility_test, solubility, a)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_numeric_truth_numeric_estimate()`:
@@ -109,9 +108,8 @@
 # Factors with non identical levels
 
     Code
-      (expect_error(sens(df, x, y)))
-    Output
-      <error/rlang_error>
+      sens(df, x, y)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_factor_estimate()`:
@@ -122,9 +120,8 @@
 # Multiple estimate columns for a binary metric
 
     Code
-      (expect_error(roc_auc(two_class_example, truth, Class1:Class2)))
-    Output
-      <error/rlang_error>
+      roc_auc(two_class_example, truth, Class1:Class2)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_matrix_estimate()`:
@@ -133,13 +130,20 @@
 # 1 estimate column for a multiclass metric
 
     Code
-      (expect_error(roc_auc(hpc_cv, obs, VF)))
-    Output
-      <error/rlang_error>
+      roc_auc(hpc_cv, obs, VF)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (1).
+
+# `truth` and `estimate` of different lengths
+
+    Code
+      rmse_vec(1:5, 1:6)
+    Condition
+      Error in `validate_numeric_truth_numeric_estimate()`:
+      ! Length of `truth` (5) and `estimate` (6) must match.
 
 # Missing arguments
 
@@ -156,4 +160,20 @@
     Condition
       Error in `sens()`:
       ! Must select at least one item.
+
+# Table with bad format
+
+    Code
+      sens(as.table(matrix(1:6, 2)))
+    Condition
+      Error:
+      ! the table must have nrow = ncol
+
+---
+
+    Code
+      sens(as.table(matrix(1:4, 2, dimnames = list(c("A", "B"), c("A", "C")))))
+    Condition
+      Error:
+      ! the table must the same groups in the same order
 
