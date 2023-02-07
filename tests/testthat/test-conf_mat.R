@@ -212,3 +212,51 @@ test_that("`...` is deprecated with a warning", {
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
   expect_snapshot(conf_mat(hpc_cv, obs, pred, foo = 1))
 })
+
+test_that('Errors are thrown correctly', {
+  lst <- data_three_class()
+  three_class <- lst$three_class
+  three_class$obs_rev <- three_class$obs
+  levels(three_class$obs_rev) <- rev(levels(three_class$obs))
+  three_class$onelevel <- factor(1)
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(three_class, truth = obs_rev, estimate = pred, dnn = c("", ""))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(three_class, truth = onelevel, estimate = pred, dnn = c("", ""))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(three_class, truth = onelevel, estimate = onelevel, dnn = c("", ""))
+  )
+})
+
+test_that('Errors are thrown correctly - grouped', {
+  lst <- data_three_class()
+  three_class <- lst$three_class
+  three_class$obs_rev <- three_class$obs
+  levels(three_class$obs_rev) <- rev(levels(three_class$obs))
+  three_class$onelevel <- factor(1)
+  three_class <- dplyr::group_by(three_class, pred)
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(three_class, truth = obs_rev, estimate = pred, dnn = c("", ""))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(three_class, truth = onelevel, estimate = pred, dnn = c("", ""))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(three_class, truth = onelevel, estimate = onelevel, dnn = c("", ""))
+  )
+})
+
