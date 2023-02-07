@@ -4,8 +4,8 @@
       conf_mat(two_class_example, truth, predicted, foo = 1)
     Condition
       Warning:
-      The `...` argument of `conf_mat()` is deprecated as of yardstick 1.0.0.
-      This argument no longer has any effect, and is being ignored.
+      The `...` argument of `conf_mat()` was deprecated in yardstick 1.0.0.
+      i This argument no longer has any effect, and is being ignored.
     Output
                 Truth
       Prediction Class1 Class2
@@ -18,8 +18,8 @@
       conf_mat(hpc_cv, obs, pred, foo = 1)
     Condition
       Warning:
-      The `...` argument of `conf_mat()` is deprecated as of yardstick 1.0.0.
-      This argument no longer has any effect, and is being ignored.
+      The `...` argument of `conf_mat()` was deprecated in yardstick 1.0.0.
+      i This argument no longer has any effect, and is being ignored.
     Output
       # A tibble: 10 x 2
          Resample conf_mat  
