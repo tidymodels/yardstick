@@ -176,6 +176,21 @@ conf_mat.grouped_df <- function(data,
   )
 }
 
+conf_mat_impl <- function(truth, estimate, case_weights) {
+  estimator <- "not binary"
+  check_class_metric(truth, estimate, case_weights, estimator)
+
+  if (length(levels(truth)) < 2) {
+    abort("`truth` must have at least 2 factor levels.")
+  }
+
+  yardstick_table(
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights
+  )
+}
+
 #' @export
 conf_mat.table <- function(data, ...) {
   check_table(data)
