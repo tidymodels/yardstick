@@ -231,8 +231,7 @@ prob_metric_summarizer <- function(name,
     .estimate = fn(
       truth = .data[[truth]],
       estimate = {
-        # TODO: Use `dplyr::pick()` from dplyr 1.1.0
-        estimate <- dplyr::across(tidyselect::all_of(estimate), .fns = identity)
+        estimate <- dplyr::pick(tidyselect::all_of(estimate))
         prob_estimate_convert(estimate)
       },
       case_weights = !!case_weights,
@@ -292,8 +291,7 @@ curve_metric_summarizer <- function(name,
     .estimate = fn(
       truth = .data[[truth]],
       estimate = {
-        # TODO: Use `dplyr::pick()` from dplyr 1.1.0
-        estimate <- dplyr::across(tidyselect::all_of(estimate), .fns = identity)
+        estimate <- dplyr::pick(tidyselect::all_of(estimate))
         prob_estimate_convert(estimate)
       },
       case_weights = !!case_weights,
