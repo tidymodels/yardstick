@@ -14,9 +14,8 @@
       out <- roc_aunp(two_class_example, truth, Class1, Class2, options = 1)
     Condition
       Warning:
-      The `options` argument of `roc_aunp()` is deprecated as of yardstick 1.0.0.
-      This argument no longer has any effect, and is being ignored.
-      Use the pROC package directly if you need these features.
+      The `options` argument of `roc_aunp()` was deprecated in yardstick 1.0.0.
+      i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 
 ---
 
@@ -25,7 +24,6 @@
         two_class_example[c("Class1", "Class2")]), options = 1)
     Condition
       Warning:
-      The `options` argument of `roc_aunp_vec()` is deprecated as of yardstick 1.0.0.
-      This argument no longer has any effect, and is being ignored.
-      Use the pROC package directly if you need these features.
+      The `options` argument of `roc_aunp_vec()` was deprecated in yardstick 1.0.0.
+      i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 

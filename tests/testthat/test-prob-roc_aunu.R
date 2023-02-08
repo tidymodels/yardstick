@@ -39,7 +39,7 @@ test_that("AUNU results match mlr for soybean example", {
 
 test_that("roc_aunu() - `options` is deprecated", {
   skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
-  local_lifecycle_warnings()
+  rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot({
     out <- roc_aunu(two_class_example, truth, Class1, Class2, options = 1)

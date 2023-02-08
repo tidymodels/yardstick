@@ -205,7 +205,7 @@ test_that("`as.data.frame.table()` method is run on the underlying `table` objec
 
 test_that("`...` is deprecated with a warning", {
   skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
-  local_lifecycle_warnings()
+  rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot(conf_mat(two_class_example, truth, predicted, foo = 1))
 
