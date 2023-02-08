@@ -348,6 +348,8 @@ make_prob_class_metric_function <- function(fns) {
 
       class_calls <- lapply(class_fns, call2, !!! class_args)
 
+      class_calls <- lapply(class_calls, call_remove_duplicate_arguments)
+
       class_list <- mapply(
         FUN = eval_safely,
         class_calls, # .x
@@ -381,6 +383,8 @@ make_prob_class_metric_function <- function(fns) {
       )
 
       prob_calls <- lapply(prob_fns, call2, !!! prob_args)
+
+      prob_calls <- lapply(prob_calls, call_remove_duplicate_arguments)
 
       prob_list <- mapply(
         FUN = eval_safely,
@@ -429,6 +433,8 @@ make_numeric_metric_function <- function(fns) {
 
     # Construct calls from the functions + arguments
     calls <- lapply(fns, call2, !!! call_args)
+
+    calls <- lapply(calls, call_remove_duplicate_arguments)
 
     # Evaluate
     metric_list <- mapply(
@@ -567,4 +573,14 @@ eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
       abort(message, parent = cnd, call = call("metric_set"))
     }
   )
+}
+
+
+call_remove_duplicate_arguments <- function(call) {
+  arg_names <- environment(call[[1]])[["fixed"]]
+
+  newargs <- rlang::rep_named(names(arg_names), list(rlang::zap()))
+
+  call <- rlang::call_modify(call, !!!newargs)
+  call
 }
