@@ -17,9 +17,10 @@ test_that("AUNU is equivalent to macro estimator with case weights", {
 })
 
 test_that("AUNU errors on binary case", {
-  expect_snapshot((expect_error(
+  expect_snapshot(
+    error = TRUE,
     roc_aunu(two_class_example, truth, Class1)
-  )))
+  )
 })
 
 test_that("AUNU results match mlr for soybean example", {

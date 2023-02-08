@@ -1,9 +1,8 @@
 # AUNP errors on binary case
 
     Code
-      (expect_error(roc_aunp(two_class_example, truth, Class1)))
-    Output
-      <error/rlang_error>
+      roc_aunp(two_class_example, truth, Class1)
+    Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_matrix_estimate()`:
