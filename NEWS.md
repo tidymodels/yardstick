@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* Using `metric_set()` on a metric created with `metric_tweak()` will no longer
+  produces an error, and will favor arguments set with `metric_tweak()` (#351).
+
 * The global option, `yardstick.event_first`, has been hard deprecated in favor
   of using explicit argument, `event_level`. Setting this option will now 
   produce an warning, but won't have any effect. (#173)
