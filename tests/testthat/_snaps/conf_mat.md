@@ -35,3 +35,105 @@
        9 Fold09   <conf_mat>
       10 Fold10   <conf_mat>
 
+# Errors are thrown correctly
+
+    Code
+      conf_mat(three_class, truth = obs_rev, estimate = pred, dnn = c("", ""))
+    Condition
+      Error in `validate_factor_truth_factor_estimate()`:
+      ! `truth` and `estimate` levels must be equivalent.
+      `truth`: virginica, versicolor, setosa
+      `estimate`: setosa, versicolor, virginica
+
+---
+
+    Code
+      conf_mat(three_class, truth = onelevel, estimate = pred, dnn = c("", ""))
+    Condition
+      Error in `validate_factor_truth_factor_estimate()`:
+      ! `truth` and `estimate` levels must be equivalent.
+      `truth`: 1
+      `estimate`: setosa, versicolor, virginica
+
+---
+
+    Code
+      conf_mat(three_class, truth = onelevel, estimate = onelevel, dnn = c("", ""))
+    Condition
+      Error in `conf_mat_impl()`:
+      ! `truth` must have at least 2 factor levels.
+
+# Errors are thrown correctly - grouped
+
+    Code
+      conf_mat(three_class, truth = obs_rev, estimate = pred, dnn = c("", ""))
+    Condition
+      Error in `dplyr::summarise()`:
+      i In argument: `conf_mat = { ... }`.
+      i In group 1: `pred = setosa`.
+      Caused by error in `validate_factor_truth_factor_estimate()`:
+      ! `truth` and `estimate` levels must be equivalent.
+      `truth`: virginica, versicolor, setosa
+      `estimate`: setosa, versicolor, virginica
+
+---
+
+    Code
+      conf_mat(three_class, truth = onelevel, estimate = pred, dnn = c("", ""))
+    Condition
+      Error in `dplyr::summarise()`:
+      i In argument: `conf_mat = { ... }`.
+      i In group 1: `pred = setosa`.
+      Caused by error in `validate_factor_truth_factor_estimate()`:
+      ! `truth` and `estimate` levels must be equivalent.
+      `truth`: 1
+      `estimate`: setosa, versicolor, virginica
+
+---
+
+    Code
+      conf_mat(three_class, truth = onelevel, estimate = onelevel, dnn = c("", ""))
+    Condition
+      Error in `dplyr::summarise()`:
+      i In argument: `conf_mat = { ... }`.
+      i In group 1: `pred = setosa`.
+      Caused by error in `conf_mat_impl()`:
+      ! `truth` must have at least 2 factor levels.
+
+# conf_mat()'s errors when wrong things are passes
+
+    Code
+      conf_mat(two_class_example, not_truth, predicted)
+    Condition
+      Error in `conf_mat()`:
+      ! Can't subset columns that don't exist.
+      x Column `not_truth` doesn't exist.
+
+---
+
+    Code
+      conf_mat(two_class_example, truth, not_predicted)
+    Condition
+      Error in `conf_mat()`:
+      ! Can't subset columns that don't exist.
+      x Column `not_predicted` doesn't exist.
+
+---
+
+    Code
+      conf_mat(dplyr::group_by(two_class_example, truth), truth = not_truth,
+      estimate = predicted)
+    Condition
+      Error in `conf_mat()`:
+      ! Can't subset columns that don't exist.
+      x Column `not_truth` doesn't exist.
+
+---
+
+    Code
+      conf_mat(dplyr::group_by(two_class_example, truth), truth = truth, estimate = not_predicted)
+    Condition
+      Error in `conf_mat()`:
+      ! Can't subset columns that don't exist.
+      x Column `not_predicted` doesn't exist.
+

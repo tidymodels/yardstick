@@ -102,23 +102,37 @@ conf_mat.data.frame <- function(data,
     warn_conf_mat_dots_deprecated()
   }
 
-  names <- names(data)
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+  case_weights <- enquo(case_weights)
 
-  truth <- tidyselect::vars_pull(names, {{truth}})
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth"
+  )
   truth <- data[[truth]]
 
-  estimate <- tidyselect::vars_pull(names, {{estimate}})
+  estimate <- yardstick_eval_select(
+    expr = estimate,
+    data = data,
+    arg = "estimate"
+  )
   estimate <- data[[estimate]]
 
-  case_weights <- enquo(case_weights)
   if (quo_is_null(case_weights)) {
     case_weights <- NULL
   } else {
-    case_weights <- tidyselect::vars_pull(names, !!case_weights)
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights"
+    )
+
     case_weights <- data[[case_weights]]
   }
 
-  table <- yardstick_table(
+  table <- conf_mat_impl(
     truth = truth,
     estimate = estimate,
     case_weights = case_weights
@@ -142,28 +156,37 @@ conf_mat.grouped_df <- function(data,
     warn_conf_mat_dots_deprecated()
   }
 
-  names <- names(data)
-
-  truth <- tidyselect::vars_pull(names, {{truth}})
-  truth <- as.name(truth)
-
-  estimate <- tidyselect::vars_pull(names, {{estimate}})
-  estimate <- as.name(estimate)
-
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
-  if (quo_is_null(case_weights)) {
-    case_weights <- NULL
-  } else {
-    case_weights <- tidyselect::vars_pull(names, !!case_weights)
-    case_weights <- as.name(case_weights)
+
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth"
+  )
+  estimate <- yardstick_eval_select(
+    expr = estimate,
+    data = data,
+    arg = "estimate"
+  )
+
+  if (!quo_is_null(case_weights)) {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights"
+    )
+
+    case_weights <- expr(.data[[!!case_weights]])
   }
 
   dplyr::summarise(
     data,
     conf_mat = {
-      table <- yardstick_table(
-        truth = !!truth,
-        estimate = !!estimate,
+      table <- conf_mat_impl(
+        truth = .data[[truth]],
+        estimate = .data[[estimate]],
         case_weights = !!case_weights
       )
 
@@ -173,6 +196,21 @@ conf_mat.grouped_df <- function(data,
 
       list(conf_mat.matrix(table))
     }
+  )
+}
+
+conf_mat_impl <- function(truth, estimate, case_weights) {
+  estimator <- "not binary"
+  check_class_metric(truth, estimate, case_weights, estimator)
+
+  if (length(levels(truth)) < 2) {
+    abort("`truth` must have at least 2 factor levels.")
+  }
+
+  yardstick_table(
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights
   )
 }
 
