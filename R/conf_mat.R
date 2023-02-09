@@ -109,16 +109,14 @@ conf_mat.data.frame <- function(data,
   truth <- yardstick_eval_select(
     expr = truth,
     data = data,
-    arg = "truth",
-    error_call = error_call
+    arg = "truth"
   )
   truth <- data[[truth]]
 
   estimate <- yardstick_eval_select(
     expr = estimate,
     data = data,
-    arg = "estimate",
-    error_call = error_call
+    arg = "estimate"
   )
   estimate <- data[[estimate]]
 
@@ -128,8 +126,7 @@ conf_mat.data.frame <- function(data,
     case_weights <- yardstick_eval_select(
       expr = case_weights,
       data = data,
-      arg = "case_weights",
-      error_call = error_call
+      arg = "case_weights"
     )
 
     case_weights <- data[[case_weights]]
@@ -166,22 +163,19 @@ conf_mat.grouped_df <- function(data,
   truth <- yardstick_eval_select(
     expr = truth,
     data = data,
-    arg = "truth",
-    error_call = error_call
+    arg = "truth"
   )
   estimate <- yardstick_eval_select(
     expr = estimate,
     data = data,
-    arg = "estimate",
-    error_call = error_call
+    arg = "estimate"
   )
 
   if (!quo_is_null(case_weights)) {
     case_weights <- yardstick_eval_select(
       expr = case_weights,
       data = data,
-      arg = "case_weights",
-      error_call = error_call
+      arg = "case_weights"
     )
 
     case_weights <- expr(.data[[!!case_weights]])
