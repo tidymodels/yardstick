@@ -260,3 +260,33 @@ test_that('Errors are thrown correctly - grouped', {
   )
 })
 
+test_that("conf_mat()'s errors when wrong things are passes", {
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(two_class_example, not_truth, predicted)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(two_class_example, truth, not_predicted)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(
+      dplyr::group_by(two_class_example, truth),
+      truth = not_truth,
+      estimate = predicted
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(
+      dplyr::group_by(two_class_example, truth),
+      truth = truth,
+      estimate = not_predicted
+    )
+  )
+})
