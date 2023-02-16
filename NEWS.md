@@ -19,6 +19,10 @@
   newly added `class_metric_summarizer()`, `numeric_metric_summarizer()`,
   `prob_metric_summarizer()`, and `curve_metric_summarizer()` (#322).
   
+* `dots_to_estimate()` is being soft deprecated along with 
+  `metric_summarizer()`. `dots_to_estimate()` is not needed with 
+  `prob_metric_summarizer()`, and `curve_metric_summarizer()` (#329).
+  
 * yardstick metric functions now use a pure tidyselect interface for `truth`, 
   `estimate`, and the `...` of class probability metrics (#322).
   
