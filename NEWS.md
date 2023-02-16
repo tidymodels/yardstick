@@ -30,6 +30,8 @@
 
 * `conf_mat()` no longer throw errors listed as internal (#327).
 
+* Removed start-up message about `event_level` argument.
+
 # yardstick 1.1.0
 
 * Emil Hvitfeldt is now the maintainer (#315).

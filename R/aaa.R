@@ -44,20 +44,6 @@ utils::globalVariables(
   invisible()
 }
 
-# On attach msg ----------------------------------------------------------------
-
-.onAttach <- function(libname, pkgname) {
-  msg <- paste0(
-    "For binary classification, ",
-    "the first factor level is assumed to be the event.\n",
-    "Use the argument `event_level = \"second\"` to alter this as needed."
-  )
-
-  packageStartupMessage(msg)
-
-  invisible()
-}
-
 # Dynamic reg helper -----------------------------------------------------------
 
 # vctrs/register-s3.R
