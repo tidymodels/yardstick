@@ -70,7 +70,7 @@ pr_curve.data.frame <- function(data,
                                 na_rm = TRUE,
                                 event_level = yardstick_event_level(),
                                 case_weights = NULL) {
-  result <- prob_metric_summarizer(
+  result <- curve_metric_summarizer(
     name = "pr_curve",
     fn = pr_curve_vec,
     data = data,

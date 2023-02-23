@@ -98,6 +98,7 @@ reference:
     - class_metric_summarizer
     - numeric_metric_summarizer
     - prob_metric_summarizer
+    - curve_metric_summarizer
     - check_numeric_metric
     - check_class_metric
     - check_prob_metric
