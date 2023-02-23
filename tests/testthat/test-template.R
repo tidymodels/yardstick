@@ -861,7 +861,6 @@ test_that("static_survival_metric_summarizer()'s na_rm argument work", {
 })
 
 test_that("static_survival_metric_summarizer()'s case_weights argument work", {
-  skip("waiting for concordance rewrite")
   lung_surv <- data_lung_surv()
 
   concordance_survival_res <- static_survival_metric_summarizer(
