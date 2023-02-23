@@ -325,3 +325,18 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
     )
   )
 })
+
+test_that("validate_censoring_weights errors as expected", {
+  expect_no_error(
+    validate_censoring_weights(NULL, 10)
+  )
+
+  expect_no_error(
+    validate_censoring_weights(1:10, 10)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_censoring_weights(1:10, 11)
+  )
+})

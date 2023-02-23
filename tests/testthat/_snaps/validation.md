@@ -214,3 +214,11 @@
       Error in `validate_surv_truth_numeric_estimate()`:
       ! Length of `truth` (5) and `estimate` (150) must match.
 
+# validate_censoring_weights errors as expected
+
+    Code
+      validate_censoring_weights(1:10, 11)
+    Condition
+      Error in `validate_censoring_weights()`:
+      ! `censoring_weights` (10) must have the same length as `truth` (11).
+
