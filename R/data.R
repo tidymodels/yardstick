@@ -99,3 +99,20 @@ NULL
 #' levels(hpc_cv$obs)
 NULL
 
+#' Survival Analysis Results
+#'
+#' @details This data contain plausible results, when applying predictive
+#' survival models to the [lung] data set using the censored package.
+#'
+#' @name lung_surv
+#' @aliases lung_surv
+#' @docType data
+#' @return \item{lung_surv}{a data frame}
+#'
+#' @keywords datasets
+#' @examples
+#' data(lung_surv)
+#' str(lung_surv)
+#'
+#' # `surv_obj` is a `Surv()` object
+NULL
