@@ -98,7 +98,7 @@
         .time = .time)
     Condition
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_surv_truth_numeric_estimate()`:
       ! `truth` should be a Surv object, not a `numeric`.
 
@@ -110,7 +110,7 @@
         .time = .time)
     Condition
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_surv_truth_numeric_estimate()`:
       ! `estimate` should be a numeric vector, not a numeric matrix.
 
@@ -133,7 +133,7 @@
         data = lung_surv, truth = inst, estimate = age)
     Condition
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_surv_truth_numeric_estimate()`:
       ! `truth` should be a Surv object, not a `numeric`.
 
@@ -144,7 +144,7 @@
         data = lung_surv, truth = surv_obj, estimate = surv_obj)
     Condition
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_surv_truth_numeric_estimate()`:
       ! `estimate` should be a numeric vector, not a numeric matrix.
 
@@ -155,7 +155,7 @@
         data = lung_surv, truth = surv_obj, estimate = list)
     Condition
       Error in `dplyr::summarise()`:
-      ! Problem while computing `.estimate = fn(...)`.
+      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_surv_truth_numeric_estimate()`:
       ! `estimate` should be a numeric, not a `list`.
 
