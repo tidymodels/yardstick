@@ -266,3 +266,29 @@ validate_censoring_weights <- function(censoring_weights, size) {
 
   invisible()
 }
+
+validate_eval_times <- function(eval_times, size) {
+  size_time <- length(eval_times)
+
+  if (size_time != size) {
+    abort(paste0(
+      "`eval_times` (", size_time, ") must have the same ",
+      "length as `truth` (", size, ")."
+    ))
+  }
+
+  if (!is.numeric(eval_times)) {
+    cls <- class(eval_times)[[1]]
+    abort(paste0(
+      "`eval_times` should be a numeric vector, not a `", cls, "` vector."
+    ))
+  }
+
+  if (is.matrix(eval_times)) {
+    abort(paste0(
+      "`eval_times` should be a numeric vector, not a numeric matrix."
+    ))
+  }
+
+  invisible()
+}
