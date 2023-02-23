@@ -222,3 +222,19 @@
       Error in `validate_censoring_weights()`:
       ! `censoring_weights` (10) must have the same length as `truth` (11).
 
+# validate_eval_times errors as expected
+
+    Code
+      validate_eval_times(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
+    Condition
+      Error in `validate_eval_times()`:
+      ! `eval_times` (150) must have the same length as `truth` (149).
+
+---
+
+    Code
+      validate_eval_times(matrix(1:150, nrow = 2), size = nrow(lung_surv))
+    Condition
+      Error in `validate_eval_times()`:
+      ! `eval_times` should be a numeric vector, not a numeric matrix.
+

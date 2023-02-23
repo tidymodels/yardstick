@@ -340,3 +340,21 @@ test_that("validate_censoring_weights errors as expected", {
     validate_censoring_weights(1:10, 11)
   )
 })
+
+test_that("validate_eval_times errors as expected", {
+  lung_surv <- data_lung_surv()
+
+  expect_no_error(
+    validate_eval_times(rep(100, nrow(lung_surv)), size = nrow(lung_surv))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_eval_times(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_eval_times(matrix(1:150, nrow = 2), size = nrow(lung_surv))
+  )
+})
