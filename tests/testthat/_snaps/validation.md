@@ -222,6 +222,14 @@
       Error in `validate_censoring_weights()`:
       ! `censoring_weights` (10) must have the same length as `truth` (11).
 
+# validate_case_weights errors as expected
+
+    Code
+      validate_case_weights(1:10, 11)
+    Condition
+      Error in `validate_case_weights()`:
+      ! `case_weights` (10) must have the same length as `truth` (11).
+
 # validate_eval_times errors as expected
 
     Code

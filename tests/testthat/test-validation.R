@@ -341,6 +341,21 @@ test_that("validate_censoring_weights errors as expected", {
   )
 })
 
+test_that("validate_case_weights errors as expected", {
+  expect_no_error(
+    validate_case_weights(NULL, 10)
+  )
+
+  expect_no_error(
+    validate_case_weights(1:10, 10)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_case_weights(1:10, 11)
+  )
+})
+
 test_that("validate_eval_times errors as expected", {
   lung_surv <- data_lung_surv()
 
