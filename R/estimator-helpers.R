@@ -205,6 +205,11 @@ finalize_estimator_default.numeric <- function(x, estimator) {
   "standard"
 }
 
+# Covers all dynamic survival functions
+finalize_estimator_default.Surv <- function(x, estimator) {
+  "standard"
+}
+
 finalize_estimator_default.table <- function(x, estimator) {
   if (is_multiclass(x)) {
     "macro"
