@@ -173,3 +173,44 @@
       Error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (5).
 
+# validate_surv_truth_numeric_estimate errors as expected
+
+    Code
+      validate_surv_truth_numeric_estimate("1", 1)
+    Condition
+      Error in `validate_surv_truth_numeric_estimate()`:
+      ! `truth` should be a Surv object, not a `character`.
+
+---
+
+    Code
+      validate_surv_truth_numeric_estimate(lung_surv$list, lung_surv$age)
+    Condition
+      Error in `validate_surv_truth_numeric_estimate()`:
+      ! `truth` should be a Surv object, not a `list`.
+
+---
+
+    Code
+      validate_surv_truth_numeric_estimate(lung_surv$list2, lung_surv$age)
+    Condition
+      Error in `validate_surv_truth_numeric_estimate()`:
+      ! `truth` should be a Surv object, not a `list`.
+
+---
+
+    Code
+      validate_surv_truth_numeric_estimate(lung_surv$surv_obj, as.character(lung_surv$
+        inst))
+    Condition
+      Error in `validate_surv_truth_numeric_estimate()`:
+      ! `estimate` should be a numeric, not a `character`.
+
+---
+
+    Code
+      validate_surv_truth_numeric_estimate(lung_surv$surv_obj[1:5, ], lung_surv$age)
+    Condition
+      Error in `validate_surv_truth_numeric_estimate()`:
+      ! Length of `truth` (5) and `estimate` (150) must match.
+

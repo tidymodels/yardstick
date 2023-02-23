@@ -265,3 +265,63 @@ test_that("validate_numeric_truth_numeric_estimate errors as expected", {
     )
   )
 })
+
+test_that("validate_surv_truth_numeric_estimate errors as expected", {
+  lung_surv <- data_lung_surv()
+  lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
+  lung_surv$list2 <- lapply(
+    seq_len(nrow(lung_surv)),
+    function(x) data.frame(wrong = 1, names = 2)
+  )
+
+  expect_no_error(
+    validate_surv_truth_numeric_estimate(
+      lung_surv$surv_obj,
+      lung_surv$age
+    )
+  )
+
+  expect_no_error(
+    validate_surv_truth_numeric_estimate(
+      survival::Surv(1, 0),
+      lung_surv$age[1]
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate("1", 1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate(
+      lung_surv$list,
+      lung_surv$age
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate(
+      lung_surv$list2,
+      lung_surv$age
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate(
+      lung_surv$surv_obj,
+      as.character(lung_surv$inst)
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate(
+      lung_surv$surv_obj[1:5, ],
+      lung_surv$age
+    )
+  )
+})
