@@ -249,3 +249,20 @@ validate_case_weights <- function(case_weights, size) {
 
   invisible()
 }
+
+validate_censoring_weights <- function(censoring_weights, size) {
+  if (is.null(censoring_weights)) {
+    return(invisible())
+  }
+
+  size_censoring_weights <- length(censoring_weights)
+
+  if (size_censoring_weights != size) {
+    abort(paste0(
+      "`censoring_weights` (", size_censoring_weights, ") must have the same ",
+      "length as `truth` (", size, ")."
+    ))
+  }
+
+  invisible()
+}
