@@ -5,15 +5,35 @@
 \alias{yardstick_any_missing}
 \title{Developer function for handling missing values in new metrics}
 \usage{
-yardstick_remove_missing(truth, estimate, case_weights)
+yardstick_remove_missing(
+  truth,
+  estimate,
+  case_weights,
+  censoring_weights = NULL,
+  eval_times = NULL
+)
 
-yardstick_any_missing(truth, estimate, case_weights)
+yardstick_any_missing(
+  truth,
+  estimate,
+  case_weights,
+  censoring_weights = NULL,
+  eval_times = NULL
+)
 }
 \arguments{
 \item{truth, estimate}{Vectors of the same length.}
 
 \item{case_weights}{A vector of the same length as \code{truth} and \code{estimate}, or
 \code{NULL} if case weights are not being used.}
+
+\item{censoring_weights}{A vector of the same length as \code{truth} and
+\code{estimate}, or \code{NULL} if censoring weights are not being used. Defaults to
+\code{NULL}.}
+
+\item{eval_times}{A vector of the same length as \code{truth} and
+\code{estimate}, or \code{NULL} if time points are not being used. Defaults to
+\code{NULL}.}
 }
 \description{
 \code{yardstick_remove_missing()},  and \code{yardstick_any_missing()} are useful
