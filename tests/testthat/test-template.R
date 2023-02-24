@@ -796,8 +796,8 @@ brier_survival_vec <- function(truth,
   n_distinct_time <- dplyr::n_distinct(eval_times)
   if (n_distinct_time != 1) {
     abort(paste0(
-      "`eval_times` should have at most 1 unique value. But ", n_distinct_time,
-      " was detected."
+      "`eval_times` should have at most 1 unique value, but ", n_distinct_time,
+      " were detected."
     ))
   }
 
@@ -853,7 +853,7 @@ test_that("dynamic_survival_metric_summarizer() works as expected", {
   expect_identical(brier_survival_res, brier_survival_exp)
 })
 
-test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
+test_that("dynamic_survival_metric_summarizer()'s na_rm argument works", {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
   lung_surv[1:5, 1] <- NA
 
@@ -910,7 +910,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument work", {
   expect_identical(brier_survival_res, brier_survival_exp)
 })
 
-test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
+test_that("dynamic_survival_metric_summarizer()'s case_weights argument works", {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
@@ -940,7 +940,7 @@ test_that("dynamic_survival_metric_summarizer()'s case_weights argument work", {
   expect_identical(brier_survival_res, brier_survival_exp)
 })
 
-test_that("dynamic_survival_metric_summarizer()'s errors when wrong things are passes", {
+test_that("dynamic_survival_metric_summarizer()'s errors with bad input", {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
