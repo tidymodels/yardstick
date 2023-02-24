@@ -101,7 +101,7 @@ NULL
 
 #' Survival Analysis Results
 #'
-#' @details This data contain plausible results, when applying predictive
+#' @details These data contain plausible results from applying predictive
 #' survival models to the [lung] data set using the censored package.
 #'
 #' @name lung_surv
