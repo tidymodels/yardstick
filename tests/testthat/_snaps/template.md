@@ -120,7 +120,7 @@
       ! Can't subset columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
-# dynamic_survival_metric_summarizer()'s errors when wrong things are passes
+# dynamic_survival_metric_summarizer()'s errors with bad input
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
