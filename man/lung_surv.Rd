@@ -11,7 +11,7 @@
 Survival Analysis Results
 }
 \details{
-This data contain plausible results, when applying predictive
+These data contain plausible results from applying predictive
 survival models to the \link{lung} data set using the censored package.
 }
 \examples{

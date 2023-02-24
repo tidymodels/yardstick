@@ -24,15 +24,15 @@ censor_probs <- function(x) {
   cen_times <- as.data.frame(kn_cens[c("time", "n.lost", "surv")])
   cen_times <- cen_times[cen_times$n.lost > 0, -2]
   cen_times$surv <- 1 - cen_times$surv
-  colnames(cen_times) <- c("time", "prob_censored")
+  colnames(cen_times) <- c("time", "ipcw")
 
-  bounds <- dplyr::tibble(time = c(0, Inf), prob_censored = c(0, 1))
+  bounds <- dplyr::tibble(time = c(0, Inf), ipcw = c(0, 1))
   cen_times <- dplyr::bind_rows(bounds, cen_times)
   dplyr::arrange(cen_times, time)
 }
 
 get_single_censor_prob <- function(x, probs) {
-  probs$prob_censored[max(which(x > probs$time))]
+  probs$ipcw[max(which(x > probs$time))]
 }
 
 censor_dist <- censor_probs(Surv(lung_test$time, lung_test$status))
@@ -48,12 +48,12 @@ lung_surv <- lung_test %>%
   )) %>%
   unnest(.pred) %>%
   mutate(
-    prob_censored = if_else(
+    ipcw = if_else(
       time < .time & status == 2,
       1/(1 - map_dbl(time, get_single_censor_prob, censor_dist)),
       1/(1 - map_dbl(.time, get_single_censor_prob, censor_dist)),
     )
   ) %>%
-  relocate(surv_obj, .time, .pred_survival, prob_censored)
+  relocate(surv_obj, .time, .pred_survival, ipcw)
 
 usethis::use_data(lung_surv, overwrite = TRUE)
