@@ -6,6 +6,7 @@
 \alias{class_metric_summarizer}
 \alias{prob_metric_summarizer}
 \alias{curve_metric_summarizer}
+\alias{dynamic_survival_metric_summarizer}
 \title{Developer function for summarizing new metrics}
 \usage{
 numeric_metric_summarizer(
@@ -63,6 +64,21 @@ curve_metric_summarizer(
   fn_options = list(),
   error_call = caller_env()
 )
+
+dynamic_survival_metric_summarizer(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
+  censoring_weights,
+  eval_times,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+)
 }
 \arguments{
 \item{name}{A single character representing the name of the metric to
@@ -76,7 +92,8 @@ needed to calculate the metric.}
 \item{data}{The data frame with \code{truth} and \code{estimate} columns passed
 in from the data frame version of your metric function that called
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
-\code{prob_metric_summarizer()}, or \code{curve_metric_summarizer()}.}
+\code{prob_metric_summarizer()}, \code{curve_metric_summarizer()}, or
+\code{dynamic_survival_metric_summarizer()}.}
 
 \item{truth}{The unquoted column name corresponding to the \code{truth} column.}
 
@@ -111,22 +128,28 @@ the metric implementation describing the kind of averaging to use.}
 \item{event_level}{This can either be \code{NULL} to use the default \code{event_level}
 value of the \code{fn} or a single string of either \code{"first"} or \code{"second"}
 to pass along describing which level should be considered the "event".}
+
+\item{censoring_weights}{For dynamic survival metrics, an unquoted
+column name corresponding to censoring weights can be passed here.}
+
+\item{eval_times}{For dynamic survival metrics, the unquoted column name
+corresponding to the evaluation times.}
 }
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
-\code{prob_metric_summarizer()}, and \code{curve_metric_summarizer()} are useful
-alongside \link{check_metric} and \link{yardstick_remove_missing} for implementing new
-custom metrics. These functions call the metric function inside
-\code{dplyr::summarise()} or \code{dplyr::reframe()} for \code{curve_metric_summarizer()}.
-See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
+\code{prob_metric_summarizer()}, \code{curve_metric_summarizer()}, and
+\code{dynamic_survival_metric_summarizer()} are useful alongside \link{check_metric}
+and \link{yardstick_remove_missing} for implementing new custom metrics. These
+functions call the metric function inside \code{dplyr::summarise()} or
+\code{dplyr::reframe()} for \code{curve_metric_summarizer()}. See \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics} for more
 information.
 }
 \details{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
-\code{prob_metric_summarizer()}, and \code{curve_metric_summarizer()} are generally
-called from the data frame version of your metric function. It knows how to
-call your metric over grouped data frames and returns a \code{tibble} consistent
-with other metrics.
+\code{prob_metric_summarizer()}, \code{curve_metric_summarizer()}, and
+\code{dynamic_survival_metric_summarizer()} are generally called from the data
+frame version of your metric function. It knows how to call your metric over
+grouped data frames and returns a \code{tibble} consistent with other metrics.
 }
 \seealso{
 \link{check_metric} \link{yardstick_remove_missing} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
