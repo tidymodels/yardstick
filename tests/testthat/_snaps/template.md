@@ -120,3 +120,39 @@
       ! Can't subset columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
+# dynamic_survival_metric_summarizer()'s errors when wrong things are passes
+
+    Code
+      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+        data = lung_surv, truth = inst, estimate = .pred_survival, censoring_weights = prob_censored,
+        eval_times = .time)
+    Condition
+      Error in `dplyr::summarise()`:
+      i In argument: `.estimate = fn(...)`.
+      Caused by error in `validate_surv_truth_numeric_estimate()`:
+      ! `truth` should be a Surv object, not a `numeric`.
+
+---
+
+    Code
+      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+        data = lung_surv, truth = surv_obj, estimate = surv_obj, censoring_weights = prob_censored,
+        eval_times = .time)
+    Condition
+      Error in `dplyr::summarise()`:
+      i In argument: `.estimate = fn(...)`.
+      Caused by error in `validate_surv_truth_numeric_estimate()`:
+      ! `estimate` should be a numeric vector, not a numeric matrix.
+
+---
+
+    Code
+      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
+        data = lung_surv, truth = surv_obj, estimate = .pred, censoring_weights = prob_censored,
+        eval_times = .time, obviouslywrong = TRUE)
+    Condition
+      Error in `dynamic_survival_metric_summarizer()`:
+      ! `...` must be empty.
+      x Problematic argument:
+      * obviouslywrong = TRUE
+
