@@ -123,3 +123,9 @@ data_counts <- function() {
 
   list(basic = count_results, missing = count_missing, poor = count_poor)
 }
+
+data_lung_surv <- function() {
+  data("lung_surv")
+
+  lung_surv
+}

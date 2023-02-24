@@ -141,6 +141,38 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   }
 }
 
+validate_surv_truth_numeric_estimate <- function(truth, estimate) {
+  if (!inherits(truth, "Surv")) {
+    cls <- class(truth)[[1]]
+    abort(paste0(
+      "`truth` should be a Surv object, not a `", cls, "`."
+    ))
+  }
+
+  if (!is.numeric(estimate)) {
+    cls <- class(estimate)[[1]]
+    abort(paste0(
+      "`estimate` should be a numeric, not a `", cls, "`."
+    ))
+  }
+
+  if (is.matrix(estimate)) {
+    abort(paste0(
+      "`estimate` should be a numeric vector, not a numeric matrix."
+    ))
+  }
+
+  n_truth <- nrow(truth)
+  n_estimate <- length(estimate)
+
+  if (n_truth != n_estimate) {
+    abort(paste0(
+      "Length of `truth` (", n_truth, ") ",
+      "and `estimate` (", n_estimate, ") must match."
+    ))
+  }
+}
+
 validate_binary_estimator <- function(truth, estimator) {
   if (estimator != "binary") return()
 
@@ -212,6 +244,49 @@ validate_case_weights <- function(case_weights, size) {
     abort(paste0(
       "`case_weights` (", size_case_weights, ") must have the same ",
       "length as `truth` (", size, ")."
+    ))
+  }
+
+  invisible()
+}
+
+validate_censoring_weights <- function(censoring_weights, size) {
+  if (is.null(censoring_weights)) {
+    return(invisible())
+  }
+
+  size_censoring_weights <- length(censoring_weights)
+
+  if (size_censoring_weights != size) {
+    abort(paste0(
+      "`censoring_weights` (", size_censoring_weights, ") must have the same ",
+      "length as `truth` (", size, ")."
+    ))
+  }
+
+  invisible()
+}
+
+validate_eval_times <- function(eval_times, size) {
+  size_time <- length(eval_times)
+
+  if (size_time != size) {
+    abort(paste0(
+      "`eval_times` (", size_time, ") must have the same ",
+      "length as `truth` (", size, ")."
+    ))
+  }
+
+  if (!is.numeric(eval_times)) {
+    cls <- class(eval_times)[[1]]
+    abort(paste0(
+      "`eval_times` should be a numeric vector, not a `", cls, "` vector."
+    ))
+  }
+
+  if (is.matrix(eval_times)) {
+    abort(paste0(
+      "`eval_times` should be a numeric vector, not a numeric matrix."
     ))
   }
 

@@ -266,6 +266,81 @@ test_that("validate_numeric_truth_numeric_estimate errors as expected", {
   )
 })
 
+test_that("validate_surv_truth_numeric_estimate errors as expected", {
+  lung_surv <- data_lung_surv()
+  lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
+  lung_surv$list2 <- lapply(
+    seq_len(nrow(lung_surv)),
+    function(x) data.frame(wrong = 1, names = 2)
+  )
+
+  expect_no_error(
+    validate_surv_truth_numeric_estimate(
+      lung_surv$surv_obj,
+      lung_surv$age
+    )
+  )
+
+  expect_no_error(
+    validate_surv_truth_numeric_estimate(
+      survival::Surv(1, 0),
+      lung_surv$age[1]
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate("1", 1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate(
+      lung_surv$list,
+      lung_surv$age
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate(
+      lung_surv$list2,
+      lung_surv$age
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate(
+      lung_surv$surv_obj,
+      as.character(lung_surv$inst)
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_numeric_estimate(
+      lung_surv$surv_obj[1:5, ],
+      lung_surv$age
+    )
+  )
+})
+
+test_that("validate_censoring_weights errors as expected", {
+  expect_no_error(
+    validate_censoring_weights(NULL, 10)
+  )
+
+  expect_no_error(
+    validate_censoring_weights(1:10, 10)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_censoring_weights(1:10, 11)
+  )
+})
+
 test_that("validate_case_weights errors as expected", {
   expect_no_error(
     validate_case_weights(NULL, 10)
@@ -278,5 +353,23 @@ test_that("validate_case_weights errors as expected", {
   expect_snapshot(
     error = TRUE,
     validate_case_weights(1:10, 11)
+  )
+})
+
+test_that("validate_eval_times errors as expected", {
+  lung_surv <- data_lung_surv()
+
+  expect_no_error(
+    validate_eval_times(rep(100, nrow(lung_surv)), size = nrow(lung_surv))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_eval_times(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_eval_times(matrix(1:150, nrow = 2), size = nrow(lung_surv))
   )
 })
