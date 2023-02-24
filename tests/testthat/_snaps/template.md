@@ -124,7 +124,7 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = inst, estimate = .pred_survival, censoring_weights = prob_censored,
+        data = lung_surv, truth = inst, estimate = .pred_survival, censoring_weights = ipcw,
         eval_times = .time)
     Condition
       Error in `dplyr::summarise()`:
@@ -136,7 +136,7 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = surv_obj, censoring_weights = prob_censored,
+        data = lung_surv, truth = surv_obj, estimate = surv_obj, censoring_weights = ipcw,
         eval_times = .time)
     Condition
       Error in `dplyr::summarise()`:
@@ -148,7 +148,7 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = .pred, censoring_weights = prob_censored,
+        data = lung_surv, truth = surv_obj, estimate = .pred, censoring_weights = ipcw,
         eval_times = .time, obviouslywrong = TRUE)
     Condition
       Error in `dynamic_survival_metric_summarizer()`:
