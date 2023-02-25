@@ -47,13 +47,14 @@ lung_surv <- lung_test %>%
     time = c(100, 500, 1000)
   )) %>%
   unnest(.pred) %>%
+  rename(eval_time = .time) %>%
   mutate(
     prob_censored = if_else(
-      time < .time & status == 2,
+      time < eval_time & status == 2,
       1/(1 - map_dbl(time, get_single_censor_prob, censor_dist)),
-      1/(1 - map_dbl(.time, get_single_censor_prob, censor_dist)),
+      1/(1 - map_dbl(eval_time, get_single_censor_prob, censor_dist)),
     )
   ) %>%
-  relocate(surv_obj, .time, .pred_survival, prob_censored)
+  relocate(surv_obj, eval_time, .pred_survival, prob_censored)
 
 usethis::use_data(lung_surv, overwrite = TRUE)

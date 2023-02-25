@@ -73,7 +73,7 @@ dynamic_survival_metric_summarizer(
   truth,
   estimate,
   censoring_weights,
-  .time,
+  eval_time,
   ...,
   na_rm = TRUE,
   case_weights = NULL,
@@ -146,7 +146,7 @@ to pass along describing which level should be considered the "event".}
 \item{censoring_weights}{For dynamic survival metrics, an unquoted
 column name corresponding to censoring weights can be passed here.}
 
-\item{.time}{For dynamic survival metrics, The unquoted column name
+\item{eval_time}{For dynamic survival metrics, The unquoted column name
 corresponding to the \code{truth} column.}
 }
 \description{

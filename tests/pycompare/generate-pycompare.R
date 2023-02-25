@@ -402,19 +402,19 @@ sksurv_obj <- sksurv_util$Surv$from_arrays(
   time = lung_surv$surv_obj[, "time"]
 )
 
-.time_unique <- unique(lung_surv_unnest$.time)
+eval_time_unique <- unique(lung_surv_unnest$eval_time)
 
 py_brier_survival <- vapply(
-  X = .time_unique,
+  X = eval_time_unique,
   FUN.VALUE = numeric(1),
   FUN = function(x) {
     sksurv_metrics$brier_score(
       sksurv_obj, sksurv_obj,
-      dplyr::filter(lung_surv_unnest, .time == x)$.pred_survival,
+      dplyr::filter(lung_surv_unnest, eval_time == x)$.pred_survival,
       x
     )[[2]]
   }
 )
 
-names(py_brier_survival) <- .time_unique
+names(py_brier_survival) <- eval_time_unique
 saveRDS(py_brier_survival, test_path("py-data", "py-brier-survival.rds"), version = 2)

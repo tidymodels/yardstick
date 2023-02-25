@@ -211,7 +211,7 @@
       validate_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
     Condition
       Error in `validate_time()`:
-      ! `.time` (150) must have the same length as `truth` (149).
+      ! `eval_time` (150) must have the same length as `truth` (149).
 
 ---
 
@@ -219,7 +219,7 @@
       validate_time(matrix(1:150, nrow = 2), size = nrow(lung_surv))
     Condition
       Error in `validate_time()`:
-      ! `.time` should be a numeric vector, not a numeric matrix.
+      ! `eval_time` should be a numeric vector, not a numeric matrix.
 
 # validate_binary_estimator errors as expected
 

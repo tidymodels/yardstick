@@ -20,7 +20,7 @@ check_dynamic_survival_metric(
   estimate,
   censoring_weights,
   case_weights,
-  .time
+  eval_time
 )
 
 check_static_survival_metric(truth, estimate, case_weights)
@@ -55,7 +55,7 @@ the metric implementation describing the kind of averaging to use.}
 \item{censoring_weights}{The realized case weights, as a numeric vector. This
 must be the same length as \code{truth}.}
 
-\item{.time}{The realized time points, as a numeric vector. This
+\item{eval_time}{The realized time points, as a numeric vector. This
 must be the same length as \code{truth}.}
 }
 \description{

@@ -13,7 +13,7 @@ integrated_brier_survival(data, ...)
   truth,
   estimate,
   censoring_weights,
-  .time,
+  eval_time,
   na_rm = TRUE,
   case_weights = NULL,
   ...
@@ -23,7 +23,7 @@ integrated_brier_survival_vec(
   truth,
   estimate,
   censoring_weights,
-  .time,
+  eval_time,
   na_rm = TRUE,
   case_weights = NULL,
   ...
@@ -53,7 +53,7 @@ this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
 
-\item{.time}{The column identifier for the time point. This
+\item{eval_time}{The column identifier for the time point. This
 should be a numeric vector. This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
@@ -74,7 +74,7 @@ For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
 For \code{integrated_brier_survival_vec()}, a \code{numeric} vector same length as the input argument
-\code{.time}. (or \code{NA}).
+\code{eval_time}. (or \code{NA}).
 }
 \description{
 Compute the integrated Brier score for right censored data.
@@ -90,7 +90,7 @@ lung_surv \%>\%
     truth = surv_obj,
     estimate = .pred_survival,
     censoring_weights = prob_censored,
-    .time = .time
+    eval_time = eval_time
   )
 }
 \references{

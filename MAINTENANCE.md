@@ -73,10 +73,10 @@ That would probably help with #305.
     -   The metric in the PR is a dummy/naive roc auc curve for survival analysis.
         I imagine that other "real" survival metrics might need to take some kind of `time` argument, which would probably be a required argument, which might make the API a little tricky for use with tune and in `metric_set()`s.
 
-    -   The metric in the PR also adds a new `.time` column to the output of the metric.
+    -   The metric in the PR also adds a new `eval_time` column to the output of the metric.
         No other yardstick functions have this.
 
-    -   Because of the special nature of the function signature for survival metrics, and the extra `.time` column in the output, they probably can't be combined with non-survival metrics in `metric_set()`.
+    -   Because of the special nature of the function signature for survival metrics, and the extra `eval_time` column in the output, they probably can't be combined with non-survival metrics in `metric_set()`.
         For this reason, survival metric functions should get their own class, i.e. from `new_metric()`, and `metric_set()` should use only allow metrics with that class to be combined together.
 
     -   I think the `_vec()` variant in the PR is a little strange.

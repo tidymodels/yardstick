@@ -7,4 +7,4 @@
 #' the number of groups.
 #'
 #' For `<%=fn %>_vec()`, a `numeric` vector same length as the input argument
-#' `.time`. (or `NA`).
+#' `eval_time`. (or `NA`).

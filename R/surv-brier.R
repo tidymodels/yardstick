@@ -1,7 +1,7 @@
 #' Brier score for right censored data
 #'
 #' Compute the time-dependent Brier score for right censored data. Which is the
-#' mean squared error at time point `.time`.
+#' mean squared error at time point `eval_time`.
 #'
 #' @family dynamic survival metrics
 #' @templateVar fn brier_survival
@@ -33,7 +33,7 @@
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, a numeric vector.
 #'
-#' @param .time The column identifier for the time point. This
+#' @param eval_time The column identifier for the time point. This
 #' should be a numeric vector, with 1 unique value for each group. This should
 #' be an unquoted column name although this argument is passed by expression and
 #' supports [quasiquotation][rlang::quasiquotation] (you can unquote column
@@ -52,12 +52,12 @@
 #' library(dplyr)
 #'
 #' lung_surv %>%
-#'   group_by(.time) %>%
+#'   group_by(eval_time) %>%
 #'   brier_survival(
 #'     truth = surv_obj,
 #'     estimate = .pred_survival,
 #'     censoring_weights = prob_censored,
-#'     .time = .time
+#'     eval_time = eval_time
 #'   )
 #' @export
 brier_survival <- function(data, ...) {
@@ -75,7 +75,7 @@ brier_survival.data.frame <- function(data,
                                       truth,
                                       estimate,
                                       censoring_weights,
-                                      .time,
+                                      eval_time,
                                       na_rm = TRUE,
                                       case_weights = NULL,
                                       ...) {
@@ -86,7 +86,7 @@ brier_survival.data.frame <- function(data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     censoring_weights = !!enquo(censoring_weights),
-    .time = !!enquo(.time),
+    eval_time = !!enquo(eval_time),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )
@@ -97,49 +97,49 @@ brier_survival.data.frame <- function(data,
 brier_survival_vec <- function(truth,
                                estimate,
                                censoring_weights,
-                               .time,
+                               eval_time,
                                na_rm = TRUE,
                                case_weights = NULL,
                                ...) {
   check_dynamic_survival_metric(
-    truth, estimate, censoring_weights, case_weights, .time
+    truth, estimate, censoring_weights, case_weights, eval_time
   )
 
-  n_distinct_time <- dplyr::n_distinct(.time)
+  n_distinct_time <- dplyr::n_distinct(eval_time)
   if (n_distinct_time != 1) {
     abort(paste0(
-      "`.time` should have at most 1 unique value. But ", n_distinct_time,
+      "`eval_time` should have at most 1 unique value. But ", n_distinct_time,
       " was detected."
     ))
   }
 
   if (na_rm) {
     result <- yardstick_remove_missing(
-      truth, estimate, case_weights, censoring_weights, .time
+      truth, estimate, case_weights, censoring_weights, eval_time
     )
 
     truth <- result$truth
     estimate <- result$estimate
     censoring_weights <- result$censoring_weights
-    .time <- result$.time
+    eval_time <- result$eval_time
     case_weights <- result$case_weights
   } else {
     any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights, censoring_weights, .time
+      truth, estimate, case_weights, censoring_weights, eval_time
     )
     if (any_missing) {
       return(NA_real_)
     }
   }
 
-  brier_survival_impl(truth, estimate, censoring_weights, case_weights, .time)
+  brier_survival_impl(truth, estimate, censoring_weights, case_weights, eval_time)
 }
 
 brier_survival_impl <- function(truth,
                                 estimate,
                                 censoring_weights,
                                 case_weights,
-                                .time) {
+                                eval_time) {
   surv_time <- truth[, "time"]
   surv_status <- truth[, "status"]
 
@@ -151,8 +151,8 @@ brier_survival_impl <- function(truth,
     norm_const <- sum(!survival::is.na.Surv(truth))
   }
 
-  category_1 <- surv_time < .time & surv_status == 1
-  category_2 <- surv_time >= .time
+  category_1 <- surv_time < eval_time & surv_status == 1
+  category_2 <- surv_time >= eval_time
 
   # (0 - estimate) ^ 2 == estimate ^ 2
   res <- (category_1 * estimate ^ 2 * censoring_weights) +

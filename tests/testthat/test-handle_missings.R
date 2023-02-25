@@ -6,7 +6,7 @@ test_that("yardstick_remove_missing works", {
       estimate = 1:10,
       case_weights = 1:10,
       censoring_weights = NULL,
-      .time = NULL
+      eval_time = NULL
     )
   )
 
@@ -17,7 +17,7 @@ test_that("yardstick_remove_missing works", {
       estimate = c(1:4, 7:10),
       case_weights = c(1:4, 7:10),
       censoring_weights = NULL,
-      .time = NULL
+      eval_time = NULL
     )
   )
 
@@ -28,7 +28,7 @@ test_that("yardstick_remove_missing works", {
       estimate = c(1:4, 7:10),
       case_weights = c(1:4, 7:10),
       censoring_weights = NULL,
-      .time = NULL
+      eval_time = NULL
     )
   )
 
@@ -39,7 +39,7 @@ test_that("yardstick_remove_missing works", {
       estimate = c(1:4, 7:10),
       case_weights = c(1:4, 7:10),
       censoring_weights = NULL,
-      .time = NULL
+      eval_time = NULL
     )
   )
 
@@ -50,7 +50,7 @@ test_that("yardstick_remove_missing works", {
       estimate = c(1:4, 7:10),
       case_weights = c(1:4, 7:10),
       censoring_weights = NULL,
-      .time = NULL
+      eval_time = NULL
     )
   )
 
@@ -61,7 +61,7 @@ test_that("yardstick_remove_missing works", {
       estimate = c(2:4, 7:9),
       case_weights = c(2:4, 7:9),
       censoring_weights = NULL,
-      .time = NULL
+      eval_time = NULL
     )
   )
 
@@ -74,7 +74,7 @@ test_that("yardstick_remove_missing works", {
       estimate = c(3:4, 7:9),
       case_weights = c(3:4, 7:9),
       censoring_weights = c(3:4, 7:9),
-      .time = NULL
+      eval_time = NULL
     )
   )
 
@@ -84,14 +84,14 @@ test_that("yardstick_remove_missing works", {
       estimate = c(1:9, NA),
       case_weights = c(1:4, NA, NA, 7:10),
       censoring_weights = c(NA, NA, 3:10),
-      .time = c(1:2, NA, 4:10)
+      eval_time = c(1:2, NA, 4:10)
     ),
     list(
       truth = c(4L, 7:9),
       estimate = c(4L, 7:9),
       case_weights = c(4L, 7:9),
       censoring_weights = c(4L, 7:9),
-      .time = c(4L, 7:9)
+      eval_time = c(4L, 7:9)
     )
   )
 

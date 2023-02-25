@@ -95,7 +95,7 @@
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = inst, estimate = .pred_survival, censoring_weights = prob_censored,
-        .time = .time)
+        eval_time = eval_time)
     Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
@@ -107,7 +107,7 @@
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = surv_obj, censoring_weights = prob_censored,
-        .time = .time)
+        eval_time = eval_time)
     Condition
       Error in `dplyr::summarise()`:
       i In argument: `.estimate = fn(...)`.
@@ -119,7 +119,7 @@
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = .pred, censoring_weights = prob_censored,
-        .time = .time, obviouslywrong = TRUE)
+        eval_time = eval_time, obviouslywrong = TRUE)
     Condition
       Error in `dynamic_survival_metric_summarizer()`:
       ! `...` must be empty.

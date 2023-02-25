@@ -139,11 +139,11 @@ test_that('can mix class and class prob metrics together', {
 test_that('dynamic survival metric sets', {
   my_set <- metric_set(brier_survival)
 
-  lung_surv <- lung_surv %>% dplyr::filter(.time == 100)
+  lung_surv <- lung_surv %>% dplyr::filter(eval_time == 100)
 
   expect_equal(
-    my_set(lung_surv, surv_obj, .pred_survival, prob_censored, .time),
-    brier_survival(lung_surv, surv_obj, .pred_survival, prob_censored, .time)
+    my_set(lung_surv, surv_obj, .pred_survival, prob_censored, eval_time),
+    brier_survival(lung_surv, surv_obj, .pred_survival, prob_censored, eval_time)
   )
 })
 

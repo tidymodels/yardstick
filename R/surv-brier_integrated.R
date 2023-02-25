@@ -32,7 +32,7 @@
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, a numeric vector.
 #'
-#' @param .time The column identifier for the time point. This
+#' @param eval_time The column identifier for the time point. This
 #' should be a numeric vector. This should be an unquoted column name although
 #' this argument is passed by expression and supports
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
@@ -55,7 +55,7 @@
 #'     truth = surv_obj,
 #'     estimate = .pred_survival,
 #'     censoring_weights = prob_censored,
-#'     .time = .time
+#'     eval_time = eval_time
 #'   )
 #' @export
 integrated_brier_survival <- function(data, ...) {
@@ -73,7 +73,7 @@ integrated_brier_survival.data.frame <- function(data,
                                       truth,
                                       estimate,
                                       censoring_weights,
-                                      .time,
+                                      eval_time,
                                       na_rm = TRUE,
                                       case_weights = NULL,
                                       ...) {
@@ -84,7 +84,7 @@ integrated_brier_survival.data.frame <- function(data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
     censoring_weights = !!enquo(censoring_weights),
-    .time = !!enquo(.time),
+    eval_time = !!enquo(eval_time),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )
@@ -95,60 +95,60 @@ integrated_brier_survival.data.frame <- function(data,
 integrated_brier_survival_vec <- function(truth,
                                estimate,
                                censoring_weights,
-                               .time,
+                               eval_time,
                                na_rm = TRUE,
                                case_weights = NULL,
                                ...) {
   check_dynamic_survival_metric(
-    truth, estimate, censoring_weights, case_weights, .time
+    truth, estimate, censoring_weights, case_weights, eval_time
   )
 
   if (na_rm) {
     result <- yardstick_remove_missing(
-      truth, estimate, case_weights, censoring_weights, .time
+      truth, estimate, case_weights, censoring_weights, eval_time
     )
 
     truth <- result$truth
     estimate <- result$estimate
     censoring_weights <- result$censoring_weights
-    .time <- result$.time
+    eval_time <- result$eval_time
     case_weights <- result$case_weights
   } else {
     any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights, censoring_weights, .time
+      truth, estimate, case_weights, censoring_weights, eval_time
     )
     if (any_missing) {
       return(NA_real_)
     }
   }
 
-  integrated_brier_survival_impl(truth, estimate, censoring_weights, case_weights, .time)
+  integrated_brier_survival_impl(truth, estimate, censoring_weights, case_weights, eval_time)
 }
 
 integrated_brier_survival_impl <- function(truth,
                                 estimate,
                                 censoring_weights,
                                 case_weights,
-                                .time) {
+                                eval_time) {
 
   if (is.null(case_weights)) {
     case_weights <- rep(1, length(estimate))
   }
 
   res <- dplyr::tibble(
-    truth, estimate, censoring_weights, case_weights, .time
+    truth, estimate, censoring_weights, case_weights, eval_time
   ) %>%
-    dplyr::group_by(.time) %>%
+    dplyr::group_by(eval_time) %>%
     dplyr::summarise(
       bs = brier_survival_impl(
         truth = truth,
         estimate = estimate,
         censoring_weights = censoring_weights,
         case_weights = case_weights,
-        .time = .time
+        eval_time = eval_time
       )
     ) %>%
-    dplyr::summarise(bs = trapezoidal_rule(bs, .time))
+    dplyr::summarise(bs = trapezoidal_rule(bs, eval_time))
 
   res[["bs"]]
 }

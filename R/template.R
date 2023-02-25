@@ -43,7 +43,7 @@
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along to
 #' the metric implementation describing the kind of averaging to use.
 #'
-#' @param .time For dynamic survival metrics, The unquoted column name
+#' @param eval_time For dynamic survival metrics, The unquoted column name
 #' corresponding to the `truth` column.
 #'
 #' @param na_rm A `logical` value indicating whether `NA` values should be
@@ -321,7 +321,7 @@ dynamic_survival_metric_summarizer <- function(name,
                                                truth,
                                                estimate,
                                                censoring_weights,
-                                               .time,
+                                               eval_time,
                                                ...,
                                                na_rm = TRUE,
                                                case_weights = NULL,
@@ -332,7 +332,7 @@ dynamic_survival_metric_summarizer <- function(name,
   truth <- enquo(truth)
   estimate <- enquo(estimate)
   censoring_weights <- enquo(censoring_weights)
-  .time <- enquo(.time)
+  eval_time <- enquo(eval_time)
   case_weights <- enquo(case_weights)
 
   truth <- yardstick_eval_select(
@@ -353,10 +353,10 @@ dynamic_survival_metric_summarizer <- function(name,
     arg = "censoring_weights",
     error_call = error_call
   )
-  .time <- yardstick_eval_select(
-    expr = .time,
+  eval_time <- yardstick_eval_select(
+    expr = eval_time,
     data = data,
-    arg = ".time",
+    arg = "eval_time",
     error_call = error_call
   )
 
@@ -379,7 +379,7 @@ dynamic_survival_metric_summarizer <- function(name,
       truth = .data[[truth]],
       estimate = .data[[estimate]],
       censoring_weights = .data[[censoring_weights]],
-      .time = .data[[.time]],
+      eval_time = .data[[eval_time]],
       case_weights = !!case_weights,
       na_rm = na_rm,
       !!!fn_options

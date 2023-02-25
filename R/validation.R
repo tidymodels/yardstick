@@ -268,27 +268,27 @@ validate_censoring_weights <- function(censoring_weights, size) {
   invisible()
 }
 
-validate_time <- function(.time, size) {
+validate_time <- function(eval_time, size) {
 
-  size_time <- length(.time)
+  size_time <- length(eval_time)
 
   if (size_time != size) {
     abort(paste0(
-      "`.time` (", size_time, ") must have the same ",
+      "`eval_time` (", size_time, ") must have the same ",
       "length as `truth` (", size, ")."
     ))
   }
 
-  if (!is.numeric(.time)) {
-    cls <- class(.time)[[1]]
+  if (!is.numeric(eval_time)) {
+    cls <- class(eval_time)[[1]]
     abort(paste0(
-      "`.time` should be a numeric vector, not a `", cls, "` vector."
+      "`eval_time` should be a numeric vector, not a `", cls, "` vector."
     ))
   }
 
-  if (is.matrix(.time)) {
+  if (is.matrix(eval_time)) {
     abort(paste0(
-      "`.time` should be a numeric vector, not a numeric matrix."
+      "`eval_time` should be a numeric vector, not a numeric matrix."
     ))
   }
 

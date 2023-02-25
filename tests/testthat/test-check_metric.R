@@ -72,7 +72,7 @@ test_that("check_dynamic_survival_metric() validates case_weights", {
       estimate = lung_surv$.pred_survival,
       censoring_weights = lung_surv$prob_censored,
       case_weights = 1:51,
-      .time = lung_surv$.time
+      eval_time = lung_surv$eval_time
     )
   )
 })
@@ -87,7 +87,7 @@ test_that("check_dynamic_survival_metric() validates censoring_weights", {
       estimate = lung_surv$.pred_survival,
       censoring_weights = lung_surv$prob_censored[-1],
       case_weights = 1:150,
-      .time = lung_surv$.time
+      eval_time = lung_surv$eval_time
     )
   )
 })
@@ -102,7 +102,7 @@ test_that("check_dynamic_survival_metric() validates inputs", {
       estimate = lung_surv$.pred_survival,
       censoring_weights = lung_surv$prob_censored,
       case_weights = 1:150,
-      .time = lung_surv$.time
+      eval_time = lung_surv$eval_time
     )
   )
 })
