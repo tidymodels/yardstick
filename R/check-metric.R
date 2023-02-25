@@ -22,7 +22,7 @@
 #' @param censoring_weights The realized case weights, as a numeric vector. This
 #'   must be the same length as `truth`.
 #'
-#' @param eval_times The realized time points, as a numeric vector. This must be
+#' @param eval_time The realized time points, as a numeric vector. This must be
 #'   the same length as `truth`.
 #'
 #' @param case_weights The realized case weights, as a numeric vector. This must
@@ -66,9 +66,9 @@ check_dynamic_survival_metric <- function(truth,
                                           estimate,
                                           censoring_weights,
                                           case_weights,
-                                          eval_times) {
+                                          eval_time) {
   validate_surv_truth_numeric_estimate(truth, estimate)
   validate_case_weights(case_weights, size = nrow(truth))
   validate_censoring_weights(censoring_weights, size = nrow(truth))
-  validate_eval_times(eval_times, size = nrow(truth))
+  validate_eval_time(eval_time, size = nrow(truth))
 }

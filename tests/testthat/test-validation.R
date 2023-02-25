@@ -356,20 +356,20 @@ test_that("validate_case_weights errors as expected", {
   )
 })
 
-test_that("validate_eval_times errors as expected", {
+test_that("validate_eval_time errors as expected", {
   lung_surv <- data_lung_surv()
 
   expect_no_error(
-    validate_eval_times(rep(100, nrow(lung_surv)), size = nrow(lung_surv))
+    validate_eval_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv))
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_eval_times(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
+    validate_eval_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_eval_times(matrix(1:150, nrow = 2), size = nrow(lung_surv))
+    validate_eval_time(matrix(1:150, nrow = 2), size = nrow(lung_surv))
   )
 })

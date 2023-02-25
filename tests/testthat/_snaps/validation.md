@@ -230,19 +230,19 @@
       Error in `validate_case_weights()`:
       ! `case_weights` (10) must have the same length as `truth` (11).
 
-# validate_eval_times errors as expected
+# validate_eval_time errors as expected
 
     Code
-      validate_eval_times(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
+      validate_eval_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
     Condition
-      Error in `validate_eval_times()`:
-      ! `eval_times` (150) must have the same length as `truth` (149).
+      Error in `validate_eval_time()`:
+      ! `eval_time` (150) must have the same length as `truth` (149).
 
 ---
 
     Code
-      validate_eval_times(matrix(1:150, nrow = 2), size = nrow(lung_surv))
+      validate_eval_time(matrix(1:150, nrow = 2), size = nrow(lung_surv))
     Condition
-      Error in `validate_eval_times()`:
-      ! `eval_times` should be a numeric vector, not a numeric matrix.
+      Error in `validate_eval_time()`:
+      ! `eval_time` should be a numeric vector, not a numeric matrix.
 

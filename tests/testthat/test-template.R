@@ -785,35 +785,35 @@ test_that("curve_metric_summarizer() deals with characters in truth", {
 brier_survival_vec <- function(truth,
                                estimate,
                                censoring_weights,
-                               eval_times,
+                               eval_time,
                                na_rm = TRUE,
                                case_weights = NULL,
                                ...) {
   check_dynamic_survival_metric(
-    truth, estimate, censoring_weights, case_weights, eval_times
+    truth, estimate, censoring_weights, case_weights, eval_time
   )
 
-  n_distinct_time <- dplyr::n_distinct(eval_times)
+  n_distinct_time <- dplyr::n_distinct(eval_time)
   if (n_distinct_time != 1) {
     abort(paste0(
-      "`eval_times` should have at most 1 unique value, but ", n_distinct_time,
+      "`eval_time` should have at most 1 unique value, but ", n_distinct_time,
       " were detected."
     ))
   }
 
   if (na_rm) {
     result <- yardstick_remove_missing(
-      truth, estimate, case_weights, censoring_weights, eval_times
+      truth, estimate, case_weights, censoring_weights, eval_time
     )
 
     truth <- result$truth
     estimate <- result$estimate
     censoring_weights <- result$censoring_weights
-    eval_times <- result$eval_times
+    eval_time <- result$eval_time
     case_weights <- result$case_weights
   } else {
     any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights, censoring_weights, eval_times
+      truth, estimate, case_weights, censoring_weights, eval_time
     )
     if (any_missing) {
       return(NA_real_)
@@ -821,7 +821,7 @@ brier_survival_vec <- function(truth,
   }
 
   # non-sensible calculation, just to generate result we can test with
-  sum(truth * estimate * case_weights * censoring_weights * eval_times)
+  sum(truth * estimate * case_weights * censoring_weights * eval_time)
 }
 
 test_that("dynamic_survival_metric_summarizer() works as expected", {
@@ -834,7 +834,7 @@ test_that("dynamic_survival_metric_summarizer() works as expected", {
     truth = surv_obj,
     estimate = .pred_survival,
     censoring_weights = ipcw,
-    eval_times = .time,
+    eval_time = .time,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -846,7 +846,7 @@ test_that("dynamic_survival_metric_summarizer() works as expected", {
       truth = lung_surv$surv_obj,
       estimate = lung_surv$.pred_survival,
       censoring_weights = lung_surv$ipcw,
-      eval_times = lung_surv$.time
+      eval_time = lung_surv$.time
     )
   )
 
@@ -864,7 +864,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument works", {
     truth = surv_obj,
     censoring_weights = ipcw,
     estimate = .pred_survival,
-    eval_times = .time,
+    eval_time = .time,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -883,7 +883,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument works", {
       truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
       estimate = lung_surv$.pred_survival[-c(1:5)],
       censoring_weights = lung_surv$ipcw[-c(1:5)],
-      eval_times = lung_surv$.time[-c(1:5)]
+      eval_time = lung_surv$.time[-c(1:5)]
     )
   )
 
@@ -896,7 +896,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument works", {
     truth = surv_obj,
     censoring_weights = ipcw,
     estimate = .pred_survival,
-    eval_times = .time,
+    eval_time = .time,
     na_rm = FALSE,
     case_weights = NULL
   )
@@ -920,7 +920,7 @@ test_that("dynamic_survival_metric_summarizer()'s case_weights argument works", 
     truth = surv_obj,
     censoring_weights = ipcw,
     estimate = .pred_survival,
-    eval_times = .time,
+    eval_time = .time,
     na_rm = TRUE,
     case_weights = ph.ecog
   )
@@ -932,7 +932,7 @@ test_that("dynamic_survival_metric_summarizer()'s case_weights argument works", 
       truth = lung_surv$surv_obj,
       estimate = lung_surv$.pred_survival,
       censoring_weights = lung_surv$ipcw,
-      eval_times = lung_surv$.time,
+      eval_time = lung_surv$.time,
       case_weights = lung_surv$ph.ecog
     )
   )
@@ -950,7 +950,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors with bad input", {
     truth = surv_obj,
     censoring_weights = ipcw,
     estimate = .pred_survival,
-    eval_times = .time,
+    eval_time = .time,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -964,7 +964,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors with bad input", {
       truth = inst,
       estimate = .pred_survival,
       censoring_weights = ipcw,
-      eval_times = .time
+      eval_time = .time
     )
   )
 
@@ -977,7 +977,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors with bad input", {
       truth = surv_obj,
       estimate = surv_obj,
       censoring_weights = ipcw,
-      eval_times = .time
+      eval_time = .time
     )
   )
 
@@ -990,7 +990,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors with bad input", {
       truth = surv_obj,
       estimate = .pred,
       censoring_weights = ipcw,
-      eval_times = .time,
+      eval_time = .time,
       obviouslywrong = TRUE
     )
   )
@@ -1006,7 +1006,7 @@ test_that("dynamic_survival_metric_summarizer() deals with characters in truth a
     truth = "surv_obj",
     estimate = ".pred_survival",
     censoring_weights = "ipcw",
-    eval_times = ".time",
+    eval_time = ".time",
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1018,7 +1018,7 @@ test_that("dynamic_survival_metric_summarizer() deals with characters in truth a
       truth = lung_surv$surv_obj,
       estimate = lung_surv$.pred_survival,
       censoring_weights = lung_surv$ipcw,
-      eval_times = lung_surv$.time
+      eval_time = lung_surv$.time
     )
   )
 
