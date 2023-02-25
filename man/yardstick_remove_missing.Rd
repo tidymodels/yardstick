@@ -10,7 +10,7 @@ yardstick_remove_missing(
   estimate,
   case_weights,
   censoring_weights = NULL,
-  eval_times = NULL
+  eval_time = NULL
 )
 
 yardstick_any_missing(
@@ -18,7 +18,7 @@ yardstick_any_missing(
   estimate,
   case_weights,
   censoring_weights = NULL,
-  eval_times = NULL
+  eval_time = NULL
 )
 }
 \arguments{
@@ -31,7 +31,7 @@ yardstick_any_missing(
 \code{estimate}, or \code{NULL} if censoring weights are not being used. Defaults to
 \code{NULL}.}
 
-\item{eval_times}{A vector of the same length as \code{truth} and
+\item{eval_time}{A vector of the same length as \code{truth} and
 \code{estimate}, or \code{NULL} if time points are not being used. Defaults to
 \code{NULL}.}
 }
