@@ -781,49 +781,6 @@ test_that("curve_metric_summarizer() deals with characters in truth", {
 
 ## dynamic_survival_metric_summarizer -----------------------------------------
 
-# To be removed once brier_survival() is added
-brier_survival_vec <- function(truth,
-                               estimate,
-                               censoring_weights,
-                               eval_time,
-                               na_rm = TRUE,
-                               case_weights = NULL,
-                               ...) {
-  check_dynamic_survival_metric(
-    truth, estimate, censoring_weights, case_weights, eval_time
-  )
-
-  n_distinct_time <- dplyr::n_distinct(eval_time)
-  if (n_distinct_time != 1) {
-    abort(paste0(
-      "`eval_time` should have at most 1 unique value, but ", n_distinct_time,
-      " were detected."
-    ))
-  }
-
-  if (na_rm) {
-    result <- yardstick_remove_missing(
-      truth, estimate, case_weights, censoring_weights, eval_time
-    )
-
-    truth <- result$truth
-    estimate <- result$estimate
-    censoring_weights <- result$censoring_weights
-    eval_time <- result$eval_time
-    case_weights <- result$case_weights
-  } else {
-    any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights, censoring_weights, eval_time
-    )
-    if (any_missing) {
-      return(NA_real_)
-    }
-  }
-
-  # non-sensible calculation, just to generate result we can test with
-  sum(truth * estimate * case_weights * censoring_weights * eval_time)
-}
-
 test_that("dynamic_survival_metric_summarizer() works as expected", {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
