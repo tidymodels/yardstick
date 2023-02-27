@@ -8,6 +8,8 @@
 #' @template return-dynamic-survival
 #' @details
 #'
+#' This method will automatically group by the `eval_time` argument.
+#'
 #' Smaller values of the score are associated with better model performance.
 #'
 #' @inheritParams pr_auc
