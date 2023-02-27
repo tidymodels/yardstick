@@ -5,6 +5,7 @@
 \alias{new_class_metric}
 \alias{new_prob_metric}
 \alias{new_numeric_metric}
+\alias{new_dynamic_survival_metric}
 \title{Construct a new metric function}
 \usage{
 new_class_metric(fn, direction)
@@ -12,6 +13,8 @@ new_class_metric(fn, direction)
 new_prob_metric(fn, direction)
 
 new_numeric_metric(fn, direction)
+
+new_dynamic_survival_metric(fn, direction)
 }
 \arguments{
 \item{fn}{A function. The metric function to attach a metric-specific class
