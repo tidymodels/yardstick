@@ -148,7 +148,6 @@ brier_survival_impl <- function(truth,
 
   if (!is.null(case_weights)) {
     norm_const <- sum(case_weights)
-    # censoring_weights <- censoring_weights / case_weights
   } else {
     case_weights <- rep(1, length(estimate))
     norm_const <- sum(!survival::is.na.Surv(truth))
