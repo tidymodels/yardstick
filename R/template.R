@@ -388,6 +388,83 @@ dynamic_survival_metric_summarizer <- function(name,
   dplyr::as_tibble(out)
 }
 
+#' @rdname metric-summarizers
+#' @export
+curve_survival_metric_summarizer <- function(name,
+                                             fn,
+                                             data,
+                                             truth,
+                                             estimate,
+                                             censoring_weights,
+                                             eval_time,
+                                             ...,
+                                             na_rm = TRUE,
+                                             case_weights = NULL,
+                                             fn_options = list(),
+                                             error_call = caller_env()) {
+  rlang::check_dots_empty()
+
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+  censoring_weights <- enquo(censoring_weights)
+  eval_time <- enquo(eval_time)
+  case_weights <- enquo(case_weights)
+
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select(
+    expr = estimate,
+    data = data,
+    arg = "estimate",
+    error_call = error_call
+  )
+  censoring_weights <- yardstick_eval_select(
+    expr = censoring_weights,
+    data = data,
+    arg = "censoring_weights",
+    error_call = error_call
+  )
+  eval_time <- yardstick_eval_select(
+    expr = eval_time,
+    data = data,
+    arg = "eval_time",
+    error_call = error_call
+  )
+
+  if (!quo_is_null(case_weights)) {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights",
+      error_call = error_call
+    )
+
+    case_weights <- expr(.data[[!!case_weights]])
+  }
+
+  out <- dplyr::reframe(
+    data,
+    .metric = name,
+    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
+    .estimate = fn(
+      truth = .data[[truth]],
+      estimate = .data[[estimate]],
+      censoring_weights = .data[[censoring_weights]],
+      eval_time = .data[[eval_time]],
+      case_weights = !!case_weights,
+      na_rm = na_rm,
+      !!!fn_options
+    )
+  )
+
+  dplyr::as_tibble(out)
+}
+
+
 prob_estimate_convert <- function(estimate) {
   if (!is.data.frame(estimate)) {
     abort("`estimate` should be a data frame.", .internal = TRUE)
