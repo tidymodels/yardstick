@@ -1027,14 +1027,14 @@ test_that("dynamic_survival_metric_summarizer() deals with characters in truth a
 
 ## curve_survival_metric_summarizer -----------------------------------------
 
-# To be removed once brier_survival() is added
+# To be removed once roc_survival_curve() is added
 roc_survival_curve_vec <- function(truth,
-                               estimate,
-                               censoring_weights,
-                               eval_time,
-                               na_rm = TRUE,
-                               case_weights = NULL,
-                               ...) {
+                                   estimate,
+                                   censoring_weights,
+                                   eval_time,
+                                   na_rm = TRUE,
+                                   case_weights = NULL,
+                                   ...) {
   check_dynamic_survival_metric(
     truth, estimate, censoring_weights, case_weights, eval_time
   )
