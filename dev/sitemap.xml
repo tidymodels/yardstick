@@ -46,6 +46,9 @@
     <loc>https://yardstick.tidymodels.org/dev/reference/brier_class.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/dev/reference/brier_survival.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/dev/reference/ccc.html</loc>
   </url>
   <url>
