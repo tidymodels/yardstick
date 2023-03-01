@@ -35,7 +35,7 @@
 * The Brier score for survival data was added with `brier_survival()`.
 
 * Time-Dependent ROC curves estimation for right-censored data can now be 
-  calculated with `roc_survival_curve().
+  calculated with `roc_curve_survival().
 
 # yardstick 1.1.0
 

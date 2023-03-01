@@ -74,7 +74,7 @@ reference:
 
   - title: Curve Survival Functions
     contents:
-    - roc_survival_curve
+    - roc_curve_survival
 
   - title: Curve Functions
     contents:

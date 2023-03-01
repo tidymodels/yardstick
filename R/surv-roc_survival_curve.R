@@ -1,7 +1,7 @@
 #' ROC Survival Curve
 #'
 #' @family survival curve metrics
-#' @templateVar fn roc_survival_curve
+#' @templateVar fn roc_curve_survival
 #'
 #' @inheritParams brier_survival
 #'
@@ -15,7 +15,7 @@
 #'
 #' @author Emil Hvitfeldt
 #' @examples
-#' roc_survival_curve(
+#' roc_curve_survival(
 #'   lung_surv,
 #'   truth = surv_obj,
 #'   estimate = .pred_survival,
@@ -23,13 +23,13 @@
 #'   eval_time = .time
 #' )
 #' @export
-roc_survival_curve <- function(data, ...) {
-  UseMethod("roc_survival_curve")
+roc_curve_survival <- function(data, ...) {
+  UseMethod("roc_curve_survival")
 }
 
 #' @export
-#' @rdname roc_survival_curve
-roc_survival_curve.data.frame <- function(data,
+#' @rdname roc_curve_survival
+roc_curve_survival.data.frame <- function(data,
                                           truth,
                                           estimate,
                                           censoring_weights,
@@ -39,8 +39,8 @@ roc_survival_curve.data.frame <- function(data,
                                           ...) {
 
   result <- curve_survival_metric_summarizer(
-    name = "roc_survival_curve",
-    fn = roc_survival_curve_vec,
+    name = "roc_curve_survival",
+    fn = roc_curve_survival_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -53,7 +53,7 @@ roc_survival_curve.data.frame <- function(data,
   curve_finalize(result, data, "roc_survival_df", "grouped_roc_survival_df")
 }
 
-roc_survival_curve_vec <- function(truth,
+roc_curve_survival_vec <- function(truth,
                                    estimate,
                                    censoring_weights,
                                    eval_time,
@@ -83,7 +83,7 @@ roc_survival_curve_vec <- function(truth,
     }
   }
 
-  roc_survival_curve_impl(
+  roc_curve_survival_impl(
     truth = truth,
     estimate = estimate,
     censoring_weights = censoring_weights,
@@ -91,7 +91,7 @@ roc_survival_curve_vec <- function(truth,
   )
 }
 
-roc_survival_curve_impl <- function(truth,
+roc_curve_survival_impl <- function(truth,
                                     estimate,
                                     censoring_weights,
                                     eval_time) {
