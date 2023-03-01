@@ -68,6 +68,10 @@ reference:
     - iic
     - poisson_log_loss
 
+  - title: Dynamic Survival Metrics
+    contents:
+    - brier_survival
+
   - title: Curve Functions
     contents:
     - roc_curve
