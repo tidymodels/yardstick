@@ -63,13 +63,30 @@ columns \code{.threshold}, \code{recall}, and \code{precision}.
 ROC Survival Curve
 }
 \examples{
-roc_curve_survival(
+result <- roc_curve_survival(
   lung_surv,
   truth = surv_obj,
   estimate = .pred_survival,
   censoring_weights = ipcw,
   eval_time = .time
 )
+result
+
+#' # ---------------------------------------------------------------------------
+# `autoplot()`
+
+# Visualize the curve using ggplot2 manually
+library(ggplot2)
+library(dplyr)
+result \%>\%
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_path() +
+  geom_abline(lty = 3) +
+  coord_equal() +
+  theme_bw()
+
+# Or use autoplot
+autoplot(result)
 }
 \seealso{
 Compute the area under the ROC survival curve with (TODO link to

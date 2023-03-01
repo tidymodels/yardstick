@@ -15,13 +15,30 @@
 #'
 #' @author Emil Hvitfeldt
 #' @examples
-#' roc_curve_survival(
+#' result <- roc_curve_survival(
 #'   lung_surv,
 #'   truth = surv_obj,
 #'   estimate = .pred_survival,
 #'   censoring_weights = ipcw,
 #'   eval_time = .time
 #' )
+#' result
+#'
+#' #' # ---------------------------------------------------------------------------
+#' # `autoplot()`
+#'
+#' # Visualize the curve using ggplot2 manually
+#' library(ggplot2)
+#' library(dplyr)
+#' result %>%
+#'   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+#'   geom_path() +
+#'   geom_abline(lty = 3) +
+#'   coord_equal() +
+#'   theme_bw()
+#'
+#' # Or use autoplot
+#' autoplot(result)
 #' @export
 roc_curve_survival <- function(data, ...) {
   UseMethod("roc_curve_survival")
@@ -167,3 +184,6 @@ specificity_naive <- function(threshold, eval_time, surv_obj, prob_surv) {
   }
   is_surv
 }
+
+# Dynamically exported
+autoplot.roc_survival_df <- autoplot.roc_df
