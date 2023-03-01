@@ -35,25 +35,25 @@ brier_survival_vec(
 
 \item{...}{Not currently used.}
 
-\item{truth}{The column identifier for the true class survival result (that
+\item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
 although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
 
-\item{estimate}{The column identifier for the survival probabilities. This
-should be a numeric vector. This should be an unquoted column name although
+\item{estimate}{The column identifier for the survival probabilities (that should be
+numeric). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
 
-\item{censoring_weights}{The column identifier for censoring weights. This is
-expected to a numeric vector. This should be an unquoted column name although
+\item{censoring_weights}{The column identifier for censoring weights (that should
+be numeric). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
 
-\item{eval_time}{The column identifier for the time point. This
+\item{eval_time}{The column identifier for the time point(s). This
 should be a numeric vector, with 1 unique value for each group. This should
 be an unquoted column name although this argument is passed by expression and
 supports \link[rlang:topic-inject]{quasiquotation} (you can unquote column
@@ -67,21 +67,20 @@ This should be an unquoted column name that evaluates to a numeric column
 in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
-A \code{tibble} with columns \code{.metric}, \code{.estimator},
-and \code{.estimate} and 1 row of values.
+A \code{tibble} with columns \code{.metric}, \code{.estimator}, and \code{.estimate}.
 
-For grouped data frames, the number of rows returned will be the same as
-the number of groups.
+For an ungrouped data frame, the result has one row of values. For a grouped data frame,
+the number of rows returned is the same as the number of groups.
 
 For \code{brier_survival_vec()}, a \code{numeric} vector same length as the input argument
 \code{eval_time}. (or \code{NA}).
 }
 \description{
-Compute the time-dependent Brier score for right censored data. Which is the
+Compute the time-dependent Brier score for right censored data, which is the
 mean squared error at time point \code{eval_time}.
 }
 \details{
-This method will automatically group by the \code{eval_time} argument.
+This method automatically groups by the \code{eval_time} argument.
 
 Smaller values of the score are associated with better model performance.
 }
