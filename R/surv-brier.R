@@ -1,6 +1,6 @@
 #' Brier score for right censored data
 #'
-#' Compute the time-dependent Brier score for right censored data. Which is the
+#' Compute the time-dependent Brier score for right censored data, which is the
 #' mean squared error at time point `eval_time`.
 #'
 #' @family dynamic survival metrics
@@ -8,7 +8,7 @@
 #' @template return-dynamic-survival
 #' @details
 #'
-#' This method will automatically group by the `eval_time` argument.
+#' This method automatically groups by the `eval_time` argument.
 #'
 #' Smaller values of the score are associated with better model performance.
 #'
@@ -17,25 +17,25 @@
 #' @param data A `data.frame` containing the columns specified by `truth` and
 #' `estimate`.
 #'
-#' @param truth The column identifier for the true class survival result (that
+#' @param truth The column identifier for the true survival result (that
 #' is created using [survival::Surv()].). This should be an unquoted column name
 #' although this argument is passed by expression and supports
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, an [survival::Surv()] object.
 #'
-#' @param estimate The column identifier for the survival probabilities. This
-#' should be a numeric vector. This should be an unquoted column name although
+#' @param estimate The column identifier for the survival probabilities (that should be 
+#' numeric). This should be an unquoted column name although
 #' this argument is passed by expression and supports
 #'  [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, a numeric vector.
 #'
-#' @param censoring_weights The column identifier for censoring weights. This is
-#' expected to a numeric vector. This should be an unquoted column name although
+#' @param censoring_weights The column identifier for censoring weights (that should
+#' be numeric). This should be an unquoted column name although
 #' this argument is passed by expression and supports
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, a numeric vector.
 #'
-#' @param eval_time The column identifier for the time point. This
+#' @param eval_time The column identifier for the time point(s). This
 #' should be a numeric vector, with 1 unique value for each group. This should
 #' be an unquoted column name although this argument is passed by expression and
 #' supports [quasiquotation][rlang::quasiquotation] (you can unquote column
@@ -112,7 +112,7 @@ brier_survival_vec <- function(truth,
   if (n_distinct_time != 1) {
     abort(paste0(
       "`eval_time` should have at most 1 unique value. But ", n_distinct_time,
-      " was detected."
+      " were detected."
     ))
   }
 
@@ -153,8 +153,8 @@ brier_survival_impl <- function(truth,
     norm_const <- sum(!survival::is.na.Surv(truth))
   }
 
-  category_1 <- surv_time < eval_time & surv_status == 1
-  category_2 <- surv_time >= eval_time
+  category_1 <- surv_time <= eval_time & surv_status == 1
+  category_2 <- surv_time > eval_time
 
   # (0 - estimate) ^ 2 == estimate ^ 2
   res <- (category_1 * estimate ^ 2 * censoring_weights) +
