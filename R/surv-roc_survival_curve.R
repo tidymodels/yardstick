@@ -139,7 +139,7 @@ specificity_naive <- function(threshold, eval_time, surv_obj, prob_surv) {
   numer / denom
 }
 
-# Remove these once they are in hardhat
+# Wait for https://github.com/tidymodels/parsnip/pull/893 to be merged
 .extract_surv_time <- function(surv) {
   .is_surv(surv)
   keepers <- c("time", "start", "stop", "time1", "time2")
