@@ -23,7 +23,7 @@
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, an [survival::Surv()] object.
 #'
-#' @param estimate The column identifier for the survival probabilities (that should be 
+#' @param estimate The column identifier for the survival probabilities (that should be
 #' numeric). This should be an unquoted column name although
 #' this argument is passed by expression and supports
 #'  [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
@@ -35,11 +35,11 @@
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, a numeric vector.
 #'
-#' @param eval_time The column identifier for the time point(s). This
-#' should be a numeric vector, with 1 unique value for each group. This should
-#' be an unquoted column name although this argument is passed by expression and
-#' supports [quasiquotation][rlang::quasiquotation] (you can unquote column
-#' names). For `_vec()` functions, a numeric vector.
+#' @param eval_time The column identifier for the evaluation time points. This
+#' should be a numeric vector. This should be an unquoted column name although
+#' this argument is passed by expression and supports
+#' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
+#' `_vec()` functions, a numeric vector.
 #'
 #' @param ... Not currently used.
 #'

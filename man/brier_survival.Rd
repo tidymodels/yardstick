@@ -53,11 +53,11 @@ this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
 
-\item{eval_time}{The column identifier for the time point(s). This
-should be a numeric vector, with 1 unique value for each group. This should
-be an unquoted column name although this argument is passed by expression and
-supports \link[rlang:topic-inject]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a numeric vector.}
+\item{eval_time}{The column identifier for the evaluation time points. This
+should be a numeric vector. This should be an unquoted column name although
+this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, a numeric vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
