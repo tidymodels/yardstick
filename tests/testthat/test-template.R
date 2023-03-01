@@ -1024,3 +1024,250 @@ test_that("dynamic_survival_metric_summarizer() deals with characters in truth a
 
   expect_identical(brier_survival_res, brier_survival_exp)
 })
+
+## curve_survival_metric_summarizer -----------------------------------------
+
+# To be removed once roc_survival_curve() is added
+roc_survival_curve_vec <- function(truth,
+                                   estimate,
+                                   censoring_weights,
+                                   eval_time,
+                                   na_rm = TRUE,
+                                   case_weights = NULL,
+                                   ...) {
+  check_dynamic_survival_metric(
+    truth, estimate, censoring_weights, case_weights, eval_time
+  )
+
+  n_distinct_time <- dplyr::n_distinct(eval_time)
+  if (n_distinct_time != 1) {
+    abort(paste0(
+      "`eval_time` should have at most 1 unique value, but ", n_distinct_time,
+      " were detected."
+    ))
+  }
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(
+      truth, estimate, case_weights, censoring_weights, eval_time
+    )
+
+    truth <- result$truth
+    estimate <- result$estimate
+    censoring_weights <- result$censoring_weights
+    eval_time <- result$eval_time
+    case_weights <- result$case_weights
+  } else {
+    any_missing <- yardstick_any_missing(
+      truth, estimate, case_weights, censoring_weights, eval_time
+    )
+    if (any_missing) {
+      return(NA_real_)
+    }
+  }
+
+  # non-sensible calculation, just to generate result we can test with
+  sum(truth * estimate * case_weights * censoring_weights * eval_time) *
+    c(0.1, 0.5, 1)
+}
+
+test_that("curve_survival_metric_summarizer() works as expected", {
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
+
+  brier_survival_res <- curve_survival_metric_summarizer(
+    name = "brier_survival",
+    fn = roc_survival_curve_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = .pred_survival,
+    censoring_weights = ipcw,
+    eval_time = .time,
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
+    .estimator = "standard",
+    .estimate = roc_survival_curve_vec(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_survival,
+      censoring_weights = lung_surv$ipcw,
+      eval_time = lung_surv$.time
+    )
+  )
+
+  expect_identical(brier_survival_res, brier_survival_exp)
+})
+
+test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
+  lung_surv[1:5, 1] <- NA
+
+  brier_survival_res <- curve_survival_metric_summarizer(
+    name = "brier_survival",
+    fn = roc_survival_curve_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    censoring_weights = ipcw,
+    estimate = .pred_survival,
+    eval_time = .time,
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  surv_subset <- function(x, i) {
+    res <- x[i, ]
+    class(res) <- class(x)
+    attr(res, "type") <- attr(x, "type")
+    res
+  }
+
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
+    .estimator = "standard",
+    .estimate = roc_survival_curve_vec(
+      truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
+      estimate = lung_surv$.pred_survival[-c(1:5)],
+      censoring_weights = lung_surv$ipcw[-c(1:5)],
+      eval_time = lung_surv$.time[-c(1:5)]
+    )
+  )
+
+  expect_identical(brier_survival_res, brier_survival_exp)
+
+  brier_survival_res <- curve_survival_metric_summarizer(
+    name = "brier_survival",
+    fn = roc_survival_curve_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    censoring_weights = ipcw,
+    estimate = .pred_survival,
+    eval_time = .time,
+    na_rm = FALSE,
+    case_weights = NULL
+  )
+
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
+    .estimator = "standard",
+    .estimate = na_dbl
+  )
+
+  expect_identical(brier_survival_res, brier_survival_exp)
+})
+
+test_that("curve_survival_metric_summarizer()'s case_weights argument works", {
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
+
+  brier_survival_res <- curve_survival_metric_summarizer(
+    name = "brier_survival",
+    fn = roc_survival_curve_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    censoring_weights = ipcw,
+    estimate = .pred_survival,
+    eval_time = .time,
+    na_rm = TRUE,
+    case_weights = ph.ecog
+  )
+
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
+    .estimator = "standard",
+    .estimate = roc_survival_curve_vec(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_survival,
+      censoring_weights = lung_surv$ipcw,
+      eval_time = lung_surv$.time,
+      case_weights = lung_surv$ph.ecog
+    )
+  )
+
+  expect_identical(brier_survival_res, brier_survival_exp)
+})
+
+test_that("curve_survival_metric_summarizer()'s errors with bad input", {
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
+
+  brier_survival_res <- curve_survival_metric_summarizer(
+    name = "brier_survival",
+    fn = roc_survival_curve_vec,
+    data = lung_surv,
+    truth = surv_obj,
+    censoring_weights = ipcw,
+    estimate = .pred_survival,
+    eval_time = .time,
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    curve_survival_metric_summarizer(
+      name = "brier_survival",
+      fn = roc_survival_curve_vec,
+      data = lung_surv,
+      truth = inst,
+      estimate = .pred_survival,
+      censoring_weights = ipcw,
+      eval_time = .time
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    curve_survival_metric_summarizer(
+      name = "brier_survival",
+      fn = roc_survival_curve_vec,
+      data = lung_surv,
+      truth = surv_obj,
+      estimate = surv_obj,
+      censoring_weights = ipcw,
+      eval_time = .time
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    curve_survival_metric_summarizer(
+      name = "brier_survival",
+      fn = roc_survival_curve_vec,
+      data = lung_surv,
+      truth = surv_obj,
+      estimate = .pred,
+      censoring_weights = ipcw,
+      eval_time = .time,
+      obviouslywrong = TRUE
+    )
+  )
+})
+
+test_that("curve_survival_metric_summarizer() deals with characters in truth and estimate", {
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
+
+  brier_survival_res <- curve_survival_metric_summarizer(
+    name = "brier_survival",
+    fn = roc_survival_curve_vec,
+    data = lung_surv,
+    truth = "surv_obj",
+    estimate = ".pred_survival",
+    censoring_weights = "ipcw",
+    eval_time = ".time",
+    na_rm = TRUE,
+    case_weights = NULL
+  )
+
+  brier_survival_exp <- dplyr::tibble(
+    .metric = "brier_survival",
+    .estimator = "standard",
+    .estimate = roc_survival_curve_vec(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_survival,
+      censoring_weights = lung_surv$ipcw,
+      eval_time = lung_surv$.time
+    )
+  )
+
+  expect_identical(brier_survival_res, brier_survival_exp)
+})
