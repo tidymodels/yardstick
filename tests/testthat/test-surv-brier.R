@@ -30,8 +30,6 @@ test_that('case weights', {
 test_that('sklearn equivalent', {
   py_res <- read_pydata("py-brier-survival")
 
-  eval_times <- c(100, 500, 1000)
-
   lung_surv <- data_lung_surv()
 
   brier_res <- lung_surv %>%
