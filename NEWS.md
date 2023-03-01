@@ -32,6 +32,8 @@
 
 * Removed start-up message about `event_level` argument.
 
+* The Brier score for survival data was added with `brier_survival()`.
+
 # yardstick 1.1.0
 
 * Emil Hvitfeldt is now the maintainer (#315).
