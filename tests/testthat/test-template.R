@@ -1024,15 +1024,15 @@ roc_survival_curve_vec <- function(truth,
   }
 
   # non-sensible calculation, just to generate result we can test with
-  sum(truth * estimate * case_weights * censoring_weights * eval_time) *
+  sum(as.numeric(truth) * estimate * case_weights * censoring_weights * eval_time) *
     c(0.1, 0.5, 1)
 }
 
 test_that("curve_survival_metric_summarizer() works as expected", {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
-  brier_survival_res <- curve_survival_metric_summarizer(
-    name = "brier_survival",
+  roc_survival_curve_res <- curve_survival_metric_summarizer(
+    name = "roc_survival_curve",
     fn = roc_survival_curve_vec,
     data = lung_surv,
     truth = surv_obj,
@@ -1043,8 +1043,8 @@ test_that("curve_survival_metric_summarizer() works as expected", {
     case_weights = NULL
   )
 
-  brier_survival_exp <- dplyr::tibble(
-    .metric = "brier_survival",
+  roc_survival_curve_exp <- dplyr::tibble(
+    .metric = "roc_survival_curve",
     .estimator = "standard",
     .estimate = roc_survival_curve_vec(
       truth = lung_surv$surv_obj,
@@ -1054,15 +1054,15 @@ test_that("curve_survival_metric_summarizer() works as expected", {
     )
   )
 
-  expect_identical(brier_survival_res, brier_survival_exp)
+  expect_identical(roc_survival_curve_res, roc_survival_curve_exp)
 })
 
 test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
   lung_surv[1:5, 1] <- NA
 
-  brier_survival_res <- curve_survival_metric_summarizer(
-    name = "brier_survival",
+  roc_survival_curve_res <- curve_survival_metric_summarizer(
+    name = "roc_survival_curve",
     fn = roc_survival_curve_vec,
     data = lung_surv,
     truth = surv_obj,
@@ -1080,8 +1080,8 @@ test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
     res
   }
 
-  brier_survival_exp <- dplyr::tibble(
-    .metric = "brier_survival",
+  roc_survival_curve_exp <- dplyr::tibble(
+    .metric = "roc_survival_curve",
     .estimator = "standard",
     .estimate = roc_survival_curve_vec(
       truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
@@ -1091,10 +1091,10 @@ test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
     )
   )
 
-  expect_identical(brier_survival_res, brier_survival_exp)
+  expect_identical(roc_survival_curve_res, roc_survival_curve_exp)
 
-  brier_survival_res <- curve_survival_metric_summarizer(
-    name = "brier_survival",
+  roc_survival_curve_res <- curve_survival_metric_summarizer(
+    name = "roc_survival_curve",
     fn = roc_survival_curve_vec,
     data = lung_surv,
     truth = surv_obj,
@@ -1105,20 +1105,20 @@ test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
     case_weights = NULL
   )
 
-  brier_survival_exp <- dplyr::tibble(
-    .metric = "brier_survival",
+  roc_survival_curve_exp <- dplyr::tibble(
+    .metric = "roc_survival_curve",
     .estimator = "standard",
     .estimate = na_dbl
   )
 
-  expect_identical(brier_survival_res, brier_survival_exp)
+  expect_identical(roc_survival_curve_res, roc_survival_curve_exp)
 })
 
 test_that("curve_survival_metric_summarizer()'s case_weights argument works", {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
-  brier_survival_res <- curve_survival_metric_summarizer(
-    name = "brier_survival",
+  roc_survival_curve_res <- curve_survival_metric_summarizer(
+    name = "roc_survival_curve",
     fn = roc_survival_curve_vec,
     data = lung_surv,
     truth = surv_obj,
@@ -1129,8 +1129,8 @@ test_that("curve_survival_metric_summarizer()'s case_weights argument works", {
     case_weights = ph.ecog
   )
 
-  brier_survival_exp <- dplyr::tibble(
-    .metric = "brier_survival",
+  roc_survival_curve_exp <- dplyr::tibble(
+    .metric = "roc_survival_curve",
     .estimator = "standard",
     .estimate = roc_survival_curve_vec(
       truth = lung_surv$surv_obj,
@@ -1141,14 +1141,14 @@ test_that("curve_survival_metric_summarizer()'s case_weights argument works", {
     )
   )
 
-  expect_identical(brier_survival_res, brier_survival_exp)
+  expect_identical(roc_survival_curve_res, roc_survival_curve_exp)
 })
 
 test_that("curve_survival_metric_summarizer()'s errors with bad input", {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
-  brier_survival_res <- curve_survival_metric_summarizer(
-    name = "brier_survival",
+  roc_survival_curve_res <- curve_survival_metric_summarizer(
+    name = "roc_survival_curve",
     fn = roc_survival_curve_vec,
     data = lung_surv,
     truth = surv_obj,
@@ -1162,7 +1162,7 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
   expect_snapshot(
     error = TRUE,
     curve_survival_metric_summarizer(
-      name = "brier_survival",
+      name = "roc_survival_curve",
       fn = roc_survival_curve_vec,
       data = lung_surv,
       truth = inst,
@@ -1175,7 +1175,7 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
   expect_snapshot(
     error = TRUE,
     curve_survival_metric_summarizer(
-      name = "brier_survival",
+      name = "roc_survival_curve",
       fn = roc_survival_curve_vec,
       data = lung_surv,
       truth = surv_obj,
@@ -1188,7 +1188,7 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
   expect_snapshot(
     error = TRUE,
     curve_survival_metric_summarizer(
-      name = "brier_survival",
+      name = "roc_survival_curve",
       fn = roc_survival_curve_vec,
       data = lung_surv,
       truth = surv_obj,
@@ -1203,8 +1203,8 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
 test_that("curve_survival_metric_summarizer() deals with characters in truth and estimate", {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
 
-  brier_survival_res <- curve_survival_metric_summarizer(
-    name = "brier_survival",
+  roc_survival_curve_res <- curve_survival_metric_summarizer(
+    name = "roc_survival_curve",
     fn = roc_survival_curve_vec,
     data = lung_surv,
     truth = "surv_obj",
@@ -1215,8 +1215,8 @@ test_that("curve_survival_metric_summarizer() deals with characters in truth and
     case_weights = NULL
   )
 
-  brier_survival_exp <- dplyr::tibble(
-    .metric = "brier_survival",
+  roc_survival_curve_exp <- dplyr::tibble(
+    .metric = "roc_survival_curve",
     .estimator = "standard",
     .estimate = roc_survival_curve_vec(
       truth = lung_surv$surv_obj,
@@ -1226,5 +1226,5 @@ test_that("curve_survival_metric_summarizer() deals with characters in truth and
     )
   )
 
-  expect_identical(brier_survival_res, brier_survival_exp)
+  expect_identical(roc_survival_curve_res, roc_survival_curve_exp)
 })
