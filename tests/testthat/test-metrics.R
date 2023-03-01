@@ -138,6 +138,15 @@ test_that('can mix class and class prob metrics together', {
   )
 })
 
+test_that('dynamic survival metric sets', {
+  my_set <- metric_set(brier_survival)
+
+  expect_equal(
+    my_set(lung_surv, surv_obj, .pred_survival, ipcw, .time),
+    brier_survival(lung_surv, surv_obj, .pred_survival, ipcw, .time)
+  )
+})
+
 test_that("can supply `event_level` even with metrics that don't use it", {
   df <- two_class_example
 
