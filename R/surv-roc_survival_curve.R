@@ -156,34 +156,5 @@ specificity_naive <- function(threshold, eval_time, surv_obj, prob_surv) {
   numer / denom
 }
 
-# Wait for https://github.com/tidymodels/parsnip/pull/893 to be merged
-.extract_surv_time <- function(surv) {
-  .is_surv(surv)
-  keepers <- c("time", "start", "stop", "time1", "time2")
-  res <- surv[, colnames(surv) %in% keepers]
-  if (NCOL(res) > 1) {
-    res <- dplyr::tibble(as.data.frame(res))
-  }
-  res
-}
-
-.extract_surv_status <- function(surv) {
-  .is_surv(surv)
-  res <-   surv[, "status"]
-  un_vals <- sort(unique(res))
-  if (identical(un_vals, 1:2) | identical(un_vals, c(1.0, 2.0))) {
-    res <- res - 1
-  }
-  res
-}
-
-.is_surv <- function(surv, fail = TRUE) {
-  is_surv <- inherits(surv, "Surv")
-  if (fail && !is_surv) {
-    rlang::abort("The object does not have class `Surv`.", call = NULL)
-  }
-  is_surv
-}
-
 # Dynamically exported
 autoplot.roc_survival_df <- autoplot.roc_df

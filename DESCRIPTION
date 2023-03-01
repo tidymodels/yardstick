@@ -19,6 +19,7 @@ BugReports: https://github.com/tidymodels/yardstick/issues
 Depends:
     R (>= 3.4.0)
 Imports:
+    cli,
     dplyr (>= 1.1.0),
     generics (>= 0.1.2),
     hardhat (>= 1.2.0.9000),
