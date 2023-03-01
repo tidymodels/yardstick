@@ -20,25 +20,33 @@ roc_survival_curve(data, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
-\code{...}.}
+\code{estimate}.}
 
-\item{...}{A set of unquoted column names or one or more
-\code{dplyr} selector functions to choose which variables contain the
-class probabilities. If \code{truth} is binary, only 1 column should be selected,
-and it should correspond to the value of \code{event_level}. Otherwise, there
-should be as many columns as factor levels of \code{truth} and the ordering of
-the columns should be the same as the factor levels of \code{truth}.}
+\item{...}{Not currently used.}
 
-\item{truth}{The column identifier for the true class results
-(that is a \code{factor}). This should be an unquoted column name although
+\item{truth}{The column identifier for the true survival result (that
+is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
+although this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
+
+\item{estimate}{The column identifier for the survival probabilities (that should be
+numeric). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a \code{factor} vector.}
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, a numeric vector.}
 
-\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
-corresponding to the "relevant" class. Otherwise, a matrix with as many
-columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
-same order as the levels of \code{truth}.}}
+\item{censoring_weights}{The column identifier for censoring weights (that should
+be numeric). This should be an unquoted column name although
+this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, a numeric vector.}
+
+\item{eval_time}{The column identifier for the evaluation time points. This
+should be a numeric vector. This should be an unquoted column name although
+this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, a numeric vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}

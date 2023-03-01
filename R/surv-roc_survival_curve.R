@@ -3,7 +3,7 @@
 #' @family survival curve metrics
 #' @templateVar fn roc_survival_curve
 #'
-#' @inheritParams pr_auc
+#' @inheritParams brier_survival
 #'
 #' @return
 #' A tibble with class `roc_survival_df`, `grouped_roc_survival_df` having
