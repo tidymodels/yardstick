@@ -25,7 +25,8 @@ To install the package:
 install.packages("yardstick")
 
 # Development version:
-devtools::install_github("tidymodels/yardstick")
+# install.packages("pak")
+pak::pak("tidymodels/yardstick")
 ```
 
 ## Two class metric
