@@ -152,7 +152,7 @@ hpc_cv %>%
   autoplot()
 ```
 
-![](man/figures/README-roc-curves-1.png)<!-- -->
+<img src="man/figures/README-roc-curves-1.png" alt="Faceted ROC curve. 1-specificity along the x-axis, sensitivity along the y-axis. Facets include the classes F, L, M, and VF. Each facet shows 10 lines colored to correspond to a resample. All the lines are quite overlapping. With VF having the tightest and highest values."  />
 
 ## Contributing
 
