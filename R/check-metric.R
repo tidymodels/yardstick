@@ -72,3 +72,10 @@ check_dynamic_survival_metric <- function(truth,
   validate_censoring_weights(censoring_weights, size = nrow(truth))
   validate_eval_time(eval_time, size = nrow(truth))
 }
+
+#' @rdname check_metric
+#' @export
+check_static_survival_metric <- function(truth, estimate, case_weights) {
+  validate_case_weights(case_weights, size = nrow(truth))
+  validate_surv_truth_numeric_estimate(truth, estimate)
+}
