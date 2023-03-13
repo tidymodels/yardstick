@@ -1,9 +1,10 @@
 #' Developer function for summarizing new metrics
 #'
 #' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-#' `prob_metric_summarizer()`, `curve_metric_summarizer()`, and
-#' `dynamic_survival_metric_summarizer()` are useful alongside [check_metric]
-#' and [yardstick_remove_missing] for implementing new custom metrics. These
+#' `prob_metric_summarizer()`, `curve_metric_summarizer()`,
+#' `dynamic_survival_metric_summarizer()`, and
+#' `static_survival_metric_summarizer()` are useful alongside [check_metric] and
+#' [yardstick_remove_missing] for implementing new custom metrics. These
 #' functions call the metric function inside `dplyr::summarise()` or
 #' `dplyr::reframe()` for `curve_metric_summarizer()`. See [Custom performance
 #' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
@@ -12,7 +13,8 @@
 #' @details
 #'
 #' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-#' `prob_metric_summarizer()`, `curve_metric_summarizer()`, and
+#' `prob_metric_summarizer()`, `curve_metric_summarizer()`,
+#' `dynamic_survival_metric_summarizer()`, and
 #' `dynamic_survival_metric_summarizer()` are generally called from the data
 #' frame version of your metric function. It knows how to call your metric over
 #' grouped data frames and returns a `tibble` consistent with other metrics.
@@ -28,11 +30,12 @@
 #' generally takes `truth`, `estimate`, `na_rm`, and any other extra arguments
 #' needed to calculate the metric.
 #'
-#' @param data The data frame with `truth` and `estimate` columns passed
-#' in from the data frame version of your metric function that called
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-#' `prob_metric_summarizer()`, `curve_metric_summarizer()`, or
-#' `dynamic_survival_metric_summarizer()`.
+#' @param data The data frame with `truth` and `estimate` columns passed in from
+#'   the data frame version of your metric function that called
+#'   `numeric_metric_summarizer()`, `class_metric_summarizer()`,
+#'   `prob_metric_summarizer()`, `curve_metric_summarizer()`,
+#'   `dynamic_survival_metric_summarizer()`, or
+#'   `static_survival_metric_summarizer()`.
 #'
 #' @param truth The unquoted column name corresponding to the `truth` column.
 #'
