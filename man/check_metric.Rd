@@ -6,6 +6,7 @@
 \alias{check_class_metric}
 \alias{check_prob_metric}
 \alias{check_dynamic_survival_metric}
+\alias{check_static_survival_metric}
 \title{Developer function for checking inputs in new metrics}
 \usage{
 check_numeric_metric(truth, estimate, case_weights)
@@ -21,6 +22,8 @@ check_dynamic_survival_metric(
   case_weights,
   eval_time
 )
+
+check_static_survival_metric(truth, estimate, case_weights)
 }
 \arguments{
 \item{truth}{The realized vector of \code{truth}.
@@ -29,6 +32,7 @@ check_dynamic_survival_metric(
 \item For \code{check_class_metric()}, a factor.
 \item For \code{check_prob_metric()}, a factor.
 \item For \code{check_dynamic_survival_metric()}, a Surv object.
+\item For \code{check_static_survival_metric()} a Surv object.
 }}
 
 \item{estimate}{The realized \code{estimate} result.
@@ -38,6 +42,7 @@ check_dynamic_survival_metric(
 \item For \code{check_prob_metric()}, a numeric vector for binary \code{truth},
 a numeric matrix for multic-class \code{truth}.
 \item For \code{check_dynamic_survival_metric()}, a numeric vector.
+\item For \code{check_static_survival_metric()} a numeric vector.
 }}
 
 \item{case_weights}{The realized case weights, as a numeric vector. This must

@@ -61,3 +61,29 @@ test_that("check_prob_metric() validates inputs", {
     )
   )
 })
+
+test_that("check_static_survival_metric() validates case_weights", {
+  lung_surv <- data_lung_surv()
+
+  expect_snapshot(
+    error = TRUE,
+    check_static_survival_metric(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_survival,
+      case_weights = 1:151
+    )
+  )
+})
+
+test_that("check_static_survival_metric() validates inputs", {
+  lung_surv <- data_lung_surv()
+
+  expect_snapshot(
+    error = TRUE,
+    check_static_survival_metric(
+      truth = lung_surv$surv_obj,
+      estimate = as.character(lung_surv$inst),
+      case_weights = 1:150
+    )
+  )
+})
