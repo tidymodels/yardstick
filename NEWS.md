@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* Metric summarizers no longer error if column names in `data` conflict with
+  argument names (#382).
+
 * The global option, `yardstick.event_first`, has been hard deprecated in favor
   of using explicit argument, `event_level`. Setting this option will now 
   produce an warning, but won't have any effect. (#173)

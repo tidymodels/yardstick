@@ -157,6 +157,8 @@ test_that("numeric_metric_summarizer() handles column name collisions", {
   new_mtcars$estimator <- mtcars$mpg
   new_mtcars$event_level <- mtcars$mpg
   new_mtcars$na_rm <- mtcars$mpg
+  new_mtcars$truth <- mtcars$mpg
+  new_mtcars$estimate <- mtcars$mpg
 
   rmse_res <- numeric_metric_summarizer(
     name = "rmse",
@@ -397,6 +399,8 @@ test_that("class_metric_summarizer() handles column name collisions", {
   new_three_class$estimator <- three_class$obs
   new_three_class$event_level <- three_class$obs
   new_three_class$na_rm <- three_class$obs
+  new_three_class$truth <- three_class$obs
+  new_three_class$estimate <- three_class$obs
 
   accuracy_res <- class_metric_summarizer(
     name = "accuracy",
@@ -641,6 +645,8 @@ test_that("prob_metric_summarizer() handles column name collisions", {
   new_hpc_f1$estimator <- hpc_f1$VF
   new_hpc_f1$event_level <- hpc_f1$VF
   new_hpc_f1$na_rm <- hpc_f1$VF
+  new_hpc_f1$truth <- hpc_f1$VF
+  new_hpc_f1$estimate <- hpc_f1$VF
 
   roc_auc_res <- prob_metric_summarizer(
     name = "roc_auc",
@@ -868,6 +874,8 @@ test_that("curve_metric_summarizer() handles column name collisions", {
   new_hpc_f1$estimator <- hpc_f1$VF
   new_hpc_f1$event_level <- hpc_f1$VF
   new_hpc_f1$na_rm <- hpc_f1$VF
+  new_hpc_f1$truth <- hpc_f1$VF
+  new_hpc_f1$estimate <- hpc_f1$VF
 
   roc_curve_res <- curve_metric_summarizer(
     name = "roc_curve",
@@ -1099,6 +1107,8 @@ test_that("dynamic_survival_metric_summarizer() handles column name collisions",
   new_lung_surv$estimator <- lung_surv$.time
   new_lung_surv$event_level <- lung_surv$.time
   new_lung_surv$na_rm <- lung_surv$.time
+  new_lung_surv$truth <- lung_surv$.time
+  new_lung_surv$estimate <- lung_surv$.time
 
   brier_survival_res <- dynamic_survival_metric_summarizer(
     name = "brier_survival",
@@ -1381,6 +1391,8 @@ test_that("curve_survival_metric_summarizer() handles column name collisions", {
   new_lung_surv$estimator <- lung_surv$.time
   new_lung_surv$event_level <- lung_surv$.time
   new_lung_surv$na_rm <- lung_surv$.time
+  new_lung_surv$truth <- lung_surv$.time
+  new_lung_surv$estimate <- lung_surv$.time
 
   roc_survival_curve_res <- curve_survival_metric_summarizer(
     name = "roc_survival_curve",
