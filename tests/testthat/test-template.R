@@ -1186,7 +1186,7 @@ test_that("static_survival_metric_summarizer() works as expected", {
   expect_identical(concordance_survival_res, concordance_survival_exp)
 })
 
-test_that("static_survival_metric_summarizer()'s na_rm argument work", {
+test_that("static_survival_metric_summarizer()'s na_rm argument works", {
   lung_surv <- data_lung_surv()
   lung_surv[1:5, 1] <- NA
 
@@ -1237,7 +1237,7 @@ test_that("static_survival_metric_summarizer()'s na_rm argument work", {
   expect_identical(concordance_survival_res, concordance_survival_exp)
 })
 
-test_that("static_survival_metric_summarizer()'s case_weights argument work", {
+test_that("static_survival_metric_summarizer()'s case_weights argument works", {
   lung_surv <- data_lung_surv()
 
   concordance_survival_res <- static_survival_metric_summarizer(
@@ -1262,7 +1262,7 @@ test_that("static_survival_metric_summarizer()'s case_weights argument work", {
   expect_identical(concordance_survival_res, concordance_survival_exp)
 })
 
-test_that("static_survival_metric_summarizer()'s errors when wrong things are passes", {
+test_that("static_survival_metric_summarizer()'s errors with bad input", {
   lung_surv <- data_lung_surv()
   lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
   lung_surv$list2 <- lapply(
