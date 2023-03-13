@@ -32,6 +32,7 @@ check_static_survival_metric(truth, estimate, case_weights)
 \item For \code{check_class_metric()}, a factor.
 \item For \code{check_prob_metric()}, a factor.
 \item For \code{check_dynamic_survival_metric()}, a Surv object.
+\item For \code{check_static_survival_metric()} a Surv object.
 }}
 
 \item{estimate}{The realized \code{estimate} result.
@@ -41,6 +42,7 @@ check_static_survival_metric(truth, estimate, case_weights)
 \item For \code{check_prob_metric()}, a numeric vector for binary \code{truth},
 a numeric matrix for multic-class \code{truth}.
 \item For \code{check_dynamic_survival_metric()}, a numeric vector.
+\item For \code{check_static_survival_metric()} a numeric vector.
 }}
 
 \item{case_weights}{The realized case weights, as a numeric vector. This must
