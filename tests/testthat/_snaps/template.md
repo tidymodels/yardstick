@@ -156,7 +156,7 @@
       x Problematic argument:
       * obviouslywrong = TRUE
 
-# static_survival_metric_summarizer()'s errors when wrong things are passes
+# static_survival_metric_summarizer()'s errors with bad input
 
     Code
       static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
