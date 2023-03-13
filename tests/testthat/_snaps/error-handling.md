@@ -51,7 +51,7 @@
       sens(pathology, pathology, scan, estimator = "blah")
     Condition
       Error in `dplyr::summarise()`:
-      i In argument: `.estimator = finalize_estimator(.data[["pathology"]], estimator, name)`.
+      i In argument: `.estimator = finalize_estimator(...)`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be one of: "binary", "macro", "micro", "macro_weighted". Not "blah".
 
@@ -71,7 +71,7 @@
       sens(hpc_cv, obs, pred, estimator = 1)
     Condition
       Error in `dplyr::summarise()`:
-      i In argument: `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
+      i In argument: `.estimator = finalize_estimator(.data[["obs"]], .env[["estimator"]], .env[["name"]])`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be a character, not a numeric.
 
@@ -81,7 +81,7 @@
       sens(hpc_cv, obs, pred, estimator = c("1", "2"))
     Condition
       Error in `dplyr::summarise()`:
-      i In argument: `.estimator = finalize_estimator(.data[["obs"]], estimator, name)`.
+      i In argument: `.estimator = finalize_estimator(.data[["obs"]], .env[["estimator"]], .env[["name"]])`.
       Caused by error in `validate_estimator()`:
       ! `estimator` must be length 1, not 2.
 

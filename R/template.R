@@ -116,13 +116,16 @@ numeric_metric_summarizer <- function(name,
 
   out <- dplyr::summarise(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      metric_class = .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!!fn_options
     )
   )
@@ -176,13 +179,17 @@ class_metric_summarizer <- function(name,
 
   out <- dplyr::summarise(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], estimator, name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      .env[["estimator"]],
+      .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!! spliceable_argument(estimator, "estimator"),
       !!! spliceable_argument(event_level, "event_level"),
       !!! fn_options
@@ -233,16 +240,20 @@ prob_metric_summarizer <- function(name,
 
   out <- dplyr::summarise(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], estimator, name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      .env[["estimator"]],
+      .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = {
-        estimate <- dplyr::pick(tidyselect::all_of(estimate))
+        estimate <- dplyr::pick(tidyselect::all_of(.env[["estimate"]]))
         prob_estimate_convert(estimate)
       },
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!! spliceable_argument(estimator, "estimator"),
       !!! spliceable_argument(event_level, "event_level"),
       !!! fn_options
@@ -293,16 +304,20 @@ curve_metric_summarizer <- function(name,
 
   out <- dplyr::reframe(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], estimator, name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      .env[["estimator"]],
+      .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = {
-        estimate <- dplyr::pick(tidyselect::all_of(estimate))
+        estimate <- dplyr::pick(tidyselect::all_of(.env[["estimate"]]))
         prob_estimate_convert(estimate)
       },
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!! spliceable_argument(estimator, "estimator"),
       !!! spliceable_argument(event_level, "event_level"),
       !!! fn_options
@@ -372,15 +387,18 @@ dynamic_survival_metric_summarizer <- function(name,
 
   out <- dplyr::summarise(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      metric_class = .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
       censoring_weights = .data[[censoring_weights]],
       eval_time = .data[[eval_time]],
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!!fn_options
     )
   )
@@ -448,15 +466,18 @@ curve_survival_metric_summarizer <- function(name,
 
   out <- dplyr::reframe(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      metric_class = .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
       censoring_weights = .data[[censoring_weights]],
       eval_time = .data[[eval_time]],
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!!fn_options
     )
   )
