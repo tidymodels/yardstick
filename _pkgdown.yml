@@ -73,6 +73,10 @@ reference:
     - brier_survival
     - brier_survival_integrated
 
+  - title: Curve Survival Functions
+    contents:
+    - roc_curve_survival
+
   - title: Curve Functions
     contents:
     - roc_curve
