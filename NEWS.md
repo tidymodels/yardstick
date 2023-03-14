@@ -39,6 +39,9 @@
 
 * Time-Dependent ROC curves estimation for right-censored data can now be 
   calculated with `roc_curve_survival().
+  
+* Time-Dependent ROC AUC estimation for right-censored data can now be 
+  calculated with `roc_auc_survival()`.
 
 # yardstick 1.1.0
 
