@@ -1,9 +1,10 @@
 #' Developer function for summarizing new metrics
 #'
 #' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-#' `prob_metric_summarizer()`, `curve_metric_summarizer()`, and
-#' `dynamic_survival_metric_summarizer()` are useful alongside [check_metric]
-#' and [yardstick_remove_missing] for implementing new custom metrics. These
+#' `prob_metric_summarizer()`, `curve_metric_summarizer()`,
+#' `dynamic_survival_metric_summarizer()`, and
+#' `static_survival_metric_summarizer()` are useful alongside [check_metric] and
+#' [yardstick_remove_missing] for implementing new custom metrics. These
 #' functions call the metric function inside `dplyr::summarise()` or
 #' `dplyr::reframe()` for `curve_metric_summarizer()`. See [Custom performance
 #' metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
@@ -12,7 +13,8 @@
 #' @details
 #'
 #' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-#' `prob_metric_summarizer()`, `curve_metric_summarizer()`, and
+#' `prob_metric_summarizer()`, `curve_metric_summarizer()`,
+#' `dynamic_survival_metric_summarizer()`, and
 #' `dynamic_survival_metric_summarizer()` are generally called from the data
 #' frame version of your metric function. It knows how to call your metric over
 #' grouped data frames and returns a `tibble` consistent with other metrics.
@@ -28,11 +30,12 @@
 #' generally takes `truth`, `estimate`, `na_rm`, and any other extra arguments
 #' needed to calculate the metric.
 #'
-#' @param data The data frame with `truth` and `estimate` columns passed
-#' in from the data frame version of your metric function that called
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-#' `prob_metric_summarizer()`, `curve_metric_summarizer()`, or
-#' `dynamic_survival_metric_summarizer()`.
+#' @param data The data frame with `truth` and `estimate` columns passed in from
+#'   the data frame version of your metric function that called
+#'   `numeric_metric_summarizer()`, `class_metric_summarizer()`,
+#'   `prob_metric_summarizer()`, `curve_metric_summarizer()`,
+#'   `dynamic_survival_metric_summarizer()`, or
+#'   `static_survival_metric_summarizer()`.
 #'
 #' @param truth The unquoted column name corresponding to the `truth` column.
 #'
@@ -116,13 +119,16 @@ numeric_metric_summarizer <- function(name,
 
   out <- dplyr::summarise(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      metric_class = .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!!fn_options
     )
   )
@@ -176,13 +182,17 @@ class_metric_summarizer <- function(name,
 
   out <- dplyr::summarise(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], estimator, name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      .env[["estimator"]],
+      .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!! spliceable_argument(estimator, "estimator"),
       !!! spliceable_argument(event_level, "event_level"),
       !!! fn_options
@@ -233,16 +243,20 @@ prob_metric_summarizer <- function(name,
 
   out <- dplyr::summarise(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], estimator, name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      .env[["estimator"]],
+      .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = {
-        estimate <- dplyr::pick(tidyselect::all_of(estimate))
+        estimate <- dplyr::pick(tidyselect::all_of(.env[["estimate"]]))
         prob_estimate_convert(estimate)
       },
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!! spliceable_argument(estimator, "estimator"),
       !!! spliceable_argument(event_level, "event_level"),
       !!! fn_options
@@ -293,16 +307,20 @@ curve_metric_summarizer <- function(name,
 
   out <- dplyr::reframe(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], estimator, name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      .env[["estimator"]],
+      .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = {
-        estimate <- dplyr::pick(tidyselect::all_of(estimate))
+        estimate <- dplyr::pick(tidyselect::all_of(.env[["estimate"]]))
         prob_estimate_convert(estimate)
       },
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!! spliceable_argument(estimator, "estimator"),
       !!! spliceable_argument(event_level, "event_level"),
       !!! fn_options
@@ -372,15 +390,76 @@ dynamic_survival_metric_summarizer <- function(name,
 
   out <- dplyr::summarise(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      metric_class = .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
       censoring_weights = .data[[censoring_weights]],
       eval_time = .data[[eval_time]],
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
+      !!!fn_options
+    )
+  )
+
+  dplyr::as_tibble(out)
+}
+
+#' @rdname metric-summarizers
+#' @export
+static_survival_metric_summarizer <- function(name,
+                                              fn,
+                                              data,
+                                              truth,
+                                              estimate,
+                                              ...,
+                                              na_rm = TRUE,
+                                              case_weights = NULL,
+                                              fn_options = list(),
+                                              error_call = caller_env()) {
+  rlang::check_dots_empty()
+
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+  case_weights <- enquo(case_weights)
+
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select(
+    expr = estimate,
+    data = data,
+    arg = "estimate",
+    error_call = error_call
+  )
+
+  if (!quo_is_null(case_weights)) {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights",
+      error_call = error_call
+    )
+
+    case_weights <- expr(.data[[!!case_weights]])
+  }
+
+  out <- dplyr::summarise(
+    data,
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(.data[[truth]], metric_class = .env[["name"]]),
+    .estimate = fn(
+      truth = .data[[truth]],
+      estimate = .data[[estimate]],
+      case_weights = !!case_weights,
+      na_rm = .env[["na_rm"]],
       !!!fn_options
     )
   )
@@ -448,15 +527,18 @@ curve_survival_metric_summarizer <- function(name,
 
   out <- dplyr::reframe(
     data,
-    .metric = name,
-    .estimator = finalize_estimator(.data[[truth]], metric_class = name),
+    .metric = .env[["name"]],
+    .estimator = finalize_estimator(
+      .data[[truth]],
+      metric_class = .env[["name"]]
+    ),
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
       censoring_weights = .data[[censoring_weights]],
       eval_time = .data[[eval_time]],
       case_weights = !!case_weights,
-      na_rm = na_rm,
+      na_rm = .env[["na_rm"]],
       !!!fn_options
     )
   )

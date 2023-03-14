@@ -57,3 +57,21 @@
       Error in `validate_factor_truth_matrix_estimate()`:
       ! You are using a binary metric but have passed multiple columns to `...`.
 
+# check_static_survival_metric() validates case_weights
+
+    Code
+      check_static_survival_metric(truth = lung_surv$surv_obj, estimate = lung_surv$
+        .pred_survival, case_weights = 1:151)
+    Condition
+      Error in `validate_case_weights()`:
+      ! `case_weights` (151) must have the same length as `truth` (150).
+
+# check_static_survival_metric() validates inputs
+
+    Code
+      check_static_survival_metric(truth = lung_surv$surv_obj, estimate = as.character(
+        lung_surv$inst), case_weights = 1:150)
+    Condition
+      Error in `validate_surv_truth_numeric_estimate()`:
+      ! `estimate` should be a numeric, not a `character`.
+

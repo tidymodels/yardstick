@@ -37,7 +37,8 @@ To install the package:
 install.packages("yardstick")
 
 # Development version:
-devtools::install_github("tidymodels/yardstick")
+# install.packages("pak")
+pak::pak("tidymodels/yardstick")
 ```
 
 ## Two class metric
@@ -101,6 +102,7 @@ Curve based methods such as `roc_curve()`, `pr_curve()` and `gain_curve()` all
 have `ggplot2::autoplot()` methods that allow for powerful and easy visualization.
 
 ```{r roc-curves}
+#| fig-alt: "Faceted ROC curve. 1-specificity along the x-axis, sensitivity along the y-axis. Facets include the classes F, L, M, and VF. Each facet shows 10 lines colored to correspond to a resample. All the lines are quite overlapping. With VF having the tightest and highest values."
 library(ggplot2)
 
 hpc_cv %>%

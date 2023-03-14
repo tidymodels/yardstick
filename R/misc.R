@@ -462,3 +462,18 @@ yardstick_truth_table <- function(truth, ..., case_weights = NULL) {
 
   out
 }
+
+trapezoidal_rule <- function(x, y) {
+  n_x <- length(x)
+  n_y <- length(y)
+
+  if (n_x != n_y) {
+    rlang::abort(
+      paste0("`x` (",n_x, ") and `y` (",n_y, ") must be same length."),
+      .internal = TRUE
+    )
+  }
+
+  delta <- diff(x)
+  sum(delta * (y[-1] + y[-n_y])) / 2
+}
