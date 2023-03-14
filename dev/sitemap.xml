@@ -187,6 +187,9 @@
     <loc>https://yardstick.tidymodels.org/dev/reference/roc_curve.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/dev/reference/roc_curve_survival.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/dev/reference/rpd.html</loc>
   </url>
   <url>
