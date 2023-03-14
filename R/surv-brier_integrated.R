@@ -16,36 +16,7 @@
 #'
 #' Smaller values of the score are associated with better model performance.
 #'
-#' @inheritParams pr_auc
-#'
-#' @param data A `data.frame` containing the columns specified by `truth` and
-#'   `estimate`.
-#'
-#' @param truth The column identifier for the true survival result (that is
-#'   created using [survival::Surv()].). This should be an unquoted column name
-#'   although this argument is passed by expression and supports
-#'   [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#'   `_vec()` functions, an [survival::Surv()] object.
-#'
-#' @param estimate The column identifier for the survival probabilities (that
-#'   should be numeric). This should be an unquoted column name although this
-#'   argument is passed by expression and supports
-#'   [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#'   `_vec()` functions, a numeric vector.
-#'
-#' @param censoring_weights The column identifier for censoring weights (that
-#'   should be numeric). This should be an unquoted column name although this
-#'   argument is passed by expression and supports
-#'   [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#'   `_vec()` functions, a numeric vector.
-#'
-#' @param eval_time The column identifier for the evaluation time points. This
-#'   should be a numeric vector. This should be an unquoted column name although
-#'   this argument is passed by expression and supports
-#'   [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#'   `_vec()` functions, a numeric vector.
-#'
-#' @param ... Not currently used.
+#' @inheritParams brier_survival
 #'
 #' @author Emil Hvitfeldt
 #'
