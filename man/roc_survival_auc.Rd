@@ -19,7 +19,15 @@ roc_survival_auc(data, ...)
   ...
 )
 
-roc_survival_auc_vec(truth, estimate, censor_probs, .time)
+roc_survival_auc_vec(
+  truth,
+  estimate,
+  censoring_weights,
+  eval_time,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
@@ -86,7 +94,7 @@ lung_surv \%>\%
   )
 }
 \seealso{
-Compute the ROC survival curve with \code{\link[=roc_survival_curve]{roc_survival_curve()}}.
+Compute the ROC survival curve with \code{\link[=roc_curve_survival]{roc_curve_survival()}}.
 
 Other dynamic survival metrics: 
 \code{\link{brier_survival}()}

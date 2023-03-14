@@ -12,7 +12,7 @@
 #' Smaller values of the score are associated with better model performance.
 #'
 #' @seealso
-#' Compute the ROC survival curve with [roc_survival_curve()].
+#' Compute the ROC survival curve with [roc_curve_survival()].
 #'
 #' @inheritParams pr_auc
 #' @inheritParams brier_survival
@@ -44,14 +44,13 @@ roc_survival_auc <- new_dynamic_survival_metric(
 #' @rdname roc_survival_auc
 #' @export
 roc_survival_auc.data.frame <- function(data,
-                                      truth,
-                                      estimate,
-                                      censoring_weights,
-                                      eval_time,
-                                      na_rm = TRUE,
-                                      case_weights = NULL,
-                                      ...) {
-  data <- dplyr::group_by(data, {{eval_time}})
+                                        truth,
+                                        estimate,
+                                        censoring_weights,
+                                        eval_time,
+                                        na_rm = TRUE,
+                                        case_weights = NULL,
+                                        ...) {
 
   dynamic_survival_metric_summarizer(
     name = "roc_survival_auc",
@@ -69,40 +68,14 @@ roc_survival_auc.data.frame <- function(data,
 #' @export
 #' @rdname roc_survival_auc
 roc_survival_auc_vec <- function(truth,
-                               estimate,
-                               censoring_weights,
-                               eval_time,
-                               na_rm = TRUE,
-                               case_weights = NULL,
-                               ...) {
-  check_dynamic_survival_metric(
-    truth, estimate, censoring_weights, case_weights, eval_time
-  )
-
-  if (na_rm) {
-    result <- yardstick_remove_missing(
-      truth, estimate, case_weights, censoring_weights, eval_time
-    )
-
-    truth <- result$truth
-    estimate <- result$estimate
-    censoring_weights <- result$censoring_weights
-    eval_time <- result$eval_time
-    case_weights <- result$case_weights
-  } else {
-    any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights, censoring_weights, eval_time
-    )
-    if (any_missing) {
-      return(NA_real_)
-    }
-  }
-
-  roc_survival_auc_impl(truth, estimate, censoring_weights, case_weights, eval_time)
-}
-
-roc_survival_auc_vec <- function(truth, estimate, censor_probs, .time) {
-  curve <- roc_survival_curve_vec(truth, estimate, censor_probs, .time)
+                                 estimate,
+                                 censoring_weights,
+                                 eval_time,
+                                 na_rm = TRUE,
+                                 case_weights = NULL,
+                                 ...) {
+  # No checking since roc_curve_survival_vec() does checking
+  curve <- roc_curve_survival_vec(truth, estimate, censoring_weights, eval_time)
   roc_trap_auc(curve$specificity, curve$sensitivity)
 }
 
