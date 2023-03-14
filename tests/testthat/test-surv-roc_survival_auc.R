@@ -7,7 +7,7 @@ test_that("roc_curve_auc() calculations", {
     eval_time = .time
   ) %>%
     dplyr::summarise(
-      .estimate = yardstick:::trapezoidal_rule(1 - specificity, sensitivity)
+      .estimate = yardstick:::auc(1 - specificity, sensitivity)
     )
 
   survival_auc <- roc_auc_survival(

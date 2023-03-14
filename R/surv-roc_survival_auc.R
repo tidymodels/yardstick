@@ -14,7 +14,6 @@
 #' @seealso
 #' Compute the ROC survival curve with [roc_curve_survival()].
 #'
-#' @inheritParams pr_auc
 #' @inheritParams brier_survival
 #'
 #' @param ... Not currently used.
@@ -84,5 +83,5 @@ roc_trap_auc <- function(specificity, sensitivity) {
   sensitivity <- sensitivity[not_na]
   specificity <- specificity[not_na]
 
-  trapezoidal_rule( 1 - specificity, sensitivity)
+  auc( 1 - specificity, sensitivity)
 }
