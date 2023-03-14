@@ -38,6 +38,7 @@ utils::globalVariables(
   s3_register("ggplot2::autoplot", "gain_df")
   s3_register("ggplot2::autoplot", "lift_df")
   s3_register("ggplot2::autoplot", "roc_df")
+  s3_register("ggplot2::autoplot", "roc_survival_df")
   s3_register("ggplot2::autoplot", "pr_df")
   s3_register("ggplot2::autoplot", "conf_mat")
 

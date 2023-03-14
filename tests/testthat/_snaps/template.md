@@ -203,7 +203,7 @@
 # curve_survival_metric_summarizer()'s errors with bad input
 
     Code
-      curve_survival_metric_summarizer(name = "roc_survival_curve", fn = roc_survival_curve_vec,
+      curve_survival_metric_summarizer(name = "roc_curve_survival", fn = roc_curve_survival_vec,
         data = lung_surv, truth = inst, estimate = .pred_survival, censoring_weights = ipcw,
         eval_time = .time)
     Condition
@@ -215,7 +215,7 @@
 ---
 
     Code
-      curve_survival_metric_summarizer(name = "roc_survival_curve", fn = roc_survival_curve_vec,
+      curve_survival_metric_summarizer(name = "roc_curve_survival", fn = roc_curve_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = surv_obj, censoring_weights = ipcw,
         eval_time = .time)
     Condition
@@ -227,7 +227,7 @@
 ---
 
     Code
-      curve_survival_metric_summarizer(name = "roc_survival_curve", fn = roc_survival_curve_vec,
+      curve_survival_metric_summarizer(name = "roc_curve_survival", fn = roc_curve_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = .pred, censoring_weights = ipcw,
         eval_time = .time, obviouslywrong = TRUE)
     Condition
