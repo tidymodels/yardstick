@@ -157,5 +157,5 @@ brier_survival_integrated_impl <- function(truth,
     )
   }
 
-  trapezoidal_rule(unique_eval_times, brier_scores) / max(unique_eval_times)
+  auc(unique_eval_times, brier_scores) / max(unique_eval_times)
 }
