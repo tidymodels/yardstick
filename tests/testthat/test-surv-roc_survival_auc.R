@@ -10,7 +10,7 @@ test_that("roc_curve_auc() calculations", {
       .estimate = yardstick:::trapezoidal_rule(1 - specificity, sensitivity)
     )
 
-  survival_auc <- roc_survival_auc(
+  survival_auc <- roc_auc_survival(
     lung_surv,
     truth = surv_obj,
     estimate = .pred_survival,

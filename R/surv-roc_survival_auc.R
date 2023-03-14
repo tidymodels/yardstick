@@ -3,7 +3,7 @@
 #' Compute the area under the ROC survival curve.
 #'
 #' @family dynamic survival metrics
-#' @templateVar fn roc_survival_auc
+#' @templateVar fn roc_auc_survival
 #' @template return-dynamic-survival
 #' @details
 #'
@@ -25,25 +25,25 @@
 #' library(dplyr)
 #'
 #' lung_surv %>%
-#'   roc_survival_auc(
+#'   roc_auc_survival(
 #'     truth = surv_obj,
 #'     estimate = .pred_survival,
 #'     censoring_weights = ipcw,
 #'     eval_time = .time
 #'   )
 #' @export
-roc_survival_auc <- function(data, ...) {
-  UseMethod("roc_survival_auc")
+roc_auc_survival <- function(data, ...) {
+  UseMethod("roc_auc_survival")
 }
 
-roc_survival_auc <- new_dynamic_survival_metric(
-  roc_survival_auc,
+roc_auc_survival <- new_dynamic_survival_metric(
+  roc_auc_survival,
   direction = "minimize"
 )
 
-#' @rdname roc_survival_auc
+#' @rdname roc_auc_survival
 #' @export
-roc_survival_auc.data.frame <- function(data,
+roc_auc_survival.data.frame <- function(data,
                                         truth,
                                         estimate,
                                         censoring_weights,
@@ -53,8 +53,8 @@ roc_survival_auc.data.frame <- function(data,
                                         ...) {
 
   dynamic_survival_metric_summarizer(
-    name = "roc_survival_auc",
-    fn = roc_survival_auc_vec,
+    name = "roc_auc_survival",
+    fn = roc_auc_survival_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
@@ -66,8 +66,8 @@ roc_survival_auc.data.frame <- function(data,
 }
 
 #' @export
-#' @rdname roc_survival_auc
-roc_survival_auc_vec <- function(truth,
+#' @rdname roc_auc_survival
+roc_auc_survival_vec <- function(truth,
                                  estimate,
                                  censoring_weights,
                                  eval_time,

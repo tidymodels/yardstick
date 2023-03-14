@@ -102,7 +102,7 @@ Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 }
 \seealso{
 Other dynamic survival metrics: 
-\code{\link{roc_survival_auc}()}
+\code{\link{roc_auc_survival}()}
 }
 \author{
 Emil Hvitfeldt
