@@ -71,6 +71,7 @@ reference:
   - title: Dynamic Survival Metrics
     contents:
     - brier_survival
+    - brier_survival_integrated
 
   - title: Curve Functions
     contents:
