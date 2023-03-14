@@ -89,8 +89,7 @@ result \%>\%
 autoplot(result)
 }
 \seealso{
-Compute the area under the ROC survival curve with (TODO link to
-roc_survival_auc()).
+Compute the area under the ROC survival curve with \code{\link[=roc_survival_auc]{roc_survival_auc()}}.
 }
 \author{
 Emil Hvitfeldt
