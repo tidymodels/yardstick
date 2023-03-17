@@ -60,6 +60,7 @@ concordance_survival.data.frame <- function(data,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
+    ...,
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )
