@@ -112,42 +112,41 @@ roc_curve_survival_impl <- function(truth,
                                     censoring_weights,
                                     eval_time) {
   res <- dplyr::tibble(.threshold = sort(unique(c(0, 1, estimate))))
+  event_time <- .extract_surv_time(truth)
+  delta <- .extract_surv_status(truth)
+  obs_time_le_time <- ifelse(event_time <= eval_time, 1, 0)
+  obs_time_gt_time <- ifelse(event_time > eval_time, 1, 0)
+  n <- length(estimate)
+  multiplier <- delta / (n * censoring_weights)
+
   res$sensitivity <- vapply(
     res$.threshold,
     sensitivity_uno_2007,
     FUN.VALUE = numeric(1),
-    eval_time, truth, estimate, censoring_weights
+    estimate, obs_time_le_time, multiplier
   )
   res$specificity <- vapply(
     res$.threshold,
     specificity_naive,
     FUN.VALUE = numeric(1),
-    eval_time, truth, estimate
+    estimate, obs_time_gt_time
   )
   res
 }
 
 sensitivity_uno_2007 <- function(threshold,
-                                 eval_time,
-                                 surv_obj,
                                  prob_surv,
-                                 prob_cens) {
-  n <- length(prob_surv)
-  event_time <- .extract_surv_time(surv_obj)
-  delta <- .extract_surv_status(surv_obj)
-  obs_time_le_time <- ifelse(event_time <= eval_time, 1, 0)
+                                 obs_time_le_time,
+                                 multiplier) {
   # Since the "marker" X is the survival prob, X <= C means an event
   prob_le_thresh <- ifelse(prob_surv <= threshold, 1, 0)
-  multiplier <- delta / (n * prob_cens)
   numer <- sum(obs_time_le_time * prob_le_thresh * multiplier, na.rm = TRUE)
   denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
   numer / denom
 }
 
-specificity_naive <- function(threshold, eval_time, surv_obj, prob_surv) {
-  event_time <- .extract_surv_time(surv_obj)
-  delta <- .extract_surv_status(surv_obj)
-  obs_time_gt_time <- ifelse(event_time > eval_time, 1, 0)
+specificity_naive <- function(threshold, prob_surv,
+                              obs_time_gt_time) {
   # Since the "marker" X is the survival prob, X > C means no event
   prob_gt_thresh <- ifelse(prob_surv > threshold, 1, 0)
   numer <- sum(obs_time_gt_time * prob_gt_thresh, na.rm = TRUE)
