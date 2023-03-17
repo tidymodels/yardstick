@@ -83,5 +83,5 @@ roc_trap_auc <- function(specificity, sensitivity) {
   sensitivity <- sensitivity[not_na]
   specificity <- specificity[not_na]
 
-  auc( 1 - specificity, sensitivity)
+  auc(1 - specificity, sensitivity)
 }
