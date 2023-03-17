@@ -350,4 +350,3 @@ test_that("`probabilities` must be in [0, 1]", {
 test_that("`probabilities` can't be missing", {
   expect_snapshot(error = TRUE, weighted_quantile(1, 1, NA))
 })
-

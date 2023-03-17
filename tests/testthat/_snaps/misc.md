@@ -152,3 +152,13 @@
       Error in `weighted_quantile()`:
       ! `probabilities` can't be missing.
 
+# trapezoidal_rule errors when lengths of x and y differs
+
+    Code
+      trapezoidal_rule(1:6, 1:7)
+    Condition
+      Error in `trapezoidal_rule()`:
+      ! `x` (6) and `y` (7) must be same length.
+      i This is an internal error that was detected in the yardstick package.
+        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
+

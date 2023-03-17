@@ -76,6 +76,10 @@ reference:
     contents:
     - concordance_survival
 
+  - title: Curve Survival Functions
+    contents:
+    - roc_curve_survival
+
   - title: Curve Functions
     contents:
     - roc_curve
