@@ -6,7 +6,7 @@
       Error in `yardstick_table()`:
       ! `truth` must be a factor.
       i This is an internal error that was detected in the yardstick package.
-        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
+        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
 ---
 
@@ -16,7 +16,7 @@
       Error in `yardstick_table()`:
       ! `estimate` must be a factor.
       i This is an internal error that was detected in the yardstick package.
-        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
+        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
 # levels must be exactly the same
 
@@ -26,7 +26,7 @@
       Error in `yardstick_table()`:
       ! `truth` and `estimate` must have the same levels in the same order.
       i This is an internal error that was detected in the yardstick package.
-        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
+        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
 ---
 
@@ -36,7 +36,7 @@
       Error in `yardstick_table()`:
       ! `truth` and `estimate` must have the same levels in the same order.
       i This is an internal error that was detected in the yardstick package.
-        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
+        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
 # must have at least 2 levels
 
@@ -46,7 +46,7 @@
       Error in `yardstick_table()`:
       ! `truth` must have at least 2 factor levels.
       i This is an internal error that was detected in the yardstick package.
-        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
+        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
 # case weights must be numeric
 
@@ -151,14 +151,4 @@
     Condition
       Error in `weighted_quantile()`:
       ! `probabilities` can't be missing.
-
-# trapezoidal_rule errors when lengths of x and y differs
-
-    Code
-      trapezoidal_rule(1:6, 1:7)
-    Condition
-      Error in `trapezoidal_rule()`:
-      ! `x` (6) and `y` (7) must be same length.
-      i This is an internal error that was detected in the yardstick package.
-        Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
 
