@@ -1,0 +1,58 @@
+test_that('brier_survival_integrated calculations', {
+  lung_surv <- data_lung_surv()
+
+  brier_res <- brier_survival(
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = .pred_survival,
+    censoring_weights = ipcw,
+    eval_time = .time
+  ) %>%
+    dplyr::summarise(
+      .estimate = yardstick:::auc(.time, .estimate) / max(.time)
+    )
+
+  brier_integrated_res <- brier_survival_integrated(
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = .pred_survival,
+    censoring_weights = ipcw,
+    eval_time = .time
+  )
+
+  expect_equal(
+    brier_res$.estimate,
+    brier_integrated_res$.estimate
+  )
+})
+
+test_that('case weights', {
+  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
+  lung_surv$case_wts <- seq_len(nrow(lung_surv))
+
+  lung_surv <- data_lung_surv()
+
+  brier_res <- brier_survival(
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = .pred_survival,
+    censoring_weights = ipcw,
+    eval_time = .time
+  ) %>%
+    dplyr::summarise(
+      .estimate = yardstick:::auc(.time, .estimate) / max(.time)
+    )
+
+  brier_integrated_res <- brier_survival_integrated(
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = .pred_survival,
+    censoring_weights = ipcw,
+    eval_time = .time
+  )
+
+  expect_equal(
+    brier_res$.estimate,
+    brier_integrated_res$.estimate
+  )
+})

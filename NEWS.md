@@ -37,6 +37,8 @@
 
 * The Brier score for survival data was added with `brier_survival()`.
 
+* The Integrated Brier score for survival data was added with `brier_survival_integrated()`.
+
 * The Concordance index for survival data was added with `concordance_survival()`.
 
 * Time-Dependent ROC curves estimation for right-censored data can now be 
