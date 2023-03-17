@@ -119,11 +119,14 @@ roc_curve_survival_impl <- function(truth,
   n <- length(estimate)
   multiplier <- delta / (n * censoring_weights)
 
+  sensitivity_denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
+  specificity_denom <- sum(obs_time_gt_time, na.rm = TRUE)
+
   res$sensitivity <- vapply(
     res$.threshold,
     sensitivity_uno_2007,
     FUN.VALUE = numeric(1),
-    estimate, obs_time_le_time, multiplier
+    estimate, obs_time_le_time, multiplier, sensitivity_denom
   )
   res$specificity <- vapply(
     res$.threshold,
@@ -137,20 +140,20 @@ roc_curve_survival_impl <- function(truth,
 sensitivity_uno_2007 <- function(threshold,
                                  prob_surv,
                                  obs_time_le_time,
-                                 multiplier) {
+                                 multiplier,
+                                 denom) {
   # Since the "marker" X is the survival prob, X <= C means an event
   prob_le_thresh <- prob_surv <= threshold
   numer <- sum(obs_time_le_time * prob_le_thresh * multiplier, na.rm = TRUE)
-  denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
   numer / denom
 }
 
 specificity_naive <- function(threshold, prob_surv,
-                              obs_time_gt_time) {
+                              obs_time_gt_time,
+                              denom) {
   # Since the "marker" X is the survival prob, X > C means no event
   prob_gt_thresh <- prob_surv > threshold
   numer <- sum(obs_time_gt_time * prob_gt_thresh, na.rm = TRUE)
-  denom <- sum(obs_time_gt_time, na.rm = TRUE)
   numer / denom
 }
 
