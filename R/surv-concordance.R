@@ -24,24 +24,7 @@
 #'
 #' Larger values of the score are associated with better model performance.
 #'
-#' @inheritParams pr_auc
-#'
-#' @param data A `data.frame` containing the columns specified by `truth` and
-#'   `estimate`.
-#'
-#' @param truth The column identifier for the true class survival result (that
-#'   is created using [survival::Surv()].). This should be an unquoted column
-#'   name although this argument is passed by expression and supports
-#'   [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#'   `_vec()` functions, an [survival::Surv()] object.
-#'
-#' @param estimate The column identifier for the survival probabilities. This
-#'   needs to be a numeric vector.This should be an unquoted column name
-#'   although this argument is passed by expression and supports
-#'   [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#'   `_vec()` functions, a numeric vector.
-#'
-#' @param ... Not currently used.
+#' @inheritParams brier_survival
 #'
 #' @author Emil Hvitfeldt
 #'

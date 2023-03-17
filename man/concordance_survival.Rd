@@ -31,15 +31,15 @@ concordance_survival_vec(
 
 \item{...}{Not currently used.}
 
-\item{truth}{The column identifier for the true class survival result (that
-is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column
-name although this argument is passed by expression and supports
+\item{truth}{The column identifier for the true survival result (that
+is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
+although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
 
-\item{estimate}{The column identifier for the survival probabilities. This
-needs to be a numeric vector.This should be an unquoted column name
-although this argument is passed by expression and supports
+\item{estimate}{The column identifier for the survival probabilities (that should be
+numeric). This should be an unquoted column name although
+this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
 
