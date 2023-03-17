@@ -73,6 +73,10 @@ reference:
     - brier_survival
     - roc_auc_survival
 
+  - title: Static Survival Metrics
+    contents:
+    - concordance_survival
+
   - title: Curve Survival Functions
     contents:
     - roc_curve_survival

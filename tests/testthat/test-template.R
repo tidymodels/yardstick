@@ -1138,30 +1138,6 @@ test_that("dynamic_survival_metric_summarizer() handles column name collisions",
 
 ## static_survival_metric_summarizer --------------------------------------------------
 
-# To be removed once concordance_survival() is added
-concordance_survival_vec <- function(truth,
-                                     estimate,
-                                     na_rm = TRUE,
-                                     case_weights = NULL,
-                                     ...) {
-  check_static_survival_metric(truth, estimate, case_weights)
-
-  if (na_rm) {
-    result <- yardstick_remove_missing(truth, estimate, case_weights)
-
-    truth <- result$truth
-    estimate <- result$estimate
-    case_weights <- result$case_weights
-  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
-    return(NA_real_)
-  }
-
-  if (is.null(case_weights)) {
-    case_weights <- rep(1, length(estimate))
-  }
-  sum(as.numeric(truth) +  estimate + case_weights)
-}
-
 test_that("static_survival_metric_summarizer() works as expected", {
   lung_surv <- data_lung_surv()
 
