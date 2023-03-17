@@ -121,7 +121,7 @@ roc_curve_survival_impl <- function(truth,
   censoring_weights <- censoring_weights[new_order]
   eval_time <- eval_time[new_order]
 
-  res <- dplyr::tibble(.threshold = sort(unique(c(0, 1, estimate))))
+  res <- dplyr::tibble(.threshold = unique(c(0, estimate, 1)))
   obs_time_le_time <- event_time <= eval_time
   obs_time_gt_time <- event_time > eval_time
   n <- length(estimate)
