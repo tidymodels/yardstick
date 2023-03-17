@@ -132,7 +132,7 @@ roc_curve_survival_impl <- function(truth,
     res$.threshold,
     specificity_naive,
     FUN.VALUE = numeric(1),
-    estimate, obs_time_gt_time
+    estimate, obs_time_gt_time, specificity_denom
   )
   res
 }
