@@ -39,8 +39,13 @@
 
 * The Integrated Brier score for survival data was added with `brier_survival_integrated()`.
 
+* The Concordance index for survival data was added with `concordance_survival()`.
+
 * Time-Dependent ROC curves estimation for right-censored data can now be 
   calculated with `roc_curve_survival()`.
+  
+* Time-Dependent ROC AUC estimation for right-censored data can now be 
+  calculated with `roc_auc_survival()`.
 
 # yardstick 1.1.0
 
