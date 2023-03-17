@@ -114,8 +114,8 @@ roc_curve_survival_impl <- function(truth,
   res <- dplyr::tibble(.threshold = sort(unique(c(0, 1, estimate))))
   event_time <- .extract_surv_time(truth)
   delta <- .extract_surv_status(truth)
-  obs_time_le_time <- ifelse(event_time <= eval_time, 1, 0)
-  obs_time_gt_time <- ifelse(event_time > eval_time, 1, 0)
+  obs_time_le_time <- event_time <= eval_time
+  obs_time_gt_time <- event_time > eval_time
   n <- length(estimate)
   multiplier <- delta / (n * censoring_weights)
 
@@ -139,7 +139,7 @@ sensitivity_uno_2007 <- function(threshold,
                                  obs_time_le_time,
                                  multiplier) {
   # Since the "marker" X is the survival prob, X <= C means an event
-  prob_le_thresh <- ifelse(prob_surv <= threshold, 1, 0)
+  prob_le_thresh <- prob_surv <= threshold
   numer <- sum(obs_time_le_time * prob_le_thresh * multiplier, na.rm = TRUE)
   denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
   numer / denom
@@ -148,7 +148,7 @@ sensitivity_uno_2007 <- function(threshold,
 specificity_naive <- function(threshold, prob_surv,
                               obs_time_gt_time) {
   # Since the "marker" X is the survival prob, X > C means no event
-  prob_gt_thresh <- ifelse(prob_surv > threshold, 1, 0)
+  prob_gt_thresh <- prob_surv > threshold
   numer <- sum(obs_time_gt_time * prob_gt_thresh, na.rm = TRUE)
   denom <- sum(obs_time_gt_time, na.rm = TRUE)
   numer / denom
