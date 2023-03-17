@@ -178,6 +178,9 @@
     <loc>https://yardstick.tidymodels.org/dev/reference/roc_auc.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/dev/reference/roc_auc_survival.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/dev/reference/roc_aunp.html</loc>
   </url>
   <url>
