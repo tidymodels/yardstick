@@ -49,6 +49,9 @@
     <loc>https://yardstick.tidymodels.org/dev/reference/brier_survival.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/dev/reference/brier_survival_integrated.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/dev/reference/ccc.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/dev/reference/classification_cost.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/dev/reference/concordance_survival.html</loc>
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/dev/reference/conf_mat.html</loc>
