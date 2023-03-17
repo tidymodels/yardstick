@@ -100,6 +100,10 @@ E. Graf, C. Schmoor, W. Sauerbrei, and M. Schumacher, “Assessment and
 comparison of prognostic classification schemes for survival data,”
 Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 }
+\seealso{
+Other dynamic survival metrics: 
+\code{\link{roc_auc_survival}()}
+}
 \author{
 Emil Hvitfeldt
 }

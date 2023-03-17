@@ -10,8 +10,7 @@
 #' columns `.threshold`, `recall`, and `precision`.
 #'
 #' @seealso
-#' Compute the area under the ROC survival curve with (TODO link to
-#' roc_survival_auc()).
+#' Compute the area under the ROC survival curve with [roc_auc_survival()].
 #'
 #' @author Emil Hvitfeldt
 #' @examples
