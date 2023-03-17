@@ -37,7 +37,7 @@ roc_auc_survival <- function(data, ...) {
 
 roc_auc_survival <- new_dynamic_survival_metric(
   roc_auc_survival,
-  direction = "minimize"
+  direction = "maximize"
 )
 
 #' @rdname roc_auc_survival
