@@ -130,39 +130,32 @@ roc_curve_survival_impl <- function(truth,
   sensitivity_denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
   specificity_denom <- sum(obs_time_gt_time, na.rm = TRUE)
 
-  res$sensitivity <- vapply(
-    res$.threshold,
-    sensitivity_uno_2007,
-    FUN.VALUE = numeric(1),
-    estimate, obs_time_le_time, multiplier, sensitivity_denom
+  new_sensitivity <- data.frame(x = obs_time_le_time, y = multiplier)
+  new_sensitivity <- split(new_sensitivity, estimate)
+  new_sensitivity <- vapply(
+    new_sensitivity,
+    function(x) sum(x$x * x$y, na.rm = TRUE),
+    FUN.VALUE = numeric(1)
   )
-  res$specificity <- vapply(
-    res$.threshold,
-    specificity_naive,
-    FUN.VALUE = numeric(1),
-    estimate, obs_time_gt_time, specificity_denom
+  new_sensitivity <- cumsum(new_sensitivity)
+  new_sensitivity <- new_sensitivity / sensitivity_denom
+  new_sensitivity <- c(0, new_sensitivity, 1)
+  res$sensitivity <- new_sensitivity
+
+  new_specificity <- split(obs_time_gt_time, estimate)
+  new_specificity <- vapply(
+    new_specificity,
+    sum,
+    na.rm = TRUE,
+    FUN.VALUE = numeric(1)
   )
+  new_specificity <- cumsum(new_specificity)
+  new_specificity <- new_specificity / specificity_denom
+  new_specificity <- c(0, new_specificity, 1)
+  new_specificity <- 1 - new_specificity
+  res$specificity <- new_specificity
+
   res
-}
-
-sensitivity_uno_2007 <- function(threshold,
-                                 prob_surv,
-                                 obs_time_le_time,
-                                 multiplier,
-                                 denom) {
-  # Since the "marker" X is the survival prob, X <= C means an event
-  prob_le_thresh <- prob_surv <= threshold
-  numer <- sum(obs_time_le_time * prob_le_thresh * multiplier, na.rm = TRUE)
-  numer / denom
-}
-
-specificity_naive <- function(threshold, prob_surv,
-                              obs_time_gt_time,
-                              denom) {
-  # Since the "marker" X is the survival prob, X > C means no event
-  prob_gt_thresh <- prob_surv > threshold
-  numer <- sum(obs_time_gt_time * prob_gt_thresh, na.rm = TRUE)
-  numer / denom
 }
 
 # Dynamically exported
