@@ -143,8 +143,8 @@ brier_survival_impl <- function(truth,
                                 censoring_weights,
                                 case_weights,
                                 eval_time) {
-  surv_time <- truth[, "time"]
-  surv_status <- truth[, "status"]
+  surv_time <- .extract_surv_time(truth)
+  surv_status <- .extract_surv_status(truth)
 
   if (!is.null(case_weights)) {
     norm_const <- sum(case_weights)

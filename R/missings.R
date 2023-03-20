@@ -36,8 +36,8 @@ yardstick_remove_missing <- function(truth,
     truth, estimate, case_weights, censoring_weights, eval_time
   )
 
-  if (inherits(truth, "Surv")) {
-    Surv_type <- attr(truth, "type")
+  if (.is_surv(truth, fail = FALSE)) {
+    Surv_type <- .extract_surv_type(truth)
 
     truth <- truth[complete_cases, ]
 
