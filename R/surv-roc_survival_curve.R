@@ -111,48 +111,48 @@ roc_curve_survival_impl <- function(truth,
                                     estimate,
                                     censoring_weights,
                                     eval_time) {
-  res <- dplyr::tibble(.threshold = sort(unique(c(0, 1, estimate))))
-  res$sensitivity <- vapply(
-    res$.threshold,
-    sensitivity_uno_2007,
-    FUN.VALUE = numeric(1),
-    eval_time, truth, estimate, censoring_weights
+  event_time <- .extract_surv_time(truth)
+  delta <- .extract_surv_status(truth)
+
+  res <- dplyr::tibble(.threshold = sort(unique(c(0, estimate, 1))))
+
+  obs_time_le_time <- event_time <= eval_time
+  obs_time_gt_time <- event_time > eval_time
+  n <- length(estimate)
+  multiplier <- delta / (n * censoring_weights)
+
+  sensitivity_denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
+  specificity_denom <- sum(obs_time_gt_time, na.rm = TRUE)
+
+  data_df <- data.frame(
+    le_time = obs_time_le_time,
+    ge_time = obs_time_gt_time,
+    multiplier = multiplier
   )
-  res$specificity <- vapply(
-    res$.threshold,
-    specificity_naive,
-    FUN.VALUE = numeric(1),
-    eval_time, truth, estimate
+  data_split <- split(data_df, estimate)
+
+  sensitivity <- vapply(
+    data_split,
+    function(x) sum(x$le_time * x$multiplier, na.rm = TRUE),
+    FUN.VALUE = numeric(1)
   )
+  sensitivity <- cumsum(sensitivity)
+  sensitivity <- sensitivity / sensitivity_denom
+  sensitivity <- c(0, sensitivity, 1)
+  res$sensitivity <- sensitivity
+
+  specificity <- vapply(
+    data_split,
+    function(x) sum(x$gt_time, na.rm = TRUE),
+    FUN.VALUE = numeric(1)
+  )
+  specificity <- cumsum(specificity)
+  specificity <- specificity / specificity_denom
+  specificity <- c(0, specificity, 1)
+  specificity <- 1 - specificity
+  res$specificity <- specificity
+
   res
-}
-
-sensitivity_uno_2007 <- function(threshold,
-                                 eval_time,
-                                 surv_obj,
-                                 prob_surv,
-                                 prob_cens) {
-  n <- length(prob_surv)
-  event_time <- .extract_surv_time(surv_obj)
-  delta <- .extract_surv_status(surv_obj)
-  obs_time_le_time <- ifelse(event_time <= eval_time, 1, 0)
-  # Since the "marker" X is the survival prob, X <= C means an event
-  prob_le_thresh <- ifelse(prob_surv <= threshold, 1, 0)
-  multiplier <- delta / (n * prob_cens)
-  numer <- sum(obs_time_le_time * prob_le_thresh * multiplier, na.rm = TRUE)
-  denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
-  numer / denom
-}
-
-specificity_naive <- function(threshold, eval_time, surv_obj, prob_surv) {
-  event_time <- .extract_surv_time(surv_obj)
-  delta <- .extract_surv_status(surv_obj)
-  obs_time_gt_time <- ifelse(event_time > eval_time, 1, 0)
-  # Since the "marker" X is the survival prob, X > C means no event
-  prob_gt_thresh <- ifelse(prob_surv > threshold, 1, 0)
-  numer <- sum(obs_time_gt_time * prob_gt_thresh, na.rm = TRUE)
-  denom <- sum(obs_time_gt_time, na.rm = TRUE)
-  numer / denom
 }
 
 # Dynamically exported
