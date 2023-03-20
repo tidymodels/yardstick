@@ -406,6 +406,14 @@ dynamic_survival_metric_summarizer <- function(name,
     )
   )
 
+  if (".eval_time" %in% names(out)) {
+    out <- dplyr::relocate(
+      out,
+      dplyr::any_of(".eval_time"),
+      .after = dplyr::last_col()
+    )
+  }
+
   dplyr::as_tibble(out)
 }
 
