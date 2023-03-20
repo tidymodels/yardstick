@@ -124,30 +124,30 @@ roc_curve_survival_impl <- function(truth,
   sensitivity_denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
   specificity_denom <- sum(obs_time_gt_time, na.rm = TRUE)
 
-  new_sensitivity <- data.frame(x = obs_time_le_time, y = multiplier)
-  new_sensitivity <- split(new_sensitivity, estimate)
-  new_sensitivity <- vapply(
-    new_sensitivity,
+  sensitivity <- data.frame(x = obs_time_le_time, y = multiplier)
+  sensitivity <- split(sensitivity, estimate)
+  sensitivity <- vapply(
+    sensitivity,
     function(x) sum(x$x * x$y, na.rm = TRUE),
     FUN.VALUE = numeric(1)
   )
-  new_sensitivity <- cumsum(new_sensitivity)
-  new_sensitivity <- new_sensitivity / sensitivity_denom
-  new_sensitivity <- c(0, new_sensitivity, 1)
-  res$sensitivity <- new_sensitivity
+  sensitivity <- cumsum(sensitivity)
+  sensitivity <- sensitivity / sensitivity_denom
+  sensitivity <- c(0, sensitivity, 1)
+  res$sensitivity <- sensitivity
 
-  new_specificity <- split(obs_time_gt_time, estimate)
-  new_specificity <- vapply(
-    new_specificity,
+  specificity <- split(obs_time_gt_time, estimate)
+  specificity <- vapply(
+    specificity,
     sum,
     na.rm = TRUE,
     FUN.VALUE = numeric(1)
   )
-  new_specificity <- cumsum(new_specificity)
-  new_specificity <- new_specificity / specificity_denom
-  new_specificity <- c(0, new_specificity, 1)
-  new_specificity <- 1 - new_specificity
-  res$specificity <- new_specificity
+  specificity <- cumsum(specificity)
+  specificity <- specificity / specificity_denom
+  specificity <- c(0, specificity, 1)
+  specificity <- 1 - specificity
+  res$specificity <- specificity
 
   res
 }
