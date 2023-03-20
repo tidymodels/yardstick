@@ -1,4 +1,21 @@
 test_that('case weights', {
+  lung_surv <- data_lung_surv()
+
+  brier_res <- brier_survival(
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = .pred_survival,
+    censoring_weights = ipcw,
+    eval_time = .time
+  )
+
+  expect_equal(
+    names(brier_res),
+    c(".metric", ".estimator", ".estimate", ".eval_time")
+  )
+})
+
+test_that('case weights', {
   lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
   lung_surv$case_wts <- rep(2, nrow(lung_surv))
 
