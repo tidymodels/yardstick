@@ -128,6 +128,7 @@ metrics.data.frame <- function(data,
 #' All functions must be either:
 #' - Only numeric metrics
 #' - A mix of class metrics or class prob metrics
+#' - A mix of dynamic and static survival metrics
 #'
 #' For instance, `rmse()` can be used with `mae()` because they
 #' are numeric metrics, but not with `accuracy()` because it is a classification
@@ -159,12 +160,27 @@ metrics.data.frame <- function(data,
 #'   event_level = yardstick_event_level(),
 #'   case_weights = NULL
 #' )
+#'
+#' # Dynamic / static survival metric set signature:
+#' fn(
+#'   data,
+#'   truth,
+#'   estimate,
+#'   censoring_weights,
+#'   eval_time,
+#'   na_rm = TRUE,
+#'   case_weights = NULL,
+#'   ...
+#' )
 #' ```
 #'
 #' When mixing class and class prob metrics, pass in the hard predictions
 #' (the factor column) as the named argument `estimate`, and the soft
 #' predictions (the class probability columns) as bare column names or
 #' `tidyselect` selectors to `...`.
+#'
+#' When mixing dynamic and static survival metrics, `censoring_weights` and
+#' `eval_time` is only needed when dynamic metrics are included in the set.
 #'
 #' @examples
 #' library(dplyr)
