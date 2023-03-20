@@ -114,14 +114,8 @@ roc_curve_survival_impl <- function(truth,
   event_time <- .extract_surv_time(truth)
   delta <- .extract_surv_status(truth)
 
-  new_order <- vctrs::vec_order(estimate)
-  event_time <- event_time[new_order]
-  delta <- delta[new_order]
-  estimate <- estimate[new_order]
-  censoring_weights <- censoring_weights[new_order]
-  eval_time <- eval_time[new_order]
+  res <- dplyr::tibble(.threshold = sort(unique(c(0, estimate, 1))))
 
-  res <- dplyr::tibble(.threshold = unique(c(0, estimate, 1)))
   obs_time_le_time <- event_time <= eval_time
   obs_time_gt_time <- event_time > eval_time
   n <- length(estimate)
