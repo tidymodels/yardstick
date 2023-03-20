@@ -147,6 +147,15 @@ test_that('dynamic survival metric sets', {
   )
 })
 
+test_that('can mix dynamic and static survival metric together', {
+  expect_no_error(
+    mixed_set <- metric_set(brier_survival, concordance_survival)
+  )
+  expect_no_error(
+    mixed_set(lung_surv, surv_obj, .pred_survival, ipcw, .time)
+  )
+})
+
 test_that("can supply `event_level` even with metrics that don't use it", {
   df <- two_class_example
 
