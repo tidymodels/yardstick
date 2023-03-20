@@ -9,7 +9,7 @@ test_that('brier_survival_integrated calculations', {
     eval_time = .time
   ) %>%
     dplyr::summarise(
-      .estimate = yardstick:::auc(.time, .estimate) / max(.time)
+      .estimate = yardstick:::auc(.eval_time, .estimate) / max(.eval_time)
     )
 
   brier_integrated_res <- brier_survival_integrated(
@@ -40,7 +40,7 @@ test_that('case weights', {
     eval_time = .time
   ) %>%
     dplyr::summarise(
-      .estimate = yardstick:::auc(.time, .estimate) / max(.time)
+      .estimate = yardstick:::auc(.eval_time, .estimate) / max(.eval_time)
     )
 
   brier_integrated_res <- brier_survival_integrated(
