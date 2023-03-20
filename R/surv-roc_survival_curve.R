@@ -124,11 +124,16 @@ roc_curve_survival_impl <- function(truth,
   sensitivity_denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
   specificity_denom <- sum(obs_time_gt_time, na.rm = TRUE)
 
-  sensitivity <- data.frame(x = obs_time_le_time, y = multiplier)
-  sensitivity <- split(sensitivity, estimate)
+  data_df <- data.frame(
+    le_time = obs_time_le_time,
+    ge_time = obs_time_gt_time,
+    multiplier = multiplier
+  )
+  data_split <- split(data_df, estimate)
+
   sensitivity <- vapply(
-    sensitivity,
-    function(x) sum(x$x * x$y, na.rm = TRUE),
+    data_split,
+    function(x) sum(x$le_time * x$multiplier, na.rm = TRUE),
     FUN.VALUE = numeric(1)
   )
   sensitivity <- cumsum(sensitivity)
@@ -136,11 +141,9 @@ roc_curve_survival_impl <- function(truth,
   sensitivity <- c(0, sensitivity, 1)
   res$sensitivity <- sensitivity
 
-  specificity <- split(obs_time_gt_time, estimate)
   specificity <- vapply(
-    specificity,
-    sum,
-    na.rm = TRUE,
+    data_split,
+    function(x) sum(x$gt_time, na.rm = TRUE),
     FUN.VALUE = numeric(1)
   )
   specificity <- cumsum(specificity)
