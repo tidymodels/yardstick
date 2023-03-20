@@ -250,7 +250,7 @@ metric_set <- function(...) {
   } else if(fn_cls %in% c("prob_metric", "class_metric")) {
     make_prob_class_metric_function(fns)
   } else if(fn_cls %in% c("dynamic_survival_metric", "static_survival_metric")) {
-    make_dynamic_survival_metric_function(fns)
+    make_survival_metric_function(fns)
   } else {
     abort(paste0(
       "Internal error: `validate_function_class()` should have ",
@@ -455,7 +455,7 @@ make_numeric_metric_function <- function(fns) {
   metric_function
 }
 
-make_dynamic_survival_metric_function <- function(fns) {
+make_survival_metric_function <- function(fns) {
   metric_function <- function(data,
                               truth,
                               estimate,
@@ -495,7 +495,7 @@ make_dynamic_survival_metric_function <- function(fns) {
   }
 
   class(metric_function) <- c(
-    "dynamic_survival_metric_set",
+    "survival_metric_set",
     "metric_set",
     class(metric_function)
   )
