@@ -142,7 +142,7 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
 }
 
 validate_surv_truth_numeric_estimate <- function(truth, estimate) {
-  if (!inherits(truth, "Surv")) {
+  if (!.is_surv(truth, fail = FALSE)) {
     cls <- class(truth)[[1]]
     abort(paste0(
       "`truth` should be a Surv object, not a `", cls, "`."
