@@ -611,6 +611,7 @@ validate_function_class <- function(fns) {
     "\nThe combination of metric functions must be:\n",
     "- only numeric metrics\n",
     "- a mix of class metrics and class probability metrics\n\n",
+    "- a mix of dynamic and static survival metrics\n\n",
     "The following metric function types are being mixed:\n",
     fn_pastable
   ))
