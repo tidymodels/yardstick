@@ -249,7 +249,7 @@ metric_set <- function(...) {
     make_numeric_metric_function(fns)
   } else if(fn_cls %in% c("prob_metric", "class_metric")) {
     make_prob_class_metric_function(fns)
-  } else if(fn_cls %in% "dynamic_survival_metric") {
+  } else if(fn_cls %in% c("dynamic_survival_metric", "static_survival_metric")) {
     make_dynamic_survival_metric_function(fns)
   } else {
     abort(paste0(
@@ -540,7 +540,7 @@ validate_function_class <- function(fns) {
     return(invisible(fns))
   }
   valid_cls <- c("class_metric", "prob_metric", "numeric_metric",
-                 "dynamic_survival_metric")
+                 "dynamic_survival_metric", "static_survival_metric")
 
   if (n_unique == 1L) {
     if (fn_cls_unique %in% valid_cls) {
@@ -553,6 +553,13 @@ validate_function_class <- function(fns) {
   if (n_unique == 2) {
     if (fn_cls_unique[1] %in% c("class_metric", "prob_metric") &&
         fn_cls_unique[2] %in% c("class_metric", "prob_metric")) {
+      return(invisible(fns))
+    }
+
+    if (fn_cls_unique[1] %in% c("dynamic_survival_metric",
+                                "static_survival_metric") &&
+        fn_cls_unique[2] %in% c("dynamic_survival_metric",
+                                "static_survival_metric")) {
       return(invisible(fns))
     }
   }
