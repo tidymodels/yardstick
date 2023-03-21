@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Davis
 Vaughan</h4>
             
-            <h4 data-toc-skip class="date">2023-03-20</h4>
+            <h4 data-toc-skip class="date">2023-03-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/HEAD/vignettes/metric-types.Rmd" class="external-link"><code>vignettes/metric-types.Rmd</code></a></small>
       <div class="d-none name"><code>metric-types.Rmd</code></div>
@@ -108,7 +108,7 @@ class probability, and numeric. Each type of metric has standardized
 argument syntax, and all metrics return the same kind of output (a
 tibble with 3 columns). This standardization allows metrics to easily be
 grouped together and used with grouped data frames for computing on
-multiple resamples at once. Below are the three types of metrics, along
+multiple resamples at once. Below are the five types of metrics, along
 with the types of the inputs they take.</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -131,6 +131,22 @@ class probabilities</p></li>
 <ul>
 <li><p><code>truth</code> - numeric</p></li>
 <li><p><code>estimate</code> - numeric</p></li>
+</ul>
+</li>
+<li>
+<p><strong>Static survival metircs</strong></p>
+<ul>
+<li><p><code>truth</code> - Surv</p></li>
+<li><p><code>estimate</code> - numeric</p></li>
+</ul>
+</li>
+<li>
+<p><strong>dynamic survival metrics</strong></p>
+<ul>
+<li><p><code>turth</code> - Surv</p></li>
+<li><p><code>estimate</code> - numeric</p></li>
+<li><p><code>censoring_weights</code> - numeric</p></li>
+<li><p><code>eval_time</code> - numeric</p></li>
 </ul>
 </li>
 </ol>
@@ -557,6 +573,38 @@ numeric
 </td>
 <td style="text-align:left;">
 <code><a href="../reference/smape.html">smape()</a></code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dynamic survival
+</td>
+<td style="text-align:left;">
+<code><a href="../reference/brier_survival.html">brier_survival()</a></code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dynamic survival
+</td>
+<td style="text-align:left;">
+<code><a href="../reference/brier_survival_integrated.html">brier_survival_integrated()</a></code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dynamic survival
+</td>
+<td style="text-align:left;">
+<code><a href="../reference/roc_auc_survival.html">roc_auc_survival()</a></code>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+static survival
+</td>
+<td style="text-align:left;">
+<code><a href="../reference/concordance_survival.html">concordance_survival()</a></code>
 </td>
 </tr>
 </tbody>
