@@ -141,6 +141,54 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   }
 }
 
+validate_surv_truth_list_estimate <- function(truth, estimate) {
+  if (!inherits(truth, "Surv")) {
+    cls <- class(truth)[[1]]
+    abort(paste0(
+      "`truth` should be a Surv object, not a `", cls, "`."
+    ))
+  }
+
+  if (!is.list(estimate)) {
+    cls <- class(estimate)[[1]]
+    abort(paste0(
+      "`estimate` should be a list, not a `", cls, "`."
+    ))
+  }
+
+  if (!all(vapply(estimate, is.data.frame, FUN.VALUE = logical(1)))) {
+    abort("All elements of `estimate` should be data.frames.")
+  }
+
+  valid_names <- c(
+    ".eval_time", ".pred_survival", ".weight_time", ".pred_censored",
+    ".weight_censored"
+  )
+  has_names <- vapply(
+    estimate,
+    function(x) all(names(x) %in% valid_names),
+    FUN.VALUE = logical(1)
+  )
+
+  if (!all(has_names)) {
+    abort(paste0(
+      "All data.frames of `estimate` should include column names: ",
+      "`.eval_time`, `.pred_survival`, `.weight_time`, `.pred_censored` ",
+      "and `.weight_censored`."
+    ))
+  }
+
+  n_truth <- nrow(truth)
+  n_estimate <- length(estimate)
+
+  if (n_truth != n_estimate) {
+    abort(paste0(
+      "Length of `truth` (", n_truth, ") ",
+      "and `estimate` (", n_estimate, ") must match."
+    ))
+  }
+}
+
 validate_surv_truth_numeric_estimate <- function(truth, estimate) {
   if (!.is_surv(truth, fail = FALSE)) {
     cls <- class(truth)[[1]]
