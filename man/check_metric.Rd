@@ -15,13 +15,7 @@ check_class_metric(truth, estimate, case_weights, estimator)
 
 check_prob_metric(truth, estimate, case_weights, estimator)
 
-check_dynamic_survival_metric(
-  truth,
-  estimate,
-  censoring_weights,
-  case_weights,
-  eval_time
-)
+check_dynamic_survival_metric(truth, estimate, case_weights)
 
 check_static_survival_metric(truth, estimate, case_weights)
 }

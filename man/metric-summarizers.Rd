@@ -157,12 +157,6 @@ the metric implementation describing the kind of averaging to use.}
 \item{event_level}{This can either be \code{NULL} to use the default \code{event_level}
 value of the \code{fn} or a single string of either \code{"first"} or \code{"second"}
 to pass along describing which level should be considered the "event".}
-
-\item{censoring_weights}{For dynamic survival metrics, an unquoted
-column name corresponding to censoring weights can be passed here.}
-
-\item{eval_time}{For dynamic survival metrics, the unquoted column name
-corresponding to the evaluation times.}
 }
 \description{
 \code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
