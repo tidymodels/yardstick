@@ -337,8 +337,6 @@ dynamic_survival_metric_summarizer <- function(name,
                                                data,
                                                truth,
                                                estimate,
-                                               censoring_weights,
-                                               eval_time,
                                                ...,
                                                na_rm = TRUE,
                                                case_weights = NULL,
@@ -348,8 +346,6 @@ dynamic_survival_metric_summarizer <- function(name,
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
-  censoring_weights <- enquo(censoring_weights)
-  eval_time <- enquo(eval_time)
   case_weights <- enquo(case_weights)
 
   truth <- yardstick_eval_select(
@@ -364,18 +360,6 @@ dynamic_survival_metric_summarizer <- function(name,
     arg = "estimate",
     error_call = error_call
   )
-  censoring_weights <- yardstick_eval_select(
-    expr = censoring_weights,
-    data = data,
-    arg = "censoring_weights",
-    error_call = error_call
-  )
-  eval_time <- yardstick_eval_select(
-    expr = eval_time,
-    data = data,
-    arg = "eval_time",
-    error_call = error_call
-  )
 
   if (!quo_is_null(case_weights)) {
     case_weights <- yardstick_eval_select(
@@ -388,7 +372,7 @@ dynamic_survival_metric_summarizer <- function(name,
     case_weights <- expr(.data[[!!case_weights]])
   }
 
-  out <- dplyr::summarise(
+  out <- dplyr::reframe(
     data,
     .metric = .env[["name"]],
     .estimator = finalize_estimator(
@@ -398,13 +382,15 @@ dynamic_survival_metric_summarizer <- function(name,
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
-      censoring_weights = .data[[censoring_weights]],
-      eval_time = .data[[eval_time]],
       case_weights = !!case_weights,
       na_rm = .env[["na_rm"]],
       !!!fn_options
     )
   )
+
+  if (tibble::is_tibble(out$.estimate)) {
+    out <- tidyr::unnest(out, .estimate)
+  }
 
   if (".eval_time" %in% names(out)) {
     out <- dplyr::relocate(

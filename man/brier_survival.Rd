@@ -8,26 +8,9 @@
 \usage{
 brier_survival(data, ...)
 
-\method{brier_survival}{data.frame}(
-  data,
-  truth,
-  estimate,
-  censoring_weights,
-  eval_time,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
+\method{brier_survival}{data.frame}(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 
-brier_survival_vec(
-  truth,
-  estimate,
-  censoring_weights,
-  eval_time,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
+brier_survival_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
@@ -47,6 +30,13 @@ this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
 
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
+values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in \code{data}. For \verb{_vec()} functions, a numeric vector.}
+
 \item{censoring_weights}{The column identifier for censoring weights (that should
 be numeric). This should be an unquoted column name although
 this argument is passed by expression and supports
@@ -58,13 +48,6 @@ should be a numeric vector. This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
-
-\item{na_rm}{A \code{logical} value indicating whether \code{NA}
-values should be stripped before the computation proceeds.}
-
-\item{case_weights}{The optional column identifier for case weights.
-This should be an unquoted column name that evaluates to a numeric column
-in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator}, and \code{.estimate}.

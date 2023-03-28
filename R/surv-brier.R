@@ -75,21 +75,15 @@ brier_survival <- new_dynamic_survival_metric(
 brier_survival.data.frame <- function(data,
                                       truth,
                                       estimate,
-                                      censoring_weights,
-                                      eval_time,
                                       na_rm = TRUE,
                                       case_weights = NULL,
                                       ...) {
-  data <- dplyr::group_by(data, .eval_time = {{eval_time}})
-
   dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    censoring_weights = !!enquo(censoring_weights),
-    eval_time = !!enquo(eval_time),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )
@@ -99,43 +93,39 @@ brier_survival.data.frame <- function(data,
 #' @rdname brier_survival
 brier_survival_vec <- function(truth,
                                estimate,
-                               censoring_weights,
-                               eval_time,
                                na_rm = TRUE,
                                case_weights = NULL,
                                ...) {
-  check_dynamic_survival_metric(
-    truth, estimate, censoring_weights, case_weights, eval_time
-  )
+  # check_dynamic_survival_metric(
+  #   truth, estimate, censoring_weights, case_weights, eval_time
+  # )
+  # if (na_rm) {
+  #   result <- yardstick_remove_missing(
+  #     truth, estimate, case_weights, censoring_weights, eval_time
+  #   )
+  #
+  #   truth <- result$truth
+  #   estimate <- result$estimate
+  #   censoring_weights <- result$censoring_weights
+  #   eval_time <- result$eval_time
+  #   case_weights <- result$case_weights
+  # } else {
+  #   any_missing <- yardstick_any_missing(
+  #     truth, estimate, case_weights, censoring_weights, eval_time
+  #   )
+  #   if (any_missing) {
+  #     return(NA_real_)
+  #   }
+  # }
 
-  n_distinct_time <- dplyr::n_distinct(eval_time)
-  if (n_distinct_time != 1) {
-    abort(paste0(
-      "`eval_time` should have at most 1 unique value. But ", n_distinct_time,
-      " were detected."
-    ))
-  }
-
-  if (na_rm) {
-    result <- yardstick_remove_missing(
-      truth, estimate, case_weights, censoring_weights, eval_time
+  tibble::tibble(estimate) %>%
+    tidyr::unnest(estimate) %>%
+    group_by(.eval_time) %>%
+    summarize(
+      .estimate = brier_survival_impl(truth, .pred_survival, .weight_censored, case_weights, .eval_time)
     )
 
-    truth <- result$truth
-    estimate <- result$estimate
-    censoring_weights <- result$censoring_weights
-    eval_time <- result$eval_time
-    case_weights <- result$case_weights
-  } else {
-    any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights, censoring_weights, eval_time
-    )
-    if (any_missing) {
-      return(NA_real_)
-    }
-  }
-
-  brier_survival_impl(truth, estimate, censoring_weights, case_weights, eval_time)
+  # brier_survival_impl(truth, estimate, censoring_weights, case_weights, eval_time)
 }
 
 brier_survival_impl <- function(truth,
