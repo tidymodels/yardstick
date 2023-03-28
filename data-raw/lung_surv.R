@@ -1,59 +1,36 @@
 library(tidymodels)
 library(censored)
 
-data(cancer)
+# ------------------------------------------------------------------------------
 
-lung <- lung %>% drop_na()
-lung_train <- lung[-c(1:50), ]
-lung_test <- lung[1:50, ]
+tidymodels_prefer()
+theme_set(theme_bw())
+options(pillar.advice = FALSE, pillar.min_title_chars = Inf)
 
-sr_spec <-
-  survival_reg(dist = "weibull") %>%
-  set_engine("survival") %>%
-  set_mode("censored regression")
+# ------------------------------------------------------------------------------
 
-set.seed(1)
-sr_fit <- sr_spec %>% fit(Surv(time, status) ~ ., data = lung_train)
+lung_data <-
+  survival::lung %>%
+  select(time, status, age, sex, ph.ecog)
 
-censor_probs <- function(x) {
-  # JFC prodlim check for the right class by inspecting the call :-O
-  dat <- data.frame(time = x[, "time"], status = x[, "status"])
-  # TODO check for 2+ censored values
-  kn_cens <- prodlim::prodlim(survival::Surv(time, status) ~ 1, dat, reverse = TRUE)
+model_fit <-
+  survival_reg() %>%
+  fit(Surv(time, status) ~ age + sex + ph.ecog, data = lung_data)
 
-  cen_times <- as.data.frame(kn_cens[c("time", "n.lost", "surv")])
-  cen_times <- cen_times[cen_times$n.lost > 0, -2]
-  cen_times$surv <- 1 - cen_times$surv
-  colnames(cen_times) <- c("time", "ipcw")
+# ------------------------------------------------------------------------------
 
-  bounds <- dplyr::tibble(time = c(0, Inf), ipcw = c(0, 1))
-  cen_times <- dplyr::bind_rows(bounds, cen_times)
-  dplyr::arrange(cen_times, time)
-}
+pred_times <- (1:5) * 100
 
-get_single_censor_prob <- function(x, probs) {
-  probs$ipcw[max(which(x > probs$time))]
-}
-
-censor_dist <- censor_probs(Surv(lung_test$time, lung_test$status))
-
-lung_surv <- lung_test %>%
-  as_tibble() %>%
-  mutate(surv_obj = Surv(time, status)) %>%
-  bind_cols(predict(
-    sr_fit,
-    lung_test,
-    type = "survival",
-    time = c(100, 500, 1000)
-  )) %>%
-  unnest(.pred) %>%
-  mutate(
-    ipcw = if_else(
-      time < .time & status == 2,
-      1/(1 - map_dbl(time, get_single_censor_prob, censor_dist)),
-      1/(1 - map_dbl(.time, get_single_censor_prob, censor_dist)),
-    )
+# Data to compute metrics:
+lung_surv <-
+  # Now dynamic predictions at 5 time points
+  predict(model_fit, lung_data, type = "survival", eval_time = pred_times) %>%
+  bind_cols(
+    # Static predictions
+    predict(model_fit, lung_data, type = "time"),
+    # We'll need the surv object
+    lung_data %>% transmute(surv_obj = Surv(time, status))
   ) %>%
-  relocate(surv_obj, .time, .pred_survival, ipcw)
+  .censoring_weights_graf(model_fit, .)
 
 usethis::use_data(lung_surv, overwrite = TRUE)
