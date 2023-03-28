@@ -47,9 +47,6 @@
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along to
 #' the metric implementation describing the kind of averaging to use.
 #'
-#' @param eval_time For dynamic survival metrics, the unquoted column name
-#' corresponding to the evaluation times.
-#'
 #' @param na_rm A `logical` value indicating whether `NA` values should be
 #' stripped before the computation proceeds. The removal is executed in
 #' [yardstick_remove_missing()].
@@ -57,9 +54,6 @@
 #' @param event_level This can either be `NULL` to use the default `event_level`
 #' value of the `fn` or a single string of either `"first"` or `"second"`
 #' to pass along describing which level should be considered the "event".
-#'
-#' @param censoring_weights For dynamic survival metrics, an unquoted
-#' column name corresponding to censoring weights can be passed here.
 #'
 #' @param case_weights For metrics supporting case weights, an unquoted
 #' column name corresponding to case weights can be passed here. If not `NULL`,
@@ -390,14 +384,6 @@ dynamic_survival_metric_summarizer <- function(name,
 
   if (tibble::is_tibble(out$.estimate)) {
     out <- tidyr::unnest(out, .estimate)
-  }
-
-  if (".eval_time" %in% names(out)) {
-    out <- dplyr::relocate(
-      out,
-      dplyr::any_of(".eval_time"),
-      .after = dplyr::last_col()
-    )
   }
 
   dplyr::as_tibble(out)
