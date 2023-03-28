@@ -124,8 +124,6 @@ brier_survival_vec <- function(truth,
         truth, .pred_survival, .weight_censored, case_weights, .eval_time
       )
     )
-
-  # brier_survival_impl(truth, estimate, censoring_weights, case_weights, eval_time)
 }
 
 brier_survival_impl <- function(truth,
