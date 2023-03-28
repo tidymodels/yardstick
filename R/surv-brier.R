@@ -96,33 +96,33 @@ brier_survival_vec <- function(truth,
                                na_rm = TRUE,
                                case_weights = NULL,
                                ...) {
-  # check_dynamic_survival_metric(
-  #   truth, estimate, censoring_weights, case_weights, eval_time
-  # )
-  # if (na_rm) {
-  #   result <- yardstick_remove_missing(
-  #     truth, estimate, case_weights, censoring_weights, eval_time
-  #   )
-  #
-  #   truth <- result$truth
-  #   estimate <- result$estimate
-  #   censoring_weights <- result$censoring_weights
-  #   eval_time <- result$eval_time
-  #   case_weights <- result$case_weights
-  # } else {
-  #   any_missing <- yardstick_any_missing(
-  #     truth, estimate, case_weights, censoring_weights, eval_time
-  #   )
-  #   if (any_missing) {
-  #     return(NA_real_)
-  #   }
-  # }
+  check_dynamic_survival_metric(
+    truth, estimate, case_weights
+  )
+  if (na_rm) {
+    result <- yardstick_remove_missing(
+      truth, seq_along(estimate), case_weights
+    )
 
-  tibble::tibble(estimate) %>%
+    truth <- result$truth
+    estimate <- estimate[result$estimate]
+    case_weights <- result$case_weights
+  } else {
+    any_missing <- yardstick_any_missing(
+      truth, estimate, case_weights
+    )
+    if (any_missing) {
+      return(NA_real_)
+    }
+  }
+
+  dplyr::tibble(estimate) %>%
     tidyr::unnest(estimate) %>%
-    group_by(.eval_time) %>%
-    summarize(
-      .estimate = brier_survival_impl(truth, .pred_survival, .weight_censored, case_weights, .eval_time)
+    dplyr::group_by(.eval_time) %>%
+    dplyr::summarize(
+      .estimate = brier_survival_impl(
+        truth, .pred_survival, .weight_censored, case_weights, .eval_time
+      )
     )
 
   # brier_survival_impl(truth, estimate, censoring_weights, case_weights, eval_time)
