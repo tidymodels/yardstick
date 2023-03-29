@@ -5,21 +5,9 @@
 \alias{yardstick_any_missing}
 \title{Developer function for handling missing values in new metrics}
 \usage{
-yardstick_remove_missing(
-  truth,
-  estimate,
-  case_weights,
-  censoring_weights = NULL,
-  eval_time = NULL
-)
+yardstick_remove_missing(truth, estimate, case_weights)
 
-yardstick_any_missing(
-  truth,
-  estimate,
-  case_weights,
-  censoring_weights = NULL,
-  eval_time = NULL
-)
+yardstick_any_missing(truth, estimate, case_weights)
 }
 \arguments{
 \item{truth, estimate}{Vectors of the same length.}
