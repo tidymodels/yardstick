@@ -29,11 +29,9 @@ NULL
 #' @export
 yardstick_remove_missing <- function(truth,
                                      estimate,
-                                     case_weights,
-                                     censoring_weights = NULL,
-                                     eval_time = NULL) {
+                                     case_weights) {
   complete_cases <- stats::complete.cases(
-    truth, estimate, case_weights, censoring_weights, eval_time
+    truth, estimate, case_weights
   )
 
   if (.is_surv(truth, fail = FALSE)) {
@@ -54,15 +52,11 @@ yardstick_remove_missing <- function(truth,
   }
 
   case_weights <- case_weights[complete_cases]
-  censoring_weights <- censoring_weights[complete_cases]
-  eval_time <- eval_time[complete_cases]
 
   list(
     truth = truth,
     estimate = estimate,
-    case_weights = case_weights,
-    censoring_weights = censoring_weights,
-    eval_time = eval_time
+    case_weights = case_weights
   )
 }
 
@@ -70,9 +64,7 @@ yardstick_remove_missing <- function(truth,
 #' @export
 yardstick_any_missing <- function(truth,
                                   estimate,
-                                  case_weights,
-                                  censoring_weights = NULL,
-                                  eval_time = NULL) {
+                                  case_weights) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
   }
@@ -82,7 +74,5 @@ yardstick_any_missing <- function(truth,
 
   anyNA(truth) ||
     anyNA(estimate) ||
-    (!is.null(case_weights) && anyNA(case_weights)) ||
-    (!is.null(censoring_weights) && anyNA(censoring_weights)) ||
-    (!is.null(eval_time) && anyNA(eval_time))
+    (!is.null(case_weights) && anyNA(case_weights))
 }
