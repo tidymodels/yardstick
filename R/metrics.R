@@ -475,28 +475,40 @@ make_survival_metric_function <- function(fns) {
   metric_function <- function(data,
                               truth,
                               estimate,
-                              censoring_weights,
-                              eval_time,
+                              pred_time,
                               na_rm = TRUE,
                               case_weights = NULL,
                               ...) {
-
     # Construct common argument set for each metric call
     # Doing this dynamically inside the generated function means
     # we capture the correct arguments
-    call_args <- quos(
+    dynamic_call_args <- quos(
       data = data,
       truth = !!enquo(truth),
       estimate = !!enquo(estimate),
-      censoring_weights = !!enquo(censoring_weights),
-      eval_time = !!enquo(eval_time),
       na_rm = na_rm,
       case_weights = !!enquo(case_weights),
       ... = ...
     )
 
+    static_call_args <- quos(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(pred_time),
+      na_rm = na_rm,
+      case_weights = !!enquo(case_weights),
+      ... = ...
+    )
+
+    call_class_ind <- vapply(
+      fns, inherits, "dynamic_survival_metric", FUN.VALUE = logical(1)
+    )
+
     # Construct calls from the functions + arguments
-    calls <- lapply(fns, call2, !!! call_args)
+    dynamic_calls <- lapply(fns[call_class_ind], call2, !!! dynamic_call_args)
+    static_calls <- lapply(fns[!call_class_ind], call2, !!! static_call_args)
+
+    calls <- c(dynamic_calls, static_calls)
 
     # Evaluate
     metric_list <- mapply(
