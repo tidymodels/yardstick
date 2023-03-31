@@ -1,14 +1,14 @@
 #' Brier score for right censored data
 #'
 #' Compute the time-dependent Brier score for right censored data, which is the
-#' mean squared error at time point `eval_time`.
+#' mean squared error at time point `.eval_time`.
 #'
 #' @family dynamic survival metrics
 #' @templateVar fn brier_survival
 #' @template return-dynamic-survival
 #' @details
 #'
-#' This method automatically groups by the `eval_time` argument.
+#' This method automatically groups by the `.eval_time` argument.
 #'
 #' Smaller values of the score are associated with better model performance.
 #'

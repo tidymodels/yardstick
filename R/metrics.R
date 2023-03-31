@@ -166,8 +166,7 @@ metrics.data.frame <- function(data,
 #'   data,
 #'   truth,
 #'   estimate,
-#'   censoring_weights,
-#'   eval_time,
+#'   pred_time,
 #'   na_rm = TRUE,
 #'   case_weights = NULL,
 #'   ...
@@ -179,8 +178,8 @@ metrics.data.frame <- function(data,
 #' predictions (the class probability columns) as bare column names or
 #' `tidyselect` selectors to `...`.
 #'
-#' When mixing dynamic and static survival metrics, `censoring_weights` and
-#' `eval_time` is only needed when dynamic metrics are included in the set.
+#' When mixing dynamic and static survival metrics, `pred_time` is used to
+#' specify the variable passed to `estimate` for static metrics.
 #'
 #' @examples
 #' library(dplyr)

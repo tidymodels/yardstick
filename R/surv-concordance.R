@@ -26,6 +26,12 @@
 #'
 #' @inheritParams brier_survival
 #'
+#' @param estimate The column identifier for the predicted time, this should be
+#' a numeric variables. This should be an unquoted column name although this
+#' argument is passed by expression and supports
+#' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
+#' `_vec()` functions, a numeric vector.
+#'
 #' @author Emil Hvitfeldt
 #'
 #' @references

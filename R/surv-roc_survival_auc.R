@@ -7,7 +7,7 @@
 #' @template return-dynamic-survival
 #' @details
 #'
-#' This method automatically groups by the `eval_time` argument.
+#' This method automatically groups by the `.eval_time` values.
 #'
 #' Smaller values of the score are associated with better model performance.
 #'

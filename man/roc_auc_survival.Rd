@@ -51,7 +51,7 @@ For \code{roc_auc_survival_vec()}, a \code{numeric} vector same length as the in
 Compute the area under the ROC survival curve.
 }
 \details{
-This method automatically groups by the \code{eval_time} argument.
+This method automatically groups by the \code{.eval_time} values.
 
 Smaller values of the score are associated with better model performance.
 }

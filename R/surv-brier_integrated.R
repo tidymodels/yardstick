@@ -1,7 +1,7 @@
 #' Integrated Brier score for right censored data
 #'
 #' Compute the integrated Brier score for right censored data, which is an
-#' overall calculation of model performance for all values of `eval_time`.
+#' overall calculation of model performance for all values of `.eval_time`.
 #'
 #' @family dynamic survival metrics
 #' @templateVar fn brier_survival_integrated
@@ -9,9 +9,9 @@
 #' @details
 #'
 #' The integrated time-dependent brier score is calculated in an "area under the
-#' curve" fashion. The brier score is calculated for each value of `eval_time`.
+#' curve" fashion. The brier score is calculated for each value of `.eval_time`.
 #' The area is calculated via the trapezoidal rule. The area is divided by the
-#' largest value of `eval_time` to bring it into the same scale as the
+#' largest value of `.eval_time` to bring it into the same scale as the
 #' traditional brier score.
 #'
 #' Smaller values of the score are associated with better model performance.

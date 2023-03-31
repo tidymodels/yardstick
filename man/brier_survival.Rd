@@ -49,10 +49,10 @@ For \code{brier_survival_vec()}, a \code{numeric} vector same length as the inpu
 }
 \description{
 Compute the time-dependent Brier score for right censored data, which is the
-mean squared error at time point \code{eval_time}.
+mean squared error at time point \code{.eval_time}.
 }
 \details{
-This method automatically groups by the \code{eval_time} argument.
+This method automatically groups by the \code{.eval_time} argument.
 
 Smaller values of the score are associated with better model performance.
 }

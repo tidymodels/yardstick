@@ -62,13 +62,13 @@ For \code{brier_survival_integrated_vec()}, a \code{numeric} vector same length 
 }
 \description{
 Compute the integrated Brier score for right censored data, which is an
-overall calculation of model performance for all values of \code{eval_time}.
+overall calculation of model performance for all values of \code{.eval_time}.
 }
 \details{
 The integrated time-dependent brier score is calculated in an "area under the
-curve" fashion. The brier score is calculated for each value of \code{eval_time}.
+curve" fashion. The brier score is calculated for each value of \code{.eval_time}.
 The area is calculated via the trapezoidal rule. The area is divided by the
-largest value of \code{eval_time} to bring it into the same scale as the
+largest value of \code{.eval_time} to bring it into the same scale as the
 traditional brier score.
 
 Smaller values of the score are associated with better model performance.
