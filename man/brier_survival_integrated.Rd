@@ -12,8 +12,6 @@ brier_survival_integrated(data, ...)
   data,
   truth,
   estimate,
-  censoring_weights,
-  eval_time,
   na_rm = TRUE,
   case_weights = NULL,
   ...
@@ -22,8 +20,6 @@ brier_survival_integrated(data, ...)
 brier_survival_integrated_vec(
   truth,
   estimate,
-  censoring_weights,
-  eval_time,
   na_rm = TRUE,
   case_weights = NULL,
   ...
@@ -43,18 +39,6 @@ although this argument is passed by expression and supports
 
 \item{estimate}{The column identifier for the survival probabilities (that should be
 numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
-\item{censoring_weights}{The column identifier for censoring weights (that should
-be numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
-\item{eval_time}{The column identifier for the evaluation time points. This
-should be a numeric vector. This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
@@ -94,9 +78,7 @@ library(dplyr)
 lung_surv \%>\%
   brier_survival_integrated(
     truth = surv_obj,
-    estimate = .pred_survival,
-    censoring_weights = ipcw,
-    eval_time = .time
+    estimate = .pred
   )
 }
 \references{
