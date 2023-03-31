@@ -454,8 +454,6 @@ curve_survival_metric_summarizer <- function(name,
                                              data,
                                              truth,
                                              estimate,
-                                             censoring_weights,
-                                             eval_time,
                                              ...,
                                              na_rm = TRUE,
                                              case_weights = NULL,
@@ -465,8 +463,6 @@ curve_survival_metric_summarizer <- function(name,
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
-  censoring_weights <- enquo(censoring_weights)
-  eval_time <- enquo(eval_time)
   case_weights <- enquo(case_weights)
 
   truth <- yardstick_eval_select(
@@ -479,18 +475,6 @@ curve_survival_metric_summarizer <- function(name,
     expr = estimate,
     data = data,
     arg = "estimate",
-    error_call = error_call
-  )
-  censoring_weights <- yardstick_eval_select(
-    expr = censoring_weights,
-    data = data,
-    arg = "censoring_weights",
-    error_call = error_call
-  )
-  eval_time <- yardstick_eval_select(
-    expr = eval_time,
-    data = data,
-    arg = "eval_time",
     error_call = error_call
   )
 
@@ -515,8 +499,6 @@ curve_survival_metric_summarizer <- function(name,
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
-      censoring_weights = .data[[censoring_weights]],
-      eval_time = .data[[eval_time]],
       case_weights = !!case_weights,
       na_rm = .env[["na_rm"]],
       !!!fn_options
@@ -525,7 +507,6 @@ curve_survival_metric_summarizer <- function(name,
 
   dplyr::as_tibble(out)
 }
-
 
 prob_estimate_convert <- function(estimate) {
   if (!is.data.frame(estimate)) {
