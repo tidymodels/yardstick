@@ -153,3 +153,46 @@
       x Problematic argument:
       * obviouslywrong = TRUE
 
+# static_survival_metric_summarizer()'s errors with bad input
+
+    Code
+      static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
+        data = lung_surv, truth = inst, estimate = .pred_time)
+    Condition
+      Error:
+      ! Can't subset columns that don't exist.
+      x Column `inst` doesn't exist.
+
+---
+
+    Code
+      static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
+        data = lung_surv, truth = surv_obj, estimate = surv_obj)
+    Condition
+      Error in `dplyr::summarise()`:
+      i In argument: `.estimate = fn(...)`.
+      Caused by error in `validate_surv_truth_numeric_estimate()`:
+      ! `estimate` should be a numeric vector, not a numeric matrix.
+
+---
+
+    Code
+      static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
+        data = lung_surv, truth = surv_obj, estimate = list)
+    Condition
+      Error in `dplyr::summarise()`:
+      i In argument: `.estimate = fn(...)`.
+      Caused by error in `validate_surv_truth_numeric_estimate()`:
+      ! `estimate` should be a numeric, not a `list`.
+
+---
+
+    Code
+      static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
+        data = lung_surv, truth = surv_obj, estimate = .pred_time, obviouslywrong = TRUE)
+    Condition
+      Error in `static_survival_metric_summarizer()`:
+      ! `...` must be empty.
+      x Problematic argument:
+      * obviouslywrong = TRUE
+

@@ -1127,7 +1127,7 @@ test_that("static_survival_metric_summarizer() works as expected", {
     fn = concordance_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = age,
+    estimate = .pred_time,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1136,7 +1136,7 @@ test_that("static_survival_metric_summarizer() works as expected", {
     .metric = "concordance_survival",
     .estimator = "standard",
     .estimate = concordance_survival_vec(
-      lung_surv$surv_obj, lung_surv$age
+      lung_surv$surv_obj, lung_surv$.pred_time
     )
   )
 
@@ -1145,14 +1145,14 @@ test_that("static_survival_metric_summarizer() works as expected", {
 
 test_that("static_survival_metric_summarizer()'s na_rm argument works", {
   lung_surv <- data_lung_surv()
-  lung_surv[1:5, 1] <- NA
+  lung_surv[1:5, 3] <- NA
 
   concordance_survival_res <- static_survival_metric_summarizer(
     name = "concordance_survival",
     fn = concordance_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = age,
+    estimate = .pred_time,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1169,7 +1169,7 @@ test_that("static_survival_metric_summarizer()'s na_rm argument works", {
     .estimator = "standard",
     .estimate = concordance_survival_vec(
       truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
-      estimate = lung_surv$age[-c(1:5)]
+      estimate = lung_surv$.pred_time[-c(1:5)]
     )
   )
 
@@ -1180,7 +1180,7 @@ test_that("static_survival_metric_summarizer()'s na_rm argument works", {
     fn = concordance_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = age,
+    estimate = .pred_time,
     na_rm = FALSE,
     case_weights = NULL
   )
@@ -1196,23 +1196,24 @@ test_that("static_survival_metric_summarizer()'s na_rm argument works", {
 
 test_that("static_survival_metric_summarizer()'s case_weights argument works", {
   lung_surv <- data_lung_surv()
+  lung_surv$wts <- seq_len(nrow(lung_surv))
 
   concordance_survival_res <- static_survival_metric_summarizer(
     name = "concordance_survival",
     fn = concordance_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = age,
+    estimate = .pred_time,
     na_rm = TRUE,
-    case_weights = ph.ecog
+    case_weights = wts
   )
 
   concordance_survival_exp <- dplyr::tibble(
     .metric = "concordance_survival",
     .estimator = "standard",
     .estimate = concordance_survival_vec(
-      lung_surv$surv_obj, lung_surv$age,
-      case_weights = lung_surv$ph.ecog
+      lung_surv$surv_obj, lung_surv$.pred_time,
+      case_weights = lung_surv$wts
     )
   )
 
@@ -1232,7 +1233,7 @@ test_that("static_survival_metric_summarizer()'s errors with bad input", {
     fn = concordance_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = age,
+    estimate = .pred_time,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1244,7 +1245,7 @@ test_that("static_survival_metric_summarizer()'s errors with bad input", {
       fn = concordance_survival_vec,
       data = lung_surv,
       truth = inst,
-      estimate = age
+      estimate = .pred_time
     )
   )
 
@@ -1277,7 +1278,7 @@ test_that("static_survival_metric_summarizer()'s errors with bad input", {
       fn = concordance_survival_vec,
       data = lung_surv,
       truth = surv_obj,
-      estimate = age,
+      estimate = .pred_time,
       obviouslywrong = TRUE
     )
   )
@@ -1291,7 +1292,7 @@ test_that("static_survival_metric_summarizer() deals with characters in truth an
     fn = concordance_survival_vec,
     data = lung_surv,
     truth = "surv_obj",
-    estimate = "age",
+    estimate = ".pred_time",
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1300,7 +1301,7 @@ test_that("static_survival_metric_summarizer() deals with characters in truth an
     .metric = "concordance_survival",
     .estimator = "standard",
     .estimate = concordance_survival_vec(
-      lung_surv$surv_obj, lung_surv$age
+      lung_surv$surv_obj, lung_surv$.pred_time
     )
   )
 
