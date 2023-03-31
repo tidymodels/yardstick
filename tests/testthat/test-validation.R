@@ -277,14 +277,14 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
   expect_no_error(
     validate_surv_truth_numeric_estimate(
       lung_surv$surv_obj,
-      lung_surv$age
+      lung_surv$.pred_time
     )
   )
 
   expect_no_error(
     validate_surv_truth_numeric_estimate(
       survival::Surv(1, 0),
-      lung_surv$age[1]
+      lung_surv$.pred_time[1]
     )
   )
 
@@ -297,7 +297,7 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
     error = TRUE,
     validate_surv_truth_numeric_estimate(
       lung_surv$list,
-      lung_surv$age
+      lung_surv$.pred_time
     )
   )
 
@@ -305,7 +305,7 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
     error = TRUE,
     validate_surv_truth_numeric_estimate(
       lung_surv$list2,
-      lung_surv$age
+      lung_surv$.pred_time
     )
   )
 
@@ -313,7 +313,7 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
     error = TRUE,
     validate_surv_truth_numeric_estimate(
       lung_surv$surv_obj,
-      as.character(lung_surv$inst)
+      as.character(lung_surv$.pred_time)
     )
   )
 
@@ -321,7 +321,7 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
     error = TRUE,
     validate_surv_truth_numeric_estimate(
       lung_surv$surv_obj[1:5, ],
-      lung_surv$age
+      lung_surv$.pred_time
     )
   )
 })
