@@ -8,26 +8,9 @@
 \usage{
 roc_auc_survival(data, ...)
 
-\method{roc_auc_survival}{data.frame}(
-  data,
-  truth,
-  estimate,
-  censoring_weights,
-  eval_time,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
+\method{roc_auc_survival}{data.frame}(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 
-roc_auc_survival_vec(
-  truth,
-  estimate,
-  censoring_weights,
-  eval_time,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
+roc_auc_survival_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
@@ -43,18 +26,6 @@ although this argument is passed by expression and supports
 
 \item{estimate}{The column identifier for the survival probabilities (that should be
 numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
-\item{censoring_weights}{The column identifier for censoring weights (that should
-be numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
-\item{eval_time}{The column identifier for the evaluation time points. This
-should be a numeric vector. This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
@@ -89,9 +60,7 @@ library(dplyr)
 lung_surv \%>\%
   roc_auc_survival(
     truth = surv_obj,
-    estimate = .pred_survival,
-    censoring_weights = ipcw,
-    eval_time = .time
+    estimate = .pred
   )
 }
 \seealso{

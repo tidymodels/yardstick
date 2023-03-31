@@ -99,8 +99,6 @@ curve_survival_metric_summarizer(
   data,
   truth,
   estimate,
-  censoring_weights,
-  eval_time,
   ...,
   na_rm = TRUE,
   case_weights = NULL,
