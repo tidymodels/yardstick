@@ -82,7 +82,11 @@ higher estimated risk score has a shorter actual survival time.
 Larger values of the score are associated with better model performance.
 }
 \examples{
-concordance_survival(data = lung_surv, truth = surv_obj, estimate = age)
+concordance_survival(
+  data = lung_surv,
+  truth = surv_obj,
+  estimate = .pred_time
+)
 }
 \references{
 Harrell, F.E., Califf, R.M., Pryor, D.B., Lee, K.L., Rosati, R.A,

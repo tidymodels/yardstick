@@ -12,14 +12,6 @@
 #' @param case_weights A vector of the same length as `truth` and `estimate`, or
 #'   `NULL` if case weights are not being used.
 #'
-#' @param censoring_weights A vector of the same length as `truth` and
-#'   `estimate`, or `NULL` if censoring weights are not being used. Defaults to
-#'   `NULL`.
-#'
-#' @param eval_time A vector of the same length as `truth` and
-#'   `estimate`, or `NULL` if time points are not being used. Defaults to
-#'   `NULL`.
-#'
 #' @seealso [metric-summarizers]
 #'
 #' @name yardstick_remove_missing

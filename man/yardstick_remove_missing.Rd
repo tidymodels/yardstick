@@ -14,14 +14,6 @@ yardstick_any_missing(truth, estimate, case_weights)
 
 \item{case_weights}{A vector of the same length as \code{truth} and \code{estimate}, or
 \code{NULL} if case weights are not being used.}
-
-\item{censoring_weights}{A vector of the same length as \code{truth} and
-\code{estimate}, or \code{NULL} if censoring weights are not being used. Defaults to
-\code{NULL}.}
-
-\item{eval_time}{A vector of the same length as \code{truth} and
-\code{estimate}, or \code{NULL} if time points are not being used. Defaults to
-\code{NULL}.}
 }
 \description{
 \code{yardstick_remove_missing()},  and \code{yardstick_any_missing()} are useful

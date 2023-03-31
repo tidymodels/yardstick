@@ -35,7 +35,11 @@
 #'   Medicine, 15(4), 361-87, 1996.
 #'
 #' @examples
-#' concordance_survival(data = lung_surv, truth = surv_obj, estimate = age)
+#' concordance_survival(
+#'   data = lung_surv,
+#'   truth = surv_obj,
+#'   estimate = .pred_time
+#' )
 #' @export
 concordance_survival <- function(data, ...) {
   UseMethod("concordance_survival")

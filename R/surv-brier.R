@@ -29,18 +29,6 @@
 #'  [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, a numeric vector.
 #'
-#' @param censoring_weights The column identifier for censoring weights (that should
-#' be numeric). This should be an unquoted column name although
-#' this argument is passed by expression and supports
-#' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#' `_vec()` functions, a numeric vector.
-#'
-#' @param eval_time The column identifier for the evaluation time points. This
-#' should be a numeric vector. This should be an unquoted column name although
-#' this argument is passed by expression and supports
-#' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#' `_vec()` functions, a numeric vector.
-#'
 #' @param ... Not currently used.
 #'
 #' @author Emil Hvitfeldt
@@ -56,9 +44,7 @@
 #' lung_surv %>%
 #'   brier_survival(
 #'     truth = surv_obj,
-#'     estimate = .pred_survival,
-#'     censoring_weights = ipcw,
-#'     eval_time = .time
+#'     estimate = .pred
 #'   )
 #' @export
 brier_survival <- function(data, ...) {

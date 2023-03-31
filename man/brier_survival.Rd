@@ -36,18 +36,6 @@ values should be stripped before the computation proceeds.}
 \item{case_weights}{The optional column identifier for case weights.
 This should be an unquoted column name that evaluates to a numeric column
 in \code{data}. For \verb{_vec()} functions, a numeric vector.}
-
-\item{censoring_weights}{The column identifier for censoring weights (that should
-be numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
-\item{eval_time}{The column identifier for the evaluation time points. This
-should be a numeric vector. This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator}, and \code{.estimate}.
@@ -73,9 +61,7 @@ library(dplyr)
 lung_surv \%>\%
   brier_survival(
     truth = surv_obj,
-    estimate = .pred_survival,
-    censoring_weights = ipcw,
-    eval_time = .time
+    estimate = .pred
   )
 }
 \references{
