@@ -2,9 +2,7 @@ test_that("roc_curve_survival works", {
   result <- roc_curve_survival(
     lung_surv,
     truth = surv_obj,
-    estimate = .pred_survival,
-    censoring_weights = ipcw,
-    eval_time = .time
+    estimate = .pred
   )
 
   expect_identical(
@@ -14,7 +12,7 @@ test_that("roc_curve_survival works", {
 
   expect_identical(
     result$.threshold,
-    c(0, unique(sort(lung_surv$.pred_survival)), 1)
+    c(0, unique(sort(tidyr::unnest(lung_surv, cols = .pred)$.pred_survival)), 1)
   )
 
   expect_true(

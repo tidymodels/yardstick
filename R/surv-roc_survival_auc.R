@@ -26,9 +26,7 @@
 #' lung_surv %>%
 #'   roc_auc_survival(
 #'     truth = surv_obj,
-#'     estimate = .pred_survival,
-#'     censoring_weights = ipcw,
-#'     eval_time = .time
+#'     estimate = .pred
 #'   )
 #' @export
 roc_auc_survival <- function(data, ...) {
@@ -45,8 +43,6 @@ roc_auc_survival <- new_dynamic_survival_metric(
 roc_auc_survival.data.frame <- function(data,
                                         truth,
                                         estimate,
-                                        censoring_weights,
-                                        eval_time,
                                         na_rm = TRUE,
                                         case_weights = NULL,
                                         ...) {
@@ -57,8 +53,6 @@ roc_auc_survival.data.frame <- function(data,
     data = data,
     truth = !!enquo(truth),
     estimate = !!enquo(estimate),
-    censoring_weights = !!enquo(censoring_weights),
-    eval_time = !!enquo(eval_time),
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )
@@ -68,13 +62,11 @@ roc_auc_survival.data.frame <- function(data,
 #' @rdname roc_auc_survival
 roc_auc_survival_vec <- function(truth,
                                  estimate,
-                                 censoring_weights,
-                                 eval_time,
                                  na_rm = TRUE,
                                  case_weights = NULL,
                                  ...) {
   # No checking since roc_curve_survival_vec() does checking
-  curve <- roc_curve_survival_vec(truth, estimate, censoring_weights, eval_time)
+  curve <- roc_curve_survival_vec(truth, estimate)
   roc_trap_auc(curve$specificity, curve$sensitivity)
 }
 
