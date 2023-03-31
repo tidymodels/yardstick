@@ -382,7 +382,7 @@ dynamic_survival_metric_summarizer <- function(name,
     )
   )
 
-  if (tibble::is_tibble(out$.estimate)) {
+  if (inherits(out$.estimate, "tbl_df")) {
     out <- tidyr::unnest(out, .estimate)
   }
 
