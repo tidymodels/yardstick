@@ -1318,9 +1318,7 @@ test_that("curve_survival_metric_summarizer() works as expected", {
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred_survival,
-    censoring_weights = ipcw,
-    eval_time = .time,
+    estimate = .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1330,9 +1328,7 @@ test_that("curve_survival_metric_summarizer() works as expected", {
     .estimator = "standard",
     .estimate = roc_curve_survival_vec(
       truth = lung_surv$surv_obj,
-      estimate = lung_surv$.pred_survival,
-      censoring_weights = lung_surv$ipcw,
-      eval_time = lung_surv$.time
+      estimate = lung_surv$.pred
     )
   )
 
@@ -1341,16 +1337,14 @@ test_that("curve_survival_metric_summarizer() works as expected", {
 
 test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
   lung_surv <- data_lung_surv()
-  lung_surv[1:5, 1] <- NA
+  lung_surv[1:5, 3] <- NA
 
   roc_curve_survival_res <- curve_survival_metric_summarizer(
     name = "roc_curve_survival",
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    censoring_weights = ipcw,
-    estimate = .pred_survival,
-    eval_time = .time,
+    estimate = .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1367,9 +1361,7 @@ test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
     .estimator = "standard",
     .estimate = roc_curve_survival_vec(
       truth = surv_subset(lung_surv$surv_obj, -c(1:5)),
-      estimate = lung_surv$.pred_survival[-c(1:5)],
-      censoring_weights = lung_surv$ipcw[-c(1:5)],
-      eval_time = lung_surv$.time[-c(1:5)]
+      estimate = lung_surv$.pred[-c(1:5)]
     )
   )
 
@@ -1380,9 +1372,7 @@ test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    censoring_weights = ipcw,
-    estimate = .pred_survival,
-    eval_time = .time,
+    estimate = .pred,
     na_rm = FALSE,
     case_weights = NULL
   )
@@ -1398,17 +1388,16 @@ test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
 
 test_that("curve_survival_metric_summarizer()'s case_weights argument works", {
   lung_surv <- data_lung_surv()
+  lung_surv$wts <- seq_len(nrow(lung_surv))
 
   roc_curve_survival_res <- curve_survival_metric_summarizer(
     name = "roc_curve_survival",
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    censoring_weights = ipcw,
-    estimate = .pred_survival,
-    eval_time = .time,
+    estimate = .pred,
     na_rm = TRUE,
-    case_weights = ph.ecog
+    case_weights = wts
   )
 
   roc_curve_survival_exp <- dplyr::tibble(
@@ -1416,10 +1405,8 @@ test_that("curve_survival_metric_summarizer()'s case_weights argument works", {
     .estimator = "standard",
     .estimate = roc_curve_survival_vec(
       truth = lung_surv$surv_obj,
-      estimate = lung_surv$.pred_survival,
-      censoring_weights = lung_surv$ipcw,
-      eval_time = lung_surv$.time,
-      case_weights = lung_surv$ph.ecog
+      estimate = lung_surv$.pred,
+      case_weights = lung_surv$wts
     )
   )
 
@@ -1434,9 +1421,7 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    censoring_weights = ipcw,
-    estimate = .pred_survival,
-    eval_time = .time,
+    estimate = .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1447,10 +1432,8 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
       name = "roc_curve_survival",
       fn = roc_curve_survival_vec,
       data = lung_surv,
-      truth = inst,
-      estimate = .pred_survival,
-      censoring_weights = ipcw,
-      eval_time = .time
+      truth = .pred_time,
+      estimate = .pred
     )
   )
 
@@ -1461,9 +1444,7 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
       fn = roc_curve_survival_vec,
       data = lung_surv,
       truth = surv_obj,
-      estimate = surv_obj,
-      censoring_weights = ipcw,
-      eval_time = .time
+      estimate = surv_obj
     )
   )
 
@@ -1475,8 +1456,6 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
       data = lung_surv,
       truth = surv_obj,
       estimate = .pred,
-      censoring_weights = ipcw,
-      eval_time = .time,
       obviouslywrong = TRUE
     )
   )
@@ -1490,9 +1469,7 @@ test_that("curve_survival_metric_summarizer() deals with characters in truth and
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = "surv_obj",
-    estimate = ".pred_survival",
-    censoring_weights = "ipcw",
-    eval_time = ".time",
+    estimate = ".pred",
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1502,9 +1479,7 @@ test_that("curve_survival_metric_summarizer() deals with characters in truth and
     .estimator = "standard",
     .estimate = roc_curve_survival_vec(
       truth = lung_surv$surv_obj,
-      estimate = lung_surv$.pred_survival,
-      censoring_weights = lung_surv$ipcw,
-      eval_time = lung_surv$.time
+      estimate = lung_surv$.pred
     )
   )
 
@@ -1515,21 +1490,19 @@ test_that("curve_survival_metric_summarizer() handles column name collisions", {
   lung_surv <- data_lung_surv()
 
   new_lung_surv <- lung_surv
-  new_lung_surv$name <- lung_surv$.time
-  new_lung_surv$estimator <- lung_surv$.time
-  new_lung_surv$event_level <- lung_surv$.time
-  new_lung_surv$na_rm <- lung_surv$.time
-  new_lung_surv$truth <- lung_surv$.time
-  new_lung_surv$estimate <- lung_surv$.time
+  new_lung_surv$name <- lung_surv$.pred_time
+  new_lung_surv$estimator <- lung_surv$.pred_time
+  new_lung_surv$event_level <- lung_surv$.pred_time
+  new_lung_surv$na_rm <- lung_surv$.pred_time
+  new_lung_surv$truth <- lung_surv$.pred_time
+  new_lung_surv$estimate <- lung_surv$.pred_time
 
   roc_survival_curve_res <- curve_survival_metric_summarizer(
     name = "roc_survival_curve",
     fn = roc_curve_survival_vec,
     data = new_lung_surv,
     truth = "surv_obj",
-    estimate = ".pred_survival",
-    censoring_weights = "ipcw",
-    eval_time = ".time",
+    estimate = ".pred",
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1539,9 +1512,7 @@ test_that("curve_survival_metric_summarizer() handles column name collisions", {
     .estimator = "standard",
     .estimate = roc_curve_survival_vec(
       truth = lung_surv$surv_obj,
-      estimate = lung_surv$.pred_survival,
-      censoring_weights = lung_surv$ipcw,
-      eval_time = lung_surv$.time
+      estimate = lung_surv$.pred
     )
   )
 
