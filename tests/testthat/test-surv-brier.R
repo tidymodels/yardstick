@@ -39,6 +39,7 @@ test_that('case weights', {
 # sklearn compare --------------------------------------------------------------
 
 test_that('sklearn equivalent', {
+  skip("Wait for pycompare to updated")
   py_res <- read_pydata("py-brier-survival")
 
   lung_surv <- data_lung_surv()
