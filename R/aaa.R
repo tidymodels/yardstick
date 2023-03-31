@@ -11,6 +11,12 @@ utils::globalVariables(
     ".level",
     ".",
 
+    # for survival metrics
+    ".estimate",
+    ".eval_time",
+    ".pred_survival",
+    ".weight_censored",
+
     # for autoplot methods
     ".n_events",
     ".n",
