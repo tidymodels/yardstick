@@ -32,6 +32,8 @@
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, a numeric vector.
 #'
+#' @param ... Currently not used.
+#'
 #' @author Emil Hvitfeldt
 #'
 #' @references

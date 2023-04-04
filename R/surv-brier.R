@@ -15,7 +15,7 @@
 #' @inheritParams pr_auc
 #'
 #' @param data A `data.frame` containing the columns specified by `truth` and
-#' `estimate`.
+#' `...`.
 #'
 #' @param truth The column identifier for the true survival result (that
 #' is created using [survival::Surv()].). This should be an unquoted column name
@@ -23,14 +23,12 @@
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, an [survival::Surv()] object.
 #'
-#' @param estimate The column identifier for the survival probabilities this
+#' @param ... The column identifier for the survival probabilities this
 #' should be a list column of data.frames corresponding to the output given when
 #' predicting with {censored} model. This should be an unquoted column name
 #' although this argument is passed by expression and supports
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
 #' `_vec()` functions, a numeric vector.
-#'
-#' @param ... Not currently used.
 #'
 #' @author Emil Hvitfeldt
 #'

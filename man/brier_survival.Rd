@@ -14,9 +14,14 @@ brier_survival_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
-\code{estimate}.}
+\code{...}.}
 
-\item{...}{Not currently used.}
+\item{...}{The column identifier for the survival probabilities this
+should be a list column of data.frames corresponding to the output given when
+predicting with {censored} model. This should be an unquoted column name
+although this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, a numeric vector.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
@@ -31,12 +36,10 @@ values should be stripped before the computation proceeds.}
 This should be an unquoted column name that evaluates to a numeric column
 in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 
-\item{estimate}{The column identifier for the survival probabilities this
-should be a list column of data.frames corresponding to the output given when
-predicting with {censored} model. This should be an unquoted column name
-although this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
+\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
+corresponding to the "relevant" class. Otherwise, a matrix with as many
+columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
+same order as the levels of \code{truth}.}}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator}, and \code{.estimate}.

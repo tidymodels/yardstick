@@ -27,9 +27,9 @@ concordance_survival_vec(
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
-\code{estimate}.}
+\code{...}.}
 
-\item{...}{Not currently used.}
+\item{...}{Currently not used.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
