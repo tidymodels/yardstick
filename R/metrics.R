@@ -473,18 +473,18 @@ make_numeric_metric_function <- function(fns) {
 make_survival_metric_function <- function(fns) {
   metric_function <- function(data,
                               truth,
+                              ...,
                               estimate,
                               pred_time,
                               na_rm = TRUE,
-                              case_weights = NULL,
-                              ...) {
+                              case_weights = NULL) {
     # Construct common argument set for each metric call
     # Doing this dynamically inside the generated function means
     # we capture the correct arguments
     dynamic_call_args <- quos(
       data = data,
       truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
+      ... = ...,
       na_rm = na_rm,
       case_weights = !!enquo(case_weights),
       ... = ...
@@ -493,7 +493,7 @@ make_survival_metric_function <- function(fns) {
     static_call_args <- quos(
       data = data,
       truth = !!enquo(truth),
-      estimate = !!enquo(pred_time),
+      estimate = !!enquo(estimate),
       na_rm = na_rm,
       case_weights = !!enquo(case_weights),
       ... = ...

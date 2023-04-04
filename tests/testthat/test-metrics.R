@@ -152,7 +152,7 @@ test_that('can mix dynamic and static survival metric together', {
     mixed_set <- metric_set(brier_survival, concordance_survival)
   )
   expect_no_error(
-    mixed_set(lung_surv, surv_obj, .pred, pred_time = .pred_time)
+    mixed_set(lung_surv, surv_obj, .pred, estimate = .pred_time)
   )
 })
 
