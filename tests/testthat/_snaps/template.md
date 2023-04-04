@@ -124,7 +124,7 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = .pred_time, estimate = .pred)
+        data = lung_surv, truth = .pred_time, .pred)
     Condition
       Error in `dplyr::reframe()`:
       i In argument: `.estimate = fn(...)`.
@@ -135,23 +135,12 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = surv_obj)
+        data = lung_surv, truth = surv_obj, surv_obj)
     Condition
       Error in `dplyr::reframe()`:
       i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_surv_truth_list_estimate()`:
       ! `estimate` should be a list, not a `Surv`.
-
----
-
-    Code
-      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = .pred, obviouslywrong = TRUE)
-    Condition
-      Error in `dynamic_survival_metric_summarizer()`:
-      ! `...` must be empty.
-      x Problematic argument:
-      * obviouslywrong = TRUE
 
 # static_survival_metric_summarizer()'s errors with bad input
 

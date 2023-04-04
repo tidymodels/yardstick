@@ -906,7 +906,7 @@ test_that("dynamic_survival_metric_summarizer() works as expected", {
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -934,7 +934,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument works", {
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -964,7 +964,7 @@ test_that("dynamic_survival_metric_summarizer()'s na_rm argument works", {
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = FALSE,
     case_weights = NULL
   )
@@ -987,7 +987,7 @@ test_that("dynamic_survival_metric_summarizer()'s case_weights argument works", 
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = TRUE,
     case_weights = wts
   )
@@ -1015,7 +1015,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors with bad input", {
     fn = brier_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1027,7 +1027,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors with bad input", {
       fn = brier_survival_vec,
       data = lung_surv,
       truth = .pred_time,
-      estimate = .pred
+      .pred
     )
   )
 
@@ -1038,19 +1038,7 @@ test_that("dynamic_survival_metric_summarizer()'s errors with bad input", {
       fn = brier_survival_vec,
       data = lung_surv,
       truth = surv_obj,
-      estimate = surv_obj
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    dynamic_survival_metric_summarizer(
-      name = "brier_survival",
-      fn = brier_survival_vec,
-      data = lung_surv,
-      truth = surv_obj,
-      estimate = .pred,
-      obviouslywrong = TRUE
+      surv_obj
     )
   )
 })
@@ -1063,7 +1051,7 @@ test_that("dynamic_survival_metric_summarizer() deals with characters in truth a
     fn = brier_survival_vec,
     data = lung_surv,
     truth = "surv_obj",
-    estimate = ".pred",
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1098,7 +1086,7 @@ test_that("dynamic_survival_metric_summarizer() handles column name collisions",
     fn = brier_survival_vec,
     data = new_lung_surv,
     truth = "surv_obj",
-    estimate = ".pred",
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
