@@ -97,7 +97,6 @@ curve_survival_metric_summarizer(
   fn,
   data,
   truth,
-  estimate,
   ...,
   na_rm = TRUE,
   case_weights = NULL,

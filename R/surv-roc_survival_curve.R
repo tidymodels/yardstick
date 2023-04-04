@@ -17,7 +17,7 @@
 #' result <- roc_curve_survival(
 #'   lung_surv,
 #'   truth = surv_obj,
-#'   estimate = .pred
+#'   .pred
 #' )
 #' result
 #'
@@ -45,17 +45,16 @@ roc_curve_survival <- function(data, ...) {
 #' @rdname roc_curve_survival
 roc_curve_survival.data.frame <- function(data,
                                           truth,
-                                          estimate,
+                                          ...,
                                           na_rm = TRUE,
-                                          case_weights = NULL,
-                                          ...) {
+                                          case_weights = NULL) {
 
   result <- curve_survival_metric_summarizer(
     name = "roc_curve_survival",
     fn = roc_curve_survival_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
+    ...,
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )

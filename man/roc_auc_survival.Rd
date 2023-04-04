@@ -8,7 +8,7 @@
 \usage{
 roc_auc_survival(data, ...)
 
-\method{roc_auc_survival}{data.frame}(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
+\method{roc_auc_survival}{data.frame}(data, truth, ..., na_rm = TRUE, case_weights = NULL)
 
 roc_auc_survival_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
@@ -24,17 +24,17 @@ although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
 
-\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
-corresponding to the "relevant" class. Otherwise, a matrix with as many
-columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
-same order as the levels of \code{truth}.}}
-
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
 \item{case_weights}{The optional column identifier for case weights.
 This should be an unquoted column name that evaluates to a numeric column
 in \code{data}. For \verb{_vec()} functions, a numeric vector.}
+
+\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
+corresponding to the "relevant" class. Otherwise, a matrix with as many
+columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
+same order as the levels of \code{truth}.}}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator}, and \code{.estimate}.
@@ -57,7 +57,7 @@ library(dplyr)
 lung_surv \%>\%
   roc_auc_survival(
     truth = surv_obj,
-    estimate = .pred
+    .pred
   )
 }
 \seealso{

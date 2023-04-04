@@ -448,16 +448,12 @@ curve_survival_metric_summarizer <- function(name,
                                              fn,
                                              data,
                                              truth,
-                                             estimate,
                                              ...,
                                              na_rm = TRUE,
                                              case_weights = NULL,
                                              fn_options = list(),
                                              error_call = caller_env()) {
-  rlang::check_dots_empty()
-
   truth <- enquo(truth)
-  estimate <- enquo(estimate)
   case_weights <- enquo(case_weights)
 
   truth <- yardstick_eval_select(
@@ -466,10 +462,9 @@ curve_survival_metric_summarizer <- function(name,
     arg = "truth",
     error_call = error_call
   )
-  estimate <- yardstick_eval_select(
-    expr = estimate,
+  estimate <- yardstick_eval_select_dots(
+    ...,
     data = data,
-    arg = "estimate",
     error_call = error_call
   )
 

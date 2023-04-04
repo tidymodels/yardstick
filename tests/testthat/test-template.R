@@ -1306,7 +1306,7 @@ test_that("curve_survival_metric_summarizer() works as expected", {
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1332,7 +1332,7 @@ test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1360,7 +1360,7 @@ test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = FALSE,
     case_weights = NULL
   )
@@ -1383,7 +1383,7 @@ test_that("curve_survival_metric_summarizer()'s case_weights argument works", {
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = TRUE,
     case_weights = wts
   )
@@ -1409,7 +1409,7 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred,
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1421,7 +1421,7 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
       fn = roc_curve_survival_vec,
       data = lung_surv,
       truth = .pred_time,
-      estimate = .pred
+      .pred
     )
   )
 
@@ -1432,19 +1432,7 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
       fn = roc_curve_survival_vec,
       data = lung_surv,
       truth = surv_obj,
-      estimate = surv_obj
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    curve_survival_metric_summarizer(
-      name = "roc_curve_survival",
-      fn = roc_curve_survival_vec,
-      data = lung_surv,
-      truth = surv_obj,
-      estimate = .pred,
-      obviouslywrong = TRUE
+      surv_obj
     )
   )
 })
@@ -1457,7 +1445,7 @@ test_that("curve_survival_metric_summarizer() deals with characters in truth and
     fn = roc_curve_survival_vec,
     data = lung_surv,
     truth = "surv_obj",
-    estimate = ".pred",
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )
@@ -1490,7 +1478,7 @@ test_that("curve_survival_metric_summarizer() handles column name collisions", {
     fn = roc_curve_survival_vec,
     data = new_lung_surv,
     truth = "surv_obj",
-    estimate = ".pred",
+    .pred,
     na_rm = TRUE,
     case_weights = NULL
   )

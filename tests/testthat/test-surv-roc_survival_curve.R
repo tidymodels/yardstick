@@ -2,7 +2,7 @@ test_that("roc_curve_survival works", {
   result <- roc_curve_survival(
     lung_surv,
     truth = surv_obj,
-    estimate = .pred
+    .pred
   )
 
   expect_identical(
