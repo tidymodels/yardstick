@@ -165,11 +165,10 @@ metrics.data.frame <- function(data,
 #' fn(
 #'   data,
 #'   truth,
+#'   ...,
 #'   estimate,
-#'   pred_time,
 #'   na_rm = TRUE,
-#'   case_weights = NULL,
-#'   ...
+#'   case_weights = NULL
 #' )
 #' ```
 #'
@@ -178,8 +177,9 @@ metrics.data.frame <- function(data,
 #' predictions (the class probability columns) as bare column names or
 #' `tidyselect` selectors to `...`.
 #'
-#' When mixing dynamic and static survival metrics, `pred_time` is used to
-#' specify the variable passed to `estimate` for static metrics.
+#' When mixing dynamic and static survival metrics, pass in the time predictions
+#' as the named argument `estimate`, and the survival predictions as bare column
+#' names or `tidyselect` selectors to `...`.
 #'
 #' @examples
 #' library(dplyr)
