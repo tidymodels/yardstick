@@ -24,7 +24,7 @@
 #' lung_surv %>%
 #'   roc_auc_survival(
 #'     truth = surv_obj,
-#'     estimate = .pred
+#'     .pred
 #'   )
 #' @export
 roc_auc_survival <- function(data, ...) {
@@ -40,17 +40,16 @@ roc_auc_survival <- new_dynamic_survival_metric(
 #' @export
 roc_auc_survival.data.frame <- function(data,
                                         truth,
-                                        estimate,
+                                        ...,
                                         na_rm = TRUE,
-                                        case_weights = NULL,
-                                        ...) {
+                                        case_weights = NULL) {
 
   dynamic_survival_metric_summarizer(
     name = "roc_auc_survival",
     fn = roc_auc_survival_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
+    ...,
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )
