@@ -45,7 +45,7 @@
 #' lung_surv %>%
 #'   brier_survival(
 #'     truth = surv_obj,
-#'     estimate = .pred
+#'     .pred
 #'   )
 #' @export
 brier_survival <- function(data, ...) {
@@ -61,16 +61,15 @@ brier_survival <- new_dynamic_survival_metric(
 #' @export
 brier_survival.data.frame <- function(data,
                                       truth,
-                                      estimate,
+                                      ...,
                                       na_rm = TRUE,
-                                      case_weights = NULL,
-                                      ...) {
+                                      case_weights = NULL) {
   dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
+    ...,
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )

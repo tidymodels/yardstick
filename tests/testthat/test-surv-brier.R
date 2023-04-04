@@ -4,7 +4,7 @@ test_that('case weights', {
   brier_res <- brier_survival(
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred
+    .pred
   )
 
   expect_equal(
@@ -20,13 +20,13 @@ test_that('case weights', {
   brier_res <- brier_survival(
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred
+    .pred
   )
 
   brier_res_case_wts <- brier_survival(
     data = lung_surv,
     truth =  surv_obj,
-    estimate = .pred,
+    .pred,
     case_weights = case_wts
   )
 
@@ -47,7 +47,7 @@ test_that('sklearn equivalent', {
   brier_res <- lung_surv %>%
     brier_survival(
       truth = surv_obj,
-      estimate = .pred
+      .pred
     )
 
   expect_equal(
