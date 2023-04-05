@@ -160,21 +160,17 @@ validate_surv_truth_list_estimate <- function(truth, estimate) {
     abort("All elements of `estimate` should be data.frames.")
   }
 
-  valid_names <- c(
-    ".eval_time", ".pred_survival", ".weight_time", ".pred_censored",
-    ".weight_censored"
-  )
+  valid_names <- c(".eval_time", ".pred_survival",".weight_censored")
   has_names <- vapply(
     estimate,
-    function(x) all(names(x) %in% valid_names),
+    function(x) all(valid_names %in% names(x)),
     FUN.VALUE = logical(1)
   )
 
   if (!all(has_names)) {
     abort(paste0(
       "All data.frames of `estimate` should include column names: ",
-      "`.eval_time`, `.pred_survival`, `.weight_time`, `.pred_censored` ",
-      "and `.weight_censored`."
+      "`.eval_time`, `.pred_survival`, and `.weight_censored`."
     ))
   }
 
