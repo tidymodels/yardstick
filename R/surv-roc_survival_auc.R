@@ -64,7 +64,10 @@ roc_auc_survival_vec <- function(truth,
                                  ...) {
   # No checking since roc_curve_survival_vec() does checking
   curve <- roc_curve_survival_vec(truth, estimate)
-  roc_trap_auc(curve$specificity, curve$sensitivity)
+
+  curve %>%
+    dplyr::group_by(.eval_time) %>%
+    dplyr::summarize(.estimate = roc_trap_auc(specificity, sensitivity))
 }
 
 roc_trap_auc <- function(specificity, sensitivity) {
