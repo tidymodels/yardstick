@@ -98,6 +98,26 @@ roc_curve_survival_impl <- function(truth,
   data <- dplyr::tibble(event_time, delta, estimate)
   data <- tidyr::unnest(data, cols = estimate)
 
+  .eval_times <- unique(data$.eval_time)
+
+  out <- list()
+  for (i in seq_along(.eval_times)) {
+    .eval_time_ind <- .eval_times[[i]] == data$.eval_time
+
+    res <- roc_curve_survival_impl_one(
+      event_time[.eval_time_ind],
+      delta[.eval_time_ind],
+      data[.eval_time_ind, ]
+    )
+
+    res$eval_time <- .eval_times[[i]]
+    out[[i]] <- res
+  }
+
+  dplyr::bind_rows(out)
+}
+
+roc_curve_survival_impl_one <- function(event_time, delta, data) {
   res <- dplyr::tibble(.threshold = sort(unique(c(0, data$.pred_survival, 1))))
 
   obs_time_le_time <- event_time <= data$.eval_time
