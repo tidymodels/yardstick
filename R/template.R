@@ -100,33 +100,47 @@ numeric_metric_summarizer <- function(name,
     error_call = error_call
   )
 
-  if (!quo_is_null(case_weights)) {
+  if (quo_is_null(case_weights)) {
+    case_weights <- NULL
+  } else {
     case_weights <- yardstick_eval_select(
       expr = case_weights,
       data = data,
       arg = "case_weights",
       error_call = error_call
     )
-
-    case_weights <- expr(.data[[!!case_weights]])
   }
 
-  out <- dplyr::summarise(
-    data,
-    .metric = .env[["name"]],
-    .estimator = finalize_estimator(
-      .data[[truth]],
-      metric_class = .env[["name"]]
-    ),
-    .estimate = fn(
-      truth = .data[[truth]],
-      estimate = .data[[estimate]],
-      case_weights = !!case_weights,
-      na_rm = .env[["na_rm"]],
-      !!!fn_options
-    )
-  )
+  group_rows <- dplyr::group_data(data)$.rows
+  groups_data <- vctrs::vec_chop(data, indices = group_rows)
+  out <- list()
 
+  for (i in seq_along(groups_data)) {
+    .data <- groups_data[[i]]
+
+    if (!is.null(case_weights)) {
+      case_weights <- .data[[case_weights]]
+    }
+
+    out[[i]] <- list(
+      .metric = name,
+      .estimator = finalize_estimator(
+        .data[[truth]],
+        metric_class = name
+      ),
+      .estimate = rlang::inject(
+        fn(
+          truth = .data[[truth]],
+          estimate = .data[[estimate]],
+          case_weights = case_weights,
+          na_rm = na_rm,
+          !!!fn_options
+        )
+      )
+    )
+  }
+
+  out <- dplyr::bind_cols(out)
   dplyr::as_tibble(out)
 }
 
