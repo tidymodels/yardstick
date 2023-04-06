@@ -1,9 +1,9 @@
-validate_numeric_truth_numeric_estimate <- function(truth, estimate) {
+validate_numeric_truth_numeric_estimate <- function(truth, estimate, call = caller_env()) {
   if (!is.numeric(truth)) {
     cls <- class(truth)[[1]]
     abort(paste0(
       "`truth` should be a numeric, not a `", cls, "`."
-    ))
+    ), call = call)
   }
 
   if (!is.numeric(estimate)) {

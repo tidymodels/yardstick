@@ -41,9 +41,9 @@ NULL
 
 #' @rdname check_metric
 #' @export
-check_numeric_metric <- function(truth, estimate, case_weights) {
+check_numeric_metric <- function(truth, estimate, case_weights, call = caller_env()) {
   validate_case_weights(case_weights, size = length(truth))
-  validate_numeric_truth_numeric_estimate(truth, estimate)
+  validate_numeric_truth_numeric_estimate(truth, estimate, call)
 }
 
 #' @rdname check_metric
