@@ -17,8 +17,6 @@
     Condition
       Error in `metric_set()`:
       ! Failed to compute `rmse()`.
-      Caused by error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_numeric_truth_numeric_estimate()`:
       ! `estimate` should be a numeric, not a `factor`.
 

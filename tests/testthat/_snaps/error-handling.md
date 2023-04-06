@@ -90,9 +90,7 @@
     Code
       rmse(solubility_test, a, prediction)
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_numeric_truth_numeric_estimate()`:
+      Error in `validate_numeric_truth_numeric_estimate()`:
       ! `truth` should be a numeric vector, not a numeric matrix.
 
 ---
@@ -100,9 +98,7 @@
     Code
       rmse(solubility_test, solubility, a)
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_numeric_truth_numeric_estimate()`:
+      Error in `validate_numeric_truth_numeric_estimate()`:
       ! `estimate` should be a numeric vector, not a numeric matrix.
 
 # Factors with non identical levels
