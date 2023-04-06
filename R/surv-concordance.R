@@ -26,6 +26,14 @@
 #'
 #' @inheritParams brier_survival
 #'
+#' @param estimate The column identifier for the predicted time, this should be
+#' a numeric variables. This should be an unquoted column name although this
+#' argument is passed by expression and supports
+#' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
+#' `_vec()` functions, a numeric vector.
+#'
+#' @param ... Currently not used.
+#'
 #' @author Emil Hvitfeldt
 #'
 #' @references
@@ -35,7 +43,11 @@
 #'   Medicine, 15(4), 361-87, 1996.
 #'
 #' @examples
-#' concordance_survival(data = lung_surv, truth = surv_obj, estimate = age)
+#' concordance_survival(
+#'   data = lung_surv,
+#'   truth = surv_obj,
+#'   estimate = .pred_time
+#' )
 #' @export
 concordance_survival <- function(data, ...) {
   UseMethod("concordance_survival")

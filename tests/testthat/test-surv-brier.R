@@ -4,36 +4,30 @@ test_that('case weights', {
   brier_res <- brier_survival(
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred_survival,
-    censoring_weights = ipcw,
-    eval_time = .time
+    .pred
   )
 
   expect_equal(
     names(brier_res),
-    c(".metric", ".estimator", ".estimate", ".eval_time")
+    c(".metric", ".estimator", ".eval_time", ".estimate")
   )
 })
 
 test_that('case weights', {
-  lung_surv <- data_lung_surv() %>% dplyr::filter(.time == 100)
+  lung_surv <- data_lung_surv()
   lung_surv$case_wts <- rep(2, nrow(lung_surv))
 
   brier_res <- brier_survival(
     data = lung_surv,
     truth = surv_obj,
-    estimate = .pred_survival,
-    censoring_weights = ipcw,
-    eval_time = .time
+    .pred
   )
 
   brier_res_case_wts <- brier_survival(
     data = lung_surv,
     truth =  surv_obj,
-    estimate = .pred_survival,
-    censoring_weights = ipcw,
-    case_weights = case_wts,
-    eval_time = .time
+    .pred,
+    case_weights = case_wts
   )
 
   expect_equal(
@@ -45,6 +39,7 @@ test_that('case weights', {
 # sklearn compare --------------------------------------------------------------
 
 test_that('sklearn equivalent', {
+  skip("Wait for pycompare to updated")
   py_res <- read_pydata("py-brier-survival")
 
   lung_surv <- data_lung_surv()
@@ -52,9 +47,7 @@ test_that('sklearn equivalent', {
   brier_res <- lung_surv %>%
     brier_survival(
       truth = surv_obj,
-      estimate = .pred_survival,
-      censoring_weights = ipcw,
-      eval_time = .time
+      .pred
     )
 
   expect_equal(

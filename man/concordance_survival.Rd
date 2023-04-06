@@ -27,9 +27,9 @@ concordance_survival_vec(
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
-\code{estimate}.}
+\code{...}.}
 
-\item{...}{Not currently used.}
+\item{...}{Currently not used.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
@@ -37,9 +37,9 @@ although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
 
-\item{estimate}{The column identifier for the survival probabilities (that should be
-numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
+\item{estimate}{The column identifier for the predicted time, this should be
+a numeric variables. This should be an unquoted column name although this
+argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
 
@@ -82,7 +82,11 @@ higher estimated risk score has a shorter actual survival time.
 Larger values of the score are associated with better model performance.
 }
 \examples{
-concordance_survival(data = lung_surv, truth = surv_obj, estimate = age)
+concordance_survival(
+  data = lung_surv,
+  truth = surv_obj,
+  estimate = .pred_time
+)
 }
 \references{
 Harrell, F.E., Califf, R.M., Pryor, D.B., Lee, K.L., Rosati, R.A,

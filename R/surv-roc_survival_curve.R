@@ -17,9 +17,7 @@
 #' result <- roc_curve_survival(
 #'   lung_surv,
 #'   truth = surv_obj,
-#'   estimate = .pred_survival,
-#'   censoring_weights = ipcw,
-#'   eval_time = .time
+#'   .pred
 #' )
 #' result
 #'
@@ -47,21 +45,16 @@ roc_curve_survival <- function(data, ...) {
 #' @rdname roc_curve_survival
 roc_curve_survival.data.frame <- function(data,
                                           truth,
-                                          estimate,
-                                          censoring_weights,
-                                          eval_time,
+                                          ...,
                                           na_rm = TRUE,
-                                          case_weights = NULL,
-                                          ...) {
+                                          case_weights = NULL) {
 
   result <- curve_survival_metric_summarizer(
     name = "roc_curve_survival",
     fn = roc_curve_survival_vec,
     data = data,
     truth = !!enquo(truth),
-    estimate = !!enquo(estimate),
-    censoring_weights = !!enquo(censoring_weights),
-    eval_time = !!enquo(eval_time),
+    ...,
     na_rm = na_rm,
     case_weights = !!enquo(case_weights)
   )
@@ -71,55 +64,46 @@ roc_curve_survival.data.frame <- function(data,
 
 roc_curve_survival_vec <- function(truth,
                                    estimate,
-                                   censoring_weights,
-                                   eval_time,
                                    na_rm = TRUE,
                                    case_weights = NULL,
                                    ...) {
   check_dynamic_survival_metric(
-    truth, estimate, censoring_weights, case_weights, eval_time
+    truth, estimate, case_weights
   )
 
   if (na_rm) {
     result <- yardstick_remove_missing(
-      truth, estimate, case_weights, censoring_weights, eval_time
+      truth, seq_along(estimate), case_weights
     )
 
     truth <- result$truth
-    estimate <- result$estimate
-    censoring_weights <- result$censoring_weights
-    eval_time <- result$eval_time
+    estimate <- estimate[result$estimate]
     case_weights <- result$case_weights
   } else {
     any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights, censoring_weights, eval_time
+      truth, estimate, case_weights
     )
     if (any_missing) {
       return(NA_real_)
     }
   }
 
-  roc_curve_survival_impl(
-    truth = truth,
-    estimate = estimate,
-    censoring_weights = censoring_weights,
-    eval_time = eval_time
-  )
+  roc_curve_survival_impl(truth = truth, estimate = estimate)
 }
 
 roc_curve_survival_impl <- function(truth,
-                                    estimate,
-                                    censoring_weights,
-                                    eval_time) {
+                                    estimate) {
   event_time <- .extract_surv_time(truth)
   delta <- .extract_surv_status(truth)
+  data <- dplyr::tibble(event_time, delta, estimate)
+  data <- tidyr::unnest(data, cols = estimate)
 
-  res <- dplyr::tibble(.threshold = sort(unique(c(0, estimate, 1))))
+  res <- dplyr::tibble(.threshold = sort(unique(c(0, data$.pred_survival, 1))))
 
-  obs_time_le_time <- event_time <= eval_time
-  obs_time_gt_time <- event_time > eval_time
-  n <- length(estimate)
-  multiplier <- delta / (n * censoring_weights)
+  obs_time_le_time <- event_time <= data$.eval_time
+  obs_time_gt_time <- event_time > data$.eval_time
+  n <- nrow(data)
+  multiplier <- delta / (n * data$.weight_censored)
 
   sensitivity_denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
   specificity_denom <- sum(obs_time_gt_time, na.rm = TRUE)
@@ -129,7 +113,7 @@ roc_curve_survival_impl <- function(truth,
     ge_time = obs_time_gt_time,
     multiplier = multiplier
   )
-  data_split <- split(data_df, estimate)
+  data_split <- split(data_df, data$.pred_survival)
 
   sensitivity <- vapply(
     data_split,

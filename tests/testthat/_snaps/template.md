@@ -124,48 +124,33 @@
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = inst, estimate = .pred_survival, censoring_weights = ipcw,
-        eval_time = .time)
+        data = lung_surv, truth = .pred_time, .pred)
     Condition
-      Error in `dplyr::summarise()`:
+      Error in `dplyr::reframe()`:
       i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_numeric_estimate()`:
+      Caused by error in `validate_surv_truth_list_estimate()`:
       ! `truth` should be a Surv object, not a `numeric`.
 
 ---
 
     Code
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = surv_obj, censoring_weights = ipcw,
-        eval_time = .time)
+        data = lung_surv, truth = surv_obj, surv_obj)
     Condition
-      Error in `dplyr::summarise()`:
+      Error in `dplyr::reframe()`:
       i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_numeric_estimate()`:
-      ! `estimate` should be a numeric vector, not a numeric matrix.
-
----
-
-    Code
-      dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = .pred, censoring_weights = ipcw,
-        eval_time = .time, obviouslywrong = TRUE)
-    Condition
-      Error in `dynamic_survival_metric_summarizer()`:
-      ! `...` must be empty.
-      x Problematic argument:
-      * obviouslywrong = TRUE
+      Caused by error in `validate_surv_truth_list_estimate()`:
+      ! `estimate` should be a list, not a `Surv`.
 
 # static_survival_metric_summarizer()'s errors with bad input
 
     Code
       static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
-        data = lung_surv, truth = inst, estimate = age)
+        data = lung_surv, truth = inst, estimate = .pred_time)
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_numeric_estimate()`:
-      ! `truth` should be a Surv object, not a `numeric`.
+      Error:
+      ! Can't subset columns that don't exist.
+      x Column `inst` doesn't exist.
 
 ---
 
@@ -193,7 +178,7 @@
 
     Code
       static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = age, obviouslywrong = TRUE)
+        data = lung_surv, truth = surv_obj, estimate = .pred_time, obviouslywrong = TRUE)
     Condition
       Error in `static_survival_metric_summarizer()`:
       ! `...` must be empty.
@@ -204,35 +189,21 @@
 
     Code
       curve_survival_metric_summarizer(name = "roc_curve_survival", fn = roc_curve_survival_vec,
-        data = lung_surv, truth = inst, estimate = .pred_survival, censoring_weights = ipcw,
-        eval_time = .time)
+        data = lung_surv, truth = .pred_time, .pred)
     Condition
       Error in `dplyr::reframe()`:
       i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_numeric_estimate()`:
+      Caused by error in `validate_surv_truth_list_estimate()`:
       ! `truth` should be a Surv object, not a `numeric`.
 
 ---
 
     Code
       curve_survival_metric_summarizer(name = "roc_curve_survival", fn = roc_curve_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = surv_obj, censoring_weights = ipcw,
-        eval_time = .time)
+        data = lung_surv, truth = surv_obj, surv_obj)
     Condition
       Error in `dplyr::reframe()`:
       i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_numeric_estimate()`:
-      ! `estimate` should be a numeric vector, not a numeric matrix.
-
----
-
-    Code
-      curve_survival_metric_summarizer(name = "roc_curve_survival", fn = roc_curve_survival_vec,
-        data = lung_surv, truth = surv_obj, estimate = .pred, censoring_weights = ipcw,
-        eval_time = .time, obviouslywrong = TRUE)
-    Condition
-      Error in `curve_survival_metric_summarizer()`:
-      ! `...` must be empty.
-      x Problematic argument:
-      * obviouslywrong = TRUE
+      Caused by error in `validate_surv_truth_list_estimate()`:
+      ! `estimate` should be a list, not a `Surv`.
 

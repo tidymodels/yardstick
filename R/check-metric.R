@@ -11,21 +11,15 @@
 #'   - For `check_class_metric()`, a factor.
 #'   - For `check_prob_metric()`, a factor.
 #'   - For `check_dynamic_survival_metric()`, a Surv object.
-#'   - For `check_static_survival_metric()` a Surv object.
+#'   - For `check_static_survival_metric()`, a Surv object.
 #'
 #' @param estimate The realized `estimate` result.
 #'   - For `check_numeric_metric()`, a numeric vector.
 #'   - For `check_class_metric()`, a factor.
 #'   - For `check_prob_metric()`, a numeric vector for binary `truth`,
 #'     a numeric matrix for multic-class `truth`.
-#'   - For `check_dynamic_survival_metric()`, a numeric vector.
-#'   - For `check_static_survival_metric()` a numeric vector.
-#'
-#' @param censoring_weights The realized case weights, as a numeric vector. This
-#'   must be the same length as `truth`.
-#'
-#' @param eval_time The realized time points, as a numeric vector. This must be
-#'   the same length as `truth`.
+#'   - For `check_dynamic_survival_metric()`, list-column of data.frames.
+#'   - For `check_static_survival_metric()`, a numeric vector.
 #'
 #' @param case_weights The realized case weights, as a numeric vector. This must
 #'   be the same length as `truth`.
@@ -66,13 +60,9 @@ check_prob_metric <- function(truth, estimate, case_weights, estimator) {
 #' @export
 check_dynamic_survival_metric <- function(truth,
                                           estimate,
-                                          censoring_weights,
-                                          case_weights,
-                                          eval_time) {
-  validate_surv_truth_numeric_estimate(truth, estimate)
+                                          case_weights) {
+  validate_surv_truth_list_estimate(truth, estimate)
   validate_case_weights(case_weights, size = nrow(truth))
-  validate_censoring_weights(censoring_weights, size = nrow(truth))
-  validate_eval_time(eval_time, size = nrow(truth))
 }
 
 #' @rdname check_metric

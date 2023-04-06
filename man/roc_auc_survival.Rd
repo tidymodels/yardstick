@@ -8,30 +8,13 @@
 \usage{
 roc_auc_survival(data, ...)
 
-\method{roc_auc_survival}{data.frame}(
-  data,
-  truth,
-  estimate,
-  censoring_weights,
-  eval_time,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
+\method{roc_auc_survival}{data.frame}(data, truth, ..., na_rm = TRUE, case_weights = NULL)
 
-roc_auc_survival_vec(
-  truth,
-  estimate,
-  censoring_weights,
-  eval_time,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
+roc_auc_survival_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
-\code{estimate}.}
+\code{...}.}
 
 \item{...}{Not currently used.}
 
@@ -41,30 +24,17 @@ although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
 
-\item{estimate}{The column identifier for the survival probabilities (that should be
-numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
-\item{censoring_weights}{The column identifier for censoring weights (that should
-be numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
-\item{eval_time}{The column identifier for the evaluation time points. This
-should be a numeric vector. This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
 
 \item{case_weights}{The optional column identifier for case weights.
 This should be an unquoted column name that evaluates to a numeric column
 in \code{data}. For \verb{_vec()} functions, a numeric vector.}
+
+\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
+corresponding to the "relevant" class. Otherwise, a matrix with as many
+columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
+same order as the levels of \code{truth}.}}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator}, and \code{.estimate}.
@@ -79,8 +49,6 @@ For \code{roc_auc_survival_vec()}, a \code{numeric} vector same length as the in
 Compute the area under the ROC survival curve.
 }
 \details{
-This method automatically groups by the \code{eval_time} argument.
-
 Smaller values of the score are associated with better model performance.
 }
 \examples{
@@ -89,9 +57,7 @@ library(dplyr)
 lung_surv \%>\%
   roc_auc_survival(
     truth = surv_obj,
-    estimate = .pred_survival,
-    censoring_weights = ipcw,
-    eval_time = .time
+    .pred
   )
 }
 \seealso{

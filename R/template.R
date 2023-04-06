@@ -47,9 +47,6 @@
 #' averaging (`"binary"` or `"macro"`), or a single character to pass along to
 #' the metric implementation describing the kind of averaging to use.
 #'
-#' @param eval_time For dynamic survival metrics, the unquoted column name
-#' corresponding to the evaluation times.
-#'
 #' @param na_rm A `logical` value indicating whether `NA` values should be
 #' stripped before the computation proceeds. The removal is executed in
 #' [yardstick_remove_missing()].
@@ -57,9 +54,6 @@
 #' @param event_level This can either be `NULL` to use the default `event_level`
 #' value of the `fn` or a single string of either `"first"` or `"second"`
 #' to pass along describing which level should be considered the "event".
-#'
-#' @param censoring_weights For dynamic survival metrics, an unquoted
-#' column name corresponding to censoring weights can be passed here.
 #'
 #' @param case_weights For metrics supporting case weights, an unquoted
 #' column name corresponding to case weights can be passed here. If not `NULL`,
@@ -336,20 +330,12 @@ dynamic_survival_metric_summarizer <- function(name,
                                                fn,
                                                data,
                                                truth,
-                                               estimate,
-                                               censoring_weights,
-                                               eval_time,
                                                ...,
                                                na_rm = TRUE,
                                                case_weights = NULL,
                                                fn_options = list(),
                                                error_call = caller_env()) {
-  rlang::check_dots_empty()
-
   truth <- enquo(truth)
-  estimate <- enquo(estimate)
-  censoring_weights <- enquo(censoring_weights)
-  eval_time <- enquo(eval_time)
   case_weights <- enquo(case_weights)
 
   truth <- yardstick_eval_select(
@@ -358,22 +344,9 @@ dynamic_survival_metric_summarizer <- function(name,
     arg = "truth",
     error_call = error_call
   )
-  estimate <- yardstick_eval_select(
-    expr = estimate,
+  estimate <- yardstick_eval_select_dots(
+    ...,
     data = data,
-    arg = "estimate",
-    error_call = error_call
-  )
-  censoring_weights <- yardstick_eval_select(
-    expr = censoring_weights,
-    data = data,
-    arg = "censoring_weights",
-    error_call = error_call
-  )
-  eval_time <- yardstick_eval_select(
-    expr = eval_time,
-    data = data,
-    arg = "eval_time",
     error_call = error_call
   )
 
@@ -388,7 +361,7 @@ dynamic_survival_metric_summarizer <- function(name,
     case_weights <- expr(.data[[!!case_weights]])
   }
 
-  out <- dplyr::summarise(
+  out <- dplyr::reframe(
     data,
     .metric = .env[["name"]],
     .estimator = finalize_estimator(
@@ -398,20 +371,14 @@ dynamic_survival_metric_summarizer <- function(name,
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
-      censoring_weights = .data[[censoring_weights]],
-      eval_time = .data[[eval_time]],
       case_weights = !!case_weights,
       na_rm = .env[["na_rm"]],
       !!!fn_options
     )
   )
 
-  if (".eval_time" %in% names(out)) {
-    out <- dplyr::relocate(
-      out,
-      dplyr::any_of(".eval_time"),
-      .after = dplyr::last_col()
-    )
+  if (inherits(out$.estimate, "tbl_df")) {
+    out <- tidyr::unnest(out, .estimate)
   }
 
   dplyr::as_tibble(out)
@@ -481,20 +448,12 @@ curve_survival_metric_summarizer <- function(name,
                                              fn,
                                              data,
                                              truth,
-                                             estimate,
-                                             censoring_weights,
-                                             eval_time,
                                              ...,
                                              na_rm = TRUE,
                                              case_weights = NULL,
                                              fn_options = list(),
                                              error_call = caller_env()) {
-  rlang::check_dots_empty()
-
   truth <- enquo(truth)
-  estimate <- enquo(estimate)
-  censoring_weights <- enquo(censoring_weights)
-  eval_time <- enquo(eval_time)
   case_weights <- enquo(case_weights)
 
   truth <- yardstick_eval_select(
@@ -503,22 +462,9 @@ curve_survival_metric_summarizer <- function(name,
     arg = "truth",
     error_call = error_call
   )
-  estimate <- yardstick_eval_select(
-    expr = estimate,
+  estimate <- yardstick_eval_select_dots(
+    ...,
     data = data,
-    arg = "estimate",
-    error_call = error_call
-  )
-  censoring_weights <- yardstick_eval_select(
-    expr = censoring_weights,
-    data = data,
-    arg = "censoring_weights",
-    error_call = error_call
-  )
-  eval_time <- yardstick_eval_select(
-    expr = eval_time,
-    data = data,
-    arg = "eval_time",
     error_call = error_call
   )
 
@@ -543,8 +489,6 @@ curve_survival_metric_summarizer <- function(name,
     .estimate = fn(
       truth = .data[[truth]],
       estimate = .data[[estimate]],
-      censoring_weights = .data[[censoring_weights]],
-      eval_time = .data[[eval_time]],
       case_weights = !!case_weights,
       na_rm = .env[["na_rm"]],
       !!!fn_options
@@ -553,7 +497,6 @@ curve_survival_metric_summarizer <- function(name,
 
   dplyr::as_tibble(out)
 }
-
 
 prob_estimate_convert <- function(estimate) {
   if (!is.data.frame(estimate)) {
