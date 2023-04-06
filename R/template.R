@@ -140,7 +140,7 @@ numeric_metric_summarizer <- function(name,
     )
   }
 
-  out <- dplyr::bind_cols(out)
+  out <- dplyr::bind_rows(out)
   dplyr::as_tibble(out)
 }
 
