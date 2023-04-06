@@ -7,19 +7,32 @@ test_that("roc_curve_survival works", {
 
   expect_identical(
     names(result),
-    c(".threshold", "sensitivity", "specificity")
+    c(".threshold", "sensitivity", "specificity", ".eval_time")
   )
 
-  expect_identical(
-    result$.threshold,
-    c(0, unique(sort(tidyr::unnest(lung_surv, cols = .pred)$.pred_survival)), 1)
-  )
+  .eval_times <- unique(result$.eval_time)
 
-  expect_true(
-    all(diff(result$sensitivity) >= 0)
-  )
+  eval_time <- 200
+  for (eval_time in .eval_times) {
+    result_tmp <- dplyr::filter(result, .eval_time == eval_time)
 
-  expect_true(
-    all(diff(result$specificity) <= 0)
-  )
+    exp_threshold <- tidyr::unnest(lung_surv, cols = .pred)
+    exp_threshold <- dplyr::filter(exp_threshold, .eval_time == eval_time)
+    exp_threshold <- exp_threshold$.pred_survival
+    exp_threshold <- sort(exp_threshold)
+    exp_threshold <- unique(exp_threshold)
+    exp_threshold <- c(0, exp_threshold, 1)
+    expect_identical(
+      result_tmp$.threshold,
+      exp_threshold
+    )
+
+    expect_true(
+      all(diff(result_tmp$sensitivity) >= 0)
+    )
+
+    expect_true(
+      all(diff(result_tmp$specificity) <= 0)
+    )
+  }
 })
