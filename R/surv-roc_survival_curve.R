@@ -164,4 +164,27 @@ roc_curve_survival_impl_one <- function(event_time, delta, data) {
 }
 
 # Dynamically exported
-autoplot.roc_survival_df <- autoplot.roc_df
+autoplot.roc_survival_df <- function(object, ...) {
+
+  `%+%` <- ggplot2::`%+%`
+
+  # Base chart
+  roc_chart <- ggplot2::ggplot(data = object)
+
+  # create aesthetic
+  roc_aes <- ggplot2::aes(
+    x = 1 - specificity,
+    y = sensitivity,
+    color = .eval_time
+  )
+
+  # build the graph
+  roc_chart <- roc_chart %+%
+    ggplot2::geom_path(mapping = roc_aes) %+%
+    ggplot2::geom_abline(lty = 3) %+%
+    ggplot2::coord_equal() %+%
+    ggplot2::theme_bw() %+%
+    ggplot2::scale_color_viridis_c()
+
+  roc_chart
+}
