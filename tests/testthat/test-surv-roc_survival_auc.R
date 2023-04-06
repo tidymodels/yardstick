@@ -4,6 +4,7 @@ test_that("roc_curve_auc() calculations", {
     truth = surv_obj,
     .pred
   ) %>%
+    dplyr::group_by(.eval_time) %>%
     dplyr::summarise(
       .estimate = yardstick:::auc(1 - specificity, sensitivity)
     )
