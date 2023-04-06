@@ -127,7 +127,7 @@ roc_curve_survival_impl <- function(truth,
 
   specificity <- vapply(
     data_split,
-    function(x) sum(x$gt_time, na.rm = TRUE),
+    function(x) sum(x$ge_time, na.rm = TRUE),
     FUN.VALUE = numeric(1)
   )
   specificity <- cumsum(specificity)
