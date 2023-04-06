@@ -82,13 +82,7 @@ accordance with the type of metric that is used.</p>
 <span></span>
 <span><span class="fu">check_prob_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span>, <span class="va">estimator</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">check_dynamic_survival_metric</span><span class="op">(</span></span>
-<span>  <span class="va">truth</span>,</span>
-<span>  <span class="va">estimate</span>,</span>
-<span>  <span class="va">censoring_weights</span>,</span>
-<span>  <span class="va">case_weights</span>,</span>
-<span>  <span class="va">eval_time</span></span>
-<span><span class="op">)</span></span>
+<span><span class="fu">check_dynamic_survival_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">check_static_survival_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -100,7 +94,7 @@ accordance with the type of metric that is used.</p>
 <li><p>For <code>check_class_metric()</code>, a factor.</p></li>
 <li><p>For <code>check_prob_metric()</code>, a factor.</p></li>
 <li><p>For <code>check_dynamic_survival_metric()</code>, a Surv object.</p></li>
-<li><p>For <code>check_static_survival_metric()</code> a Surv object.</p></li>
+<li><p>For <code>check_static_survival_metric()</code>, a Surv object.</p></li>
 </ul></dd>
 
 
@@ -109,8 +103,8 @@ accordance with the type of metric that is used.</p>
 <li><p>For <code>check_class_metric()</code>, a factor.</p></li>
 <li><p>For <code>check_prob_metric()</code>, a numeric vector for binary <code>truth</code>,
 a numeric matrix for multic-class <code>truth</code>.</p></li>
-<li><p>For <code>check_dynamic_survival_metric()</code>, a numeric vector.</p></li>
-<li><p>For <code>check_static_survival_metric()</code> a numeric vector.</p></li>
+<li><p>For <code>check_dynamic_survival_metric()</code>, list-column of data.frames.</p></li>
+<li><p>For <code>check_static_survival_metric()</code>, a numeric vector.</p></li>
 </ul></dd>
 
 
@@ -123,16 +117,6 @@ be the same length as <code>truth</code>.</p></dd>
 <dd><p>This can either be <code>NULL</code> for the default auto-selection of
 averaging (<code>"binary"</code> or <code>"macro"</code>), or a single character to pass along to
 the metric implementation describing the kind of averaging to use.</p></dd>
-
-
-<dt>censoring_weights</dt>
-<dd><p>The realized case weights, as a numeric vector. This
-must be the same length as <code>truth</code>.</p></dd>
-
-
-<dt>eval_time</dt>
-<dd><p>The realized time points, as a numeric vector. This must be
-the same length as <code>truth</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

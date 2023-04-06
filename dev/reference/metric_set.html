@@ -113,19 +113,18 @@ passed in.</p>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">fn</span>(</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  data,</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  truth,</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  estimate,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  censoring_weights,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  eval_time,</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">na_rm =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">case_weights =</span> <span class="cn">NULL</span>,</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  ...</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>)</span></code></pre><p></p></div>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  ...,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  estimate,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">na_rm =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">case_weights =</span> <span class="cn">NULL</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>)</span></code></pre><p></p></div>
 <p>When mixing class and class prob metrics, pass in the hard predictions
 (the factor column) as the named argument <code>estimate</code>, and the soft
 predictions (the class probability columns) as bare column names or
 <code>tidyselect</code> selectors to <code>...</code>.</p>
-<p>When mixing dynamic and static survival metrics, <code>censoring_weights</code> and
-<code>eval_time</code> is only needed when dynamic metrics are included in the set.</p>
+<p>When mixing dynamic and static survival metrics, pass in the time predictions
+as the named argument <code>estimate</code>, and the survival predictions as bare column
+names or <code>tidyselect</code> selectors to <code>...</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -240,7 +239,7 @@ predictions (the class probability columns) as bare column names or
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Fold08   accuracy multiclass     0.721</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Fold09   accuracy multiclass     0.673</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Fold10   accuracy multiclass     0.699</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 20 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 20 more rows</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

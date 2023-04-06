@@ -67,27 +67,23 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">roc_curve_survival</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for data.frame</span></span>
-<span><span class="fu">roc_curve_survival</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">truth</span>,</span>
-<span>  <span class="va">estimate</span>,</span>
-<span>  <span class="va">censoring_weights</span>,</span>
-<span>  <span class="va">eval_time</span>,</span>
-<span>  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  case_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">roc_curve_survival</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">...</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, case_weights <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>A <code>data.frame</code> containing the columns specified by <code>truth</code> and
-<code>estimate</code>.</p></dd>
+<code>...</code>.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Not currently used.</p></dd>
+<dd><p>The column identifier for the survival probabilities this
+should be a list column of data.frames corresponding to the output given when
+predicting with censored model. This should be an unquoted column name
+although this argument is passed by expression and supports
+<a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
+<code>_vec()</code> functions, a numeric vector.</p></dd>
 
 
 <dt>truth</dt>
@@ -96,30 +92,6 @@ is created using <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" clas
 although this argument is passed by expression and supports
 <a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
 <code>_vec()</code> functions, an <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">survival::Surv()</a></code> object.</p></dd>
-
-
-<dt>estimate</dt>
-<dd><p>The column identifier for the survival probabilities (that should be
-numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-<a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
-<code>_vec()</code> functions, a numeric vector.</p></dd>
-
-
-<dt>censoring_weights</dt>
-<dd><p>The column identifier for censoring weights (that should
-be numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-<a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
-<code>_vec()</code> functions, a numeric vector.</p></dd>
-
-
-<dt>eval_time</dt>
-<dd><p>The column identifier for the evaluation time points. This
-should be a numeric vector. This should be an unquoted column name although
-this argument is passed by expression and supports
-<a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
-<code>_vec()</code> functions, a numeric vector.</p></dd>
 
 
 <dt>na_rm</dt>
@@ -154,25 +126,23 @@ columns <code>.threshold</code>, <code>recall</code>, and <code>precision</code>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">roc_curve_survival</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">lung_surv</span>,</span></span>
 <span class="r-in"><span>  truth <span class="op">=</span> <span class="va">surv_obj</span>,</span></span>
-<span class="r-in"><span>  estimate <span class="op">=</span> <span class="va">.pred_survival</span>,</span></span>
-<span class="r-in"><span>  censoring_weights <span class="op">=</span> <span class="va">ipcw</span>,</span></span>
-<span class="r-in"><span>  eval_time <span class="op">=</span> <span class="va">.time</span></span></span>
+<span class="r-in"><span>  <span class="va">.pred</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 152 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       .threshold sensitivity specificity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 0                  0                1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 0.000<span style="text-decoration: underline;">000</span>006<span style="text-decoration: underline;">92</span>      0.010<span style="text-decoration: underline;">9</span>           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.000<span style="text-decoration: underline;">000</span>129        0.021<span style="text-decoration: underline;">7</span>           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 0.000<span style="text-decoration: underline;">000</span>253        0.032<span style="text-decoration: underline;">6</span>           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 0.000<span style="text-decoration: underline;">000</span>737        0.043<span style="text-decoration: underline;">5</span>           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 0.000<span style="text-decoration: underline;">003</span>01         0.054<span style="text-decoration: underline;">3</span>           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 0.000<span style="text-decoration: underline;">005</span>53         0.065<span style="text-decoration: underline;">2</span>           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 0.000<span style="text-decoration: underline;">066</span>7          0.076<span style="text-decoration: underline;">1</span>           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 0.000<span style="text-decoration: underline;">107</span>           0.087<span style="text-decoration: underline;">0</span>           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 0.000<span style="text-decoration: underline;">206</span>           0.097<span style="text-decoration: underline;">8</span>           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 142 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 642 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .threshold sensitivity specificity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     0          0                 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     0.012<span style="text-decoration: underline;">3</span>     0.002<span style="text-decoration: underline;">81</span>           1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     0.039<span style="text-decoration: underline;">2</span>     0.002<span style="text-decoration: underline;">81</span>           1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     0.053<span style="text-decoration: underline;">1</span>     0.011<span style="text-decoration: underline;">0</span>            1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     0.056<span style="text-decoration: underline;">3</span>     0.019<span style="text-decoration: underline;">5</span>            1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     0.058<span style="text-decoration: underline;">0</span>     0.019<span style="text-decoration: underline;">5</span>            1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     0.059<span style="text-decoration: underline;">7</span>     0.025<span style="text-decoration: underline;">2</span>            1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     0.065<span style="text-decoration: underline;">0</span>     0.027<span style="text-decoration: underline;">2</span>            1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     0.066<span style="text-decoration: underline;">8</span>     0.030<span style="text-decoration: underline;">1</span>            1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     0.070<span style="text-decoration: underline;">6</span>     0.032<span style="text-decoration: underline;">3</span>            1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 632 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#' # ---------------------------------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># `autoplot()`</span></span></span>

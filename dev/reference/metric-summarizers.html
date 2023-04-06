@@ -146,9 +146,6 @@ information.</p>
 <span>  <span class="va">fn</span>,</span>
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">truth</span>,</span>
-<span>  <span class="va">estimate</span>,</span>
-<span>  <span class="va">censoring_weights</span>,</span>
-<span>  <span class="va">eval_time</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  case_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -174,9 +171,6 @@ information.</p>
 <span>  <span class="va">fn</span>,</span>
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">truth</span>,</span>
-<span>  <span class="va">estimate</span>,</span>
-<span>  <span class="va">censoring_weights</span>,</span>
-<span>  <span class="va">eval_time</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  case_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -258,16 +252,6 @@ the metric implementation describing the kind of averaging to use.</p></dd>
 <dd><p>This can either be <code>NULL</code> to use the default <code>event_level</code>
 value of the <code>fn</code> or a single string of either <code>"first"</code> or <code>"second"</code>
 to pass along describing which level should be considered the "event".</p></dd>
-
-
-<dt>censoring_weights</dt>
-<dd><p>For dynamic survival metrics, an unquoted
-column name corresponding to censoring weights can be passed here.</p></dd>
-
-
-<dt>eval_time</dt>
-<dd><p>For dynamic survival metrics, the unquoted column name
-corresponding to the evaluation times.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -67,33 +67,16 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">roc_auc_survival</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for data.frame</span></span>
-<span><span class="fu">roc_auc_survival</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">truth</span>,</span>
-<span>  <span class="va">estimate</span>,</span>
-<span>  <span class="va">censoring_weights</span>,</span>
-<span>  <span class="va">eval_time</span>,</span>
-<span>  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  case_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
+<span><span class="fu">roc_auc_survival</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">...</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, case_weights <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">roc_auc_survival_vec</span><span class="op">(</span></span>
-<span>  <span class="va">truth</span>,</span>
-<span>  <span class="va">estimate</span>,</span>
-<span>  <span class="va">censoring_weights</span>,</span>
-<span>  <span class="va">eval_time</span>,</span>
-<span>  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  case_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">roc_auc_survival_vec</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, case_weights <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>A <code>data.frame</code> containing the columns specified by <code>truth</code> and
-<code>estimate</code>.</p></dd>
+<code>...</code>.</p></dd>
 
 
 <dt>...</dt>
@@ -108,30 +91,6 @@ although this argument is passed by expression and supports
 <code>_vec()</code> functions, an <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">survival::Surv()</a></code> object.</p></dd>
 
 
-<dt>estimate</dt>
-<dd><p>The column identifier for the survival probabilities (that should be
-numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-<a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
-<code>_vec()</code> functions, a numeric vector.</p></dd>
-
-
-<dt>censoring_weights</dt>
-<dd><p>The column identifier for censoring weights (that should
-be numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-<a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
-<code>_vec()</code> functions, a numeric vector.</p></dd>
-
-
-<dt>eval_time</dt>
-<dd><p>The column identifier for the evaluation time points. This
-should be a numeric vector. This should be an unquoted column name although
-this argument is passed by expression and supports
-<a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
-<code>_vec()</code> functions, a numeric vector.</p></dd>
-
-
 <dt>na_rm</dt>
 <dd><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></dd>
@@ -141,6 +100,13 @@ values should be stripped before the computation proceeds.</p></dd>
 <dd><p>The optional column identifier for case weights.
 This should be an unquoted column name that evaluates to a numeric column
 in <code>data</code>. For <code>_vec()</code> functions, a numeric vector.</p></dd>
+
+
+<dt>estimate</dt>
+<dd><p>If <code>truth</code> is binary, a numeric vector of class probabilities
+corresponding to the "relevant" class. Otherwise, a matrix with as many
+columns as factor levels of <code>truth</code>. <em>It is assumed that these are in the
+same order as the levels of <code>truth</code>.</em></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -159,8 +125,7 @@ the number of rows returned is the same as the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This method automatically groups by the <code>eval_time</code> argument.</p>
-<p>Smaller values of the score are associated with better model performance.</p>
+    <p>Smaller values of the score are associated with better model performance.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -181,14 +146,12 @@ the number of rows returned is the same as the number of groups.</p>
 <span class="r-in"><span><span class="va">lung_surv</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">roc_auc_survival</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    truth <span class="op">=</span> <span class="va">surv_obj</span>,</span></span>
-<span class="r-in"><span>    estimate <span class="op">=</span> <span class="va">.pred_survival</span>,</span></span>
-<span class="r-in"><span>    censoring_weights <span class="op">=</span> <span class="va">ipcw</span>,</span></span>
-<span class="r-in"><span>    eval_time <span class="op">=</span> <span class="va">.time</span></span></span>
+<span class="r-in"><span>    <span class="va">.pred</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .metric          .estimator .estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> roc_auc_survival standard           1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> roc_auc_survival standard       0.997</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
