@@ -7,7 +7,7 @@
 #'
 #' @return
 #' A tibble with class `roc_survival_df`, `grouped_roc_survival_df` having
-#' columns `.threshold`, `recall`, and `precision`.
+#' columns `.threshold`, `recall`, `precision`, and `.eval_time`.
 #'
 #' @seealso
 #' Compute the area under the ROC survival curve with [roc_auc_survival()].
