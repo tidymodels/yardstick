@@ -110,7 +110,7 @@ roc_curve_survival_impl <- function(truth,
       data[.eval_time_ind, ]
     )
 
-    res$eval_time <- .eval_times[[i]]
+    res$.eval_time <- .eval_times[[i]]
     out[[i]] <- res
   }
 
@@ -142,6 +142,8 @@ roc_curve_survival_impl_one <- function(event_time, delta, data) {
   )
   sensitivity <- cumsum(sensitivity)
   sensitivity <- sensitivity / sensitivity_denom
+  sensitivity <- dplyr::if_else(sensitivity > 1, 1, sensitivity)
+  sensitivity <- dplyr::if_else(sensitivity < 0, 0, sensitivity)
   sensitivity <- c(0, sensitivity, 1)
   res$sensitivity <- sensitivity
 
@@ -152,6 +154,8 @@ roc_curve_survival_impl_one <- function(event_time, delta, data) {
   )
   specificity <- cumsum(specificity)
   specificity <- specificity / specificity_denom
+  specificity <- dplyr::if_else(specificity > 1, 1, specificity)
+  specificity <- dplyr::if_else(specificity < 0, 0, specificity)
   specificity <- c(0, specificity, 1)
   specificity <- 1 - specificity
   res$specificity <- specificity
