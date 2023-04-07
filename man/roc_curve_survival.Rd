@@ -35,7 +35,7 @@ in \code{data}. For \verb{_vec()} functions, a numeric vector.}
 }
 \value{
 A tibble with class \code{roc_survival_df}, \code{grouped_roc_survival_df} having
-columns \code{.threshold}, \code{recall}, \code{precision}, and \code{.eval_time}.
+columns \code{.threshold}, \code{sensitivity}, \code{specificity}, and \code{.eval_time}.
 }
 \description{
 ROC Survival Curve
