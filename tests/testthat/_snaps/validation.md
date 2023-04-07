@@ -184,24 +184,8 @@
 ---
 
     Code
-      validate_surv_truth_numeric_estimate(lung_surv$list, lung_surv$age)
-    Condition
-      Error in `validate_surv_truth_numeric_estimate()`:
-      ! `truth` should be a Surv object, not a `list`.
-
----
-
-    Code
-      validate_surv_truth_numeric_estimate(lung_surv$list2, lung_surv$age)
-    Condition
-      Error in `validate_surv_truth_numeric_estimate()`:
-      ! `truth` should be a Surv object, not a `list`.
-
----
-
-    Code
       validate_surv_truth_numeric_estimate(lung_surv$surv_obj, as.character(lung_surv$
-        inst))
+        .pred_time))
     Condition
       Error in `validate_surv_truth_numeric_estimate()`:
       ! `estimate` should be a numeric, not a `character`.
@@ -209,18 +193,61 @@
 ---
 
     Code
-      validate_surv_truth_numeric_estimate(lung_surv$surv_obj[1:5, ], lung_surv$age)
+      validate_surv_truth_numeric_estimate(lung_surv$surv_obj[1:5, ], lung_surv$
+        .pred_time)
     Condition
       Error in `validate_surv_truth_numeric_estimate()`:
-      ! Length of `truth` (5) and `estimate` (150) must match.
+      ! Length of `truth` (5) and `estimate` (228) must match.
 
-# validate_censoring_weights errors as expected
+# validate_surv_truth_list_estimate errors as expected
 
     Code
-      validate_censoring_weights(1:10, 11)
+      validate_surv_truth_list_estimate("1", 1)
     Condition
-      Error in `validate_censoring_weights()`:
-      ! `censoring_weights` (10) must have the same length as `truth` (11).
+      Error in `validate_surv_truth_list_estimate()`:
+      ! `truth` should be a Surv object, not a `character`.
+
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv$surv_obj, lung_surv$list)
+    Condition
+      Error in `validate_surv_truth_list_estimate()`:
+      ! All elements of `estimate` should be data.frames.
+
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv$surv_obj, lung_surv$list2)
+    Condition
+      Error in `validate_surv_truth_list_estimate()`:
+      ! All data.frames of `estimate` should include column names: `.eval_time`, `.pred_survival`, and `.weight_censored`.
+
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv$surv_obj, lung_surv$list4)
+    Condition
+      Error in `validate_surv_truth_list_estimate()`:
+      ! All data.frames of `estimate` should include column names: `.eval_time`, `.pred_survival`, and `.weight_censored`.
+
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv$surv_obj, as.character(lung_surv$
+        .pred_time))
+    Condition
+      Error in `validate_surv_truth_list_estimate()`:
+      ! `estimate` should be a list, not a `character`.
+
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv$surv_obj[1:5, ], lung_surv$
+        .pred_time)
+    Condition
+      Error in `validate_surv_truth_list_estimate()`:
+      ! `estimate` should be a list, not a `numeric`.
 
 # validate_case_weights errors as expected
 
@@ -229,20 +256,4 @@
     Condition
       Error in `validate_case_weights()`:
       ! `case_weights` (10) must have the same length as `truth` (11).
-
-# validate_eval_time errors as expected
-
-    Code
-      validate_eval_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
-    Condition
-      Error in `validate_eval_time()`:
-      ! `eval_time` (150) must have the same length as `truth` (149).
-
----
-
-    Code
-      validate_eval_time(matrix(1:150, nrow = 2), size = nrow(lung_surv))
-    Condition
-      Error in `validate_eval_time()`:
-      ! `eval_time` should be a numeric vector, not a numeric matrix.
 

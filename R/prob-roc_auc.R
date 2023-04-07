@@ -229,7 +229,7 @@ roc_auc_multiclass <- function(truth,
     case_weights = case_weights
   )
 
-  rlang::flatten_dbl(results)
+  vapply(results, FUN.VALUE = numeric(1), function(x) x)
 }
 
 # ------------------------------------------------------------------------------

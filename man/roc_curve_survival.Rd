@@ -7,46 +7,24 @@
 \usage{
 roc_curve_survival(data, ...)
 
-\method{roc_curve_survival}{data.frame}(
-  data,
-  truth,
-  estimate,
-  censoring_weights,
-  eval_time,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
+\method{roc_curve_survival}{data.frame}(data, truth, ..., na_rm = TRUE, case_weights = NULL)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
-\code{estimate}.}
+\code{...}.}
 
-\item{...}{Not currently used.}
+\item{...}{The column identifier for the survival probabilities this
+should be a list column of data.frames corresponding to the output given when
+predicting with {censored} model. This should be an unquoted column name
+although this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, a numeric vector.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
 although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
-
-\item{estimate}{The column identifier for the survival probabilities (that should be
-numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
-\item{censoring_weights}{The column identifier for censoring weights (that should
-be numeric). This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
-
-\item{eval_time}{The column identifier for the evaluation time points. This
-should be a numeric vector. This should be an unquoted column name although
-this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
@@ -66,9 +44,7 @@ ROC Survival Curve
 result <- roc_curve_survival(
   lung_surv,
   truth = surv_obj,
-  estimate = .pred_survival,
-  censoring_weights = ipcw,
-  eval_time = .time
+  .pred
 )
 result
 
@@ -89,8 +65,7 @@ result \%>\%
 autoplot(result)
 }
 \seealso{
-Compute the area under the ROC survival curve with (TODO link to
-roc_survival_auc()).
+Compute the area under the ROC survival curve with \code{\link[=roc_auc_survival]{roc_auc_survival()}}.
 }
 \author{
 Emil Hvitfeldt

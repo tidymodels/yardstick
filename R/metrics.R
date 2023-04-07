@@ -128,6 +128,7 @@ metrics.data.frame <- function(data,
 #' All functions must be either:
 #' - Only numeric metrics
 #' - A mix of class metrics or class prob metrics
+#' - A mix of dynamic and static survival metrics
 #'
 #' For instance, `rmse()` can be used with `mae()` because they
 #' are numeric metrics, but not with `accuracy()` because it is a classification
@@ -159,12 +160,26 @@ metrics.data.frame <- function(data,
 #'   event_level = yardstick_event_level(),
 #'   case_weights = NULL
 #' )
+#'
+#' # Dynamic / static survival metric set signature:
+#' fn(
+#'   data,
+#'   truth,
+#'   ...,
+#'   estimate,
+#'   na_rm = TRUE,
+#'   case_weights = NULL
+#' )
 #' ```
 #'
 #' When mixing class and class prob metrics, pass in the hard predictions
 #' (the factor column) as the named argument `estimate`, and the soft
 #' predictions (the class probability columns) as bare column names or
 #' `tidyselect` selectors to `...`.
+#'
+#' When mixing dynamic and static survival metrics, pass in the time predictions
+#' as the named argument `estimate`, and the survival predictions as bare column
+#' names or `tidyselect` selectors to `...`.
 #'
 #' @examples
 #' library(dplyr)
@@ -249,8 +264,8 @@ metric_set <- function(...) {
     make_numeric_metric_function(fns)
   } else if(fn_cls %in% c("prob_metric", "class_metric")) {
     make_prob_class_metric_function(fns)
-  } else if(fn_cls %in% "dynamic_survival_metric") {
-    make_dynamic_survival_metric_function(fns)
+  } else if(fn_cls %in% c("dynamic_survival_metric", "static_survival_metric")) {
+    make_survival_metric_function(fns)
   } else {
     abort(paste0(
       "Internal error: `validate_function_class()` should have ",
@@ -455,32 +470,44 @@ make_numeric_metric_function <- function(fns) {
   metric_function
 }
 
-make_dynamic_survival_metric_function <- function(fns) {
+make_survival_metric_function <- function(fns) {
   metric_function <- function(data,
                               truth,
+                              ...,
                               estimate,
-                              censoring_weights,
-                              eval_time,
+                              pred_time,
                               na_rm = TRUE,
-                              case_weights = NULL,
-                              ...) {
-
+                              case_weights = NULL) {
     # Construct common argument set for each metric call
     # Doing this dynamically inside the generated function means
     # we capture the correct arguments
-    call_args <- quos(
+    dynamic_call_args <- quos(
       data = data,
       truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
-      censoring_weights = !!enquo(censoring_weights),
-      eval_time = !!enquo(eval_time),
+      ... = ...,
       na_rm = na_rm,
       case_weights = !!enquo(case_weights),
       ... = ...
     )
 
+    static_call_args <- quos(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na_rm = na_rm,
+      case_weights = !!enquo(case_weights),
+      ... = ...
+    )
+
+    call_class_ind <- vapply(
+      fns, inherits, "dynamic_survival_metric", FUN.VALUE = logical(1)
+    )
+
     # Construct calls from the functions + arguments
-    calls <- lapply(fns, call2, !!! call_args)
+    dynamic_calls <- lapply(fns[call_class_ind], call2, !!! dynamic_call_args)
+    static_calls <- lapply(fns[!call_class_ind], call2, !!! static_call_args)
+
+    calls <- c(dynamic_calls, static_calls)
 
     # Evaluate
     metric_list <- mapply(
@@ -495,7 +522,7 @@ make_dynamic_survival_metric_function <- function(fns) {
   }
 
   class(metric_function) <- c(
-    "dynamic_survival_metric_set",
+    "survival_metric_set",
     "metric_set",
     class(metric_function)
   )
@@ -540,7 +567,7 @@ validate_function_class <- function(fns) {
     return(invisible(fns))
   }
   valid_cls <- c("class_metric", "prob_metric", "numeric_metric",
-                 "dynamic_survival_metric")
+                 "dynamic_survival_metric", "static_survival_metric")
 
   if (n_unique == 1L) {
     if (fn_cls_unique %in% valid_cls) {
@@ -553,6 +580,13 @@ validate_function_class <- function(fns) {
   if (n_unique == 2) {
     if (fn_cls_unique[1] %in% c("class_metric", "prob_metric") &&
         fn_cls_unique[2] %in% c("class_metric", "prob_metric")) {
+      return(invisible(fns))
+    }
+
+    if (fn_cls_unique[1] %in% c("dynamic_survival_metric",
+                                "static_survival_metric") &&
+        fn_cls_unique[2] %in% c("dynamic_survival_metric",
+                                "static_survival_metric")) {
       return(invisible(fns))
     }
   }
@@ -604,6 +638,7 @@ validate_function_class <- function(fns) {
     "\nThe combination of metric functions must be:\n",
     "- only numeric metrics\n",
     "- a mix of class metrics and class probability metrics\n\n",
+    "- a mix of dynamic and static survival metrics\n\n",
     "The following metric function types are being mixed:\n",
     fn_pastable
   ))

@@ -60,6 +60,8 @@
       - only numeric metrics
       - a mix of class metrics and class probability metrics
       
+      - a mix of dynamic and static survival metrics
+      
       The following metric function types are being mixed:
       - numeric (rmse)
       - class (accuracy)
@@ -87,6 +89,8 @@
       - only numeric metrics
       - a mix of class metrics and class probability metrics
       
+      - a mix of dynamic and static survival metrics
+      
       The following metric function types are being mixed:
       - class (accuracy, sens)
       - other (foobar <test>, abort <namespace:rlang>)
@@ -102,6 +106,8 @@
       - only numeric metrics
       - a mix of class metrics and class probability metrics
       
+      - a mix of dynamic and static survival metrics
+      
       The following metric function types are being mixed:
       - class (accuracy, sens)
       - other (foobar <test>, abort <namespace:rlang>)
@@ -116,6 +122,8 @@
       The combination of metric functions must be:
       - only numeric metrics
       - a mix of class metrics and class probability metrics
+      
+      - a mix of dynamic and static survival metrics
       
       The following metric function types are being mixed:
       - other (foobar <test>)

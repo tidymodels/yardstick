@@ -268,23 +268,18 @@ test_that("validate_numeric_truth_numeric_estimate errors as expected", {
 
 test_that("validate_surv_truth_numeric_estimate errors as expected", {
   lung_surv <- data_lung_surv()
-  lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
-  lung_surv$list2 <- lapply(
-    seq_len(nrow(lung_surv)),
-    function(x) data.frame(wrong = 1, names = 2)
-  )
 
   expect_no_error(
     validate_surv_truth_numeric_estimate(
       lung_surv$surv_obj,
-      lung_surv$age
+      lung_surv$.pred_time
     )
   )
 
   expect_no_error(
     validate_surv_truth_numeric_estimate(
       survival::Surv(1, 0),
-      lung_surv$age[1]
+      lung_surv$.pred_time[1]
     )
   )
 
@@ -296,24 +291,8 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
   expect_snapshot(
     error = TRUE,
     validate_surv_truth_numeric_estimate(
-      lung_surv$list,
-      lung_surv$age
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_surv_truth_numeric_estimate(
-      lung_surv$list2,
-      lung_surv$age
-    )
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_surv_truth_numeric_estimate(
       lung_surv$surv_obj,
-      as.character(lung_surv$inst)
+      as.character(lung_surv$.pred_time)
     )
   )
 
@@ -321,23 +300,92 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
     error = TRUE,
     validate_surv_truth_numeric_estimate(
       lung_surv$surv_obj[1:5, ],
-      lung_surv$age
+      lung_surv$.pred_time
     )
   )
 })
 
-test_that("validate_censoring_weights errors as expected", {
-  expect_no_error(
-    validate_censoring_weights(NULL, 10)
+
+test_that("validate_surv_truth_list_estimate errors as expected", {
+  lung_surv <- data_lung_surv()
+  lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
+  lung_surv$list2 <- lapply(
+    seq_len(nrow(lung_surv)),
+    function(x) data.frame(wrong = 1, names = 2)
+  )
+  lung_surv$list3 <- lapply(
+    lung_surv$.pred,
+    function(x) x[c(1, 2, 5)]
+  )
+  lung_surv$list4 <- lapply(
+    lung_surv$.pred,
+    function(x) x[c(1, 2, 3)]
   )
 
   expect_no_error(
-    validate_censoring_weights(1:10, 10)
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj,
+      lung_surv$.pred
+    )
+  )
+
+  expect_no_error(
+    validate_surv_truth_list_estimate(
+      survival::Surv(1, 0),
+      lung_surv$.pred[1]
+    )
+  )
+
+  expect_no_error(
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj,
+      lung_surv$list3
+    )
   )
 
   expect_snapshot(
     error = TRUE,
-    validate_censoring_weights(1:10, 11)
+    validate_surv_truth_list_estimate("1", 1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj,
+      lung_surv$list
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj,
+      lung_surv$list2
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj,
+      lung_surv$list4
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj,
+      as.character(lung_surv$.pred_time)
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj[1:5, ],
+      lung_surv$.pred_time
+    )
   )
 })
 
@@ -353,23 +401,5 @@ test_that("validate_case_weights errors as expected", {
   expect_snapshot(
     error = TRUE,
     validate_case_weights(1:10, 11)
-  )
-})
-
-test_that("validate_eval_time errors as expected", {
-  lung_surv <- data_lung_surv()
-
-  expect_no_error(
-    validate_eval_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv))
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_eval_time(rep(100, nrow(lung_surv)), size = nrow(lung_surv) - 1)
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    validate_eval_time(matrix(1:150, nrow = 2), size = nrow(lung_surv))
   )
 })

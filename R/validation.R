@@ -141,8 +141,52 @@ validate_factor_truth_matrix_estimate <- function(truth, estimate, estimator) {
   }
 }
 
-validate_surv_truth_numeric_estimate <- function(truth, estimate) {
+validate_surv_truth_list_estimate <- function(truth, estimate) {
   if (!inherits(truth, "Surv")) {
+    cls <- class(truth)[[1]]
+    abort(paste0(
+      "`truth` should be a Surv object, not a `", cls, "`."
+    ))
+  }
+
+  if (!is.list(estimate)) {
+    cls <- class(estimate)[[1]]
+    abort(paste0(
+      "`estimate` should be a list, not a `", cls, "`."
+    ))
+  }
+
+  if (!all(vapply(estimate, is.data.frame, FUN.VALUE = logical(1)))) {
+    abort("All elements of `estimate` should be data.frames.")
+  }
+
+  valid_names <- c(".eval_time", ".pred_survival",".weight_censored")
+  has_names <- vapply(
+    estimate,
+    function(x) all(valid_names %in% names(x)),
+    FUN.VALUE = logical(1)
+  )
+
+  if (!all(has_names)) {
+    abort(paste0(
+      "All data.frames of `estimate` should include column names: ",
+      "`.eval_time`, `.pred_survival`, and `.weight_censored`."
+    ))
+  }
+
+  n_truth <- nrow(truth)
+  n_estimate <- length(estimate)
+
+  if (n_truth != n_estimate) {
+    abort(paste0(
+      "Length of `truth` (", n_truth, ") ",
+      "and `estimate` (", n_estimate, ") must match."
+    ))
+  }
+}
+
+validate_surv_truth_numeric_estimate <- function(truth, estimate) {
+  if (!.is_surv(truth, fail = FALSE)) {
     cls <- class(truth)[[1]]
     abort(paste0(
       "`truth` should be a Surv object, not a `", cls, "`."
@@ -244,49 +288,6 @@ validate_case_weights <- function(case_weights, size) {
     abort(paste0(
       "`case_weights` (", size_case_weights, ") must have the same ",
       "length as `truth` (", size, ")."
-    ))
-  }
-
-  invisible()
-}
-
-validate_censoring_weights <- function(censoring_weights, size) {
-  if (is.null(censoring_weights)) {
-    return(invisible())
-  }
-
-  size_censoring_weights <- length(censoring_weights)
-
-  if (size_censoring_weights != size) {
-    abort(paste0(
-      "`censoring_weights` (", size_censoring_weights, ") must have the same ",
-      "length as `truth` (", size, ")."
-    ))
-  }
-
-  invisible()
-}
-
-validate_eval_time <- function(eval_time, size) {
-  size_time <- length(eval_time)
-
-  if (size_time != size) {
-    abort(paste0(
-      "`eval_time` (", size_time, ") must have the same ",
-      "length as `truth` (", size, ")."
-    ))
-  }
-
-  if (!is.numeric(eval_time)) {
-    cls <- class(eval_time)[[1]]
-    abort(paste0(
-      "`eval_time` should be a numeric vector, not a `", cls, "` vector."
-    ))
-  }
-
-  if (is.matrix(eval_time)) {
-    abort(paste0(
-      "`eval_time` should be a numeric vector, not a numeric matrix."
     ))
   }
 

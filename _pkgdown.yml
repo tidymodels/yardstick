@@ -71,6 +71,12 @@ reference:
   - title: Dynamic Survival Metrics
     contents:
     - brier_survival
+    - brier_survival_integrated
+    - roc_auc_survival
+
+  - title: Static Survival Metrics
+    contents:
+    - concordance_survival
 
   - title: Curve Survival Functions
     contents:

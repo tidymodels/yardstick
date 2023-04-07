@@ -176,5 +176,5 @@ gain_capture_multiclass <- function(truth, estimate, case_weights) {
     case_weights = case_weights
   )
 
-  rlang::flatten_dbl(res_lst)
+  vapply(res_lst, FUN.VALUE = numeric(1), function(x) x)
 }

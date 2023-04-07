@@ -402,7 +402,7 @@ sksurv_obj <- sksurv_util$Surv$from_arrays(
   time = lung_surv$surv_obj[, "time"]
 )
 
-eval_time_unique <- unique(lung_surv_unnest$eval_time)
+eval_time_unique <- unique(lung_surv_unnest$.eval_time)
 
 py_brier_survival <- vapply(
   X = eval_time_unique,
@@ -410,7 +410,7 @@ py_brier_survival <- vapply(
   FUN = function(x) {
     sksurv_metrics$brier_score(
       sksurv_obj, sksurv_obj,
-      dplyr::filter(lung_surv_unnest, eval_time == x)$.pred_survival,
+      dplyr::filter(lung_surv_unnest, .eval_time == x)$.pred_survival,
       x
     )[[2]]
   }
