@@ -184,8 +184,7 @@ autoplot.roc_survival_df <- function(object, ...) {
     ggplot2::geom_step(mapping = roc_aes, direction = "hv") %+%
     ggplot2::geom_abline(lty = 3) %+%
     ggplot2::coord_equal() %+%
-    ggplot2::theme_bw() %+%
-    ggplot2::scale_color_viridis_c()
+    ggplot2::theme_bw()
 
   roc_chart
 }
