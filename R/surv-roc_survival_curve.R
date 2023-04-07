@@ -1,9 +1,34 @@
-#' ROC Survival Curve
+#' Time-Dependent ROC surve for Censored Data
+#'
+#' Compute the ROC survival curve using predicted survival probabilities that
+#' corresponds to different time points.
 #'
 #' @family survival curve metrics
 #' @templateVar fn roc_curve_survival
 #'
 #' @inheritParams brier_survival
+#'
+#' @details
+#'
+#' This formulation takes survival probability predictions at one or more
+#' specific _evaluation times_ and, for each time, computes the ROC curve. To
+#' account for censoring, inverse probability of censoring weights
+#' (IPCW) are used in the calculations. See equation 7 of section 4.3 in
+#' Blanche _at al_ (2013) for the details.
+#'
+#' The column passed to `...` should be a list column with one element per
+#' independent experiential unit (e.g. patient). The list column should contain
+#' data frames with several columns:
+#'
+#'  - `.eval_time`: The time that the prediction is made.
+#'  - `.pred_survival`: The predicted probability of survival up to `.eval_time`
+#'  - `.weight_censored`: The case weight for the inverse probability of censoring.
+#'
+#' The last column can be produced using [parsnip::.censoring_weights_graf()].
+#' This corresponds to the weighting scheme of  Graf _et al_ (1999). The
+#' internal data set `lung_surv` shows an example of the format.
+#'
+#' This method automatically groups by the `.eval_time` argument.
 #'
 #' @return
 #' A tibble with class `roc_survival_df`, `grouped_roc_survival_df` having
@@ -28,8 +53,10 @@
 #' library(ggplot2)
 #' library(dplyr)
 #' result %>%
-#'   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
-#'   geom_path() +
+#'   mutate(.eval_time = format(.eval_time)) %>%
+#'   ggplot(aes(x = 1 - specificity, y = sensitivity,
+#'              group = .eval_time, col = .eval_time)) +
+#'   geom_step(direction = "hv") +
 #'   geom_abline(lty = 3) +
 #'   coord_equal() +
 #'   theme_bw()
