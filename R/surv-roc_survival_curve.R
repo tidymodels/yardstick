@@ -175,12 +175,13 @@ autoplot.roc_survival_df <- function(object, ...) {
   roc_aes <- ggplot2::aes(
     x = 1 - specificity,
     y = sensitivity,
-    color = .eval_time
+    color = .eval_time,
+    group = .eval_time
   )
 
   # build the graph
   roc_chart <- roc_chart %+%
-    ggplot2::geom_path(mapping = roc_aes) %+%
+    ggplot2::geom_step(mapping = roc_aes, direction = "hv") %+%
     ggplot2::geom_abline(lty = 3) %+%
     ggplot2::coord_equal() %+%
     ggplot2::theme_bw() %+%
