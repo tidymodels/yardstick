@@ -13,9 +13,13 @@ options(pillar.advice = FALSE, pillar.min_title_chars = Inf)
 # ------------------------------------------------------------------------------
 
 # Objects saved from riskRegression::Score() via browser()
-load("rr_churn_data.RData")
-load("brier_churn_res.RData")
-load("auc_churn_res.RData")
+load("data-raw/dyn-surv-metrics/rr_churn_data.RData")
+load("data-raw/dyn-surv-metrics/brier_churn_res.RData")
+load("data-raw/dyn-surv-metrics/auc_churn_res.RData")
+
+brier_churn_res %>%
+  filter(grepl("churn",  model)) %>%
+  readr::write_rds("tests/testthat/data/brier_churn_res.rds")
 
 # ------------------------------------------------------------------------------
 
@@ -37,10 +41,28 @@ rr_churn_data$ipcw[g_1] <- 1 / rr_churn_data$WTi[g_1]
 rr_churn_data$ipcw[g_2] <- 0
 rr_churn_data$ipcw[g_3] <- 1 / rr_churn_data$Wt[g_3]
 
+rr_churn_data %>%
+  readr::write_rds("tests/testthat/data/rr_churn_data.rds")
+
 # ------------------------------------------------------------------------------
 # check Brier results
 
-rr_churn_data %>% 
+dplyr::glimpse(rr_churn_data)
+rr_churn_data |>
+  rename(
+    .eval_time = times,
+    .pred_survival = surv_prob,
+    .weight_censored = ipcw
+    ) |>
+  nest(.pred = -c(ID, time, status, model)) |>
+  mutate(surv_obj = survival::Surv(time, status)) |>
+  brier_survival(
+    truth = surv_obj,
+    .pred
+  )
+
+
+rr_churn_data %>%
   brier_survival(
     surv,
     estimate = surv_prob,
@@ -52,8 +74,8 @@ brier_churn_res %>% filter(grepl("churn",  model))
 # ------------------------------------------------------------------------------
 # check ROC results
 
-rr_churn_data %>% 
-  group_by(times) %>% 
+rr_churn_data %>%
+  group_by(times) %>%
   roc_auc_survival(
     surv,
     estimate = surv_prob,
@@ -64,17 +86,17 @@ auc_churn_res %>% filter(grepl("churn",  model))
 
 # ------------------------------------------------------------------------------
 
-surv_metric_expected <- 
+surv_metric_expected <-
   bind_rows(
-    auc_churn_res %>% 
-      filter(grepl("churn",  model)) %>% 
-      select(.estimate = AUC, eval_time = times) %>% 
+    auc_churn_res %>%
+      filter(grepl("churn",  model)) %>%
+      select(.estimate = AUC, eval_time = times) %>%
       mutate(.metric = "roc_auc_survival"),
-    brier_churn_res %>% 
-      filter(grepl("churn",  model)) %>% 
-      select(.estimate = Brier, eval_time = times) %>% 
+    brier_churn_res %>%
+      filter(grepl("churn",  model)) %>%
+      select(.estimate = Brier, eval_time = times) %>%
       mutate(.metric = "brier_survival")
-  ) %>% 
+  ) %>%
   as_tibble()
 
 save(surv_metric_expected,
