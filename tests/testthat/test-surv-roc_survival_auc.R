@@ -60,6 +60,6 @@ test_that('riskRegression equivalent', {
   )
 
   expect_true(
-    all(abs(riskRegression_res$AUC - yardstick_res$.estimate) < 0.15)
+    all(abs(riskRegression_res$AUC - yardstick_res$.estimate) < 0.035)
   )
 })
