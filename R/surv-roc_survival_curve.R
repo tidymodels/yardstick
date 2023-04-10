@@ -134,8 +134,8 @@ roc_curve_survival_impl <- function(truth,
     .eval_time_ind <- .eval_times[[i]] == data$.eval_time & not_missing_pred_survival
 
     res <- roc_curve_survival_impl_one(
-      event_time[.eval_time_ind],
-      delta[.eval_time_ind],
+      data$event_time[.eval_time_ind],
+      data$delta[.eval_time_ind],
       data[.eval_time_ind, ]
     )
 
