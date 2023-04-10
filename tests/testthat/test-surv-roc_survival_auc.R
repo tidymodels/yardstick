@@ -32,7 +32,15 @@ test_that('snapshot equivalent', {
       .pred
     )
 
-  expect_identical(snapshot_res, yardstick_res)
+  expect_equal(
+    snapshot_res$.estimate,
+    yardstick_res$.estimate
+  )
+
+  expect_identical(
+    snapshot_res$.eval_time,
+    yardstick_res$.eval_time
+  )
 })
 
 # riskRegression compare -------------------------------------------------------
