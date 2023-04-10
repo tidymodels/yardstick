@@ -145,7 +145,7 @@ roc_curve_survival_impl <- function(truth,
 }
 
 roc_curve_survival_impl_one <- function(event_time, delta, data) {
-  res <- dplyr::tibble(.threshold = sort(unique(c(0, data$.pred_survival, 1))))
+  res <- dplyr::tibble(.threshold = sort(unique(c(-Inf, data$.pred_survival, Inf))))
 
   obs_time_le_time <- event_time <= data$.eval_time
   obs_time_gt_time <- event_time > data$.eval_time
