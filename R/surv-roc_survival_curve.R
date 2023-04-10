@@ -160,7 +160,7 @@ roc_curve_survival_impl_one <- function(event_time, delta, data) {
     ge_time = obs_time_gt_time,
     multiplier = multiplier
   )
-  data_split <- split(data_df, data$.pred_survival)
+  data_split <- vctrs::vec_split(data_df, data$.pred_survival)$val
 
   sensitivity <- vapply(
     data_split,
