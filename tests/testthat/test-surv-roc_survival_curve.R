@@ -36,3 +36,17 @@ test_that("roc_curve_survival works", {
     )
   }
 })
+
+# self checking ----------------------------------------------------------------
+
+test_that('snapshot equivalent', {
+  snapshot_res <- readRDS(test_path("data/ref_roc_curve_survival.rds"))
+
+  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
+    roc_curve_survival(
+      truth = surv_obj,
+      .pred
+    )
+
+  expect_identical(snapshot_res, yardstick_res)
+})

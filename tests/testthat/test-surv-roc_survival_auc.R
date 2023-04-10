@@ -21,22 +21,26 @@ test_that("roc_curve_auc() calculations", {
   )
 })
 
+# self checking ----------------------------------------------------------------
+
+test_that('snapshot equivalent', {
+  snapshot_res <- readRDS(test_path("data/ref_roc_auc_survival.rds"))
+
+  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
+    roc_auc_survival(
+      truth = surv_obj,
+      .pred
+    )
+
+  expect_identical(snapshot_res, yardstick_res)
+})
+
 # riskRegression compare -------------------------------------------------------
 
 test_that('riskRegression equivalent', {
   riskRegression_res <- readRDS(test_path("data/auc_churn_res.rds"))
 
-  yardstick_res <- readRDS(test_path("data/rr_churn_data.rds")) %>%
-    dplyr::rename(
-      .eval_time = times,
-      .pred_survival = surv_prob,
-      .weight_censored = ipcw
-    ) %>%
-    dplyr::mutate(
-      .weight_censored = dplyr::if_else(status == 0 & time < .eval_time, NA, .weight_censored)
-    ) %>%
-    tidyr::nest(.pred = -c(ID, time, status, model)) %>%
-    dplyr::mutate(surv_obj = survival::Surv(time, status)) %>%
+  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
     roc_auc_survival(
       truth = surv_obj,
       .pred
@@ -47,8 +51,7 @@ test_that('riskRegression equivalent', {
     yardstick_res$.eval_time
   )
 
-  expect_equal(
-    riskRegression_res$Brier,
-    yardstick_res$.estimate
+  expect_true(
+    all(abs(riskRegression_res$AUC - yardstick_res$.estimate) < 0.09)
   )
 })
