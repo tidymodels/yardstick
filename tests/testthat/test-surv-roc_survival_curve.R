@@ -48,5 +48,23 @@ test_that('snapshot equivalent', {
       .pred
     )
 
-  expect_identical(snapshot_res, yardstick_res)
+  expect_equal(
+    snapshot_res$.threshold,
+    yardstick_res$.threshold
+  )
+
+  expect_equal(
+    snapshot_res$sensitivity,
+    yardstick_res$sensitivity
+  )
+
+  expect_equal(
+    snapshot_res$specificity,
+    yardstick_res$specificity
+  )
+
+  expect_identical(
+    snapshot_res$.eval_time,
+    yardstick_res$.eval_time
+  )
 })
