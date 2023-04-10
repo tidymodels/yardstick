@@ -127,9 +127,11 @@ roc_curve_survival_impl <- function(truth,
 
   .eval_times <- unique(data$.eval_time)
 
+  not_missing_pred_survival <- !is.na(data$.pred_survival)
+
   out <- list()
   for (i in seq_along(.eval_times)) {
-    .eval_time_ind <- .eval_times[[i]] == data$.eval_time
+    .eval_time_ind <- .eval_times[[i]] == data$.eval_time & not_missing_pred_survival
 
     res <- roc_curve_survival_impl_one(
       event_time[.eval_time_ind],
