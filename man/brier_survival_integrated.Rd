@@ -27,7 +27,7 @@ should be a list column of data.frames corresponding to the output given when
 predicting with {censored} model. This should be an unquoted column name
 although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector.}
+\verb{_vec()} functions, a numeric vector. See Details below.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
@@ -68,6 +68,26 @@ largest value of \code{.eval_time} to bring it into the same scale as the
 traditional brier score.
 
 Smaller values of the score are associated with better model performance.
+
+This formulation takes survival probability predictions at one or more
+specific \emph{evaluation times} and, for each time, computes the Brier score.
+To account for censoring, inverse probability of censoring weights
+(IPCW) are used in the calculations.
+
+The column passed to \code{...} should be a list column with one element per
+independent experiential unit (e.g. patient). The list column should contain
+data frames with several columns:
+\itemize{
+\item \code{.eval_time}: The time that the prediction is made.
+\item \code{.pred_survival}: The predicted probability of survival up to \code{.eval_time}
+\item \code{.weight_censored}: The case weight for the inverse probability of censoring.
+}
+
+The last column can be produced using \code{\link[parsnip:censoring_weights]{parsnip::.censoring_weights_graf()}}.
+This corresponds to the weighting scheme of  Graf \emph{et al} (1999). The
+internal data set \code{lung_surv} shows an example of the format.
+
+This method automatically groups by the \code{.eval_time} argument.
 }
 \examples{
 library(dplyr)

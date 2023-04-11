@@ -4,7 +4,7 @@
 \alias{roc_auc_survival}
 \alias{roc_auc_survival.data.frame}
 \alias{roc_auc_survival_vec}
-\title{ROC Survival AUC}
+\title{Time-Dependent ROC AUC for Censored Data}
 \usage{
 roc_auc_survival(data, ...)
 
@@ -46,9 +46,31 @@ For \code{roc_auc_survival_vec()}, a \code{numeric} vector same length as the in
 \code{eval_time}. (or \code{NA}).
 }
 \description{
-Compute the area under the ROC survival curve.
+Compute the area under the ROC survival curve using predicted survival
+probabilities that corresponds to different time points.
 }
 \details{
+This formulation takes survival probability predictions at one or more
+specific \emph{evaluation times} and, for each time, computes the area under the
+ROC curve. To account for censoring, inverse probability of censoring weights
+(IPCW) are used in the calculations. See equation 7 of section 4.3 in
+Blanche \emph{at al} (2013) for the details.
+
+The column passed to \code{...} should be a list column with one element per
+independent experiential unit (e.g. patient). The list column should contain
+data frames with several columns:
+\itemize{
+\item \code{.eval_time}: The time that the prediction is made.
+\item \code{.pred_survival}: The predicted probability of survival up to \code{.eval_time}
+\item \code{.weight_censored}: The case weight for the inverse probability of censoring.
+}
+
+The last column can be produced using \code{\link[parsnip:censoring_weights]{parsnip::.censoring_weights_graf()}}.
+This corresponds to the weighting scheme of  Graf \emph{et al} (1999). The
+internal data set \code{lung_surv} shows an example of the format.
+
+This method automatically groups by the \code{.eval_time} argument.
+
 Smaller values of the score are associated with better model performance.
 }
 \examples{
@@ -59,6 +81,15 @@ lung_surv \%>\%
     truth = surv_obj,
     .pred
   )
+}
+\references{
+Blanche, P., Dartigues, J.-F. and Jacqmin-Gadda, H. (2013), Review and
+comparison of ROC curve estimators for a time-dependent outcome with
+marker-dependent censoring. \emph{Biom. J.}, 55: 687-704.
+
+Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999), Assessment
+and comparison of prognostic classification schemes for survival data.
+\emph{Statist. Med.}, 18: 2529-2545.
 }
 \seealso{
 Compute the ROC survival curve with \code{\link[=roc_curve_survival]{roc_curve_survival()}}.
