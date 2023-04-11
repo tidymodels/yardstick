@@ -44,9 +44,9 @@ corresponds to different time points.
 \details{
 This formulation takes survival probability predictions at one or more
 specific \emph{evaluation times} and, for each time, computes the ROC curve. To
-account for censoring, inverse probability of censoring weights
-(IPCW) are used in the calculations. See equation 7 of section 4.3 in
-Blanche \emph{at al} (2013) for the details.
+account for censoring, inverse probability of censoring weights (IPCW) are
+used in the calculations. See equation 7 of section 4.3 in Blanche \emph{at al}
+(2013) for the details.
 
 The column passed to \code{...} should be a list column with one element per
 independent experiential unit (e.g. patient). The list column should contain
@@ -71,7 +71,7 @@ result <- roc_curve_survival(
 )
 result
 
-#' # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # `autoplot()`
 
 # Visualize the curve using ggplot2 manually
@@ -90,13 +90,13 @@ result \%>\%
 autoplot(result)
 }
 \references{
-Blanche, P., Dartigues, J.-F. and Jacqmin-Gadda, H. (2013),
-Review and comparison of ROC curve estimators for a time-dependent outcome with
+Blanche, P., Dartigues, J.-F. and Jacqmin-Gadda, H. (2013), Review and
+comparison of ROC curve estimators for a time-dependent outcome with
 marker-dependent censoring. \emph{Biom. J.}, 55: 687-704.
 
-Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999),
-Assessment and comparison of prognostic classification schemes for survival
-data. \emph{Statist. Med.}, 18: 2529-2545.
+Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999), Assessment
+and comparison of prognostic classification schemes for survival data.
+\emph{Statist. Med.}, 18: 2529-2545.
 }
 \seealso{
 Compute the area under the ROC survival curve with \code{\link[=roc_auc_survival]{roc_auc_survival()}}.

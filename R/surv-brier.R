@@ -27,9 +27,9 @@
 #' @details
 #'
 #' This formulation takes survival probability predictions at one or more
-#' specific _evaluation times_ and, for each time, computes the Brier score.
-#' To account for censoring, inverse probability of censoring weights
-#' (IPCW) are used in the calculations.
+#' specific _evaluation times_ and, for each time, computes the Brier score. To
+#' account for censoring, inverse probability of censoring weights (IPCW) are
+#' used in the calculations.
 #'
 #' The column passed to `...` should be a list column with one element per
 #' independent experiential unit (e.g. patient). The list column should contain
@@ -50,9 +50,10 @@
 #' @author Emil Hvitfeldt
 #'
 #' @references
-#'   E. Graf, C. Schmoor, W. Sauerbrei, and M. Schumacher, “Assessment and
-#'   comparison of prognostic classification schemes for survival data,”
-#'   _Statistics in Medicine_, vol. 18, no. 17-18, pp. 2529–2545, 1999.
+#'
+#' E. Graf, C. Schmoor, W. Sauerbrei, and M. Schumacher, “Assessment and
+#' comparison of prognostic classification schemes for survival data,”
+#' _Statistics in Medicine_, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 #'
 #' @examples
 #' library(dplyr)

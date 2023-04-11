@@ -56,9 +56,9 @@ mean squared error at time point \code{.eval_time}.
 }
 \details{
 This formulation takes survival probability predictions at one or more
-specific \emph{evaluation times} and, for each time, computes the Brier score.
-To account for censoring, inverse probability of censoring weights
-(IPCW) are used in the calculations.
+specific \emph{evaluation times} and, for each time, computes the Brier score. To
+account for censoring, inverse probability of censoring weights (IPCW) are
+used in the calculations.
 
 The column passed to \code{...} should be a list column with one element per
 independent experiential unit (e.g. patient). The list column should contain
