@@ -18,7 +18,7 @@ All functions must be either:
 \itemize{
 \item Only numeric metrics
 \item A mix of class metrics or class prob metrics
-\item A mix of dynamic and static survival metrics
+\item A mix of dynamic, integrated, and static survival metrics
 }
 
 For instance, \code{rmse()} can be used with \code{mae()} because they
@@ -51,7 +51,7 @@ fn(
   case_weights = NULL
 )
 
-# Dynamic / static survival metric set signature:
+# Dynamic / integrated / static survival metric set signature:
 fn(
   data,
   truth,
@@ -67,9 +67,9 @@ When mixing class and class prob metrics, pass in the hard predictions
 predictions (the class probability columns) as bare column names or
 \code{tidyselect} selectors to \code{...}.
 
-When mixing dynamic and static survival metrics, pass in the time predictions
-as the named argument \code{estimate}, and the survival predictions as bare column
-names or \code{tidyselect} selectors to \code{...}.
+When mixing dynamic, integrated, and static survival metrics, pass in the
+time predictions as the named argument \code{estimate}, and the survival
+predictions as bare column names or \code{tidyselect} selectors to \code{...}.
 }
 \examples{
 library(dplyr)
