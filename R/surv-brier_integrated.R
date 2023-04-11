@@ -51,6 +51,7 @@
 #'     truth = surv_obj,
 #'     .pred
 #'   )
+#' @keywords internal
 #' @export
 brier_survival_integrated <- function(data, ...) {
   UseMethod("brier_survival_integrated")

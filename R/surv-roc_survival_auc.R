@@ -57,6 +57,7 @@
 #'     truth = surv_obj,
 #'     .pred
 #'   )
+#' @keywords internal
 #' @export
 roc_auc_survival <- function(data, ...) {
   UseMethod("roc_auc_survival")
