@@ -56,7 +56,7 @@ brier_survival_integrated <- function(data, ...) {
   UseMethod("brier_survival_integrated")
 }
 
-brier_survival_integrated <- new_dynamic_survival_metric(
+brier_survival_integrated <- new_integrated_survival_metric(
   brier_survival_integrated,
   direction = "minimize"
 )

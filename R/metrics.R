@@ -128,7 +128,7 @@ metrics.data.frame <- function(data,
 #' All functions must be either:
 #' - Only numeric metrics
 #' - A mix of class metrics or class prob metrics
-#' - A mix of dynamic and static survival metrics
+#' - A mix of dynamic, integrated, and static survival metrics
 #'
 #' For instance, `rmse()` can be used with `mae()` because they
 #' are numeric metrics, but not with `accuracy()` because it is a classification
@@ -161,7 +161,7 @@ metrics.data.frame <- function(data,
 #'   case_weights = NULL
 #' )
 #'
-#' # Dynamic / static survival metric set signature:
+#' # Dynamic / integrated / static survival metric set signature:
 #' fn(
 #'   data,
 #'   truth,
@@ -177,9 +177,9 @@ metrics.data.frame <- function(data,
 #' predictions (the class probability columns) as bare column names or
 #' `tidyselect` selectors to `...`.
 #'
-#' When mixing dynamic and static survival metrics, pass in the time predictions
-#' as the named argument `estimate`, and the survival predictions as bare column
-#' names or `tidyselect` selectors to `...`.
+#' When mixing dynamic, integrated, and static survival metrics, pass in the
+#' time predictions as the named argument `estimate`, and the survival
+#' predictions as bare column names or `tidyselect` selectors to `...`.
 #'
 #' @examples
 #' library(dplyr)
@@ -264,7 +264,9 @@ metric_set <- function(...) {
     make_numeric_metric_function(fns)
   } else if(fn_cls %in% c("prob_metric", "class_metric")) {
     make_prob_class_metric_function(fns)
-  } else if(fn_cls %in% c("dynamic_survival_metric", "static_survival_metric")) {
+  } else if(fn_cls %in% c("dynamic_survival_metric",
+                          "static_survival_metric",
+                          "integrated_survival_metric")) {
     make_survival_metric_function(fns)
   } else {
     abort(paste0(
@@ -500,12 +502,12 @@ make_survival_metric_function <- function(fns) {
     )
 
     call_class_ind <- vapply(
-      fns, inherits, "dynamic_survival_metric", FUN.VALUE = logical(1)
+      fns, inherits, "static_survival_metric", FUN.VALUE = logical(1)
     )
 
     # Construct calls from the functions + arguments
-    dynamic_calls <- lapply(fns[call_class_ind], call2, !!! dynamic_call_args)
-    static_calls <- lapply(fns[!call_class_ind], call2, !!! static_call_args)
+    dynamic_calls <- lapply(fns[!call_class_ind], call2, !!! dynamic_call_args)
+    static_calls <- lapply(fns[call_class_ind], call2, !!! static_call_args)
 
     calls <- c(dynamic_calls, static_calls)
 
@@ -567,7 +569,8 @@ validate_function_class <- function(fns) {
     return(invisible(fns))
   }
   valid_cls <- c("class_metric", "prob_metric", "numeric_metric",
-                 "dynamic_survival_metric", "static_survival_metric")
+                 "dynamic_survival_metric", "static_survival_metric",
+                 "integrated_survival_metric")
 
   if (n_unique == 1L) {
     if (fn_cls_unique %in% valid_cls) {
@@ -584,9 +587,25 @@ validate_function_class <- function(fns) {
     }
 
     if (fn_cls_unique[1] %in% c("dynamic_survival_metric",
-                                "static_survival_metric") &&
+                                "static_survival_metric",
+                                "integrated_survival_metric") &&
         fn_cls_unique[2] %in% c("dynamic_survival_metric",
-                                "static_survival_metric")) {
+                                "static_survival_metric",
+                                "integrated_survival_metric")) {
+      return(invisible(fns))
+    }
+  }
+
+  if (n_unique == 3) {
+    if (fn_cls_unique[1] %in% c("dynamic_survival_metric",
+                                "static_survival_metric",
+                                "integrated_survival_metric") &&
+        fn_cls_unique[2] %in% c("dynamic_survival_metric",
+                                "static_survival_metric",
+                                "integrated_survival_metric") &&
+        fn_cls_unique[3] %in% c("dynamic_survival_metric",
+                                "static_survival_metric",
+                                "integrated_survival_metric")) {
       return(invisible(fns))
     }
   }

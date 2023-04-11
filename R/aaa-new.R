@@ -54,6 +54,12 @@ new_dynamic_survival_metric <- function(fn, direction) {
 
 #' @rdname new-metric
 #' @export
+new_integrated_survival_metric <- function(fn, direction) {
+  new_metric(fn, direction, class = "integrated_survival_metric")
+}
+
+#' @rdname new-metric
+#' @export
 new_static_survival_metric <- function(fn, direction) {
   new_metric(fn, direction, class = "static_survival_metric")
 }
