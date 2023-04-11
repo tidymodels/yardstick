@@ -94,7 +94,7 @@ should be a list column of data.frames corresponding to the output given when
 predicting with censored model. This should be an unquoted column name
 although this argument is passed by expression and supports
 <a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
-<code>_vec()</code> functions, a numeric vector.</p></dd>
+<code>_vec()</code> functions, a numeric vector. See Details below.</p></dd>
 
 
 <dt>truth</dt>
@@ -145,6 +145,19 @@ The area is calculated via the trapezoidal rule. The area is divided by the
 largest value of <code>.eval_time</code> to bring it into the same scale as the
 traditional brier score.</p>
 <p>Smaller values of the score are associated with better model performance.</p>
+<p>This formulation takes survival probability predictions at one or more
+specific <em>evaluation times</em> and, for each time, computes the Brier score.
+To account for censoring, inverse probability of censoring weights
+(IPCW) are used in the calculations.</p>
+<p>The column passed to <code>...</code> should be a list column with one element per
+independent experiential unit (e.g. patient). The list column should contain
+data frames with several columns:</p><ul><li><p><code>.eval_time</code>: The time that the prediction is made.</p></li>
+<li><p><code>.pred_survival</code>: The predicted probability of survival up to <code>.eval_time</code></p></li>
+<li><p><code>.weight_censored</code>: The case weight for the inverse probability of censoring.</p></li>
+</ul><p>The last column can be produced using <code>parsnip::.censoring_weights_graf()</code>.
+This corresponds to the weighting scheme of  Graf <em>et al</em> (1999). The
+internal data set <code>lung_surv</code> shows an example of the format.</p>
+<p>This method automatically groups by the <code>.eval_time</code> argument.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
