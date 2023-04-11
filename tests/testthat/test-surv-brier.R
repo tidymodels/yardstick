@@ -57,23 +57,3 @@ test_that('riskRegression equivalent', {
     yardstick_res$.estimate
   )
 })
-
-# sklearn compare --------------------------------------------------------------
-
-test_that('sklearn equivalent', {
-  skip("Wait for pycompare to updated")
-  py_res <- read_pydata("py-brier-survival")
-
-  lung_surv <- data_lung_surv()
-
-  brier_res <- lung_surv %>%
-    brier_survival(
-      truth = surv_obj,
-      .pred
-    )
-
-  expect_equal(
-    brier_res$.estimate,
-    unname(py_res)
-  )
-})
