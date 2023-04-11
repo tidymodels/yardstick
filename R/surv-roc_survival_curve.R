@@ -208,6 +208,7 @@ roc_curve_survival_impl_one <- function(event_time, delta, data) {
 autoplot.roc_survival_df <- function(object, ...) {
 
   `%+%` <- ggplot2::`%+%`
+  object$.eval_time <- format(object$.eval_time)
 
   # Base chart
   roc_chart <- ggplot2::ggplot(data = object)
