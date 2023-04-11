@@ -80,7 +80,7 @@ into a new function that calculates all of them at once.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>All functions must be either:</p><ul><li><p>Only numeric metrics</p></li>
 <li><p>A mix of class metrics or class prob metrics</p></li>
-<li><p>A mix of dynamic and static survival metrics</p></li>
+<li><p>A mix of dynamic, integrated, and static survival metrics</p></li>
 </ul><p>For instance, <code><a href="rmse.html">rmse()</a></code> can be used with <code><a href="mae.html">mae()</a></code> because they
 are numeric metrics, but not with <code><a href="accuracy.html">accuracy()</a></code> because it is a classification
 metric. But <code><a href="accuracy.html">accuracy()</a></code> can be used with <code><a href="roc_auc.html">roc_auc()</a></code>.</p>
@@ -109,7 +109,7 @@ passed in.</p>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">case_weights =</span> <span class="cn">NULL</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Dynamic / static survival metric set signature:</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Dynamic / integrated / static survival metric set signature:</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">fn</span>(</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  data,</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  truth,</span>
@@ -122,9 +122,9 @@ passed in.</p>
 (the factor column) as the named argument <code>estimate</code>, and the soft
 predictions (the class probability columns) as bare column names or
 <code>tidyselect</code> selectors to <code>...</code>.</p>
-<p>When mixing dynamic and static survival metrics, pass in the time predictions
-as the named argument <code>estimate</code>, and the survival predictions as bare column
-names or <code>tidyselect</code> selectors to <code>...</code>.</p>
+<p>When mixing dynamic, integrated, and static survival metrics, pass in the
+time predictions as the named argument <code>estimate</code>, and the survival
+predictions as bare column names or <code>tidyselect</code> selectors to <code>...</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
