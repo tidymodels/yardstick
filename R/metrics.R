@@ -264,7 +264,9 @@ metric_set <- function(...) {
     make_numeric_metric_function(fns)
   } else if(fn_cls %in% c("prob_metric", "class_metric")) {
     make_prob_class_metric_function(fns)
-  } else if(fn_cls %in% c("dynamic_survival_metric", "static_survival_metric")) {
+  } else if(fn_cls %in% c("dynamic_survival_metric",
+                          "static_survival_metric",
+                          "integrated_survival_metric")) {
     make_survival_metric_function(fns)
   } else {
     abort(paste0(
@@ -500,12 +502,12 @@ make_survival_metric_function <- function(fns) {
     )
 
     call_class_ind <- vapply(
-      fns, inherits, "dynamic_survival_metric", FUN.VALUE = logical(1)
+      fns, inherits, "static_survival_metric", FUN.VALUE = logical(1)
     )
 
     # Construct calls from the functions + arguments
-    dynamic_calls <- lapply(fns[call_class_ind], call2, !!! dynamic_call_args)
-    static_calls <- lapply(fns[!call_class_ind], call2, !!! static_call_args)
+    dynamic_calls <- lapply(fns[!call_class_ind], call2, !!! dynamic_call_args)
+    static_calls <- lapply(fns[call_class_ind], call2, !!! static_call_args)
 
     calls <- c(dynamic_calls, static_calls)
 
@@ -567,7 +569,8 @@ validate_function_class <- function(fns) {
     return(invisible(fns))
   }
   valid_cls <- c("class_metric", "prob_metric", "numeric_metric",
-                 "dynamic_survival_metric", "static_survival_metric")
+                 "dynamic_survival_metric", "static_survival_metric",
+                 "integrated_survival_metric")
 
   if (n_unique == 1L) {
     if (fn_cls_unique %in% valid_cls) {
@@ -584,9 +587,25 @@ validate_function_class <- function(fns) {
     }
 
     if (fn_cls_unique[1] %in% c("dynamic_survival_metric",
-                                "static_survival_metric") &&
+                                "static_survival_metric",
+                                "integrated_survival_metric") &&
         fn_cls_unique[2] %in% c("dynamic_survival_metric",
-                                "static_survival_metric")) {
+                                "static_survival_metric",
+                                "integrated_survival_metric")) {
+      return(invisible(fns))
+    }
+  }
+
+  if (n_unique == 3) {
+    if (fn_cls_unique[1] %in% c("dynamic_survival_metric",
+                                "static_survival_metric",
+                                "integrated_survival_metric") &&
+        fn_cls_unique[2] %in% c("dynamic_survival_metric",
+                                "static_survival_metric",
+                                "integrated_survival_metric") &&
+        fn_cls_unique[3] %in% c("dynamic_survival_metric",
+                                "static_survival_metric",
+                                "integrated_survival_metric")) {
       return(invisible(fns))
     }
   }
