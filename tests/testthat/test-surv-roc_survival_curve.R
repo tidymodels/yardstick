@@ -74,9 +74,9 @@ test_that('snapshot equivalent', {
 test_that('hand calculated equivalent', {
   my_eval_time <- 300
 
-  lung_surv0 <- lung_surv |>
-    dplyr::slice(-14) |>
-    tidyr::unnest(.pred) |>
+  lung_surv0 <- lung_surv %>%
+    dplyr::slice(-14) %>%
+    tidyr::unnest(.pred) %>%
     dplyr::filter(.eval_time == my_eval_time)
 
   thresholds <- sort(lung_surv0$.pred_survival)
