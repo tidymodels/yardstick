@@ -89,6 +89,15 @@ result \%>\%
 # Or use autoplot
 autoplot(result)
 }
+\references{
+Blanche, P., Dartigues, J.-F. and Jacqmin-Gadda, H. (2013),
+Review and comparison of ROC curve estimators for a time-dependent outcome with
+marker-dependent censoring. \emph{Biom. J.}, 55: 687-704.
+
+Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999),
+Assessment and comparison of prognostic classification schemes for survival
+data. \emph{Statist. Med.}, 18: 2529-2545.
+}
 \seealso{
 Compute the area under the ROC survival curve with \code{\link[=roc_auc_survival]{roc_auc_survival()}}.
 }

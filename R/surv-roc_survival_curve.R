@@ -38,6 +38,17 @@
 #' Compute the area under the ROC survival curve with [roc_auc_survival()].
 #'
 #' @author Emil Hvitfeldt
+#'
+#' @references
+#'
+#' Blanche, P., Dartigues, J.-F. and Jacqmin-Gadda, H. (2013),
+#' Review and comparison of ROC curve estimators for a time-dependent outcome with
+#' marker-dependent censoring. _Biom. J._, 55: 687-704.
+#'
+#' Graf, E., Schmoor, C., Sauerbrei, W. and Schumacher, M. (1999),
+#' Assessment and comparison of prognostic classification schemes for survival
+#'  data. _Statist. Med._, 18: 2529-2545.
+#'
 #' @examples
 #' result <- roc_curve_survival(
 #'   lung_surv,
