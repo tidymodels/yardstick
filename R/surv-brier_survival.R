@@ -1,4 +1,4 @@
-#' Brier score for right censored data
+#' Time-Dependent Brier score for right censored data
 #'
 #' Compute the time-dependent Brier score for right censored data, which is the
 #' mean squared error at time point `.eval_time`.
@@ -6,12 +6,6 @@
 #' @family dynamic survival metrics
 #' @templateVar fn brier_survival
 #' @template return-dynamic-survival
-#' @details
-#'
-#' This method automatically groups by the `.eval_time` argument.
-#'
-#' Smaller values of the score are associated with better model performance.
-#'
 #' @inheritParams pr_auc
 #'
 #' @param data A `data.frame` containing the columns specified by `truth` and
@@ -28,14 +22,38 @@
 #' predicting with {censored} model. This should be an unquoted column name
 #' although this argument is passed by expression and supports
 #' [quasiquotation][rlang::quasiquotation] (you can unquote column names). For
-#' `_vec()` functions, a numeric vector.
+#' `_vec()` functions, a numeric vector. See Details below.
+#'
+#' @details
+#'
+#' This formulation takes survival probability predictions at one or more
+#' specific _evaluation times_ and, for each time, computes the Brier score. To
+#' account for censoring, inverse probability of censoring weights (IPCW) are
+#' used in the calculations.
+#'
+#' The column passed to `...` should be a list column with one element per
+#' independent experiential unit (e.g. patient). The list column should contain
+#' data frames with several columns:
+#'
+#'  - `.eval_time`: The time that the prediction is made.
+#'  - `.pred_survival`: The predicted probability of survival up to `.eval_time`
+#'  - `.weight_censored`: The case weight for the inverse probability of censoring.
+#'
+#' The last column can be produced using [parsnip::.censoring_weights_graf()].
+#' This corresponds to the weighting scheme of  Graf _et al_ (1999). The
+#' internal data set `lung_surv` shows an example of the format.
+#'
+#' This method automatically groups by the `.eval_time` argument.
+#'
+#' Smaller values of the score are associated with better model performance.
 #'
 #' @author Emil Hvitfeldt
 #'
 #' @references
-#'   E. Graf, C. Schmoor, W. Sauerbrei, and M. Schumacher, “Assessment and
-#'   comparison of prognostic classification schemes for survival data,”
-#'   Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
+#'
+#' E. Graf, C. Schmoor, W. Sauerbrei, and M. Schumacher, “Assessment and
+#' comparison of prognostic classification schemes for survival data,”
+#' _Statistics in Medicine_, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 #'
 #' @examples
 #' library(dplyr)

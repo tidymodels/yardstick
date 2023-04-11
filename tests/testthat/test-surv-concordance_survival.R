@@ -21,3 +21,41 @@ test_that("case weights works", {
     survival::concordance(surv_obj ~ .pred_time, weights = wts, data = lung_surv)$concordance
   )
 })
+
+test_that("works with infinite time predictions", {
+  exp_res <- concordance_survival(
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = .pred_time
+  )
+
+  lung_surv$.pred_time[which.max(lung_surv$.pred_time)] <- Inf
+
+  expect_no_error(
+    res <- concordance_survival(
+      data = lung_surv,
+      truth = surv_obj,
+      estimate = .pred_time
+    )
+  )
+
+  expect_identical(res, exp_res)
+
+  exp_res <- concordance_survival(
+    data = lung_surv,
+    truth = surv_obj,
+    estimate = .pred_time
+  )
+
+  lung_surv$.pred_time[which.min(lung_surv$.pred_time)] <- Inf
+
+  expect_no_error(
+    res <- concordance_survival(
+      data = lung_surv,
+      truth = surv_obj,
+      estimate = .pred_time
+    )
+  )
+
+  expect_true(!identical(res, exp_res))
+})

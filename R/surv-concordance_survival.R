@@ -37,10 +37,11 @@
 #' @author Emil Hvitfeldt
 #'
 #' @references
-#'   Harrell, F.E., Califf, R.M., Pryor, D.B., Lee, K.L., Rosati, R.A,
-#'   “Multivariable prognostic models: issues in developing models, evaluating
-#'   assumptions and adequacy, and measuring and reducing errors”, Statistics in
-#'   Medicine, 15(4), 361-87, 1996.
+#'
+#' Harrell, F.E., Califf, R.M., Pryor, D.B., Lee, K.L., Rosati, R.A,
+#' “Multivariable prognostic models: issues in developing models, evaluating
+#' assumptions and adequacy, and measuring and reducing errors”, Statistics in
+#' Medicine, 15(4), 361-87, 1996.
 #'
 #' @examples
 #' concordance_survival(

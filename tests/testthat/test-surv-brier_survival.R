@@ -41,14 +41,7 @@ test_that('case weights', {
 test_that('riskRegression equivalent', {
   riskRegression_res <- readRDS(test_path("data/brier_churn_res.rds"))
 
-  yardstick_res <- readRDS(test_path("data/rr_churn_data.rds")) %>%
-    dplyr::rename(
-      .eval_time = times,
-      .pred_survival = surv_prob,
-      .weight_censored = ipcw
-    ) %>%
-    tidyr::nest(.pred = -c(ID, time, status, model)) %>%
-    dplyr::mutate(surv_obj = survival::Surv(time, status)) %>%
+  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
     brier_survival(
       truth = surv_obj,
       .pred
