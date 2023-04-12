@@ -122,7 +122,7 @@ numeric_metric_summarizer <- function(name,
       elt_case_weights <- .data[[case_weights]]
     }
 
-    out[[i]] <- list(
+    elt_out <- list(
       .metric = name,
       .estimator = finalize_estimator(
         .data[[truth]],
@@ -138,6 +138,8 @@ numeric_metric_summarizer <- function(name,
         )
       )
     )
+
+    out[[i]] <- tibble::new_tibble(elt_out)
   }
 
   out <- dplyr::bind_rows(out)
