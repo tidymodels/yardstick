@@ -145,8 +145,7 @@ numeric_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  out <- dplyr::bind_rows(out)
-  dplyr::as_tibble(out)
+  vctrs::vec_rbind(!!!out)
 }
 
 #' @rdname metric-summarizers
