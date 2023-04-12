@@ -111,9 +111,9 @@ numeric_metric_summarizer <- function(name,
     )
   }
 
-  group_rows <- dplyr::group_data(data)$.rows
+  group_rows <- dplyr::group_rows(data)
   groups_data <- vctrs::vec_chop(data, indices = group_rows)
-  out <- list()
+  out <- vector("list", length = length(group_rows))
 
   for (i in seq_along(groups_data)) {
     .data <- groups_data[[i]]
