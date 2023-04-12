@@ -5,8 +5,6 @@
     Condition
       Error in `metric_set()`:
       ! Failed to compute `accuracy()`.
-      Caused by error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
       Caused by error in `validate_factor_truth_factor_estimate()`:
       ! `estimate` should be a factor, not a `numeric`.
 
