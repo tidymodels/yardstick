@@ -101,7 +101,7 @@ numeric_metric_summarizer <- function(name,
   )
 
   if (quo_is_null(case_weights)) {
-    case_weights <- NULL
+    elt_case_weights <- NULL
   } else {
     case_weights <- yardstick_eval_select(
       expr = case_weights,
@@ -118,8 +118,8 @@ numeric_metric_summarizer <- function(name,
   for (i in seq_along(groups_data)) {
     .data <- groups_data[[i]]
 
-    if (!is.null(case_weights)) {
-      case_weights <- .data[[case_weights]]
+    if (is_string(case_weights)) {
+      elt_case_weights <- .data[[case_weights]]
     }
 
     out[[i]] <- list(
@@ -132,7 +132,7 @@ numeric_metric_summarizer <- function(name,
         fn(
           truth = .data[[truth]],
           estimate = .data[[estimate]],
-          case_weights = case_weights,
+          case_weights = elt_case_weights,
           na_rm = na_rm,
           !!!fn_options
         )
