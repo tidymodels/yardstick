@@ -101,7 +101,7 @@ numeric_metric_summarizer <- function(name,
   )
 
   if (quo_is_null(case_weights)) {
-    elt_case_weights <- NULL
+    group_case_weights <- NULL
   } else {
     case_weights <- yardstick_eval_select(
       expr = case_weights,
@@ -112,27 +112,30 @@ numeric_metric_summarizer <- function(name,
   }
 
   group_rows <- dplyr::group_rows(data)
-  groups_data <- vctrs::vec_chop(data, indices = group_rows)
-  out <- vector("list", length = length(group_rows))
+  groups <- vctrs::vec_chop(data, indices = group_rows)
+  out <- vector("list", length = length(groups))
 
-  for (i in seq_along(groups_data)) {
-    .data <- groups_data[[i]]
+  for (i in seq_along(groups)) {
+    group <- groups[[i]]
+
+    group_truth <- group[[truth]]
+    group_estimate <- group[[estimate]]
 
     if (is_string(case_weights)) {
-      elt_case_weights <- .data[[case_weights]]
+      group_case_weights <- group[[case_weights]]
     }
 
     elt_out <- list(
       .metric = name,
       .estimator = finalize_estimator(
-        .data[[truth]],
+        group_truth,
         metric_class = name
       ),
       .estimate = rlang::inject(
         fn(
-          truth = .data[[truth]],
-          estimate = .data[[estimate]],
-          case_weights = elt_case_weights,
+          truth = group_truth,
+          estimate = group_estimate,
+          case_weights = group_case_weights,
           na_rm = na_rm,
           !!!fn_options
         )
