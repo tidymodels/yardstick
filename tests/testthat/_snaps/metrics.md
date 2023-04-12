@@ -23,9 +23,7 @@
     Code
       metrics(three_class, "obs", "pred", setosa, versicolor)
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_factor_truth_matrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (3) must match the number of columns supplied in `...` (2).
 
 # metrics() - `options` is deprecated

@@ -104,9 +104,7 @@
     Code
       roc_auc(two_class_example, truth, Class1:Class2)
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_factor_truth_matrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! You are using a binary metric but have passed multiple columns to `...`.
 
 # 1 estimate column for a multiclass metric
@@ -114,9 +112,7 @@
     Code
       roc_auc(hpc_cv, obs, VF)
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_factor_truth_matrix_estimate()`:
+      Error in `validate_factor_truth_matrix_estimate()`:
       ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (1).
 
 # `truth` and `estimate` of different lengths
