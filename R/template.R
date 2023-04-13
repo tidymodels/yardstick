@@ -134,12 +134,18 @@ numeric_metric_summarizer <- function(name,
         metric_class = name
       ),
       .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!!fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!!fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -222,19 +228,22 @@ class_metric_summarizer <- function(name,
         name
       ),
       .estimate = rlang::inject(
-        withCallingHandlers(fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! spliceable_argument(estimator, "estimator"),
-          !!! spliceable_argument(event_level, "event_level"),
-          !!! fn_options
-        ), error = function(cnd) {
-          cnd$call <- NULL
-          abort(class = "yardstick_metric_error", parent = cnd, call = error_call)
-        }
-      ))
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! spliceable_argument(estimator, "estimator"),
+            !!! spliceable_argument(event_level, "event_level"),
+            !!! fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
+        )
+      )
     )
 
     out[[i]] <- tibble::new_tibble(elt_out)
@@ -310,14 +319,20 @@ prob_metric_summarizer <- function(name,
         name
       ),
       .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! spliceable_argument(estimator, "estimator"),
-          !!! spliceable_argument(event_level, "event_level"),
-          !!! fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! spliceable_argument(estimator, "estimator"),
+            !!! spliceable_argument(event_level, "event_level"),
+            !!! fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -395,14 +410,20 @@ curve_metric_summarizer <- function(name,
         name
       ),
       .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! spliceable_argument(estimator, "estimator"),
-          !!! spliceable_argument(event_level, "event_level"),
-          !!! fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! spliceable_argument(estimator, "estimator"),
+            !!! spliceable_argument(event_level, "event_level"),
+            !!! fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -478,12 +499,18 @@ dynamic_survival_metric_summarizer <- function(name,
         metric_class = name
       ),
       .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!!fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!!fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -568,12 +595,18 @@ static_survival_metric_summarizer <- function(name,
         metric_class = name
       ),
       .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!!fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!!fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -648,12 +681,18 @@ curve_survival_metric_summarizer <- function(name,
         metric_class = name
       ),
       .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
