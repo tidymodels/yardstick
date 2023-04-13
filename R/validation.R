@@ -36,7 +36,9 @@ validate_numeric_truth_numeric_estimate <- function(truth, estimate) {
   }
 }
 
-validate_factor_truth_factor_estimate <- function(truth, estimate) {
+validate_factor_truth_factor_estimate <- function(truth,
+                                                  estimate,
+                                                  call = caller_env()) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
   }
@@ -47,14 +49,14 @@ validate_factor_truth_factor_estimate <- function(truth, estimate) {
     cls <- class(truth)[[1]]
     abort(paste0(
       "`truth` should be a factor, not a `", cls, "`."
-    ))
+    ), call = call)
   }
 
   if (!is.factor(estimate)) {
     cls <- class(estimate)[[1]]
     abort(paste0(
       "`estimate` should be a factor, not a `", cls, "`."
-    ))
+    ), call = call)
   }
 
   lvls_t <- levels(truth)
@@ -68,7 +70,8 @@ validate_factor_truth_factor_estimate <- function(truth, estimate) {
         "`truth` and `estimate` levels must be equivalent.\n",
         "`truth`: ",    lvls_t, "\n",
         "`estimate`: ", lvls_e, "\n"
-      )
+      ),
+      call = call
     )
   }
 
@@ -79,7 +82,8 @@ validate_factor_truth_factor_estimate <- function(truth, estimate) {
     abort(paste0(
       "Length of `truth` (", n_truth, ") ",
       "and `estimate` (", n_estimate, ") must match."
-    ))
+    ),
+    call = call)
   }
 }
 

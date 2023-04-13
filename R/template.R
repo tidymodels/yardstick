@@ -222,7 +222,7 @@ class_metric_summarizer <- function(name,
         name
       ),
       .estimate = rlang::inject(
-        fn(
+        withCallingHandlers(fn(
           truth = group_truth,
           estimate = group_estimate,
           case_weights = group_case_weights,
@@ -230,8 +230,11 @@ class_metric_summarizer <- function(name,
           !!! spliceable_argument(estimator, "estimator"),
           !!! spliceable_argument(event_level, "event_level"),
           !!! fn_options
-        )
-      )
+        ), error = function(cnd) {
+          cnd$call <- NULL
+          abort(class = "yardstick_metric_error", parent = cnd, call = error_call)
+        }
+      ))
     )
 
     out[[i]] <- tibble::new_tibble(elt_out)

@@ -42,9 +42,9 @@ check_numeric_metric <- function(truth, estimate, case_weights) {
 
 #' @rdname check_metric
 #' @export
-check_class_metric <- function(truth, estimate, case_weights, estimator) {
+check_class_metric <- function(truth, estimate, case_weights, estimator, call = caller_env()) {
   validate_case_weights(case_weights, size = length(truth))
-  validate_factor_truth_factor_estimate(truth, estimate)
+  validate_factor_truth_factor_estimate(truth, estimate, call = call)
   validate_binary_estimator(truth, estimator)
 }
 
