@@ -49,6 +49,8 @@
   
 * `metric_set()` can now be used with a combination of dynamic and static survival metrics.
 
+* Error messages now show what user-facing function was called instead of internal function. (#348)
+
 # yardstick 1.1.0
 
 * Emil Hvitfeldt is now the maintainer (#315).
