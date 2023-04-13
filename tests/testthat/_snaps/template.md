@@ -126,9 +126,7 @@
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = .pred_time, .pred)
     Condition
-      Error in `dplyr::reframe()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_list_estimate()`:
+      Error in `validate_surv_truth_list_estimate()`:
       ! `truth` should be a Surv object, not a `numeric`.
 
 ---
@@ -137,9 +135,7 @@
       dynamic_survival_metric_summarizer(name = "brier_survival", fn = brier_survival_vec,
         data = lung_surv, truth = surv_obj, surv_obj)
     Condition
-      Error in `dplyr::reframe()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_list_estimate()`:
+      Error in `validate_surv_truth_list_estimate()`:
       ! `estimate` should be a list, not a `Surv`.
 
 # static_survival_metric_summarizer()'s errors with bad input
@@ -158,9 +154,7 @@
       static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = surv_obj)
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_numeric_estimate()`:
+      Error in `validate_surv_truth_numeric_estimate()`:
       ! `estimate` should be a numeric vector, not a numeric matrix.
 
 ---
@@ -169,9 +163,7 @@
       static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = list)
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_numeric_estimate()`:
+      Error in `validate_surv_truth_numeric_estimate()`:
       ! `estimate` should be a numeric, not a `list`.
 
 ---
@@ -191,9 +183,7 @@
       curve_survival_metric_summarizer(name = "roc_curve_survival", fn = roc_curve_survival_vec,
         data = lung_surv, truth = .pred_time, .pred)
     Condition
-      Error in `dplyr::reframe()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_list_estimate()`:
+      Error in `validate_surv_truth_list_estimate()`:
       ! `truth` should be a Surv object, not a `numeric`.
 
 ---
@@ -202,8 +192,6 @@
       curve_survival_metric_summarizer(name = "roc_curve_survival", fn = roc_curve_survival_vec,
         data = lung_surv, truth = surv_obj, surv_obj)
     Condition
-      Error in `dplyr::reframe()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `validate_surv_truth_list_estimate()`:
+      Error in `validate_surv_truth_list_estimate()`:
       ! `estimate` should be a list, not a `Surv`.
 
