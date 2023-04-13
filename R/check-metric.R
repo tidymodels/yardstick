@@ -6,6 +6,8 @@
 #' `dplyr::summarise()`. These functions perform checks on the inputs in
 #' accordance with the type of metric that is used.
 #'
+#' @inheritParams rlang::args_error_context
+#'
 #' @param truth The realized vector of `truth`.
 #'   - For `check_numeric_metric()`, a numeric vector.
 #'   - For `check_class_metric()`, a factor.
@@ -35,39 +37,54 @@ NULL
 
 #' @rdname check_metric
 #' @export
-check_numeric_metric <- function(truth, estimate, case_weights) {
-  validate_case_weights(case_weights, size = length(truth))
-  validate_numeric_truth_numeric_estimate(truth, estimate)
+check_numeric_metric <- function(truth,
+                                 estimate,
+                                 case_weights,
+                                 call = caller_env()) {
+  validate_case_weights(case_weights, size = length(truth), call = call)
+  validate_numeric_truth_numeric_estimate(truth, estimate, call = call)
 }
 
 #' @rdname check_metric
 #' @export
-check_class_metric <- function(truth, estimate, case_weights, estimator, call = caller_env()) {
-  validate_case_weights(case_weights, size = length(truth))
+check_class_metric <- function(truth,
+                               estimate,
+                               case_weights,
+                               estimator,
+                               call = caller_env()) {
+  validate_case_weights(case_weights, size = length(truth), call = call)
   validate_factor_truth_factor_estimate(truth, estimate, call = call)
-  validate_binary_estimator(truth, estimator)
+  validate_binary_estimator(truth, estimator, call = call)
 }
 
 #' @rdname check_metric
 #' @export
-check_prob_metric <- function(truth, estimate, case_weights, estimator) {
-  validate_case_weights(case_weights, size = length(truth))
-  validate_factor_truth_matrix_estimate(truth, estimate, estimator)
-  validate_binary_estimator(truth, estimator)
+check_prob_metric <- function(truth,
+                              estimate,
+                              case_weights,
+                              estimator,
+                              call = caller_env()) {
+  validate_case_weights(case_weights, size = length(truth), call = call)
+  validate_factor_truth_matrix_estimate(truth, estimate, estimator, call = call)
+  validate_binary_estimator(truth, estimator, call = call)
 }
 
 #' @rdname check_metric
 #' @export
 check_dynamic_survival_metric <- function(truth,
                                           estimate,
-                                          case_weights) {
-  validate_surv_truth_list_estimate(truth, estimate)
-  validate_case_weights(case_weights, size = nrow(truth))
+                                          case_weights,
+                                          call = caller_env()) {
+  validate_surv_truth_list_estimate(truth, estimate, call = call)
+  validate_case_weights(case_weights, size = nrow(truth), call = call)
 }
 
 #' @rdname check_metric
 #' @export
-check_static_survival_metric <- function(truth, estimate, case_weights) {
-  validate_case_weights(case_weights, size = nrow(truth))
-  validate_surv_truth_numeric_estimate(truth, estimate)
+check_static_survival_metric <- function(truth,
+                                         estimate,
+                                         case_weights,
+                                         call = call()) {
+  validate_case_weights(case_weights, size = nrow(truth), call = call)
+  validate_surv_truth_numeric_estimate(truth, estimate, call = call)
 }
