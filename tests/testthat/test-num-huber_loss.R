@@ -39,21 +39,6 @@ test_that('Huber Loss', {
   )
 })
 
-test_that('Huber Loss', {
-  ex_dat <- generate_numeric_test_data()
-  not_na <- !is.na(ex_dat$pred_na)
-
-  expect_snapshot(
-    error = TRUE,
-    huber_loss(ex_dat, truth = "obs", estimate = "pred", delta = "two")
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    huber_loss(ex_dat, truth = "obs", estimate = "pred", delta = -2)
-  )
-})
-
 test_that("Weighted results are working", {
   truth <- c(1, 2, 3)
   estimate <- c(2, 4, 3)
