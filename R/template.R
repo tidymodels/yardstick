@@ -396,7 +396,8 @@ curve_metric_summarizer <- function(name,
       )
     )
 
-    out[[i]] <- tibble::as_tibble(elt_out)
+    elt_out <- vctrs::vec_recycle_common(!!!elt_out)
+    out[[i]] <- tibble::new_tibble(elt_out)
   }
 
   vctrs::vec_rbind(!!!out)
@@ -473,7 +474,8 @@ dynamic_survival_metric_summarizer <- function(name,
       )
     )
 
-    out[[i]] <- tibble::as_tibble(elt_out)
+    elt_out <- vctrs::vec_recycle_common(!!!elt_out)
+    out[[i]] <- tibble::new_tibble(elt_out)
   }
 
   out <- vctrs::vec_rbind(!!!out)
@@ -639,7 +641,8 @@ curve_survival_metric_summarizer <- function(name,
       )
     )
 
-    out[[i]] <- tibble::as_tibble(elt_out)
+    elt_out <- vctrs::vec_recycle_common(!!!elt_out)
+    out[[i]] <- tibble::new_tibble(elt_out)
   }
 
   vctrs::vec_rbind(!!!out)
