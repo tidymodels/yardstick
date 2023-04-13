@@ -131,7 +131,8 @@ numeric_metric_summarizer <- function(name,
       .metric = name,
       .estimator = finalize_estimator(
         group_truth,
-        metric_class = name
+        metric_class = name,
+        call = error_call
       ),
       .estimate = rlang::inject(
         withCallingHandlers(
@@ -225,7 +226,8 @@ class_metric_summarizer <- function(name,
       .estimator = finalize_estimator(
         group_truth,
         estimator,
-        name
+        name,
+        call = error_call
       ),
       .estimate = rlang::inject(
         withCallingHandlers(
@@ -316,7 +318,8 @@ prob_metric_summarizer <- function(name,
       .estimator = finalize_estimator(
         group_truth,
         estimator,
-        name
+        name,
+        call = error_call
       ),
       .estimate = rlang::inject(
         withCallingHandlers(
@@ -407,7 +410,8 @@ curve_metric_summarizer <- function(name,
       .estimator = finalize_estimator(
         group_truth,
         estimator,
-        name
+        name,
+        call = error_call
       ),
       .estimate = rlang::inject(
         withCallingHandlers(
@@ -496,7 +500,8 @@ dynamic_survival_metric_summarizer <- function(name,
       .metric = name,
       .estimator = finalize_estimator(
         group_truth,
-        metric_class = name
+        metric_class = name,
+        call = error_call
       ),
       .estimate = rlang::inject(
         withCallingHandlers(
@@ -592,7 +597,8 @@ static_survival_metric_summarizer <- function(name,
       .metric = name,
       .estimator = finalize_estimator(
         group_truth,
-        metric_class = name
+        metric_class = name,
+        call = error_call
       ),
       .estimate = rlang::inject(
         withCallingHandlers(
@@ -678,7 +684,8 @@ curve_survival_metric_summarizer <- function(name,
       .metric = name,
       .estimator = finalize_estimator(
         group_truth,
-        metric_class = name
+        metric_class = name,
+        call = error_call
       ),
       .estimate = rlang::inject(
         withCallingHandlers(
