@@ -112,6 +112,8 @@ numeric_metric_summarizer <- function(name,
   }
 
   group_rows <- dplyr::group_rows(data)
+  group_keys <- dplyr::group_keys(data)
+  data <- dplyr::ungroup(data)
   groups <- vctrs::vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
@@ -125,22 +127,19 @@ numeric_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- c(
-      dplyr::group_keys(group),
-      list(
-        .metric = name,
-        .estimator = finalize_estimator(
-          group_truth,
-          metric_class = name
-        ),
-        .estimate = rlang::inject(
-          fn(
-            truth = group_truth,
-            estimate = group_estimate,
-            case_weights = group_case_weights,
-            na_rm = na_rm,
-            !!!fn_options
-          )
+    elt_out <- list(
+      .metric = name,
+      .estimator = finalize_estimator(
+        group_truth,
+        metric_class = name
+      ),
+      .estimate = rlang::inject(
+        fn(
+          truth = group_truth,
+          estimate = group_estimate,
+          case_weights = group_case_weights,
+          na_rm = na_rm,
+          !!!fn_options
         )
       )
     )
@@ -148,7 +147,11 @@ numeric_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  vctrs::vec_rbind(!!!out)
+  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vctrs::vec_rbind(!!!out)
+  out <- vctrs::vec_cbind(group_keys, out)
+
+  out
 }
 
 #' @rdname metric-summarizers
@@ -196,6 +199,8 @@ class_metric_summarizer <- function(name,
   }
 
   group_rows <- dplyr::group_rows(data)
+  group_keys <- dplyr::group_keys(data)
+  data <- dplyr::ungroup(data)
   groups <- vctrs::vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
@@ -209,25 +214,22 @@ class_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- c(
-      dplyr::group_keys(group),
-      list(
-        .metric = name,
-        .estimator = finalize_estimator(
-          group_truth,
-          estimator,
-          name
-        ),
-        .estimate = rlang::inject(
-          fn(
-            truth = group_truth,
-            estimate = group_estimate,
-            case_weights = group_case_weights,
-            na_rm = na_rm,
-            !!! spliceable_argument(estimator, "estimator"),
-            !!! spliceable_argument(event_level, "event_level"),
-            !!! fn_options
-          )
+    elt_out <- list(
+      .metric = name,
+      .estimator = finalize_estimator(
+        group_truth,
+        estimator,
+        name
+      ),
+      .estimate = rlang::inject(
+        fn(
+          truth = group_truth,
+          estimate = group_estimate,
+          case_weights = group_case_weights,
+          na_rm = na_rm,
+          !!! spliceable_argument(estimator, "estimator"),
+          !!! spliceable_argument(event_level, "event_level"),
+          !!! fn_options
         )
       )
     )
@@ -235,7 +237,11 @@ class_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  vctrs::vec_rbind(!!!out)
+  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vctrs::vec_rbind(!!!out)
+  out <- vctrs::vec_cbind(group_keys, out)
+
+  out
 }
 
 #' @rdname metric-summarizers
@@ -278,6 +284,8 @@ prob_metric_summarizer <- function(name,
   }
 
   group_rows <- dplyr::group_rows(data)
+  group_keys <- dplyr::group_keys(data)
+  data <- dplyr::ungroup(data)
   groups <- vctrs::vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
@@ -291,25 +299,22 @@ prob_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- c(
-      dplyr::group_keys(group),
-      list(
-        .metric = name,
-        .estimator = finalize_estimator(
-          group_truth,
-          estimator,
-          name
-        ),
-        .estimate = rlang::inject(
-          fn(
-            truth = group_truth,
-            estimate = group_estimate,
-            case_weights = group_case_weights,
-            na_rm = na_rm,
-            !!! spliceable_argument(estimator, "estimator"),
-            !!! spliceable_argument(event_level, "event_level"),
-            !!! fn_options
-          )
+    elt_out <- list(
+      .metric = name,
+      .estimator = finalize_estimator(
+        group_truth,
+        estimator,
+        name
+      ),
+      .estimate = rlang::inject(
+        fn(
+          truth = group_truth,
+          estimate = group_estimate,
+          case_weights = group_case_weights,
+          na_rm = na_rm,
+          !!! spliceable_argument(estimator, "estimator"),
+          !!! spliceable_argument(event_level, "event_level"),
+          !!! fn_options
         )
       )
     )
@@ -317,7 +322,11 @@ prob_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  vctrs::vec_rbind(!!!out)
+  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vctrs::vec_rbind(!!!out)
+  out <- vctrs::vec_cbind(group_keys, out)
+
+  out
 }
 
 #' @rdname metric-summarizers
@@ -360,6 +369,8 @@ curve_metric_summarizer <- function(name,
   }
 
   group_rows <- dplyr::group_rows(data)
+  group_keys <- dplyr::group_keys(data)
+  data <- dplyr::ungroup(data)
   groups <- vctrs::vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
@@ -373,25 +384,22 @@ curve_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- c(
-      dplyr::group_keys(group),
-        list(
-        .metric = name,
-        .estimator = finalize_estimator(
-          group_truth,
-          estimator,
-          name
-        ),
-        .estimate = rlang::inject(
-          fn(
-            truth = group_truth,
-            estimate = group_estimate,
-            case_weights = group_case_weights,
-            na_rm = na_rm,
-            !!! spliceable_argument(estimator, "estimator"),
-            !!! spliceable_argument(event_level, "event_level"),
-            !!! fn_options
-          )
+    elt_out <- list(
+      .metric = name,
+      .estimator = finalize_estimator(
+        group_truth,
+        estimator,
+        name
+      ),
+      .estimate = rlang::inject(
+        fn(
+          truth = group_truth,
+          estimate = group_estimate,
+          case_weights = group_case_weights,
+          na_rm = na_rm,
+          !!! spliceable_argument(estimator, "estimator"),
+          !!! spliceable_argument(event_level, "event_level"),
+          !!! fn_options
         )
       )
     )
@@ -400,7 +408,11 @@ curve_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  vctrs::vec_rbind(!!!out)
+  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vctrs::vec_rbind(!!!out)
+  out <- vctrs::vec_cbind(group_keys, out)
+
+  out
 }
 
 #' @rdname metric-summarizers
@@ -441,6 +453,8 @@ dynamic_survival_metric_summarizer <- function(name,
   }
 
   group_rows <- dplyr::group_rows(data)
+  group_keys <- dplyr::group_keys(data)
+  data <- dplyr::ungroup(data)
   groups <- vctrs::vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
@@ -454,22 +468,19 @@ dynamic_survival_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- c(
-      dplyr::group_keys(group),
-      list(
-        .metric = name,
-        .estimator = finalize_estimator(
-          group_truth,
-          metric_class = name
-        ),
-        .estimate = rlang::inject(
-          fn(
-            truth = group_truth,
-            estimate = group_estimate,
-            case_weights = group_case_weights,
-            na_rm = na_rm,
-            !!!fn_options
-          )
+    elt_out <- list(
+      .metric = name,
+      .estimator = finalize_estimator(
+        group_truth,
+        metric_class = name
+      ),
+      .estimate = rlang::inject(
+        fn(
+          truth = group_truth,
+          estimate = group_estimate,
+          case_weights = group_case_weights,
+          na_rm = na_rm,
+          !!!fn_options
         )
       )
     )
@@ -478,8 +489,9 @@ dynamic_survival_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
+  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
   out <- vctrs::vec_rbind(!!!out)
-
+  out <- vctrs::vec_cbind(group_keys, out)
 
   if (inherits(out$.estimate, "tbl_df")) {
     out <- tidyr::unnest(out, .estimate)
@@ -531,6 +543,8 @@ static_survival_metric_summarizer <- function(name,
   }
 
   group_rows <- dplyr::group_rows(data)
+  group_keys <- dplyr::group_keys(data)
+  data <- dplyr::ungroup(data)
   groups <- vctrs::vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
@@ -544,22 +558,19 @@ static_survival_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- c(
-      dplyr::group_keys(group),
-      list(
-        .metric = name,
-        .estimator = finalize_estimator(
-          group_truth,
-          metric_class = name
-        ),
-        .estimate = rlang::inject(
-          fn(
-            truth = group_truth,
-            estimate = group_estimate,
-            case_weights = group_case_weights,
-            na_rm = na_rm,
-            !!!fn_options
-          )
+    elt_out <- list(
+      .metric = name,
+      .estimator = finalize_estimator(
+        group_truth,
+        metric_class = name
+      ),
+      .estimate = rlang::inject(
+        fn(
+          truth = group_truth,
+          estimate = group_estimate,
+          case_weights = group_case_weights,
+          na_rm = na_rm,
+          !!!fn_options
         )
       )
     )
@@ -567,7 +578,11 @@ static_survival_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  vctrs::vec_rbind(!!!out)
+  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vctrs::vec_rbind(!!!out)
+  out <- vctrs::vec_cbind(group_keys, out)
+
+  out
 }
 
 #' @rdname metric-summarizers
@@ -608,6 +623,8 @@ curve_survival_metric_summarizer <- function(name,
   }
 
   group_rows <- dplyr::group_rows(data)
+  group_keys <- dplyr::group_keys(data)
+  data <- dplyr::ungroup(data)
   groups <- vctrs::vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
@@ -621,22 +638,19 @@ curve_survival_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- c(
-      dplyr::group_keys(group),
-      list(
-        .metric = name,
-        .estimator = finalize_estimator(
-          group_truth,
-          metric_class = name
-        ),
-        .estimate = rlang::inject(
-          fn(
-            truth = group_truth,
-            estimate = group_estimate,
-            case_weights = group_case_weights,
-            na_rm = na_rm,
-            !!! fn_options
-          )
+    elt_out <- list(
+      .metric = name,
+      .estimator = finalize_estimator(
+        group_truth,
+        metric_class = name
+      ),
+      .estimate = rlang::inject(
+        fn(
+          truth = group_truth,
+          estimate = group_estimate,
+          case_weights = group_case_weights,
+          na_rm = na_rm,
+          !!! fn_options
         )
       )
     )
@@ -645,7 +659,11 @@ curve_survival_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  vctrs::vec_rbind(!!!out)
+  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vctrs::vec_rbind(!!!out)
+  out <- vctrs::vec_cbind(group_keys, out)
+
+  out
 }
 
 prob_estimate_convert <- function(estimate) {
