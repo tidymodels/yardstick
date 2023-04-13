@@ -40,7 +40,7 @@ dots_to_estimate <- function(data, ...) {
   )
 
   # Capture dots
-  dot_vars <- rlang::with_handlers(
+  dot_vars <- with_handlers(
     tidyselect::vars_select(names(data), !!! enquos(...)),
     tidyselect_empty_dots = function(cnd) {
       abort("No valid variables provided to `...`.")

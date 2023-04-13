@@ -81,7 +81,7 @@ numeric_metric_summarizer <- function(name,
                                       case_weights = NULL,
                                       fn_options = list(),
                                       error_call = caller_env()) {
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -133,7 +133,7 @@ numeric_metric_summarizer <- function(name,
         group_truth,
         metric_class = name
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         fn(
           truth = group_truth,
           estimate = group_estimate,
@@ -168,7 +168,7 @@ class_metric_summarizer <- function(name,
                                     case_weights = NULL,
                                     fn_options = list(),
                                     error_call = caller_env()) {
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -221,7 +221,7 @@ class_metric_summarizer <- function(name,
         estimator,
         name
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         fn(
           truth = group_truth,
           estimate = group_estimate,
@@ -306,7 +306,7 @@ prob_metric_summarizer <- function(name,
         estimator,
         name
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         fn(
           truth = group_truth,
           estimate = group_estimate,
@@ -391,7 +391,7 @@ curve_metric_summarizer <- function(name,
         estimator,
         name
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         fn(
           truth = group_truth,
           estimate = group_estimate,
@@ -474,7 +474,7 @@ dynamic_survival_metric_summarizer <- function(name,
         group_truth,
         metric_class = name
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         fn(
           truth = group_truth,
           estimate = group_estimate,
@@ -512,7 +512,7 @@ static_survival_metric_summarizer <- function(name,
                                               case_weights = NULL,
                                               fn_options = list(),
                                               error_call = caller_env()) {
-  rlang::check_dots_empty()
+  check_dots_empty()
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -564,7 +564,7 @@ static_survival_metric_summarizer <- function(name,
         group_truth,
         metric_class = name
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         fn(
           truth = group_truth,
           estimate = group_estimate,
@@ -644,7 +644,7 @@ curve_survival_metric_summarizer <- function(name,
         group_truth,
         metric_class = name
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         fn(
           truth = group_truth,
           estimate = group_estimate,

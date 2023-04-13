@@ -315,7 +315,7 @@ roc_auc_hand_till <- function(truth, estimate) {
       "Computation will proceed by ignoring those levels."
     )
 
-    rlang::warn(msg)
+    warn(msg)
 
     # Proceed with non-missing levels
     lvls <- lvls[!indicator_missing]
@@ -388,13 +388,13 @@ msg_roc_truth_no_control <- function(control) {
   )
 }
 warn_roc_truth_no_control <- function(control) {
-  rlang::warn(
+  warn(
     msg_roc_truth_no_control(control),
     class = "yardstick_warning_roc_truth_no_control"
   )
 }
 stop_roc_truth_no_control <- function(control) {
-  rlang::abort(
+  abort(
     msg_roc_truth_no_control(control),
     class = "yardstick_error_roc_truth_no_control"
   )
@@ -407,13 +407,13 @@ msg_roc_truth_no_event <- function(event) {
   )
 }
 warn_roc_truth_no_event <- function(event) {
-  rlang::warn(
+  warn(
     msg_roc_truth_no_event(event),
     class = "yardstick_warning_roc_truth_no_event"
   )
 }
 stop_roc_truth_no_event <- function(event) {
-  rlang::abort(
+  abort(
     msg_roc_truth_no_event(event),
     class = "yardstick_error_roc_truth_no_event"
   )

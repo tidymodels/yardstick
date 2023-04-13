@@ -364,7 +364,7 @@ summary.conf_mat <- function(object,
 
 # Dynamically exported
 autoplot.conf_mat <- function(object, type = "mosaic", ...) {
-  type <- rlang::arg_match(type, conf_mat_plot_types)
+  type <- arg_match(type, conf_mat_plot_types)
 
   switch(type,
     mosaic = cm_mosaic(object),

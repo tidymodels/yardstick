@@ -312,10 +312,10 @@ get_metric_fn_direction <- function(x) {
 }
 
 get_quo_label <- function(quo) {
-  out <- rlang::as_label(quo)
+  out <- as_label(quo)
 
   if (length(out) != 1L) {
-    rlang::abort("Internal error: `as_label(quo)` resulted in a character vector of length >1.")
+    abort("Internal error: `as_label(quo)` resulted in a character vector of length >1.")
   }
 
   is_namespaced <- grepl("::", out, fixed = TRUE)
@@ -353,7 +353,7 @@ make_prob_class_metric_function <- function(fns) {
     metric_list <- list()
 
     # Evaluate class metrics
-    if(!rlang::is_empty(class_fns)) {
+    if(!is_empty(class_fns)) {
 
       class_args <- quos(
         data = data,
@@ -379,7 +379,7 @@ make_prob_class_metric_function <- function(fns) {
     }
 
     # Evaluate prob metrics
-    if(!rlang::is_empty(prob_fns)) {
+    if(!is_empty(prob_fns)) {
 
       # TODO - If prob metrics can all do micro, we can remove this
       if (!is.null(estimator) && estimator == "micro") {
@@ -535,7 +535,7 @@ make_survival_metric_function <- function(fns) {
 }
 
 validate_not_empty <- function(x) {
-  if (rlang::is_empty(x)) {
+  if (is_empty(x)) {
     abort("`metric_set()` requires at least 1 function supplied to `...`.")
   }
 }
@@ -629,7 +629,7 @@ validate_function_class <- function(fns) {
 
     env_names_other <- vapply(
       fns_other,
-      function(fn) rlang::env_name(rlang::fn_env(fn)),
+      function(fn) env_name(fn_env(fn)),
       character(1)
     )
 

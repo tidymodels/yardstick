@@ -252,13 +252,13 @@ validate_costs <- function(costs, levels) {
    }
 
    ok <- all(costs$truth %in% levels)
-   if (rlang::is_false(ok)) {
+   if (is_false(ok)) {
       levels <- quote_and_collapse(levels)
       abort(paste0("`costs$truth` can only contain ", levels, "."))
    }
 
    ok <- all(costs$estimate %in% levels)
-   if (rlang::is_false(ok)) {
+   if (is_false(ok)) {
       levels <- quote_and_collapse(levels)
       abort(paste0("`costs$estimate` can only contain ", levels, "."))
    }

@@ -88,7 +88,7 @@ metric_summarizer <- function(metric_nm,
   truth <- handle_chr_names(truth, nms)
   estimate <- handle_chr_names(estimate, nms)
 
-  finalize_estimator_expr <- rlang::expr(
+  finalize_estimator_expr <- expr(
     finalize_estimator(!! truth, estimator, metric_nm)
   )
 
@@ -114,7 +114,7 @@ metric_summarizer <- function(metric_nm,
 # Utilities
 
 validate_not_missing <- function(x, nm) {
-  if(rlang::quo_is_missing(x)) {
+  if(quo_is_missing(x)) {
     abort(paste0(
       "`", nm, "` ",
       "is missing and must be supplied."
@@ -141,7 +141,7 @@ handle_chr_names <- function(x, nms) {
 }
 
 spliceable_case_weights <- function(case_weights) {
-  if (rlang::quo_is_null(case_weights)) {
+  if (quo_is_null(case_weights)) {
     return(list())
   }
 

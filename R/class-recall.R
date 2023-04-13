@@ -216,7 +216,7 @@ warn_recall_undefined_multiclass <- function(events, counts) {
 }
 
 warn_recall_undefined <- function(message, events, counts, ..., class = character()) {
-  rlang::warn(
+  warn(
     message = message,
     class = c(class, "yardstick_warning_recall_undefined"),
     events = events,

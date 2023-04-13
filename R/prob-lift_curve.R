@@ -156,7 +156,7 @@ autoplot.lift_df <- function(object, ...) {
     # Construct the color interaction group
     grps <- dplyr::groups(object)
     interact_expr <- list(
-      color = rlang::expr(interaction(!!! grps, sep = "_"))
+      color = expr(interaction(!!! grps, sep = "_"))
     )
 
     # Add group legend label

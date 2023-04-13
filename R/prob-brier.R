@@ -149,7 +149,7 @@ brier_ind <- function(truth, estimate, case_weights = NULL) {
 # When `truth` is a factor
 brier_factor <- function(truth, estimate, case_weights = NULL) {
   if (!is.factor(truth)) {
-    rlang::abort("'truth' should be a factor.")
+    abort("'truth' should be a factor.")
   }
 
   inds <- hardhat::fct_encode_one_hot(truth)
