@@ -125,22 +125,26 @@ numeric_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- list(
-      .metric = name,
-      .estimator = finalize_estimator(
-        group_truth,
-        metric_class = name
-      ),
-      .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!!fn_options
+    elt_out <- c(
+      dplyr::group_keys(group),
+      list(
+        .metric = name,
+        .estimator = finalize_estimator(
+          group_truth,
+          metric_class = name
+        ),
+        .estimate = rlang::inject(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!!fn_options
+          )
         )
       )
     )
+
 
     out[[i]] <- tibble::new_tibble(elt_out)
   }
@@ -206,22 +210,25 @@ class_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- list(
-      .metric = name,
-      .estimator = finalize_estimator(
-        group_truth,
-        estimator,
-        name
-      ),
-      .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! spliceable_argument(estimator, "estimator"),
-          !!! spliceable_argument(event_level, "event_level"),
-          !!! fn_options
+    elt_out <- c(
+      dplyr::group_keys(group),
+      list(
+        .metric = name,
+        .estimator = finalize_estimator(
+          group_truth,
+          estimator,
+          name
+        ),
+        .estimate = rlang::inject(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! spliceable_argument(estimator, "estimator"),
+            !!! spliceable_argument(event_level, "event_level"),
+            !!! fn_options
+          )
         )
       )
     )
@@ -285,22 +292,25 @@ prob_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- list(
-      .metric = name,
-      .estimator = finalize_estimator(
-        group_truth,
-        estimator,
-        name
-      ),
-      .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! spliceable_argument(estimator, "estimator"),
-          !!! spliceable_argument(event_level, "event_level"),
-          !!! fn_options
+    elt_out <- c(
+      dplyr::group_keys(group),
+      list(
+        .metric = name,
+        .estimator = finalize_estimator(
+          group_truth,
+          estimator,
+          name
+        ),
+        .estimate = rlang::inject(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! spliceable_argument(estimator, "estimator"),
+            !!! spliceable_argument(event_level, "event_level"),
+            !!! fn_options
+          )
         )
       )
     )
@@ -364,25 +374,29 @@ curve_metric_summarizer <- function(name,
       group_case_weights <- group[[case_weights]]
     }
 
-    elt_out <- list(
-      .metric = name,
-      .estimator = finalize_estimator(
-        group_truth,
-        estimator,
-        name
-      ),
-      .estimate = rlang::inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! spliceable_argument(estimator, "estimator"),
-          !!! spliceable_argument(event_level, "event_level"),
-          !!! fn_options
+    elt_out <- c(
+      dplyr::group_keys(group),
+        list(
+        .metric = name,
+        .estimator = finalize_estimator(
+          group_truth,
+          estimator,
+          name
+        ),
+        .estimate = rlang::inject(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! spliceable_argument(estimator, "estimator"),
+            !!! spliceable_argument(event_level, "event_level"),
+            !!! fn_options
+          )
         )
       )
     )
+
     out[[i]] <- tibble::as_tibble(elt_out)
   }
 
