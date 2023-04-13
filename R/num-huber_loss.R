@@ -80,15 +80,16 @@ huber_loss_vec <- function(truth,
 huber_loss_impl <- function(truth,
                             estimate,
                             delta,
-                            case_weights) {
+                            case_weights,
+                            call = caller_env()) {
   # Weighted Huber Loss implementation confirmed against matlab:
   # https://www.mathworks.com/help/deeplearning/ref/dlarray.huber.html
 
   if (!rlang::is_bare_numeric(delta, n = 1L)) {
-    abort("`delta` must be a single numeric value.")
+    abort("`delta` must be a single numeric value.", call = call)
   }
   if (!(delta >= 0)) {
-    abort("`delta` must be a positive value.")
+    abort("`delta` must be a positive value.", call = call)
   }
 
   a <- truth - estimate

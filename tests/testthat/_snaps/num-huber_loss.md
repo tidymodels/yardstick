@@ -14,3 +14,19 @@
       Error in `huber_loss()`:
       ! `delta` must be a single numeric value.
 
+---
+
+    Code
+      huber_loss(ex_dat, truth = "obs", estimate = "pred", delta = "two")
+    Condition
+      Error in `huber_loss()`:
+      ! `delta` must be a single numeric value.
+
+---
+
+    Code
+      huber_loss(ex_dat, truth = "obs", estimate = "pred", delta = -2)
+    Condition
+      Error in `huber_loss()`:
+      ! `delta` must be a positive value.
+
