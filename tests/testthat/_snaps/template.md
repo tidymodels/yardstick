@@ -24,7 +24,7 @@
       numeric_metric_summarizer(name = "rmse", fn = rmse_vec, data = mtcars, truth = mpg,
         estimate = disp, obviouslywrong = TRUE)
     Condition
-      Error in `numeric_metric_summarizer()`:
+      Error:
       ! `...` must be empty.
       x Problematic argument:
       * obviouslywrong = TRUE
@@ -55,7 +55,7 @@
       class_metric_summarizer(name = "accuracy", fn = accuracy_vec, data = three_class,
         truth = obs, estimate = pred, obviouslywrong = TRUE)
     Condition
-      Error in `class_metric_summarizer()`:
+      Error:
       ! `...` must be empty.
       x Problematic argument:
       * obviouslywrong = TRUE
@@ -172,7 +172,7 @@
       static_survival_metric_summarizer(name = "concordance_survival", fn = concordance_survival_vec,
         data = lung_surv, truth = surv_obj, estimate = .pred_time, obviouslywrong = TRUE)
     Condition
-      Error in `static_survival_metric_summarizer()`:
+      Error:
       ! `...` must be empty.
       x Problematic argument:
       * obviouslywrong = TRUE

@@ -81,7 +81,7 @@ numeric_metric_summarizer <- function(name,
                                       case_weights = NULL,
                                       fn_options = list(),
                                       error_call = caller_env()) {
-  rlang::check_dots_empty()
+  rlang::check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -175,7 +175,7 @@ class_metric_summarizer <- function(name,
                                     case_weights = NULL,
                                     fn_options = list(),
                                     error_call = caller_env()) {
-  rlang::check_dots_empty()
+  rlang::check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -547,7 +547,7 @@ static_survival_metric_summarizer <- function(name,
                                               case_weights = NULL,
                                               fn_options = list(),
                                               error_call = caller_env()) {
-  rlang::check_dots_empty()
+  rlang::check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -757,7 +757,7 @@ yardstick_eval_select <- function(expr,
                                   arg,
                                   ...,
                                   error_call = caller_env()) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
 
   out <- tidyselect::eval_select(
     expr = expr,
