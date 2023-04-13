@@ -14,11 +14,21 @@ dots_to_estimate(data, ...)
 
 get_weights(data, estimator)
 
-finalize_estimator(x, estimator = NULL, metric_class = "default")
+finalize_estimator(
+  x,
+  estimator = NULL,
+  metric_class = "default",
+  call = caller_env()
+)
 
-finalize_estimator_internal(metric_dispatcher, x, estimator)
+finalize_estimator_internal(
+  metric_dispatcher,
+  x,
+  estimator,
+  call = caller_env()
+)
 
-validate_estimator(estimator, estimator_override = NULL)
+validate_estimator(estimator, estimator_override = NULL, call = caller_env())
 }
 \arguments{
 \item{data}{A table with truth values as columns and predicted values
