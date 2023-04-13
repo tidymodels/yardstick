@@ -34,7 +34,12 @@ check_dynamic_survival_metric(
   call = caller_env()
 )
 
-check_static_survival_metric(truth, estimate, case_weights, call = call())
+check_static_survival_metric(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+)
 }
 \arguments{
 \item{truth}{The realized vector of \code{truth}.

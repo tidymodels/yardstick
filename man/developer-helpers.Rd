@@ -51,6 +51,11 @@ the \code{truth} column, but can also be a table if your metric has table method
 the estimator for. This should match the method name created for
 \code{finalize_estimator_internal()}.}
 
+\item{call}{The execution environment of a currently
+running function, e.g. \code{caller_env()}. The function will be
+mentioned in error messages as the source of the error. See the
+\code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
+
 \item{metric_dispatcher}{A simple dummy object with the class provided to
 \code{metric_class}. This is created and passed along for you.}
 

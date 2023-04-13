@@ -77,6 +77,8 @@ get_weights <- function(data, estimator) {
 #'
 #' @rdname developer-helpers
 #'
+#' @inheritParams rlang::args_error_context
+#'
 #' @param metric_class A single character of the name of the metric to autoselect
 #' the estimator for. This should match the method name created for
 #' `finalize_estimator_internal()`.
