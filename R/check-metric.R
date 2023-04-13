@@ -84,7 +84,7 @@ check_dynamic_survival_metric <- function(truth,
 check_static_survival_metric <- function(truth,
                                          estimate,
                                          case_weights,
-                                         call = call()) {
+                                         call = caller_env()) {
   validate_case_weights(case_weights, size = nrow(truth), call = call)
   validate_surv_truth_numeric_estimate(truth, estimate, call = call)
 }
