@@ -81,7 +81,7 @@
     Code
       roc_auc(hpc_cv, obs, VF:L, estimator = "hand_till", case_weights = weight)
     Condition
-      Error in `finalize_estimator_roc_auc()`:
+      Error in `roc_auc()`:
       ! Can't specify both `estimator = 'hand_till'` and `case_weights`.
 
 # roc_auc() - `options` is deprecated
