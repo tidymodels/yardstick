@@ -40,7 +40,7 @@
     Code
       conf_mat(three_class, truth = obs_rev, estimate = pred, dnn = c("", ""))
     Condition
-      Error in `validate_factor_truth_factor_estimate()`:
+      Error in `conf_mat()`:
       ! `truth` and `estimate` levels must be equivalent.
       `truth`: virginica, versicolor, setosa
       `estimate`: setosa, versicolor, virginica
@@ -50,7 +50,7 @@
     Code
       conf_mat(three_class, truth = onelevel, estimate = pred, dnn = c("", ""))
     Condition
-      Error in `validate_factor_truth_factor_estimate()`:
+      Error in `conf_mat()`:
       ! `truth` and `estimate` levels must be equivalent.
       `truth`: 1
       `estimate`: setosa, versicolor, virginica
@@ -60,7 +60,7 @@
     Code
       conf_mat(three_class, truth = onelevel, estimate = onelevel, dnn = c("", ""))
     Condition
-      Error in `conf_mat_impl()`:
+      Error in `conf_mat()`:
       ! `truth` must have at least 2 factor levels.
 
 # Errors are thrown correctly - grouped
@@ -68,10 +68,7 @@
     Code
       conf_mat(three_class, truth = obs_rev, estimate = pred, dnn = c("", ""))
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `conf_mat = { ... }`.
-      i In group 1: `pred = setosa`.
-      Caused by error in `validate_factor_truth_factor_estimate()`:
+      Error in `conf_mat()`:
       ! `truth` and `estimate` levels must be equivalent.
       `truth`: virginica, versicolor, setosa
       `estimate`: setosa, versicolor, virginica
@@ -81,10 +78,7 @@
     Code
       conf_mat(three_class, truth = onelevel, estimate = pred, dnn = c("", ""))
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `conf_mat = { ... }`.
-      i In group 1: `pred = setosa`.
-      Caused by error in `validate_factor_truth_factor_estimate()`:
+      Error in `conf_mat()`:
       ! `truth` and `estimate` levels must be equivalent.
       `truth`: 1
       `estimate`: setosa, versicolor, virginica
@@ -94,10 +88,7 @@
     Code
       conf_mat(three_class, truth = onelevel, estimate = onelevel, dnn = c("", ""))
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `conf_mat = { ... }`.
-      i In group 1: `pred = setosa`.
-      Caused by error in `conf_mat_impl()`:
+      Error in `conf_mat()`:
       ! `truth` must have at least 2 factor levels.
 
 # conf_mat()'s errors when wrong things are passes

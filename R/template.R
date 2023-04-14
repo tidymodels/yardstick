@@ -81,7 +81,7 @@ numeric_metric_summarizer <- function(name,
                                       case_weights = NULL,
                                       fn_options = list(),
                                       error_call = caller_env()) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -131,15 +131,22 @@ numeric_metric_summarizer <- function(name,
       .metric = name,
       .estimator = finalize_estimator(
         group_truth,
-        metric_class = name
+        metric_class = name,
+        call = error_call
       ),
       .estimate = inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!!fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!!fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -168,7 +175,7 @@ class_metric_summarizer <- function(name,
                                     case_weights = NULL,
                                     fn_options = list(),
                                     error_call = caller_env()) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -219,17 +226,24 @@ class_metric_summarizer <- function(name,
       .estimator = finalize_estimator(
         group_truth,
         estimator,
-        name
+        name,
+        call = error_call
       ),
       .estimate = inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! spliceable_argument(estimator, "estimator"),
-          !!! spliceable_argument(event_level, "event_level"),
-          !!! fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! spliceable_argument(estimator, "estimator"),
+            !!! spliceable_argument(event_level, "event_level"),
+            !!! fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -304,17 +318,24 @@ prob_metric_summarizer <- function(name,
       .estimator = finalize_estimator(
         group_truth,
         estimator,
-        name
+        name,
+        call = error_call
       ),
       .estimate = inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! spliceable_argument(estimator, "estimator"),
-          !!! spliceable_argument(event_level, "event_level"),
-          !!! fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! spliceable_argument(estimator, "estimator"),
+            !!! spliceable_argument(event_level, "event_level"),
+            !!! fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -389,17 +410,24 @@ curve_metric_summarizer <- function(name,
       .estimator = finalize_estimator(
         group_truth,
         estimator,
-        name
+        name,
+        call = error_call
       ),
       .estimate = inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! spliceable_argument(estimator, "estimator"),
-          !!! spliceable_argument(event_level, "event_level"),
-          !!! fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! spliceable_argument(estimator, "estimator"),
+            !!! spliceable_argument(event_level, "event_level"),
+            !!! fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -472,15 +500,22 @@ dynamic_survival_metric_summarizer <- function(name,
       .metric = name,
       .estimator = finalize_estimator(
         group_truth,
-        metric_class = name
+        metric_class = name,
+        call = error_call
       ),
       .estimate = inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!!fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!!fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -512,7 +547,7 @@ static_survival_metric_summarizer <- function(name,
                                               case_weights = NULL,
                                               fn_options = list(),
                                               error_call = caller_env()) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -562,15 +597,22 @@ static_survival_metric_summarizer <- function(name,
       .metric = name,
       .estimator = finalize_estimator(
         group_truth,
-        metric_class = name
+        metric_class = name,
+        call = error_call
       ),
       .estimate = inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!!fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!!fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -642,15 +684,22 @@ curve_survival_metric_summarizer <- function(name,
       .metric = name,
       .estimator = finalize_estimator(
         group_truth,
-        metric_class = name
+        metric_class = name,
+        call = error_call
       ),
       .estimate = inject(
-        fn(
-          truth = group_truth,
-          estimate = group_estimate,
-          case_weights = group_case_weights,
-          na_rm = na_rm,
-          !!! fn_options
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!! fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
         )
       )
     )
@@ -708,7 +757,7 @@ yardstick_eval_select <- function(expr,
                                   arg,
                                   ...,
                                   error_call = caller_env()) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
 
   out <- tidyselect::eval_select(
     expr = expr,

@@ -3,7 +3,7 @@
     Code
       roc_aunp(two_class_example, truth, Class1)
     Condition
-      Error in `validate_factor_truth_matrix_estimate()`:
+      Error in `roc_aunp()`:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (1).
 
 # roc_aunp() - `options` is deprecated
