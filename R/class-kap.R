@@ -146,8 +146,8 @@ kap_table_impl <- function(data, weighting) {
   1 - n_disagree / n_chance
 }
 
-make_weighting_matrix <- function(weighting, n_levels) {
-  validate_weighting(weighting)
+make_weighting_matrix <- function(weighting, n_levels, call = caller_env()) {
+  validate_weighting(weighting, call = call)
 
   if (is_no_weighting(weighting)) {
     # [n_levels x n_levels], 0 on diagonal, 1 on off-diagonal
@@ -173,9 +173,9 @@ make_weighting_matrix <- function(weighting, n_levels) {
 
 # ------------------------------------------------------------------------------
 
-validate_weighting <- function(x) {
+validate_weighting <- function(x, call = caller_env()) {
   if (!rlang::is_string(x)) {
-    abort("`weighting` must be a string.")
+    abort("`weighting` must be a string.", call = call)
   }
 
   ok <- is_no_weighting(x) ||
@@ -183,7 +183,7 @@ validate_weighting <- function(x) {
     is_quadratic_weighting(x)
 
   if (!ok) {
-    abort("`weighting` must be 'none', 'linear', or 'quadratic'.")
+    abort("`weighting` must be 'none', 'linear', or 'quadratic'.", call = call)
   }
 
   invisible(x)

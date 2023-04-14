@@ -12,6 +12,21 @@ test_that("two class produces identical results regardless of level order", {
   )
 })
 
+test_that("kap errors with wrong `weighting`", {
+  lst <- data_three_class()
+  three_class <- lst$three_class
+
+  expect_snapshot(
+    error = TRUE,
+    kap(three_class, truth = "obs", estimate = "pred", weighting = 1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    kap(three_class, truth = "obs", estimate = "pred", weighting = "not right")
+  )
+})
+
 # ------------------------------------------------------------------------------
 
 # expected results from e1071::classAgreement(three_class_tb)$kappa

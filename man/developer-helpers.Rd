@@ -14,11 +14,21 @@ dots_to_estimate(data, ...)
 
 get_weights(data, estimator)
 
-finalize_estimator(x, estimator = NULL, metric_class = "default")
+finalize_estimator(
+  x,
+  estimator = NULL,
+  metric_class = "default",
+  call = caller_env()
+)
 
-finalize_estimator_internal(metric_dispatcher, x, estimator)
+finalize_estimator_internal(
+  metric_dispatcher,
+  x,
+  estimator,
+  call = caller_env()
+)
 
-validate_estimator(estimator, estimator_override = NULL)
+validate_estimator(estimator, estimator_override = NULL, call = caller_env())
 }
 \arguments{
 \item{data}{A table with truth values as columns and predicted values
@@ -40,6 +50,11 @@ the \code{truth} column, but can also be a table if your metric has table method
 \item{metric_class}{A single character of the name of the metric to autoselect
 the estimator for. This should match the method name created for
 \code{finalize_estimator_internal()}.}
+
+\item{call}{The execution environment of a currently
+running function, e.g. \code{caller_env()}. The function will be
+mentioned in error messages as the source of the error. See the
+\code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
 
 \item{metric_dispatcher}{A simple dummy object with the class provided to
 \code{metric_class}. This is created and passed along for you.}

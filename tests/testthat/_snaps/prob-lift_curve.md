@@ -3,6 +3,6 @@
     Code
       lift_curve(df, truth, estimate)
     Condition
-      Error in `validate_factor_truth_matrix_estimate()`:
+      Error in `lift_curve()`:
       ! `truth` should be a factor, not a `numeric`.
 

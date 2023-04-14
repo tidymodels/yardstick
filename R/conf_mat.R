@@ -171,40 +171,56 @@ conf_mat.grouped_df <- function(data,
     arg = "estimate"
   )
 
-  if (!quo_is_null(case_weights)) {
+  if (quo_is_null(case_weights)) {
+    group_case_weights <- NULL
+  } else {
     case_weights <- yardstick_eval_select(
       expr = case_weights,
       data = data,
-      arg = "case_weights"
+      arg = "case_weights",
+      error_call = error_call
     )
-
-    case_weights <- expr(.data[[!!case_weights]])
   }
 
-  dplyr::summarise(
-    data,
-    conf_mat = {
-      table <- conf_mat_impl(
-        truth = .data[[truth]],
-        estimate = .data[[estimate]],
-        case_weights = !!case_weights
-      )
+  group_rows <- dplyr::group_rows(data)
+  group_keys <- dplyr::group_keys(data)
+  data <- dplyr::ungroup(data)
+  groups <- vctrs::vec_chop(data, indices = group_rows)
+  out <- vector("list", length = length(groups))
 
-      dimnames <- dimnames(table)
-      names(dimnames) <- dnn
-      dimnames(table) <- dimnames
+  for (i in seq_along(groups)) {
+    group <- groups[[i]]
 
-      list(conf_mat.matrix(table))
+    group_truth <- group[[truth]]
+    group_estimate <- group[[estimate]]
+
+    if (is_string(case_weights)) {
+      group_case_weights <- group[[case_weights]]
     }
-  )
+
+    table <- conf_mat_impl(
+      truth = group_truth,
+      estimate = group_estimate,
+      case_weights = group_case_weights
+    )
+
+    dimnames <- dimnames(table)
+    names(dimnames) <- dnn
+    dimnames(table) <- dimnames
+
+    out[[i]] <- conf_mat.matrix(table)
+  }
+
+  out <- vctrs::vec_cbind(group_keys, conf_mat = out)
+  out
 }
 
-conf_mat_impl <- function(truth, estimate, case_weights) {
+conf_mat_impl <- function(truth, estimate, case_weights, call = caller_env()) {
   estimator <- "not binary"
-  check_class_metric(truth, estimate, case_weights, estimator)
+  check_class_metric(truth, estimate, case_weights, estimator, call = call)
 
   if (length(levels(truth)) < 2) {
-    abort("`truth` must have at least 2 factor levels.")
+    abort("`truth` must have at least 2 factor levels.", call = call)
   }
 
   yardstick_table(

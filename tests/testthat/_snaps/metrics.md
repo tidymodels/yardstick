@@ -5,7 +5,7 @@
     Condition
       Error in `metric_set()`:
       ! Failed to compute `accuracy()`.
-      Caused by error in `validate_factor_truth_factor_estimate()`:
+      Caused by error:
       ! `estimate` should be a factor, not a `numeric`.
 
 ---
@@ -15,7 +15,7 @@
     Condition
       Error in `metric_set()`:
       ! Failed to compute `rmse()`.
-      Caused by error in `validate_numeric_truth_numeric_estimate()`:
+      Caused by error:
       ! `estimate` should be a numeric, not a `factor`.
 
 ---
@@ -23,7 +23,7 @@
     Code
       metrics(three_class, "obs", "pred", setosa, versicolor)
     Condition
-      Error in `validate_factor_truth_matrix_estimate()`:
+      Error in `mn_log_loss()`:
       ! The number of levels in `truth` (3) must match the number of columns supplied in `...` (2).
 
 # metrics() - `options` is deprecated
