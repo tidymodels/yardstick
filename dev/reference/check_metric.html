@@ -76,15 +76,37 @@ accordance with the type of metric that is used.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_numeric_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_numeric_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span>, call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">check_class_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span>, <span class="va">estimator</span><span class="op">)</span></span>
+<span><span class="fu">check_class_metric</span><span class="op">(</span></span>
+<span>  <span class="va">truth</span>,</span>
+<span>  <span class="va">estimate</span>,</span>
+<span>  <span class="va">case_weights</span>,</span>
+<span>  <span class="va">estimator</span>,</span>
+<span>  call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">check_prob_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span>, <span class="va">estimator</span><span class="op">)</span></span>
+<span><span class="fu">check_prob_metric</span><span class="op">(</span></span>
+<span>  <span class="va">truth</span>,</span>
+<span>  <span class="va">estimate</span>,</span>
+<span>  <span class="va">case_weights</span>,</span>
+<span>  <span class="va">estimator</span>,</span>
+<span>  call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">check_dynamic_survival_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span><span class="op">)</span></span>
+<span><span class="fu">check_dynamic_survival_metric</span><span class="op">(</span></span>
+<span>  <span class="va">truth</span>,</span>
+<span>  <span class="va">estimate</span>,</span>
+<span>  <span class="va">case_weights</span>,</span>
+<span>  call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">check_static_survival_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">check_static_survival_metric</span><span class="op">(</span></span>
+<span>  <span class="va">truth</span>,</span>
+<span>  <span class="va">estimate</span>,</span>
+<span>  <span class="va">case_weights</span>,</span>
+<span>  call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -111,6 +133,13 @@ a numeric matrix for multic-class <code>truth</code>.</p></li>
 <dt>case_weights</dt>
 <dd><p>The realized case weights, as a numeric vector. This must
 be the same length as <code>truth</code>.</p></dd>
+
+
+<dt>call</dt>
+<dd><p>The execution environment of a currently
+running function, e.g. <code>caller_env()</code>. The function will be
+mentioned in error messages as the source of the error. See the
+<code>call</code> argument of <code><a href="https://rlang.r-lib.org/reference/abort.html" class="external-link">abort()</a></code> for more information.</p></dd>
 
 
 <dt>estimator</dt>
