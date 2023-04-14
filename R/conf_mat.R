@@ -185,7 +185,7 @@ conf_mat.grouped_df <- function(data,
   group_rows <- dplyr::group_rows(data)
   group_keys <- dplyr::group_keys(data)
   data <- dplyr::ungroup(data)
-  groups <- vctrs::vec_chop(data, indices = group_rows)
+  groups <- vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
   for (i in seq_along(groups)) {
@@ -211,7 +211,7 @@ conf_mat.grouped_df <- function(data,
     out[[i]] <- conf_mat.matrix(table)
   }
 
-  out <- vctrs::vec_cbind(group_keys, conf_mat = out)
+  out <- vec_cbind(group_keys, conf_mat = out)
   out
 }
 
