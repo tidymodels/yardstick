@@ -164,7 +164,7 @@ make_weighting_matrix <- function(weighting, n_levels, call = caller_env()) {
   }
 
   # [n_levels x n_levels], 0 on diagonal, increasing weighting on off-diagonal
-  w <- rlang::seq2(0L, n_levels - 1L)
+  w <- seq2(0L, n_levels - 1L)
   w <- matrix(w, nrow = n_levels, ncol = n_levels)
   w <- abs(w - t(w)) ^ power
 
@@ -173,8 +173,9 @@ make_weighting_matrix <- function(weighting, n_levels, call = caller_env()) {
 
 # ------------------------------------------------------------------------------
 
+
 validate_weighting <- function(x, call = caller_env()) {
-  if (!rlang::is_string(x)) {
+  if (!is_string(x)) {
     abort("`weighting` must be a string.", call = call)
   }
 

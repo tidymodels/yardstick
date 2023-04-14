@@ -86,7 +86,7 @@ huber_loss_pseudo_impl <- function(truth,
                                    delta,
                                    case_weights,
                                    call = caller_env()) {
-  if (!rlang::is_bare_numeric(delta, n = 1L)) {
+  if (!is_bare_numeric(delta, n = 1L)) {
     abort("`delta` must be a single numeric value.", call = call)
   }
   if (!(delta >= 0)) {

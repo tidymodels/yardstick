@@ -66,10 +66,10 @@ new_static_survival_metric <- function(fn, direction) {
 
 new_metric <- function(fn, direction, class = NULL) {
   if (!is.function(fn)) {
-    rlang::abort("`fn` must be a function.")
+    abort("`fn` must be a function.")
   }
 
-  direction <- rlang::arg_match(
+  direction <- arg_match(
     direction,
     values = c("maximize", "minimize", "zero")
   )

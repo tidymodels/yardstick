@@ -142,7 +142,7 @@ mase_impl <- function(truth,
 validate_m <- function(m, call = caller_env()) {
   abort_msg <- "`m` must be a single positive integer value."
 
-  if (!rlang::is_integerish(m, n = 1L)) {
+  if (!is_integerish(m, n = 1L)) {
     abort(abort_msg, call = call)
   }
 
@@ -158,7 +158,7 @@ validate_mae_train <- function(mae_train, call = caller_env()) {
     return(invisible(mae_train))
   }
 
-  is_single_numeric <- rlang::is_bare_numeric(mae_train, n = 1L)
+  is_single_numeric <- is_bare_numeric(mae_train, n = 1L)
   abort_msg <- "`mae_train` must be a single positive numeric value."
 
   if (!is_single_numeric) {

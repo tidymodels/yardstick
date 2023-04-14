@@ -81,7 +81,7 @@ numeric_metric_summarizer <- function(name,
                                       case_weights = NULL,
                                       fn_options = list(),
                                       error_call = caller_env()) {
-  rlang::check_dots_empty(call = error_call)
+  check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -114,7 +114,7 @@ numeric_metric_summarizer <- function(name,
   group_rows <- dplyr::group_rows(data)
   group_keys <- dplyr::group_keys(data)
   data <- dplyr::ungroup(data)
-  groups <- vctrs::vec_chop(data, indices = group_rows)
+  groups <- vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
   for (i in seq_along(groups)) {
@@ -134,7 +134,7 @@ numeric_metric_summarizer <- function(name,
         metric_class = name,
         call = error_call
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         withCallingHandlers(
           fn(
             truth = group_truth,
@@ -154,9 +154,9 @@ numeric_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
-  out <- vctrs::vec_rbind(!!!out)
-  out <- vctrs::vec_cbind(group_keys, out)
+  group_keys <- vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vec_rbind(!!!out)
+  out <- vec_cbind(group_keys, out)
 
   out
 }
@@ -175,7 +175,7 @@ class_metric_summarizer <- function(name,
                                     case_weights = NULL,
                                     fn_options = list(),
                                     error_call = caller_env()) {
-  rlang::check_dots_empty(call = error_call)
+  check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -208,7 +208,7 @@ class_metric_summarizer <- function(name,
   group_rows <- dplyr::group_rows(data)
   group_keys <- dplyr::group_keys(data)
   data <- dplyr::ungroup(data)
-  groups <- vctrs::vec_chop(data, indices = group_rows)
+  groups <- vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
   for (i in seq_along(groups)) {
@@ -229,7 +229,7 @@ class_metric_summarizer <- function(name,
         name,
         call = error_call
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         withCallingHandlers(
           fn(
             truth = group_truth,
@@ -251,9 +251,9 @@ class_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
-  out <- vctrs::vec_rbind(!!!out)
-  out <- vctrs::vec_cbind(group_keys, out)
+  group_keys <- vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vec_rbind(!!!out)
+  out <- vec_cbind(group_keys, out)
 
   out
 }
@@ -300,7 +300,7 @@ prob_metric_summarizer <- function(name,
   group_rows <- dplyr::group_rows(data)
   group_keys <- dplyr::group_keys(data)
   data <- dplyr::ungroup(data)
-  groups <- vctrs::vec_chop(data, indices = group_rows)
+  groups <- vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
   for (i in seq_along(groups)) {
@@ -321,7 +321,7 @@ prob_metric_summarizer <- function(name,
         name,
         call = error_call
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         withCallingHandlers(
           fn(
             truth = group_truth,
@@ -343,9 +343,9 @@ prob_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
-  out <- vctrs::vec_rbind(!!!out)
-  out <- vctrs::vec_cbind(group_keys, out)
+  group_keys <- vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vec_rbind(!!!out)
+  out <- vec_cbind(group_keys, out)
 
   out
 }
@@ -392,7 +392,7 @@ curve_metric_summarizer <- function(name,
   group_rows <- dplyr::group_rows(data)
   group_keys <- dplyr::group_keys(data)
   data <- dplyr::ungroup(data)
-  groups <- vctrs::vec_chop(data, indices = group_rows)
+  groups <- vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
   for (i in seq_along(groups)) {
@@ -413,7 +413,7 @@ curve_metric_summarizer <- function(name,
         name,
         call = error_call
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         withCallingHandlers(
           fn(
             truth = group_truth,
@@ -432,13 +432,13 @@ curve_metric_summarizer <- function(name,
       )
     )
 
-    elt_out <- vctrs::vec_recycle_common(!!!elt_out)
+    elt_out <- vec_recycle_common(!!!elt_out)
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
-  out <- vctrs::vec_rbind(!!!out)
-  out <- vctrs::vec_cbind(group_keys, out)
+  group_keys <- vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vec_rbind(!!!out)
+  out <- vec_cbind(group_keys, out)
 
   out
 }
@@ -483,7 +483,7 @@ dynamic_survival_metric_summarizer <- function(name,
   group_rows <- dplyr::group_rows(data)
   group_keys <- dplyr::group_keys(data)
   data <- dplyr::ungroup(data)
-  groups <- vctrs::vec_chop(data, indices = group_rows)
+  groups <- vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
   for (i in seq_along(groups)) {
@@ -503,7 +503,7 @@ dynamic_survival_metric_summarizer <- function(name,
         metric_class = name,
         call = error_call
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         withCallingHandlers(
           fn(
             truth = group_truth,
@@ -520,13 +520,13 @@ dynamic_survival_metric_summarizer <- function(name,
       )
     )
 
-    elt_out <- vctrs::vec_recycle_common(!!!elt_out)
+    elt_out <- vec_recycle_common(!!!elt_out)
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
-  out <- vctrs::vec_rbind(!!!out)
-  out <- vctrs::vec_cbind(group_keys, out)
+  group_keys <- vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vec_rbind(!!!out)
+  out <- vec_cbind(group_keys, out)
 
   if (inherits(out$.estimate, "tbl_df")) {
     out <- tidyr::unnest(out, .estimate)
@@ -547,7 +547,7 @@ static_survival_metric_summarizer <- function(name,
                                               case_weights = NULL,
                                               fn_options = list(),
                                               error_call = caller_env()) {
-  rlang::check_dots_empty(call = error_call)
+  check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
   estimate <- enquo(estimate)
@@ -580,7 +580,7 @@ static_survival_metric_summarizer <- function(name,
   group_rows <- dplyr::group_rows(data)
   group_keys <- dplyr::group_keys(data)
   data <- dplyr::ungroup(data)
-  groups <- vctrs::vec_chop(data, indices = group_rows)
+  groups <- vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
   for (i in seq_along(groups)) {
@@ -600,7 +600,7 @@ static_survival_metric_summarizer <- function(name,
         metric_class = name,
         call = error_call
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         withCallingHandlers(
           fn(
             truth = group_truth,
@@ -620,9 +620,9 @@ static_survival_metric_summarizer <- function(name,
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
-  out <- vctrs::vec_rbind(!!!out)
-  out <- vctrs::vec_cbind(group_keys, out)
+  group_keys <- vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vec_rbind(!!!out)
+  out <- vec_cbind(group_keys, out)
 
   out
 }
@@ -667,7 +667,7 @@ curve_survival_metric_summarizer <- function(name,
   group_rows <- dplyr::group_rows(data)
   group_keys <- dplyr::group_keys(data)
   data <- dplyr::ungroup(data)
-  groups <- vctrs::vec_chop(data, indices = group_rows)
+  groups <- vec_chop(data, indices = group_rows)
   out <- vector("list", length = length(groups))
 
   for (i in seq_along(groups)) {
@@ -687,7 +687,7 @@ curve_survival_metric_summarizer <- function(name,
         metric_class = name,
         call = error_call
       ),
-      .estimate = rlang::inject(
+      .estimate = inject(
         withCallingHandlers(
           fn(
             truth = group_truth,
@@ -704,13 +704,13 @@ curve_survival_metric_summarizer <- function(name,
       )
     )
 
-    elt_out <- vctrs::vec_recycle_common(!!!elt_out)
+    elt_out <- vec_recycle_common(!!!elt_out)
     out[[i]] <- tibble::new_tibble(elt_out)
   }
 
-  group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
-  out <- vctrs::vec_rbind(!!!out)
-  out <- vctrs::vec_cbind(group_keys, out)
+  group_keys <- vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vec_rbind(!!!out)
+  out <- vec_cbind(group_keys, out)
 
   out
 }

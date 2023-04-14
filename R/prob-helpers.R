@@ -38,7 +38,7 @@ one_vs_all_impl <- function(fn,
   lvls <- levels(truth)
   other <- "..other"
 
-  metric_lst <- rlang::new_list(n = length(lvls))
+  metric_lst <- new_list(n = length(lvls))
 
   # one vs all
   for(i in seq_along(lvls)) {

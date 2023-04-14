@@ -29,7 +29,7 @@ get_weights <- function(data, estimator) {
   else {
 
     msg <- paste0("`estimator` type `", estimator, "` is unknown.")
-    rlang::abort(msg)
+    abort(msg)
 
   }
 }

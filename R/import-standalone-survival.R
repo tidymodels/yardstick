@@ -68,7 +68,7 @@
 .is_surv <- function(surv, fail = TRUE) {
   is_surv <- inherits(surv, "Surv")
   if (!is_surv && fail) {
-    rlang::abort("The object does not have class `Surv`.", call = NULL)
+    abort("The object does not have class `Surv`.", call = NULL)
   }
   is_surv
 }
@@ -84,7 +84,7 @@
   if (!good_type && fail) {
     c_list <- paste0("'", type, "'")
     msg <- cli::format_inline("For this usage, the allowed censoring type{?s} {?is/are}: {c_list}")
-    rlang::abort(msg, call = NULL)
+    abort(msg, call = NULL)
   }
   good_type
 }

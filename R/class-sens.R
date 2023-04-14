@@ -313,7 +313,7 @@ warn_sens_undefined_multiclass <- function(events, counts) {
 }
 
 warn_sens_undefined <- function(message, events, counts, ..., class = character()) {
-  rlang::warn(
+  warn(
     message = message,
     class = c(class, "yardstick_warning_sens_undefined"),
     events = events,

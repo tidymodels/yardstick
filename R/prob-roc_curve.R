@@ -234,7 +234,7 @@ autoplot.roc_df <- function(object, ...) {
     grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
 
     interact_expr <- list(
-      color = rlang::expr(interaction(!!! grps, sep = "_"))
+      color = expr(interaction(!!! grps, sep = "_"))
     )
 
     roc_chart <- roc_chart %+%
