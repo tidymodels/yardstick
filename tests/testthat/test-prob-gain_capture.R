@@ -132,3 +132,23 @@ test_that("multiclass macro / macro_weighted - case weights are applied correctl
     gain_capture(hpc_f1_expanded, obs, VF:L, estimator = estimator)[[".estimate"]]
   )
 })
+
+test_that("work with class_pred input", {
+  skip_if_not_installed("probably")
+
+  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
+  fct_truth <- two_class_example$truth
+  fct_truth[1] <- NA
+
+  estimate <- two_class_example$Class1
+
+  expect_identical(
+    gain_capture_vec(cp_truth, estimate),
+    gain_capture_vec(fct_truth, estimate)
+  )
+
+  expect_identical(
+    gain_capture_vec(cp_truth, estimate, na_rm = FALSE),
+    NA_real_
+  )
+})

@@ -228,6 +228,26 @@ test_that("zero weights don't affect the curve", {
   )
 })
 
+test_that("work with class_pred input", {
+  skip_if_not_installed("probably")
+
+  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
+  fct_truth <- two_class_example$truth
+  fct_truth[1] <- NA
+
+  estimate <- two_class_example$Class1
+
+  expect_identical(
+    pr_curve_vec(cp_truth, estimate),
+    pr_curve_vec(fct_truth, estimate)
+  )
+
+  expect_identical(
+    pr_curve_vec(cp_truth, estimate, na_rm = FALSE),
+    NA_real_
+  )
+})
+
 # ------------------------------------------------------------------------------
 
 test_that("Binary results are the same as scikit-learn", {

@@ -155,3 +155,23 @@ test_that("lift_curve() works with case weights and multiclass (ideally, frequen
   expect_s3_class(out, "lift_df")
   expect_identical(out, expect)
 })
+
+test_that("work with class_pred input", {
+  skip_if_not_installed("probably")
+
+  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
+  fct_truth <- two_class_example$truth
+  fct_truth[1] <- NA
+
+  estimate <- two_class_example$Class1
+
+  expect_identical(
+    lift_curve_vec(cp_truth, estimate),
+    lift_curve_vec(fct_truth, estimate)
+  )
+
+  expect_identical(
+    lift_curve_vec(cp_truth, estimate, na_rm = FALSE),
+    NA_real_
+  )
+})
