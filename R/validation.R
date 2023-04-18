@@ -41,12 +41,6 @@ validate_numeric_truth_numeric_estimate <- function(truth,
 validate_factor_truth_factor_estimate <- function(truth,
                                                   estimate,
                                                   call = caller_env()) {
-  if (is_class_pred(truth)) {
-    truth <- as_factor_from_class_pred(truth)
-  }
-  if (is_class_pred(estimate)) {
-    estimate <- as_factor_from_class_pred(estimate)
-  }
   if (!is.factor(truth)) {
     cls <- class(truth)[[1]]
     abort(paste0(
@@ -93,10 +87,6 @@ validate_factor_truth_matrix_estimate <- function(truth,
                                                   estimate,
                                                   estimator,
                                                   call = caller_env()) {
-  if (is_class_pred(truth)) {
-    truth <- as_factor_from_class_pred(truth)
-  }
-
   if (!is.factor(truth)) {
     cls <- class(truth)[[1]]
     abort(paste0(
