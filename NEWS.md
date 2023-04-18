@@ -51,6 +51,8 @@
 
 * Error messages now show what user-facing function was called (#348). 
 
+* classification and probability metrics now fully support `class_pred` objects from {probably} package (#341).
+
 # yardstick 1.1.0
 
 * Emil Hvitfeldt is now the maintainer (#315).
