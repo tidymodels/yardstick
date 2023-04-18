@@ -82,6 +82,13 @@ accuracy.matrix <- function(data, ...) {
 #' @export
 #' @rdname accuracy
 accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+  if (is_class_pred(estimate)) {
+    estimate <- as_factor_from_class_pred(estimate)
+  }
+
   estimator <- finalize_estimator(truth, metric_class = "accuracy")
 
   check_class_metric(truth, estimate, case_weights, estimator)
