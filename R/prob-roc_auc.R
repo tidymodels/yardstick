@@ -122,6 +122,10 @@ roc_auc_vec <- function(truth,
                         case_weights = NULL,
                         options = list(),
                         ...) {
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+
   check_roc_options_deprecated("roc_auc_vec", options)
 
   estimator <- finalize_estimator_roc_auc(

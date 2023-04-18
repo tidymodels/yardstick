@@ -117,6 +117,10 @@ roc_aunu_vec <- function(truth,
                          case_weights = NULL,
                          options = list(),
                          ...) {
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+
   check_roc_options_deprecated("roc_aunu_vec", options)
 
   estimator <- "macro"
