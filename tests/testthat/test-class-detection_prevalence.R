@@ -62,3 +62,26 @@ test_that("two class with case weights is correct", {
     3/4
   )
 })
+
+test_that("work with class_pred input", {
+  skip_if_not_installed("probably")
+
+  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
+  cp_estimate <- probably::as_class_pred(two_class_example$predicted, which = 2)
+
+  fct_truth <- two_class_example$truth
+  fct_truth[1] <- NA
+
+  fct_estimate <- two_class_example$predicted
+  fct_estimate[2] <- NA
+
+  expect_identical(
+    detection_prevalence_vec(cp_truth, cp_estimate),
+    detection_prevalence_vec(fct_truth, fct_estimate)
+  )
+
+  expect_identical(
+    detection_prevalence_vec(cp_truth, cp_estimate, na_rm = FALSE),
+    NA_real_
+  )
+})
