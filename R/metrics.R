@@ -367,7 +367,7 @@ make_prob_class_metric_function <- function(fns) {
 
       class_calls <- lapply(class_fns, call2, !!! class_args)
 
-      class_calls <- lapply(class_calls, call_remove_duplicate_arguments)
+      class_calls <- mapply(call_remove_static_arguments, class_calls, class_fns)
 
       class_list <- mapply(
         FUN = eval_safely,
@@ -403,7 +403,7 @@ make_prob_class_metric_function <- function(fns) {
 
       prob_calls <- lapply(prob_fns, call2, !!! prob_args)
 
-      prob_calls <- lapply(prob_calls, call_remove_duplicate_arguments)
+      prob_calls <- mapply(call_remove_static_arguments, prob_calls, prob_fns)
 
       prob_list <- mapply(
         FUN = eval_safely,
@@ -453,7 +453,7 @@ make_numeric_metric_function <- function(fns) {
     # Construct calls from the functions + arguments
     calls <- lapply(fns, call2, !!! call_args)
 
-    calls <- lapply(calls, call_remove_duplicate_arguments)
+    calls <- mapply(call_remove_static_arguments, calls, fns)
 
     # Evaluate
     metric_list <- mapply(
@@ -516,6 +516,8 @@ make_survival_metric_function <- function(fns) {
     static_calls <- lapply(fns[call_class_ind], call2, !!! static_call_args)
 
     calls <- c(dynamic_calls, static_calls)
+
+    calls <- mapply(call_remove_static_arguments, calls, fns)
 
     # Evaluate
     metric_list <- mapply(
@@ -683,12 +685,24 @@ eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
   )
 }
 
+call_remove_static_arguments <- function(call, fn) {
+  static <- get_static_arguments(fn)
 
-call_remove_duplicate_arguments <- function(call) {
-  arg_names <- environment(call[[1]])[["fixed"]]
+  if (length(static) == 0L) {
+    # No static arguments
+    return(call)
+  }
 
-  newargs <- rlang::rep_named(names(arg_names), list(rlang::zap()))
+  names <- rlang::call_args_names(call)
+  names <- intersect(names, static)
 
-  call <- rlang::call_modify(call, !!!newargs)
+  if (length(names) == 0L) {
+    # `static` arguments don't intersect with `call`
+    return(call)
+  }
+
+  zaps <- rlang::rep_named(names, list(rlang::zap()))
+  call <- call_modify(call, !!!zaps)
+
   call
 }

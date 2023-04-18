@@ -74,6 +74,8 @@ metric_tweak <- function(.name, .fn, ...) {
     out
   }
 
+  out <- set_static_arguments(out, names(fixed))
+
   class(out) <- class(.fn)
   metric_direction(out) <- metric_direction(.fn)
 
@@ -98,6 +100,16 @@ check_protected_names <- function(fixed) {
     "."
   ))
 }
+
 protected_names <- function() {
   c("data", "truth", "estimate")
+}
+
+get_static_arguments <- function(fn) {
+  attr(fn, "static", exact = TRUE)
+}
+
+set_static_arguments <- function(fn, static) {
+  attr(fn, "static") <- static
+  fn
 }
