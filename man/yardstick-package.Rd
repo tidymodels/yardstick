@@ -20,17 +20,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Emil Hvitfeldt \email{emil.hvitfeldt@rstudio.com} (\href{https://orcid.org/0000-0002-0679-1945}{ORCID})
+\strong{Maintainer}: Emil Hvitfeldt \email{emil.hvitfeldt@posit.co} (\href{https://orcid.org/0000-0002-0679-1945}{ORCID})
 
 Authors:
 \itemize{
-  \item Max Kuhn \email{max@rstudio.com}
-  \item Davis Vaughan \email{davis@rstudio.com}
+  \item Max Kuhn \email{max@posit.co}
+  \item Davis Vaughan \email{davis@posit.co}
 }
 
 Other contributors:
 \itemize{
-  \item RStudio [copyright holder, funder]
+  \item Posit Software, PBC [copyright holder, funder]
 }
 
 }

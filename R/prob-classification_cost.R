@@ -252,13 +252,13 @@ validate_costs <- function(costs, levels) {
    }
 
    ok <- all(costs$truth %in% levels)
-   if (rlang::is_false(ok)) {
+   if (is_false(ok)) {
       levels <- quote_and_collapse(levels)
       abort(paste0("`costs$truth` can only contain ", levels, "."))
    }
 
    ok <- all(costs$estimate %in% levels)
-   if (rlang::is_false(ok)) {
+   if (is_false(ok)) {
       levels <- quote_and_collapse(levels)
       abort(paste0("`costs$estimate` can only contain ", levels, "."))
    }
@@ -266,7 +266,7 @@ validate_costs <- function(costs, levels) {
    pairs <- costs[c("truth", "estimate")]
    cost <- costs$cost
 
-   not_ok <- vctrs::vec_duplicate_any(pairs)
+   not_ok <- vec_duplicate_any(pairs)
    if (not_ok) {
       abort("`costs` cannot have duplicate 'truth' / 'estimate' combinations.")
    }
@@ -274,7 +274,7 @@ validate_costs <- function(costs, levels) {
    out <- generate_all_level_combinations(levels)
 
    # Detect user specified cost locations
-   locs <- vctrs::vec_match(pairs, out)
+   locs <- vec_match(pairs, out)
 
    # Default to no cost
    out$cost <- 0
@@ -333,9 +333,9 @@ recycle_costs <- function(costs, truth) {
    # Expand `costs` to equal size of `truth`, matching the `truth` values
    needles <- truth
    haystack <- factor(costs$truth, levels = levels)
-   locs <- vctrs::vec_match(needles, haystack)
+   locs <- vec_match(needles, haystack)
 
-   costs <- vctrs::vec_slice(costs, locs)
+   costs <- vec_slice(costs, locs)
 
    costs
 }

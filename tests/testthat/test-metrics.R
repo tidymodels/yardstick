@@ -35,13 +35,16 @@ test_that('correct metrics returned', {
 ###################################################################
 
 test_that('bad args', {
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     metrics(two_class_example, truth, Class1)
   )
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     metrics(two_class_example, Class1, truth)
   )
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     metrics(three_class, "obs", "pred", setosa, versicolor)
   )
 })
@@ -84,7 +87,7 @@ test_that('correct results', {
 
 test_that("metrics() - `options` is deprecated", {
   skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
-  local_lifecycle_warnings()
+  rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot({
     out <- metrics(two_class_example, truth, predicted, Class1, options = 1)
@@ -107,32 +110,62 @@ test_that('numeric metric sets', {
     reg_res_1
   )
   # ensure helpful messages are printed
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     metric_set(rmse, "x")
   )
 
   # Can mix class and class prob together
   mixed_set <- metric_set(accuracy, roc_auc)
-  expect_error(
-    mixed_set(two_class_example, truth, Class1, estimate = predicted),
-    NA
+  expect_no_error(
+    mixed_set(two_class_example, truth, Class1, estimate = predicted)
   )
 })
 
 test_that('mixing bad metric sets', {
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     metric_set(rmse, accuracy)
   )
 })
 
 test_that('can mix class and class prob metrics together', {
-  expect_error(
-    mixed_set <- metric_set(accuracy, roc_auc),
-    NA
+  expect_no_error(
+    mixed_set <- metric_set(accuracy, roc_auc)
   )
-  expect_error(
-    mixed_set(two_class_example, truth, Class1, estimate = predicted),
-    NA
+  expect_no_error(
+    mixed_set(two_class_example, truth, Class1, estimate = predicted)
+  )
+})
+
+test_that('dynamic survival metric sets', {
+  my_set <- metric_set(brier_survival)
+
+  expect_equal(
+    my_set(lung_surv, surv_obj, .pred),
+    brier_survival(lung_surv, surv_obj, .pred)
+  )
+})
+
+test_that('can mix dynamic and static survival metric together', {
+  expect_no_error(
+    mixed_set <- metric_set(brier_survival, concordance_survival)
+  )
+  expect_no_error(
+    mixed_set(lung_surv, surv_obj, .pred, estimate = .pred_time)
+  )
+})
+
+test_that('can mix dynamic and static survival metric together', {
+  expect_no_error(
+    mixed_set <- metric_set(
+      brier_survival,
+      concordance_survival,
+      brier_survival_integrated
+    )
+  )
+  expect_no_error(
+    mixed_set(lung_surv, surv_obj, .pred, estimate = .pred_time)
   )
 })
 
@@ -242,13 +275,13 @@ test_that("`metric_set()` errors contain env name for unknown functions (#128)",
 
   rlang::fn_env(foobar) <- env
 
-  expect_error(
-    metric_set(accuracy, foobar, sens, rlang::abort),
-    "class [(]accuracy, sens[)]"
+  expect_snapshot(
+    error = TRUE,
+    metric_set(accuracy, foobar, sens, rlang::abort)
   )
-  expect_error(
-    metric_set(accuracy, foobar, sens, rlang::abort),
-    "other [(]foobar <test>, abort <namespace:rlang>[)]"
+  expect_snapshot(
+    error = TRUE,
+    metric_set(accuracy, foobar, sens, rlang::abort)
   )
 })
 
@@ -260,10 +293,9 @@ test_that("`metric_set()` gives an informative error for a single non-metric fun
   attr(env, "name") <- "test"
   rlang::fn_env(foobar) <- env
 
-  expect_error(
-    metric_set(foobar),
-    "other (foobar <test>)",
-    fixed = TRUE
+  expect_snapshot(
+    error = TRUE,
+    metric_set(foobar)
   )
 })
 

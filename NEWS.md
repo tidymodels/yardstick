@@ -2,6 +2,9 @@
 
 * Using `metric_set()` on a metric created with `metric_tweak()` will no longer
   produces an error, and will favor arguments set with `metric_tweak()` (#351).
+  
+* Metric summarizers no longer error if column names in `data` conflict with
+  argument names (#382).
 
 * The global option, `yardstick.event_first`, has been hard deprecated in favor
   of using explicit argument, `event_level`. Setting this option will now 
@@ -22,10 +25,34 @@
   newly added `class_metric_summarizer()`, `numeric_metric_summarizer()`,
   `prob_metric_summarizer()`, and `curve_metric_summarizer()` (#322).
   
+* `dots_to_estimate()` is being soft deprecated along with 
+  `metric_summarizer()`. `dots_to_estimate()` is not needed with 
+  `prob_metric_summarizer()`, and `curve_metric_summarizer()` (#329).
+  
 * yardstick metric functions now use a pure tidyselect interface for `truth`, 
   `estimate`, and the `...` of class probability metrics (#322).
   
 * Changed the default aspect ratio for PR curves to be 1.0. 
+
+* `conf_mat()` no longer throw errors listed as internal (#327).
+
+* Removed start-up message about `event_level` argument.
+
+* The Brier score for survival data was added with `brier_survival()`.
+
+* The Integrated Brier score for survival data was added with `brier_survival_integrated()`.
+
+* The Concordance index for survival data was added with `concordance_survival()`.
+
+* Time-Dependent ROC curves estimation for right-censored data can now be 
+  calculated with `roc_curve_survival()`.
+  
+* Time-Dependent ROC AUC estimation for right-censored data can now be 
+  calculated with `roc_auc_survival()`.
+  
+* `metric_set()` can now be used with a combination of dynamic and static survival metrics.
+
+* Error messages now show what user-facing function was called (#348). 
 
 # yardstick 1.1.0
 

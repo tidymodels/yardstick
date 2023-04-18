@@ -207,14 +207,14 @@ check_roc_options_deprecated <- function(what, options) {
   }
 }
 warn_roc_options_deprecated <- function(what) {
-  message <- c(
-    sprintf("The `options` argument of `%s()` is deprecated as of yardstick 1.0.0.", what),
-    "This argument no longer has any effect, and is being ignored.",
-    "Use the pROC package directly if you need these features."
+  lifecycle::deprecate_warn(
+    when = "1.0.0",
+    what = I(sprintf("The `options` argument of `%s()`", what)),
+    details = paste(
+      "This argument no longer has any effect, and is being ignored.",
+      "Use the pROC package directly if you need these features."
+    )
   )
-  message <- paste0(message, collapse = "\n")
-
-  warn_deprecated(message)
 }
 
 
@@ -234,7 +234,7 @@ autoplot.roc_df <- function(object, ...) {
     grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
 
     interact_expr <- list(
-      color = rlang::expr(interaction(!!! grps, sep = "_"))
+      color = expr(interaction(!!! grps, sep = "_"))
     )
 
     roc_chart <- roc_chart %+%

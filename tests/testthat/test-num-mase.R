@@ -39,31 +39,30 @@ test_that('Mean Absolute Scaled Error', {
     known_mase_with_mae_train
   )
 
-  expect_error(
-    mase_vec(truth, pred, m = "x"),
-    "`m` must be a single positive integer value."
+  expect_snapshot(
+    error = TRUE,
+    mase_vec(truth, pred, m = "x")
   )
 
-  expect_error(
-    mase_vec(truth, pred, m = -1),
-    "`m` must be a single positive integer value."
+  expect_snapshot(
+    error = TRUE,
+    mase_vec(truth, pred, m = -1)
   )
 
-  expect_error(
-    mase_vec(truth, pred, m = 1.5),
-    "`m` must be a single positive integer value."
+  expect_snapshot(
+    error = TRUE,
+    mase_vec(truth, pred, m = 1.5)
   )
 
-  expect_error(
-    mase_vec(truth, pred, mae_train = -1),
-    "`mae_train` must be a single positive numeric value."
+  expect_snapshot(
+    error = TRUE,
+    mase_vec(truth, pred, mae_train = -1)
   )
 
-  expect_error(
-    mase_vec(truth, pred, mae_train = "x"),
-    "`mae_train` must be a single positive numeric value."
+  expect_snapshot(
+    error = TRUE,
+    mase_vec(truth, pred, mae_train = "x")
   )
-
 })
 
 test_that("Weighted results are working", {

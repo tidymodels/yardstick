@@ -19,9 +19,23 @@ NULL
 
 #' @rdname yardstick_remove_missing
 #' @export
-yardstick_remove_missing <- function(truth, estimate, case_weights) {
-  complete_cases <- stats::complete.cases(truth, estimate, case_weights)
-  truth <- truth[complete_cases]
+yardstick_remove_missing <- function(truth,
+                                     estimate,
+                                     case_weights) {
+  complete_cases <- stats::complete.cases(
+    truth, estimate, case_weights
+  )
+
+  if (.is_surv(truth, fail = FALSE)) {
+    Surv_type <- .extract_surv_type(truth)
+
+    truth <- truth[complete_cases, ]
+
+    attr(truth, "type") <- Surv_type
+    attr(truth, "class") <- "Surv"
+  } else {
+    truth <- truth[complete_cases]
+  }
 
   if (is.matrix(estimate)) {
     estimate <- estimate[complete_cases, , drop = FALSE]
@@ -31,12 +45,18 @@ yardstick_remove_missing <- function(truth, estimate, case_weights) {
 
   case_weights <- case_weights[complete_cases]
 
-  list(truth = truth, estimate = estimate, case_weights = case_weights)
+  list(
+    truth = truth,
+    estimate = estimate,
+    case_weights = case_weights
+  )
 }
 
 #' @rdname yardstick_remove_missing
 #' @export
-yardstick_any_missing <- function(truth, estimate, case_weights) {
+yardstick_any_missing <- function(truth,
+                                  estimate,
+                                  case_weights) {
   if (is_class_pred(truth)) {
     truth <- as_factor_from_class_pred(truth)
   }

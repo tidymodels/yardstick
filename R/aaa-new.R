@@ -46,12 +46,30 @@ new_numeric_metric <- function(fn, direction) {
   new_metric(fn, direction, class = "numeric_metric")
 }
 
+#' @rdname new-metric
+#' @export
+new_dynamic_survival_metric <- function(fn, direction) {
+  new_metric(fn, direction, class = "dynamic_survival_metric")
+}
+
+#' @rdname new-metric
+#' @export
+new_integrated_survival_metric <- function(fn, direction) {
+  new_metric(fn, direction, class = "integrated_survival_metric")
+}
+
+#' @rdname new-metric
+#' @export
+new_static_survival_metric <- function(fn, direction) {
+  new_metric(fn, direction, class = "static_survival_metric")
+}
+
 new_metric <- function(fn, direction, class = NULL) {
   if (!is.function(fn)) {
-    rlang::abort("`fn` must be a function.")
+    abort("`fn` must be a function.")
   }
 
-  direction <- rlang::arg_match(
+  direction <- arg_match(
     direction,
     values = c("maximize", "minimize", "zero")
   )

@@ -2,6 +2,7 @@
 # reticulate::virtualenv_create("yardstick-environment", version = "3.10.4")
 # reticulate::use_virtualenv("yardstick-environment")
 # reticulate::py_install("scikit-learn") # 1.2.0 is what was downloaded
+# reticulate::py_install("scikit-survival") # 1.2.0 is what was downloaded
 library(reticulate)
 
 # Inside yardstick
@@ -10,6 +11,8 @@ devtools::load_all()
 use_virtualenv("yardstick-environment")
 
 skmetrics <- import("sklearn.metrics")
+sksurv_metrics <- import("sksurv.metrics")
+sksurv_util <- import("sksurv.util", convert = FALSE)
 
 data("hpc_cv")
 data("two_class_example")
@@ -389,3 +392,29 @@ py_roc_auc <- list(
   )
 )
 saveRDS(py_roc_auc, test_path("py-data", "py-roc-auc.rds"), version = 2)
+
+# Brier survival
+lung_surv <- data_lung_surv()
+lung_surv_unnest <- tidyr::unnest(lung_surv, cols = c(.pred))
+
+sksurv_obj <- sksurv_util$Surv$from_arrays(
+  event = lung_surv$surv_obj[, "status"],
+  time = lung_surv$surv_obj[, "time"]
+)
+
+eval_time_unique <- unique(lung_surv_unnest$.eval_time)
+
+py_brier_survival <- vapply(
+  X = eval_time_unique,
+  FUN.VALUE = numeric(1),
+  FUN = function(x) {
+    sksurv_metrics$brier_score(
+      sksurv_obj, sksurv_obj,
+      dplyr::filter(lung_surv_unnest, .eval_time == x)$.pred_survival,
+      x
+    )[[2]]
+  }
+)
+
+names(py_brier_survival) <- eval_time_unique
+saveRDS(py_brier_survival, test_path("py-data", "py-brier-survival.rds"), version = 2)

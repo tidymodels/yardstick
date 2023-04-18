@@ -17,9 +17,10 @@ test_that("AUNP is equivalent to macro_weighted estimator with case weights", {
 })
 
 test_that("AUNP errors on binary case", {
-  expect_snapshot((expect_error(
+  expect_snapshot(
+    error = TRUE,
     roc_aunp(two_class_example, truth, Class1)
-  )))
+  )
 })
 
 test_that("AUNP results match mlr for soybean example", {
@@ -38,7 +39,7 @@ test_that("AUNP results match mlr for soybean example", {
 
 test_that("roc_aunp() - `options` is deprecated", {
   skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
-  local_lifecycle_warnings()
+  rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot({
     out <- roc_aunp(two_class_example, truth, Class1, Class2, options = 1)

@@ -5,13 +5,41 @@
 \alias{check_numeric_metric}
 \alias{check_class_metric}
 \alias{check_prob_metric}
+\alias{check_dynamic_survival_metric}
+\alias{check_static_survival_metric}
 \title{Developer function for checking inputs in new metrics}
 \usage{
-check_numeric_metric(truth, estimate, case_weights)
+check_numeric_metric(truth, estimate, case_weights, call = caller_env())
 
-check_class_metric(truth, estimate, case_weights, estimator)
+check_class_metric(
+  truth,
+  estimate,
+  case_weights,
+  estimator,
+  call = caller_env()
+)
 
-check_prob_metric(truth, estimate, case_weights, estimator)
+check_prob_metric(
+  truth,
+  estimate,
+  case_weights,
+  estimator,
+  call = caller_env()
+)
+
+check_dynamic_survival_metric(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+)
+
+check_static_survival_metric(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+)
 }
 \arguments{
 \item{truth}{The realized vector of \code{truth}.
@@ -19,6 +47,8 @@ check_prob_metric(truth, estimate, case_weights, estimator)
 \item For \code{check_numeric_metric()}, a numeric vector.
 \item For \code{check_class_metric()}, a factor.
 \item For \code{check_prob_metric()}, a factor.
+\item For \code{check_dynamic_survival_metric()}, a Surv object.
+\item For \code{check_static_survival_metric()}, a Surv object.
 }}
 
 \item{estimate}{The realized \code{estimate} result.
@@ -27,10 +57,17 @@ check_prob_metric(truth, estimate, case_weights, estimator)
 \item For \code{check_class_metric()}, a factor.
 \item For \code{check_prob_metric()}, a numeric vector for binary \code{truth},
 a numeric matrix for multic-class \code{truth}.
+\item For \code{check_dynamic_survival_metric()}, list-column of data.frames.
+\item For \code{check_static_survival_metric()}, a numeric vector.
 }}
 
 \item{case_weights}{The realized case weights, as a numeric vector. This must
 be the same length as \code{truth}.}
+
+\item{call}{The execution environment of a currently
+running function, e.g. \code{caller_env()}. The function will be
+mentioned in error messages as the source of the error. See the
+\code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
 
 \item{estimator}{This can either be \code{NULL} for the default auto-selection of
 averaging (\code{"binary"} or \code{"macro"}), or a single character to pass along to

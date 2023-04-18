@@ -93,6 +93,7 @@ reference:
     - check_numeric_metric
     - check_class_metric
     - check_prob_metric
+    - check_dynamic_survival_metric
     - yardstick_remove_missing
     - yardstick_any_missing
     - get_weights
@@ -101,6 +102,7 @@ reference:
   - title: Data Sets
     contents:
     - hpc_cv
+    - lung_surv
     - pathology
     - solubility_test
     - two_class_example

@@ -11,6 +11,12 @@ utils::globalVariables(
     ".level",
     ".",
 
+    # for survival metrics
+    ".estimate",
+    ".eval_time",
+    ".pred_survival",
+    ".weight_censored",
+
     # for autoplot methods
     ".n_events",
     ".n",
@@ -38,22 +44,9 @@ utils::globalVariables(
   s3_register("ggplot2::autoplot", "gain_df")
   s3_register("ggplot2::autoplot", "lift_df")
   s3_register("ggplot2::autoplot", "roc_df")
+  s3_register("ggplot2::autoplot", "roc_survival_df")
   s3_register("ggplot2::autoplot", "pr_df")
   s3_register("ggplot2::autoplot", "conf_mat")
-
-  invisible()
-}
-
-# On attach msg ----------------------------------------------------------------
-
-.onAttach <- function(libname, pkgname) {
-  msg <- paste0(
-    "For binary classification, ",
-    "the first factor level is assumed to be the event.\n",
-    "Use the argument `event_level = \"second\"` to alter this as needed."
-  )
-
-  packageStartupMessage(msg)
 
   invisible()
 }

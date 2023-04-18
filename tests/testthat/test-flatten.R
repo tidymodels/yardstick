@@ -12,5 +12,8 @@ test_that('flat tables', {
     c("cell_1_1", "cell_2_1", "cell_1_2", "cell_2_2")
   )
 
-  expect_error(yardstick:::flatten(three_class_tb[, 1:2]))
+  expect_snapshot(
+    error = TRUE,
+    yardstick:::flatten(three_class_tb[, 1:2])
+  )
 })

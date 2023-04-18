@@ -33,5 +33,5 @@ validate_event_level <- function(event_level) {
     return(invisible())
   }
 
-  rlang::abort("`event_level` must be 'first' or 'second'.")
+  abort("`event_level` must be 'first' or 'second'.")
 }

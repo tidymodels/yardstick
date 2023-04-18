@@ -28,14 +28,15 @@ test_that('Huber Loss', {
     }
   )
 
-
-  expect_snapshot((expect_error(
+  expect_snapshot(
+    error = TRUE,
     huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = -1)
-  )))
+  )
 
-  expect_snapshot((expect_error(
+  expect_snapshot(
+    error = TRUE,
     huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1,2))
-  )))
+  )
 })
 
 test_that("Weighted results are working", {

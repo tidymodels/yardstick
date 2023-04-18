@@ -4,10 +4,7 @@
       out <- roc_auc(no_event, truth, Class1)[[".estimate"]]
     Condition
       Warning:
-      There was 1 warning in `dplyr::summarise()`.
-      i In argument: `.estimate = fn(...)`.
-      Caused by warning:
-      ! No event observations were detected in `truth` with event level 'Class1'.
+      No event observations were detected in `truth` with event level 'Class1'.
 
 # warning is thrown when missing controls
 
@@ -15,10 +12,7 @@
       out <- roc_auc(no_control, truth, Class1)[[".estimate"]]
     Condition
       Warning:
-      There was 1 warning in `dplyr::summarise()`.
-      i In argument: `.estimate = fn(...)`.
-      Caused by warning:
-      ! No control observations were detected in `truth` with control level 'Class2'.
+      No control observations were detected in `truth` with control level 'Class2'.
 
 # multiclass one-vs-all approach results in multiple warnings
 
@@ -27,12 +21,9 @@
         ".estimate"]]
     Condition
       Warning:
-      There were 2 warnings in `dplyr::summarise()`.
-      The first warning was:
-      i In argument: `.estimate = fn(...)`.
-      Caused by warning:
-      ! No event observations were detected in `truth` with event level 'Class1'.
-      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+      No event observations were detected in `truth` with event level 'Class1'.
+      Warning:
+      No control observations were detected in `truth` with control level '..other'.
 
 ---
 
@@ -41,12 +32,9 @@
         ".estimate"]]
     Condition
       Warning:
-      There were 2 warnings in `dplyr::summarise()`.
-      The first warning was:
-      i In argument: `.estimate = fn(...)`.
-      Caused by warning:
-      ! No event observations were detected in `truth` with event level 'Class1'.
-      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+      No event observations were detected in `truth` with event level 'Class1'.
+      Warning:
+      No control observations were detected in `truth` with control level '..other'.
 
 ---
 
@@ -55,12 +43,9 @@
         ".estimate"]]
     Condition
       Warning:
-      There were 2 warnings in `dplyr::summarise()`.
-      The first warning was:
-      i In argument: `.estimate = fn(...)`.
-      Caused by warning:
-      ! No event observations were detected in `truth` with event level 'Class1'.
-      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+      No event observations were detected in `truth` with event level 'Class1'.
+      Warning:
+      No control observations were detected in `truth` with control level '..other'.
 
 ---
 
@@ -69,12 +54,9 @@
         ".estimate"]]
     Condition
       Warning:
-      There were 2 warnings in `dplyr::summarise()`.
-      The first warning was:
-      i In argument: `.estimate = fn(...)`.
-      Caused by warning:
-      ! No event observations were detected in `truth` with event level 'Class1'.
-      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+      No event observations were detected in `truth` with event level 'Class1'.
+      Warning:
+      No control observations were detected in `truth` with control level '..other'.
 
 # hand till approach throws warning and returns `NaN` when only 1 level has observations
 
@@ -99,9 +81,7 @@
     Code
       roc_auc(hpc_cv, obs, VF:L, estimator = "hand_till", case_weights = weight)
     Condition
-      Error in `dplyr::summarise()`:
-      i In argument: `.estimate = fn(...)`.
-      Caused by error in `finalize_estimator_roc_auc()`:
+      Error in `roc_auc()`:
       ! Can't specify both `estimator = 'hand_till'` and `case_weights`.
 
 # roc_auc() - `options` is deprecated
@@ -110,9 +90,8 @@
       out <- roc_auc(two_class_example, truth, Class1, options = 1)
     Condition
       Warning:
-      The `options` argument of `roc_auc()` is deprecated as of yardstick 1.0.0.
-      This argument no longer has any effect, and is being ignored.
-      Use the pROC package directly if you need these features.
+      The `options` argument of `roc_auc()` was deprecated in yardstick 1.0.0.
+      i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 
 ---
 
@@ -121,7 +100,6 @@
         Class1, options = 1)
     Condition
       Warning:
-      The `options` argument of `roc_auc_vec()` is deprecated as of yardstick 1.0.0.
-      This argument no longer has any effect, and is being ignored.
-      Use the pROC package directly if you need these features.
+      The `options` argument of `roc_auc_vec()` was deprecated in yardstick 1.0.0.
+      i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 

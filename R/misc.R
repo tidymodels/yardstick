@@ -4,7 +4,7 @@
 
 pos_val <- function(xtab, event_level) {
   if (!all(dim(xtab) == 2)) {
-    rlang::abort("Only relevant for 2x2 tables")
+    abort("Only relevant for 2x2 tables")
   }
 
   if (is_event_first(event_level)) {
@@ -16,7 +16,7 @@ pos_val <- function(xtab, event_level) {
 
 neg_val <- function(xtab, event_level) {
   if (!all(dim(xtab) == 2)) {
-    rlang::abort("Only relevant for 2x2 tables")
+    abort("Only relevant for 2x2 tables")
   }
 
   if (is_event_first(event_level)) {
@@ -60,8 +60,8 @@ is_class_pred <- function(x) {
 }
 
 as_factor_from_class_pred <- function(x) {
-  if (!rlang::is_installed("probably")) {
-    rlang::abort(paste0(
+  if (!is_installed("probably")) {
+    abort(paste0(
       "A <class_pred> input was detected, but the probably package ",
       "isn't installed. Install probably to be able to convert <class_pred> ",
       "to <factor>."
@@ -295,7 +295,7 @@ make_correlation_undefined_constant_message <- function(what) {
 }
 
 warn_correlation_undefined <- function(message, ..., class = character()) {
-  rlang::warn(
+  warn(
     message = message,
     class = c(class, "yardstick_warning_correlation_undefined"),
     ...

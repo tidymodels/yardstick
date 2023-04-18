@@ -33,8 +33,8 @@ test_that("quasiquotation works", {
 
   tru <- as.name("truth")
 
-  expect_error(gain_curve(df, !!tru, estimate), regexp = NA)
-  expect_error(gain_curve(df, "truth", estimate), regexp = NA)
+  expect_no_error(gain_curve(df, !!tru, estimate))
+  expect_no_error(gain_curve(df, "truth", estimate))
 })
 
 # ------------------------------------------------------------------------------
