@@ -181,6 +181,11 @@ metrics.data.frame <- function(data,
 #' time predictions as the named argument `estimate`, and the survival
 #' predictions as bare column names or `tidyselect` selectors to `...`.
 #'
+#' If `metric_tweak()` has been used to "tweak" one of these arguments, like
+#' `estimator` or `event_level`, then the tweaked version wins. This allows you
+#' to set the estimator on a metric by metric basis and still use it in a
+#' `metric_set()`.
+#'
 #' @examples
 #' library(dplyr)
 #'
