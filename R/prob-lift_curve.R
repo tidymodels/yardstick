@@ -129,6 +129,10 @@ lift_curve_vec <- function(truth,
     case_weights = case_weights
   )
 
+  if (identical(res, NA_real_)) {
+    return(res)
+  }
+
   res <- dplyr::mutate(res, .lift = .percent_found / .percent_tested)
 
   res[[".percent_found"]] <- NULL
