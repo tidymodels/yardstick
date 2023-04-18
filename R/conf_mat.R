@@ -216,6 +216,13 @@ conf_mat.grouped_df <- function(data,
 }
 
 conf_mat_impl <- function(truth, estimate, case_weights, call = caller_env()) {
+  if (is_class_pred(truth)) {
+    truth <- as_factor_from_class_pred(truth)
+  }
+  if (is_class_pred(estimate)) {
+    estimate <- as_factor_from_class_pred(estimate)
+  }
+
   estimator <- "not binary"
   check_class_metric(truth, estimate, case_weights, estimator, call = call)
 
