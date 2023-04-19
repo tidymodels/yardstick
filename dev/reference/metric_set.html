@@ -125,6 +125,10 @@ predictions (the class probability columns) as bare column names or
 <p>When mixing dynamic, integrated, and static survival metrics, pass in the
 time predictions as the named argument <code>estimate</code>, and the survival
 predictions as bare column names or <code>tidyselect</code> selectors to <code>...</code>.</p>
+<p>If <code><a href="metric_tweak.html">metric_tweak()</a></code> has been used to "tweak" one of these arguments, like
+<code>estimator</code> or <code>event_level</code>, then the tweaked version wins. This allows you
+to set the estimator on a metric by metric basis and still use it in a
+<code>metric_set()</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
