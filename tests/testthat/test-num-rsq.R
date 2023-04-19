@@ -1,21 +1,21 @@
-test_that('R^2', {
+test_that("R^2", {
   ex_dat <- generate_numeric_test_data()
 
   expect_equal(
     rsq(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    stats::cor(ex_dat[, 1:2])[1,2]^2
+    stats::cor(ex_dat[, 1:2])[1, 2]^2
   )
   expect_equal(
     rsq(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    stats::cor(ex_dat[, c(1, 3)], use = "complete.obs")[1,2]^2
+    stats::cor(ex_dat[, c(1, 3)], use = "complete.obs")[1, 2]^2
   )
   expect_equal(
     rsq(ex_dat, truth = "obs", estimate = "rand")[[".estimate"]],
-    stats::cor(ex_dat[, c(1, 4)])[1,2]^2
+    stats::cor(ex_dat[, c(1, 4)])[1, 2]^2
   )
   expect_equal(
     rsq(ex_dat, estimate = rand_na, truth = obs)[[".estimate"]],
-    stats::cor(ex_dat[, c(1, 5)], use = "complete.obs")[1,2]^2
+    stats::cor(ex_dat[, c(1, 5)], use = "complete.obs")[1, 2]^2
   )
 })
 
@@ -28,7 +28,7 @@ test_that("case weights are applied", {
 
   expect_identical(
     rsq(df, truth, estimate, case_weights = weight),
-    rsq(df[as.logical(df$weight),], truth, estimate)
+    rsq(df[as.logical(df$weight), ], truth, estimate)
   )
 })
 

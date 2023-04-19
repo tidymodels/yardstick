@@ -1,15 +1,17 @@
 set.seed(1311)
-three_class <- data.frame(obs = iris$Species,
-                          pred = sample(iris$Species, replace = TRUE))
+three_class <- data.frame(
+  obs = iris$Species,
+  pred = sample(iris$Species, replace = TRUE)
+)
 probs <- matrix(runif(150 * 3), nrow = 150)
-probs <- t(apply(probs, 1, function(x) x/sum(x)))
+probs <- t(apply(probs, 1, function(x) x / sum(x)))
 colnames(probs) <- levels(iris$Species)
 three_class <- cbind(three_class, as.data.frame(probs))
 
 
 ###################################################################
 
-test_that('correct metrics returned', {
+test_that("correct metrics returned", {
   expect_equal(
     metrics(two_class_example, truth, predicted)[[".metric"]],
     c("accuracy", "kap")
@@ -34,7 +36,7 @@ test_that('correct metrics returned', {
 
 ###################################################################
 
-test_that('bad args', {
+test_that("bad args", {
   expect_snapshot(
     error = TRUE,
     metrics(two_class_example, truth, Class1)
@@ -65,13 +67,12 @@ reg_res_1 <- dplyr::bind_rows(
 )
 
 
-test_that('correct results', {
-
+test_that("correct results", {
   class_idx <- which(class_res_1$.metric %in% c("accuracy", "kap"))
 
   expect_equal(
     metrics(two_class_example, truth, predicted)[[".estimate"]],
-    class_res_1[class_idx,][[".estimate"]]
+    class_res_1[class_idx, ][[".estimate"]]
   )
   expect_equal(
     metrics(two_class_example, truth, predicted, Class1)[[".estimate"]],
@@ -101,8 +102,7 @@ test_that("metrics() - `options` is deprecated", {
 
 ###################################################################
 
-test_that('numeric metric sets', {
-
+test_that("numeric metric sets", {
   reg_set <- metric_set(rmse, rsq, mae)
 
   expect_equal(
@@ -122,14 +122,14 @@ test_that('numeric metric sets', {
   )
 })
 
-test_that('mixing bad metric sets', {
+test_that("mixing bad metric sets", {
   expect_snapshot(
     error = TRUE,
     metric_set(rmse, accuracy)
   )
 })
 
-test_that('can mix class and class prob metrics together', {
+test_that("can mix class and class prob metrics together", {
   expect_no_error(
     mixed_set <- metric_set(accuracy, roc_auc)
   )
@@ -138,7 +138,7 @@ test_that('can mix class and class prob metrics together', {
   )
 })
 
-test_that('dynamic survival metric sets', {
+test_that("dynamic survival metric sets", {
   my_set <- metric_set(brier_survival)
 
   expect_equal(
@@ -147,7 +147,7 @@ test_that('dynamic survival metric sets', {
   )
 })
 
-test_that('can mix dynamic and static survival metric together', {
+test_that("can mix dynamic and static survival metric together", {
   expect_no_error(
     mixed_set <- metric_set(brier_survival, concordance_survival)
   )
@@ -156,7 +156,7 @@ test_that('can mix dynamic and static survival metric together', {
   )
 })
 
-test_that('can mix dynamic and static survival metric together', {
+test_that("can mix dynamic and static survival metric together", {
   expect_no_error(
     mixed_set <- metric_set(
       brier_survival,
@@ -185,7 +185,7 @@ test_that("can supply `event_level` even with metrics that don't use it", {
   )
 })
 
-test_that('metric set functions are classed', {
+test_that("metric set functions are classed", {
   expect_s3_class(
     metric_set(accuracy, roc_auc),
     "class_prob_metric_set"
@@ -204,7 +204,7 @@ test_that('metric set functions are classed', {
   )
 })
 
-test_that('metric set functions retain class/prob metric functions', {
+test_that("metric set functions retain class/prob metric functions", {
   fns <- attr(metric_set(accuracy, roc_auc), "metrics")
 
   expect_equal(
@@ -228,7 +228,7 @@ test_that('metric set functions retain class/prob metric functions', {
   )
 })
 
-test_that('metric set functions retain numeric metric functions', {
+test_that("metric set functions retain numeric metric functions", {
   fns <- attr(metric_set(mae, rmse), "metrics")
 
   expect_equal(
@@ -322,7 +322,7 @@ test_that("all class metrics - `metric_set()` works with `case_weights`", {
 
   expect_identical(
     set(df, truth, estimate = estimate, case_weights = case_weights)[[".estimate"]],
-    c(1/4, 1/3)
+    c(1 / 4, 1 / 3)
   )
 })
 

@@ -67,7 +67,7 @@ gain_capture.data.frame <- function(data,
     name = "gain_capture",
     fn = gain_capture_vec,
     data = data,
-    truth = !! enquo(truth),
+    truth = !!enquo(truth),
     ...,
     estimator = estimator,
     na_rm = na_rm,
@@ -115,7 +115,7 @@ gain_capture_estimator_impl <- function(truth,
                                         estimator,
                                         event_level,
                                         case_weights) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     gain_capture_binary(truth, estimate, event_level, case_weights)
   } else {
     truth_table <- yardstick_truth_table(truth, case_weights = case_weights)
@@ -143,7 +143,7 @@ gain_capture_binary <- function(truth,
     y = gain_list[[".percent_found"]]
   )
 
-  scaler <- 1 / (100 ^ 2)
+  scaler <- 1 / (100^2)
   height <- 100
   width <- 100
   baseline <- 0.5

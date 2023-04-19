@@ -1,4 +1,4 @@
-test_that('Concordance Correlation Coefficient', {
+test_that("Concordance Correlation Coefficient", {
   ex_dat <- generate_numeric_test_data()
   not_na <- !is.na(ex_dat$pred_na)
 
@@ -16,7 +16,7 @@ test_that('Concordance Correlation Coefficient', {
   )
 })
 
-test_that('Concordance Correlation Coefficient unbiased', {
+test_that("Concordance Correlation Coefficient unbiased", {
   ex_dat <- generate_numeric_test_data()
 
   ccc_unbiased <- function(truth, estimate) {
@@ -31,7 +31,7 @@ test_that('Concordance Correlation Coefficient unbiased', {
     # Uses unbiased `n-1` denom
     cov <- cov(truth, estimate)
 
-    2 * cov / (v_e + v_t + (m_e - m_t) ^ 2)
+    2 * cov / (v_e + v_t + (m_e - m_t)^2)
   }
 
   expect_equal(

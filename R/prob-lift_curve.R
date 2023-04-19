@@ -145,7 +145,6 @@ lift_curve_vec <- function(truth,
 # dynamically exported in .onLoad()
 
 autoplot.lift_df <- function(object, ...) {
-
   `%+%` <- ggplot2::`%+%`
 
   # Remove data before first event (is this okay?)
@@ -156,20 +155,17 @@ autoplot.lift_df <- function(object, ...) {
 
   # Grouped specific chart features
   if (dplyr::is_grouped_df(object)) {
-
     # Construct the color interaction group
     grps <- dplyr::groups(object)
     interact_expr <- list(
-      color = expr(interaction(!!! grps, sep = "_"))
+      color = expr(interaction(!!!grps, sep = "_"))
     )
 
     # Add group legend label
     grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
     chart <- chart %+%
       ggplot2::labs(color = grps_chr)
-
-  }
-  else {
+  } else {
     interact_expr <- list()
   }
 
@@ -191,7 +187,7 @@ autoplot.lift_df <- function(object, ...) {
       mapping = ggplot2::aes(
         x = !!.percent_tested,
         y = !!.lift,
-        !!! interact_expr
+        !!!interact_expr
       ),
       data = object
     ) %+%
@@ -222,4 +218,3 @@ autoplot.lift_df <- function(object, ...) {
 
   chart
 }
-

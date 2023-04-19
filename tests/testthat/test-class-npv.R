@@ -1,16 +1,16 @@
-test_that('npv', {
+test_that("npv", {
   lst <- data_altman()
   pathology <- lst$pathology
   path_tbl <- lst$path_tbl
 
   expect_equal(
     npv(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
-    2/3,
+    2 / 3,
     tolerance = .001
   )
   expect_equal(
     npv(path_tbl)[[".estimate"]],
-    2/3,
+    2 / 3,
     tolerance = .001
   )
   expect_equal(
@@ -41,7 +41,7 @@ test_that("`event_level = 'second'` works", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Three class', {
+test_that("Three class", {
   multi_ex <- data_three_by_three()
   micro <- data_three_by_three_micro()
   micro$prev <- (micro$tp + micro$fn) / (micro$p + micro$n)
@@ -56,17 +56,19 @@ test_that('Three class', {
   )
   expect_equal(
     npv(multi_ex, estimator = "micro")[[".estimate"]],
-    with(micro,
-         (sum(tn) / sum(n) * sum((1 - prev))) /
-         ( (1 - sum(tp) / sum(p)) * sum(prev) + (sum(tn) / sum(n) * sum((1 - prev))) )
-        )
+    with(
+      micro,
+      (sum(tn) / sum(n) * sum((1 - prev))) /
+        ((1 - sum(tp) / sum(p)) * sum(prev) + (sum(tn) / sum(n) * sum((1 - prev))))
+    )
   )
   # Prevalence defined by the user. Defined once for all levels?
   expect_equal(
     npv(multi_ex, estimator = "micro", prevalence = .4)[[".estimate"]],
-    with(micro,
-         (sum(tn) / sum(n) * sum((1 - .4))) /
-           ( (1 - sum(tp) / sum(p)) * sum(.4) + (sum(tn) / sum(n) * sum((1 - .4))) )
+    with(
+      micro,
+      (sum(tn) / sum(n) * sum((1 - .4))) /
+        ((1 - sum(tp) / sum(p)) * sum(.4) + (sum(tn) / sum(n) * sum((1 - .4))))
     )
   )
 })
@@ -101,7 +103,7 @@ test_that("work with class_pred input", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Two class weighted - sklearn equivalent', {
+test_that("Two class weighted - sklearn equivalent", {
   py_res <- read_pydata("py-npv")
   r_metric <- npv
 
@@ -113,7 +115,7 @@ test_that('Two class weighted - sklearn equivalent', {
   )
 })
 
-test_that('Multi class weighted - sklearn equivalent', {
+test_that("Multi class weighted - sklearn equivalent", {
   py_res <- read_pydata("py-npv")
   r_metric <- npv
 
@@ -124,4 +126,3 @@ test_that('Multi class weighted - sklearn equivalent', {
     py_res$case_weight$macro
   )
 })
-

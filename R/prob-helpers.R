@@ -4,7 +4,7 @@
 # https://en.wikipedia.org/wiki/Trapezoidal_rule
 # assumes x is a partition and that x & y are the same length
 auc <- function(x, y, na_rm = TRUE) {
-  if(na_rm) {
+  if (na_rm) {
     comp <- stats::complete.cases(x, y)
     x <- x[comp]
     y <- y[comp]
@@ -41,8 +41,7 @@ one_vs_all_impl <- function(fn,
   metric_lst <- new_list(n = length(lvls))
 
   # one vs all
-  for(i in seq_along(lvls)) {
-
+  for (i in seq_along(lvls)) {
     # Recode truth into 2 levels, relevant and other
     # Pull out estimate prob column corresponding to relevant
     # Pulls by order, so they have to be in the same order as the levels!
@@ -65,7 +64,6 @@ one_vs_all_impl <- function(fn,
       event_level = "first",
       ...
     )
-
   }
 
   metric_lst
@@ -76,7 +74,6 @@ one_vs_all_with_level <- function(fn,
                                   estimate,
                                   case_weights,
                                   ...) {
-
   res <- one_vs_all_impl(
     fn = fn,
     truth = truth,
@@ -101,5 +98,4 @@ one_vs_all_with_level <- function(fn,
   )
 
   dplyr::bind_rows(res)
-
 }

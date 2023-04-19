@@ -125,17 +125,19 @@ test_that("numeric_metric_summarizer()'s case_weights argument work", {
 })
 
 test_that("numeric_metric_summarizer()'s errors when wrong things are passes", {
-  expect_snapshot(error = TRUE,
-     numeric_metric_summarizer(
-       name = "rmse",
-       fn = rmse_vec,
-       data = mtcars,
-       truth = not_a_real_column_name,
-       estimate = disp
-     )
+  expect_snapshot(
+    error = TRUE,
+    numeric_metric_summarizer(
+      name = "rmse",
+      fn = rmse_vec,
+      data = mtcars,
+      truth = not_a_real_column_name,
+      estimate = disp
+    )
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     numeric_metric_summarizer(
       name = "rmse",
       fn = rmse_vec,
@@ -145,7 +147,8 @@ test_that("numeric_metric_summarizer()'s errors when wrong things are passes", {
     )
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     numeric_metric_summarizer(
       name = "rmse",
       fn = rmse_vec,
@@ -393,7 +396,8 @@ test_that("class_metric_summarizer()'s case_weights argument work", {
 test_that("class_metric_summarizer()'s errors when wrong things are passes", {
   three_class <- data_three_class()$three_class
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     class_metric_summarizer(
       name = "accuracy",
       fn = accuracy_vec,
@@ -403,7 +407,8 @@ test_that("class_metric_summarizer()'s errors when wrong things are passes", {
     )
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     class_metric_summarizer(
       name = "accuracy",
       fn = accuracy_vec,
@@ -413,7 +418,8 @@ test_that("class_metric_summarizer()'s errors when wrong things are passes", {
     )
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     class_metric_summarizer(
       name = "accuracy",
       fn = accuracy_vec,
@@ -423,7 +429,6 @@ test_that("class_metric_summarizer()'s errors when wrong things are passes", {
       obviouslywrong = TRUE
     )
   )
-
 })
 
 test_that("class_metric_summarizer() deals with characters in truth and estimate", {
@@ -551,8 +556,9 @@ test_that("prob_metric_summarizer() works with grouped input", {
 test_that("class_metric_summarizer()'s event_level works as expected", {
   hpc_f1 <- data_hpc_fold1()
   hpc_f1$obs <- factor(hpc_f1$obs == "VF",
-                       levels = c(TRUE, FALSE),
-                       labels = c("VF", "nVF"))
+    levels = c(TRUE, FALSE),
+    labels = c("VF", "nVF")
+  )
 
   first_res <- prob_metric_summarizer(
     name = "gain_capture",
@@ -668,7 +674,8 @@ test_that("prob_metric_summarizer()'s case_weights argument work", {
 test_that("prob_metric_summarizer()'s errors when wrong things are passes", {
   hpc_f1 <- data_hpc_fold1()
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     prob_metric_summarizer(
       name = "roc_auc",
       fn = roc_auc_vec,
@@ -678,7 +685,8 @@ test_that("prob_metric_summarizer()'s errors when wrong things are passes", {
     )
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     prob_metric_summarizer(
       name = "roc_auc",
       fn = roc_auc_vec,
@@ -688,7 +696,8 @@ test_that("prob_metric_summarizer()'s errors when wrong things are passes", {
     )
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     prob_metric_summarizer(
       name = "roc_auc",
       fn = roc_auc_vec,
@@ -698,7 +707,6 @@ test_that("prob_metric_summarizer()'s errors when wrong things are passes", {
       obviouslywrong = TRUE
     )
   )
-
 })
 
 test_that("prob_metric_summarizer() deals with characters in truth", {
@@ -811,8 +819,9 @@ test_that("curve_metric_summarizer() works with grouped input", {
 test_that("class_metric_summarizer()'s event_level works as expected", {
   hpc_f1 <- data_hpc_fold1()
   hpc_f1$obs <- factor(hpc_f1$obs == "VF",
-                       levels = c(TRUE, FALSE),
-                       labels = c("VF", "nVF"))
+    levels = c(TRUE, FALSE),
+    labels = c("VF", "nVF")
+  )
 
   first_res <- curve_metric_summarizer(
     name = "gain_capture",
@@ -928,37 +937,39 @@ test_that("curve_metric_summarizer()'s case_weights argument work", {
 test_that("curve_metric_summarizer()'s errors when wrong things are passes", {
   hpc_f1 <- data_hpc_fold1()
 
-  expect_snapshot(error = TRUE,
-                  curve_metric_summarizer(
-                    name = "roc_curve",
-                    fn = roc_curve_vec,
-                    data = hpc_f1,
-                    truth = obs,
-                    c(HELLO, F, M, L)
-                  )
+  expect_snapshot(
+    error = TRUE,
+    curve_metric_summarizer(
+      name = "roc_curve",
+      fn = roc_curve_vec,
+      data = hpc_f1,
+      truth = obs,
+      c(HELLO, F, M, L)
+    )
   )
 
-  expect_snapshot(error = TRUE,
-                  curve_metric_summarizer(
-                    name = "roc_curve",
-                    fn = roc_curve_vec,
-                    data = hpc_f1,
-                    truth = obviouslywrong,
-                    VF:L
-                  )
+  expect_snapshot(
+    error = TRUE,
+    curve_metric_summarizer(
+      name = "roc_curve",
+      fn = roc_curve_vec,
+      data = hpc_f1,
+      truth = obviouslywrong,
+      VF:L
+    )
   )
 
-  expect_snapshot(error = TRUE,
-                  curve_metric_summarizer(
-                    name = "roc_curve",
-                    fn = roc_curve_vec,
-                    data = hpc_f1,
-                    truth = obs,
-                    VF:L,
-                    obviouslywrong = TRUE
-                  )
+  expect_snapshot(
+    error = TRUE,
+    curve_metric_summarizer(
+      name = "roc_curve",
+      fn = roc_curve_vec,
+      data = hpc_f1,
+      truth = obs,
+      VF:L,
+      obviouslywrong = TRUE
+    )
   )
-
 })
 
 test_that("curve_metric_summarizer() deals with characters in truth", {

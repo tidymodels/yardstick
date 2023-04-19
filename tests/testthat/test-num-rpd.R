@@ -1,4 +1,4 @@
-test_that('rpd', {
+test_that("rpd", {
   ex_dat <- generate_numeric_test_data()
   not_na <- !is.na(ex_dat$pred_na)
 

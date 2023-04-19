@@ -1,7 +1,7 @@
-test_that('poisson log-loss', {
+test_that("poisson log-loss", {
   count_results <- data_counts()$basic
   count_missing <- data_counts()$missing
-  count_poor    <- data_counts()$poor
+  count_poor <- data_counts()$poor
 
   expect_equal(
     poisson_log_loss(count_results, count, pred)[[".estimate"]],

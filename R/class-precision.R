@@ -74,10 +74,10 @@ precision.data.frame <- function(data,
 }
 
 #' @export
-precision.table <- function (data,
-                             estimator = NULL,
-                             event_level = yardstick_event_level(),
-                             ...) {
+precision.table <- function(data,
+                            estimator = NULL,
+                            event_level = yardstick_event_level(),
+                            ...) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -128,7 +128,7 @@ precision_vec <- function(truth,
 }
 
 precision_table_impl <- function(data, estimator, event_level) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     precision_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
@@ -169,7 +169,7 @@ precision_multiclass <- function(data, estimator) {
   }
 
   # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
-  if(is_micro(estimator)) {
+  if (is_micro(estimator)) {
     numer <- sum(numer, na.rm = TRUE)
     denom <- sum(denom, na.rm = TRUE)
   }

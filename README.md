@@ -59,9 +59,9 @@ metrics(two_class_example, truth, predicted)
 #> 1 accuracy binary         0.838
 #> 2 kap      binary         0.675
 
-# or 
+# or
 
-two_class_example %>% 
+two_class_example %>%
   roc_auc(truth, Class1)
 #> # A tibble: 1 × 3
 #>   .metric .estimator .estimate
@@ -91,7 +91,7 @@ hpc_cv
 #>  8 VF    VF    0.918 0.0744 0.00726 0.0000157  Fold01  
 #>  9 VF    VF    0.843 0.128  0.0296  0.000192   Fold01  
 #> 10 VF    VF    0.920 0.0728 0.00703 0.0000147  Fold01  
-#> # … with 3,457 more rows
+#> # ℹ 3,457 more rows
 ```
 
 ``` r

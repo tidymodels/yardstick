@@ -23,7 +23,7 @@ test_that("roc_curve_auc() calculations", {
 
 # self checking ----------------------------------------------------------------
 
-test_that('snapshot equivalent', {
+test_that("snapshot equivalent", {
   snapshot_res <- readRDS(test_path("data/ref_roc_auc_survival.rds"))
 
   yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
@@ -45,7 +45,7 @@ test_that('snapshot equivalent', {
 
 # riskRegression compare -------------------------------------------------------
 
-test_that('riskRegression equivalent', {
+test_that("riskRegression equivalent", {
   riskRegression_res <- readRDS(test_path("data/auc_churn_res.rds"))
 
   yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%

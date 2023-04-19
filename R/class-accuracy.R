@@ -105,4 +105,3 @@ accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...
 accuracy_table_impl <- function(x) {
   sum(diag(x)) / sum(x)
 }
-

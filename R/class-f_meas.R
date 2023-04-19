@@ -72,11 +72,11 @@ f_meas.data.frame <- function(data,
 }
 
 #' @export
-f_meas.table <- function (data,
-                          beta = 1,
-                          estimator = NULL,
-                          event_level = yardstick_event_level(),
-                          ...) {
+f_meas.table <- function(data,
+                         beta = 1,
+                         estimator = NULL,
+                         event_level = yardstick_event_level(),
+                         ...) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -129,7 +129,7 @@ f_meas_vec <- function(truth,
 }
 
 f_meas_table_impl <- function(data, estimator, event_level, beta) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     f_meas_binary(data, event_level, beta)
   } else {
     w <- get_weights(data, estimator)
@@ -143,18 +143,18 @@ f_meas_binary <- function(data, event_level, beta = 1) {
   rec <- recall_binary(data, event_level)
 
   # if precision and recall are both 0, return 0 not NA
-  if(isTRUE(precision == 0 & rec == 0)) {
+  if (isTRUE(precision == 0 & rec == 0)) {
     return(0)
   }
 
-  (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
+  (1 + beta^2) * precision * rec / ((beta^2 * precision) + rec)
 }
 
 f_meas_multiclass <- function(data, estimator, beta = 1) {
   precision <- precision_multiclass(data, estimator)
   rec <- recall_multiclass(data, estimator)
 
-  res <- (1 + beta ^ 2) * precision * rec / ((beta ^ 2 * precision) + rec)
+  res <- (1 + beta^2) * precision * rec / ((beta^2 * precision) + rec)
 
   # if precision and recall are both 0, define this as 0 not NA
   # this is the case when tp == 0 and is well defined

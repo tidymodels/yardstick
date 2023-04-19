@@ -167,8 +167,7 @@ gain_curve_estimator_impl <- function(truth,
                                       case_weights) {
   if (is_binary(estimator)) {
     gain_curve_binary(truth, estimate, event_level, case_weights)
-  }
-  else {
+  } else {
     gain_curve_multiclass(truth, estimate, case_weights)
   }
 }
@@ -238,7 +237,7 @@ gain_curve_binary_impl <- function(truth,
   cumulative_found <- c(0, cumulative_found)
   cumulative_tested <- c(0, cumulative_tested)
   cumulative_percent_tested <- c(0, cumulative_percent_tested)
-  cumulative_percent_found  <- c(0, cumulative_percent_found)
+  cumulative_percent_found <- c(0, cumulative_percent_found)
 
   list(
     .n = cumulative_tested,
@@ -253,7 +252,6 @@ gain_curve_binary_impl <- function(truth,
 # dynamically exported in .onLoad()
 
 autoplot.gain_df <- function(object, ...) {
-
   `%+%` <- ggplot2::`%+%`
   `%>%` <- dplyr::`%>%`
 
@@ -262,27 +260,23 @@ autoplot.gain_df <- function(object, ...) {
 
   # Grouped specific chart features
   if (dplyr::is_grouped_df(object)) {
-
     # Construct the color interaction group
     grps <- dplyr::groups(object)
     interact_expr <- list(
-      color = expr(interaction(!!! grps, sep = "_"))
+      color = expr(interaction(!!!grps, sep = "_"))
     )
 
     # Add group legend label
     grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
     chart <- chart %+%
       ggplot2::labs(color = grps_chr)
-
-  }
-  else {
+  } else {
     interact_expr <- list()
   }
 
   # Generic enough to be used in the pipe chain
   # for multiclass and binary curves
   maybe_group_by_level <- function(object, with_old = TRUE) {
-
     if (with_old) {
       grps <- dplyr::groups(object)
     } else {
@@ -292,7 +286,7 @@ autoplot.gain_df <- function(object, ...) {
     if (".level" %in% colnames(object)) {
       # .level should be the first group b/c of how summarise()
       # drops a group
-      object <- dplyr::group_by(object, .level, !!! grps)
+      object <- dplyr::group_by(object, .level, !!!grps)
     }
     object
   }
@@ -340,7 +334,7 @@ autoplot.gain_df <- function(object, ...) {
       mapping = ggplot2::aes(
         x = !!.percent_tested,
         y = !!.percent_found,
-        !!! interact_expr
+        !!!interact_expr
       ),
       data = object
     ) %+%

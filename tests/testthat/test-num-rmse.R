@@ -1,4 +1,4 @@
-test_that('rmse', {
+test_that("rmse", {
   ex_dat <- generate_numeric_test_data()
   not_na <- !is.na(ex_dat$pred_na)
 
@@ -21,7 +21,7 @@ test_that("Weighted results are the same as scikit-learn", {
   )
 })
 
-test_that('Integer columns are allowed (#44)', {
+test_that("Integer columns are allowed (#44)", {
   ex_dat <- generate_numeric_test_data()
   ex_dat$obs <- as.integer(ex_dat$obs)
 

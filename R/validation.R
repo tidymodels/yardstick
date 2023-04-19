@@ -75,11 +75,13 @@ validate_factor_truth_factor_estimate <- function(truth,
   n_estimate <- length(estimate)
 
   if (n_truth != n_estimate) {
-    abort(paste0(
-      "Length of `truth` (", n_truth, ") ",
-      "and `estimate` (", n_estimate, ") must match."
-    ),
-    call = call)
+    abort(
+      paste0(
+        "Length of `truth` (", n_truth, ") ",
+        "and `estimate` (", n_estimate, ") must match."
+      ),
+      call = call
+    )
   }
 }
 
@@ -161,7 +163,7 @@ validate_surv_truth_list_estimate <- function(truth,
     abort("All elements of `estimate` should be data.frames.", call = call)
   }
 
-  valid_names <- c(".eval_time", ".pred_survival",".weight_censored")
+  valid_names <- c(".eval_time", ".pred_survival", ".weight_censored")
   has_names <- vapply(
     estimate,
     function(x) all(valid_names %in% names(x)),
@@ -221,7 +223,9 @@ validate_surv_truth_numeric_estimate <- function(truth,
 }
 
 validate_binary_estimator <- function(truth, estimator, call = caller_env()) {
-  if (estimator != "binary") return()
+  if (estimator != "binary") {
+    return()
+  }
 
   lvls <- levels(truth)
   if (length(lvls) != 2) {
@@ -246,15 +250,13 @@ validate_binary_estimator <- function(truth, estimator, call = caller_env()) {
 validate_estimator <- function(estimator,
                                estimator_override = NULL,
                                call = caller_env()) {
-
-  if(is.null(estimator)) {
+  if (is.null(estimator)) {
     return()
   }
 
   if (!is.null(estimator_override)) {
     allowed <- estimator_override
-  }
-  else {
+  } else {
     allowed <- c("binary", "macro", "micro", "macro_weighted")
   }
 
@@ -279,7 +281,6 @@ validate_estimator <- function(estimator,
       ". Not ", dQuote(estimator), "."
     ), call = call)
   }
-
 }
 
 validate_case_weights <- function(case_weights, size, call = caller_env()) {

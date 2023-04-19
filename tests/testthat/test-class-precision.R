@@ -1,19 +1,19 @@
-test_that('Two class - Powers paper', {
+test_that("Two class - Powers paper", {
   lst <- data_powers()
   tabl_2_1 <- lst$tabl_2_1
   df_2_1 <- lst$df_2_1
 
   expect_equal(
     precision(df_2_1, truth = "truth", estimate = "prediction")[[".estimate"]],
-    30/42
+    30 / 42
   )
   expect_equal(
     precision(tabl_2_1)[[".estimate"]],
-    30/42
+    30 / 42
   )
   expect_equal(
     precision(df_2_1, truth = truth, estimate = pred_na)[[".estimate"]],
-    26/37
+    26 / 37
   )
 })
 
@@ -65,7 +65,7 @@ test_that("Multiclass `precision()` returns averaged value with `NA`s removed + 
   estimate <- factor(c("a", "d", "b"), levels)
 
   expect_snapshot(out <- precision_vec(truth, estimate))
-  expect_identical(out, 1/3)
+  expect_identical(out, 1 / 3)
 })
 
 test_that("`NA` is still returned if there are some undefined precision values but `na.rm = FALSE`", {
@@ -106,7 +106,7 @@ test_that("work with class_pred input", {
 
 # sklearn compare --------------------------------------------------------------
 
-test_that('Two class - sklearn equivalent', {
+test_that("Two class - sklearn equivalent", {
   py_res <- read_pydata("py-precision")
   r_metric <- precision
 
@@ -116,7 +116,7 @@ test_that('Two class - sklearn equivalent', {
   )
 })
 
-test_that('Multi class - sklearn equivalent', {
+test_that("Multi class - sklearn equivalent", {
   py_res <- read_pydata("py-precision")
   r_metric <- precision
 
@@ -134,7 +134,7 @@ test_that('Multi class - sklearn equivalent', {
   )
 })
 
-test_that('Two class case weighted - sklearn equivalent', {
+test_that("Two class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-precision")
   r_metric <- precision
 
@@ -146,7 +146,7 @@ test_that('Two class case weighted - sklearn equivalent', {
   )
 })
 
-test_that('Multi class case weighted - sklearn equivalent', {
+test_that("Multi class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-precision")
   r_metric <- precision
 

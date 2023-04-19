@@ -23,7 +23,6 @@ weights_two_class_example <- read_weights_two_class_example()
 weights_solubility_test <- read_weights_solubility_test()
 
 save_metric_results <- function(nm, fn, ..., average = c("macro", "micro", "weighted")) {
-
   # Two class metrics
   res <- list(fn(two_class_example$truth, two_class_example$predicted, ..., pos_label = "Class1"))
 
@@ -148,7 +147,7 @@ saveRDS(py_mae, test_path("py-data", "py-mae.rds"), version = 2)
 # MAPE
 # (Zeros purposefully cause infinite results in our R metrics, see #271)
 zero_solubility <- solubility_test$solubility == 0
-solubility_test_not_zero <- solubility_test[!zero_solubility,]
+solubility_test_not_zero <- solubility_test[!zero_solubility, ]
 py_mape <- list(
   case_weight = skmetrics$mean_absolute_percentage_error(
     y_true = solubility_test_not_zero$solubility,
@@ -267,7 +266,7 @@ make_py_two_class_pr_curve <- function(case_weights) {
   curve <- dplyr::select(curve, .threshold, recall, precision)
 
   # Reverse rows to match yardstick
-  curve <- curve[rev(seq_len(nrow(curve))),]
+  curve <- curve[rev(seq_len(nrow(curve))), ]
 
   class(curve) <- c("pr_df", class(curve))
 

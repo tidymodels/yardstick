@@ -56,7 +56,7 @@
 #' # event of interest. The class probability columns should be supplied
 #' # in the same order as the levels.
 #' hpc_cv %>%
-#'  filter(Resample == "Fold01") %>%
+#'   filter(Resample == "Fold01") %>%
 #'   mutate(obs = relevel(obs, "M")) %>%
 #'   roc_aunu(obs, M, VF:L)
 #'
@@ -88,12 +88,12 @@ roc_aunu <- new_prob_metric(
 
 #' @export
 #' @rdname roc_aunu
-roc_aunu.data.frame  <- function(data,
-                                 truth,
-                                 ...,
-                                 na_rm = TRUE,
-                                 case_weights = NULL,
-                                 options = list()) {
+roc_aunu.data.frame <- function(data,
+                                truth,
+                                ...,
+                                na_rm = TRUE,
+                                case_weights = NULL,
+                                options = list()) {
   check_roc_options_deprecated("roc_aunu", options)
 
   prob_metric_summarizer(

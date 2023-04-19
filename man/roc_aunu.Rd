@@ -105,7 +105,7 @@ hpc_cv \%>\%
 # event of interest. The class probability columns should be supplied
 # in the same order as the levels.
 hpc_cv \%>\%
- filter(Resample == "Fold01") \%>\%
+  filter(Resample == "Fold01") \%>\%
   mutate(obs = relevel(obs, "M")) \%>\%
   roc_aunu(obs, M, VF:L)
 

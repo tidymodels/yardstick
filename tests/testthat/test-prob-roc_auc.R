@@ -1,4 +1,4 @@
-test_that('Two class', {
+test_that("Two class", {
   # roc_curv <- pROC::roc(
   #   two_class_example$truth,
   #   two_class_example$Class1,
@@ -119,8 +119,8 @@ test_that("equivalent of `direction = <` is forced when individual binary AUCs a
   )
 
   estimate <- c(
-    c(c(0.5, 0.4, 0.8, 0.5, 0.8, 1, 0.8, 0, 0.5, 2/3, 0, 1, 0.4, 1/6, 0.4, 0.8, 0.5, 0.6)),
-    c(0, 0.2, 0, 0, 0, 0, 0, 0.6, 0, 1/3, 0, 0, 0, 5/6, 0.6, 0, 0, 0),
+    c(c(0.5, 0.4, 0.8, 0.5, 0.8, 1, 0.8, 0, 0.5, 2 / 3, 0, 1, 0.4, 1 / 6, 0.4, 0.8, 0.5, 0.6)),
+    c(0, 0.2, 0, 0, 0, 0, 0, 0.6, 0, 1 / 3, 0, 0, 0, 5 / 6, 0.6, 0, 0, 0),
     c(0, 0.2, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     c(0.5, 0.2, 0.2, 0.5, 0.2, 0, 0.2, 0.2, 0.5, 0, 1, 0, 0.6, 0, 0, 0.2, 0.5, 0.4)
   )
@@ -278,27 +278,27 @@ test_that("can't use case weights and hand-till method", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Two class ROC AUC matches sklearn', {
+test_that("Two class ROC AUC matches sklearn", {
   sklearn <- read_pydata("py-roc-auc")
 
   expect_equal(
-    roc_auc(two_class_example, truth,  Class1)[[".estimate"]],
+    roc_auc(two_class_example, truth, Class1)[[".estimate"]],
     sklearn$binary
   )
 })
 
-test_that('Two class weighted ROC AUC matches sklearn', {
+test_that("Two class weighted ROC AUC matches sklearn", {
   sklearn <- read_pydata("py-roc-auc")
 
   two_class_example$weight <- read_weights_two_class_example()
 
   expect_equal(
-    roc_auc(two_class_example, truth,  Class1, case_weights = weight)[[".estimate"]],
+    roc_auc(two_class_example, truth, Class1, case_weights = weight)[[".estimate"]],
     sklearn$case_weight$binary
   )
 })
 
-test_that('Multiclass ROC AUC matches sklearn', {
+test_that("Multiclass ROC AUC matches sklearn", {
   sklearn <- read_pydata("py-roc-auc")
 
   expect_equal(
@@ -315,7 +315,7 @@ test_that('Multiclass ROC AUC matches sklearn', {
   )
 })
 
-test_that('Multiclass weighted ROC AUC matches sklearn', {
+test_that("Multiclass weighted ROC AUC matches sklearn", {
   sklearn <- read_pydata("py-roc-auc")
 
   hpc_cv$weight <- read_weights_hpc_cv()
@@ -338,7 +338,7 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
 
-  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),]
+  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight), ]
 
   expect_identical(
     roc_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro"),

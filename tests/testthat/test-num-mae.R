@@ -1,4 +1,4 @@
-test_that('mean absolute error', {
+test_that("mean absolute error", {
   ex_dat <- generate_numeric_test_data()
   not_na <- !is.na(ex_dat$pred_na)
 

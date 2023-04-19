@@ -17,7 +17,7 @@
 resample_idx <- readRDS(test_path("data/test_autoplot.rds"))
 
 two_class_resamples <- dplyr::bind_rows(
-  lapply(resample_idx, function(idx) two_class_example[idx,]),
+  lapply(resample_idx, function(idx) two_class_example[idx, ]),
   .id = "Resample"
 ) %>%
   dplyr::group_by(Resample)
@@ -105,7 +105,6 @@ test_that("PR Curve - two class", {
   # x and y data
   expect_equal(res$recall, .plot_data$data[[1]]$x)
   expect_equal(res$precision, .plot_data$data[[1]]$y)
-
 })
 
 test_that("PR Curve - two class, with resamples", {
@@ -171,7 +170,6 @@ test_that("Gain Curve - two class", {
 
   # polygon "perfect" corner
   expect_equal(.plot_data$data[[1]]$x[2], 51.6)
-
 })
 
 test_that("Gain Curve - two class, with resamples", {
@@ -189,7 +187,7 @@ test_that("Gain Curve - two class, with resamples", {
   expect_equal(length(unique(.plot_data$data[[2]]$colour)), 10)
 
   # polygon "perfect" corner (min of the resamples)
-  expect_equal(.plot_data$data[[1]]$x[2], 43 + 2/3)
+  expect_equal(.plot_data$data[[1]]$x[2], 43 + 2 / 3)
 })
 
 test_that("Gain Curve - multi class", {
@@ -245,7 +243,7 @@ test_that("Lift Curve - two class", {
   .plot_data <- ggplot2::ggplot_build(.plot)
 
   # first row has NA and is removed
-  res <- res[-1,]
+  res <- res[-1, ]
 
   # 1 row removed
   expect_equal(nrow(.plot_data$data[[1]]), 500)
@@ -256,7 +254,6 @@ test_that("Lift Curve - two class", {
 
   # horizontal line
   expect_equal(.plot_data$data[[2]]$x, c(0, 100))
-
 })
 
 test_that("Lift Curve - two class, with resamples", {
@@ -278,7 +275,6 @@ test_that("Lift Curve - two class, with resamples", {
 
   # number of unique colors
   expect_equal(length(unique(.plot_data$data[[1]]$colour)), 10)
-
 })
 
 test_that("Lift Curve - multi class", {
@@ -293,7 +289,6 @@ test_that("Lift Curve - multi class", {
 
   # 4 panels
   expect_equal(length(unique(.plot_data$data[[1]]$PANEL)), 4)
-
 })
 
 test_that("Lift Curve - multi class, with resamples", {
@@ -412,6 +407,4 @@ test_that("Confusion Matrix - multi class - mosaic", {
 
   # panes
   expect_equal(nrow(.plot_data$data[[1]]), length(res$table))
-
 })
-

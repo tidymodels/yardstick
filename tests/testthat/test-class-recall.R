@@ -1,19 +1,19 @@
-test_that('Two class - Powers paper', {
+test_that("Two class - Powers paper", {
   lst <- data_powers()
   tabl_2_1 <- lst$tabl_2_1
   df_2_1 <- lst$df_2_1
 
   expect_equal(
     recall(df_2_1, truth = "truth", estimate = "prediction")[[".estimate"]],
-    30/60
+    30 / 60
   )
   expect_equal(
     recall(tabl_2_1)[[".estimate"]],
-    30/60
+    30 / 60
   )
   expect_equal(
     recall(df_2_1, truth = truth, estimate = pred_na)[[".estimate"]],
-    26/(26+29)
+    26 / (26 + 29)
   )
 })
 
@@ -35,7 +35,7 @@ test_that("`event_level = 'second'` works", {
 
 test_that("Binary `recall()` returns `NA` with a warning when undefined (tp + fn = 0) (#98)", {
   levels <- c("a", "b")
-  truth    <- factor(c("b", "b"), levels = levels)
+  truth <- factor(c("b", "b"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
 
   expect_snapshot(out <- recall_vec(truth, estimate))
@@ -49,7 +49,7 @@ test_that("Multiclass `recall()` returns averaged value with `NA`s removed + a w
   # When `a` is the event we get recall    = 1   = (tp = 1, fn = 0)
   # When `b` is the event we get a warning = NA  = (tp = 0, fn = 0)
   # When `c` is the event we get a warning = NA  = (tp = 0, fn = 0)
-  truth    <- factor(c("a", "d", "d"), levels = levels)
+  truth <- factor(c("a", "d", "d"), levels = levels)
   estimate <- factor(c("a", "d", "c"), levels = levels)
 
   expect_snapshot(out <- recall_vec(truth, estimate))
@@ -58,7 +58,7 @@ test_that("Multiclass `recall()` returns averaged value with `NA`s removed + a w
 
 test_that("`NA` is still returned if there are some undefined recall values but `na.rm = FALSE`", {
   levels <- c("a", "b", "c", "d")
-  truth    <- factor(c("a", "d", "d"), levels = levels)
+  truth <- factor(c("a", "d", "d"), levels = levels)
   estimate <- factor(c("a", NA, "c"), levels = levels)
   expect_equal(recall_vec(truth, estimate, na_rm = FALSE), NA_real_)
   expect_warning(recall_vec(truth, estimate, na_rm = FALSE), NA)
@@ -95,7 +95,7 @@ test_that("work with class_pred input", {
 
 # sklearn compare --------------------------------------------------------------
 
-test_that('Two class - sklearn equivalent', {
+test_that("Two class - sklearn equivalent", {
   py_res <- read_pydata("py-recall")
   r_metric <- recall
 
@@ -105,7 +105,7 @@ test_that('Two class - sklearn equivalent', {
   )
 })
 
-test_that('Multi class - sklearn equivalent', {
+test_that("Multi class - sklearn equivalent", {
   py_res <- read_pydata("py-recall")
   r_metric <- recall
 
@@ -123,7 +123,7 @@ test_that('Multi class - sklearn equivalent', {
   )
 })
 
-test_that('Two class case weighted - sklearn equivalent', {
+test_that("Two class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-recall")
   r_metric <- recall
 
@@ -135,7 +135,7 @@ test_that('Two class case weighted - sklearn equivalent', {
   )
 })
 
-test_that('Multi class case weighted - sklearn equivalent', {
+test_that("Multi class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-recall")
   r_metric <- recall
 
@@ -154,4 +154,3 @@ test_that('Multi class case weighted - sklearn equivalent', {
     py_res$case_weight$weighted
   )
 })
-

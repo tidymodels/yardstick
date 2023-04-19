@@ -77,7 +77,7 @@ test_that("binary - requires 1 column of probabilities", {
 
 test_that("multiclass - uses equal costs by default", {
   df <- data.frame(
-    obs  = factor(c("A", "A", "A", "B", "B", "C")),
+    obs = factor(c("A", "A", "A", "B", "B", "C")),
     A = c(1, .80, .51, .1, .2, .3),
     B = c(0, .05, .29, .8, .6, .3),
     C = c(0, .15, .20, .1, .2, .4)
@@ -97,22 +97,22 @@ test_that("multiclass - uses equal costs by default", {
 
 test_that("multiclass - respects user defined costs", {
   df <- data.frame(
-    obs  = factor(c("A", "A", "A", "B", "B", "C")),
+    obs = factor(c("A", "A", "A", "B", "B", "C")),
     A = c(1, .80, .51, .1, .2, .3),
     B = c(0, .05, .29, .8, .6, .3),
     C = c(0, .15, .20, .1, .2, .4)
   )
   costs <- dplyr::tribble(
     ~truth, ~estimate, ~cost,
-    "A",    "A",          0,
-    "A",    "B",          1,
-    "A",    "C",          2,
-    "B",    "A",          3,
-    "B",    "B",          0,
-    "B",    "C",          4,
-    "C",    "A",          5,
-    "C",    "B",          6,
-    "C",    "C",          0,
+    "A", "A", 0,
+    "A", "B", 1,
+    "A", "C", 2,
+    "B", "A", 3,
+    "B", "B", 0,
+    "B", "C", 4,
+    "C", "A", 5,
+    "C", "B", 6,
+    "C", "C", 0,
   )
 
   exp_cost <-
@@ -131,34 +131,34 @@ test_that("multiclass - respects user defined costs", {
 
 test_that("multiclass - fills in missing combinations with zero cost", {
   df <- data.frame(
-    obs  = factor(c("A", "A", "A", "B", "B", "C")),
+    obs = factor(c("A", "A", "A", "B", "B", "C")),
     A = c(1, .80, .51, .1, .2, .3),
     B = c(0, .05, .29, .8, .6, .3),
     C = c(0, .15, .20, .1, .2, .4)
   )
   costs_partial <- dplyr::tribble(
     ~truth, ~estimate, ~cost,
-    "A",    "A",          0,
-    #"A",    "B",          1,
-    "A",    "C",          2,
-    "B",    "A",          3,
-    #"B",    "B",          0,
-    "B",    "C",          4,
-    "C",    "A",          5,
-    #"C",    "B",          6,
-    "C",    "C",          0,
+    "A", "A", 0,
+    # "A",    "B",          1,
+    "A", "C", 2,
+    "B", "A", 3,
+    # "B",    "B",          0,
+    "B", "C", 4,
+    "C", "A", 5,
+    # "C",    "B",          6,
+    "C", "C", 0,
   )
   costs <- dplyr::tribble(
     ~truth, ~estimate, ~cost,
-    "A",    "A",          0,
-    "A",    "B",          0,
-    "A",    "C",          2,
-    "B",    "A",          3,
-    "B",    "B",          0,
-    "B",    "C",          4,
-    "C",    "A",          5,
-    "C",    "B",          0,
-    "C",    "C",          0,
+    "A", "A", 0,
+    "A", "B", 0,
+    "A", "C", 2,
+    "B", "A", 3,
+    "B", "B", 0,
+    "B", "C", 4,
+    "C", "A", 5,
+    "C", "B", 0,
+    "C", "C", 0,
   )
 
   expect_identical(
@@ -235,8 +235,8 @@ test_that("costs$truth, costs$estimate, and costs$cost must have the right type"
 
   costs <- dplyr::tribble(
     ~truth, ~estimate, ~cost,
-    1,    "B",       2,
-    2,    "A",       3
+    1, "B", 2,
+    2, "A", 3
   )
   expect_snapshot(
     error = TRUE,
@@ -245,8 +245,8 @@ test_that("costs$truth, costs$estimate, and costs$cost must have the right type"
 
   costs <- dplyr::tribble(
     ~truth, ~estimate, ~cost,
-    "A",    1,       2,
-    "B",    2,       3
+    "A", 1, 2,
+    "B", 2, 3
   )
   expect_snapshot(
     error = TRUE,
@@ -312,7 +312,7 @@ test_that("binary - uses case weights", {
 
 test_that("multiclass - uses case weights", {
   df <- data.frame(
-    obs  = factor(c("A", "A", "A", "B", "B", "C")),
+    obs = factor(c("A", "A", "A", "B", "B", "C")),
     A = c(1, .80, .51, .1, .2, .3),
     B = c(0, .05, .29, .8, .6, .3),
     C = c(0, .15, .20, .1, .2, .4),
@@ -320,15 +320,15 @@ test_that("multiclass - uses case weights", {
   )
   costs <- dplyr::tribble(
     ~truth, ~estimate, ~cost,
-    "A",    "A",          0,
-    "A",    "B",          1,
-    "A",    "C",          2,
-    "B",    "A",          3,
-    "B",    "B",          0,
-    "B",    "C",          4,
-    "C",    "A",          5,
-    "C",    "B",          6,
-    "C",    "C",          0,
+    "A", "A", 0,
+    "A", "B", 1,
+    "A", "C", 2,
+    "B", "A", 3,
+    "B", "B", 0,
+    "B", "C", 4,
+    "C", "A", 5,
+    "C", "B", 6,
+    "C", "C", 0,
   )
 
   exp_cost <-

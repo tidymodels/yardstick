@@ -1,4 +1,4 @@
-test_that('ppv', {
+test_that("ppv", {
   lst <- data_altman()
   pathology <- lst$pathology
   path_tbl <- lst$path_tbl
@@ -41,7 +41,7 @@ test_that("`event_level = 'second'` works", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Three class', {
+test_that("Three class", {
   multi_ex <- data_three_by_three()
   micro <- data_three_by_three_micro()
   micro$prev <- (micro$tp + micro$fn) / (micro$p + micro$n)
@@ -61,17 +61,19 @@ test_that('Three class', {
   )
   expect_equal(
     ppv(multi_ex, estimator = "micro")[[".estimate"]],
-    with(micro,
-         ((sum(tp) / sum(p)) * sum(prev)) /
-           ( (sum(tp) / sum(p)) * sum(prev) + ((1 - sum(tn) / sum(n)) * sum((1 - prev))) )
+    with(
+      micro,
+      ((sum(tp) / sum(p)) * sum(prev)) /
+        ((sum(tp) / sum(p)) * sum(prev) + ((1 - sum(tn) / sum(n)) * sum((1 - prev))))
     )
   )
   # Prevalence defined by the user. Defined once for all levels?
   expect_equal(
     ppv(multi_ex, estimator = "micro", prevalence = .4)[[".estimate"]],
-    with(micro,
-         ((sum(tp) / sum(p)) * sum(.4)) /
-           ( (sum(tp) / sum(p)) * sum(.4) + ((1 - sum(tn) / sum(n)) * sum((1 - .4))) )
+    with(
+      micro,
+      ((sum(tp) / sum(p)) * sum(.4)) /
+        ((sum(tp) / sum(p)) * sum(.4) + ((1 - sum(tn) / sum(n)) * sum((1 - .4))))
     )
   )
 })
@@ -80,7 +82,7 @@ test_that('Three class', {
 
 test_that("Binary `ppv()` returns `NA` with a warning when `sens()` is undefined (tp + fn = 0) (#101)", {
   levels <- c("a", "b")
-  truth    <- factor(c("b", "b"), levels = levels)
+  truth <- factor(c("b", "b"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
 
   expect_snapshot(
@@ -92,7 +94,7 @@ test_that("Binary `ppv()` returns `NA` with a warning when `sens()` is undefined
 
 # ------------------------------------------------------------------------------
 
-test_that('Two class weighted - sklearn equivalent', {
+test_that("Two class weighted - sklearn equivalent", {
   py_res <- read_pydata("py-ppv")
   r_metric <- ppv
 
@@ -104,7 +106,7 @@ test_that('Two class weighted - sklearn equivalent', {
   )
 })
 
-test_that('Multi class weighted - sklearn equivalent', {
+test_that("Multi class weighted - sklearn equivalent", {
   py_res <- read_pydata("py-ppv")
   r_metric <- ppv
 

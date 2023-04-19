@@ -138,7 +138,7 @@ brier_ind <- function(truth, estimate, case_weights = NULL) {
   }
 
   not_missing <- !is.na(case_weights)
-  resids <- resids[not_missing,, drop = FALSE]
+  resids <- resids[not_missing, , drop = FALSE]
   case_weights <- case_weights[not_missing]
 
   # Normalize weights (in case negative weights)
@@ -154,4 +154,3 @@ brier_factor <- function(truth, estimate, case_weights = NULL) {
 
   brier_ind(inds, estimate, case_weights)
 }
-

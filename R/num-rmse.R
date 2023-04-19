@@ -87,6 +87,6 @@ rmse_vec <- function(truth,
 }
 
 rmse_impl <- function(truth, estimate, case_weights) {
-  errors <- (truth - estimate) ^ 2
+  errors <- (truth - estimate)^2
   sqrt(yardstick_mean(errors, case_weights = case_weights))
 }

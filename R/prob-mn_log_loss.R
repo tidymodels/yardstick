@@ -56,17 +56,17 @@
 #'   filter(Resample == "Fold01")
 #'
 #' mn_log_loss_vec(
-#'    truth = fold1$obs,
-#'    matrix(
-#'      c(fold1$VF, fold1$F, fold1$M, fold1$L),
-#'      ncol = 4
-#'    )
+#'   truth = fold1$obs,
+#'   matrix(
+#'     c(fold1$VF, fold1$F, fold1$M, fold1$L),
+#'     ncol = 4
+#'   )
 #' )
 #'
 #' # Supply `...` with quasiquotation
 #' prob_cols <- levels(two_class_example$truth)
 #' mn_log_loss(two_class_example, truth, Class1)
-#' mn_log_loss(two_class_example, truth, !! prob_cols[1])
+#' mn_log_loss(two_class_example, truth, !!prob_cols[1])
 #'
 #' @export
 mn_log_loss <- function(data, ...) {
@@ -149,8 +149,7 @@ mn_log_loss_estimator_impl <- function(truth,
       sum = sum,
       case_weights = case_weights
     )
-  }
-  else {
+  } else {
     mn_log_loss_multiclass(
       truth = truth,
       estimate = estimate,

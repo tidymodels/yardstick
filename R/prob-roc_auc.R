@@ -276,8 +276,8 @@ roc_auc_adjust_result_estimator <- function(out,
   # `case_weights` just for this one metric, and that seemed like too much work.
   automatically_chose_hand_till_but_also_used_case_weights <-
     is.null(estimator) &&
-    !quo_is_null(case_weights_quo) &&
-    identical(out[[".estimator"]][[1]], "hand_till")
+      !quo_is_null(case_weights_quo) &&
+      identical(out[[".estimator"]][[1]], "hand_till")
 
   if (automatically_chose_hand_till_but_also_used_case_weights) {
     # `roc_auc_vec()` actually "automatically" used `"macro"` weighting here
@@ -329,13 +329,13 @@ roc_auc_hand_till <- function(truth, estimate) {
 
   sum_val <- 0
 
-  for(i_lvl in lvls) {
+  for (i_lvl in lvls) {
     # Double sum:
     # (sum i<j)
     cutpoint <- which(lvls == i_lvl)
     j_lvls <- lvls[-seq_len(cutpoint)]
 
-    for(j_lvl in j_lvls) {
+    for (j_lvl in j_lvls) {
       A_hat_i_given_j <- roc_auc_subset(i_lvl, j_lvl, truth, estimate)
       A_hat_j_given_i <- roc_auc_subset(j_lvl, i_lvl, truth, estimate)
 

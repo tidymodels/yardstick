@@ -1,4 +1,4 @@
-test_that('brier_survival_integrated calculations', {
+test_that("brier_survival_integrated calculations", {
   lung_surv <- data_lung_surv()
 
   brier_res <- brier_survival(
@@ -22,7 +22,7 @@ test_that('brier_survival_integrated calculations', {
   )
 })
 
-test_that('case weights', {
+test_that("case weights", {
   lung_surv <- data_lung_surv()
   lung_surv$case_wts <- seq_len(nrow(lung_surv))
 

@@ -193,7 +193,6 @@ pr_curve_multiclass <- function(truth, estimate, case_weights) {
 
 # Dynamically exported
 autoplot.pr_df <- function(object, ...) {
-
   `%+%` <- ggplot2::`%+%`
 
   # Base chart
@@ -201,30 +200,25 @@ autoplot.pr_df <- function(object, ...) {
 
   # Add in group interactions if required
   if (inherits(object, "grouped_pr_df")) {
-
     grps <- dplyr::groups(object)
 
     grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
 
     interact_expr <- list(
-      color = expr(interaction(!!! grps, sep = "_"))
+      color = expr(interaction(!!!grps, sep = "_"))
     )
 
     pr_chart <- pr_chart %+%
       ggplot2::labs(color = grps_chr)
-
-  }
-  else {
-
+  } else {
     interact_expr <- list()
-
   }
 
   # splice in the group interactions, or do nothing
   aes_spliced <- ggplot2::aes(
     x = recall,
     y = precision,
-    !!! interact_expr
+    !!!interact_expr
   )
 
   # build the graph

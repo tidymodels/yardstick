@@ -1,5 +1,4 @@
 test_that("known corner cases are correct", {
-
   # first value - tp = 1
   truth <- factor("a", levels = c("a", "b"))
   estimate <- .9
@@ -45,27 +44,27 @@ test_that("`event_level = 'second'` works", {
   )
 })
 
-test_that('Two class average precision matches sklearn', {
+test_that("Two class average precision matches sklearn", {
   py <- read_pydata("py-average-precision")
 
   expect_equal(
-    average_precision(two_class_example, truth,  Class1)[[".estimate"]],
+    average_precision(two_class_example, truth, Class1)[[".estimate"]],
     py$binary
   )
 })
 
-test_that('Two class weighted average precision matches sklearn', {
+test_that("Two class weighted average precision matches sklearn", {
   py <- read_pydata("py-average-precision")
 
   two_class_example$weight <- read_weights_two_class_example()
 
   expect_equal(
-    average_precision(two_class_example, truth,  Class1, case_weights = weight)[[".estimate"]],
+    average_precision(two_class_example, truth, Class1, case_weights = weight)[[".estimate"]],
     py$case_weight$binary
   )
 })
 
-test_that('Multiclass average precision matches sklearn', {
+test_that("Multiclass average precision matches sklearn", {
   py <- read_pydata("py-average-precision")
 
   expect_equal(
@@ -78,7 +77,7 @@ test_that('Multiclass average precision matches sklearn', {
   )
 })
 
-test_that('Multiclass weighted average precision matches sklearn', {
+test_that("Multiclass weighted average precision matches sklearn", {
   py <- read_pydata("py-average-precision")
 
   hpc_cv$weight <- read_weights_hpc_cv()

@@ -75,7 +75,6 @@ roc_auc_survival.data.frame <- function(data,
                                         ...,
                                         na_rm = TRUE,
                                         case_weights = NULL) {
-
   dynamic_survival_metric_summarizer(
     name = "roc_auc_survival",
     fn = roc_auc_survival_vec,

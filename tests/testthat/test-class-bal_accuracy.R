@@ -1,19 +1,19 @@
-test_that('Two class', {
+test_that("Two class", {
   lst <- data_altman()
   pathology <- lst$pathology
   path_tbl <- lst$path_tbl
 
   expect_equal(
     bal_accuracy(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
-    ( sens(path_tbl)[[".estimate"]] + spec(path_tbl)[[".estimate"]] )/2
+    (sens(path_tbl)[[".estimate"]] + spec(path_tbl)[[".estimate"]]) / 2
   )
   expect_equal(
     bal_accuracy(path_tbl)[[".estimate"]],
-    ( sens(path_tbl)[[".estimate"]] + spec(path_tbl)[[".estimate"]] )/2
+    (sens(path_tbl)[[".estimate"]] + spec(path_tbl)[[".estimate"]]) / 2
   )
   expect_equal(
     bal_accuracy(pathology, pathology, scan)[[".estimate"]],
-    ( sens(path_tbl)[[".estimate"]] + spec(path_tbl)[[".estimate"]] )/2
+    (sens(path_tbl)[[".estimate"]] + spec(path_tbl)[[".estimate"]]) / 2
   )
 })
 
@@ -30,7 +30,7 @@ test_that("`event_level = 'second'` should be identical to 'first'", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Three class', {
+test_that("Three class", {
   multi_ex <- data_three_by_three()
   micro <- data_three_by_three_micro()
 
@@ -78,7 +78,7 @@ test_that("work with class_pred input", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Two class weighted - sklearn equivalent', {
+test_that("Two class weighted - sklearn equivalent", {
   py_res <- read_pydata("py-bal-accuracy")
   r_metric <- bal_accuracy
 

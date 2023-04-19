@@ -1,4 +1,4 @@
-test_that('Huber Loss', {
+test_that("Huber Loss", {
   ex_dat <- generate_numeric_test_data()
   not_na <- !is.na(ex_dat$pred_na)
 
@@ -10,8 +10,9 @@ test_that('Huber Loss', {
       a <- ex_dat$obs - ex_dat$pred
       mean(
         ifelse(abs(a) <= delta,
-               0.5 * a^2,
-               delta * (abs(a) - 0.5 * delta))
+          0.5 * a^2,
+          delta * (abs(a) - 0.5 * delta)
+        )
       )
     }
   )
@@ -22,8 +23,9 @@ test_that('Huber Loss', {
       a <- ex_dat$obs[not_na] - ex_dat$pred[not_na]
       mean(
         ifelse(abs(a) <= delta,
-               0.5 * a^2,
-               delta * (abs(a) - 0.5 * delta))
+          0.5 * a^2,
+          delta * (abs(a) - 0.5 * delta)
+        )
       )
     }
   )
@@ -35,7 +37,7 @@ test_that('Huber Loss', {
 
   expect_snapshot(
     error = TRUE,
-    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1,2))
+    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1, 2))
   )
 })
 

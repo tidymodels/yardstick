@@ -100,7 +100,8 @@ test_that("metric_summarizer()'s case_weights argument work", {
 
 test_that("metric_summarizer()'s errors when wrong things are passes", {
   local_options(lifecycle_verbosity = "quiet")
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     metric_summarizer(
       metric_nm = "rmse",
       metric_fn = rmse_vec,
@@ -110,7 +111,8 @@ test_that("metric_summarizer()'s errors when wrong things are passes", {
     )
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     metric_summarizer(
       metric_nm = "rmse",
       metric_fn = rmse_vec,

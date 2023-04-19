@@ -4,7 +4,7 @@ path_tbl <- lst$path_tbl
 
 ###################################################################
 
-test_that('switch event definition', {
+test_that("switch event definition", {
   rlang::local_options(
     yardstick.event_first = FALSE,
     lifecycle_verbosity = "quiet"
@@ -12,23 +12,23 @@ test_that('switch event definition', {
 
   expect_equal(
     sens(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
-    77/86
+    77 / 86
   )
   expect_equal(
     sens(path_tbl)[[".estimate"]],
-    77/86
+    77 / 86
   )
   expect_equal(
     spec(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
-    162/258
+    162 / 258
   )
   expect_equal(
     spec(path_tbl)[[".estimate"]],
-    162/258
+    162 / 258
   )
   expect_equal(
     j_index(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
-    (162/258) + (77/86)  - 1
+    (162 / 258) + (77 / 86) - 1
   )
   expect_equal(
     mcc(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
@@ -36,7 +36,7 @@ test_that('switch event definition', {
   )
 })
 
-test_that('global option is ignored in multiclass metrics', {
+test_that("global option is ignored in multiclass metrics", {
   rlang::local_options(lifecycle_verbosity = "quiet")
 
   expect_equal(
@@ -283,5 +283,4 @@ test_that('global option is ignored in multiclass metrics', {
       yardstick.event_first = FALSE
     )
   )
-
 })

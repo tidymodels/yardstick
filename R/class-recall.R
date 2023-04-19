@@ -71,7 +71,6 @@ recall.data.frame <- function(data,
     case_weights = !!enquo(case_weights),
     event_level = event_level
   )
-
 }
 
 #' @export
@@ -129,7 +128,7 @@ recall_vec <- function(truth,
 }
 
 recall_table_impl <- function(data, estimator, event_level) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     recall_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
@@ -170,7 +169,7 @@ recall_multiclass <- function(data, estimator) {
   }
 
   # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
-  if(is_micro(estimator)) {
+  if (is_micro(estimator)) {
     numer <- sum(numer, na.rm = TRUE)
     denom <- sum(denom, na.rm = TRUE)
   }
@@ -227,4 +226,3 @@ warn_recall_undefined <- function(message, events, counts, ..., class = characte
     ...
   )
 }
-

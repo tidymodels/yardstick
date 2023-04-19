@@ -65,13 +65,13 @@ kap <- new_class_metric(
 
 #' @export
 #' @rdname kap
-kap.data.frame  <- function(data,
-                            truth,
-                            estimate,
-                            weighting = "none",
-                            na_rm = TRUE,
-                            case_weights = NULL,
-                            ...) {
+kap.data.frame <- function(data,
+                           truth,
+                           estimate,
+                           weighting = "none",
+                           na_rm = TRUE,
+                           case_weights = NULL,
+                           ...) {
   class_metric_summarizer(
     name = "kap",
     fn = kap_vec,
@@ -82,7 +82,6 @@ kap.data.frame  <- function(data,
     case_weights = !!enquo(case_weights),
     fn_options = list(weighting = weighting)
   )
-
 }
 
 #' @export
@@ -169,7 +168,7 @@ make_weighting_matrix <- function(weighting, n_levels, call = caller_env()) {
   # [n_levels x n_levels], 0 on diagonal, increasing weighting on off-diagonal
   w <- seq2(0L, n_levels - 1L)
   w <- matrix(w, nrow = n_levels, ncol = n_levels)
-  w <- abs(w - t(w)) ^ power
+  w <- abs(w - t(w))^power
 
   w
 }

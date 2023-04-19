@@ -1,8 +1,8 @@
-test_that('Mean Absolute Scaled Error', {
+test_that("Mean Absolute Scaled Error", {
   ex_dat <- generate_numeric_test_data()
 
   truth <- ex_dat$obs
-  pred  <- ex_dat$pred
+  pred <- ex_dat$pred
 
   truth_lag <- dplyr::lag(truth, 1L)
   naive_error <- truth - truth_lag
@@ -72,6 +72,6 @@ test_that("Weighted results are working", {
 
   expect_identical(
     mase_vec(truth, estimate, case_weights = weights),
-    5/4
+    5 / 4
   )
 })

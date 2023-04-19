@@ -99,5 +99,5 @@ rsq_vec <- function(truth,
 }
 
 rsq_impl <- function(truth, estimate, case_weights) {
-  yardstick_cor(truth, estimate, case_weights = case_weights) ^ 2
+  yardstick_cor(truth, estimate, case_weights = case_weights)^2
 }

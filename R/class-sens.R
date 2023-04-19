@@ -226,7 +226,7 @@ sensitivity_vec <- sens_vec
 # classes
 
 sens_table_impl <- function(data, estimator, event_level) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     sens_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
@@ -267,7 +267,7 @@ sens_multiclass <- function(data, estimator) {
   }
 
   # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
-  if(is_micro(estimator)) {
+  if (is_micro(estimator)) {
     numer <- sum(numer, na.rm = TRUE)
     denom <- sum(denom, na.rm = TRUE)
   }

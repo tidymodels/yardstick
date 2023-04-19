@@ -12,9 +12,9 @@ test_that("`event_level = 'second'` works", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Three class', {
+test_that("Three class", {
   ll_dat <- data.frame(
-    obs  = factor(c("A", "A", "A", "B", "B", "C")),
+    obs = factor(c("A", "A", "A", "B", "B", "C")),
     A = c(1, .80, .51, .1, .2, .3),
     B = c(0, .05, .29, .8, .6, .3),
     C = c(0, .15, .20, .1, .2, .4)
@@ -22,7 +22,7 @@ test_that('Three class', {
 
   expect_equal(
     mn_log_loss(ll_dat, obs, LETTERS[1:3])[[".estimate"]],
-    -(log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4))/6
+    -(log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4)) / 6
   )
   expect_equal(
     mn_log_loss(ll_dat, truth = "obs", A, B, C, sum = TRUE)[[".estimate"]],
@@ -49,11 +49,11 @@ test_that("Issue #29", {
         ),
         truth_num = c(1, 0, 1)
       ),
-      row.names = c(NA,-3L),
+      row.names = c(NA, -3L),
       class = c("tbl_df", "tbl", "data.frame")
     )
   expect_equal(
-    mn_log_loss(x[1:2,], truth = truth, No)[[".estimate"]],
+    mn_log_loss(x[1:2, ], truth = truth, No)[[".estimate"]],
     0.9844328,
     tolerance = .0001
   )
@@ -105,7 +105,7 @@ test_that("errors with class_pred input", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Two class - sklearn equivalent', {
+test_that("Two class - sklearn equivalent", {
   py_res <- read_pydata("py-mn_log_loss")
   r_metric <- mn_log_loss
 
@@ -119,7 +119,7 @@ test_that('Two class - sklearn equivalent', {
   )
 })
 
-test_that('Multi class - sklearn equivalent', {
+test_that("Multi class - sklearn equivalent", {
   py_res <- read_pydata("py-mn_log_loss")
   r_metric <- mn_log_loss
 
@@ -133,7 +133,7 @@ test_that('Multi class - sklearn equivalent', {
   )
 })
 
-test_that('Two class case weighted - sklearn equivalent', {
+test_that("Two class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-mn_log_loss")
   r_metric <- mn_log_loss
 
@@ -149,7 +149,7 @@ test_that('Two class case weighted - sklearn equivalent', {
   )
 })
 
-test_that('Multi class case weighted - sklearn equivalent', {
+test_that("Multi class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-mn_log_loss")
   r_metric <- mn_log_loss
 

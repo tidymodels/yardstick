@@ -8,29 +8,17 @@
 #' @param data A table with truth values as columns and predicted values
 #' as rows.
 get_weights <- function(data, estimator) {
-
   if (estimator == "macro") {
-
     n <- ncol(data)
     rep(1 / n, times = n)
-
-  }
-  else if (estimator == "micro") {
-
+  } else if (estimator == "micro") {
     1
-
-  }
-  else if (estimator == "macro_weighted") {
-
+  } else if (estimator == "macro_weighted") {
     .col_sums <- colSums(data)
     .col_sums / sum(.col_sums)
-
-  }
-  else {
-
+  } else {
     msg <- paste0("`estimator` type `", estimator, "` is unknown.")
     abort(msg)
-
   }
 }
 
@@ -128,8 +116,7 @@ finalize_estimator_internal.accuracy <- function(metric_dispatcher,
                                                  call = caller_env()) {
   if (is_multiclass(x)) {
     "multiclass"
-  }
-  else {
+  } else {
     "binary"
   }
 }
@@ -148,8 +135,8 @@ finalize_estimator_internal.classification_cost <- finalize_estimator_internal.a
 # off it to determine whether to do one-vs-all or not
 finalize_estimator_internal.gain_curve <- finalize_estimator_internal.accuracy
 finalize_estimator_internal.lift_curve <- finalize_estimator_internal.accuracy
-finalize_estimator_internal.roc_curve  <- finalize_estimator_internal.accuracy
-finalize_estimator_internal.pr_curve   <- finalize_estimator_internal.accuracy
+finalize_estimator_internal.roc_curve <- finalize_estimator_internal.accuracy
+finalize_estimator_internal.pr_curve <- finalize_estimator_internal.accuracy
 
 # Hand Till method is the "best" multiclass extension to me
 # because it is immune to class imbalance like binary roc_auc
@@ -157,7 +144,6 @@ finalize_estimator_internal.roc_auc <- function(metric_dispatcher,
                                                 x,
                                                 estimator,
                                                 call = caller_env()) {
-
   validate_estimator(
     estimator = estimator,
     estimator_override = c("binary", "macro", "macro_weighted", "hand_till")
@@ -169,11 +155,9 @@ finalize_estimator_internal.roc_auc <- function(metric_dispatcher,
 
   if (is_multiclass(x)) {
     "hand_till"
-  }
-  else {
+  } else {
     "binary"
   }
-
 }
 
 # PR AUC and Gain Capture don't have micro methods currently
@@ -181,7 +165,6 @@ finalize_estimator_internal.pr_auc <- function(metric_dispatcher,
                                                x,
                                                estimator,
                                                call = caller_env()) {
-
   validate_estimator(
     estimator = estimator,
     estimator_override = c("binary", "macro", "macro_weighted")
@@ -193,11 +176,9 @@ finalize_estimator_internal.pr_auc <- function(metric_dispatcher,
 
   if (is_multiclass(x)) {
     "macro"
-  }
-  else {
+  } else {
     "binary"
   }
-
 }
 
 finalize_estimator_internal.gain_capture <- finalize_estimator_internal.pr_auc
@@ -243,8 +224,7 @@ finalize_estimator_default.table <- function(x,
                                              call = caller_env()) {
   if (is_multiclass(x)) {
     "macro"
-  }
-  else {
+  } else {
     "binary"
   }
 }
@@ -254,8 +234,7 @@ finalize_estimator_default.factor <- function(x,
                                               call = caller_env()) {
   if (is_multiclass(x)) {
     "macro"
-  }
-  else {
+  } else {
     "binary"
   }
 }
@@ -280,7 +259,6 @@ is_multiclass.default <- function(x) {
 }
 
 is_multiclass.table <- function(x) {
-
   n_col <- ncol(x)
 
   # binary
@@ -292,7 +270,6 @@ is_multiclass.table <- function(x) {
   if (n_col > 2) {
     return(TRUE)
   }
-
 }
 
 is_multiclass.factor <- function(x) {
@@ -306,5 +283,4 @@ is_multiclass.factor <- function(x) {
   if (n_lvls > 2) {
     return(TRUE)
   }
-
 }

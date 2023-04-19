@@ -57,9 +57,9 @@ You can use a `dplyr`-like syntax to compute common performance characteristics 
 ```{r class-metrics}
 metrics(two_class_example, truth, predicted)
 
-# or 
+# or
 
-two_class_example %>% 
+two_class_example %>%
   roc_auc(truth, Class1)
 ```
 
