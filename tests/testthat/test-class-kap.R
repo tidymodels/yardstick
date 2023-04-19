@@ -60,7 +60,7 @@ test_that("work with class_pred input", {
 # expected results from e1071::classAgreement(three_class_tb)$kappa
 # e1071::classAgreement(table(three_class$pred_na, three_class$obs))$kappa
 
-test_that('Three class', {
+test_that("Three class", {
   lst <- data_three_class()
   three_class <- lst$three_class
   three_class_tb <- lst$three_class_tb
@@ -94,7 +94,7 @@ test_that('Three class', {
 
 # sklearn compare --------------------------------------------------------------
 
-test_that('Two class - sklearn equivalent', {
+test_that("Two class - sklearn equivalent", {
   py_res <- read_pydata("py-kap")
   r_metric <- kap
 
@@ -104,7 +104,7 @@ test_that('Two class - sklearn equivalent', {
   )
 })
 
-test_that('Multi class - sklearn equivalent', {
+test_that("Multi class - sklearn equivalent", {
   py_res <- read_pydata("py-kap")
   r_metric <- kap
 
@@ -142,7 +142,7 @@ test_that("quadratic weighting - sklearn equivalent", {
   )
 })
 
-test_that('Two class case weighted - sklearn equivalent', {
+test_that("Two class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-kap")
   r_metric <- kap
 
@@ -154,7 +154,7 @@ test_that('Two class case weighted - sklearn equivalent', {
   )
 })
 
-test_that('Multi class case weighted - sklearn equivalent', {
+test_that("Multi class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-kap")
   r_metric <- kap
 

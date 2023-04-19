@@ -1,6 +1,6 @@
 # Bad input --------------------------------------------------------------------
 
-test_that('bad args', {
+test_that("bad args", {
   expect_snapshot(
     error = TRUE,
     sens(pathology, truth = "patholosgy", estimate = "scan")
@@ -37,7 +37,7 @@ test_that("Bad unquoted input is caught", {
 
   expect_snapshot(
     error = TRUE,
-    sens(pathology, !! bad, scan)
+    sens(pathology, !!bad, scan)
   )
 })
 

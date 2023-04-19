@@ -39,7 +39,7 @@ test_that("roc_curve_survival works", {
 
 # self checking ----------------------------------------------------------------
 
-test_that('snapshot equivalent', {
+test_that("snapshot equivalent", {
   snapshot_res <- readRDS(test_path("data/ref_roc_curve_survival.rds"))
 
   yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
@@ -71,7 +71,7 @@ test_that('snapshot equivalent', {
 
 # Manual checking --------------------------------------------------------------
 
-test_that('hand calculated equivalent', {
+test_that("hand calculated equivalent", {
   my_eval_time <- 300
 
   lung_surv0 <- lung_surv %>%
@@ -85,7 +85,7 @@ test_that('hand calculated equivalent', {
   # Sensitivity
   calc_sensitivity <- function(threshold, data, eval_time) {
     n <- nrow(data)
-    event_time <-yardstick:::.extract_surv_time(data$surv_obj)
+    event_time <- yardstick:::.extract_surv_time(data$surv_obj)
     delta <- yardstick:::.extract_surv_status(data$surv_obj)
     obs_time_le_time <- event_time <= eval_time
     prob_le_thresh <- data$.pred_survival <= threshold
@@ -119,7 +119,7 @@ test_that('hand calculated equivalent', {
 
   # specificity
   calc_specificity <- function(threshold, data, eval_time) {
-    event_time <-yardstick:::.extract_surv_time(data$surv_obj)
+    event_time <- yardstick:::.extract_surv_time(data$surv_obj)
     delta <- yardstick:::.extract_surv_status(data$surv_obj)
     obs_time_gt_time <- event_time > eval_time
     prob_le_thresh <- data$.pred_survival > threshold

@@ -1,4 +1,4 @@
-test_that('Three class format', {
+test_that("Three class format", {
   lst <- data_three_class()
   three_class <- lst$three_class
   three_class_tb <- lst$three_class_tb
@@ -7,12 +7,12 @@ test_that('Three class format', {
   storage.mode(three_class_tb) <- "double"
 
   expect_identical(
-   conf_mat(three_class, truth = "obs", estimate = "pred", dnn = c("", ""))$table,
-   three_class_tb
- )
+    conf_mat(three_class, truth = "obs", estimate = "pred", dnn = c("", ""))$table,
+    three_class_tb
+  )
 })
 
-test_that('Summary method', {
+test_that("Summary method", {
   lst <- data_three_class()
   three_class <- lst$three_class
   three_class_tb <- lst$three_class_tb
@@ -22,9 +22,11 @@ test_that('Summary method', {
 
   expect_equal(
     sum_obj_3$.metric,
-    c("accuracy", "kap", "sens", "spec", "ppv", "npv", "mcc", "j_index",
+    c(
+      "accuracy", "kap", "sens", "spec", "ppv", "npv", "mcc", "j_index",
       "bal_accuracy", "detection_prevalence", "precision", "recall",
-      "f_meas")
+      "f_meas"
+    )
   )
 
   expect_equal(
@@ -34,9 +36,11 @@ test_that('Summary method', {
 
   expect_equal(
     sum_obj_2$.metric,
-    c("accuracy", "kap", "sens", "spec", "ppv", "npv", "mcc", "j_index",
+    c(
+      "accuracy", "kap", "sens", "spec", "ppv", "npv", "mcc", "j_index",
       "bal_accuracy", "detection_prevalence", "precision", "recall",
-      "f_meas")
+      "f_meas"
+    )
   )
 
   expect_equal(
@@ -45,7 +49,7 @@ test_that('Summary method', {
   )
 })
 
-test_that('Summary method - estimators pass through', {
+test_that("Summary method - estimators pass through", {
   lst <- data_three_class()
   three_class <- lst$three_class
 
@@ -78,7 +82,6 @@ test_that("summary method - `event_level` passes through (#160)", {
 })
 
 test_that("Grouped conf_mat() handler works", {
-
   hpc_g <- dplyr::group_by(hpc_cv, Resample)
   res <- conf_mat(hpc_g, obs, pred)
 
@@ -91,24 +94,23 @@ test_that("Grouped conf_mat() handler works", {
       dplyr::filter(Resample == "Fold01") %>%
       conf_mat(obs, pred)
   )
-
 })
 
-test_that('Multilevel table -> conf_mat', {
+test_that("Multilevel table -> conf_mat", {
   expect_identical(
     conf_mat(table(hpc_cv$pred, hpc_cv$obs, dnn = c("Prediction", "Truth"))),
     conf_mat(hpc_cv, obs, pred)
   )
 })
 
-test_that('Multilevel matrix -> conf_mat', {
+test_that("Multilevel matrix -> conf_mat", {
   expect_identical(
     conf_mat(as.matrix(table(hpc_cv$pred, hpc_cv$obs, dnn = c("Prediction", "Truth")))),
     conf_mat(hpc_cv, obs, pred)
   )
 })
 
-test_that('Tidy method', {
+test_that("Tidy method", {
   res <- tidy(conf_mat(hpc_cv, obs, pred))
 
   expect_equal(
@@ -120,7 +122,6 @@ test_that('Tidy method', {
     res$name[[1]],
     "cell_1_1"
   )
-
 })
 
 test_that("can change the dimnames names", {
@@ -213,7 +214,7 @@ test_that("`...` is deprecated with a warning", {
   expect_snapshot(conf_mat(hpc_cv, obs, pred, foo = 1))
 })
 
-test_that('Errors are thrown correctly', {
+test_that("Errors are thrown correctly", {
   lst <- data_three_class()
   three_class <- lst$three_class
   three_class$obs_rev <- three_class$obs
@@ -236,7 +237,7 @@ test_that('Errors are thrown correctly', {
   )
 })
 
-test_that('Errors are thrown correctly - grouped', {
+test_that("Errors are thrown correctly - grouped", {
   lst <- data_three_class()
   three_class <- lst$three_class
   three_class$obs_rev <- three_class$obs
@@ -261,7 +262,6 @@ test_that('Errors are thrown correctly - grouped', {
 })
 
 test_that("conf_mat()'s errors when wrong things are passes", {
-
   expect_snapshot(
     error = TRUE,
     conf_mat(two_class_example, not_truth, predicted)

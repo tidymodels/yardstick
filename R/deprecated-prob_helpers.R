@@ -41,7 +41,7 @@ dots_to_estimate <- function(data, ...) {
 
   # Capture dots
   dot_vars <- with_handlers(
-    tidyselect::vars_select(names(data), !!! enquos(...)),
+    tidyselect::vars_select(names(data), !!!enquos(...)),
     tidyselect_empty_dots = function(cnd) {
       abort("No valid variables provided to `...`.")
     }
@@ -53,13 +53,12 @@ dots_to_estimate <- function(data, ...) {
   if (length(dot_nms) > 1) {
     estimate <- quo(
       matrix(
-        data = c(!!! dot_nms),
+        data = c(!!!dot_nms),
         ncol = !!length(dot_nms),
         dimnames = list(NULL, !!dot_vars)
       )
     )
-  }
-  else {
+  } else {
     estimate <- dot_nms[[1]]
   }
 

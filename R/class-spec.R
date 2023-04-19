@@ -36,7 +36,7 @@
 #' @template examples-class
 #'
 #' @export
-spec <-  function(data, ...) {
+spec <- function(data, ...) {
   UseMethod("spec")
 }
 spec <- new_class_metric(
@@ -72,7 +72,6 @@ spec.table <- function(data,
                        estimator = NULL,
                        event_level = yardstick_event_level(),
                        ...) {
-
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -81,7 +80,6 @@ spec.table <- function(data,
     .estimator = estimator,
     .estimate = spec_table_impl(data, estimator, event_level)
   )
-
 }
 
 #' @export
@@ -127,7 +125,7 @@ spec_vec <- function(truth,
 
 #' @rdname spec
 #' @export
-specificity <-  function(data, ...) {
+specificity <- function(data, ...) {
   UseMethod("specificity")
 }
 specificity <- new_class_metric(
@@ -163,7 +161,6 @@ specificity.table <- function(data,
                               estimator = NULL,
                               event_level = yardstick_event_level(),
                               ...) {
-
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -172,7 +169,6 @@ specificity.table <- function(data,
     .estimator = estimator,
     .estimate = spec_table_impl(data, estimator, event_level)
   )
-
 }
 
 #' @export
@@ -191,7 +187,7 @@ specificity_vec <- spec_vec
 # ------------------------------------------------------------------------------
 
 spec_table_impl <- function(data, estimator, event_level) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     spec_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
@@ -221,11 +217,11 @@ spec_binary <- function(data, event_level) {
 spec_multiclass <- function(data, estimator) {
   n <- sum(data)
 
-  tp   <- diag(data)
+  tp <- diag(data)
   tpfp <- rowSums(data)
   tpfn <- colSums(data)
-  tn   <- n - (tpfp + tpfn - tp)
-  fp   <- tpfp - tp
+  tn <- n - (tpfp + tpfn - tp)
+  fp <- tpfp - tp
 
   numer <- tn
   denom <- tn + fp
@@ -241,7 +237,7 @@ spec_multiclass <- function(data, estimator) {
   }
 
   # set `na.rm = TRUE` to remove undefined values from weighted computation (#98)
-  if(is_micro(estimator)) {
+  if (is_micro(estimator)) {
     numer <- sum(numer, na.rm = TRUE)
     denom <- sum(denom, na.rm = TRUE)
   }

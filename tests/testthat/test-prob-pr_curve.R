@@ -1,4 +1,4 @@
-test_that('Two class PR Curve', {
+test_that("Two class PR Curve", {
   # Known PR Curve result
   pr_example <- data.frame(
     lab   = factor(c("Yes", "Yes", "No", "Yes"), levels = c("Yes", "No")),
@@ -7,7 +7,7 @@ test_that('Two class PR Curve', {
 
   pr_result <- list(
     .threshold = c(Inf, 0.9, 0.7, 0.4, 0.35),
-    recall = c(0, 1/3, 2/3, 1, 1),
+    recall = c(0, 1 / 3, 2 / 3, 1, 1),
     precision = c(1, 1, 1, 1, 0.75)
   )
 
@@ -18,7 +18,7 @@ test_that('Two class PR Curve', {
 })
 
 
-test_that('Multiclass PR Curve', {
+test_that("Multiclass PR Curve", {
   res <- pr_curve(hpc_cv, obs, VF:L)
 
   expect_equal(
@@ -38,7 +38,6 @@ test_that('Multiclass PR Curve', {
 # These are worked out examples with hand written known answers
 
 test_that("PR - perfect separation", {
-
   truth <- factor(c("x", "x", "y", "y"))
   prob <- c(.9, .8, .4, .3)
 
@@ -53,7 +52,7 @@ test_that("PR - perfect separation", {
 
   expect_equal(
     val_curve$precision,
-    c(1, 1, 1, 2/3, 1/2)
+    c(1, 1, 1, 2 / 3, 1 / 2)
   )
 
   expect_equal(
@@ -65,11 +64,9 @@ test_that("PR - perfect separation", {
     val_auc$.estimate,
     1
   )
-
 })
 
 test_that("PR - perfect separation - duplicates probs at the end", {
-
   truth <- factor(c("x", "x", "y", "y"))
   prob <- c(.9, .8, .3, .3)
 
@@ -84,7 +81,7 @@ test_that("PR - perfect separation - duplicates probs at the end", {
 
   expect_equal(
     val_curve$precision,
-    c(1, 1, 1, 1/2)
+    c(1, 1, 1, 1 / 2)
   )
 
   expect_equal(
@@ -96,11 +93,9 @@ test_that("PR - perfect separation - duplicates probs at the end", {
     val_auc$.estimate,
     1
   )
-
 })
 
 test_that("PR - perfect separation - duplicates probs at the start", {
-
   truth <- factor(c("x", "x", "y", "y"))
   prob <- c(.9, .9, .4, .3)
 
@@ -115,7 +110,7 @@ test_that("PR - perfect separation - duplicates probs at the start", {
 
   expect_equal(
     val_curve$precision,
-    c(1, 1, 2/3, 1/2)
+    c(1, 1, 2 / 3, 1 / 2)
   )
 
   expect_equal(
@@ -127,11 +122,9 @@ test_that("PR - perfect separation - duplicates probs at the start", {
     val_auc$.estimate,
     1
   )
-
 })
 
 test_that("PR - same class prob, different prediction value", {
-
   # x class prob .9
   # y class prob .9
   truth <- factor(c("x", "y", "y", "x", "x"))
@@ -143,12 +136,12 @@ test_that("PR - same class prob, different prediction value", {
 
   expect_equal(
     val_curve$recall,
-    c(0, 1/3, 1/3, 2/3, 1)
+    c(0, 1 / 3, 1 / 3, 2 / 3, 1)
   )
 
   expect_equal(
     val_curve$precision,
-    c(1, 1/2, 1/3, 1/2, 3/5)
+    c(1, 1 / 2, 1 / 3, 1 / 2, 3 / 5)
   )
 
   expect_equal(
@@ -160,7 +153,6 @@ test_that("PR - same class prob, different prediction value", {
     val_auc$.estimate,
     0.572222222222222
   )
-
 })
 
 # ------------------------------------------------------------------------------
@@ -204,7 +196,7 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
 
-  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),]
+  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight), ]
 
   expect_identical(
     pr_curve(hpc_cv, obs, VF:L, case_weights = weight),
@@ -224,7 +216,7 @@ test_that("zero weights don't affect the curve", {
 
   expect_identical(
     pr_curve(df, truth, a, case_weights = weight),
-    pr_curve(df[df$weight != 0,], truth, a, case_weights = weight)
+    pr_curve(df[df$weight != 0, ], truth, a, case_weights = weight)
   )
 })
 

@@ -17,4 +17,3 @@ ref_roc_curve_survival <- tidy_churn %>%
 
 yardstick_res <- ref_roc_curve_survival %>%
   readr::write_rds("tests/testthat/data/ref_roc_curve_survival.rds")
-

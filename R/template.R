@@ -236,9 +236,9 @@ class_metric_summarizer <- function(name,
             estimate = group_estimate,
             case_weights = group_case_weights,
             na_rm = na_rm,
-            !!! spliceable_argument(estimator, "estimator"),
-            !!! spliceable_argument(event_level, "event_level"),
-            !!! fn_options
+            !!!spliceable_argument(estimator, "estimator"),
+            !!!spliceable_argument(event_level, "event_level"),
+            !!!fn_options
           ),
           error = function(cnd) {
             cnd$call <- error_call
@@ -328,9 +328,9 @@ prob_metric_summarizer <- function(name,
             estimate = group_estimate,
             case_weights = group_case_weights,
             na_rm = na_rm,
-            !!! spliceable_argument(estimator, "estimator"),
-            !!! spliceable_argument(event_level, "event_level"),
-            !!! fn_options
+            !!!spliceable_argument(estimator, "estimator"),
+            !!!spliceable_argument(event_level, "event_level"),
+            !!!fn_options
           ),
           error = function(cnd) {
             cnd$call <- error_call
@@ -420,9 +420,9 @@ curve_metric_summarizer <- function(name,
             estimate = group_estimate,
             case_weights = group_case_weights,
             na_rm = na_rm,
-            !!! spliceable_argument(estimator, "estimator"),
-            !!! spliceable_argument(event_level, "event_level"),
-            !!! fn_options
+            !!!spliceable_argument(estimator, "estimator"),
+            !!!spliceable_argument(event_level, "event_level"),
+            !!!fn_options
           ),
           error = function(cnd) {
             cnd$call <- error_call
@@ -694,7 +694,7 @@ curve_survival_metric_summarizer <- function(name,
             estimate = group_estimate,
             case_weights = group_case_weights,
             na_rm = na_rm,
-            !!! fn_options
+            !!!fn_options
           ),
           error = function(cnd) {
             cnd$call <- error_call

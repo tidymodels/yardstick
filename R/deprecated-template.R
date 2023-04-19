@@ -73,7 +73,8 @@ metric_summarizer <- function(metric_nm,
     with = I(
       paste(
         "`numeric_metric_summarizer()`, `class_metric_summarizer()`,",
-        "`prob_metric_summarizer()`, or `curve_metric_summarizer()`")
+        "`prob_metric_summarizer()`, or `curve_metric_summarizer()`"
+      )
     )
   )
   truth <- enquo(truth)
@@ -89,7 +90,7 @@ metric_summarizer <- function(metric_nm,
   estimate <- handle_chr_names(estimate, nms)
 
   finalize_estimator_expr <- expr(
-    finalize_estimator(!! truth, estimator, metric_nm)
+    finalize_estimator(!!truth, estimator, metric_nm)
   )
 
   metric_tbl <- dplyr::summarise(
@@ -97,13 +98,13 @@ metric_summarizer <- function(metric_nm,
     .metric = metric_nm,
     .estimator = eval_tidy(finalize_estimator_expr),
     .estimate = metric_fn(
-      truth = !! truth,
-      estimate = !! estimate,
-      !!! spliceable_argument(estimator, "estimator"),
+      truth = !!truth,
+      estimate = !!estimate,
+      !!!spliceable_argument(estimator, "estimator"),
       na_rm = na_rm,
-      !!! spliceable_argument(event_level, "event_level"),
-      !!! spliceable_case_weights(case_weights),
-      !!! metric_fn_options
+      !!!spliceable_argument(event_level, "event_level"),
+      !!!spliceable_case_weights(case_weights),
+      !!!metric_fn_options
     )
   )
 
@@ -114,7 +115,7 @@ metric_summarizer <- function(metric_nm,
 # Utilities
 
 validate_not_missing <- function(x, nm) {
-  if(quo_is_missing(x)) {
+  if (quo_is_missing(x)) {
     abort(paste0(
       "`", nm, "` ",
       "is missing and must be supplied."
@@ -127,9 +128,9 @@ handle_chr_names <- function(x, nms) {
   x_expr <- get_expr(x)
 
   # Replace character with bare name
-  if(is.character(x_expr) && length(x_expr) == 1) {
+  if (is.character(x_expr) && length(x_expr) == 1) {
     # Only replace if it is actually a column name in `data`
-    if(x_expr %in% nms) {
+    if (x_expr %in% nms) {
       # Replace the quosure with just the name
       # Don't replace the quosure expression, this
       # breaks with dplyr 0.8.0.1 and R <= 3.4.4
@@ -239,8 +240,8 @@ metric_vec_template <- function(metric_impl,
   } else {
     any_na <-
       anyNA(truth) ||
-      anyNA(estimate) ||
-      (has_case_weights && anyNA(case_weights))
+        anyNA(estimate) ||
+        (has_case_weights && anyNA(case_weights))
 
     # return NA if any NA
     if (any_na) {
@@ -270,16 +271,15 @@ validate_truth_estimate_types.default <- function(truth, estimate, estimator) {
 
 # factor / ?
 validate_truth_estimate_types.factor <- function(truth, estimate, estimator) {
-  switch (estimator,
-          "binary" = binary_checks(truth, estimate),
-          # otherwise multiclass checks
-          multiclass_checks(truth, estimate)
+  switch(estimator,
+    "binary" = binary_checks(truth, estimate),
+    # otherwise multiclass checks
+    multiclass_checks(truth, estimate)
   )
 }
 
 # numeric / numeric
 validate_truth_estimate_types.numeric <- function(truth, estimate, estimator) {
-
   if (!is.numeric(estimate)) {
     cls <- class(estimate)[[1]]
     abort(paste0(
@@ -340,7 +340,6 @@ binary_checks.factor <- function(truth, estimate) {
       "A factor with ", length(lvls), " levels was provided."
     ))
   }
-
 }
 
 # factor / numeric
@@ -408,13 +407,11 @@ multiclass_checks.matrix <- function(truth, estimate) {
 }
 
 validate_truth_estimate_lengths <- function(truth, estimate) {
-
   n_truth <- length(truth)
 
   if (is.matrix(estimate)) {
     n_estimate <- nrow(estimate)
-  }
-  else {
+  } else {
     n_estimate <- length(estimate)
   }
 
@@ -427,11 +424,10 @@ validate_truth_estimate_lengths <- function(truth, estimate) {
 }
 
 validate_class <- function(x, nm, cls) {
-
   # cls is always known to have a `is.cls()` function
   is_cls <- get(paste0("is.", cls))
 
-  if(!is_cls(x)) {
+  if (!is_cls(x)) {
     cls_real <- class(x)[[1]]
     abort(paste0(
       "`", nm, "` ",
@@ -444,8 +440,7 @@ validate_class <- function(x, nm, cls) {
 validate_truth_estimate_checks <- function(truth, estimate,
                                            cls = "numeric",
                                            estimator) {
-
-  if(length(cls) == 1) {
+  if (length(cls) == 1) {
     cls <- c(cls, cls)
   }
 

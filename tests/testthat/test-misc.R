@@ -96,7 +96,7 @@ test_that("works with hardhat case weights", {
 
   expect_identical(
     yardstick_mean(x, case_weights = w),
-    2 + 4/9
+    2 + 4 / 9
   )
 })
 

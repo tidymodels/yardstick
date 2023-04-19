@@ -17,4 +17,3 @@ test_that("`yardstick_event_level()` ignores option - FALSE, with a warning", {
   expect_snapshot(out <- yardstick_event_level())
   expect_identical(out, "first")
 })
-

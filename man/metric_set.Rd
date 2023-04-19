@@ -103,8 +103,8 @@ hpc_cv \%>\%
 ccc_with_bias <- function(data, truth, estimate, na_rm = TRUE, ...) {
   ccc(
     data = data,
-    truth = !! rlang::enquo(truth),
-    estimate = !! rlang::enquo(estimate),
+    truth = !!rlang::enquo(truth),
+    estimate = !!rlang::enquo(estimate),
     # set bias = TRUE
     bias = TRUE,
     na_rm = na_rm,

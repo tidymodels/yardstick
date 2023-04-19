@@ -51,7 +51,6 @@ ccc.data.frame <- function(data,
                            na_rm = TRUE,
                            case_weights = NULL,
                            ...) {
-
   numeric_metric_summarizer(
     name = "ccc",
     fn = ccc_vec,
@@ -63,7 +62,6 @@ ccc.data.frame <- function(data,
     # Extra argument for ccc_impl()
     fn_options = list(bias = bias)
   )
-
 }
 
 #' @export
@@ -118,7 +116,7 @@ ccc_impl <- function(truth,
   }
 
   numerator <- 2 * covariance
-  denominator <- truth_variance + estimate_variance + (truth_mean - estimate_mean) ^ 2
+  denominator <- truth_variance + estimate_variance + (truth_mean - estimate_mean)^2
 
   numerator / denominator
 }

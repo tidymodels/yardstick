@@ -66,7 +66,7 @@
 #'   summarize(total = n()) %>%
 #'   left_join(cells_per_resample, by = "Resample") %>%
 #'   # Compute the proportions
-#'   mutate(prop = value/total) %>%
+#'   mutate(prop = value / total) %>%
 #'   group_by(name) %>%
 #'   # Average
 #'   summarize(prop = mean(prop))
@@ -289,8 +289,9 @@ tidy.conf_mat <- function(x, ...) {
 
 flatten <- function(xtab) {
   p <- ncol(xtab)
-  if(nrow(xtab) != p)
+  if (nrow(xtab) != p) {
     stop("table must have equal dimensions")
+  }
   flat <- as.vector(xtab)
   names(flat) <- paste("cell", rep(1:p, p), rep(1:p, each = p), sep = "_")
   flat
@@ -356,7 +357,6 @@ summary.conf_mat <- function(object,
                              estimator = NULL,
                              event_level = yardstick_event_level(),
                              ...) {
-
   xtab <- object$table
 
   stats <- dplyr::bind_rows(
@@ -437,7 +437,7 @@ cm_heat <- function(x) {
 }
 
 space_fun <- function(x, adjustment, rescale = FALSE) {
-  if(rescale) {
+  if (rescale) {
     x <- x / sum(x)
   }
 
@@ -454,8 +454,8 @@ space_y_fun <- function(data, id, x_data) {
 
   names(out) <- c("ymin", "ymax")
 
-  out$xmin = x_data[[id, 1]]
-  out$xmax = x_data[[id, 2]]
+  out$xmin <- x_data[[id, 1]]
+  out$xmax <- x_data[[id, 2]]
 
   out
 }

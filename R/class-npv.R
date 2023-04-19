@@ -124,8 +124,7 @@ npv_table_impl <- function(data,
                            estimator,
                            event_level,
                            prevalence = NULL) {
-
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     npv_binary(data, event_level, prevalence)
   } else {
     w <- get_weights(data, estimator)
@@ -138,8 +137,9 @@ npv_binary <- function(data, event_level, prevalence = NULL) {
   positive <- pos_val(data, event_level)
   negative <- neg_val(data, event_level)
 
-  if (is.null(prevalence))
+  if (is.null(prevalence)) {
     prevalence <- sum(data[, positive]) / sum(data)
+  }
 
   sens <- sens_binary(data, event_level)
   spec <- spec_binary(data, event_level)
@@ -148,12 +148,12 @@ npv_binary <- function(data, event_level, prevalence = NULL) {
 
 npv_multiclass <- function(data, estimator, prevalence = NULL) {
   if (is.null(prevalence)) {
-    tpfn     <- colSums(data)
+    tpfn <- colSums(data)
     tptnfpfn <- rep(sum(data), times = nrow(data))
 
     if (is_micro(estimator)) {
-      tpfn       <- sum(tpfn)
-      tptnfpfn   <- sum(tptnfpfn)
+      tpfn <- sum(tpfn)
+      tptnfpfn <- sum(tptnfpfn)
     }
 
     prevalence <- tpfn / tptnfpfn

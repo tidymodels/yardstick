@@ -13,7 +13,6 @@ test_that("gain_curve() matches known result", {
 
   expect_s3_class(gain_curve(df, truth, estimate), "gain_df")
   expect_equal(gain_curve(df, truth, estimate)$.percent_found, perc_found)
-
 })
 
 test_that("error handling", {
@@ -75,7 +74,7 @@ test_that("ordering of `truth` values within duplicated `estimate` groups doesn'
 
   # Flip the order of the .68 estimate values
   # From c(Yes, No) to c(No, Yes)
-  dup_df2 <- dup_df1[c(1, 2, 3, 5, 4),]
+  dup_df2 <- dup_df1[c(1, 2, 3, 5, 4), ]
 
   curve1 <- gain_curve(dup_df1, truth, estimate)
   curve2 <- gain_curve(dup_df2, truth, estimate)
@@ -188,7 +187,7 @@ test_that("gain_curve() with case weights scales `.n` and `.n_events`", {
 
   grey_overlay_data <- data$data[[1]]
 
-  expect_equal(grey_overlay_data$x, c(0, 2/3 * 100, 100))
+  expect_equal(grey_overlay_data$x, c(0, 2 / 3 * 100, 100))
   expect_equal(grey_overlay_data$y, c(0, 100, 100))
 })
 

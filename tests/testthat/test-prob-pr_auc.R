@@ -27,7 +27,7 @@ test_that("Multiclass PR AUC", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Two class PR AUC matches sklearn', {
+test_that("Two class PR AUC matches sklearn", {
   # Note that these values are different from `MLmetrics::PRAUC()`,
   # see #93 about how duplicates and end points are handled
 
@@ -39,19 +39,19 @@ test_that('Two class PR AUC matches sklearn', {
     sklearn_auc
   )
   expect_equal(
-    pr_auc(two_class_example, truth,  Class1)[[".estimate"]],
+    pr_auc(two_class_example, truth, Class1)[[".estimate"]],
     sklearn_auc
   )
 })
 
-test_that('Two class weighted PR AUC matches sklearn', {
+test_that("Two class weighted PR AUC matches sklearn", {
   sklearn_curve <- read_pydata("py-pr-curve")$case_weight$binary
   sklearn_auc <- auc(sklearn_curve$recall, sklearn_curve$precision)
 
   two_class_example$weight <- read_weights_two_class_example()
 
   expect_equal(
-    pr_auc(two_class_example, truth,  Class1, case_weights = weight)[[".estimate"]],
+    pr_auc(two_class_example, truth, Class1, case_weights = weight)[[".estimate"]],
     sklearn_auc
   )
 })
@@ -62,7 +62,7 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
 
-  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),]
+  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight), ]
 
   expect_identical(
     pr_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro"),

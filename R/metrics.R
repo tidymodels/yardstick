@@ -78,8 +78,8 @@ metrics.data.frame <- function(data,
 
   names <- names(data)
 
-  truth <- tidyselect::vars_pull(names, {{truth}})
-  estimate <- tidyselect::vars_pull(names, {{estimate}})
+  truth <- tidyselect::vars_pull(names, {{ truth }})
+  estimate <- tidyselect::vars_pull(names, {{ estimate }})
   probs <- unname(tidyselect::vars_select(names, ...))
 
   is_class <- is.factor(data[[truth]]) || is_class_pred(data[[truth]])
@@ -206,8 +206,8 @@ metrics.data.frame <- function(data,
 #' ccc_with_bias <- function(data, truth, estimate, na_rm = TRUE, ...) {
 #'   ccc(
 #'     data = data,
-#'     truth = !! rlang::enquo(truth),
-#'     estimate = !! rlang::enquo(estimate),
+#'     truth = !!rlang::enquo(truth),
+#'     estimate = !!rlang::enquo(estimate),
 #'     # set bias = TRUE
 #'     bias = TRUE,
 #'     na_rm = na_rm,
@@ -260,11 +260,13 @@ metric_set <- function(...) {
   # signature of the function is different depending on input functions
   if (fn_cls == "numeric_metric") {
     make_numeric_metric_function(fns)
-  } else if(fn_cls %in% c("prob_metric", "class_metric")) {
+  } else if (fn_cls %in% c("prob_metric", "class_metric")) {
     make_prob_class_metric_function(fns)
-  } else if(fn_cls %in% c("dynamic_survival_metric",
-                          "static_survival_metric",
-                          "integrated_survival_metric")) {
+  } else if (fn_cls %in% c(
+    "dynamic_survival_metric",
+    "static_survival_metric",
+    "integrated_survival_metric"
+  )) {
     make_survival_metric_function(fns)
   } else {
     abort(paste0(
@@ -336,7 +338,6 @@ make_prob_class_metric_function <- function(fns) {
                               na_rm = TRUE,
                               event_level = yardstick_event_level(),
                               case_weights = NULL) {
-
     # Find class vs prob metrics
     are_class_metrics <- vapply(
       X = fns,
@@ -351,8 +352,7 @@ make_prob_class_metric_function <- function(fns) {
     metric_list <- list()
 
     # Evaluate class metrics
-    if(!is_empty(class_fns)) {
-
+    if (!is_empty(class_fns)) {
       class_args <- quos(
         data = data,
         truth = !!enquo(truth),
@@ -363,7 +363,7 @@ make_prob_class_metric_function <- function(fns) {
         case_weights = !!enquo(case_weights)
       )
 
-      class_calls <- lapply(class_fns, call2, !!! class_args)
+      class_calls <- lapply(class_fns, call2, !!!class_args)
 
       class_calls <- mapply(call_remove_static_arguments, class_calls, class_fns)
 
@@ -379,13 +379,11 @@ make_prob_class_metric_function <- function(fns) {
     }
 
     # Evaluate prob metrics
-    if(!is_empty(prob_fns)) {
-
+    if (!is_empty(prob_fns)) {
       # TODO - If prob metrics can all do micro, we can remove this
       if (!is.null(estimator) && estimator == "micro") {
         prob_estimator <- NULL
-      }
-      else {
+      } else {
         prob_estimator <- estimator
       }
 
@@ -399,7 +397,7 @@ make_prob_class_metric_function <- function(fns) {
         case_weights = !!enquo(case_weights)
       )
 
-      prob_calls <- lapply(prob_fns, call2, !!! prob_args)
+      prob_calls <- lapply(prob_fns, call2, !!!prob_args)
 
       prob_calls <- mapply(call_remove_static_arguments, prob_calls, prob_fns)
 
@@ -435,7 +433,6 @@ make_numeric_metric_function <- function(fns) {
                               na_rm = TRUE,
                               case_weights = NULL,
                               ...) {
-
     # Construct common argument set for each metric call
     # Doing this dynamically inside the generated function means
     # we capture the correct arguments
@@ -449,7 +446,7 @@ make_numeric_metric_function <- function(fns) {
     )
 
     # Construct calls from the functions + arguments
-    calls <- lapply(fns, call2, !!! call_args)
+    calls <- lapply(fns, call2, !!!call_args)
 
     calls <- mapply(call_remove_static_arguments, calls, fns)
 
@@ -506,12 +503,13 @@ make_survival_metric_function <- function(fns) {
     )
 
     call_class_ind <- vapply(
-      fns, inherits, "static_survival_metric", FUN.VALUE = logical(1)
+      fns, inherits, "static_survival_metric",
+      FUN.VALUE = logical(1)
     )
 
     # Construct calls from the functions + arguments
-    dynamic_calls <- lapply(fns[!call_class_ind], call2, !!! dynamic_call_args)
-    static_calls <- lapply(fns[call_class_ind], call2, !!! static_call_args)
+    dynamic_calls <- lapply(fns[!call_class_ind], call2, !!!dynamic_call_args)
+    static_calls <- lapply(fns[call_class_ind], call2, !!!static_call_args)
 
     calls <- c(dynamic_calls, static_calls)
 
@@ -547,12 +545,11 @@ validate_not_empty <- function(x) {
 }
 
 validate_inputs_are_functions <- function(fns) {
-
   # Check that the user supplied all functions
   is_fun_vec <- vapply(fns, is_function, logical(1))
   all_fns <- all(is_fun_vec)
 
-  if(!all_fns) {
+  if (!all_fns) {
     not_fn <- which(!is_fun_vec)
     not_fn <- paste(not_fn, collapse = ", ")
     stop(
@@ -561,7 +558,6 @@ validate_inputs_are_functions <- function(fns) {
       call. = FALSE
     )
   }
-
 }
 
 # Validate that all metric functions inherit from valid function classes or
@@ -574,9 +570,11 @@ validate_function_class <- function(fns) {
   if (n_unique == 0L) {
     return(invisible(fns))
   }
-  valid_cls <- c("class_metric", "prob_metric", "numeric_metric",
-                 "dynamic_survival_metric", "static_survival_metric",
-                 "integrated_survival_metric")
+  valid_cls <- c(
+    "class_metric", "prob_metric", "numeric_metric",
+    "dynamic_survival_metric", "static_survival_metric",
+    "integrated_survival_metric"
+  )
 
   if (n_unique == 1L) {
     if (fn_cls_unique %in% valid_cls) {
@@ -588,30 +586,40 @@ validate_function_class <- function(fns) {
   # These are allowed to be together
   if (n_unique == 2) {
     if (fn_cls_unique[1] %in% c("class_metric", "prob_metric") &&
-        fn_cls_unique[2] %in% c("class_metric", "prob_metric")) {
+      fn_cls_unique[2] %in% c("class_metric", "prob_metric")) {
       return(invisible(fns))
     }
 
-    if (fn_cls_unique[1] %in% c("dynamic_survival_metric",
-                                "static_survival_metric",
-                                "integrated_survival_metric") &&
-        fn_cls_unique[2] %in% c("dynamic_survival_metric",
-                                "static_survival_metric",
-                                "integrated_survival_metric")) {
+    if (fn_cls_unique[1] %in% c(
+      "dynamic_survival_metric",
+      "static_survival_metric",
+      "integrated_survival_metric"
+    ) &&
+      fn_cls_unique[2] %in% c(
+        "dynamic_survival_metric",
+        "static_survival_metric",
+        "integrated_survival_metric"
+      )) {
       return(invisible(fns))
     }
   }
 
   if (n_unique == 3) {
-    if (fn_cls_unique[1] %in% c("dynamic_survival_metric",
-                                "static_survival_metric",
-                                "integrated_survival_metric") &&
-        fn_cls_unique[2] %in% c("dynamic_survival_metric",
-                                "static_survival_metric",
-                                "integrated_survival_metric") &&
-        fn_cls_unique[3] %in% c("dynamic_survival_metric",
-                                "static_survival_metric",
-                                "integrated_survival_metric")) {
+    if (fn_cls_unique[1] %in% c(
+      "dynamic_survival_metric",
+      "static_survival_metric",
+      "integrated_survival_metric"
+    ) &&
+      fn_cls_unique[2] %in% c(
+        "dynamic_survival_metric",
+        "static_survival_metric",
+        "integrated_survival_metric"
+      ) &&
+      fn_cls_unique[3] %in% c(
+        "dynamic_survival_metric",
+        "static_survival_metric",
+        "integrated_survival_metric"
+      )) {
       return(invisible(fns))
     }
   }

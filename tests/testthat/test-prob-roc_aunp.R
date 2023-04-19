@@ -81,4 +81,3 @@ test_that("work with class_pred input", {
     roc_aunp_vec(cp_truth, estimate)
   )
 })
-

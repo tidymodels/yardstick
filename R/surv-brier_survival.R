@@ -148,8 +148,8 @@ brier_survival_impl <- function(truth,
   category_2 <- surv_time > eval_time
 
   # (0 - estimate) ^ 2 == estimate ^ 2
-  res <- (category_1 * estimate ^ 2 * censoring_weights) +
-    (category_2 * (1 - estimate) ^ 2 * censoring_weights)
+  res <- (category_1 * estimate^2 * censoring_weights) +
+    (category_2 * (1 - estimate)^2 * censoring_weights)
 
   res <- res * case_weights
   res <- sum(res, na.rm = TRUE)

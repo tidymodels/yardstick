@@ -1,4 +1,4 @@
-test_that('Two class - Powers paper', {
+test_that("Two class - Powers paper", {
   lst <- data_powers()
   tabl_2_1 <- lst$tabl_2_1
   df_2_1 <- lst$df_2_1
@@ -65,7 +65,7 @@ test_that("`NA` values propagate from binary `recall()`", {
 
 test_that("Binary `f_meas()` returns `NA` with a warning when recall is undefined (tp + fn = 0) (#98)", {
   levels <- c("a", "b")
-  truth    <- factor(c("b", "b"), levels = levels)
+  truth <- factor(c("b", "b"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
 
   expect_snapshot(
@@ -90,33 +90,33 @@ test_that("Binary `f_meas()` returns `NA` with a warning when precision is undef
 test_that("Multiclass `f_meas()` returns averaged value with `NA`s removed + a warning when recall is undefined (tp + fn = 0) (#98)", {
   levels <- c("a", "b", "c")
 
-  truth    <- factor(c("a", "b", "b"), levels = levels)
+  truth <- factor(c("a", "b", "b"), levels = levels)
   estimate <- factor(c("a", "b", "c"), levels = levels)
 
   expect_snapshot(
     out <- f_meas_vec(truth, estimate)
   )
 
-  expect_identical(out, 5/6)
+  expect_identical(out, 5 / 6)
 })
 
 test_that("Multiclass `f_meas()` returns averaged value with `NA`s removed + a warning when precision is undefined (tp + fn = 0) (#98)", {
   levels <- c("a", "b", "c")
 
-  truth    <- factor(c("a", "b", "c"), levels = levels)
+  truth <- factor(c("a", "b", "c"), levels = levels)
   estimate <- factor(c("a", "b", "b"), levels = levels)
 
   expect_snapshot(
     out <- f_meas_vec(truth, estimate)
   )
 
-  expect_identical(out, 5/6)
+  expect_identical(out, 5 / 6)
 })
 
 test_that("`NA` is still returned if there are some undefined recall values but `na.rm = FALSE`", {
   levels <- c("a", "b", "c")
-  truth    <- factor(c("a", "b", "b"), levels = levels)
-  estimate <- factor(c("a", NA,  "c"), levels = levels)
+  truth <- factor(c("a", "b", "b"), levels = levels)
+  estimate <- factor(c("a", NA, "c"), levels = levels)
   expect_equal(f_meas_vec(truth, estimate, na_rm = FALSE), NA_real_)
   expect_warning(f_meas_vec(truth, estimate, na_rm = FALSE), NA)
 })
@@ -151,7 +151,7 @@ test_that("work with class_pred input", {
 
 # sklearn compare --------------------------------------------------------------
 
-test_that('Two class - sklearn equivalent', {
+test_that("Two class - sklearn equivalent", {
   py_res <- read_pydata("py-f_meas")
   py_res_.5 <- read_pydata("py-f_meas_beta_.5")
   r_metric <- f_meas
@@ -166,7 +166,7 @@ test_that('Two class - sklearn equivalent', {
   )
 })
 
-test_that('Multi class - sklearn equivalent', {
+test_that("Multi class - sklearn equivalent", {
   py_res <- read_pydata("py-f_meas")
   py_res_.5 <- read_pydata("py-f_meas_beta_.5")
   r_metric <- f_meas
@@ -198,7 +198,7 @@ test_that('Multi class - sklearn equivalent', {
   )
 })
 
-test_that('Two class weighted - sklearn equivalent', {
+test_that("Two class weighted - sklearn equivalent", {
   py_res <- read_pydata("py-f_meas")
   py_res_.5 <- read_pydata("py-f_meas_beta_.5")
   r_metric <- f_meas
@@ -215,7 +215,7 @@ test_that('Two class weighted - sklearn equivalent', {
   )
 })
 
-test_that('Multi class weighted - sklearn equivalent', {
+test_that("Multi class weighted - sklearn equivalent", {
   py_res <- read_pydata("py-f_meas")
   py_res_.5 <- read_pydata("py-f_meas_beta_.5")
   r_metric <- f_meas

@@ -6,13 +6,19 @@ data_powers <- function() {
   tbl_2_1_pred <- factor(rep(pr_lvs, times = c(42, 58)), levels = pr_lvs)
   tbl_2_1_pred2 <- tbl_2_1_pred
   tbl_2_1_pred2[c(1, 10, 20, 30, 40, 50)] <- NA
-  tbl_2_1_truth <- factor(c(rep(pr_lvs, times = c(30, 12)),
-                            rep(pr_lvs, times = c(30, 28))),
-                          levels = pr_lvs)
+  tbl_2_1_truth <- factor(
+    c(
+      rep(pr_lvs, times = c(30, 12)),
+      rep(pr_lvs, times = c(30, 28))
+    ),
+    levels = pr_lvs
+  )
   tbl_2_1 <- table(tbl_2_1_pred, tbl_2_1_truth)
-  df_2_1 <- data.frame(truth  = tbl_2_1_truth,
-                       prediction = tbl_2_1_pred,
-                       pred_na = tbl_2_1_pred2)
+  df_2_1 <- data.frame(
+    truth = tbl_2_1_truth,
+    prediction = tbl_2_1_pred,
+    pred_na = tbl_2_1_pred2
+  )
 
   list(tabl_2_1 = tbl_2_1, df_2_1 = df_2_1)
 }
@@ -111,8 +117,8 @@ data_soybean <- function() {
 
 # Made up data
 data_counts <- function() {
-  count_truth <- c(2L,   7L,   1L,   1L,   0L,  3L)
-  count_pred  <- c(2.14, 5.35, 1.65, 1.56, 1.3, 2.71)
+  count_truth <- c(2L, 7L, 1L, 1L, 0L, 3L)
+  count_pred <- c(2.14, 5.35, 1.65, 1.56, 1.3, 2.71)
   count_results <- dplyr::tibble(count = count_truth, pred = count_pred)
 
   count_poor <- count_results

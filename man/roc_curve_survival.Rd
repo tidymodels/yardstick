@@ -79,8 +79,10 @@ library(ggplot2)
 library(dplyr)
 result \%>\%
   mutate(.eval_time = format(.eval_time)) \%>\%
-  ggplot(aes(x = 1 - specificity, y = sensitivity,
-             group = .eval_time, col = .eval_time)) +
+  ggplot(aes(
+    x = 1 - specificity, y = sensitivity,
+    group = .eval_time, col = .eval_time
+  )) +
   geom_step(direction = "hv") +
   geom_abline(lty = 3) +
   coord_equal() +

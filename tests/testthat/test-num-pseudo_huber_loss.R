@@ -1,4 +1,4 @@
-test_that('Pseudo-Huber Loss', {
+test_that("Pseudo-Huber Loss", {
   ex_dat <- generate_numeric_test_data()
   not_na <- !is.na(ex_dat$pred_na)
 
@@ -25,7 +25,7 @@ test_that('Pseudo-Huber Loss', {
 
   expect_snapshot(
     error = TRUE,
-    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1,2))
+    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1, 2))
   )
 })
 
@@ -36,6 +36,6 @@ test_that("Weighted results are working", {
 
   expect_identical(
     huber_loss_pseudo_vec(truth, estimate, case_weights = weights),
-    yardstick_mean(sqrt(1 + (truth - estimate) ^ 2) - 1, case_weights = weights)
+    yardstick_mean(sqrt(1 + (truth - estimate)^2) - 1, case_weights = weights)
   )
 })

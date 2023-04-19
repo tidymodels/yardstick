@@ -70,12 +70,12 @@ average_precision.data.frame <- function(data,
     name = "average_precision",
     fn = average_precision_vec,
     data = data,
-    truth = {{truth}},
+    truth = {{ truth }},
     ...,
     estimator = estimator,
     na_rm = na_rm,
     event_level = event_level,
-    case_weights = {{case_weights}}
+    case_weights = {{ case_weights }}
   )
 }
 

@@ -1,4 +1,4 @@
-test_that('Matches MLmetrics', {
+test_that("Matches MLmetrics", {
   x <- c(1, 1.2, 1.6, 2)
   y <- c(4, 3.8, 4.2, 5)
   # MLmetrics::Area_Under_Curve(x, y, "trapezoid")

@@ -57,12 +57,12 @@ is returned for \code{mpe()}.
 # `solubility_test$solubility` has zero values with corresponding
 # `$prediction` values that are negative. By definition, this causes `Inf`
 # to be returned from `mpe()`.
-solubility_test[solubility_test$solubility == 0,]
+solubility_test[solubility_test$solubility == 0, ]
 
 mpe(solubility_test, solubility, prediction)
 
 # We'll remove the zero values for demonstration
-solubility_test <- solubility_test[solubility_test$solubility != 0,]
+solubility_test <- solubility_test[solubility_test$solubility != 0, ]
 
 # Supply truth and predictions as bare column names
 mpe(solubility_test, solubility, prediction)

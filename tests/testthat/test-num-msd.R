@@ -33,6 +33,6 @@ test_that("weighted results are correct", {
 
   expect_identical(
     msd_vec(truth, estimate, case_weights = weights),
-    -4/3
+    -4 / 3
   )
 })

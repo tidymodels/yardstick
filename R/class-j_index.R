@@ -123,7 +123,7 @@ j_index_vec <- function(truth,
 }
 
 j_index_table_impl <- function(data, estimator, event_level) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     j_index_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)

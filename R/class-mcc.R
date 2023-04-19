@@ -119,7 +119,7 @@ mcc_vec <- function(truth,
 }
 
 mcc_table_impl <- function(data, estimator) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     mcc_binary(data)
   } else {
     mcc_multiclass(data)

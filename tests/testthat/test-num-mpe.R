@@ -41,6 +41,6 @@ test_that("Weighted results are working", {
 
   expect_identical(
     mpe_vec(truth, estimate, case_weights = weights),
-    -3/4 * 100
+    -3 / 4 * 100
   )
 })

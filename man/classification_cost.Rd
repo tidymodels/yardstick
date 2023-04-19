@@ -135,23 +135,23 @@ data(hpc_cv)
 
 # Define cost matrix from Kuhn and Johnson (2013)
 hpc_costs <- tribble(
-   ~estimate, ~truth, ~cost,
-   "VF",   "VF",     0,
-   "VF",    "F",     1,
-   "VF",    "M",     5,
-   "VF",    "L",    10,
-   "F",    "VF",     1,
-   "F",     "F",     0,
-   "F",     "M",     5,
-   "F",     "L",     5,
-   "M",    "VF",     1,
-   "M",     "F",     1,
-   "M",     "M",     0,
-   "M",     "L",     1,
-   "L",    "VF",     1,
-   "L",     "F",     1,
-   "L",     "M",     1,
-   "L",     "L",     0
+  ~estimate, ~truth, ~cost,
+  "VF",      "VF",    0,
+  "VF",      "F",     1,
+  "VF",      "M",     5,
+  "VF",      "L",    10,
+  "F",       "VF",    1,
+  "F",       "F",     0,
+  "F",       "M",     5,
+  "F",       "L",     5,
+  "M",       "VF",    1,
+  "M",       "F",     1,
+  "M",       "M",     0,
+  "M",       "L",     1,
+  "L",       "VF",    1,
+  "L",       "F",     1,
+  "L",       "M",     1,
+  "L",       "L",     0
 )
 
 # You can use the col1:colN tidyselect syntax

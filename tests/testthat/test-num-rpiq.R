@@ -1,4 +1,4 @@
-test_that('rpiq', {
+test_that("rpiq", {
   ex_dat <- generate_numeric_test_data()
   not_na <- !is.na(ex_dat$pred_na)
 

@@ -33,7 +33,6 @@ bal_accuracy.data.frame <- function(data,
                                     case_weights = NULL,
                                     event_level = yardstick_event_level(),
                                     ...) {
-
   class_metric_summarizer(
     name = "bal_accuracy",
     fn = bal_accuracy_vec,
@@ -45,7 +44,6 @@ bal_accuracy.data.frame <- function(data,
     case_weights = !!enquo(case_weights),
     event_level = event_level
   )
-
 }
 
 #' @export
@@ -103,7 +101,7 @@ bal_accuracy_vec <- function(truth,
 }
 
 bal_accuracy_table_impl <- function(data, estimator, event_level) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     bal_accuracy_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
@@ -113,10 +111,10 @@ bal_accuracy_table_impl <- function(data, estimator, event_level) {
 }
 
 bal_accuracy_binary <- function(data, event_level) {
-  ( sens_binary(data, event_level) + spec_binary(data, event_level) ) / 2
+  (sens_binary(data, event_level) + spec_binary(data, event_level)) / 2
 }
 
 # Urbanowicz 2015 ExSTraCS 2.0 description and evaluation of a scalable learning.pdf
 bal_accuracy_multiclass <- function(data, estimator) {
-  ( recall_multiclass(data, estimator) + spec_multiclass(data, estimator) ) / 2
+  (recall_multiclass(data, estimator) + spec_multiclass(data, estimator)) / 2
 }

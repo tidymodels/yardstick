@@ -65,8 +65,10 @@
 #' library(dplyr)
 #' result %>%
 #'   mutate(.eval_time = format(.eval_time)) %>%
-#'   ggplot(aes(x = 1 - specificity, y = sensitivity,
-#'              group = .eval_time, col = .eval_time)) +
+#'   ggplot(aes(
+#'     x = 1 - specificity, y = sensitivity,
+#'     group = .eval_time, col = .eval_time
+#'   )) +
 #'   geom_step(direction = "hv") +
 #'   geom_abline(lty = 3) +
 #'   coord_equal() +
@@ -87,7 +89,6 @@ roc_curve_survival.data.frame <- function(data,
                                           ...,
                                           na_rm = TRUE,
                                           case_weights = NULL) {
-
   result <- curve_survival_metric_summarizer(
     name = "roc_curve_survival",
     fn = roc_curve_survival_vec,
@@ -207,7 +208,6 @@ roc_curve_survival_impl_one <- function(event_time, delta, data) {
 
 # Dynamically exported
 autoplot.roc_survival_df <- function(object, ...) {
-
   `%+%` <- ggplot2::`%+%`
   object$.eval_time <- format(object$.eval_time)
 

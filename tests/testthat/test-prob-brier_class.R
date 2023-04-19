@@ -1,6 +1,4 @@
-
-test_that('basic results', {
-
+test_that("basic results", {
   # With the mclust pakcage, BrierScore(hpc_cv %>% select(VF:L) %>% as.matrix, hpc_cv$obs)
   hpc_exp <- 0.21083946
 
@@ -67,7 +65,6 @@ test_that('basic results', {
     yardstick:::brier_factor(hpc_wts$obs, hpc_wts %>% dplyr::select(VF:L)),
     tolerance = 0.01
   )
-
 })
 
 test_that("errors with class_pred input", {

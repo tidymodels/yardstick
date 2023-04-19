@@ -222,7 +222,6 @@ warn_roc_options_deprecated <- function(what) {
 
 # Dynamically exported
 autoplot.roc_df <- function(object, ...) {
-
   `%+%` <- ggplot2::`%+%`
 
   # Base chart
@@ -230,30 +229,25 @@ autoplot.roc_df <- function(object, ...) {
 
   # Add in group interactions if required
   if (inherits(object, "grouped_roc_df")) {
-
     grps <- dplyr::groups(object)
 
     grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
 
     interact_expr <- list(
-      color = expr(interaction(!!! grps, sep = "_"))
+      color = expr(interaction(!!!grps, sep = "_"))
     )
 
     roc_chart <- roc_chart %+%
       ggplot2::labs(color = grps_chr)
-
-  }
-  else {
-
+  } else {
     interact_expr <- list()
-
   }
 
   # splice in the group interactions, or do nothing
   aes_spliced <- ggplot2::aes(
     x = 1 - specificity,
     y = sensitivity,
-    !!! interact_expr
+    !!!interact_expr
   )
 
   # build the graph

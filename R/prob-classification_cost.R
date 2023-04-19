@@ -72,23 +72,23 @@
 #'
 #' # Define cost matrix from Kuhn and Johnson (2013)
 #' hpc_costs <- tribble(
-#'    ~estimate, ~truth, ~cost,
-#'    "VF",   "VF",     0,
-#'    "VF",    "F",     1,
-#'    "VF",    "M",     5,
-#'    "VF",    "L",    10,
-#'    "F",    "VF",     1,
-#'    "F",     "F",     0,
-#'    "F",     "M",     5,
-#'    "F",     "L",     5,
-#'    "M",    "VF",     1,
-#'    "M",     "F",     1,
-#'    "M",     "M",     0,
-#'    "M",     "L",     1,
-#'    "L",    "VF",     1,
-#'    "L",     "F",     1,
-#'    "L",     "M",     1,
-#'    "L",     "L",     0
+#'   ~estimate, ~truth, ~cost,
+#'   "VF",      "VF",    0,
+#'   "VF",      "F",     1,
+#'   "VF",      "M",     5,
+#'   "VF",      "L",    10,
+#'   "F",       "VF",    1,
+#'   "F",       "F",     0,
+#'   "F",       "M",     5,
+#'   "F",       "L",     5,
+#'   "M",       "VF",    1,
+#'   "M",       "F",     1,
+#'   "M",       "M",     0,
+#'   "M",       "L",     1,
+#'   "L",       "VF",    1,
+#'   "L",       "F",     1,
+#'   "L",       "M",     1,
+#'   "L",       "L",     0
 #' )
 #'
 #' # You can use the col1:colN tidyselect syntax
@@ -101,11 +101,11 @@
 #'   group_by(Resample) %>%
 #'   classification_cost(obs, VF:L, costs = hpc_costs)
 classification_cost <- function(data, ...) {
-   UseMethod("classification_cost")
+  UseMethod("classification_cost")
 }
 classification_cost <- new_prob_metric(
-   fn = classification_cost,
-   direction = "minimize"
+  fn = classification_cost,
+  direction = "minimize"
 )
 
 #' @rdname classification_cost
@@ -117,18 +117,18 @@ classification_cost.data.frame <- function(data,
                                            na_rm = TRUE,
                                            event_level = yardstick_event_level(),
                                            case_weights = NULL) {
-   prob_metric_summarizer(
-      name = "classification_cost",
-      fn = classification_cost_vec,
-      data = data,
-      truth = !!enquo(truth),
-      ...,
-      na_rm = na_rm,
-      event_level = event_level,
-      case_weights = !!enquo(case_weights),
-      # Extra argument for classification_cost_impl()
-      fn_options = list(costs = costs)
-   )
+  prob_metric_summarizer(
+    name = "classification_cost",
+    fn = classification_cost_vec,
+    data = data,
+    truth = !!enquo(truth),
+    ...,
+    na_rm = na_rm,
+    event_level = event_level,
+    case_weights = !!enquo(case_weights),
+    # Extra argument for classification_cost_impl()
+    fn_options = list(costs = costs)
+  )
 }
 
 #' @rdname classification_cost
@@ -142,28 +142,28 @@ classification_cost_vec <- function(truth,
                                     ...) {
   abort_if_class_pred(truth)
 
-   estimator <- finalize_estimator(truth, metric_class = "classification_cost")
+  estimator <- finalize_estimator(truth, metric_class = "classification_cost")
 
-   check_prob_metric(truth, estimate, case_weights, estimator)
+  check_prob_metric(truth, estimate, case_weights, estimator)
 
-   if (na_rm) {
-     result <- yardstick_remove_missing(truth, estimate, case_weights)
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
 
-     truth <- result$truth
-     estimate <- result$estimate
-     case_weights <- result$case_weights
-   } else if (yardstick_any_missing(truth, estimate, case_weights)) {
-     return(NA_real_)
-   }
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
 
-   classification_cost_estimator_impl(
-     truth = truth,
-     estimate = estimate,
-     costs = costs,
-     estimator = estimator,
-     event_level = event_level,
-     case_weights = case_weights
-   )
+  classification_cost_estimator_impl(
+    truth = truth,
+    estimate = estimate,
+    costs = costs,
+    estimator = estimator,
+    event_level = event_level,
+    case_weights = case_weights
+  )
 }
 
 classification_cost_estimator_impl <- function(truth,
@@ -172,11 +172,11 @@ classification_cost_estimator_impl <- function(truth,
                                                estimator,
                                                event_level,
                                                case_weights) {
-   if (is_binary(estimator)) {
-      classification_cost_binary(truth, estimate, costs, event_level, case_weights)
-   } else {
-      classification_cost_multiclass(truth, estimate, costs, case_weights)
-   }
+  if (is_binary(estimator)) {
+    classification_cost_binary(truth, estimate, costs, event_level, case_weights)
+  } else {
+    classification_cost_multiclass(truth, estimate, costs, case_weights)
+  }
 }
 
 classification_cost_binary <- function(truth,
@@ -184,160 +184,160 @@ classification_cost_binary <- function(truth,
                                        costs,
                                        event_level,
                                        case_weights) {
-   if (is_event_first(event_level)) {
-      level1 <- estimate
-      level2 <- 1 - estimate
-   } else {
-      level1 <- 1 - estimate
-      level2 <- estimate
-   }
+  if (is_event_first(event_level)) {
+    level1 <- estimate
+    level2 <- 1 - estimate
+  } else {
+    level1 <- 1 - estimate
+    level2 <- estimate
+  }
 
-   estimate <- c(level1, level2)
-   estimate <- matrix(estimate, ncol = 2)
+  estimate <- c(level1, level2)
+  estimate <- matrix(estimate, ncol = 2)
 
-   classification_cost_multiclass(truth, estimate, costs, case_weights)
+  classification_cost_multiclass(truth, estimate, costs, case_weights)
 }
 
 classification_cost_multiclass <- function(truth, estimate, costs, case_weights) {
-   levels <- levels(truth)
+  levels <- levels(truth)
 
-   costs <- validate_costs(costs, levels)
-   costs <- pivot_costs(costs, levels)
-   costs <- recycle_costs(costs, truth)
+  costs <- validate_costs(costs, levels)
+  costs <- pivot_costs(costs, levels)
+  costs <- recycle_costs(costs, truth)
 
-   costs <- costs[levels]
-   costs <- as.matrix(costs)
+  costs <- costs[levels]
+  costs <- as.matrix(costs)
 
-   out <- estimate * costs
-   out <- rowSums(out)
-   out <- yardstick_mean(out, case_weights = case_weights)
+  out <- estimate * costs
+  out <- rowSums(out)
+  out <- yardstick_mean(out, case_weights = case_weights)
 
-   out
+  out
 }
 
 validate_costs <- function(costs, levels) {
-   if (is.null(costs)) {
-      costs <- generate_equal_cost_grid(levels)
-      return(costs)
-   }
+  if (is.null(costs)) {
+    costs <- generate_equal_cost_grid(levels)
+    return(costs)
+  }
 
-   if (!is.data.frame(costs)) {
-      abort("`costs` must be `NULL` or a data.frame.")
-   }
+  if (!is.data.frame(costs)) {
+    abort("`costs` must be `NULL` or a data.frame.")
+  }
 
-   columns <- names(costs)
-   if (length(columns) != 3L) {
-      abort("`costs` must be a data.frame with 3 columns.")
-   }
+  columns <- names(costs)
+  if (length(columns) != 3L) {
+    abort("`costs` must be a data.frame with 3 columns.")
+  }
 
-   ok <- identical(sort(columns), sort(c("truth", "estimate", "cost")))
-   if (!ok) {
-      abort("`costs` must have columns: 'truth', 'estimate', and 'cost'.")
-   }
+  ok <- identical(sort(columns), sort(c("truth", "estimate", "cost")))
+  if (!ok) {
+    abort("`costs` must have columns: 'truth', 'estimate', and 'cost'.")
+  }
 
-   if (is.factor(costs$truth)) {
-      costs$truth <- as.character(costs$truth)
-   }
-   if (!is.character(costs$truth)) {
-      abort("`costs$truth` must be a character or factor column.")
-   }
+  if (is.factor(costs$truth)) {
+    costs$truth <- as.character(costs$truth)
+  }
+  if (!is.character(costs$truth)) {
+    abort("`costs$truth` must be a character or factor column.")
+  }
 
-   if (is.factor(costs$estimate)) {
-      costs$estimate <- as.character(costs$estimate)
-   }
-   if (!is.character(costs$estimate)) {
-      abort("`costs$estimate` must be a character or factor column.")
-   }
+  if (is.factor(costs$estimate)) {
+    costs$estimate <- as.character(costs$estimate)
+  }
+  if (!is.character(costs$estimate)) {
+    abort("`costs$estimate` must be a character or factor column.")
+  }
 
-   if (!is.numeric(costs$cost)) {
-      abort("`costs$cost` must be a numeric column.")
-   }
+  if (!is.numeric(costs$cost)) {
+    abort("`costs$cost` must be a numeric column.")
+  }
 
-   ok <- all(costs$truth %in% levels)
-   if (is_false(ok)) {
-      levels <- quote_and_collapse(levels)
-      abort(paste0("`costs$truth` can only contain ", levels, "."))
-   }
+  ok <- all(costs$truth %in% levels)
+  if (is_false(ok)) {
+    levels <- quote_and_collapse(levels)
+    abort(paste0("`costs$truth` can only contain ", levels, "."))
+  }
 
-   ok <- all(costs$estimate %in% levels)
-   if (is_false(ok)) {
-      levels <- quote_and_collapse(levels)
-      abort(paste0("`costs$estimate` can only contain ", levels, "."))
-   }
+  ok <- all(costs$estimate %in% levels)
+  if (is_false(ok)) {
+    levels <- quote_and_collapse(levels)
+    abort(paste0("`costs$estimate` can only contain ", levels, "."))
+  }
 
-   pairs <- costs[c("truth", "estimate")]
-   cost <- costs$cost
+  pairs <- costs[c("truth", "estimate")]
+  cost <- costs$cost
 
-   not_ok <- vec_duplicate_any(pairs)
-   if (not_ok) {
-      abort("`costs` cannot have duplicate 'truth' / 'estimate' combinations.")
-   }
+  not_ok <- vec_duplicate_any(pairs)
+  if (not_ok) {
+    abort("`costs` cannot have duplicate 'truth' / 'estimate' combinations.")
+  }
 
-   out <- generate_all_level_combinations(levels)
+  out <- generate_all_level_combinations(levels)
 
-   # Detect user specified cost locations
-   locs <- vec_match(pairs, out)
+  # Detect user specified cost locations
+  locs <- vec_match(pairs, out)
 
-   # Default to no cost
-   out$cost <- 0
+  # Default to no cost
+  out$cost <- 0
 
-   # Update to user specified cost
-   out$cost[locs] <- cost
+  # Update to user specified cost
+  out$cost[locs] <- cost
 
-   out
+  out
 }
 
 # - 0 cost for correct predictions
 # - 1 cost for incorrect predictions
 generate_equal_cost_grid <- function(levels) {
-   costs <- generate_all_level_combinations(levels)
-   costs$cost <- ifelse(costs$truth == costs$estimate, yes = 0, no = 1)
-   costs
+  costs <- generate_all_level_combinations(levels)
+  costs$cost <- ifelse(costs$truth == costs$estimate, yes = 0, no = 1)
+  costs
 }
 
 generate_all_level_combinations <- function(levels) {
-   # `expand.grid()` expands first column fastest,
-   # but we want first column slowest so we reverse the columns
-   grid <- expand.grid(estimate = levels, truth = levels)
-   grid <- dplyr::as_tibble(grid)
-   grid <- grid[c("truth", "estimate")]
-   grid
+  # `expand.grid()` expands first column fastest,
+  # but we want first column slowest so we reverse the columns
+  grid <- expand.grid(estimate = levels, truth = levels)
+  grid <- dplyr::as_tibble(grid)
+  grid <- grid[c("truth", "estimate")]
+  grid
 }
 
 pivot_costs <- function(costs, levels) {
-   # Must be a data frame, not a tibble, for `reshape()` to work
-   costs <- as.data.frame(costs)
+  # Must be a data frame, not a tibble, for `reshape()` to work
+  costs <- as.data.frame(costs)
 
-   # tidyr::pivot_wider(costs, truth, names_from = estimate, values_from = cost)
-   costs <- stats::reshape(
-      costs,
-      v.names = "cost",
-      idvar = "truth",
-      timevar = "estimate",
-      direction = "wide",
-      sep = "."
-   )
+  # tidyr::pivot_wider(costs, truth, names_from = estimate, values_from = cost)
+  costs <- stats::reshape(
+    costs,
+    v.names = "cost",
+    idvar = "truth",
+    timevar = "estimate",
+    direction = "wide",
+    sep = "."
+  )
 
-   # Ensure column ordering matches `truth` level ordering
-   columns <- paste0("cost.", levels)
-   costs <- costs[c("truth", columns)]
+  # Ensure column ordering matches `truth` level ordering
+  columns <- paste0("cost.", levels)
+  costs <- costs[c("truth", columns)]
 
-   names(costs) <- c("truth", levels)
+  names(costs) <- c("truth", levels)
 
-   costs <- dplyr::as_tibble(costs)
+  costs <- dplyr::as_tibble(costs)
 
-   costs
+  costs
 }
 
 recycle_costs <- function(costs, truth) {
-   levels <- levels(truth)
+  levels <- levels(truth)
 
-   # Expand `costs` to equal size of `truth`, matching the `truth` values
-   needles <- truth
-   haystack <- factor(costs$truth, levels = levels)
-   locs <- vec_match(needles, haystack)
+  # Expand `costs` to equal size of `truth`, matching the `truth` values
+  needles <- truth
+  haystack <- factor(costs$truth, levels = levels)
+  locs <- vec_match(needles, haystack)
 
-   costs <- vec_slice(costs, locs)
+  costs <- vec_slice(costs, locs)
 
-   costs
+  costs
 }

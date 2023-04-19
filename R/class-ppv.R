@@ -151,7 +151,7 @@ ppv_table_impl <- function(data,
                            estimator,
                            event_level,
                            prevalence = NULL) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     ppv_binary(data, event_level, prevalence)
   } else {
     w <- get_weights(data, estimator)
@@ -177,12 +177,12 @@ ppv_multiclass <- function(data, estimator, prevalence = NULL) {
   # prevalence is explicitely set. In that case, that value
   # is used which alters the result
   if (is.null(prevalence)) {
-    tpfn     <- colSums(data)
+    tpfn <- colSums(data)
     tptnfpfn <- rep(sum(data), times = nrow(data))
 
     if (is_micro(estimator)) {
-      tpfn       <- sum(tpfn)
-      tptnfpfn   <- sum(tptnfpfn)
+      tpfn <- sum(tpfn)
+      tptnfpfn <- sum(tptnfpfn)
     }
 
     prevalence <- tpfn / tptnfpfn

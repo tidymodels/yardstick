@@ -102,7 +102,7 @@ detection_prevalence_vec <- function(truth,
 }
 
 detection_prevalence_table_impl <- function(data, estimator, event_level) {
-  if(is_binary(estimator)) {
+  if (is_binary(estimator)) {
     detection_prevalence_binary(data, event_level)
   } else {
     w <- get_weights(data, estimator)
@@ -122,7 +122,7 @@ detection_prevalence_multiclass <- function(data, estimator) {
 
   denom[denom <= 0] <- NA_real_
 
-  if(is_micro(estimator)) {
+  if (is_micro(estimator)) {
     numer <- sum(numer)
     denom <- sum(denom)
   }

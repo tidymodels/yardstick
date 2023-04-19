@@ -1,4 +1,4 @@
-test_that('case weights', {
+test_that("case weights", {
   lung_surv <- data_lung_surv()
 
   brier_res <- brier_survival(
@@ -13,7 +13,7 @@ test_that('case weights', {
   )
 })
 
-test_that('case weights', {
+test_that("case weights", {
   lung_surv <- data_lung_surv()
   lung_surv$case_wts <- rep(2, nrow(lung_surv))
 
@@ -25,7 +25,7 @@ test_that('case weights', {
 
   brier_res_case_wts <- brier_survival(
     data = lung_surv,
-    truth =  surv_obj,
+    truth = surv_obj,
     .pred,
     case_weights = case_wts
   )
@@ -38,7 +38,7 @@ test_that('case weights', {
 
 # riskRegression compare -------------------------------------------------------
 
-test_that('riskRegression equivalent', {
+test_that("riskRegression equivalent", {
   riskRegression_res <- readRDS(test_path("data/brier_churn_res.rds"))
 
   yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%

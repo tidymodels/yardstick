@@ -26,7 +26,7 @@ test_that("binary roc curve uses equivalent of pROC `direction = <`", {
   expect_identical(curve$sensitivity, expect_sensitivity)
 })
 
-test_that('ROC Curve', {
+test_that("ROC Curve", {
   pROC_two_class_example_curve <- data_pROC_two_class_example_curve()
 
   # Equal to pROC up to a reasonable tolerance
@@ -60,7 +60,7 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
 
-  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),]
+  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight), ]
 
   expect_identical(
     roc_curve(hpc_cv, obs, VF:L, case_weights = weight),
@@ -90,7 +90,7 @@ test_that("zero weights don't affect the curve", {
 
   expect_identical(
     roc_curve(df, truth, a, case_weights = weight),
-    roc_curve(df[df$weight != 0,], truth, a, case_weights = weight)
+    roc_curve(df[df$weight != 0, ], truth, a, case_weights = weight)
   )
 })
 

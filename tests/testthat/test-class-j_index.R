@@ -1,19 +1,19 @@
-test_that('Two class', {
+test_that("Two class", {
   lst <- data_altman()
   pathology <- lst$pathology
   path_tbl <- lst$path_tbl
 
   expect_equal(
     j_index(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
-    (231/258) + (54/86)  - 1
+    (231 / 258) + (54 / 86) - 1
   )
   expect_equal(
     j_index(path_tbl)[[".estimate"]],
-    (231/258) + (54/86)  - 1
+    (231 / 258) + (54 / 86) - 1
   )
   expect_equal(
     j_index(pathology, pathology, scan)[[".estimate"]],
-    (231/258) + (54/86)  - 1
+    (231 / 258) + (54 / 86) - 1
   )
 })
 
@@ -33,7 +33,7 @@ test_that("`event_level = 'second'` works", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Three class', {
+test_that("Three class", {
   multi_ex <- data_three_by_three()
   micro <- data_three_by_three_micro()
 
@@ -62,7 +62,7 @@ test_that("two class with case weights is correct", {
 
   expect_identical(
     j_index(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
-    -10/11
+    -10 / 11
   )
 })
 
@@ -70,7 +70,7 @@ test_that("two class with case weights is correct", {
 
 test_that("Binary `j_index()` returns `NA` with a warning when sensitivity is undefined (tp + fn = 0) (#265)", {
   levels <- c("a", "b")
-  truth    <- factor(c("b", "b"), levels = levels)
+  truth <- factor(c("b", "b"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
 
   expect_snapshot(
@@ -95,20 +95,20 @@ test_that("Binary `j_index()` returns `NA` with a warning when specificity is un
 test_that("Multiclass `j_index()` returns averaged value with `NA`s removed + a warning when sensitivity is undefined (tp + fn = 0) (#265)", {
   levels <- c("a", "b", "c")
 
-  truth    <- factor(c("a", "b", "b"), levels = levels)
+  truth <- factor(c("a", "b", "b"), levels = levels)
   estimate <- factor(c("a", "b", "c"), levels = levels)
 
   expect_snapshot(
     out <- j_index_vec(truth, estimate)
   )
 
-  expect_identical(out, 3/4)
+  expect_identical(out, 3 / 4)
 })
 
 test_that("Multiclass `j_index()` returns averaged value with `NA`s removed + a warning when specificity is undefined (tn + fp = 0) (#265)", {
   levels <- c("a", "b", "c")
 
-  truth    <- factor(c("a", "a", "a"), levels = levels)
+  truth <- factor(c("a", "a", "a"), levels = levels)
   estimate <- factor(c("a", "b", "c"), levels = levels)
 
   expect_snapshot(
@@ -122,7 +122,7 @@ test_that("Multiclass `j_index()` returns averaged value with `NA`s removed + a 
 
 test_that("`NA` is still returned if there are some undefined sensitivity values but `na_rm = FALSE`", {
   levels <- c("a", "b", "c")
-  truth    <- factor(c("a", "b", "b"), levels = levels)
+  truth <- factor(c("a", "b", "b"), levels = levels)
   estimate <- factor(c("a", NA, "c"), levels = levels)
   expect_equal(j_index_vec(truth, estimate, na_rm = FALSE), NA_real_)
   expect_warning(j_index_vec(truth, estimate, na_rm = FALSE), NA)

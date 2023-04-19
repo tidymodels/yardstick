@@ -3,7 +3,8 @@
 data_three_by_three <- function() {
   as.table(
     matrix(
-      c(3, 1, 1,
+      c(
+        3, 1, 1,
         0, 4, 2,
         1, 3, 5
       ),
@@ -19,9 +20,9 @@ weighted_macro_weights <- colSums(multi_ex) / sum(colSums(multi_ex))
 # turn a 3x3 conf mat into a 2x2 submatrix in a one vs all approach
 make_submat <- function(data, col) {
   top_left <- data[col, col]
-  top_righ <- sum(data[col,-col])
-  bot_left <- sum(data[-col,col])
-  bot_righ <- sum(data[-col,-col])
+  top_righ <- sum(data[col, -col])
+  bot_left <- sum(data[-col, col])
+  bot_righ <- sum(data[-col, -col])
   as.table(
     matrix(
       c(top_left, top_righ, bot_left, bot_righ),
@@ -57,10 +58,18 @@ macro_weighted_metric <- function(binary_metric, event_level = "first", ...) {
 # For micro examples, we calculate the pieces by hand and use them individually
 data_three_by_three_micro <- function() {
   res <- list(
-    tp  = vapply(multi_submats, function(x) {x[1,1]}, double(1)),
-    p   = vapply(multi_submats, function(x) {colSums(x)[1]}, double(1)),
-    tn  = vapply(multi_submats, function(x) {x[2,2]}, double(1)),
-    n   = vapply(multi_submats, function(x) {colSums(x)[2]}, double(1))
+    tp = vapply(multi_submats, function(x) {
+      x[1, 1]
+    }, double(1)),
+    p = vapply(multi_submats, function(x) {
+      colSums(x)[1]
+    }, double(1)),
+    tn = vapply(multi_submats, function(x) {
+      x[2, 2]
+    }, double(1)),
+    n = vapply(multi_submats, function(x) {
+      colSums(x)[2]
+    }, double(1))
   )
 
   res <- c(

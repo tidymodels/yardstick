@@ -15,7 +15,7 @@ load("data-raw/dyn-surv-metrics/brier_churn_res.RData")
 load("data-raw/dyn-surv-metrics/auc_churn_res.RData")
 
 brier_churn_res %>%
-  filter(grepl("churn",  model)) %>%
+  filter(grepl("churn", model)) %>%
   readr::write_rds("tests/testthat/data/brier_churn_res.rds")
 
 auc_churn_res %>%
@@ -23,7 +23,7 @@ auc_churn_res %>%
 
 # ------------------------------------------------------------------------------
 
-rr_churn_data <- rr_churn_data[rr_churn_data$model == 1,]
+rr_churn_data <- rr_churn_data[rr_churn_data$model == 1, ]
 rr_churn_data$surv <- Surv(rr_churn_data$time, rr_churn_data$status)
 rr_churn_data$surv_prob <- 1 - rr_churn_data$risk
 

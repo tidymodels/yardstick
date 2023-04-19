@@ -2,7 +2,7 @@
 
 # Perfect gain capture with .5 threshold
 
-test_that('Perfect gain capture', {
+test_that("Perfect gain capture", {
   df <- data.frame(
     truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
     estimate = c(.9, .8, .4, .68, .4)
@@ -22,22 +22,22 @@ test_that('Perfect gain capture', {
 
 # 1 Out of order ---------------------------------------------------------------
 
-test_that('1 out of order', {
+test_that("1 out of order", {
   # 1 element out of order (3)
   estimate2 <- c(.9, .8, .7, .68, .4)
   truth2 <- factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No"))
   df2 <- data.frame(truth2, estimate2)
 
   # triangle + rectangle - .5 = shaded area
-  denom <- (3/5 * 1) / 2 + ((1 - 3/5) * 1) - .5
+  denom <- (3 / 5 * 1) / 2 + ((1 - 3 / 5) * 1) - .5
 
   # triangle + rect + (triangle + rect) + rect - .5 = area under black line
   # but above 45% line
   numer <-
-    (.4 * 2/3) / 2 +
-    ( (.6 - .4) * 2/3) +
-    ((.8 - .6) * 2/3) + ((.8 - .6) * (1-2/3)) / 2 +
-    ((1-.8) * 1) -
+    (.4 * 2 / 3) / 2 +
+    ((.6 - .4) * 2 / 3) +
+    ((.8 - .6) * 2 / 3) + ((.8 - .6) * (1 - 2 / 3)) / 2 +
+    ((1 - .8) * 1) -
     .5
 
   expect_equal(
@@ -48,7 +48,7 @@ test_that('1 out of order', {
   # Anti
   expect_equal(
     gain_capture(df2, truth2, estimate2, event_level = "second")[[".estimate"]],
-    - numer / denom
+    -numer / denom
   )
 })
 
@@ -82,7 +82,7 @@ test_that("gain_capture = 2 * ROCAUC - 1", {
   # must do (2 * ROCAUC - 1) BEFORE weighting
   roc_auc_unweighted <- yardstick:::roc_auc_multiclass(
     truth = hpc_f1$obs,
-    estimate = as.matrix(hpc_f1[,c("VF", "F", "M", "L")]),
+    estimate = as.matrix(hpc_f1[, c("VF", "F", "M", "L")]),
     case_weights = NULL
   )
 
@@ -97,14 +97,14 @@ test_that("gain_capture = 2 * ROCAUC - 1", {
 
 # Case weights -----------------------------------------------------------------
 
-test_that('binary - case weights are applied correctly', {
+test_that("binary - case weights are applied correctly", {
   df <- data.frame(
     truth = factor(c("Yes", "No", "No", "Yes", "Yes"), levels = c("Yes", "No")),
     estimate = c(.9, .8, .4, .68, .4),
     weight = c(2, 1, 2, 1, 1)
   )
 
-  df_expanded <- df[vec_rep_each(vec_seq_along(df), df$weight),]
+  df_expanded <- df[vec_rep_each(vec_seq_along(df), df$weight), ]
 
   expect_identical(
     gain_capture(df, truth, estimate, case_weights = weight),
@@ -118,7 +118,7 @@ test_that("multiclass macro / macro_weighted - case weights are applied correctl
   hpc_f1$weight <- rep(1L, times = nrow(hpc_f1))
   hpc_f1$weight[c(2, 50, 200)] <- 3L
 
-  hpc_f1_expanded <- hpc_f1[vec_rep_each(vec_seq_along(hpc_f1), hpc_f1$weight),]
+  hpc_f1_expanded <- hpc_f1[vec_rep_each(vec_seq_along(hpc_f1), hpc_f1$weight), ]
 
   estimator <- "macro"
   expect_identical(

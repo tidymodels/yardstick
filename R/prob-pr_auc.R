@@ -53,13 +53,13 @@ pr_auc <- new_prob_metric(
 
 #' @export
 #' @rdname pr_auc
-pr_auc.data.frame  <- function(data,
-                               truth,
-                               ...,
-                               estimator = NULL,
-                               na_rm = TRUE,
-                               event_level = yardstick_event_level(),
-                               case_weights = NULL) {
+pr_auc.data.frame <- function(data,
+                              truth,
+                              ...,
+                              estimator = NULL,
+                              na_rm = TRUE,
+                              event_level = yardstick_event_level(),
+                              case_weights = NULL) {
   prob_metric_summarizer(
     name = "pr_auc",
     fn = pr_auc_vec,

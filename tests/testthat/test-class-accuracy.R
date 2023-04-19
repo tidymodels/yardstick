@@ -12,26 +12,26 @@ test_that("two class produces identical results regardless of level order", {
   )
 })
 
-test_that('Three class', {
+test_that("Three class", {
   lst <- data_three_class()
   three_class <- lst$three_class
   three_class_tb <- lst$three_class_tb
 
   expect_equal(
     accuracy(three_class, truth = "obs", estimate = "pred")[[".estimate"]],
-    (24 + 17 + 14)/150
+    (24 + 17 + 14) / 150
   )
   expect_equal(
     accuracy(three_class_tb)[[".estimate"]],
-    (24 + 17 + 14)/150
+    (24 + 17 + 14) / 150
   )
   expect_equal(
     accuracy(as.matrix(three_class_tb))[[".estimate"]],
-    (24 + 17 + 14)/150
+    (24 + 17 + 14) / 150
   )
   expect_equal(
     accuracy(three_class, obs, pred_na)[[".estimate"]],
-    (11 + 10 + 11)/140
+    (11 + 10 + 11) / 140
   )
   expect_equal(
     colnames(accuracy(three_class, truth = "obs", estimate = "pred")),
@@ -54,7 +54,7 @@ test_that("two class with case weights is correct", {
   # values is weighted 2x so we get 1/4.
   expect_identical(
     accuracy(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
-    1/4
+    1 / 4
   )
 })
 
@@ -86,7 +86,7 @@ test_that("work with class_pred input", {
   )
 })
 
-test_that('Two class - sklearn equivalent', {
+test_that("Two class - sklearn equivalent", {
   py_res <- read_pydata("py-accuracy")
   r_metric <- accuracy
 
@@ -96,7 +96,7 @@ test_that('Two class - sklearn equivalent', {
   )
 })
 
-test_that('Multi class - sklearn equivalent', {
+test_that("Multi class - sklearn equivalent", {
   py_res <- read_pydata("py-accuracy")
   r_metric <- accuracy
 

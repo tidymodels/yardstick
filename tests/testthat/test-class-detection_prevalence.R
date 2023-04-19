@@ -1,19 +1,19 @@
-test_that('Two class', {
+test_that("Two class", {
   lst <- data_altman()
   pathology <- lst$pathology
   path_tbl <- lst$path_tbl
 
   expect_equal(
     detection_prevalence(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
-    ( 231 + 32 ) / 344
+    (231 + 32) / 344
   )
   expect_equal(
     detection_prevalence(path_tbl)[[".estimate"]],
-    ( 231 + 32 ) / 344
+    (231 + 32) / 344
   )
   expect_equal(
     detection_prevalence(pathology, pathology, scan)[[".estimate"]],
-    ( 231 + 32 ) / 344
+    (231 + 32) / 344
   )
 })
 
@@ -30,7 +30,7 @@ test_that("`event_level = 'second'` works", {
 
 # ------------------------------------------------------------------------------
 
-test_that('Three class', {
+test_that("Three class", {
   multi_ex <- data_three_by_three()
   micro <- data_three_by_three_micro()
 
@@ -59,7 +59,7 @@ test_that("two class with case weights is correct", {
 
   expect_identical(
     detection_prevalence(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
-    3/4
+    3 / 4
   )
 })
 

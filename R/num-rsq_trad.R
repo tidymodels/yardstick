@@ -93,8 +93,8 @@ rsq_trad_impl <- function(truth, estimate, case_weights) {
   # https://github.com/scikit-learn/scikit-learn/blob/582fa30a31ffd1d2afc6325ec3506418e35b88c2/sklearn/metrics/_regression.py#L805
   truth_mean <- yardstick_mean(truth, case_weights = case_weights)
 
-  SS_residuals <- yardstick_sum((truth - estimate) ^ 2, case_weights = case_weights)
-  SS_total <- yardstick_sum((truth - truth_mean) ^ 2, case_weights = case_weights)
+  SS_residuals <- yardstick_sum((truth - estimate)^2, case_weights = case_weights)
+  SS_total <- yardstick_sum((truth - truth_mean)^2, case_weights = case_weights)
 
   1 - (SS_residuals / SS_total)
 }

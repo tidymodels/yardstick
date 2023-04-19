@@ -98,7 +98,7 @@ counts_per_resample <- hpc_cv \%>\%
   summarize(total = n()) \%>\%
   left_join(cells_per_resample, by = "Resample") \%>\%
   # Compute the proportions
-  mutate(prop = value/total) \%>\%
+  mutate(prop = value / total) \%>\%
   group_by(name) \%>\%
   # Average
   summarize(prop = mean(prop))

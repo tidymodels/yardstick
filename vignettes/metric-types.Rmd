@@ -83,7 +83,6 @@ hpc_cv %>%
 hpc_cv %>%
   filter(Resample == "Fold01") %>%
   accuracy(obs, pred)
-
 ```
 
 1 metric, 10 resamples
