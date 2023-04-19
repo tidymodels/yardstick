@@ -83,9 +83,7 @@ brier_class_vec <- function(truth,
                             na_rm = TRUE,
                             case_weights = NULL,
                             ...) {
-  if (is_class_pred(truth)) {
-    truth <- as_factor_from_class_pred(truth)
-  }
+  abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "brier_class")
 
