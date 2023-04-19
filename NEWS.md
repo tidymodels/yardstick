@@ -1,4 +1,4 @@
-# yardstick (development version)
+# yardstick 1.2.0
 
 ## New Metrics
 
