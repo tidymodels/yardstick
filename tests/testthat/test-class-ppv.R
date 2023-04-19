@@ -129,12 +129,17 @@ test_that("work with class_pred input", {
   fct_estimate[2] <- NA
 
   expect_identical(
-    ppv_vec(cp_truth, cp_estimate),
+    ppv_vec(fct_truth, cp_estimate),
     ppv_vec(fct_truth, fct_estimate)
   )
 
   expect_identical(
-    ppv_vec(cp_truth, cp_estimate, na_rm = FALSE),
+    ppv_vec(fct_truth, cp_estimate, na_rm = FALSE),
     NA_real_
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    ppv_vec(cp_truth, cp_estimate)
   )
 })

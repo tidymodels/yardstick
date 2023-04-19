@@ -74,3 +74,11 @@
       Note that the following number of true events actually occured for each problematic event level:
       'c': 1
 
+# work with class_pred input
+
+    Code
+      f_meas_vec(cp_truth, cp_estimate)
+    Condition
+      Error in `f_meas_vec()`:
+      ! `truth` should not a `class_pred` object.
+

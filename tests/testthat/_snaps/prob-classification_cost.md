@@ -78,3 +78,11 @@
       Error in `classification_cost()`:
       ! `costs` cannot have duplicate 'truth' / 'estimate' combinations.
 
+# errors with class_pred input
+
+    Code
+      classification_cost_vec(cp_truth, estimate)
+    Condition
+      Error in `classification_cost_vec()`:
+      ! `truth` should not a `class_pred` object.
+

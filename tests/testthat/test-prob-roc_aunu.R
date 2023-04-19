@@ -67,7 +67,7 @@ test_that("roc_aunu() - `options` is deprecated", {
   )
 })
 
-test_that("work with class_pred input", {
+test_that("errors with class_pred input", {
   skip_if_not_installed("probably")
 
   cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
@@ -76,14 +76,8 @@ test_that("work with class_pred input", {
 
   estimate <- as.matrix(two_class_example[c("Class1", "Class2")])
 
-  expect_identical(
-    roc_aunu_vec(cp_truth, estimate),
-    roc_aunu_vec(fct_truth, estimate)
-  )
-
-  expect_identical(
-    roc_aunu_vec(cp_truth, estimate, na_rm = FALSE),
-    NA_real_
+  expect_snapshot(
+    error = TRUE,
+    roc_aunu_vec(cp_truth, estimate)
   )
 })
-

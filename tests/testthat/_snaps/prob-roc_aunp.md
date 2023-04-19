@@ -25,3 +25,11 @@
       The `options` argument of `roc_aunp_vec()` was deprecated in yardstick 1.0.0.
       i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 
+# work with class_pred input
+
+    Code
+      roc_aunp_vec(cp_truth, estimate)
+    Condition
+      Error in `roc_aunp_vec()`:
+      ! `truth` should not a `class_pred` object.
+

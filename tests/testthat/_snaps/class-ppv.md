@@ -8,3 +8,11 @@
       Sensitivity is undefined in this case, and `NA` will be returned.
       Note that 1 predicted event(s) actually occured for the problematic event level, 'a'.
 
+# work with class_pred input
+
+    Code
+      ppv_vec(cp_truth, cp_estimate)
+    Condition
+      Error in `ppv_vec()`:
+      ! `truth` should not a `class_pred` object.
+

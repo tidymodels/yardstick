@@ -207,12 +207,17 @@ test_that("work with class_pred input", {
   fct_estimate[2] <- NA
 
   expect_identical(
-    sensitivity_vec(cp_truth, cp_estimate),
+    sensitivity_vec(fct_truth, cp_estimate),
     sensitivity_vec(fct_truth, fct_estimate)
   )
 
   expect_identical(
-    sensitivity_vec(cp_truth, cp_estimate, na_rm = FALSE),
+    sensitivity_vec(fct_truth, cp_estimate, na_rm = FALSE),
     NA_real_
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    sensitivity_vec(cp_truth, cp_estimate)
   )
 })

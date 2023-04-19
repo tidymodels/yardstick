@@ -76,14 +76,9 @@ test_that("work with class_pred input", {
 
   estimate <- as.matrix(two_class_example[c("Class1", "Class2")])
 
-  expect_identical(
-    roc_aunp_vec(cp_truth, estimate),
-    roc_aunp_vec(fct_truth, estimate)
-  )
-
-  expect_identical(
-    roc_aunp_vec(cp_truth, estimate, na_rm = FALSE),
-    NA_real_
+  expect_snapshot(
+    error = TRUE,
+    roc_aunp_vec(cp_truth, estimate)
   )
 })
 

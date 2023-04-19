@@ -14,3 +14,11 @@
       Error in `kap()`:
       ! `weighting` must be 'none', 'linear', or 'quadratic'.
 
+# work with class_pred input
+
+    Code
+      kap_vec(cp_truth, cp_estimate)
+    Condition
+      Error in `kap_vec()`:
+      ! `truth` should not a `class_pred` object.
+

@@ -88,7 +88,7 @@ test_that("mn_log_loss() applies the min/max rule when a 'non-event' has probabi
   )
 })
 
-test_that("work with class_pred input", {
+test_that("errors with class_pred input", {
   skip_if_not_installed("probably")
 
   cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
@@ -97,14 +97,9 @@ test_that("work with class_pred input", {
 
   estimate <- two_class_example$Class1
 
-  expect_identical(
-    mn_log_loss_vec(cp_truth, estimate),
-    mn_log_loss_vec(fct_truth, estimate)
-  )
-
-  expect_identical(
-    mn_log_loss_vec(cp_truth, estimate, na_rm = FALSE),
-    NA_real_
+  expect_snapshot(
+    error = TRUE,
+    mn_log_loss_vec(cp_truth, estimate)
   )
 })
 
