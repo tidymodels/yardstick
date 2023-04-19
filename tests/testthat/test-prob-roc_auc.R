@@ -382,3 +382,18 @@ test_that("roc_auc() - `options` is deprecated", {
     )
   )
 })
+
+test_that("errors with class_pred input", {
+  skip_if_not_installed("probably")
+
+  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
+  fct_truth <- two_class_example$truth
+  fct_truth[1] <- NA
+
+  estimate <- two_class_example$Class1
+
+  expect_snapshot(
+    error = TRUE,
+    roc_auc_vec(cp_truth, estimate)
+  )
+})

@@ -76,6 +76,34 @@ test_that("`NA` is still returned if there are some undefined precision values b
   expect_warning(precision_vec(truth, estimate, na_rm = FALSE), NA)
 })
 
+test_that("work with class_pred input", {
+  skip_if_not_installed("probably")
+
+  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
+  cp_estimate <- probably::as_class_pred(two_class_example$predicted, which = 2)
+
+  fct_truth <- two_class_example$truth
+  fct_truth[1] <- NA
+
+  fct_estimate <- two_class_example$predicted
+  fct_estimate[2] <- NA
+
+  expect_identical(
+    precision_vec(fct_truth, cp_estimate),
+    precision_vec(fct_truth, fct_estimate)
+  )
+
+  expect_identical(
+    precision_vec(fct_truth, cp_estimate, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    precision_vec(cp_truth, cp_estimate)
+  )
+})
+
 # sklearn compare --------------------------------------------------------------
 
 test_that('Two class - sklearn equivalent', {

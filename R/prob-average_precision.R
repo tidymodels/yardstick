@@ -88,6 +88,8 @@ average_precision_vec <- function(truth,
                                   event_level = yardstick_event_level(),
                                   case_weights = NULL,
                                   ...) {
+  abort_if_class_pred(truth)
+
   estimator <- finalize_estimator(truth, estimator, "average_precision")
 
   check_prob_metric(truth, estimate, case_weights, estimator)

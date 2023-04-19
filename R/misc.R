@@ -60,6 +60,10 @@ is_class_pred <- function(x) {
 }
 
 as_factor_from_class_pred <- function(x) {
+  if (!is_class_pred(x)) {
+    return(x)
+  }
+
   if (!is_installed("probably")) {
     abort(paste0(
       "A <class_pred> input was detected, but the probably package ",
@@ -70,6 +74,15 @@ as_factor_from_class_pred <- function(x) {
   probably::as.factor(x)
 }
 
+abort_if_class_pred <- function(x, call = caller_env()) {
+  if (is_class_pred(x)) {
+    abort(
+      "`truth` should not a `class_pred` object.",
+      call = call
+    )
+  }
+  return(invisible(x))
+}
 # ------------------------------------------------------------------------------
 
 curve_finalize <- function(result, data, class, grouped_class) {
@@ -375,9 +388,8 @@ weighted_quantile <- function(x, weights, probabilities) {
 yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
   check_dots_empty()
 
-  if (is_class_pred(truth)) {
-    truth <- as_factor_from_class_pred(truth)
-  }
+  abort_if_class_pred(truth)
+
   if (is_class_pred(estimate)) {
     estimate <- as_factor_from_class_pred(estimate)
   }
@@ -430,9 +442,7 @@ yardstick_truth_table <- function(truth, ..., case_weights = NULL) {
 
   check_dots_empty()
 
-  if (is_class_pred(truth)) {
-    truth <- as_factor_from_class_pred(truth)
-  }
+  abort_if_class_pred(truth)
 
   if (!is.factor(truth)) {
     abort("`truth` must be a factor.", .internal = TRUE)

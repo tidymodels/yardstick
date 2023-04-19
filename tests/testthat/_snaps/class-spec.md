@@ -19,3 +19,11 @@
       Note that the following number of predicted negatives actually occured for each problematic event level:
       'a': 2
 
+# work with class_pred input
+
+    Code
+      specificity_vec(cp_truth, cp_estimate)
+    Condition
+      Error in `specificity_vec()`:
+      ! `truth` should not a `class_pred` object.
+

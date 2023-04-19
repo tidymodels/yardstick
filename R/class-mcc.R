@@ -97,6 +97,9 @@ mcc_vec <- function(truth,
                     na_rm = TRUE,
                     case_weights = NULL,
                     ...) {
+  abort_if_class_pred(truth)
+  estimate <- as_factor_from_class_pred(estimate)
+
   estimator <- finalize_estimator(truth, metric_class = "mcc")
 
   check_class_metric(truth, estimate, case_weights, estimator)

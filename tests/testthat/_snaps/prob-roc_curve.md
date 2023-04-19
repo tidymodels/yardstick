@@ -32,3 +32,11 @@
       The `options` argument of `roc_curve()` was deprecated in yardstick 1.0.0.
       i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 
+# errors with class_pred input
+
+    Code
+      roc_curve_vec(cp_truth, estimate)
+    Condition
+      Error in `roc_curve_vec()`:
+      ! `truth` should not a `class_pred` object.
+

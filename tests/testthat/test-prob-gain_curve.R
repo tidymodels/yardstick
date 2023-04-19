@@ -207,3 +207,18 @@ test_that("gain_curve() works with hardhat case weights", {
 
   expect_identical(curve1, curve2)
 })
+
+test_that("errors with class_pred input", {
+  skip_if_not_installed("probably")
+
+  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
+  fct_truth <- two_class_example$truth
+  fct_truth[1] <- NA
+
+  estimate <- two_class_example$Class1
+
+  expect_snapshot(
+    error = TRUE,
+    gain_curve_vec_vec(cp_truth, estimate)
+  )
+})

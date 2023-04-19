@@ -117,6 +117,8 @@ roc_aunp_vec <- function(truth,
                          case_weights = NULL,
                          options = list(),
                          ...) {
+  abort_if_class_pred(truth)
+
   check_roc_options_deprecated("roc_aunp_vec", options)
 
   estimator <- "macro_weighted"
