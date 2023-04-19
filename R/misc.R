@@ -60,6 +60,10 @@ is_class_pred <- function(x) {
 }
 
 as_factor_from_class_pred <- function(x) {
+  if (!is_class_pred(x)) {
+    return(x)
+  }
+
   if (!is_installed("probably")) {
     abort(paste0(
       "A <class_pred> input was detected, but the probably package ",

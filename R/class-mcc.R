@@ -98,10 +98,7 @@ mcc_vec <- function(truth,
                     case_weights = NULL,
                     ...) {
   abort_if_class_pred(truth)
-
-  if (is_class_pred(estimate)) {
-    estimate <- as_factor_from_class_pred(estimate)
-  }
+  estimate <- as_factor_from_class_pred(estimate)
 
   estimator <- finalize_estimator(truth, metric_class = "mcc")
 

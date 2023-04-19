@@ -216,10 +216,7 @@ metric_vec_template <- function(metric_impl,
     )
   )
   abort_if_class_pred(truth)
-
-  if (is_class_pred(estimate)) {
-    estimate <- as_factor_from_class_pred(estimate)
-  }
+  estimate <- as_factor_from_class_pred(estimate)
 
   validate_truth_estimate_checks(truth, estimate, cls, estimator)
   validate_case_weights(case_weights, size = length(truth))
