@@ -70,6 +70,11 @@ predictions (the class probability columns) as bare column names or
 When mixing dynamic, integrated, and static survival metrics, pass in the
 time predictions as the named argument \code{estimate}, and the survival
 predictions as bare column names or \code{tidyselect} selectors to \code{...}.
+
+If \code{metric_tweak()} has been used to "tweak" one of these arguments, like
+\code{estimator} or \code{event_level}, then the tweaked version wins. This allows you
+to set the estimator on a metric by metric basis and still use it in a
+\code{metric_set()}.
 }
 \examples{
 library(dplyr)

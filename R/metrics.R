@@ -181,6 +181,11 @@ metrics.data.frame <- function(data,
 #' time predictions as the named argument `estimate`, and the survival
 #' predictions as bare column names or `tidyselect` selectors to `...`.
 #'
+#' If `metric_tweak()` has been used to "tweak" one of these arguments, like
+#' `estimator` or `event_level`, then the tweaked version wins. This allows you
+#' to set the estimator on a metric by metric basis and still use it in a
+#' `metric_set()`.
+#'
 #' @examples
 #' library(dplyr)
 #'
@@ -367,6 +372,8 @@ make_prob_class_metric_function <- function(fns) {
 
       class_calls <- lapply(class_fns, call2, !!! class_args)
 
+      class_calls <- mapply(call_remove_static_arguments, class_calls, class_fns)
+
       class_list <- mapply(
         FUN = eval_safely,
         class_calls, # .x
@@ -400,6 +407,8 @@ make_prob_class_metric_function <- function(fns) {
       )
 
       prob_calls <- lapply(prob_fns, call2, !!! prob_args)
+
+      prob_calls <- mapply(call_remove_static_arguments, prob_calls, prob_fns)
 
       prob_list <- mapply(
         FUN = eval_safely,
@@ -448,6 +457,8 @@ make_numeric_metric_function <- function(fns) {
 
     # Construct calls from the functions + arguments
     calls <- lapply(fns, call2, !!! call_args)
+
+    calls <- mapply(call_remove_static_arguments, calls, fns)
 
     # Evaluate
     metric_list <- mapply(
@@ -510,6 +521,8 @@ make_survival_metric_function <- function(fns) {
     static_calls <- lapply(fns[call_class_ind], call2, !!! static_call_args)
 
     calls <- c(dynamic_calls, static_calls)
+
+    calls <- mapply(call_remove_static_arguments, calls, fns)
 
     # Evaluate
     metric_list <- mapply(
@@ -675,4 +688,26 @@ eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
       abort(message, parent = cnd, call = call("metric_set"))
     }
   )
+}
+
+call_remove_static_arguments <- function(call, fn) {
+  static <- get_static_arguments(fn)
+
+  if (length(static) == 0L) {
+    # No static arguments
+    return(call)
+  }
+
+  names <- rlang::call_args_names(call)
+  names <- intersect(names, static)
+
+  if (length(names) == 0L) {
+    # `static` arguments don't intersect with `call`
+    return(call)
+  }
+
+  zaps <- rlang::rep_named(names, list(rlang::zap()))
+  call <- call_modify(call, !!!zaps)
+
+  call
 }

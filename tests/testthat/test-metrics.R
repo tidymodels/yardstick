@@ -391,3 +391,103 @@ test_that("propagates 'caused by' error message when specifying the wrong column
     set(two_class_example, truth, Class1, estimate = predicted, case_weights = weight)
   })
 })
+
+test_that("metric_tweak and metric_set plays nicely together (#351)", {
+  # Classification
+  multi_ex <- data_three_by_three()
+
+  ref <- dplyr::bind_rows(
+    j_index(multi_ex, estimator = "macro"),
+    j_index(multi_ex, estimator = "micro")
+  )
+
+  j_index_macro <- metric_tweak("j_index", j_index, estimator = "macro")
+  j_index_micro <- metric_tweak("j_index", j_index, estimator = "micro")
+
+  expect_identical(
+    metric_set(j_index_macro, j_index_micro)(multi_ex),
+    ref
+  )
+
+  # Probability
+  ref <- dplyr::bind_rows(
+    roc_auc(two_class_example, truth, Class1, event_level = "first"),
+    roc_auc(two_class_example, truth, Class1, event_level = "second")
+  )
+
+  roc_auc_first <- metric_tweak("roc_auc", roc_auc, event_level = "first")
+  roc_auc_second <- metric_tweak("roc_auc", roc_auc, event_level = "second")
+
+  expect_identical(
+    metric_set(roc_auc_first, roc_auc_second)(two_class_example, truth, Class1),
+    ref
+  )
+
+  # regression
+  ref <- dplyr::bind_rows(
+    ccc(mtcars, truth = mpg, estimate = disp, bias = TRUE),
+    ccc(mtcars, truth = mpg, estimate = disp, bias = FALSE)
+  )
+
+  ccc_bias <- metric_tweak("ccc", ccc, bias = TRUE)
+  ccc_no_bias <- metric_tweak("ccc", ccc, bias = FALSE)
+
+  expect_identical(
+    metric_set(ccc_bias, ccc_no_bias)(mtcars, truth = mpg, estimate = disp),
+    ref
+  )
+
+  # Static survival
+  lung_surv_na <- lung_surv
+  lung_surv_na$.pred_time[1] <- NA
+
+  ref <- dplyr::bind_rows(
+    concordance_survival(lung_surv_na, surv_obj, .pred_time, na_rm = TRUE),
+    concordance_survival(lung_surv_na, surv_obj, .pred_time, na_rm = FALSE)
+  )
+
+  concordance_survival_na_rm <- metric_tweak(
+    "concordance_survival",
+    concordance_survival,
+    na_rm = TRUE
+  )
+  concordance_survival_no_na_rm <- metric_tweak(
+    "concordance_survival",
+    concordance_survival,
+    na_rm = FALSE
+  )
+
+  expect_identical(
+    metric_set(concordance_survival_na_rm, concordance_survival_no_na_rm)(
+      lung_surv_na, truth = surv_obj, estimate = .pred_time
+    ),
+    ref
+  )
+
+  # dynamic survival
+  lung_surv_na <- lung_surv
+  lung_surv_na$surv_obj[1] <- NA
+
+  ref <- dplyr::bind_rows(
+    brier_survival(lung_surv_na, surv_obj, .pred, na_rm = TRUE),
+    brier_survival(lung_surv_na, surv_obj, .pred, na_rm = FALSE)
+  )
+
+  brier_survival_na_rm <- metric_tweak(
+    "brier_survival",
+    brier_survival,
+    na_rm = TRUE
+  )
+  brier_survival_no_na_rm <- metric_tweak(
+    "brier_survival",
+    brier_survival,
+    na_rm = FALSE
+  )
+
+  expect_identical(
+    metric_set(brier_survival_na_rm, brier_survival_no_na_rm)(
+      lung_surv_na, truth = surv_obj, .pred
+    ),
+    ref
+  )
+})

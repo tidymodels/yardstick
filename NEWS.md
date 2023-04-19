@@ -1,5 +1,8 @@
 # yardstick (development version)
 
+* Using `metric_set()` on a metric created with `metric_tweak()` will no longer
+  produces an error, and will favor arguments set with `metric_tweak()` (#351).
+  
 * Metric summarizers no longer error if column names in `data` conflict with
   argument names (#382).
 
