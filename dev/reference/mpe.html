@@ -176,7 +176,7 @@ the number of groups.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># `solubility_test$solubility` has zero values with corresponding</span></span></span>
 <span class="r-in"><span><span class="co"># `$prediction` values that are negative. By definition, this causes `Inf`</span></span></span>
 <span class="r-in"><span><span class="co"># to be returned from `mpe()`.</span></span></span>
-<span class="r-in"><span><span class="va">solubility_test</span><span class="op">[</span><span class="va">solubility_test</span><span class="op">$</span><span class="va">solubility</span> <span class="op">==</span> <span class="fl">0</span>,<span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">solubility_test</span><span class="op">[</span><span class="va">solubility_test</span><span class="op">$</span><span class="va">solubility</span> <span class="op">==</span> <span class="fl">0</span>, <span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     solubility prediction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17           0 -0.1532030</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 220          0 -0.3876578</span>
@@ -188,7 +188,7 @@ the number of groups.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> mpe     standard         <span style="color: #BB0000;">Inf</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># We'll remove the zero values for demonstration</span></span></span>
-<span class="r-in"><span><span class="va">solubility_test</span> <span class="op">&lt;-</span> <span class="va">solubility_test</span><span class="op">[</span><span class="va">solubility_test</span><span class="op">$</span><span class="va">solubility</span> <span class="op">!=</span> <span class="fl">0</span>,<span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">solubility_test</span> <span class="op">&lt;-</span> <span class="va">solubility_test</span><span class="op">[</span><span class="va">solubility_test</span><span class="op">$</span><span class="va">solubility</span> <span class="op">!=</span> <span class="fl">0</span>, <span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Supply truth and predictions as bare column names</span></span></span>
 <span class="r-in"><span><span class="fu">mpe</span><span class="op">(</span><span class="va">solubility_test</span>, <span class="va">solubility</span>, <span class="va">prediction</span><span class="op">)</span></span></span>
