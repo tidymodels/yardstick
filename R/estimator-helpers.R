@@ -99,6 +99,7 @@ finalize_estimator_internal <- function(metric_dispatcher,
   UseMethod("finalize_estimator_internal")
 }
 
+#' @export
 finalize_estimator_internal.default <- function(metric_dispatcher,
                                                 x,
                                                 estimator,
@@ -110,6 +111,7 @@ finalize_estimator_internal.default <- function(metric_dispatcher,
 # Additionally, they all produce the same results regardless of which level
 # is considered the "event". Because of this, the user cannot set the estimator,
 # and it should only be "binary" or "multiclass"
+#' @export
 finalize_estimator_internal.accuracy <- function(metric_dispatcher,
                                                  x,
                                                  estimator,
@@ -121,25 +123,41 @@ finalize_estimator_internal.accuracy <- function(metric_dispatcher,
   }
 }
 
+#' @export
 finalize_estimator_internal.kap <- finalize_estimator_internal.accuracy
+
+#' @export
 finalize_estimator_internal.mcc <- finalize_estimator_internal.accuracy
+
+#' @export
 finalize_estimator_internal.mn_log_loss <- finalize_estimator_internal.accuracy
+
+#' @export
 finalize_estimator_internal.brier_class <- finalize_estimator_internal.accuracy
 
 
 # Classification cost extends naturally to multiclass and produce the same
 # result regardless of the "event" level.
+#' @export
 finalize_estimator_internal.classification_cost <- finalize_estimator_internal.accuracy
 
 # Curve methods don't use the estimator when printing, but do dispatch
 # off it to determine whether to do one-vs-all or not
+#' @export
 finalize_estimator_internal.gain_curve <- finalize_estimator_internal.accuracy
+
+#' @export
 finalize_estimator_internal.lift_curve <- finalize_estimator_internal.accuracy
+
+#' @export
 finalize_estimator_internal.roc_curve <- finalize_estimator_internal.accuracy
+
+#' @export
 finalize_estimator_internal.pr_curve <- finalize_estimator_internal.accuracy
 
 # Hand Till method is the "best" multiclass extension to me
 # because it is immune to class imbalance like binary roc_auc
+#' @export
 finalize_estimator_internal.roc_auc <- function(metric_dispatcher,
                                                 x,
                                                 estimator,
@@ -161,6 +179,7 @@ finalize_estimator_internal.roc_auc <- function(metric_dispatcher,
 }
 
 # PR AUC and Gain Capture don't have micro methods currently
+#' @export
 finalize_estimator_internal.pr_auc <- function(metric_dispatcher,
                                                x,
                                                estimator,
@@ -181,6 +200,7 @@ finalize_estimator_internal.pr_auc <- function(metric_dispatcher,
   }
 }
 
+#' @export
 finalize_estimator_internal.gain_capture <- finalize_estimator_internal.pr_auc
 
 # Default ----------------------------------------------------------------------

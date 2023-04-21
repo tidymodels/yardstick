@@ -1,3 +1,19 @@
+## Submission 1.2.0
+
+Major refactor done to allow new types of metrics to be used.
+
+### revdepcheck results
+
+We checked 32 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 1 new problems
+ * We failed to check 0 packages
+
+#### Problems
+
+* sknifedatar
+  Were contacted on 6th of February with PR to fix https://github.com/rafzamb/sknifedatar/pull/23.
+
 ## Submission 1.1.0
 
 This minor release of yardstick changes the maintainer from Davis to Emil.
