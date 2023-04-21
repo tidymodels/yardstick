@@ -46,10 +46,25 @@
     <loc>https://yardstick.tidymodels.org/reference/bal_accuracy.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/reference/brier_class.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/brier_survival.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/brier_survival_integrated.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/reference/ccc.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/reference/check_metric.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/reference/classification_cost.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/concordance_survival.html</loc>
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/conf_mat.html</loc>
@@ -94,6 +109,9 @@
     <loc>https://yardstick.tidymodels.org/reference/lift_curve.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/reference/lung_surv.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/reference/mae.html</loc>
   </url>
   <url>
@@ -104,6 +122,9 @@
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/mcc.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/metric-summarizers.html</loc>
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/metric_set.html</loc>
@@ -166,6 +187,9 @@
     <loc>https://yardstick.tidymodels.org/reference/roc_auc.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/reference/roc_auc_survival.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/reference/roc_aunp.html</loc>
   </url>
   <url>
@@ -173,6 +197,9 @@
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/roc_curve.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/roc_curve_survival.html</loc>
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/rpd.html</loc>
@@ -206,5 +233,8 @@
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/yardstick-package.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/yardstick_remove_missing.html</loc>
   </url>
 </urlset>
