@@ -28,7 +28,8 @@ Imports:
     tibble,
     tidyselect (>= 1.2.0),
     utils,
-    vctrs (>= 0.5.0)
+    vctrs (>= 0.5.0),
+    withr
 Suggests: 
     covr,
     crayon,
