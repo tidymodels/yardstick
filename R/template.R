@@ -876,7 +876,7 @@ catalog_is_available <-
       if (is.null(tune_is_installed)) {
         tune_is_installed <<- is_installed("tune")
         if (tune_is_installed) {
-          tune_version_is_sufficient <<- packageVersion("tune") > "1.1.0"
+          tune_version_is_sufficient <<- utils::packageVersion("tune") > "1.1.0"
         }
       }
       tune_is_installed && tune_version_is_sufficient
