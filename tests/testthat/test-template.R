@@ -1719,3 +1719,12 @@ test_that("curve_survival_metric_summarizer() handles column name collisions", {
 
   expect_identical(roc_survival_curve_res, roc_survival_curve_exp)
 })
+
+test_that("known selections don't affect selection without tune", {
+  # yardstick's CI reliably does not have tune installed
+  skip_if(rlang::is_installed("tune"), "tune is installed")
+
+  expect_silent({
+    test_res <- rmse(solubility_test, solubility, prediction)
+  })
+})

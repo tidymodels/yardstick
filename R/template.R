@@ -759,6 +759,14 @@ yardstick_eval_select <- function(expr,
                                   error_call = caller_env()) {
   check_dots_empty(call = error_call)
 
+  if (!quo_is_missing(expr) && inherits(quo_get_expr(expr), "name")) {
+    expr_name <- as_name(expr)
+
+    if (is_known_selection(expr_name)) {
+      return(get_known_selection(expr_name))
+    }
+  }
+
   out <- tidyselect::eval_select(
     expr = expr,
     data = data,
@@ -774,12 +782,24 @@ yardstick_eval_select <- function(expr,
     abort(message, call = error_call)
   }
 
+  set_known_selection(as_name(expr), out)
+
   out
 }
 
 yardstick_eval_select_dots <- function(...,
                                        data,
                                        error_call = caller_env()) {
+  expr <- quo(!!substitute(...))
+
+  if (!quo_is_missing(expr) && inherits(quo_get_expr(expr), c("name", "call"))) {
+    expr_label <- as_label(expr)
+
+    if (is_known_selection(expr_label)) {
+      return(get_known_selection(expr_label))
+    }
+  }
+
   out <- tidyselect::eval_select(
     expr = expr(c(...)),
     data = data,
@@ -791,5 +811,78 @@ yardstick_eval_select_dots <- function(...,
 
   out <- names(out)
 
+  set_known_selection(as_label(expr), out)
+
   out
+}
+
+# store known selections (#428) ------------------------------------------------
+is_known_selection <- function(expr_name) {
+  if (!catalog_is_available() || !in_tuning_env()) {
+    return(FALSE)
+  }
+
+  known_selections <- ns_env("tune")$tune_env$known_selections
+
+  expr_name %in% names(known_selections)
+}
+
+get_known_selection <- function(expr_name) {
+  known_selections <- ns_env("tune")$tune_env$known_selections
+
+  known_selections[[expr_name]]
+}
+
+set_known_selection <- function(expr_name, out) {
+  if (!catalog_is_available() || !in_tuning_env()) {
+    return(invisible())
+  }
+
+  tune_env <- ns_env("tune")$tune_env
+
+  if (is.null(tune_env$known_selections)) {
+    init_known_selection(tune_env)
+  }
+
+  tune_env$known_selections[[expr_name]] <- out
+
+  invisible()
+}
+
+init_known_selection <- function(tune_env) {
+  withr::defer(
+    env_bind(tune_env, known_selections = NULL),
+    envir = tune_env$progress_env
+  )
+}
+
+# `catalog_is_available()` defines the per-session condition for whether we
+# can store known selections, while `in_tuning_env()` defines the
+# per-tuning instance of the condition. we want to store known selections:
+# 1) when tune's cataloging machinery is available
+# 2) when called inside of a tuning env, regardless of whether the catalog is
+#    being used to log errors.
+# notably, we don't do so when yardstick functions are called outside of
+# tune, in which case the overhead is `in_tuning_env()` after the first call.
+#
+# set up as a function with local variables so that we only have to run
+# `is_installed()` and `packageVersion()` once.
+catalog_is_available <-
+  local({
+    tune_is_installed <- NULL
+    tune_version_is_sufficient <- FALSE
+
+    function() {
+      if (is.null(tune_is_installed)) {
+        tune_is_installed <<- is_installed("tune")
+        if (tune_is_installed) {
+          tune_version_is_sufficient <<- utils::packageVersion("tune") > "1.1.0"
+        }
+      }
+      tune_is_installed && tune_version_is_sufficient
+    }
+  })
+
+in_tuning_env <- function(tune_env = ns_env("tune")$tune_env) {
+  !is.null(tune_env$progress_env)
 }

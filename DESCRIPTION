@@ -1,7 +1,7 @@
 Type: Package
 Package: yardstick
 Title: Tidy Characterizations of Model Performance
-Version: 1.2.0.9000
+Version: 1.2.0.9001
 Authors@R: c(
     person("Max", "Kuhn", , "max@posit.co", role = "aut"),
     person("Davis", "Vaughan", , "davis@posit.co", role = "aut"),
@@ -28,7 +28,8 @@ Imports:
     tibble,
     tidyselect (>= 1.2.0),
     utils,
-    vctrs (>= 0.5.0)
+    vctrs (>= 0.5.0),
+    withr
 Suggests: 
     covr,
     crayon,
