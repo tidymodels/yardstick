@@ -758,6 +758,7 @@ yardstick_eval_select <- function(expr,
                                   ...,
                                   error_call = caller_env()) {
   check_dots_empty(call = error_call)
+  expr_name <- "init"
 
   if (!quo_is_missing(expr) && inherits(quo_get_expr(expr), "name")) {
     expr_name <- as_name(expr)
@@ -782,7 +783,7 @@ yardstick_eval_select <- function(expr,
     abort(message, call = error_call)
   }
 
-  set_known_selection(as_name(expr), out)
+  set_known_selection(expr_name, out)
 
   out
 }
@@ -791,6 +792,7 @@ yardstick_eval_select_dots <- function(...,
                                        data,
                                        error_call = caller_env()) {
   expr <- quo(!!substitute(...))
+  expr_label <- "init"
 
   if (!quo_is_missing(expr) && inherits(quo_get_expr(expr), c("name", "call"))) {
     expr_label <- as_label(expr)
@@ -811,7 +813,7 @@ yardstick_eval_select_dots <- function(...,
 
   out <- names(out)
 
-  set_known_selection(as_label(expr), out)
+  set_known_selection(expr_label, out)
 
   out
 }
