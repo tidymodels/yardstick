@@ -24,7 +24,7 @@ test_that("known corner cases are correct", {
   df <- data.frame(truth, estimate)
 
   expect_snapshot(out <- average_precision(df, truth, estimate)$.estimate)
-  expect_identical(out, NA_real_)
+  expect_identical(out, NaN)
 
   # Same as pr_auc()
   expect_snapshot(out <- average_precision(df, truth, estimate)$.estimate)
