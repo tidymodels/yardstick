@@ -884,5 +884,5 @@ catalog_is_available <-
   })
 
 in_tuning_env <- function(tune_env = ns_env("tune")$tune_env) {
-  !is.null(tune_env$progress_env)
+  isTRUE(tune_env$progress_active)
 }
