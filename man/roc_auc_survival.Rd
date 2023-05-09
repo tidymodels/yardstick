@@ -71,7 +71,7 @@ internal data set \code{lung_surv} shows an example of the format.
 
 This method automatically groups by the \code{.eval_time} argument.
 
-Smaller values of the score are associated with better model performance.
+Larger values of the score are associated with better model performance.
 }
 \examples{
 library(dplyr)

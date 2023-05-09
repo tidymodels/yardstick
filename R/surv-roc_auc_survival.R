@@ -28,7 +28,7 @@
 #'
 #' This method automatically groups by the `.eval_time` argument.
 #'
-#' Smaller values of the score are associated with better model performance.
+#' Larger values of the score are associated with better model performance.
 #'
 #' @seealso
 #' Compute the ROC survival curve with [roc_curve_survival()].
