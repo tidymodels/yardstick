@@ -435,13 +435,6 @@ py_demographic_parity <-
         hpc_cv$pred == "VF",
         sensitive_features = hpc_cv$Resample,
         sample_weight = weights_hpc_cv
-      ),
-    mf =
-      fairlearn$MetricFrame(
-        metrics = fairlearn$demographic_parity_difference,
-        y_true = hpc_cv$obs == "VF",
-        y_pred = hpc_cv$pred == "VF",
-        sensitive_features = hpc_cv$Resample
       )
   )
 
