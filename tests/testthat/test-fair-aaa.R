@@ -1,0 +1,185 @@
+test_that("basic functionality", {
+  data("hpc_cv")
+
+  silly <- function(...) {metric_tibbler("a", "b", 1)}
+  silly_metric <- new_class_metric(silly, "minimize")
+  silly_fairness_metric <-
+    fairness_metric(
+      silly_metric,
+      "silly",
+      .post = function(x, ...) {x$.estimate[1]}
+    )
+
+  expect_true(inherits(silly_fairness_metric, "function"))
+
+  silly_fairness_Resample <- silly_fairness_metric(Resample)
+  expect_equal(attr(silly_fairness_Resample, "by"), "Resample")
+  expect_s3_class(silly_fairness_Resample, "class_metric")
+
+  expect_silent(
+    m_set <- metric_set(silly_fairness_Resample)
+  )
+
+  expect_s3_class(m_set, "class_prob_metric_set")
+  expect_equal(
+    as_tibble(m_set),
+    tibble::tibble(metric = "silly_fairness_Resample",
+                   class = "class_metric",
+                   direction = "minimize")
+  )
+
+  expect_equal(
+    m_set(hpc_cv, truth = obs, estimate = pred),
+    tibble::tibble(.metric = "silly",
+                   .by = "Resample",
+                   .estimator = "b",
+                   ".estimate" = 1)
+  )
+})
+
+test_that("fairness_metric() works with grouped input", {
+  data("hpc_cv")
+  hpc_cv$group <- sample(c("a", "b"), nrow(hpc_cv), replace = TRUE)
+
+  expect_silent(
+    m_set <-
+      metric_set(
+        equal_opportunity(group)
+      )
+  )
+
+  grouped_res <-
+    hpc_cv %>%
+    dplyr::group_by(Resample) %>%
+    m_set(hpc_cv, truth = obs, estimate = pred)
+
+  hpc_split <- vctrs::vec_split(hpc_cv, hpc_cv$Resample)
+
+  split_res <- dplyr::tibble(
+    Resample = hpc_split$key,
+    res = lapply(
+      hpc_split$val,
+      function(x) m_set(x, truth = obs, estimate = pred))
+  ) %>%
+    tidyr::unnest(cols = res)
+
+  expect_identical(grouped_res, split_res)
+})
+
+test_that("can accommodate redundant sensitive features", {
+  data("hpc_cv")
+
+  expect_silent(
+    m_set <-
+      metric_set(
+        demographic_parity(Resample),
+        equal_opportunity(Resample)
+      )
+  )
+
+  expect_s3_class(m_set, "class_prob_metric_set")
+
+  res <- m_set(hpc_cv, truth = obs, estimate = pred)
+
+  expect_equal(res$.metric, c("demographic_parity", "equal_opportunity"))
+  expect_equal(res$.by, c("Resample", "Resample"))
+})
+
+test_that("can accommodate multiple sensitive features", {
+  data("hpc_cv")
+
+  hpc_cv$group <- sample(c("a", "b"), nrow(hpc_cv), replace = TRUE)
+
+  expect_silent(
+    m_set <-
+      metric_set(
+        demographic_parity(Resample),
+        equal_opportunity(group)
+      )
+  )
+
+  expect_s3_class(m_set, "class_prob_metric_set")
+
+  res <- m_set(hpc_cv, truth = obs, estimate = pred)
+
+  expect_equal(res$.metric, c("demographic_parity", "equal_opportunity"))
+  expect_equal(res$.by, c("Resample", "group"))
+})
+
+test_that("can mix fairness metrics with standard metrics", {
+  data("hpc_cv")
+
+  expect_silent(
+    m_set <-
+      metric_set(
+        demographic_parity(Resample),
+        sens
+      )
+  )
+
+  expect_s3_class(m_set, "class_prob_metric_set")
+
+  res <- m_set(hpc_cv, truth = obs, estimate = pred)
+
+  expect_equal(res$.metric, c("demographic_parity", "sens"))
+  expect_equal(res$.by, c("Resample", NA_character_))
+
+  m_set_sens <- metric_set(sens)
+  expect_equal(
+    res[2,] %>% dplyr::select(-.by),
+    m_set_sens(hpc_cv, truth = obs, estimate = pred)
+  )
+})
+
+test_that("errors informatively with bad input", {
+  expect_snapshot(
+    error = TRUE,
+    fairness_metric()
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    fairness_metric(sens)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    fairness_metric(sens, "bop")
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    fairness_metric("boop", "bop", identity)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    fairness_metric(identity, "bop", identity)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    fairness_metric(sens, 1, identity)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    fairness_metric(sens, "bop", "boop")
+  )
+})
+
+test_that("outputted function errors informatively with bad input", {
+  data("hpc_cv")
+
+  bad_.post <- fairness_metric(sens, "bop", identity)
+  expect_snapshot(
+    error = TRUE,
+    bad_.post(Resample)(hpc_cv, truth = obs, estimate = pred)
+  )
+
+  bad_by <- fairness_metric(sens, "bop", identity)(nonexistent_column)
+  expect_snapshot(
+    error = TRUE,
+    bad_by(hpc_cv, truth = obs, estimate = pred)
+  )
+})
