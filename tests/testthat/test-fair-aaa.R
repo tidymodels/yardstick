@@ -169,6 +169,9 @@ test_that("errors informatively with bad input", {
 })
 
 test_that("outputted function errors informatively with bad input", {
+  r_version <- R.Version()
+  skip_if(paste(r_version$major, r_version$minor, sep = ".") <= "3.6.3")
+
   data("hpc_cv")
 
   bad_.post <- fairness_metric(sens, "bop", identity)
