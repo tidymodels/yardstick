@@ -68,6 +68,13 @@ reference:
     - iic
     - poisson_log_loss
 
+  - title: Fairness Metrics
+    contents:
+    - fairness_metric
+    - demographic_parity
+    - equalized_odds
+    - equal_opportunity
+
   - title: Curve Functions
     contents:
     - roc_curve
