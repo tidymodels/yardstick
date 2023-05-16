@@ -17,8 +17,42 @@ In many cases, \code{~diff(range(x$.estimate))} or
 \verb{~r <- range(x$.estimate); r[1]/r[2]}.}
 }
 \value{
-A function with one argument, \code{by}, indicating the data-masked
-variable giving the sensitive feature. See the documentation on the
+This function is a
+\href{https://adv-r.hadley.nz/function-factories.html}{function factory}; it's
+output is itself a function. Further, the functions that this function
+outputs are also function factories. More explicitly, this looks like:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# a function with similar implementation to `demographic_parity()`:
+diff_range <- function(x, ...) \{diff(range(x$.estimate))\}
+
+dem_parity <-
+  fairness_metric(
+    .fn = detection_prevalence,
+    .name = "dem_parity",
+    .post = diff_range
+  )
+}\if{html}{\out{</div>}}
+
+The outputted \code{dem_parity} is a function that takes one argument, \code{by},
+indicating the data-masked variable giving the sensitive feature.
+
+When called with a \code{by} argument, \code{dem_parity} will return a yardstick
+metric function like any other:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{dem_parity_by_gender <- dem_parity(gender)
+}\if{html}{\out{</div>}}
+
+Note that \code{dem_parity} doesn't take any arguments other than \code{by}, and thus
+knows nothing about the data it will be applied to other than that it ought
+to have a column with name \code{"gender"} in it.
+
+The output \code{dem_parity_by_gender} is a metric function that takes the
+same arguments as the function supplied as \code{fn}, in this case
+\code{detection_prevalence}. It will thus interface like any other yardstick
+function except that it will look for a \code{"gender"} column in
+the data it's supplied.
+
+In addition to the examples below, see the documentation on the
 return value of fairness metrics like \code{\link[=demographic_parity]{demographic_parity()}},
 \code{\link[=equal_opportunity]{equal_opportunity()}}, or \code{\link[=equalized_odds]{equalized_odds()}} to learn more about how the
 output of this function can be used.

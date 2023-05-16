@@ -26,8 +26,45 @@
 #' For finer control of how groups in `by` are treated, use the
 #' `.post` argument.
 #'
-#' @return A function with one argument, `by`, indicating the data-masked
-#' variable giving the sensitive feature. See the documentation on the
+#' @return
+#' This function is a
+#' [function factory](https://adv-r.hadley.nz/function-factories.html); it's
+#' output is itself a function. Further, the functions that this function
+#' outputs are also function factories. More explicitly, this looks like:
+#'
+#' ```
+#' # a function with similar implementation to `demographic_parity()`:
+#' diff_range <- function(x, ...) {diff(range(x$.estimate))}
+#'
+#' dem_parity <-
+#'   fairness_metric(
+#'     .fn = detection_prevalence,
+#'     .name = "dem_parity",
+#'     .post = diff_range
+#'   )
+#' ```
+#'
+#' The outputted `dem_parity` is a function that takes one argument, `by`,
+#' indicating the data-masked variable giving the sensitive feature.
+#'
+#' When called with a `by` argument, `dem_parity` will return a yardstick
+#' metric function like any other:
+#'
+#' ```
+#' dem_parity_by_gender <- dem_parity(gender)
+#' ```
+#'
+#' Note that `dem_parity` doesn't take any arguments other than `by`, and thus
+#' knows nothing about the data it will be applied to other than that it ought
+#' to have a column with name `"gender"` in it.
+#'
+#' The output `dem_parity_by_gender` is a metric function that takes the
+#' same arguments as the function supplied as `fn`, in this case
+#' `detection_prevalence`. It will thus interface like any other yardstick
+#' function except that it will look for a `"gender"` column in
+#' the data it's supplied.
+#'
+#' In addition to the examples below, see the documentation on the
 #' return value of fairness metrics like [demographic_parity()],
 #' [equal_opportunity()], or [equalized_odds()] to learn more about how the
 #' output of this function can be used.
