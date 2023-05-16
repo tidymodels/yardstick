@@ -125,7 +125,9 @@ fairness_metric <- function(.fn, .name, .post) {
 }
 
 diff_range <- function(x, ...) {
-  diff(range(x$.estimate))
+  estimates <- x$.estimate
+
+  max(estimates) - min(estimates)
 }
 
 max_positive_rate_diff <- function(x, ...) {
