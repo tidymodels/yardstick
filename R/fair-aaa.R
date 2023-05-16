@@ -84,39 +84,46 @@ fairness_metric <- function(.fn, .name, .post) {
       function(data, ...) {
         gp_vars <- dplyr::group_vars(data)
 
-        res <- dplyr::group_by(data, {{by}}, .add = TRUE)
-        res <- .fn(res, ...)
+        res <- .fn(dplyr::group_by(data, {{by}}, .add = TRUE), ...)
 
-        if (length(gp_vars) > 0) {
-          splits <- vec_split(res, res[gp_vars])
-          .estimate <- vapply(splits$val, .post, numeric(1), ...)
-        } else {
-          .estimate <- .post(res, ...)
-        }
-
-        if (!is_bare_numeric(.estimate)) {
-          abort(
-            "`.post` must return a single numeric value.",
-            call = call2("fairness_metric")
-          )
-        }
-
+        # restore to the grouping structure in the supplied data
         if (length(gp_vars) > 0) {
           res <- dplyr::group_by(res, !!!dplyr::groups(data), .add = FALSE)
         }
 
-        res <-
-          dplyr::summarize(
-            res,
+        group_rows <- dplyr::group_rows(res)
+        group_keys <- dplyr::group_keys(res)
+        res <- dplyr::ungroup(res)
+        groups <- vec_chop(res, indices = group_rows)
+        out <- vector("list", length = length(groups))
+
+        for (i in seq_along(groups)) {
+          group <- groups[[i]]
+
+          .estimate <- .post(group)
+
+          if (!is_bare_numeric(.estimate)) {
+            abort(
+              "`.post` must return a single numeric value.",
+              call = call2("fairness_metric")
+            )
+          }
+
+          elt_out <- list(
             .metric = .name,
-            !!".by" := by_str,
-            .estimator = .estimator[1],
-            .groups = "drop"
+            .by = by_str,
+            .estimator = group$.estimator[1],
+            .estimate = .estimate
           )
 
-        res$.estimate <- .estimate
+          out[[i]] <- tibble::new_tibble(elt_out)
+        }
 
-        res
+        group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
+        out <- vec_rbind(!!!out)
+        out <- vec_cbind(group_keys, out)
+
+        out
       }
     res <- new_class_metric(res, direction = "minimize")
     attr(res, "by") <- by_str

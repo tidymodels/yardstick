@@ -59,8 +59,8 @@
     Code
       bad_.post(Resample)(hpc_cv, truth = obs, estimate = pred)
     Condition
-      Error:
-      ! object 'obs' not found
+      Error in `fairness_metric()`:
+      ! `.post` must return a single numeric value.
 
 ---
 
