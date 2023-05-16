@@ -68,18 +68,18 @@
 #'
 #' @export
 fairness_metric <- function(.fn, .name, .post) {
-  if (rlang::is_missing(.fn) || !inherits_any(.fn, c("metric", "metric_set"))) {
-    rlang::abort("`.fn` must be a metric function or metric set.")
+  if (is_missing(.fn) || !inherits_any(.fn, c("metric", "metric_set"))) {
+    abort("`.fn` must be a metric function or metric set.")
   }
-  if (rlang::is_missing(.name) || !is_string(.name)) {
+  if (is_missing(.name) || !is_string(.name)) {
     abort("`.name` must be a string.")
   }
-  if (rlang::is_missing(.post) || !is_function(.post)) {
+  if (is_missing(.post) || !is_function(.post)) {
     abort("`.post` must be a function.")
   }
 
   function(by) {
-    by_str <- rlang::as_string(rlang::enexpr(by))
+    by_str <- as_string(enexpr(by))
     res <-
       function(data, ...) {
         gp_vars <- dplyr::group_vars(data)
@@ -88,16 +88,16 @@ fairness_metric <- function(.fn, .name, .post) {
         res <- .fn(res, ...)
 
         if (length(gp_vars) > 0) {
-          splits <- vctrs::vec_split(res, res[gp_vars])
+          splits <- vec_split(res, res[gp_vars])
           .estimate <- vapply(splits$val, .post, numeric(1), ...)
         } else {
           .estimate <- .post(res, ...)
         }
 
-        if (!rlang::is_bare_numeric(.estimate)) {
+        if (!is_bare_numeric(.estimate)) {
           abort(
             "`.post` must return a single numeric value.",
-            call = rlang::call2("fairness_metric")
+            call = call2("fairness_metric")
           )
         }
 
@@ -129,7 +129,7 @@ diff_range <- function(x, ...) {
 }
 
 max_positive_rate_diff <- function(x, ...) {
-  metric_values <- vctrs::vec_split(x, x$.metric)
+  metric_values <- vec_split(x, x$.metric)
 
   positive_rate_diff <- vapply(metric_values$val, diff_range, numeric(1), ...)
 
