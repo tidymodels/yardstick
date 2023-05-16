@@ -135,7 +135,7 @@ fairness_metric <- function(.fn, .name, .post) {
         for (i in seq_along(groups)) {
           group <- groups[[i]]
 
-          .estimate <- .post(group)
+          .estimate <- .post(group, ...)
 
           if (!is_bare_numeric(.estimate)) {
             abort(
