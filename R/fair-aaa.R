@@ -14,8 +14,6 @@
 #' `~r <- range(x$.estimate); r[1]/r[2]`.
 #'
 #' @section Relevant Group Level:
-#' By default,
-#'
 #' Additional arguments can be passed to the function outputted by
 #' the function that this function outputs. That is:
 #'

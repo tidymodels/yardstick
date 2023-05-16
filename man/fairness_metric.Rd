@@ -32,8 +32,6 @@ several common fairness metrics using this function, such as
 }
 \section{Relevant Group Level}{
 
-By default,
-
 Additional arguments can be passed to the function outputted by
 the function that this function outputs. That is:
 
