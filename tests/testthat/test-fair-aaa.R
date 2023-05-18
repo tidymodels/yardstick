@@ -190,7 +190,7 @@ test_that("outputted function errors informatively with redundant grouping", {
   expect_snapshot(
     error = TRUE,
     hpc_cv %>%
-      group_by(Resample) %>%
+      dplyr::group_by(Resample) %>%
       demographic_parity(Resample)(truth = obs, estimate = pred)
   )
 
@@ -199,7 +199,7 @@ test_that("outputted function errors informatively with redundant grouping", {
   expect_snapshot(
     error = TRUE,
     hpc_cv %>%
-      group_by(Resample) %>%
+      dplyr::group_by(Resample) %>%
       dp_res(truth = obs, estimate = pred)
   )
 })
