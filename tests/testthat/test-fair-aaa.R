@@ -144,11 +144,37 @@ test_that("can handle metric set input as `.fn`", {
   )
 
   expect_s3_class(fairness_mtrc(Resample), "class_metric")
+  expect_equal(attr(fairness_mtrc(Resample), "by"), "Resample")
+  expect_equal(attr(fairness_mtrc(Resample), "direction"), "minimize")
 
   res <- fairness_mtrc(Resample)(hpc_cv, truth = obs, estimate = pred)
 
   expect_equal(res$.metric, "min_sens_spec")
   expect_equal(res$.by, "Resample")
+})
+
+test_that("handles `direction` input", {
+  expect_silent(
+    fairness_mtrc <-
+      fairness_metric(
+        sens,
+        "inv_sens_diff",
+        function(x) {1/diff(range(x$.estimate))},
+        direction = "maximize"
+      )
+  )
+
+  expect_equal(attr(fairness_mtrc(Resample), "direction"), "maximize")
+
+  expect_snapshot(
+    error = TRUE,
+    fairness_metric(
+      sens,
+      "bad_direction",
+      diff_range,
+      direction = "boop"
+    )
+  )
 })
 
 test_that("errors informatively with bad input", {

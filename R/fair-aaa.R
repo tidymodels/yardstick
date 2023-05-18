@@ -113,6 +113,10 @@ fairness_metric <- function(.fn, .name, .post, direction = "minimize") {
   if (is_missing(.post) || !is_function(.post)) {
     abort("`.post` must be a function.")
   }
+  arg_match(
+    direction,
+    values = c("maximize", "minimize", "zero")
+  )
 
   function(by) {
     by_str <- as_string(enexpr(by))

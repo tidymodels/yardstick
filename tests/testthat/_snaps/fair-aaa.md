@@ -1,3 +1,11 @@
+# handles `direction` input
+
+    Code
+      fairness_metric(sens, "bad_direction", diff_range, direction = "boop")
+    Condition
+      Error in `fairness_metric()`:
+      ! `direction` must be one of "maximize", "minimize", or "zero", not "boop".
+
 # errors informatively with bad input
 
     Code
