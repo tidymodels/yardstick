@@ -71,3 +71,20 @@
       ! Must group by variables found in `.data`.
       x Column `nonexistent_column` is not found.
 
+# outputted function errors informatively with redundant grouping
+
+    Code
+      hpc_cv %>% group_by(Resample) %>% demographic_parity(Resample)(truth = obs,
+        estimate = pred)
+    Condition
+      Error:
+      ! Metric is internally grouped by Resample; grouping `data` by Resample is not well-defined.
+
+---
+
+    Code
+      hpc_cv %>% group_by(Resample) %>% dp_res(truth = obs, estimate = pred)
+    Condition
+      Error in `dp_res()`:
+      ! Metric is internally grouped by Resample; grouping `data` by Resample is not well-defined.
+

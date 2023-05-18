@@ -186,3 +186,23 @@ test_that("outputted function errors informatively with bad input", {
     bad_by(hpc_cv, truth = obs, estimate = pred)
   )
 })
+
+test_that("outputted function errors informatively with redundant grouping", {
+  data("hpc_cv")
+
+  expect_snapshot(
+    error = TRUE,
+    hpc_cv %>%
+      group_by(Resample) %>%
+      demographic_parity(Resample)(truth = obs, estimate = pred)
+  )
+
+  dp_res <- demographic_parity(Resample)
+
+  expect_snapshot(
+    error = TRUE,
+    hpc_cv %>%
+      group_by(Resample) %>%
+      dp_res(truth = obs, estimate = pred)
+  )
+})

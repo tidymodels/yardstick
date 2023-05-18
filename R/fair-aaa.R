@@ -119,6 +119,13 @@ fairness_metric <- function(.fn, .name, .post) {
       function(data, ...) {
         gp_vars <- dplyr::group_vars(data)
 
+        if (by_str %in% gp_vars) {
+          cli::cli_abort(
+            "Metric is internally grouped by {.field {by_str}}; grouping \\
+            {.arg data} by {.field {by_str}} is not well-defined."
+          )
+        }
+
         res <- .fn(dplyr::group_by(data, {{by}}, .add = TRUE), ...)
 
         # restore to the grouping structure in the supplied data
