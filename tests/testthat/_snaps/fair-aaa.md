@@ -74,7 +74,7 @@
 # outputted function errors informatively with redundant grouping
 
     Code
-      hpc_cv %>% group_by(Resample) %>% demographic_parity(Resample)(truth = obs,
+      hpc_cv %>% dplyr::group_by(Resample) %>% demographic_parity(Resample)(truth = obs,
         estimate = pred)
     Condition
       Error:
@@ -83,7 +83,7 @@
 ---
 
     Code
-      hpc_cv %>% group_by(Resample) %>% dp_res(truth = obs, estimate = pred)
+      hpc_cv %>% dplyr::group_by(Resample) %>% dp_res(truth = obs, estimate = pred)
     Condition
       Error in `dp_res()`:
       ! Metric is internally grouped by Resample; grouping `data` by Resample is not well-defined.
