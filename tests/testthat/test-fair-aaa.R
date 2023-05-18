@@ -131,6 +131,26 @@ test_that("can mix fairness metrics with standard metrics", {
   )
 })
 
+test_that("can handle metric set input as `.fn`", {
+  data("hpc_cv")
+
+  expect_silent(
+    fairness_mtrc <-
+      fairness_metric(
+        metric_set(sens, spec),
+        "min_sens_spec",
+        diff_range
+      )
+  )
+
+  expect_s3_class(fairness_mtrc(Resample), "class_metric")
+
+  res <- fairness_mtrc(Resample)(hpc_cv, truth = obs, estimate = pred)
+
+  expect_equal(res$.metric, "min_sens_spec")
+  expect_equal(res$.by, "Resample")
+})
+
 test_that("errors informatively with bad input", {
   expect_snapshot(
     error = TRUE,

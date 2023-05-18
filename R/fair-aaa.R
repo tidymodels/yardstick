@@ -12,6 +12,7 @@
 #' @param .post A function to post-process the generated metric set results `x`.
 #' In many cases, `~diff(range(x$.estimate))` or
 #' `~r <- range(x$.estimate); r[1]/r[2]`.
+#' @inheritParams new_class_metric
 #'
 #' @section Relevant Group Level:
 #' Additional arguments can be passed to the function outputted by
@@ -102,7 +103,7 @@
 #'   )
 #'
 #' @export
-fairness_metric <- function(.fn, .name, .post) {
+fairness_metric <- function(.fn, .name, .post, direction = "minimize") {
   if (is_missing(.fn) || !inherits_any(.fn, c("metric", "metric_set"))) {
     abort("`.fn` must be a metric function or metric set.")
   }
@@ -168,10 +169,24 @@ fairness_metric <- function(.fn, .name, .post) {
         out
       }
     res <- new_class_metric(res, direction = "minimize")
-    attr(res, "by") <- by_str
-    res
+
+    structure(
+      res,
+      direction = direction,
+      by = by_str,
+      class = fairness_metric_class(.fn)
+    )
   }
 }
+
+fairness_metric_class <- function(.fn) {
+  if (inherits(.fn, "metric")) {
+    return(class(.fn))
+  }
+
+  class(attr(.fn, "metrics")[[1]])
+}
+
 
 diff_range <- function(x) {
   estimates <- x$.estimate

@@ -4,7 +4,7 @@
 \alias{fairness_metric}
 \title{Create fairness metrics}
 \usage{
-fairness_metric(.fn, .name, .post)
+fairness_metric(.fn, .name, .post, direction = "minimize")
 }
 \arguments{
 \item{.fn}{A yardstick metric function or metric set.}
@@ -15,6 +15,13 @@ of the output.}
 \item{.post}{A function to post-process the generated metric set results \code{x}.
 In many cases, \code{~diff(range(x$.estimate))} or
 \verb{~r <- range(x$.estimate); r[1]/r[2]}.}
+
+\item{direction}{A string. One of:
+\itemize{
+\item \code{"maximize"}
+\item \code{"minimize"}
+\item \code{"zero"}
+}}
 }
 \value{
 This function is a
