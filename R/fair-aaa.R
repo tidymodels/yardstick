@@ -34,7 +34,7 @@
 #'
 #' ```
 #' # a function with similar implementation to `demographic_parity()`:
-#' diff_range <- function(x, ...) {diff(range(x$.estimate))}
+#' diff_range <- function(x) {diff(range(x$.estimate))}
 #'
 #' dem_parity <-
 #'   fairness_metric(
@@ -74,7 +74,7 @@
 #'
 #' # `demographic_parity`, among other fairness metrics,
 #' # is generated with `fairness_metric()`:
-#' diff_range <- function(x, ...) {diff(range(x$.estimate))}
+#' diff_range <- function(x) {diff(range(x$.estimate))}
 #' demographic_parity_ <-
 #'   fairness_metric(
 #'     .fn = detection_prevalence,
@@ -142,7 +142,7 @@ fairness_metric <- function(.fn, .name, .post) {
         for (i in seq_along(groups)) {
           group <- groups[[i]]
 
-          .estimate <- .post(group, ...)
+          .estimate <- .post(group)
 
           if (!is_bare_numeric(.estimate)) {
             abort(
@@ -173,16 +173,16 @@ fairness_metric <- function(.fn, .name, .post) {
   }
 }
 
-diff_range <- function(x, ...) {
+diff_range <- function(x) {
   estimates <- x$.estimate
 
   max(estimates) - min(estimates)
 }
 
-max_positive_rate_diff <- function(x, ...) {
+max_positive_rate_diff <- function(x) {
   metric_values <- vec_split(x, x$.metric)
 
-  positive_rate_diff <- vapply(metric_values$val, diff_range, numeric(1), ...)
+  positive_rate_diff <- vapply(metric_values$val, diff_range, numeric(1))
 
   max(positive_rate_diff)
 }

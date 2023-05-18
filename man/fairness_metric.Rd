@@ -23,7 +23,7 @@ output is itself a function. Further, the functions that this function
 outputs are also function factories. More explicitly, this looks like:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{# a function with similar implementation to `demographic_parity()`:
-diff_range <- function(x, ...) \{diff(range(x$.estimate))\}
+diff_range <- function(x) \{diff(range(x$.estimate))\}
 
 dem_parity <-
   fairness_metric(
@@ -83,7 +83,7 @@ data(hpc_cv)
 
 # `demographic_parity`, among other fairness metrics,
 # is generated with `fairness_metric()`:
-diff_range <- function(x, ...) {diff(range(x$.estimate))}
+diff_range <- function(x) {diff(range(x$.estimate))}
 demographic_parity_ <-
   fairness_metric(
     .fn = detection_prevalence,
