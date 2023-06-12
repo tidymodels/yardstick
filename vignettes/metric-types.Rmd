@@ -52,7 +52,7 @@ metrics, along with the types of the inputs they take.
 
 5) **dynamic survival metrics**
 
-    - `turth` - Surv
+    - `truth` - Surv
 
     - `estimate` - numeric
 
