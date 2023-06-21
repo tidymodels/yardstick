@@ -26,17 +26,17 @@ Equalized odds is satisfied when a model's predictions have the same false
 positive, true positive, false negative, and true negative rates across
 protected groups. A value of 0 indicates parity across groups.
 
+By default, this function takes the maximum difference in range of \code{\link[=sens]{sens()}}
+and \code{\link[=spec]{spec()}} \code{.estimate}s across groups. That is, the maximum pair-wise
+disparity in \code{\link[=sens]{sens()}} or \code{\link[=spec]{spec()}} between groups is the return value of
+\code{equalized_odds()}'s \code{.estimate}.
+
 Equalized odds is sometimes referred to as conditional procedure accuracy
 equality or disparate mistreatment.
 
 See the "Measuring disparity" section for details on implementation.
 }
 \section{Measuring Disparity}{
-
-By default, this function takes the maximum difference in range of \code{\link[=sens]{sens()}}
-and \code{\link[=spec]{spec()}} \code{.estimate}s across groups. That is, the maximum pair-wise
-disparity in \code{\link[=sens]{sens()}} or \code{\link[=spec]{spec()}} between groups is the return value of
-\code{equalized_odds()}'s \code{.estimate}.
 
 For finer control of group treatment, construct a context-aware fairness
 metric with the \code{\link[=fairness_metric]{fairness_metric()}} function by passing a custom \code{.post}

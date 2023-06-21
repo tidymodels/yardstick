@@ -26,6 +26,9 @@ Equal opportunity is satisfied when a model's predictions have the same
 true positive and false negative rates across protected groups. A value of
 0 indicates parity across groups.
 
+\code{equal_opportunity()} is calculated as the difference between the largest
+and smallest value of \code{\link[=sens]{sens()}} across groups.
+
 Equal opportunity is sometimes referred to as conditional procedure accuracy
 equality or disparate mistreatment.
 

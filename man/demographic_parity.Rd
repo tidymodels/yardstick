@@ -28,6 +28,9 @@ across groups. Note that this definition does not depend on the true
 outcome; the \code{truth} argument is included in outputted metrics
 for consistency.
 
+\code{demographic_parity()} is calculated as the difference between the largest
+and smallest value of \code{\link[=detection_prevalence]{detection_prevalence()}} across groups.
+
 Demographic parity is sometimes referred to as group fairness,
 disparate impact, or statistical parity.
 

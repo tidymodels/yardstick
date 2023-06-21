@@ -7,6 +7,9 @@
 #' outcome; the `truth` argument is included in outputted metrics
 #' for consistency.
 #'
+#' `demographic_parity()` is calculated as the difference between the largest
+#' and smallest value of [detection_prevalence()] across groups.
+#'
 #' Demographic parity is sometimes referred to as group fairness,
 #' disparate impact, or statistical parity.
 #'

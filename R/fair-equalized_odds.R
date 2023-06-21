@@ -1,3 +1,11 @@
+max_positive_rate_diff <- function(x) {
+  metric_values <- vec_split(x, x$.metric)
+
+  positive_rate_diff <- vapply(metric_values$val, diff_range, numeric(1))
+
+  max(positive_rate_diff)
+}
+
 #' Equalized odds
 #'
 #' @description
@@ -5,6 +13,11 @@
 #' Equalized odds is satisfied when a model's predictions have the same false
 #' positive, true positive, false negative, and true negative rates across
 #' protected groups. A value of 0 indicates parity across groups.
+#'
+#' By default, this function takes the maximum difference in range of [sens()]
+#' and [spec()] `.estimate`s across groups. That is, the maximum pair-wise
+#' disparity in [sens()] or [spec()] between groups is the return value of
+#' `equalized_odds()`'s `.estimate`.
 #'
 #' Equalized odds is sometimes referred to as conditional procedure accuracy
 #' equality or disparate mistreatment.
@@ -19,11 +32,6 @@
 #' @template examples-fair
 #'
 #' @section Measuring Disparity:
-#' By default, this function takes the maximum difference in range of [sens()]
-#' and [spec()] `.estimate`s across groups. That is, the maximum pair-wise
-#' disparity in [sens()] or [spec()] between groups is the return value of
-#' `equalized_odds()`'s `.estimate`.
-#'
 #' For finer control of group treatment, construct a context-aware fairness
 #' metric with the [fairness_metric()] function by passing a custom `.post`
 #' function:
@@ -68,11 +76,3 @@ equalized_odds <-
     .name = "equalized_odds",
     .post = max_positive_rate_diff
   )
-
-max_positive_rate_diff <- function(x) {
-  metric_values <- vec_split(x, x$.metric)
-
-  positive_rate_diff <- vapply(metric_values$val, diff_range, numeric(1))
-
-  max(positive_rate_diff)
-}
