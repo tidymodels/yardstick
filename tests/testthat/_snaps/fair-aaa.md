@@ -79,6 +79,22 @@
       ! Must group by variables found in `.data`.
       x Column `nonexistent_column` is not found.
 
+---
+
+    Code
+      bad_truth_metric_set(hpc_cv, truth = VF, estimate = pred)
+    Condition
+      Error in `bop()`:
+      ! `truth` should be a factor, not a `numeric`.
+
+---
+
+    Code
+      bad_truth_metric(hpc_cv, truth = VF, estimate = pred)
+    Condition
+      Error in `bop()`:
+      ! `truth` should be a factor, not a `numeric`.
+
 # outputted function errors informatively with redundant grouping
 
     Code

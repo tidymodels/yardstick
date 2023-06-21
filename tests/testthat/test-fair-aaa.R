@@ -228,6 +228,20 @@ test_that("outputted function errors informatively with bad input", {
     error = TRUE,
     bad_by(hpc_cv, truth = obs, estimate = pred)
   )
+
+  bad_truth_metric_set <-
+    fairness_metric(metric_set(sens, spec), "bop", function(x) {1})(Resample)
+  expect_snapshot(
+    error = TRUE,
+    bad_truth_metric_set(hpc_cv, truth = VF, estimate = pred)
+  )
+
+  bad_truth_metric <-
+    fairness_metric(sens, "bop", function(x) {1})(Resample)
+  expect_snapshot(
+    error = TRUE,
+    bad_truth_metric(hpc_cv, truth = VF, estimate = pred)
+  )
 })
 
 test_that("outputted function errors informatively with redundant grouping", {

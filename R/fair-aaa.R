@@ -131,7 +131,19 @@ fairness_metric <- function(.fn, .name, .post, direction = "minimize") {
           )
         }
 
-        res <- .fn(dplyr::group_by(data, {{by}}, .add = TRUE), ...)
+        # error informatively when `.fn` is a metric set; see `eval_safely()`
+        data_grouped <- dplyr::group_by(data, {{by}}, .add = TRUE)
+        res <-
+          tryCatch(
+            .fn(data_grouped, ...),
+            error = function(cnd) {
+              if (!is.null(cnd$parent)) {
+                cnd <- cnd$parent
+              }
+
+              abort(conditionMessage(cnd), call = call(.name))
+            }
+          )
 
         # restore to the grouping structure in the supplied data
         if (length(gp_vars) > 0) {
