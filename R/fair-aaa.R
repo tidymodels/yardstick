@@ -191,17 +191,8 @@ fairness_metric_class <- function(.fn) {
   class(attr(.fn, "metrics")[[1]])
 }
 
-
 diff_range <- function(x) {
   estimates <- x$.estimate
 
   max(estimates) - min(estimates)
-}
-
-max_positive_rate_diff <- function(x) {
-  metric_values <- vec_split(x, x$.metric)
-
-  positive_rate_diff <- vapply(metric_values$val, diff_range, numeric(1))
-
-  max(positive_rate_diff)
 }

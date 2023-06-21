@@ -68,3 +68,11 @@ equalized_odds <-
     .name = "equalized_odds",
     .post = max_positive_rate_diff
   )
+
+max_positive_rate_diff <- function(x) {
+  metric_values <- vec_split(x, x$.metric)
+
+  positive_rate_diff <- vapply(metric_values$val, diff_range, numeric(1))
+
+  max(positive_rate_diff)
+}
