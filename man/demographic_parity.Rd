@@ -43,14 +43,14 @@ By default, this function takes the difference in range of \code{\link[=detectio
 groups is the return value of \code{demographic_parity()}'s \code{.estimate}.
 
 For finer control of group treatment, construct a context-aware fairness
-metric with the \code{\link[=fairness_metric]{fairness_metric()}} function by passing a custom \code{.post}
+metric with the \code{\link[=new_groupwise_metric]{new_groupwise_metric()}} function by passing a custom \code{.post}
 function:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{# the actual default `.post` is:
 diff_range <- function(x, ...) \{diff(range(x$.estimate))\}
 
 demographic_parity_2 <-
-  fairness_metric(
+  new_groupwise_metric(
     .fn = detection_prevalence,
     .name = "demographic_parity_2",
     .post = diff_range

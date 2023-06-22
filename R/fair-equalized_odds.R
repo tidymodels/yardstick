@@ -33,7 +33,7 @@ max_positive_rate_diff <- function(x) {
 #'
 #' @section Measuring Disparity:
 #' For finer control of group treatment, construct a context-aware fairness
-#' metric with the [fairness_metric()] function by passing a custom `.post`
+#' metric with the [new_groupwise_metric()] function by passing a custom `.post`
 #' function:
 #'
 #' ```
@@ -41,7 +41,7 @@ max_positive_rate_diff <- function(x) {
 #' diff_range <- function(x, ...) {diff(range(x$.estimate))}
 #'
 #' equalized_odds_2 <-
-#'   fairness_metric(
+#'   new_groupwise_metric(
 #'     .fn = metric_set(sens, spec),
 #'     .name = "equalized_odds_2",
 #'     .post = diff_range
@@ -71,7 +71,7 @@ max_positive_rate_diff <- function(x) {
 #'
 #' @export
 equalized_odds <-
-  fairness_metric(
+  new_groupwise_metric(
     .fn = metric_set(sens, spec),
     .name = "equalized_odds",
     .post = max_positive_rate_diff

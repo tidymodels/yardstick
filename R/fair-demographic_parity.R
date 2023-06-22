@@ -43,7 +43,7 @@
 #'
 #' @export
 demographic_parity <-
-  fairness_metric(
+  new_groupwise_metric(
     .fn = detection_prevalence,
     .name = "demographic_parity",
     .post = diff_range

@@ -4,7 +4,7 @@
 #' groups is the return value of `<%=fn %>()`'s `.estimate`.
 #'
 #' For finer control of group treatment, construct a context-aware fairness
-#' metric with the [fairness_metric()] function by passing a custom `.post`
+#' metric with the [new_groupwise_metric()] function by passing a custom `.post`
 #' function:
 #'
 #' ```
@@ -12,7 +12,7 @@
 #' diff_range <- function(x, ...) {diff(range(x$.estimate))}
 #'
 #' <%=fn %>_2 <-
-#'   fairness_metric(
+#'   new_groupwise_metric(
 #'     .fn = <%=internal_.fn %>,
 #'     .name = "<%=fn %>_2",
 #'     .post = diff_range

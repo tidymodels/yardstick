@@ -39,14 +39,14 @@ See the "Measuring disparity" section for details on implementation.
 \section{Measuring Disparity}{
 
 For finer control of group treatment, construct a context-aware fairness
-metric with the \code{\link[=fairness_metric]{fairness_metric()}} function by passing a custom \code{.post}
+metric with the \code{\link[=new_groupwise_metric]{new_groupwise_metric()}} function by passing a custom \code{.post}
 function:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{# see yardstick:::max_positive_rate_diff for the actual `.post()`
 diff_range <- function(x, ...) \{diff(range(x$.estimate))\}
 
 equalized_odds_2 <-
-  fairness_metric(
+  new_groupwise_metric(
     .fn = metric_set(sens, spec),
     .name = "equalized_odds_2",
     .post = diff_range

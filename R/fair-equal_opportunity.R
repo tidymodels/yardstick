@@ -39,7 +39,7 @@
 #'
 #' @export
 equal_opportunity <-
-  fairness_metric(
+  new_groupwise_metric(
     .fn = sens,
     .name = "equal_opportunity",
     .post = diff_range

@@ -1,8 +1,8 @@
-#' Create fairness metrics
+#' Create group-wise metrics
 #'
-#' Fairness metrics quantify the disparity in value of a metric across a number
-#' of groups. Fairness metrics with a value of zero indicate that the
-#' underlying metric has parity across groups. yardstick defines
+#' Group-wise metrics quantify the disparity in value of a metric across a
+#' number of groups. Group-wise metrics with a value of zero indicate that the
+#' underlying metric is equal across groups. yardstick defines
 #' several common fairness metrics using this function, such as
 #' [demographic_parity()], [equal_opportunity()], and [equalized_odds()].
 #'
@@ -19,7 +19,7 @@
 #' the function that this function outputs. That is:
 #'
 #' ```
-#' res_fairness <- fairness_metric(...)
+#' res_fairness <- new_groupwise_metric(...)
 #' res_by <- res_fairness(by)
 #' res_by(..., additional_arguments_to_.post = TRUE)
 #' ```
@@ -38,7 +38,7 @@
 #' diff_range <- function(x) {diff(range(x$.estimate))}
 #'
 #' dem_parity <-
-#'   fairness_metric(
+#'   new_groupwise_metric(
 #'     .fn = detection_prevalence,
 #'     .name = "dem_parity",
 #'     .post = diff_range
@@ -74,10 +74,10 @@
 #' data(hpc_cv)
 #'
 #' # `demographic_parity`, among other fairness metrics,
-#' # is generated with `fairness_metric()`:
+#' # is generated with `new_groupwise_metric()`:
 #' diff_range <- function(x) {diff(range(x$.estimate))}
 #' demographic_parity_ <-
-#'   fairness_metric(
+#'   new_groupwise_metric(
 #'     .fn = detection_prevalence,
 #'     .name = "demographic_parity",
 #'     .post = diff_range
@@ -96,14 +96,14 @@
 #' }
 #'
 #' demographic_parity_ratio <-
-#'   fairness_metric(
+#'   new_groupwise_metric(
 #'     .fn = detection_prevalence,
 #'     .name = "demographic_parity_ratio",
 #'     .post = ratio_range
 #'   )
 #'
 #' @export
-fairness_metric <- function(.fn, .name, .post, direction = "minimize") {
+new_groupwise_metric <- function(.fn, .name, .post, direction = "minimize") {
   if (is_missing(.fn) || !inherits_any(.fn, c("metric", "metric_set"))) {
     abort("`.fn` must be a metric function or metric set.")
   }
@@ -165,7 +165,7 @@ fairness_metric <- function(.fn, .name, .post, direction = "minimize") {
             if (!is_bare_numeric(.estimate)) {
               abort(
                 "`.post` must return a single numeric value.",
-                call = call2("fairness_metric")
+                call = call2("new_groupwise_metric")
               )
             }
 
@@ -191,14 +191,14 @@ fairness_metric <- function(.fn, .name, .post, direction = "minimize") {
         res,
         direction = direction,
         by = by_str,
-        class = fairness_metric_class(.fn)
+        class = groupwise_metric_class(.fn)
       )
     }
 
   structure(metric_factory, class = c("metric_factory", "function"))
 }
 
-fairness_metric_class <- function(.fn) {
+groupwise_metric_class <- function(.fn) {
   if (inherits(.fn, "metric")) {
     return(class(.fn))
   }
