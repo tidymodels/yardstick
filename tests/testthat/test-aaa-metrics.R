@@ -299,6 +299,30 @@ test_that("`metric_set()` gives an informative error for a single non-metric fun
   )
 })
 
+test_that("errors informatively for unevaluated metric factories", {
+  # one bad metric
+  expect_snapshot(
+    error = TRUE,
+    metric_set(demographic_parity)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    metric_set(demographic_parity, roc_auc)
+  )
+
+  # two bad metrics
+  expect_snapshot(
+    error = TRUE,
+    metric_set(demographic_parity, equal_opportunity)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    metric_set(demographic_parity, equal_opportunity, roc_auc)
+  )
+})
+
 test_that("all class metrics - `metric_set()` works with `case_weights`", {
   # Mock a metric that doesn't support weights
   accuracy_no_weights <- function(data, truth, estimate, na_rm = TRUE, ...) {

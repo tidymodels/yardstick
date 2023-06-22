@@ -118,81 +118,84 @@ fairness_metric <- function(.fn, .name, .post, direction = "minimize") {
     values = c("maximize", "minimize", "zero")
   )
 
-  function(by) {
-    by_str <- as_string(enexpr(by))
-    res <-
-      function(data, ...) {
-        gp_vars <- dplyr::group_vars(data)
+  metric_factory <-
+    function(by) {
+      by_str <- as_string(enexpr(by))
+      res <-
+        function(data, ...) {
+          gp_vars <- dplyr::group_vars(data)
 
-        if (by_str %in% gp_vars) {
-          cli::cli_abort(
-            "Metric is internally grouped by {.field {by_str}}; grouping \\
-            {.arg data} by {.field {by_str}} is not well-defined."
-          )
-        }
-
-        # error informatively when `.fn` is a metric set; see `eval_safely()`
-        data_grouped <- dplyr::group_by(data, {{by}}, .add = TRUE)
-        res <-
-          tryCatch(
-            .fn(data_grouped, ...),
-            error = function(cnd) {
-              if (!is.null(cnd$parent)) {
-                cnd <- cnd$parent
-              }
-
-              abort(conditionMessage(cnd), call = call(.name))
-            }
-          )
-
-        # restore to the grouping structure in the supplied data
-        if (length(gp_vars) > 0) {
-          res <- dplyr::group_by(res, !!!dplyr::groups(data), .add = FALSE)
-        }
-
-        group_rows <- dplyr::group_rows(res)
-        group_keys <- dplyr::group_keys(res)
-        res <- dplyr::ungroup(res)
-        groups <- vec_chop(res, indices = group_rows)
-        out <- vector("list", length = length(groups))
-
-        for (i in seq_along(groups)) {
-          group <- groups[[i]]
-
-          .estimate <- .post(group)
-
-          if (!is_bare_numeric(.estimate)) {
-            abort(
-              "`.post` must return a single numeric value.",
-              call = call2("fairness_metric")
+          if (by_str %in% gp_vars) {
+            cli::cli_abort(
+              "Metric is internally grouped by {.field {by_str}}; grouping \\
+              {.arg data} by {.field {by_str}} is not well-defined."
             )
           }
 
-          elt_out <- list(
-            .metric = .name,
-            .by = by_str,
-            .estimator = group$.estimator[1],
-            .estimate = .estimate
-          )
+          # error informatively when `.fn` is a metric set; see `eval_safely()`
+          data_grouped <- dplyr::group_by(data, {{by}}, .add = TRUE)
+          res <-
+            tryCatch(
+              .fn(data_grouped, ...),
+              error = function(cnd) {
+                if (!is.null(cnd$parent)) {
+                  cnd <- cnd$parent
+                }
 
-          out[[i]] <- tibble::new_tibble(elt_out)
+                abort(conditionMessage(cnd), call = call(.name))
+              }
+            )
+
+          # restore to the grouping structure in the supplied data
+          if (length(gp_vars) > 0) {
+            res <- dplyr::group_by(res, !!!dplyr::groups(data), .add = FALSE)
+          }
+
+          group_rows <- dplyr::group_rows(res)
+          group_keys <- dplyr::group_keys(res)
+          res <- dplyr::ungroup(res)
+          groups <- vec_chop(res, indices = group_rows)
+          out <- vector("list", length = length(groups))
+
+          for (i in seq_along(groups)) {
+            group <- groups[[i]]
+
+            .estimate <- .post(group)
+
+            if (!is_bare_numeric(.estimate)) {
+              abort(
+                "`.post` must return a single numeric value.",
+                call = call2("fairness_metric")
+              )
+            }
+
+            elt_out <- list(
+              .metric = .name,
+              .by = by_str,
+              .estimator = group$.estimator[1],
+              .estimate = .estimate
+            )
+
+            out[[i]] <- tibble::new_tibble(elt_out)
+          }
+
+          group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
+          out <- vec_rbind(!!!out)
+          out <- vec_cbind(group_keys, out)
+
+          out
         }
+      res <- new_class_metric(res, direction = "minimize")
 
-        group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
-        out <- vec_rbind(!!!out)
-        out <- vec_cbind(group_keys, out)
+      structure(
+        res,
+        direction = direction,
+        by = by_str,
+        class = fairness_metric_class(.fn)
+      )
+    }
 
-        out
-      }
-    res <- new_class_metric(res, direction = "minimize")
-
-    structure(
-      res,
-      direction = direction,
-      by = by_str,
-      class = fairness_metric_class(.fn)
-    )
-  }
+  structure(metric_factory, class = c("metric_factory", "function"))
 }
 
 fairness_metric_class <- function(.fn) {
