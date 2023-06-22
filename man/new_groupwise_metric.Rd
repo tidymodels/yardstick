@@ -2,7 +2,7 @@
 % Please edit documentation in R/fair-aaa.R
 \name{new_groupwise_metric}
 \alias{new_groupwise_metric}
-\title{Create fairness metrics}
+\title{Create group-wise metrics}
 \usage{
 new_groupwise_metric(.fn, .name, .post, direction = "minimize")
 }
@@ -65,11 +65,19 @@ return value of fairness metrics like \code{\link[=demographic_parity]{demograph
 output of this function can be used.
 }
 \description{
-Fairness metrics quantify the disparity in value of a metric across a number
-of groups. Fairness metrics with a value of zero indicate that the
-underlying metric has parity across groups. yardstick defines
+Group-wise metrics quantify the disparity in value of a metric across a
+number of groups. Group-wise metrics with a value of zero indicate that the
+underlying metric is equal across groups. yardstick defines
 several common fairness metrics using this function, such as
 \code{\link[=demographic_parity]{demographic_parity()}}, \code{\link[=equal_opportunity]{equal_opportunity()}}, and \code{\link[=equalized_odds]{equalized_odds()}}.
+}
+\details{
+Note that \emph{all} yardstick metrics are group-aware in that, when passed
+grouped data, they will return metric values calculated for each group.
+When passed grouped data, group-wise metrics also return metric values
+for each group, but those metric values are calculated by first additionally
+grouping by the variable passed to \code{by} and then summarizing the per-group
+metric estimates across groups using the \code{.post()} function.
 }
 \section{Relevant Group Level}{
 

@@ -6,6 +6,13 @@
 #' several common fairness metrics using this function, such as
 #' [demographic_parity()], [equal_opportunity()], and [equalized_odds()].
 #'
+#' Note that _all_ yardstick metrics are group-aware in that, when passed
+#' grouped data, they will return metric values calculated for each group.
+#' When passed grouped data, group-wise metrics also return metric values
+#' for each group, but those metric values are calculated by first additionally
+#' grouping by the variable passed to `by` and then summarizing the per-group
+#' metric estimates across groups using the `.post()` function.
+#'
 #' @param .fn A yardstick metric function or metric set.
 #' @param .name The name of the metric to place in the `.metric` column
 #' of the output.
