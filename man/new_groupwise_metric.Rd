@@ -12,9 +12,10 @@ new_groupwise_metric(fn, name, aggregrate, direction = "minimize")
 \item{name}{The name of the metric to place in the \code{.metric} column
 of the output.}
 
-\item{aggregrate}{A function to summarize the generated metric set results
-\code{x}. In many cases, \code{~diff(range(x$.estimate))} or
-\verb{~r <- range(x$.estimate); r[1]/r[2]}.}
+\item{aggregrate}{A function to summarize the generated metric set results.
+The function takes metric set results as the first argument and returns
+a single numeric giving the \code{.estimate} value as output. See the Value and
+Examples sections for example uses.}
 
 \item{direction}{A string. One of:
 \itemize{

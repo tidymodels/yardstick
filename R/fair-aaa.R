@@ -17,9 +17,10 @@
 #' @param fn A yardstick metric function or metric set.
 #' @param name The name of the metric to place in the `.metric` column
 #' of the output.
-#' @param aggregrate A function to summarize the generated metric set results
-#' `x`. In many cases, `~diff(range(x$.estimate))` or
-#' `~r <- range(x$.estimate); r[1]/r[2]`.
+#' @param aggregrate A function to summarize the generated metric set results.
+#' The function takes metric set results as the first argument and returns
+#' a single numeric giving the `.estimate` value as output. See the Value and
+#' Examples sections for example uses.
 #' @inheritParams new_class_metric
 #'
 #' @section Relevant Group Level:
