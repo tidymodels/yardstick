@@ -12,7 +12,7 @@
       new_groupwise_metric()
     Condition
       Error in `new_groupwise_metric()`:
-      ! `.fn` must be a metric function or metric set.
+      ! `fn` must be a metric function or metric set.
 
 ---
 
@@ -20,7 +20,7 @@
       new_groupwise_metric(sens)
     Condition
       Error in `new_groupwise_metric()`:
-      ! `.name` must be a string.
+      ! `name` must be a string.
 
 ---
 
@@ -28,7 +28,7 @@
       new_groupwise_metric(sens, "bop")
     Condition
       Error in `new_groupwise_metric()`:
-      ! `.post` must be a function.
+      ! `aggregrate` must be a function.
 
 ---
 
@@ -36,7 +36,7 @@
       new_groupwise_metric("boop", "bop", identity)
     Condition
       Error in `new_groupwise_metric()`:
-      ! `.fn` must be a metric function or metric set.
+      ! `fn` must be a metric function or metric set.
 
 ---
 
@@ -44,7 +44,7 @@
       new_groupwise_metric(identity, "bop", identity)
     Condition
       Error in `new_groupwise_metric()`:
-      ! `.fn` must be a metric function or metric set.
+      ! `fn` must be a metric function or metric set.
 
 ---
 
@@ -52,7 +52,7 @@
       new_groupwise_metric(sens, 1, identity)
     Condition
       Error in `new_groupwise_metric()`:
-      ! `.name` must be a string.
+      ! `name` must be a string.
 
 ---
 
@@ -60,15 +60,15 @@
       new_groupwise_metric(sens, "bop", "boop")
     Condition
       Error in `new_groupwise_metric()`:
-      ! `.post` must be a function.
+      ! `aggregrate` must be a function.
 
 # outputted function errors informatively with bad input
 
     Code
-      bad_.post(Resample)(hpc_cv, truth = obs, estimate = pred)
+      bad_aggregrate(Resample)(hpc_cv, truth = obs, estimate = pred)
     Condition
       Error in `new_groupwise_metric()`:
-      ! `.post` must return a single numeric value.
+      ! `aggregrate` must return a single numeric value.
 
 ---
 

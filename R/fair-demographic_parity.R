@@ -19,7 +19,7 @@
 #' unquoted column name referring to a column in the un-preprocessed data.
 #'
 #' @templateVar fn demographic_parity
-#' @templateVar internal_.fn detection_prevalence
+#' @templateVar internal_fn detection_prevalence
 #' @templateVar internal_fn [detection_prevalence()]
 #' @template return-fair
 #' @template event-fair
@@ -44,7 +44,7 @@
 #' @export
 demographic_parity <-
   new_groupwise_metric(
-    .fn = detection_prevalence,
-    .name = "demographic_parity",
-    .post = diff_range
+    fn = detection_prevalence,
+    name = "demographic_parity",
+    aggregrate = diff_range
   )

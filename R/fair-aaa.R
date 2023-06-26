@@ -11,13 +11,14 @@
 #' When passed grouped data, group-wise metrics also return metric values
 #' for each group, but those metric values are calculated by first additionally
 #' grouping by the variable passed to `by` and then summarizing the per-group
-#' metric estimates across groups using the `.post()` function.
+#' metric estimates across groups using the function passed as the
+#' `aggregrate` argument.
 #'
-#' @param .fn A yardstick metric function or metric set.
-#' @param .name The name of the metric to place in the `.metric` column
+#' @param fn A yardstick metric function or metric set.
+#' @param name The name of the metric to place in the `.metric` column
 #' of the output.
-#' @param .post A function to post-process the generated metric set results `x`.
-#' In many cases, `~diff(range(x$.estimate))` or
+#' @param aggregrate A function to summarize the generated metric set results
+#' `x`. In many cases, `~diff(range(x$.estimate))` or
 #' `~r <- range(x$.estimate); r[1]/r[2]`.
 #' @inheritParams new_class_metric
 #'
@@ -28,11 +29,11 @@
 #' ```
 #' res_fairness <- new_groupwise_metric(...)
 #' res_by <- res_fairness(by)
-#' res_by(..., additional_arguments_to_.post = TRUE)
+#' res_by(..., additional_arguments_to_aggregrate = TRUE)
 #' ```
 #'
 #' For finer control of how groups in `by` are treated, use the
-#' `.post` argument.
+#' `aggregrate` argument.
 #'
 #' @return
 #' This function is a
@@ -46,9 +47,9 @@
 #'
 #' dem_parity <-
 #'   new_groupwise_metric(
-#'     .fn = detection_prevalence,
-#'     .name = "dem_parity",
-#'     .post = diff_range
+#'     fn = detection_prevalence,
+#'     name = "dem_parity",
+#'     aggregrate = diff_range
 #'   )
 #' ```
 #'
@@ -85,9 +86,9 @@
 #' diff_range <- function(x) {diff(range(x$.estimate))}
 #' demographic_parity_ <-
 #'   new_groupwise_metric(
-#'     .fn = detection_prevalence,
-#'     .name = "demographic_parity",
-#'     .post = diff_range
+#'     fn = detection_prevalence,
+#'     name = "demographic_parity",
+#'     aggregrate = diff_range
 #'   )
 #'
 #' m_set <- metric_set(demographic_parity_(Resample))
@@ -104,21 +105,21 @@
 #'
 #' demographic_parity_ratio <-
 #'   new_groupwise_metric(
-#'     .fn = detection_prevalence,
-#'     .name = "demographic_parity_ratio",
-#'     .post = ratio_range
+#'     fn = detection_prevalence,
+#'     name = "demographic_parity_ratio",
+#'     aggregrate = ratio_range
 #'   )
 #'
 #' @export
-new_groupwise_metric <- function(.fn, .name, .post, direction = "minimize") {
-  if (is_missing(.fn) || !inherits_any(.fn, c("metric", "metric_set"))) {
-    abort("`.fn` must be a metric function or metric set.")
+new_groupwise_metric <- function(fn, name, aggregrate, direction = "minimize") {
+  if (is_missing(fn) || !inherits_any(fn, c("metric", "metric_set"))) {
+    abort("`fn` must be a metric function or metric set.")
   }
-  if (is_missing(.name) || !is_string(.name)) {
-    abort("`.name` must be a string.")
+  if (is_missing(name) || !is_string(name)) {
+    abort("`name` must be a string.")
   }
-  if (is_missing(.post) || !is_function(.post)) {
-    abort("`.post` must be a function.")
+  if (is_missing(aggregrate) || !is_function(aggregrate)) {
+    abort("`aggregrate` must be a function.")
   }
   arg_match(
     direction,
@@ -139,17 +140,17 @@ new_groupwise_metric <- function(.fn, .name, .post, direction = "minimize") {
             )
           }
 
-          # error informatively when `.fn` is a metric set; see `eval_safely()`
+          # error informatively when `fn` is a metric set; see `eval_safely()`
           data_grouped <- dplyr::group_by(data, {{by}}, .add = TRUE)
           res <-
             tryCatch(
-              .fn(data_grouped, ...),
+              fn(data_grouped, ...),
               error = function(cnd) {
                 if (!is.null(cnd$parent)) {
                   cnd <- cnd$parent
                 }
 
-                abort(conditionMessage(cnd), call = call(.name))
+                abort(conditionMessage(cnd), call = call(name))
               }
             )
 
@@ -167,17 +168,17 @@ new_groupwise_metric <- function(.fn, .name, .post, direction = "minimize") {
           for (i in seq_along(groups)) {
             group <- groups[[i]]
 
-            .estimate <- .post(group)
+            .estimate <- aggregrate(group)
 
             if (!is_bare_numeric(.estimate)) {
               abort(
-                "`.post` must return a single numeric value.",
+                "`aggregrate` must return a single numeric value.",
                 call = call2("new_groupwise_metric")
               )
             }
 
             elt_out <- list(
-              .metric = .name,
+              .metric = name,
               .by = by_str,
               .estimator = group$.estimator[1],
               .estimate = .estimate
@@ -198,19 +199,19 @@ new_groupwise_metric <- function(.fn, .name, .post, direction = "minimize") {
         res,
         direction = direction,
         by = by_str,
-        class = groupwise_metric_class(.fn)
+        class = groupwise_metric_class(fn)
       )
     }
 
   structure(metric_factory, class = c("metric_factory", "function"))
 }
 
-groupwise_metric_class <- function(.fn) {
-  if (inherits(.fn, "metric")) {
-    return(class(.fn))
+groupwise_metric_class <- function(fn) {
+  if (inherits(fn, "metric")) {
+    return(class(fn))
   }
 
-  class(attr(.fn, "metrics")[[1]])
+  class(attr(fn, "metrics")[[1]])
 }
 
 diff_range <- function(x) {

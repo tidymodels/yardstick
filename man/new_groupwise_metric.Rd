@@ -4,16 +4,16 @@
 \alias{new_groupwise_metric}
 \title{Create group-wise metrics}
 \usage{
-new_groupwise_metric(.fn, .name, .post, direction = "minimize")
+new_groupwise_metric(fn, name, aggregrate, direction = "minimize")
 }
 \arguments{
-\item{.fn}{A yardstick metric function or metric set.}
+\item{fn}{A yardstick metric function or metric set.}
 
-\item{.name}{The name of the metric to place in the \code{.metric} column
+\item{name}{The name of the metric to place in the \code{.metric} column
 of the output.}
 
-\item{.post}{A function to post-process the generated metric set results \code{x}.
-In many cases, \code{~diff(range(x$.estimate))} or
+\item{aggregrate}{A function to summarize the generated metric set results
+\code{x}. In many cases, \code{~diff(range(x$.estimate))} or
 \verb{~r <- range(x$.estimate); r[1]/r[2]}.}
 
 \item{direction}{A string. One of:
@@ -34,9 +34,9 @@ diff_range <- function(x) \{diff(range(x$.estimate))\}
 
 dem_parity <-
   new_groupwise_metric(
-    .fn = detection_prevalence,
-    .name = "dem_parity",
-    .post = diff_range
+    fn = detection_prevalence,
+    name = "dem_parity",
+    aggregrate = diff_range
   )
 }\if{html}{\out{</div>}}
 
@@ -77,7 +77,8 @@ grouped data, they will return metric values calculated for each group.
 When passed grouped data, group-wise metrics also return metric values
 for each group, but those metric values are calculated by first additionally
 grouping by the variable passed to \code{by} and then summarizing the per-group
-metric estimates across groups using the \code{.post()} function.
+metric estimates across groups using the function passed as the
+\code{aggregrate} argument.
 }
 \section{Relevant Group Level}{
 
@@ -86,11 +87,11 @@ the function that this function outputs. That is:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{res_fairness <- new_groupwise_metric(...)
 res_by <- res_fairness(by)
-res_by(..., additional_arguments_to_.post = TRUE)
+res_by(..., additional_arguments_to_aggregrate = TRUE)
 }\if{html}{\out{</div>}}
 
 For finer control of how groups in \code{by} are treated, use the
-\code{.post} argument.
+\code{aggregrate} argument.
 }
 
 \examples{
@@ -101,9 +102,9 @@ data(hpc_cv)
 diff_range <- function(x) {diff(range(x$.estimate))}
 demographic_parity_ <-
   new_groupwise_metric(
-    .fn = detection_prevalence,
-    .name = "demographic_parity",
-    .post = diff_range
+    fn = detection_prevalence,
+    name = "demographic_parity",
+    aggregrate = diff_range
   )
 
 m_set <- metric_set(demographic_parity_(Resample))
@@ -120,9 +121,9 @@ ratio_range <- function(x, ...) {
 
 demographic_parity_ratio <-
   new_groupwise_metric(
-    .fn = detection_prevalence,
-    .name = "demographic_parity_ratio",
-    .post = ratio_range
+    fn = detection_prevalence,
+    name = "demographic_parity_ratio",
+    aggregrate = ratio_range
   )
 
 }

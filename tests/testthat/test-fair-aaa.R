@@ -7,7 +7,7 @@ test_that("basic functionality", {
     new_groupwise_metric(
       silly_metric,
       "silly",
-      .post = function(x, ...) {x$.estimate[1]}
+      aggregrate = function(x, ...) {x$.estimate[1]}
     )
 
   expect_true(inherits(silly_new_groupwise_metric, "function"))
@@ -131,7 +131,7 @@ test_that("can mix fairness metrics with standard metrics", {
   )
 })
 
-test_that("can handle metric set input as `.fn`", {
+test_that("can handle metric set input as `fn`", {
   data("hpc_cv")
 
   expect_silent(
@@ -217,10 +217,10 @@ test_that("errors informatively with bad input", {
 test_that("outputted function errors informatively with bad input", {
   data("hpc_cv")
 
-  bad_.post <- new_groupwise_metric(sens, "bop", identity)
+  bad_aggregrate <- new_groupwise_metric(sens, "bop", identity)
   expect_snapshot(
     error = TRUE,
-    bad_.post(Resample)(hpc_cv, truth = obs, estimate = pred)
+    bad_aggregrate(Resample)(hpc_cv, truth = obs, estimate = pred)
   )
 
   bad_by <- new_groupwise_metric(sens, "bop", identity)(nonexistent_column)
