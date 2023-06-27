@@ -28,6 +28,9 @@ across groups. Note that this definition does not depend on the true
 outcome; the \code{truth} argument is included in outputted metrics
 for consistency.
 
+\code{demographic_parity()} is calculated as the difference between the largest
+and smallest value of \code{\link[=detection_prevalence]{detection_prevalence()}} across groups.
+
 Demographic parity is sometimes referred to as group fairness,
 disparate impact, or statistical parity.
 
@@ -40,21 +43,21 @@ By default, this function takes the difference in range of \code{\link[=detectio
 groups is the return value of \code{demographic_parity()}'s \code{.estimate}.
 
 For finer control of group treatment, construct a context-aware fairness
-metric with the \code{\link[=fairness_metric]{fairness_metric()}} function by passing a custom \code{.post}
+metric with the \code{\link[=new_groupwise_metric]{new_groupwise_metric()}} function by passing a custom \code{aggregrate}
 function:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{# the actual default `.post` is:
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# the actual default `aggregrate` is:
 diff_range <- function(x, ...) \{diff(range(x$.estimate))\}
 
 demographic_parity_2 <-
-  fairness_metric(
-    .fn = detection_prevalence,
-    .name = "demographic_parity_2",
-    .post = diff_range
+  new_groupwise_metric(
+    fn = \code{\link[=detection_prevalence]{detection_prevalence()}},
+    name = "demographic_parity_2",
+    aggregrate = diff_range
   )
 }\if{html}{\out{</div>}}
 
-In \code{.post()}, \code{x} is the \code{metric_set()} output with \code{\link[=detection_prevalence]{detection_prevalence()}} values
+In \code{aggregrate()}, \code{x} is the \code{metric_set()} output with \code{\link[=detection_prevalence]{detection_prevalence()}} values
 for each group, and \code{...} gives additional arguments (such as a grouping
 level to refer to as the "baseline") to pass to the function outputted
 by \code{demographic_parity_2()} for context.

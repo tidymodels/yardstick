@@ -7,6 +7,9 @@
 #' outcome; the `truth` argument is included in outputted metrics
 #' for consistency.
 #'
+#' `demographic_parity()` is calculated as the difference between the largest
+#' and smallest value of [detection_prevalence()] across groups.
+#'
 #' Demographic parity is sometimes referred to as group fairness,
 #' disparate impact, or statistical parity.
 #'
@@ -16,7 +19,7 @@
 #' unquoted column name referring to a column in the un-preprocessed data.
 #'
 #' @templateVar fn demographic_parity
-#' @templateVar internal_.fn detection_prevalence
+#' @templateVar internal_fn detection_prevalence
 #' @templateVar internal_fn [detection_prevalence()]
 #' @template return-fair
 #' @template event-fair
@@ -40,8 +43,8 @@
 #'
 #' @export
 demographic_parity <-
-  fairness_metric(
-    .fn = detection_prevalence,
-    .name = "demographic_parity",
-    .post = diff_range
+  new_groupwise_metric(
+    fn = detection_prevalence,
+    name = "demographic_parity",
+    aggregrate = diff_range
   )

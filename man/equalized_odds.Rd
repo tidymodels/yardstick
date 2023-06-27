@@ -26,6 +26,11 @@ Equalized odds is satisfied when a model's predictions have the same false
 positive, true positive, false negative, and true negative rates across
 protected groups. A value of 0 indicates parity across groups.
 
+By default, this function takes the maximum difference in range of \code{\link[=sens]{sens()}}
+and \code{\link[=spec]{spec()}} \code{.estimate}s across groups. That is, the maximum pair-wise
+disparity in \code{\link[=sens]{sens()}} or \code{\link[=spec]{spec()}} between groups is the return value of
+\code{equalized_odds()}'s \code{.estimate}.
+
 Equalized odds is sometimes referred to as conditional procedure accuracy
 equality or disparate mistreatment.
 
@@ -33,27 +38,22 @@ See the "Measuring disparity" section for details on implementation.
 }
 \section{Measuring Disparity}{
 
-By default, this function takes the maximum difference in range of \code{\link[=sens]{sens()}}
-and \code{\link[=spec]{spec()}} \code{.estimate}s across groups. That is, the maximum pair-wise
-disparity in \code{\link[=sens]{sens()}} or \code{\link[=spec]{spec()}} between groups is the return value of
-\code{equalized_odds()}'s \code{.estimate}.
-
 For finer control of group treatment, construct a context-aware fairness
-metric with the \code{\link[=fairness_metric]{fairness_metric()}} function by passing a custom \code{.post}
+metric with the \code{\link[=new_groupwise_metric]{new_groupwise_metric()}} function by passing a custom \code{aggregrate}
 function:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{# see yardstick:::max_positive_rate_diff for the actual `.post()`
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# see yardstick:::max_positive_rate_diff for the actual `aggregrate()`
 diff_range <- function(x, ...) \{diff(range(x$.estimate))\}
 
 equalized_odds_2 <-
-  fairness_metric(
-    .fn = metric_set(sens, spec),
-    .name = "equalized_odds_2",
-    .post = diff_range
+  new_groupwise_metric(
+    fn = metric_set(sens, spec),
+    name = "equalized_odds_2",
+    aggregrate = diff_range
   )
 }\if{html}{\out{</div>}}
 
-In \code{.post()}, \code{x} is the \code{\link[=metric_set]{metric_set()}} output with \code{\link[=sens]{sens()}} and \code{\link[=spec]{spec()}}
+In \code{aggregrate()}, \code{x} is the \code{\link[=metric_set]{metric_set()}} output with \code{\link[=sens]{sens()}} and \code{\link[=spec]{spec()}}
 values for each group, and \code{...} gives additional arguments (such as a grouping
 level to refer to as the "baseline") to pass to the function outputted
 by \code{equalized_odds_2()} for context.

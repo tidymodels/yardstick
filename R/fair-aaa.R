@@ -1,35 +1,80 @@
-#' Create fairness metrics
+#' Create group-wise metrics
 #'
-#' Fairness metrics quantify the disparity in value of a metric across a number
-#' of groups. Fairness metrics with a value of zero indicate that the
-#' underlying metric has parity across groups. yardstick defines
+#' Group-wise metrics quantify the disparity in value of a metric across a
+#' number of groups. Group-wise metrics with a value of zero indicate that the
+#' underlying metric is equal across groups. yardstick defines
 #' several common fairness metrics using this function, such as
 #' [demographic_parity()], [equal_opportunity()], and [equalized_odds()].
 #'
-#' @param .fn A yardstick metric function or metric set.
-#' @param .name The name of the metric to place in the `.metric` column
+#' Note that _all_ yardstick metrics are group-aware in that, when passed
+#' grouped data, they will return metric values calculated for each group.
+#' When passed grouped data, group-wise metrics also return metric values
+#' for each group, but those metric values are calculated by first additionally
+#' grouping by the variable passed to `by` and then summarizing the per-group
+#' metric estimates across groups using the function passed as the
+#' `aggregrate` argument.
+#'
+#' @param fn A yardstick metric function or metric set.
+#' @param name The name of the metric to place in the `.metric` column
 #' of the output.
-#' @param .post A function to post-process the generated metric set results `x`.
-#' In many cases, `~diff(range(x$.estimate))` or
-#' `~r <- range(x$.estimate); r[1]/r[2]`.
+#' @param aggregrate A function to summarize the generated metric set results.
+#' The function takes metric set results as the first argument and returns
+#' a single numeric giving the `.estimate` value as output. See the Value and
+#' Examples sections for example uses.
+#' @inheritParams new_class_metric
 #'
 #' @section Relevant Group Level:
-#' By default,
-#'
 #' Additional arguments can be passed to the function outputted by
 #' the function that this function outputs. That is:
 #'
 #' ```
-#' res_fairness <- fairness_metric(...)
+#' res_fairness <- new_groupwise_metric(...)
 #' res_by <- res_fairness(by)
-#' res_by(..., additional_arguments_to_.post = TRUE)
+#' res_by(..., additional_arguments_to_aggregrate = TRUE)
 #' ```
 #'
 #' For finer control of how groups in `by` are treated, use the
-#' `.post` argument.
+#' `aggregrate` argument.
 #'
-#' @return A function with one argument, `by`, indicating the data-masked
-#' variable giving the sensitive feature. See the documentation on the
+#' @return
+#' This function is a
+#' [function factory](https://adv-r.hadley.nz/function-factories.html); it's
+#' output is itself a function. Further, the functions that this function
+#' outputs are also function factories. More explicitly, this looks like:
+#'
+#' ```
+#' # a function with similar implementation to `demographic_parity()`:
+#' diff_range <- function(x) {diff(range(x$.estimate))}
+#'
+#' dem_parity <-
+#'   new_groupwise_metric(
+#'     fn = detection_prevalence,
+#'     name = "dem_parity",
+#'     aggregrate = diff_range
+#'   )
+#' ```
+#'
+#' The outputted `dem_parity` is a function that takes one argument, `by`,
+#' indicating the data-masked variable giving the sensitive feature.
+#'
+#' When called with a `by` argument, `dem_parity` will return a yardstick
+#' metric function like any other:
+#'
+#' ```
+#' dem_parity_by_gender <- dem_parity(gender)
+#' ```
+#'
+#' Note that `dem_parity` doesn't take any arguments other than `by`, and thus
+#' knows nothing about the data it will be applied to other than that it ought
+#' to have a column with name `"gender"` in it.
+#'
+#' The output `dem_parity_by_gender` is a metric function that takes the
+#' same arguments as the function supplied as `fn`, in this case
+#' `detection_prevalence`. It will thus interface like any other yardstick
+#' function except that it will look for a `"gender"` column in
+#' the data it's supplied.
+#'
+#' In addition to the examples below, see the documentation on the
 #' return value of fairness metrics like [demographic_parity()],
 #' [equal_opportunity()], or [equalized_odds()] to learn more about how the
 #' output of this function can be used.
@@ -38,13 +83,13 @@
 #' data(hpc_cv)
 #'
 #' # `demographic_parity`, among other fairness metrics,
-#' # is generated with `fairness_metric()`:
-#' diff_range <- function(x, ...) {diff(range(x$.estimate))}
+#' # is generated with `new_groupwise_metric()`:
+#' diff_range <- function(x) {diff(range(x$.estimate))}
 #' demographic_parity_ <-
-#'   fairness_metric(
-#'     .fn = detection_prevalence,
-#'     .name = "demographic_parity",
-#'     .post = diff_range
+#'   new_groupwise_metric(
+#'     fn = detection_prevalence,
+#'     name = "demographic_parity",
+#'     aggregrate = diff_range
 #'   )
 #'
 #' m_set <- metric_set(demographic_parity_(Resample))
@@ -60,78 +105,118 @@
 #' }
 #'
 #' demographic_parity_ratio <-
-#'   fairness_metric(
-#'     .fn = detection_prevalence,
-#'     .name = "demographic_parity_ratio",
-#'     .post = ratio_range
+#'   new_groupwise_metric(
+#'     fn = detection_prevalence,
+#'     name = "demographic_parity_ratio",
+#'     aggregrate = ratio_range
 #'   )
 #'
 #' @export
-fairness_metric <- function(.fn, .name, .post) {
-  if (rlang::is_missing(.fn) || !inherits_any(.fn, c("metric", "metric_set"))) {
-    rlang::abort("`.fn` must be a metric function or metric set.")
+new_groupwise_metric <- function(fn, name, aggregrate, direction = "minimize") {
+  if (is_missing(fn) || !inherits_any(fn, c("metric", "metric_set"))) {
+    abort("`fn` must be a metric function or metric set.")
   }
-  if (rlang::is_missing(.name) || !is_string(.name)) {
-    abort("`.name` must be a string.")
+  if (is_missing(name) || !is_string(name)) {
+    abort("`name` must be a string.")
   }
-  if (rlang::is_missing(.post) || !is_function(.post)) {
-    abort("`.post` must be a function.")
+  if (is_missing(aggregrate) || !is_function(aggregrate)) {
+    abort("`aggregrate` must be a function.")
   }
+  arg_match(
+    direction,
+    values = c("maximize", "minimize", "zero")
+  )
 
-  function(by) {
-    by_str <- rlang::as_string(rlang::enexpr(by))
-    res <-
-      function(data, ...) {
-        gp_vars <- dplyr::group_vars(data)
+  metric_factory <-
+    function(by) {
+      by_str <- as_string(enexpr(by))
+      res <-
+        function(data, ...) {
+          gp_vars <- dplyr::group_vars(data)
 
-        res <- dplyr::group_by(data, {{by}}, .add = TRUE)
-        res <- .fn(res, ...)
+          if (by_str %in% gp_vars) {
+            cli::cli_abort(
+              "Metric is internally grouped by {.field {by_str}}; grouping \\
+              {.arg data} by {.field {by_str}} is not well-defined."
+            )
+          }
 
-        if (length(gp_vars) > 0) {
-          splits <- vctrs::vec_split(res, res[gp_vars])
-          .estimate <- vapply(splits$val, .post, numeric(1), ...)
-        } else {
-          .estimate <- .post(res, ...)
+          # error informatively when `fn` is a metric set; see `eval_safely()`
+          data_grouped <- dplyr::group_by(data, {{by}}, .add = TRUE)
+          res <-
+            tryCatch(
+              fn(data_grouped, ...),
+              error = function(cnd) {
+                if (!is.null(cnd$parent)) {
+                  cnd <- cnd$parent
+                }
+
+                abort(conditionMessage(cnd), call = call(name))
+              }
+            )
+
+          # restore to the grouping structure in the supplied data
+          if (length(gp_vars) > 0) {
+            res <- dplyr::group_by(res, !!!dplyr::groups(data), .add = FALSE)
+          }
+
+          group_rows <- dplyr::group_rows(res)
+          group_keys <- dplyr::group_keys(res)
+          res <- dplyr::ungroup(res)
+          groups <- vec_chop(res, indices = group_rows)
+          out <- vector("list", length = length(groups))
+
+          for (i in seq_along(groups)) {
+            group <- groups[[i]]
+
+            .estimate <- aggregrate(group)
+
+            if (!is_bare_numeric(.estimate)) {
+              abort(
+                "`aggregrate` must return a single numeric value.",
+                call = call2("new_groupwise_metric")
+              )
+            }
+
+            elt_out <- list(
+              .metric = name,
+              .by = by_str,
+              .estimator = group$.estimator[1],
+              .estimate = .estimate
+            )
+
+            out[[i]] <- tibble::new_tibble(elt_out)
+          }
+
+          group_keys <- vctrs::vec_rep_each(group_keys, times = list_sizes(out))
+          out <- vec_rbind(!!!out)
+          out <- vec_cbind(group_keys, out)
+
+          out
         }
+      res <- new_class_metric(res, direction = "minimize")
 
-        if (!rlang::is_bare_numeric(.estimate)) {
-          abort(
-            "`.post` must return a single numeric value.",
-            call = rlang::call2("fairness_metric")
-          )
-        }
+      structure(
+        res,
+        direction = direction,
+        by = by_str,
+        class = groupwise_metric_class(fn)
+      )
+    }
 
-        if (length(gp_vars) > 0) {
-          res <- dplyr::group_by(res, !!!dplyr::groups(data), .add = FALSE)
-        }
-
-        res <-
-          dplyr::summarize(
-            res,
-            .metric = .name,
-            !!".by" := by_str,
-            .estimator = .estimator[1],
-            .groups = "drop"
-          )
-
-        res$.estimate <- .estimate
-
-        res
-      }
-    res <- new_class_metric(res, direction = "minimize")
-    attr(res, "by") <- by_str
-    res
-  }
+  structure(metric_factory, class = c("metric_factory", "function"))
 }
 
-diff_range <- function(x, ...) {
-  diff(range(x$.estimate))
+groupwise_metric_class <- function(fn) {
+  if (inherits(fn, "metric")) {
+    return(class(fn))
+  }
+
+  class(attr(fn, "metrics")[[1]])
 }
 
-max_positive_rate_diff <- function(x, ...) {
-  metric_values <- vctrs::vec_split(x, x$.metric)
+diff_range <- function(x) {
+  estimates <- x$.estimate
 
-  positive_rate_diff <- vapply(metric_values$val, diff_range, numeric(1), ...)
-
-  max(positive_rate_diff)
+  max(estimates) - min(estimates)
 }

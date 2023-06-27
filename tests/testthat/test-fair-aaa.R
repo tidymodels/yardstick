@@ -3,16 +3,16 @@ test_that("basic functionality", {
 
   silly <- function(...) {metric_tibbler("a", "b", 1)}
   silly_metric <- new_class_metric(silly, "minimize")
-  silly_fairness_metric <-
-    fairness_metric(
+  silly_new_groupwise_metric <-
+    new_groupwise_metric(
       silly_metric,
       "silly",
-      .post = function(x, ...) {x$.estimate[1]}
+      aggregrate = function(x, ...) {x$.estimate[1]}
     )
 
-  expect_true(inherits(silly_fairness_metric, "function"))
+  expect_true(inherits(silly_new_groupwise_metric, "function"))
 
-  silly_fairness_Resample <- silly_fairness_metric(Resample)
+  silly_fairness_Resample <- silly_new_groupwise_metric(Resample)
   expect_equal(attr(silly_fairness_Resample, "by"), "Resample")
   expect_s3_class(silly_fairness_Resample, "class_metric")
 
@@ -37,7 +37,7 @@ test_that("basic functionality", {
   )
 })
 
-test_that("fairness_metric() works with grouped input", {
+test_that("new_groupwise_metric() works with grouped input", {
   data("hpc_cv")
   hpc_cv$group <- sample(c("a", "b"), nrow(hpc_cv), replace = TRUE)
 
@@ -131,58 +131,135 @@ test_that("can mix fairness metrics with standard metrics", {
   )
 })
 
+test_that("can handle metric set input as `fn`", {
+  data("hpc_cv")
+
+  expect_silent(
+    fairness_mtrc <-
+      new_groupwise_metric(
+        metric_set(sens, spec),
+        "min_sens_spec",
+        diff_range
+      )
+  )
+
+  expect_s3_class(fairness_mtrc(Resample), "class_metric")
+  expect_equal(attr(fairness_mtrc(Resample), "by"), "Resample")
+  expect_equal(attr(fairness_mtrc(Resample), "direction"), "minimize")
+
+  res <- fairness_mtrc(Resample)(hpc_cv, truth = obs, estimate = pred)
+
+  expect_equal(res$.metric, "min_sens_spec")
+  expect_equal(res$.by, "Resample")
+})
+
+test_that("handles `direction` input", {
+  expect_silent(
+    fairness_mtrc <-
+      new_groupwise_metric(
+        sens,
+        "inv_sens_diff",
+        function(x) {1/diff(range(x$.estimate))},
+        direction = "maximize"
+      )
+  )
+
+  expect_equal(attr(fairness_mtrc(Resample), "direction"), "maximize")
+
+  expect_snapshot(
+    error = TRUE,
+    new_groupwise_metric(
+      sens,
+      "bad_direction",
+      diff_range,
+      direction = "boop"
+    )
+  )
+})
+
 test_that("errors informatively with bad input", {
   expect_snapshot(
     error = TRUE,
-    fairness_metric()
+    new_groupwise_metric()
   )
 
   expect_snapshot(
     error = TRUE,
-    fairness_metric(sens)
+    new_groupwise_metric(sens)
   )
 
   expect_snapshot(
     error = TRUE,
-    fairness_metric(sens, "bop")
+    new_groupwise_metric(sens, "bop")
   )
 
   expect_snapshot(
     error = TRUE,
-    fairness_metric("boop", "bop", identity)
+    new_groupwise_metric("boop", "bop", identity)
   )
 
   expect_snapshot(
     error = TRUE,
-    fairness_metric(identity, "bop", identity)
+    new_groupwise_metric(identity, "bop", identity)
   )
 
   expect_snapshot(
     error = TRUE,
-    fairness_metric(sens, 1, identity)
+    new_groupwise_metric(sens, 1, identity)
   )
 
   expect_snapshot(
     error = TRUE,
-    fairness_metric(sens, "bop", "boop")
+    new_groupwise_metric(sens, "bop", "boop")
   )
 })
 
 test_that("outputted function errors informatively with bad input", {
-  r_version <- R.Version()
-  skip_if(paste(r_version$major, r_version$minor, sep = ".") <= "3.6.3")
-
   data("hpc_cv")
 
-  bad_.post <- fairness_metric(sens, "bop", identity)
+  bad_aggregrate <- new_groupwise_metric(sens, "bop", identity)
   expect_snapshot(
     error = TRUE,
-    bad_.post(Resample)(hpc_cv, truth = obs, estimate = pred)
+    bad_aggregrate(Resample)(hpc_cv, truth = obs, estimate = pred)
   )
 
-  bad_by <- fairness_metric(sens, "bop", identity)(nonexistent_column)
+  bad_by <- new_groupwise_metric(sens, "bop", identity)(nonexistent_column)
   expect_snapshot(
     error = TRUE,
     bad_by(hpc_cv, truth = obs, estimate = pred)
+  )
+
+  bad_truth_metric_set <-
+    new_groupwise_metric(metric_set(sens, spec), "bop", function(x) {1})(Resample)
+  expect_snapshot(
+    error = TRUE,
+    bad_truth_metric_set(hpc_cv, truth = VF, estimate = pred)
+  )
+
+  bad_truth_metric <-
+    new_groupwise_metric(sens, "bop", function(x) {1})(Resample)
+  expect_snapshot(
+    error = TRUE,
+    bad_truth_metric(hpc_cv, truth = VF, estimate = pred)
+  )
+})
+
+test_that("outputted function errors informatively with redundant grouping", {
+  data("hpc_cv")
+
+  expect_snapshot(
+    error = TRUE,
+    hpc_cv %>%
+      dplyr::group_by(Resample) %>%
+      demographic_parity(Resample)(truth = obs, estimate = pred)
+  )
+
+  dp_res <- demographic_parity(Resample)
+
+  expect_snapshot(
+    error = TRUE,
+    hpc_cv %>%
+      dplyr::group_by(Resample) %>%
+      dp_res(truth = obs, estimate = pred)
   )
 })

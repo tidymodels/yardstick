@@ -70,7 +70,7 @@ reference:
 
   - title: Fairness Metrics
     contents:
-    - fairness_metric
+    - new_groupwise_metric
     - demographic_parity
     - equalized_odds
     - equal_opportunity

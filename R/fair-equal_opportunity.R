@@ -6,6 +6,9 @@
 #' true positive and false negative rates across protected groups. A value of
 #' 0 indicates parity across groups.
 #'
+#' `equal_opportunity()` is calculated as the difference between the largest
+#' and smallest value of [sens()] across groups.
+#'
 #' Equal opportunity is sometimes referred to as conditional procedure accuracy
 #' equality or disparate mistreatment.
 #'
@@ -14,7 +17,7 @@
 #' @inheritParams demographic_parity
 #'
 #' @templateVar fn equal_opportunity
-#' @templateVar internal_.fn sens
+#' @templateVar internal_fn sens
 #' @templateVar internal_fn [sens()]
 #' @template return-fair
 #' @template event-fair
@@ -36,8 +39,8 @@
 #'
 #' @export
 equal_opportunity <-
-  fairness_metric(
-    .fn = sens,
-    .name = "equal_opportunity",
-    .post = diff_range
+  new_groupwise_metric(
+    fn = sens,
+    name = "equal_opportunity",
+    aggregrate = diff_range
   )

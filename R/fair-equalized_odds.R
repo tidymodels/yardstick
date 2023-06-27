@@ -1,3 +1,11 @@
+max_positive_rate_diff <- function(x) {
+  metric_values <- vec_split(x, x$.metric)
+
+  positive_rate_diff <- vapply(metric_values$val, diff_range, numeric(1))
+
+  max(positive_rate_diff)
+}
+
 #' Equalized odds
 #'
 #' @description
@@ -5,6 +13,11 @@
 #' Equalized odds is satisfied when a model's predictions have the same false
 #' positive, true positive, false negative, and true negative rates across
 #' protected groups. A value of 0 indicates parity across groups.
+#'
+#' By default, this function takes the maximum difference in range of [sens()]
+#' and [spec()] `.estimate`s across groups. That is, the maximum pair-wise
+#' disparity in [sens()] or [spec()] between groups is the return value of
+#' `equalized_odds()`'s `.estimate`.
 #'
 #' Equalized odds is sometimes referred to as conditional procedure accuracy
 #' equality or disparate mistreatment.
@@ -19,28 +32,23 @@
 #' @template examples-fair
 #'
 #' @section Measuring Disparity:
-#' By default, this function takes the maximum difference in range of [sens()]
-#' and [spec()] `.estimate`s across groups. That is, the maximum pair-wise
-#' disparity in [sens()] or [spec()] between groups is the return value of
-#' `equalized_odds()`'s `.estimate`.
-#'
 #' For finer control of group treatment, construct a context-aware fairness
-#' metric with the [fairness_metric()] function by passing a custom `.post`
+#' metric with the [new_groupwise_metric()] function by passing a custom `aggregrate`
 #' function:
 #'
 #' ```
-#' # see yardstick:::max_positive_rate_diff for the actual `.post()`
+#' # see yardstick:::max_positive_rate_diff for the actual `aggregrate()`
 #' diff_range <- function(x, ...) {diff(range(x$.estimate))}
 #'
 #' equalized_odds_2 <-
-#'   fairness_metric(
-#'     .fn = metric_set(sens, spec),
-#'     .name = "equalized_odds_2",
-#'     .post = diff_range
+#'   new_groupwise_metric(
+#'     fn = metric_set(sens, spec),
+#'     name = "equalized_odds_2",
+#'     aggregrate = diff_range
 #'   )
 #' ```
 #'
-#' In `.post()`, `x` is the [metric_set()] output with [sens()] and [spec()]
+#' In `aggregrate()`, `x` is the [metric_set()] output with [sens()] and [spec()]
 #' values for each group, and `...` gives additional arguments (such as a grouping
 #' level to refer to as the "baseline") to pass to the function outputted
 #' by `equalized_odds_2()` for context.
@@ -63,8 +71,8 @@
 #'
 #' @export
 equalized_odds <-
-  fairness_metric(
-    .fn = metric_set(sens, spec),
-    .name = "equalized_odds",
-    .post = max_positive_rate_diff
+  new_groupwise_metric(
+    fn = metric_set(sens, spec),
+    name = "equalized_odds",
+    aggregrate = max_positive_rate_diff
   )
