@@ -35,7 +35,7 @@ Suggests:
     crayon,
     ggplot2,
     knitr,
-    probably (>= 0.0.6),
+    probably (>= 1.0.0),
     rmarkdown,
     survival (>= 3.5-0),
     testthat (>= 3.0.0),
@@ -49,3 +49,5 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Remotes:  
+    tidymodels/probably
