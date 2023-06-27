@@ -39,21 +39,21 @@ See the "Measuring disparity" section for details on implementation.
 \section{Measuring Disparity}{
 
 For finer control of group treatment, construct a context-aware fairness
-metric with the \code{\link[=new_groupwise_metric]{new_groupwise_metric()}} function by passing a custom \code{aggregrate}
+metric with the \code{\link[=new_groupwise_metric]{new_groupwise_metric()}} function by passing a custom \code{aggregate}
 function:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{# see yardstick:::max_positive_rate_diff for the actual `aggregrate()`
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# see yardstick:::max_positive_rate_diff for the actual `aggregate()`
 diff_range <- function(x, ...) \{diff(range(x$.estimate))\}
 
 equalized_odds_2 <-
   new_groupwise_metric(
     fn = metric_set(sens, spec),
     name = "equalized_odds_2",
-    aggregrate = diff_range
+    aggregate = diff_range
   )
 }\if{html}{\out{</div>}}
 
-In \code{aggregrate()}, \code{x} is the \code{\link[=metric_set]{metric_set()}} output with \code{\link[=sens]{sens()}} and \code{\link[=spec]{spec()}}
+In \code{aggregate()}, \code{x} is the \code{\link[=metric_set]{metric_set()}} output with \code{\link[=sens]{sens()}} and \code{\link[=spec]{spec()}}
 values for each group, and \code{...} gives additional arguments (such as a grouping
 level to refer to as the "baseline") to pass to the function outputted
 by \code{equalized_odds_2()} for context.

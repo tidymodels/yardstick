@@ -7,7 +7,7 @@ test_that("basic functionality", {
     new_groupwise_metric(
       silly_metric,
       "silly",
-      aggregrate = function(x, ...) {x$.estimate[1]}
+      aggregate = function(x, ...) {x$.estimate[1]}
     )
 
   expect_true(inherits(silly_new_groupwise_metric, "function"))
@@ -217,10 +217,10 @@ test_that("errors informatively with bad input", {
 test_that("outputted function errors informatively with bad input", {
   data("hpc_cv")
 
-  bad_aggregrate <- new_groupwise_metric(sens, "bop", identity)
+  bad_aggregate <- new_groupwise_metric(sens, "bop", identity)
   expect_snapshot(
     error = TRUE,
-    bad_aggregrate(Resample)(hpc_cv, truth = obs, estimate = pred)
+    bad_aggregate(Resample)(hpc_cv, truth = obs, estimate = pred)
   )
 
   bad_by <- new_groupwise_metric(sens, "bop", identity)(nonexistent_column)

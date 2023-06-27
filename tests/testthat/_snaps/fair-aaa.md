@@ -28,7 +28,7 @@
       new_groupwise_metric(sens, "bop")
     Condition
       Error in `new_groupwise_metric()`:
-      ! `aggregrate` must be a function.
+      ! `aggregate` must be a function.
 
 ---
 
@@ -60,15 +60,15 @@
       new_groupwise_metric(sens, "bop", "boop")
     Condition
       Error in `new_groupwise_metric()`:
-      ! `aggregrate` must be a function.
+      ! `aggregate` must be a function.
 
 # outputted function errors informatively with bad input
 
     Code
-      bad_aggregrate(Resample)(hpc_cv, truth = obs, estimate = pred)
+      bad_aggregate(Resample)(hpc_cv, truth = obs, estimate = pred)
     Condition
       Error in `new_groupwise_metric()`:
-      ! `aggregrate` must return a single numeric value.
+      ! `aggregate` must return a single numeric value.
 
 ---
 

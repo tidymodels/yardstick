@@ -42,5 +42,5 @@ equal_opportunity <-
   new_groupwise_metric(
     fn = sens,
     name = "equal_opportunity",
-    aggregrate = diff_range
+    aggregate = diff_range
   )

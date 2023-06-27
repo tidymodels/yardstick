@@ -33,22 +33,22 @@ max_positive_rate_diff <- function(x) {
 #'
 #' @section Measuring Disparity:
 #' For finer control of group treatment, construct a context-aware fairness
-#' metric with the [new_groupwise_metric()] function by passing a custom `aggregrate`
+#' metric with the [new_groupwise_metric()] function by passing a custom `aggregate`
 #' function:
 #'
 #' ```
-#' # see yardstick:::max_positive_rate_diff for the actual `aggregrate()`
+#' # see yardstick:::max_positive_rate_diff for the actual `aggregate()`
 #' diff_range <- function(x, ...) {diff(range(x$.estimate))}
 #'
 #' equalized_odds_2 <-
 #'   new_groupwise_metric(
 #'     fn = metric_set(sens, spec),
 #'     name = "equalized_odds_2",
-#'     aggregrate = diff_range
+#'     aggregate = diff_range
 #'   )
 #' ```
 #'
-#' In `aggregrate()`, `x` is the [metric_set()] output with [sens()] and [spec()]
+#' In `aggregate()`, `x` is the [metric_set()] output with [sens()] and [spec()]
 #' values for each group, and `...` gives additional arguments (such as a grouping
 #' level to refer to as the "baseline") to pass to the function outputted
 #' by `equalized_odds_2()` for context.
@@ -74,5 +74,5 @@ equalized_odds <-
   new_groupwise_metric(
     fn = metric_set(sens, spec),
     name = "equalized_odds",
-    aggregrate = max_positive_rate_diff
+    aggregate = max_positive_rate_diff
   )

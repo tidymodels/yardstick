@@ -12,12 +12,12 @@
 #' for each group, but those metric values are calculated by first additionally
 #' grouping by the variable passed to `by` and then summarizing the per-group
 #' metric estimates across groups using the function passed as the
-#' `aggregrate` argument.
+#' `aggregate` argument.
 #'
 #' @param fn A yardstick metric function or metric set.
 #' @param name The name of the metric to place in the `.metric` column
 #' of the output.
-#' @param aggregrate A function to summarize the generated metric set results.
+#' @param aggregate A function to summarize the generated metric set results.
 #' The function takes metric set results as the first argument and returns
 #' a single numeric giving the `.estimate` value as output. See the Value and
 #' Examples sections for example uses.
@@ -30,11 +30,11 @@
 #' ```
 #' res_fairness <- new_groupwise_metric(...)
 #' res_by <- res_fairness(by)
-#' res_by(..., additional_arguments_to_aggregrate = TRUE)
+#' res_by(..., additional_arguments_to_aggregate = TRUE)
 #' ```
 #'
 #' For finer control of how groups in `by` are treated, use the
-#' `aggregrate` argument.
+#' `aggregate` argument.
 #'
 #' @return
 #' This function is a
@@ -50,7 +50,7 @@
 #'   new_groupwise_metric(
 #'     fn = detection_prevalence,
 #'     name = "dem_parity",
-#'     aggregrate = diff_range
+#'     aggregate = diff_range
 #'   )
 #' ```
 #'
@@ -89,7 +89,7 @@
 #'   new_groupwise_metric(
 #'     fn = detection_prevalence,
 #'     name = "demographic_parity",
-#'     aggregrate = diff_range
+#'     aggregate = diff_range
 #'   )
 #'
 #' m_set <- metric_set(demographic_parity_(Resample))
@@ -108,19 +108,19 @@
 #'   new_groupwise_metric(
 #'     fn = detection_prevalence,
 #'     name = "demographic_parity_ratio",
-#'     aggregrate = ratio_range
+#'     aggregate = ratio_range
 #'   )
 #'
 #' @export
-new_groupwise_metric <- function(fn, name, aggregrate, direction = "minimize") {
+new_groupwise_metric <- function(fn, name, aggregate, direction = "minimize") {
   if (is_missing(fn) || !inherits_any(fn, c("metric", "metric_set"))) {
     abort("`fn` must be a metric function or metric set.")
   }
   if (is_missing(name) || !is_string(name)) {
     abort("`name` must be a string.")
   }
-  if (is_missing(aggregrate) || !is_function(aggregrate)) {
-    abort("`aggregrate` must be a function.")
+  if (is_missing(aggregate) || !is_function(aggregate)) {
+    abort("`aggregate` must be a function.")
   }
   arg_match(
     direction,
@@ -169,11 +169,11 @@ new_groupwise_metric <- function(fn, name, aggregrate, direction = "minimize") {
           for (i in seq_along(groups)) {
             group <- groups[[i]]
 
-            .estimate <- aggregrate(group)
+            .estimate <- aggregate(group)
 
             if (!is_bare_numeric(.estimate)) {
               abort(
-                "`aggregrate` must return a single numeric value.",
+                "`aggregate` must return a single numeric value.",
                 call = call2("new_groupwise_metric")
               )
             }

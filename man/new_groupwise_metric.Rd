@@ -4,7 +4,7 @@
 \alias{new_groupwise_metric}
 \title{Create group-wise metrics}
 \usage{
-new_groupwise_metric(fn, name, aggregrate, direction = "minimize")
+new_groupwise_metric(fn, name, aggregate, direction = "minimize")
 }
 \arguments{
 \item{fn}{A yardstick metric function or metric set.}
@@ -12,7 +12,7 @@ new_groupwise_metric(fn, name, aggregrate, direction = "minimize")
 \item{name}{The name of the metric to place in the \code{.metric} column
 of the output.}
 
-\item{aggregrate}{A function to summarize the generated metric set results.
+\item{aggregate}{A function to summarize the generated metric set results.
 The function takes metric set results as the first argument and returns
 a single numeric giving the \code{.estimate} value as output. See the Value and
 Examples sections for example uses.}
@@ -37,7 +37,7 @@ dem_parity <-
   new_groupwise_metric(
     fn = detection_prevalence,
     name = "dem_parity",
-    aggregrate = diff_range
+    aggregate = diff_range
   )
 }\if{html}{\out{</div>}}
 
@@ -79,7 +79,7 @@ When passed grouped data, group-wise metrics also return metric values
 for each group, but those metric values are calculated by first additionally
 grouping by the variable passed to \code{by} and then summarizing the per-group
 metric estimates across groups using the function passed as the
-\code{aggregrate} argument.
+\code{aggregate} argument.
 }
 \section{Relevant Group Level}{
 
@@ -88,11 +88,11 @@ the function that this function outputs. That is:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{res_fairness <- new_groupwise_metric(...)
 res_by <- res_fairness(by)
-res_by(..., additional_arguments_to_aggregrate = TRUE)
+res_by(..., additional_arguments_to_aggregate = TRUE)
 }\if{html}{\out{</div>}}
 
 For finer control of how groups in \code{by} are treated, use the
-\code{aggregrate} argument.
+\code{aggregate} argument.
 }
 
 \examples{
@@ -105,7 +105,7 @@ demographic_parity_ <-
   new_groupwise_metric(
     fn = detection_prevalence,
     name = "demographic_parity",
-    aggregrate = diff_range
+    aggregate = diff_range
   )
 
 m_set <- metric_set(demographic_parity_(Resample))
@@ -124,7 +124,7 @@ demographic_parity_ratio <-
   new_groupwise_metric(
     fn = detection_prevalence,
     name = "demographic_parity_ratio",
-    aggregrate = ratio_range
+    aggregate = ratio_range
   )
 
 }

@@ -46,5 +46,5 @@ demographic_parity <-
   new_groupwise_metric(
     fn = detection_prevalence,
     name = "demographic_parity",
-    aggregrate = diff_range
+    aggregate = diff_range
   )
