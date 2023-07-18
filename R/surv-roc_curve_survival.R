@@ -189,8 +189,8 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
   n <- nrow(data)
   multiplier <- delta / (n * data$.weight_censored)
 
-  sensitivity_denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
-  specificity_denom <- sum(obs_time_gt_time, na.rm = TRUE)
+  sensitivity_denom <- sum(obs_time_le_time * multiplier * x$case_weights, na.rm = TRUE)
+  specificity_denom <- sum(obs_time_gt_time * x$case_weights, na.rm = TRUE)
 
   data_df <- data.frame(
     le_time = obs_time_le_time,
