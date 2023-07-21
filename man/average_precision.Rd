@@ -104,7 +104,7 @@ By summing from \code{2} to \code{n}, the precision value \code{p_1} is never us
 ambiguity. On the other hand, \code{r_1} is well defined as long as there are
 some events (\code{p}), and it is \code{tp / p} with \code{tp = 0}, so \code{r_1 = 0}.
 
-When \code{p_1} is defined as \code{1}, the \code{average_precision()} and \code{pr_auc()}
+When \code{p_1} is defined as \code{1}, the \code{average_precision()} and \code{roc_auc()}
 values are often very close to one another.
 }
 \section{Multiclass}{
