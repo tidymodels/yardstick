@@ -71,4 +71,3 @@ if (FALSE) {
   brier_churn_res <- as.data.frame(noSplit$Brier$score)
   save(brier_churn_res, file = "brier_churn_res.RData")
 }
-
