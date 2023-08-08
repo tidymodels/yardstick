@@ -143,7 +143,7 @@ mcc_binary <- function(data) {
   d3 <- tn + fp
   d4 <- tn + fn
 
-  if (d1 == 0 | d2 == 0 | d3 == 0 | d4 == 0) {
+  if (d1 == 0 || d2 == 0 || d3 == 0 || d4 == 0) {
     return(NA)
   }
 

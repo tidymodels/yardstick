@@ -126,7 +126,7 @@ brier_ind <- function(truth, estimate, case_weights = NULL) {
     estimate <- matrix(estimate, ncol = 1)
   }
   # In the binary case:
-  if (ncol(estimate) == 1 & ncol(truth) == 2) {
+  if (ncol(estimate) == 1 && ncol(truth) == 2) {
     estimate <- unname(estimate)
     estimate <- vec_cbind(estimate, 1 - estimate, .name_repair = "unique_quiet")
   }

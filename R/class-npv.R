@@ -135,7 +135,6 @@ npv_table_impl <- function(data,
 
 npv_binary <- function(data, event_level, prevalence = NULL) {
   positive <- pos_val(data, event_level)
-  negative <- neg_val(data, event_level)
 
   if (is.null(prevalence)) {
     prevalence <- sum(data[, positive]) / sum(data)

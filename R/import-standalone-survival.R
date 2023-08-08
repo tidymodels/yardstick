@@ -59,7 +59,7 @@
   event_type_to_01 <- !(.extract_surv_type(surv) %in% c("interval", "interval2", "mstate"))
   if (
     event_type_to_01 &&
-      (identical(un_vals, 1:2) | identical(un_vals, c(1.0, 2.0)))) {
+      (identical(un_vals, 1:2) || identical(un_vals, c(1.0, 2.0)))) {
     res <- res - 1
   }
   res
