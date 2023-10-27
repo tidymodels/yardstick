@@ -6,6 +6,7 @@ utils::globalVariables(
   c(
     # for class prob metrics
     "estimate",
+    ".estimator",
     "threshold",
     "specificity",
     ".level",

@@ -3,6 +3,7 @@
 # reticulate::use_virtualenv("yardstick-environment")
 # reticulate::py_install("scikit-learn") # 1.2.0 is what was downloaded
 # reticulate::py_install("scikit-survival") # 1.2.0 is what was downloaded
+# reticulate::py_install("fairlearn") # 0.8.0 is what was downloaded
 library(reticulate)
 
 # Inside yardstick
@@ -13,6 +14,7 @@ use_virtualenv("yardstick-environment")
 skmetrics <- import("sklearn.metrics")
 sksurv_metrics <- import("sksurv.metrics")
 sksurv_util <- import("sksurv.util", convert = FALSE)
+fairlearn <- import("fairlearn.metrics")
 
 data("hpc_cv")
 data("two_class_example")
@@ -417,3 +419,73 @@ py_brier_survival <- vapply(
 
 names(py_brier_survival) <- eval_time_unique
 saveRDS(py_brier_survival, test_path("py-data", "py-brier-survival.rds"), version = 2)
+
+# Fairness metrics via fairlearn
+py_demographic_parity <-
+  list(
+    binary =
+      fairlearn$demographic_parity_difference(
+        hpc_cv$obs == "VF",
+        hpc_cv$pred == "VF",
+        sensitive_features = hpc_cv$Resample
+      ),
+    weighted =
+      fairlearn$demographic_parity_difference(
+        hpc_cv$obs == "VF",
+        hpc_cv$pred == "VF",
+        sensitive_features = hpc_cv$Resample,
+        sample_weight = weights_hpc_cv
+      )
+  )
+
+saveRDS(
+  py_demographic_parity,
+  test_path("py-data", "py-demographic_parity.rds"),
+  version = 2
+)
+
+py_equalized_odds <-
+  list(
+    binary =
+      fairlearn$equalized_odds_difference(
+        hpc_cv$obs == "VF",
+        hpc_cv$pred == "VF",
+        sensitive_features = hpc_cv$Resample
+      ),
+    weighted =
+      fairlearn$equalized_odds_difference(
+        hpc_cv$obs == "VF",
+        hpc_cv$pred == "VF",
+        sensitive_features = hpc_cv$Resample,
+        sample_weight = weights_hpc_cv
+      )
+  )
+
+saveRDS(
+  py_equalized_odds,
+  test_path("py-data", "py-equalized_odds.rds"),
+  version = 2
+)
+
+py_equal_opportunity <-
+  list(
+    binary =
+      fairlearn$true_positive_rate_difference(
+        hpc_cv$obs == "VF",
+        hpc_cv$pred == "VF",
+        sensitive_features = hpc_cv$Resample
+      ),
+    weighted =
+      fairlearn$true_positive_rate_difference(
+        hpc_cv$obs == "VF",
+        hpc_cv$pred == "VF",
+        sensitive_features = hpc_cv$Resample,
+        sample_weight = weights_hpc_cv
+      )
+  )
+
+saveRDS(
+  py_equal_opportunity,
+  test_path("py-data", "py-equal_opportunity.rds"),
+  version = 2
+)

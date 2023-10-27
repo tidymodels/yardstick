@@ -122,6 +122,42 @@
       The following metric function types are being mixed:
       - other (foobar <test>)
 
+# errors informatively for unevaluated metric factories
+
+    Code
+      metric_set(demographic_parity)
+    Condition
+      Error in `metric_set()`:
+      ! The input `demographic_parity` is a group-wise metric (`?yardstick::new_groupwise_metric()`) factory and must be passed a data-column before addition to a metric set.
+      i Did you mean to type e.g. `demographic_parity(col_name)`?
+
+---
+
+    Code
+      metric_set(demographic_parity, roc_auc)
+    Condition
+      Error in `metric_set()`:
+      ! The input `demographic_parity` is a group-wise metric (`?yardstick::new_groupwise_metric()`) factory and must be passed a data-column before addition to a metric set.
+      i Did you mean to type e.g. `demographic_parity(col_name)`?
+
+---
+
+    Code
+      metric_set(demographic_parity, equal_opportunity)
+    Condition
+      Error in `metric_set()`:
+      ! The inputs `demographic_parity` and `equal_opportunity` are group-wise metric (`?yardstick::new_groupwise_metric()`) factories and must be passed a data-column before addition to a metric set.
+      i Did you mean to type e.g. `demographic_parity(col_name)`?
+
+---
+
+    Code
+      metric_set(demographic_parity, equal_opportunity, roc_auc)
+    Condition
+      Error in `metric_set()`:
+      ! The inputs `demographic_parity` and `equal_opportunity` are group-wise metric (`?yardstick::new_groupwise_metric()`) factories and must be passed a data-column before addition to a metric set.
+      i Did you mean to type e.g. `demographic_parity(col_name)`?
+
 # propagates 'caused by' error message when specifying the wrong column name
 
     Code

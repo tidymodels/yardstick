@@ -35,7 +35,7 @@ Suggests:
     crayon,
     ggplot2,
     knitr,
-    probably (>= 0.0.6),
+    probably (>= 1.0.0),
     rmarkdown,
     survival (>= 3.5-0),
     testthat (>= 3.0.0),

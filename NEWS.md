@@ -14,6 +14,8 @@ calculated with `roc_auc_survival()`.
 
 * `metric_set()` can now be used with a combination of dynamic and static survival metrics.
 
+* `demographic_parity()`, `equalized_odds()`, and `equal_opportunity()` are new metrics for measuring model fairness. Each is implemented with the `new_groupwise_metric()` constructor, a general interface for defining group-aware metrics that allows for quickly and flexibly defining fairness metrics with the problem context in mind.
+
 # yardstick 1.2.0
 
 ## New Metrics
