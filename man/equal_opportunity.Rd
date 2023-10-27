@@ -29,8 +29,7 @@ true positive and false negative rates across protected groups. A value of
 \code{equal_opportunity()} is calculated as the difference between the largest
 and smallest value of \code{\link[=sens]{sens()}} across groups.
 
-Equal opportunity is sometimes referred to as conditional procedure accuracy
-equality or disparate mistreatment.
+Equal opportunity is sometimes referred to as equality of opportunity.
 
 See the "Measuring Disparity" section for details on implementation.
 }
