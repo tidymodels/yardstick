@@ -94,3 +94,22 @@ metric_direction <- function(x) {
   attr(x, "direction") <- value
   x
 }
+
+#' @noRd
+#' @export
+print.metric <- function(x, ...) {
+  cat(format(x), sep = "\n")
+  invisible(x)
+}
+
+format.metric <- function(x, ...) {
+  first_class <- class(x)[[1]]
+  cli::cli_format_method({
+    cli::cli_text("A {.cls {first_class}} function.")
+    cli::cli_text("Direction: {.field {attr(x, 'direction')}}")
+    by_attr <- attr(x, "by")
+    if (!is.null(by_attr)) {
+      cli::cli_text("Group-wise on: {.field {as.character(by_attr)}}")
+    }
+  })
+}

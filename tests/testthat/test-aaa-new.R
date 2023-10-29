@@ -37,3 +37,9 @@ test_that("`direction` is validated", {
     new_class_metric(function() 1, "min")
   )
 })
+
+test_that("metric print method works", {
+  expect_snapshot(rmse)
+  expect_snapshot(roc_auc)
+  expect_snapshot(demographic_parity(boop))
+})

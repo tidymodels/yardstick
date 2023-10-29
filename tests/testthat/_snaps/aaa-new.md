@@ -15,3 +15,28 @@
       ! `direction` must be one of "maximize", "minimize", or "zero", not "min".
       i Did you mean "minimize"?
 
+# metric print method works
+
+    Code
+      rmse
+    Output
+      A <numeric_metric> function.
+      Direction: minimize
+
+---
+
+    Code
+      roc_auc
+    Output
+      A <prob_metric> function.
+      Direction: maximize
+
+---
+
+    Code
+      demographic_parity(boop)
+    Output
+      A <class_metric> function.
+      Direction: minimize
+      Group-wise on: boop
+

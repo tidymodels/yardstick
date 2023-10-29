@@ -16,6 +16,8 @@ calculated with `roc_auc_survival()`.
 
 * `demographic_parity()`, `equalized_odds()`, and `equal_opportunity()` are new metrics for measuring model fairness. Each is implemented with the `new_groupwise_metric()` constructor, a general interface for defining group-aware metrics that allows for quickly and flexibly defining fairness metrics with the problem context in mind.
 
+* Added a print method for metrics (#435).
+
 # yardstick 1.2.0
 
 ## New Metrics
