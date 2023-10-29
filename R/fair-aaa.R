@@ -12,7 +12,8 @@
 #' for each group, but those metric values are calculated by first additionally
 #' grouping by the variable passed to `by` and then summarizing the per-group
 #' metric estimates across groups using the function passed as the
-#' `aggregate` argument.
+#' `aggregate` argument. Learn more about grouping behavior in yardstick using
+#' `vignette("grouping", "yardstick")`.
 #'
 #' @param fn A yardstick metric function or metric set.
 #' @param name The name of the metric to place in the `.metric` column

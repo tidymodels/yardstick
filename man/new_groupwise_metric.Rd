@@ -79,7 +79,8 @@ When passed grouped data, group-wise metrics also return metric values
 for each group, but those metric values are calculated by first additionally
 grouping by the variable passed to \code{by} and then summarizing the per-group
 metric estimates across groups using the function passed as the
-\code{aggregate} argument.
+\code{aggregate} argument. Learn more about grouping behavior in yardstick using
+\code{vignette("grouping", "yardstick")}.
 }
 \section{Relevant Group Level}{
 
