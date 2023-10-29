@@ -118,7 +118,7 @@ accuracy_diff <-
 * The `name` argument gives the name of the new metric we've created; we'll call ours "accuracy difference."
 * The `aggregate` argument is a function defining how to go from `fn` output by group to a single numeric.
 
-The output, `accuracy_diff`, is a function subclass called a `metric_factory()`:
+The output, `accuracy_diff`, is a function subclass called a `metric_factory`:
 
 ```{r acc-diff-class}
 class(accuracy_diff)
