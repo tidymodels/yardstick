@@ -31,7 +31,7 @@ data("hpc_cv")
 
 Even before the implementation of group-wise metrics, _all_ yardstick metrics had been _group-aware_. When grouped data is passed to a group-aware metric, it will return metric values calculated for each group.
 
-To demonstrate, we'll make use of the `hpc_cv` data set, containing class probabilities and class predictions for a linear discriminant analysis fit to the HPC data set of Kuhn and Johnson (2013). The model is evaluated against a 10-fold cross-validation, and the predictions for all folds are included. 
+To demonstrate, we'll make use of the `hpc_cv` data set, containing class probabilities and class predictions for a linear discriminant analysis fit to the HPC data set of Kuhn and Johnson (2013). The model is evaluated via 10-fold cross-validation, and the predictions for all folds are included. 
 
 ```{r hpc-cv}
 tibble(hpc_cv)
@@ -60,7 +60,7 @@ hpc %>%
 
 The metric function returns one row, giving the `.metric`, `.estimator`, and `.estimate` for the whole data set it is passed.
 
-If we instead group the data by fold, metric functions like `accuracy` will know to compute values for each group; in the input, each row will correspond to a Resample.
+If we instead group the data by fold, metric functions like `accuracy` will know to compute values for each group; in the output, each row will correspond to a Resample.
 
 ```{r hpc-cv-2}
 hpc %>% 
@@ -68,13 +68,13 @@ hpc %>%
   accuracy(obs, pred)
 ```
 
-Note that the first row, corresponding to `Resample`, gives the same value as manually filtering for the observations corresponding to the first resample and then computing the accuracy.
+Note that the first row, corresponding to `Fold01`, gives the same value as manually filtering for the observations corresponding to the first resample and then computing the accuracy.
 
 This behavior is what we mean by group-awareness. When grouped data is passed to group-aware metric functions, they will return values for each group.
 
 # Group-wise metrics
 
-Group-wise metrics are associated with a data-column such that, when passed data with that column, the metric will temporarily additionally group by that column, compute values for each of the groups defined by the column, and then aggregate the values computed for the temporary grouping back to the level of the inputted data's grouping.
+Group-wise metrics are associated with a data-column such that, when passed data with that column, the metric will temporarily group by that column, compute values for each of the groups defined by the column, and then aggregate the values computed for the temporary grouping back to the level of the input data's grouping.
 
 More concretely, let's turn to an example where there is no pre-existing grouping in the data. Consider the portion of the HPC data pertaining to the first resample:
 
@@ -101,7 +101,7 @@ Now, taking the difference:
 diff(c(acc_by_group$.estimate[2], acc_by_group$.estimate[1]))
 ```
 
-Group-wise metrics encode the `group_by()` and subtraction step shown above into a yardstick metric. We can define a new group-wise metric with the `new_groupwise_metric()` function:
+Group-wise metrics encode the `group_by()` and aggregation step (in this case, subtraction) shown above into a yardstick metric. We can define a new group-wise metric with the `new_groupwise_metric()` function:
 
 ```{r}
 accuracy_diff <-
@@ -116,7 +116,7 @@ accuracy_diff <-
 
 * The `fn` argument is the yardstick metric that will be computed for each data group.
 * The `name` argument gives the name of the new metric we've created; we'll call ours "accuracy difference."
-* The `aggregate` argument is a function defining how to go from `fn` output by group to a single numeric.
+* The `aggregate` argument is a function defining how to go from `fn` output by group to a single numeric value.
 
 The output, `accuracy_diff`, is a function subclass called a `metric_factory`:
 
