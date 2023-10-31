@@ -29,9 +29,9 @@ data("hpc_cv")
 
 # Group-awareness
 
-Even before the implementation of group-wise metrics, _all_ yardstick metrics had been _group-aware_. By group-aware, we mean that when passed grouped data, a metric will return metric values calculated for each group.
+Even before the implementation of group-wise metrics, _all_ yardstick metrics had been _group-aware_. When grouped data is passed to a group-aware metric, it will return metric values calculated for each group.
 
-To demonstrate, we'll make use of the `hpc_cv` data set, containing class probabilities and class predictions for a linear discriminant analysis fit to the HPC data set of Kuhn and Johnson (2013). The model is evaluated against a 10 fold cross-validation, and the predictions for all folds are included. 
+To demonstrate, we'll make use of the `hpc_cv` data set, containing class probabilities and class predictions for a linear discriminant analysis fit to the HPC data set of Kuhn and Johnson (2013). The model is evaluated against a 10-fold cross-validation, and the predictions for all folds are included. 
 
 ```{r hpc-cv}
 tibble(hpc_cv)
@@ -70,7 +70,7 @@ hpc %>%
 
 Note that the first row, corresponding to `Resample`, gives the same value as manually filtering for the observations corresponding to the first resample and then computing the accuracy.
 
-This behavior is what we mean by group-awareness. When passed grouped data, metric functions will return values for each group.
+This behavior is what we mean by group-awareness. When grouped data is passed to group-aware metric functions, they will return values for each group.
 
 # Group-wise metrics
 
@@ -140,7 +140,7 @@ class(accuracy_diff_by_batch)
 
 <!-- TODO: once a print method is added, we can print this out and the meaning of "this is just a yardstick metric" will be clearer -->
 
-We can use the `accuracy_diff_by_batch()` metric in the same way that we would use `accuracy()`. On it's own:
+We can use the `accuracy_diff_by_batch()` metric in the same way that we would use `accuracy()`. On its own:
 
 ```{r ex-acc-diff-by-batch}
 hpc %>% 
