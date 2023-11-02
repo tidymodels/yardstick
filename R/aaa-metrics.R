@@ -624,12 +624,12 @@ validate_function_class <- function(fns) {
     }
   }
 
-  # Special case unevaluated group-wise metric factories
+  # Special case unevaluated groupwise metric factories
   if ("metric_factory" %in% fn_cls) {
     factories <- fn_cls[fn_cls == "metric_factory"]
     cli::cli_abort(
       c("{cli::qty(factories)}The input{?s} {.arg {names(factories)}} \\
-         {?is a/are} {.help [group-wise metric](yardstick::new_groupwise_metric)} \\
+         {?is a/are} {.help [groupwise metric](yardstick::new_groupwise_metric)} \\
          {?factory/factories} and must be passed a data-column before
          addition to a metric set.",
         "i" = "Did you mean to type e.g. `{names(factories)[1]}(col_name)`?"),

@@ -1,18 +1,19 @@
-#' Create group-wise metrics
+#' Create groupwise metrics
 #'
-#' Group-wise metrics quantify the disparity in value of a metric across a
-#' number of groups. Group-wise metrics with a value of zero indicate that the
+#' Groupwise metrics quantify the disparity in value of a metric across a
+#' number of groups. Groupwise metrics with a value of zero indicate that the
 #' underlying metric is equal across groups. yardstick defines
 #' several common fairness metrics using this function, such as
 #' [demographic_parity()], [equal_opportunity()], and [equalized_odds()].
 #'
 #' Note that _all_ yardstick metrics are group-aware in that, when passed
 #' grouped data, they will return metric values calculated for each group.
-#' When passed grouped data, group-wise metrics also return metric values
+#' When passed grouped data, groupwise metrics also return metric values
 #' for each group, but those metric values are calculated by first additionally
 #' grouping by the variable passed to `by` and then summarizing the per-group
 #' metric estimates across groups using the function passed as the
-#' `aggregate` argument.
+#' `aggregate` argument. Learn more about grouping behavior in yardstick using
+#' `vignette("grouping", "yardstick")`.
 #'
 #' @param fn A yardstick metric function or metric set.
 #' @param name The name of the metric to place in the `.metric` column
