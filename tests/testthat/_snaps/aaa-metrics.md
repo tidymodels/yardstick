@@ -65,12 +65,10 @@
     Code
       metric_set(rmse, rsq, ccc)
     Output
-      # A tibble: 3 x 3
-        metric class          direction
-        <chr>  <chr>          <chr>    
-      1 rmse   numeric_metric minimize 
-      2 rsq    numeric_metric maximize 
-      3 ccc    numeric_metric maximize 
+      A metric set, consisting of:
+      - `rmse`, A numeric metric | direction: minimize
+      - `rsq`, A numeric metric | direction: maximize
+      - `ccc`, A numeric metric | direction: maximize
 
 # `metric_set()` errors contain env name for unknown functions (#128)
 

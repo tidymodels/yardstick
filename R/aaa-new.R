@@ -104,12 +104,27 @@ print.metric <- function(x, ...) {
 
 format.metric <- function(x, ...) {
   first_class <- class(x)[[1]]
-  cli::cli_format_method({
-    cli::cli_text("A {.cls {first_class}} function.")
-    cli::cli_text("Direction: {.field {attr(x, 'direction')}}")
-    by_attr <- attr(x, "by")
-    if (!is.null(by_attr)) {
-      cli::cli_text("Group-wise on: {.field {as.character(by_attr)}}")
-    }
-  })
+  metric_type <-
+    switch(
+      first_class,
+      "prob_metric" = "probability metric",
+      "class_metric" = "class metric",
+      "numeric_metric" = "numeric metric",
+      "metric"
+    )
+
+  metric_desc <- "direction: {.field {attr(x, 'direction')}}"
+
+  by_attr <- attr(x, "by")
+  if (!is.null(by_attr)) {
+    metric_desc <-
+      c(
+        metric_desc,
+        ", group-wise on: {.field {as.character(by_attr)}}"
+      )
+  }
+
+  cli::cli_format_method(
+    cli::cli_text(c("A {metric_type} | ", metric_desc))
+  )
 }

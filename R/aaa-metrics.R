@@ -278,9 +278,20 @@ metric_set <- function(...) {
 
 #' @export
 print.metric_set <- function(x, ...) {
-  info <- dplyr::as_tibble(x)
-  print(info)
+  cat(format(x), sep = "\n")
   invisible(x)
+}
+
+format.metric_set <- function(x, ...) {
+  metrics <- attributes(x)$metrics
+  names <- names(metrics)
+
+  cli::cli_format_method({
+    cli::cli_text("A metric set, consisting of:")
+    for (i in seq_along(metrics)) {
+      cli::cli_text("- {.var {names[i]}}, {format(metrics[[i]])}")
+    }
+  })
 }
 
 #' @export

@@ -20,23 +20,19 @@
     Code
       rmse
     Output
-      A <numeric_metric> function.
-      Direction: minimize
+      A numeric metric | direction: minimize
 
 ---
 
     Code
       roc_auc
     Output
-      A <prob_metric> function.
-      Direction: maximize
+      A probability metric | direction: maximize
 
 ---
 
     Code
       demographic_parity(boop)
     Output
-      A <class_metric> function.
-      Direction: minimize
-      Group-wise on: boop
+      A class metric | direction: minimize, group-wise on: boop
 
