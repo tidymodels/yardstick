@@ -12,5 +12,5 @@
       lift_curve_vec(cp_truth, estimate)
     Condition
       Error in `gain_curve_vec()`:
-      ! `truth` should not a `class_pred` object.
+      ! `truth` should not a <class_pred> object.
 

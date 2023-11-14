@@ -84,5 +84,5 @@
       classification_cost_vec(cp_truth, estimate)
     Condition
       Error in `classification_cost_vec()`:
-      ! `truth` should not a `class_pred` object.
+      ! `truth` should not a <class_pred> object.
 

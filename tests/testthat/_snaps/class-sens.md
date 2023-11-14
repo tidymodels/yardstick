@@ -26,5 +26,5 @@
       sensitivity_vec(cp_truth, cp_estimate)
     Condition
       Error in `sensitivity_vec()`:
-      ! `truth` should not a `class_pred` object.
+      ! `truth` should not a <class_pred> object.
 

@@ -4,7 +4,7 @@
       yardstick_table(1, x)
     Condition
       Error in `yardstick_table()`:
-      ! `truth` must be a factor.
+      ! `truth` must be a factor, not a number.
       i This is an internal error that was detected in the yardstick package.
         Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
@@ -14,7 +14,7 @@
       yardstick_table(x, 2)
     Condition
       Error in `yardstick_table()`:
-      ! `estimate` must be a factor.
+      ! `estimate` must be a factor, not a number.
       i This is an internal error that was detected in the yardstick package.
         Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
@@ -118,7 +118,7 @@
       weighted_quantile(1, 1:2, 0.5)
     Condition
       Error in `weighted_quantile()`:
-      ! `x` and `weights` must have the same size.
+      ! `x` (1) and `weights` (2) must have the same size.
 
 # `probabilities` is validated
 
@@ -150,5 +150,5 @@
       weighted_quantile(1, 1, NA)
     Condition
       Error in `weighted_quantile()`:
-      ! `probabilities` can't be missing.
+      ! `probabilities` can't have missing values.
 
