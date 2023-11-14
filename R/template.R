@@ -716,14 +716,15 @@ curve_survival_metric_summarizer <- function(name,
 }
 
 prob_estimate_convert <- function(estimate) {
-  if (!is.data.frame(estimate)) {
-    abort("`estimate` should be a data frame.", .internal = TRUE)
-  }
+  check_data_frame(estimate, .internal = TRUE)
 
   n_estimate <- ncol(estimate)
 
   if (n_estimate == 0L) {
-    abort("`estimate` should have errored during tidy-selection.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg estimate} should have errored during tidy-selection.",
+      .internal = TRUE
+    )
   } else if (n_estimate == 1L) {
     # Unwrap single column `estimate`s
     estimate[[1L]]
@@ -778,8 +779,10 @@ yardstick_eval_select <- function(expr,
   out <- names(out)
 
   if (length(out) != 1L) {
-    message <- paste0("`", arg, "` must select exactly 1 column from `data`.")
-    abort(message, call = error_call)
+    cli::cli_abort(
+      "{.arg arg} must select exactly 1 column from `data`, not {length(out)}.",
+      call = error_call
+    )
   }
 
   set_known_selection(as_name(expr), out)

@@ -115,13 +115,19 @@
 #' @export
 new_groupwise_metric <- function(fn, name, aggregate, direction = "minimize") {
   if (is_missing(fn) || !inherits_any(fn, c("metric", "metric_set"))) {
-    abort("`fn` must be a metric function or metric set.")
+    cli::cli_abort(
+      "{.arg fn} must be a metric function or metric set."
+    )
   }
   if (is_missing(name) || !is_string(name)) {
-    abort("`name` must be a string.")
+    cli::cli_abort(
+      "{.arg name} must be a string."
+    )
   }
   if (is_missing(aggregate) || !is_function(aggregate)) {
-    abort("`aggregate` must be a function.")
+    cli::cli_abort(
+      "{.arg aggregate} must be a function."
+    )
   }
   arg_match(
     direction,
@@ -152,7 +158,7 @@ new_groupwise_metric <- function(fn, name, aggregate, direction = "minimize") {
                   cnd <- cnd$parent
                 }
 
-                abort(conditionMessage(cnd), call = call(name))
+                cli::cli_abort(conditionMessage(cnd), call = call(name))
               }
             )
 
@@ -173,8 +179,8 @@ new_groupwise_metric <- function(fn, name, aggregate, direction = "minimize") {
             .estimate <- aggregate(group)
 
             if (!is_bare_numeric(.estimate)) {
-              abort(
-                "`aggregate` must return a single numeric value.",
+              cli::cli_abort(
+                "{.arg aggregate} must return a single numeric value.",
                 call = call2("new_groupwise_metric")
               )
             }

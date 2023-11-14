@@ -33,5 +33,5 @@ validate_event_level <- function(event_level) {
     return(invisible())
   }
 
-  abort("`event_level` must be 'first' or 'second'.")
+  cli::cli_abort("{.arg event_level} must be {.val first} or {.val second}.")
 }

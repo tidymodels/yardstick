@@ -49,14 +49,11 @@
       metric_set(rmse, accuracy)
     Condition
       Error in `validate_function_class()`:
-      ! 
-      The combination of metric functions must be:
-      - only numeric metrics
-      - a mix of class metrics and class probability metrics
-      
-      - a mix of dynamic and static survival metrics
-      
-      The following metric function types are being mixed:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
       - numeric (rmse)
       - class (accuracy)
 
@@ -78,14 +75,11 @@
       metric_set(accuracy, foobar, sens, rlang::abort)
     Condition
       Error in `validate_function_class()`:
-      ! 
-      The combination of metric functions must be:
-      - only numeric metrics
-      - a mix of class metrics and class probability metrics
-      
-      - a mix of dynamic and static survival metrics
-      
-      The following metric function types are being mixed:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
       - class (accuracy, sens)
       - other (foobar <test>, abort <namespace:rlang>)
 
@@ -95,14 +89,11 @@
       metric_set(accuracy, foobar, sens, rlang::abort)
     Condition
       Error in `validate_function_class()`:
-      ! 
-      The combination of metric functions must be:
-      - only numeric metrics
-      - a mix of class metrics and class probability metrics
-      
-      - a mix of dynamic and static survival metrics
-      
-      The following metric function types are being mixed:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
       - class (accuracy, sens)
       - other (foobar <test>, abort <namespace:rlang>)
 
@@ -112,14 +103,11 @@
       metric_set(foobar)
     Condition
       Error in `validate_function_class()`:
-      ! 
-      The combination of metric functions must be:
-      - only numeric metrics
-      - a mix of class metrics and class probability metrics
-      
-      - a mix of dynamic and static survival metrics
-      
-      The following metric function types are being mixed:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
       - other (foobar <test>)
 
 # errors informatively for unevaluated metric factories
