@@ -120,10 +120,14 @@ new_groupwise_metric <- function(fn, name, aggregate, direction = "minimize") {
     )
   }
   if (is_missing(name) || !is_string(name)) {
-    abort("`name` must be a string.")
+    cli::cli_abort(
+      "{.arg name} must be a string."
+    )
   }
   if (is_missing(aggregate) || !is_function(aggregate)) {
-    abort("`aggregate` must be a function.")
+    cli::cli_abort(
+      "{.arg aggregate} must be a function."
+    )
   }
   arg_match(
     direction,

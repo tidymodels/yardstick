@@ -28,7 +28,7 @@
       metric_tweak(1, f_meas, beta = 2)
     Condition
       Error in `metric_tweak()`:
-      ! `.name` must be a string.
+      ! `.name` must be a single string, not the number 1.
 
 # `fn` must be a metric function
 

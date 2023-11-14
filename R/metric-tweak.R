@@ -51,9 +51,8 @@
 #' metrics <- metric_set(mase, mase10, mase12)
 #' metrics(solubility_test, solubility, prediction)
 metric_tweak <- function(.name, .fn, ...) {
-  if (!is_string(.name)) {
-    abort("`.name` must be a string.")
-  }
+  check_string(.name)
+
   if (!is_metric(.fn)) {
     cli::cli_abort(
       "{.arg .fn} must be a metric function, not {.obj_type_friendly {(.fn)}}."
