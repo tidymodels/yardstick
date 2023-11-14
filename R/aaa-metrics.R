@@ -269,10 +269,10 @@ metric_set <- function(...) {
   )) {
     make_survival_metric_function(fns)
   } else {
-    abort(paste0(
-      "Internal error: `validate_function_class()` should have ",
-      "errored on unknown classes."
-    ))
+    cli::cli_abort(
+      "{.fn validate_function_class} should have errored on unknown classes.",
+      .internal = TRUE
+    )
   }
 }
 
@@ -315,7 +315,10 @@ get_quo_label <- function(quo) {
   out <- as_label(quo)
 
   if (length(out) != 1L) {
-    abort("Internal error: `as_label(quo)` resulted in a character vector of length >1.")
+    cli::cli_abort(
+      "{.code as_label(quo)} resulted in a character vector of length >1.",
+      .internal = TRUE
+    )
   }
 
   is_namespaced <- grepl("::", out, fixed = TRUE)
@@ -538,9 +541,9 @@ make_survival_metric_function <- function(fns) {
   metric_function
 }
 
-validate_not_empty <- function(x) {
+validate_not_empty <- function(x, call = caller_env()) {
   if (is_empty(x)) {
-    abort("`metric_set()` requires at least 1 function supplied to `...`.")
+    cli::cli_abort("At least 1 function supplied to `...`.", call = call)
   }
 }
 
@@ -678,14 +681,12 @@ validate_function_class <- function(fns) {
     USE.NAMES = FALSE
   )
 
-  fn_pastable <- paste0(fn_pastable, collapse = "\n")
-
-  abort(paste0(
-    "\nThe combination of metric functions must be:\n",
-    "- only numeric metrics\n",
-    "- a mix of class metrics and class probability metrics\n\n",
-    "- a mix of dynamic and static survival metrics\n\n",
-    "The following metric function types are being mixed:\n",
+  cli::cli_abort(c(
+    "x" = "The combination of metric functions must be:",
+    "*" = "only numeric metrics.",
+    "*" = "a mix of class metrics and class probability metrics.",
+    "*" = "a mix of dynamic and static survival metrics.",
+    "i" = "The following metric function types are being mixed:",
     fn_pastable
   ))
 }
@@ -698,8 +699,11 @@ eval_safely <- function(expr, expr_nm, data = NULL, env = caller_env()) {
       eval_tidy(expr, data = data, env = env)
     },
     error = function(cnd) {
-      message <- paste0("Failed to compute `", expr_nm, "()`.")
-      abort(message, parent = cnd, call = call("metric_set"))
+      cli::cli_abort(
+        "Failed to compute {.fn {expr_nm}}.",
+        parent = cnd,
+        call = call("metric_set")
+      )
     }
   )
 }

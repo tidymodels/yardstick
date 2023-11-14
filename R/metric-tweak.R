@@ -55,13 +55,15 @@ metric_tweak <- function(.name, .fn, ...) {
     abort("`.name` must be a string.")
   }
   if (!is_metric(.fn)) {
-    abort("`.fn` must be a metric function.")
+    cli::cli_abort(
+      "{.arg .fn} must be a metric function, not {.obj_type_friendly {(.fn)}}."
+    )
   }
 
   fixed <- enquos(...)
 
   if (length(fixed) > 0 && !is_named(fixed)) {
-    abort("All arguments passed through `...` must be named.")
+    cli::cli_abort("All arguments passed through {.arg ...} must be named.")
   }
 
   check_protected_names(fixed)
@@ -92,13 +94,9 @@ check_protected_names <- function(fixed) {
     return(invisible(fixed))
   }
 
-  protected <- quote_and_collapse(protected)
-
-  abort(paste0(
-    "Arguments passed through `...` cannot be named any of: ",
-    protected,
-    "."
-  ))
+  cli::cli_abort(
+    "Arguments passed through {.arg ...} cannot be named any of: {protected}."
+  )
 }
 
 protected_names <- function() {

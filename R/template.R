@@ -723,7 +723,10 @@ prob_estimate_convert <- function(estimate) {
   n_estimate <- ncol(estimate)
 
   if (n_estimate == 0L) {
-    abort("`estimate` should have errored during tidy-selection.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg estimate} should have errored during tidy-selection.",
+      .internal = TRUE
+    )
   } else if (n_estimate == 1L) {
     # Unwrap single column `estimate`s
     estimate[[1L]]
