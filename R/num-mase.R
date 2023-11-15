@@ -114,8 +114,8 @@ mase_impl <- function(truth,
                       mae_train = NULL,
                       case_weights = NULL,
                       call = caller_env()) {
-  check_number_whole(m, min = 0)
-  check_number_decimal(mae_train, min = 0, allow_null = TRUE)
+  check_number_whole(m, min = 0, call = call)
+  check_number_decimal(mae_train, min = 0, allow_null = TRUE, call = call)
 
   if (is.null(mae_train)) {
     validate_truth_m(truth, m, call = call)
