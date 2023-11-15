@@ -12,7 +12,7 @@
       classification_cost(df, obs, A, costs = 1)
     Condition
       Error in `classification_cost()`:
-      ! `costs` must be `NULL` or a data.frame.
+      ! `costs` must be a data frame or `NULL`, not the number 1.
 
 ---
 
@@ -20,7 +20,7 @@
       classification_cost(df, obs, A, costs = data.frame())
     Condition
       Error in `classification_cost()`:
-      ! `costs` must be a data.frame with 3 columns.
+      ! `costs` must be a data.frame with 3 columns, not 0.
 
 ---
 
@@ -28,7 +28,7 @@
       classification_cost(df, obs, A, costs = data.frame(x = 1, y = 2, z = 3))
     Condition
       Error in `classification_cost()`:
-      ! `costs` must have columns: 'truth', 'estimate', and 'cost'.
+      ! `costs` must have columns: "truth", "estimate", and "cost". Not x, y, and z.
 
 # costs$estimate must contain the right levels
 
@@ -52,7 +52,7 @@
       classification_cost(df, obs, A, costs = costs)
     Condition
       Error in `classification_cost()`:
-      ! `costs$truth` must be a character or factor column.
+      ! `costs$truth` must be a character or factor column, not 1 and 2.
 
 ---
 
@@ -60,7 +60,7 @@
       classification_cost(df, obs, A, costs = costs)
     Condition
       Error in `classification_cost()`:
-      ! `costs$estimate` must be a character or factor column.
+      ! `costs$estimate` must be a character or factor column, not 1 and 2.
 
 ---
 
@@ -68,7 +68,7 @@
       classification_cost(df, obs, A, costs = costs)
     Condition
       Error in `classification_cost()`:
-      ! `costs$cost` must be a numeric column.
+      ! Expecting '}'
 
 # costs$truth and costs$estimate cannot contain duplicate pairs
 
@@ -76,7 +76,7 @@
       classification_cost(df, obs, A, costs = costs)
     Condition
       Error in `classification_cost()`:
-      ! `costs` cannot have duplicate 'truth' / 'estimate' combinations.
+      ! costs cannot have duplicate truth / estimate combinations.
 
 # errors with class_pred input
 

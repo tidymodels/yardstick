@@ -114,8 +114,8 @@ mase_impl <- function(truth,
                       mae_train = NULL,
                       case_weights = NULL,
                       call = caller_env()) {
-  validate_m(m, call = call)
-  validate_mae_train(mae_train, call = call)
+  check_number_whole(m, min = 0)
+  check_number_decimal(mae_train, min = 0, allow_null = TRUE)
 
   if (is.null(mae_train)) {
     validate_truth_m(truth, m, call = call)
@@ -139,46 +139,12 @@ mase_impl <- function(truth,
   out
 }
 
-validate_m <- function(m, call = caller_env()) {
-  abort_msg <- "`m` must be a single positive integer value."
-
-  if (!is_integerish(m, n = 1L)) {
-    abort(abort_msg, call = call)
-  }
-
-  if (!(m > 0)) {
-    abort(abort_msg, call = call)
-  }
-
-  invisible(m)
-}
-
-validate_mae_train <- function(mae_train, call = caller_env()) {
-  if (is.null(mae_train)) {
-    return(invisible(mae_train))
-  }
-
-  is_single_numeric <- is_bare_numeric(mae_train, n = 1L)
-  abort_msg <- "`mae_train` must be a single positive numeric value."
-
-  if (!is_single_numeric) {
-    abort(abort_msg, call = call)
-  }
-
-  if (!(mae_train > 0)) {
-    abort(abort_msg, call = call)
-  }
-
-  invisible(mae_train)
-}
-
 validate_truth_m <- function(truth, m, call = caller_env()) {
   if (length(truth) <= m) {
-    abort(paste0(
-      "`truth` must have a length greater than `m` ",
-      "to compute the out-of-sample naive mean absolute error."
-    ), call = call)
+    cli::cli_abort(
+      "{.arg truth} ({length(truth)}) must have a length greater than \\
+      {.arg m} ({m}) to compute the out-of-sample naive mean absolute error.",
+      call = call
+    )
   }
-
-  invisible(truth)
 }

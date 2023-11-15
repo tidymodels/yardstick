@@ -221,48 +221,60 @@ validate_costs <- function(costs, levels) {
     return(costs)
   }
 
-  if (!is.data.frame(costs)) {
-    abort("`costs` must be `NULL` or a data.frame.")
-  }
+  check_data_frame(costs, allow_null = TRUE)
 
   columns <- names(costs)
   if (length(columns) != 3L) {
-    abort("`costs` must be a data.frame with 3 columns.")
+    cli::cli_abort(
+      "{.arg costs} must be a data.frame with 3 columns, not {length(columns)}."
+    )
   }
 
   ok <- identical(sort(columns), sort(c("truth", "estimate", "cost")))
   if (!ok) {
-    abort("`costs` must have columns: 'truth', 'estimate', and 'cost'.")
+    cli::cli_abort(
+      "{.arg costs} must have columns: \\
+      {.val truth}, {.val estimate}, and {.val cost}. Not {columns}."
+    )
   }
 
   if (is.factor(costs$truth)) {
     costs$truth <- as.character(costs$truth)
   }
   if (!is.character(costs$truth)) {
-    abort("`costs$truth` must be a character or factor column.")
+    cli::cli_abort(
+      "{.code costs$truth} must be a character or factor column, \\
+      not {.obj_friendly_type {costs$truth}}."
+    )
   }
 
   if (is.factor(costs$estimate)) {
     costs$estimate <- as.character(costs$estimate)
   }
   if (!is.character(costs$estimate)) {
-    abort("`costs$estimate` must be a character or factor column.")
+    cli::cli_abort(
+      "{.code costs$estimate} must be a character or factor column, \\
+      not {.obj_friendly_type {costs$estimate}}."
+      )
   }
 
   if (!is.numeric(costs$cost)) {
-    abort("`costs$cost` must be a numeric column.")
+    cli::cli_abort(
+      "{.code costs$cost} must be a numeric column, \\
+      not {.obj_friendly_type {costs$cost}."
+    )
   }
 
   ok <- all(costs$truth %in% levels)
   if (is_false(ok)) {
     levels <- quote_and_collapse(levels)
-    abort(paste0("`costs$truth` can only contain ", levels, "."))
+    cli::cli_abort("{.code costs$truth} can only contain {levels}.")
   }
 
   ok <- all(costs$estimate %in% levels)
   if (is_false(ok)) {
     levels <- quote_and_collapse(levels)
-    abort(paste0("`costs$estimate` can only contain ", levels, "."))
+    cli::cli_abort("{.code costs$estimate} can only contain {levels}.")
   }
 
   pairs <- costs[c("truth", "estimate")]
@@ -270,7 +282,10 @@ validate_costs <- function(costs, levels) {
 
   not_ok <- vec_duplicate_any(pairs)
   if (not_ok) {
-    abort("`costs` cannot have duplicate 'truth' / 'estimate' combinations.")
+    cli::cli_abort(
+      "{.field costs} cannot have duplicate \\
+      {.field truth} / {.field estimate} combinations."
+    )
   }
 
   out <- generate_all_level_combinations(levels)

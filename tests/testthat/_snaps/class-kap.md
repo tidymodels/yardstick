@@ -12,7 +12,7 @@
       kap(three_class, truth = "obs", estimate = "pred", weighting = "not right")
     Condition
       Error in `kap()`:
-      ! `weighting` must be 'none', 'linear', or 'quadratic'.
+      ! `weighting` must be "none", "linear", or "quadratic", not "not right".
 
 # work with class_pred input
 
