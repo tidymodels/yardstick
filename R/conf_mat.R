@@ -223,7 +223,10 @@ conf_mat_impl <- function(truth, estimate, case_weights, call = caller_env()) {
   check_class_metric(truth, estimate, case_weights, estimator, call = call)
 
   if (length(levels(truth)) < 2) {
-    abort("`truth` must have at least 2 factor levels.", call = call)
+    cli::cli_abort(
+      "{.arg truth} must have at least 2 factor levels.",
+      call = call
+    )
   }
 
   yardstick_table(
@@ -245,7 +248,9 @@ conf_mat.table <- function(data, ...) {
   num_lev <- length(class_lev)
 
   if (num_lev < 2) {
-    abort("There must be at least 2 factors levels in the `data`")
+    cli::cli_abort(
+      "There must be at least 2 factors levels in the {.arg data}."
+    )
   }
 
   structure(

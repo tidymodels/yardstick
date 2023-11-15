@@ -4,7 +4,7 @@
       mase_vec(truth, pred, m = "x")
     Condition
       Error in `mase_vec()`:
-      ! `m` must be a single positive integer value.
+      ! `m` must be a whole number, not the string "x".
 
 ---
 
@@ -12,7 +12,7 @@
       mase_vec(truth, pred, m = -1)
     Condition
       Error in `mase_vec()`:
-      ! `m` must be a single positive integer value.
+      ! `m` must be a whole number larger than or equal to 0, not the number -1.
 
 ---
 
@@ -20,7 +20,7 @@
       mase_vec(truth, pred, m = 1.5)
     Condition
       Error in `mase_vec()`:
-      ! `m` must be a single positive integer value.
+      ! `m` must be a whole number, not the number 1.5.
 
 ---
 
@@ -28,7 +28,7 @@
       mase_vec(truth, pred, mae_train = -1)
     Condition
       Error in `mase_vec()`:
-      ! `mae_train` must be a single positive numeric value.
+      ! `mae_train` must be a number larger than or equal to 0 or `NULL`, not the number -1.
 
 ---
 
@@ -36,5 +36,5 @@
       mase_vec(truth, pred, mae_train = "x")
     Condition
       Error in `mase_vec()`:
-      ! `mae_train` must be a single positive numeric value.
+      ! `mae_train` must be a number or `NULL`, not the string "x".
 

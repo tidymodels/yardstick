@@ -26,5 +26,5 @@
       recall_vec(cp_truth, cp_estimate)
     Condition
       Error in `recall_vec()`:
-      ! `truth` should not a `class_pred` object.
+      ! `truth` should not a <class_pred> object.
 

@@ -31,5 +31,5 @@
       roc_aunp_vec(cp_truth, estimate)
     Condition
       Error in `roc_aunp_vec()`:
-      ! `truth` should not a `class_pred` object.
+      ! `truth` should not a <class_pred> object.
 

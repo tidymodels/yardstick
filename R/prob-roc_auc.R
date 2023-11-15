@@ -163,7 +163,10 @@ roc_auc_estimator_impl <- function(truth,
     roc_auc_binary(truth, estimate, event_level, case_weights)
   } else if (estimator == "hand_till") {
     if (!is.null(case_weights)) {
-      abort("`case_weights` should be `NULL` at this point for hand-till.", .internal = TRUE)
+      cli::cli_abort(
+        "{.arg case_weights} should be `NULL` at this point for hand-till.",
+        .internal = TRUE
+      )
     }
 
     roc_auc_hand_till(truth, estimate)
@@ -258,7 +261,10 @@ finalize_estimator_roc_auc <- function(x,
       estimator <- "macro"
     } else {
       # Manually chose hand-till and specified case weights. Not compatible!
-      abort("Can't specify both `estimator = 'hand_till'` and `case_weights`.")
+      cli::cli_abort(
+        "Can't specify both {.code estimator = 'hand_till'} and \\
+        {.code case_weights}."
+      )
     }
   }
 
@@ -396,7 +402,7 @@ warn_roc_truth_no_control <- function(control) {
   )
 }
 stop_roc_truth_no_control <- function(control) {
-  abort(
+  cli::cli_abort(
     msg_roc_truth_no_control(control),
     class = "yardstick_error_roc_truth_no_control"
   )
@@ -415,7 +421,7 @@ warn_roc_truth_no_event <- function(event) {
   )
 }
 stop_roc_truth_no_event <- function(event) {
-  abort(
+  cli::cli_abort(
     msg_roc_truth_no_event(event),
     class = "yardstick_error_roc_truth_no_event"
   )
