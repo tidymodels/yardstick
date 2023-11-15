@@ -261,7 +261,7 @@ validate_costs <- function(costs, levels) {
   if (!is.numeric(costs$cost)) {
     cli::cli_abort(
       "{.code costs$cost} must be a numeric column, \\
-      not {.obj_friendly_type {costs$cost}."
+      not {.obj_friendly_type {costs$cost}}."
     )
   }
 

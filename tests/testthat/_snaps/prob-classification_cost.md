@@ -68,7 +68,7 @@
       classification_cost(df, obs, A, costs = costs)
     Condition
       Error in `classification_cost()`:
-      ! Expecting '}'
+      ! `costs$cost` must be a numeric column, not 1 and 2.
 
 # costs$truth and costs$estimate cannot contain duplicate pairs
 
