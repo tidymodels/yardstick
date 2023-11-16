@@ -28,12 +28,21 @@ neg_val <- function(xtab, event_level) {
 
 # ------------------------------------------------------------------------------
 
-check_table <- function(x) {
-  if (!identical(nrow(x), ncol(x))) {
-    stop("the table must have nrow = ncol", call. = FALSE)
+check_table <- function(x, call = caller_env()) {
+  n_col <- ncol(x)
+  n_row <- nrow(x)
+  if (n_row != n_col) {
+    cli::cli_abort(
+      "{.arg x} must have equal dimensions. \\
+      {.arg x} has {n_col} columns and {n_row} rows.",
+      call = call
+    )
   }
   if (!isTRUE(all.equal(rownames(x), colnames(x)))) {
-    stop("the table must the same groups in the same order", call. = FALSE)
+    cli::cli_abort(
+      "The table must the same groups in the same order.",
+      call = call
+    )
   }
   invisible(NULL)
 }

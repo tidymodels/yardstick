@@ -292,13 +292,24 @@ tidy.conf_mat <- function(x, ...) {
   )
 }
 
-flatten <- function(xtab) {
-  p <- ncol(xtab)
-  if (nrow(xtab) != p) {
-    stop("table must have equal dimensions")
+flatten <- function(xtab, call = caller_env()) {
+  n_col <- ncol(xtab)
+  n_row <- nrow(xtab)
+  if (n_row != n_col) {
+    cli::cli_abort(
+      "{.arg x} must have equal dimensions. \\
+      {.arg x} has {n_col} columns and {n_row} rows.",
+      call = call
+    )
   }
   flat <- as.vector(xtab)
-  names(flat) <- paste("cell", rep(1:p, p), rep(1:p, each = p), sep = "_")
+  names(flat) <- paste(
+    "cell",
+    rep(seq_len(n_col), n_col),
+    rep(seq_len(n_col), each = n_col),
+    sep = "_"
+  )
+
   flat
 }
 

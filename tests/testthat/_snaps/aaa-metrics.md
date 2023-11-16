@@ -40,8 +40,8 @@
     Code
       metric_set(rmse, "x")
     Condition
-      Error:
-      ! All inputs to `metric_set()` must be functions. These inputs are not: (2).
+      Error in `metric_set()`:
+      ! All inputs to `metric_set()` must be functions. These inputs are not: 2.
 
 # mixing bad metric sets
 

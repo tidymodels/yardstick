@@ -144,14 +144,14 @@
     Code
       sens(as.table(matrix(1:6, 2)))
     Condition
-      Error:
-      ! the table must have nrow = ncol
+      Error in `sens()`:
+      ! `x` must have equal dimensions. `x` has 3 columns and 2 rows.
 
 ---
 
     Code
       sens(as.table(matrix(1:4, 2, dimnames = list(c("A", "B"), c("A", "C")))))
     Condition
-      Error:
-      ! the table must the same groups in the same order
+      Error in `sens()`:
+      ! The table must the same groups in the same order.
 
