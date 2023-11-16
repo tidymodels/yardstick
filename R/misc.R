@@ -335,7 +335,7 @@ make_correlation_undefined_constant_message <- function(what) {
 }
 
 warn_correlation_undefined <- function(message, ..., class = character()) {
-  warn(
+  cli::cli_warn(
     message = message,
     class = c(class, "yardstick_warning_correlation_undefined"),
     ...

@@ -178,14 +178,20 @@ precision_multiclass <- function(data, estimator) {
 }
 
 warn_precision_undefined_binary <- function(event, count) {
-  message <- paste0(
-    "While computing binary `precision()`, no predicted events were detected ",
-    "(i.e. `true_positive + false_positive = 0`). ",
-    "\n",
-    "Precision is undefined in this case, and `NA` will be returned.",
-    "\n",
-    "Note that ", count, " true event(s) actually occured for the problematic ",
-    "event level, '", event, "'."
+  message <- c(
+    "While computing binary {.fn precision}, no predicted events were \\
+    detected (i.e. `true_positive + false_positive = 0`).",
+    "Precision is undefined in this case, and `NA` will be returned."
+  )
+
+  message <- c(
+    message,
+    paste(
+      "Note that",
+      count,
+      "true event(s) actually occured for the problematic event level,",
+      event
+    )
   )
 
   warn_precision_undefined(
@@ -197,14 +203,13 @@ warn_precision_undefined_binary <- function(event, count) {
 }
 
 warn_precision_undefined_multiclass <- function(events, counts) {
-  message <- paste0(
-    "While computing multiclass `precision()`, some levels had no predicted events ",
-    "(i.e. `true_positive + false_positive = 0`). ",
-    "\n",
-    "Precision is undefined in this case, and those levels will be removed from the averaged result.",
-    "\n",
-    "Note that the following number of true events actually occured for each problematic event level:",
-    "\n",
+  message <- c(
+    "While computing multiclass {.fn precision}, some levels had no predicted \\
+    events (i.e. `true_positive + false_positive = 0`).",
+    "Precision is undefined in this case, and those levels will be removed \\
+    from the averaged result.",
+    "Note that the following number of true events actually occured for each \\
+    problematic event level:",
     paste0("'", events, "': ", counts, collapse = "\n")
   )
 
@@ -217,7 +222,7 @@ warn_precision_undefined_multiclass <- function(events, counts) {
 }
 
 warn_precision_undefined <- function(message, events, counts, ..., class = character()) {
-  warn(
+  cli::cli_warn(
     message = message,
     class = c(class, "yardstick_warning_precision_undefined"),
     events = events,

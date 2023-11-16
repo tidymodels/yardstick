@@ -84,7 +84,9 @@ binary_threshold_curve <- function(truth,
   case_weights_non_events <- (1 - truth) * case_weights
 
   if (sum(case_weights_events) == 0L) {
-    warn("There are `0` event cases in `truth`, results will be meaningless.")
+    cli::cli_warn(
+      "There are 0 event cases in {.arg truth}, results will be meaningless."
+    )
   }
 
   tp <- cumsum(case_weights_events)

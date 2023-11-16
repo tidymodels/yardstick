@@ -313,17 +313,12 @@ roc_auc_hand_till <- function(truth, estimate) {
     indicator_missing <- is.na(lvls_loc)
 
     lvls_missing <- lvls[indicator_missing]
-    lvls_missing <- single_quote(lvls_missing)
-    lvls_missing <- paste0(lvls_missing, collapse = ", ")
 
-    msg <- paste0(
-      "No observations were detected in `truth` for level(s): ",
-      lvls_missing,
-      "\n",
-      "Computation will proceed by ignoring those levels."
-    )
-
-    warn(msg)
+    cli::cli_warn(c(
+      x = "No observations were detected in {.arg truth} for level{?s}: \\
+          {lvls_missing}.",
+      i = "Computation will proceed by ignoring those levels."
+    ))
 
     # Proceed with non-missing levels
     lvls <- lvls[!indicator_missing]
@@ -391,12 +386,12 @@ compute_n_occurrences <- function(x, what) {
 
 msg_roc_truth_no_control <- function(control) {
   paste0(
-    "No control observations were detected in `truth` ",
+    "No control observations were detected in {.arg truth} ",
     "with control level '", control, "'."
   )
 }
 warn_roc_truth_no_control <- function(control) {
-  warn(
+  cli::cli_warn(
     msg_roc_truth_no_control(control),
     class = "yardstick_warning_roc_truth_no_control"
   )
@@ -410,12 +405,12 @@ stop_roc_truth_no_control <- function(control) {
 
 msg_roc_truth_no_event <- function(event) {
   paste0(
-    "No event observations were detected in `truth` ",
+    "No event observations were detected in {.arg truth} ",
     "with event level '", event, "'."
   )
 }
 warn_roc_truth_no_event <- function(event) {
-  warn(
+  cli::cli_warn(
     msg_roc_truth_no_event(event),
     class = "yardstick_warning_roc_truth_no_event"
   )
@@ -425,10 +420,4 @@ stop_roc_truth_no_event <- function(event) {
     msg_roc_truth_no_event(event),
     class = "yardstick_error_roc_truth_no_event"
   )
-}
-
-# ------------------------------------------------------------------------------
-
-single_quote <- function(x) {
-  encodeString(x, quote = "'", na.encode = FALSE)
 }
