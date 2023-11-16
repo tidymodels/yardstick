@@ -127,7 +127,7 @@
         data = lung_surv, truth = .pred_time, .pred)
     Condition
       Error:
-      ! `truth` should be a Surv object, not a `numeric`.
+      ! `truth` should be a Surv object, not a a double vector.
 
 ---
 
@@ -136,7 +136,7 @@
         data = lung_surv, truth = surv_obj, surv_obj)
     Condition
       Error:
-      ! `estimate` should be a list, not a `Surv`.
+      ! `estimate` should be a list, not a a <Surv> object.
 
 # static_survival_metric_summarizer()'s errors with bad input
 
@@ -164,7 +164,7 @@
         data = lung_surv, truth = surv_obj, estimate = list)
     Condition
       Error:
-      ! `estimate` should be a numeric, not a `list`.
+      ! `estimate` should be a numeric, not a list.
 
 ---
 
@@ -184,7 +184,7 @@
         data = lung_surv, truth = .pred_time, .pred)
     Condition
       Error:
-      ! `truth` should be a Surv object, not a `numeric`.
+      ! `truth` should be a Surv object, not a a double vector.
 
 ---
 
@@ -193,5 +193,5 @@
         data = lung_surv, truth = surv_obj, surv_obj)
     Condition
       Error:
-      ! `estimate` should be a list, not a `Surv`.
+      ! `estimate` should be a list, not a a <Surv> object.
 

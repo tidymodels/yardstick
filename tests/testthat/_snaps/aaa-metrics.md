@@ -6,7 +6,7 @@
       Error in `metric_set()`:
       ! Failed to compute `accuracy()`.
       Caused by error:
-      ! `estimate` should be a factor, not a `numeric`.
+      ! `estimate` should be a factor, not a a double vector.
 
 ---
 
@@ -16,7 +16,7 @@
       Error in `metric_set()`:
       ! Failed to compute `rmse()`.
       Caused by error:
-      ! `estimate` should be a numeric, not a `factor`.
+      ! `estimate` should be a numeric, not a <factor> object.
 
 ---
 

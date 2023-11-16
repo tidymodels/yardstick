@@ -13,7 +13,7 @@
       sens(df, truth, estimate)
     Condition
       Error in `sens()`:
-      ! `truth` should be a factor, not a `numeric`.
+      ! `truth` should be a factor, not a a number.
 
 # At least 2 levels in truth
 
@@ -47,7 +47,7 @@
       sens(pathology, pathology, scan, estimator = "blah")
     Condition
       Error in `sens()`:
-      ! `estimator` must be one of: "binary", "macro", "micro", "macro_weighted". Not "blah".
+      ! `estimator` must be one of: binary, macro, micro, and macro_weighted, not blah.
 
 # Bad estimator + truth combination
 
@@ -63,7 +63,7 @@
       sens(hpc_cv, obs, pred, estimator = 1)
     Condition
       Error in `sens()`:
-      ! `estimator` must be a character, not a numeric.
+      ! `estimator` must be a single string, not the number 1.
 
 ---
 
@@ -71,7 +71,7 @@
       sens(hpc_cv, obs, pred, estimator = c("1", "2"))
     Condition
       Error in `sens()`:
-      ! `estimator` must be length 1, not 2.
+      ! `estimator` must be a single string, not a character vector.
 
 # Numeric matrix in numeric metric
 
@@ -95,9 +95,9 @@
       sens(df, x, y)
     Condition
       Error in `sens()`:
-      ! `truth` and `estimate` levels must be equivalent.
-      `truth`: a, b, c
-      `estimate`: a, b
+      x `truth` and `estimate` levels must be equivalent.
+      * `truth`: a, b, and c.
+      * `estimate`: a and b.
 
 # Multiple estimate columns for a binary metric
 
@@ -121,7 +121,7 @@
       rmse_vec(1:5, 1:6)
     Condition
       Error in `rmse_vec()`:
-      ! Length of `truth` (5) and `estimate` (6) must match.
+      ! `truth` (5) and `estimate` (6) must be the same length.
 
 # Missing arguments
 

@@ -244,7 +244,7 @@ validate_costs <- function(costs, levels) {
   if (!is.character(costs$truth)) {
     cli::cli_abort(
       "{.code costs$truth} must be a character or factor column, \\
-      not {.obj_friendly_type {costs$truth}}."
+      not {.obj_type_friendly {costs$truth}}."
     )
   }
 
@@ -254,14 +254,14 @@ validate_costs <- function(costs, levels) {
   if (!is.character(costs$estimate)) {
     cli::cli_abort(
       "{.code costs$estimate} must be a character or factor column, \\
-      not {.obj_friendly_type {costs$estimate}}."
+      not {.obj_type_friendly {costs$estimate}}."
       )
   }
 
   if (!is.numeric(costs$cost)) {
     cli::cli_abort(
       "{.code costs$cost} must be a numeric column, \\
-      not {.obj_friendly_type {costs$cost}}."
+      not {.obj_type_friendly {costs$cost}}."
     )
   }
 

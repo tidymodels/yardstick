@@ -52,7 +52,7 @@
       classification_cost(df, obs, A, costs = costs)
     Condition
       Error in `classification_cost()`:
-      ! `costs$truth` must be a character or factor column, not 1 and 2.
+      ! `costs$truth` must be a character or factor column, not a double vector.
 
 ---
 
@@ -60,7 +60,7 @@
       classification_cost(df, obs, A, costs = costs)
     Condition
       Error in `classification_cost()`:
-      ! `costs$estimate` must be a character or factor column, not 1 and 2.
+      ! `costs$estimate` must be a character or factor column, not a double vector.
 
 ---
 
@@ -68,7 +68,7 @@
       classification_cost(df, obs, A, costs = costs)
     Condition
       Error in `classification_cost()`:
-      ! `costs$cost` must be a numeric column, not 1 and 2.
+      ! `costs$cost` must be a numeric column, not a character vector.
 
 # costs$truth and costs$estimate cannot contain duplicate pairs
 
