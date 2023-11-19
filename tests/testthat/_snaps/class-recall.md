@@ -17,7 +17,7 @@
       While computing multiclass `recall()`, some levels had no true events (i.e. `true_positive + false_negative = 0`).
       Recall is undefined in this case, and those levels will be removed from the averaged result.
       Note that the following number of predicted events actually occured for each problematic event level:
-      'b': 0 'c': 1
+      'b': 0, 'c': 1
 
 # work with class_pred input
 

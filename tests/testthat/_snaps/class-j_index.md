@@ -38,7 +38,7 @@
       While computing multiclass `sens()`, some levels had no true events (i.e. `true_positive + false_negative = 0`).
       Sensitivity is undefined in this case, and those levels will be removed from the averaged result.
       Note that the following number of predicted events actually occured for each problematic event level:
-      'b': 1 'c': 1
+      'b': 1, 'c': 1
       Warning:
       While computing multiclass `spec()`, some levels had no true negatives (i.e. `true_negative + false_positive = 0`).
       Specificity is undefined in this case, and those levels will be removed from the averaged result.

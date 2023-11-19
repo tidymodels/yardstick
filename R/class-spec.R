@@ -279,7 +279,7 @@ warn_spec_undefined_multiclass <- function(events, counts) {
     from the averaged result.",
     "Note that the following number of predicted negatives actually occured \\
     for each problematic event level:",
-    paste0("'", events, "': ", counts, collapse = "\n")
+    paste0("'", events, "': ", counts, collapse = ", ")
   )
 
   warn_spec_undefined(
