@@ -35,8 +35,6 @@
 #'
 #' @inheritParams brier_survival
 #'
-#' @param ... Not currently used.
-#'
 #' @author Emil Hvitfeldt
 #'
 #' @references

@@ -16,7 +16,12 @@ roc_auc_survival_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
 \code{...}.}
 
-\item{...}{Not currently used.}
+\item{...}{The column identifier for the survival probabilities this
+should be a list column of data.frames corresponding to the output given when
+predicting with {censored} model. This should be an unquoted column name
+although this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, a numeric vector. See Details below.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
