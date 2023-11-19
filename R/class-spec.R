@@ -247,14 +247,20 @@ spec_multiclass <- function(data, estimator) {
 
 
 warn_spec_undefined_binary <- function(event, count) {
-  message <- paste0(
-    "While computing binary `spec()`, no true negatives were detected ",
-    "(i.e. `true_negative + false_positive = 0`). ",
-    "\n",
-    "Specificity is undefined in this case, and `NA` will be returned.",
-    "\n",
-    "Note that ", count, " predicted negatives(s) actually occured for the problematic ",
-    "event level, '", event, "'."
+  message <- c(
+    "While computing binary {.fn spec}, no true negatives were detected \\
+    (i.e. `true_negative + false_positive = 0`).",
+    "Specificity is undefined in this case, and `NA` will be returned."
+  )
+
+  message <- c(
+    message,
+    paste(
+      "Note that",
+      count,
+      "predicted negatives(s) actually occured for the problematic event level,",
+      event
+    )
   )
 
   warn_spec_undefined(
@@ -266,15 +272,14 @@ warn_spec_undefined_binary <- function(event, count) {
 }
 
 warn_spec_undefined_multiclass <- function(events, counts) {
-  message <- paste0(
-    "While computing multiclass `spec()`, some levels had no true negatives ",
-    "(i.e. `true_negative + false_positive = 0`). ",
-    "\n",
-    "Specificity is undefined in this case, and those levels will be removed from the averaged result.",
-    "\n",
-    "Note that the following number of predicted negatives actually occured for each problematic event level:",
-    "\n",
-    paste0("'", events, "': ", counts, collapse = "\n")
+  message <- c(
+    "While computing multiclass {.fn spec}, some levels had no true negatives \\
+    (i.e. `true_negative + false_positive = 0`).",
+    "Specificity is undefined in this case, and those levels will be removed \\
+    from the averaged result.",
+    "Note that the following number of predicted negatives actually occured \\
+    for each problematic event level:",
+    paste0("'", events, "': ", counts, collapse = ", ")
   )
 
   warn_spec_undefined(
@@ -286,7 +291,7 @@ warn_spec_undefined_multiclass <- function(events, counts) {
 }
 
 warn_spec_undefined <- function(message, events, counts, ..., class = character()) {
-  warn(
+  cli::cli_warn(
     message = message,
     class = c(class, "yardstick_warning_spec_undefined"),
     events = events,

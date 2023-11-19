@@ -41,9 +41,9 @@
       conf_mat(three_class, truth = obs_rev, estimate = pred, dnn = c("", ""))
     Condition
       Error in `conf_mat()`:
-      ! `truth` and `estimate` levels must be equivalent.
-      `truth`: virginica, versicolor, setosa
-      `estimate`: setosa, versicolor, virginica
+      x `truth` and `estimate` levels must be equivalent.
+      * `truth`: virginica, versicolor, and setosa.
+      * `estimate`: setosa, versicolor, and virginica.
 
 ---
 
@@ -51,9 +51,9 @@
       conf_mat(three_class, truth = onelevel, estimate = pred, dnn = c("", ""))
     Condition
       Error in `conf_mat()`:
-      ! `truth` and `estimate` levels must be equivalent.
-      `truth`: 1
-      `estimate`: setosa, versicolor, virginica
+      x `truth` and `estimate` levels must be equivalent.
+      * `truth`: 1.
+      * `estimate`: setosa, versicolor, and virginica.
 
 ---
 
@@ -69,9 +69,9 @@
       conf_mat(three_class, truth = obs_rev, estimate = pred, dnn = c("", ""))
     Condition
       Error in `conf_mat()`:
-      ! `truth` and `estimate` levels must be equivalent.
-      `truth`: virginica, versicolor, setosa
-      `estimate`: setosa, versicolor, virginica
+      x `truth` and `estimate` levels must be equivalent.
+      * `truth`: virginica, versicolor, and setosa.
+      * `estimate`: setosa, versicolor, and virginica.
 
 ---
 
@@ -79,9 +79,9 @@
       conf_mat(three_class, truth = onelevel, estimate = pred, dnn = c("", ""))
     Condition
       Error in `conf_mat()`:
-      ! `truth` and `estimate` levels must be equivalent.
-      `truth`: 1
-      `estimate`: setosa, versicolor, virginica
+      x `truth` and `estimate` levels must be equivalent.
+      * `truth`: 1.
+      * `estimate`: setosa, versicolor, and virginica.
 
 ---
 

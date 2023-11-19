@@ -4,7 +4,7 @@
       out <- average_precision(df, truth, estimate)$.estimate
     Condition
       Warning:
-      There are `0` event cases in `truth`, results will be meaningless.
+      There are 0 event cases in `truth`, results will be meaningless.
 
 ---
 
@@ -12,7 +12,7 @@
       out <- average_precision(df, truth, estimate)$.estimate
     Condition
       Warning:
-      There are `0` event cases in `truth`, results will be meaningless.
+      There are 0 event cases in `truth`, results will be meaningless.
 
 ---
 
@@ -20,7 +20,7 @@
       expect <- pr_auc(df, truth, estimate)$.estimate
     Condition
       Warning:
-      There are `0` event cases in `truth`, results will be meaningless.
+      There are 0 event cases in `truth`, results will be meaningless.
 
 # errors with class_pred input
 

@@ -547,18 +547,17 @@ validate_not_empty <- function(x, call = caller_env()) {
   }
 }
 
-validate_inputs_are_functions <- function(fns) {
+validate_inputs_are_functions <- function(fns, call = caller_env()) {
   # Check that the user supplied all functions
   is_fun_vec <- vapply(fns, is_function, logical(1))
   all_fns <- all(is_fun_vec)
 
   if (!all_fns) {
     not_fn <- which(!is_fun_vec)
-    not_fn <- paste(not_fn, collapse = ", ")
-    stop(
-      "All inputs to `metric_set()` must be functions. ",
-      "These inputs are not: (", not_fn, ").",
-      call. = FALSE
+    cli::cli_abort(
+      "All inputs to {.fn metric_set} must be functions. \\
+      These inputs are not: {not_fn}.",
+      call = call
     )
   }
 }

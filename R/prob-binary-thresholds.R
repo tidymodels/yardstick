@@ -17,7 +17,7 @@ binary_threshold_curve <- function(truth,
 
   if (!is.factor(truth)) {
     cli::cli_abort(
-      "{.arg truth} must be a factor, not {.obj_friendly_type {truth}}.",
+      "{.arg truth} must be a factor, not {.obj_type_friendly {truth}}.",
       .internal = TRUE
     )
   }
@@ -29,7 +29,7 @@ binary_threshold_curve <- function(truth,
   }
   if (!is.numeric(estimate)) {
     cli::cli_abort(
-      "{.arg estimate} must be numeric, not {.obj_friendly_type {estimate}}.",
+      "{.arg estimate} must be numeric, not {.obj_type_friendly {estimate}}.",
       .internal = TRUE
     )
   }
@@ -84,7 +84,9 @@ binary_threshold_curve <- function(truth,
   case_weights_non_events <- (1 - truth) * case_weights
 
   if (sum(case_weights_events) == 0L) {
-    warn("There are `0` event cases in `truth`, results will be meaningless.")
+    cli::cli_warn(
+      "There are 0 event cases in {.arg truth}, results will be meaningless."
+    )
   }
 
   tp <- cumsum(case_weights_events)
