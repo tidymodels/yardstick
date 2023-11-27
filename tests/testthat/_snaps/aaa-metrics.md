@@ -66,9 +66,9 @@
       metric_set(rmse, rsq, ccc)
     Output
       A metric set, consisting of:
-      - `rmse`, A numeric metric | direction: minimize
-      - `rsq`, A numeric metric | direction: maximize
-      - `ccc`, A numeric metric | direction: maximize
+      - `rmse()`, a numeric metric | direction: minimize
+      - `rsq()`, a numeric metric  | direction: maximize
+      - `ccc()`, a numeric metric  | direction: maximize
 
 # `metric_set()` errors contain env name for unknown functions (#128)
 
