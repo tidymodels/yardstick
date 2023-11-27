@@ -282,14 +282,32 @@ print.metric_set <- function(x, ...) {
   invisible(x)
 }
 
+#' @export
 format.metric_set <- function(x, ...) {
   metrics <- attributes(x)$metrics
   names <- names(metrics)
 
   cli::cli_format_method({
     cli::cli_text("A metric set, consisting of:")
+
+    metric_formats <- vapply(metrics, format, character(1))
+    metric_formats <- strsplit(metric_formats, " | ", fixed = TRUE)
+
+    metric_names <- names(metric_formats)
+    metric_types <- vapply(metric_formats, `[`, character(1), 1, USE.NAMES = FALSE)
+    metric_descs <- vapply(metric_formats, `[`, character(1), 2)
+    metric_nchars <- nchar(metric_names) + nchar(metric_types)
+    metric_desc_paddings <- max(metric_nchars) - metric_nchars
+    # see r-lib/cli#506
+    metric_desc_paddings <- lapply(metric_desc_paddings, rep, x = "\u00a0")
+    metric_desc_paddings <- vapply(metric_desc_paddings, paste, character(1), collapse = "")
+
     for (i in seq_along(metrics)) {
-      cli::cli_text("- {.var {names[i]}}, {format(metrics[[i]])}")
+      cli::cli_text(
+        "- {.fun {metric_names[i]}}, \\
+           {tolower(metric_types[i])}{metric_desc_paddings[i]} | \\
+           {metric_descs[i]}"
+      )
     }
   })
 }

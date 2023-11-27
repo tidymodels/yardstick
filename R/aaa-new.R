@@ -102,6 +102,7 @@ print.metric <- function(x, ...) {
   invisible(x)
 }
 
+#' @export
 format.metric <- function(x, ...) {
   first_class <- class(x)[[1]]
   metric_type <-
