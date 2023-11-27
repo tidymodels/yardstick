@@ -6,7 +6,7 @@
       Error in `metric_set()`:
       ! Failed to compute `accuracy()`.
       Caused by error:
-      ! `estimate` should be a factor, not a `numeric`.
+      ! `estimate` should be a factor, not a a double vector.
 
 ---
 
@@ -16,7 +16,7 @@
       Error in `metric_set()`:
       ! Failed to compute `rmse()`.
       Caused by error:
-      ! `estimate` should be a numeric, not a `factor`.
+      ! `estimate` should be a numeric, not a <factor> object.
 
 ---
 
@@ -40,8 +40,8 @@
     Code
       metric_set(rmse, "x")
     Condition
-      Error:
-      ! All inputs to `metric_set()` must be functions. These inputs are not: (2).
+      Error in `metric_set()`:
+      ! All inputs to `metric_set()` must be functions. These inputs are not: 2.
 
 # mixing bad metric sets
 
@@ -49,14 +49,11 @@
       metric_set(rmse, accuracy)
     Condition
       Error in `validate_function_class()`:
-      ! 
-      The combination of metric functions must be:
-      - only numeric metrics
-      - a mix of class metrics and class probability metrics
-      
-      - a mix of dynamic and static survival metrics
-      
-      The following metric function types are being mixed:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
       - numeric (rmse)
       - class (accuracy)
 
@@ -76,14 +73,11 @@
       metric_set(accuracy, foobar, sens, rlang::abort)
     Condition
       Error in `validate_function_class()`:
-      ! 
-      The combination of metric functions must be:
-      - only numeric metrics
-      - a mix of class metrics and class probability metrics
-      
-      - a mix of dynamic and static survival metrics
-      
-      The following metric function types are being mixed:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
       - class (accuracy, sens)
       - other (foobar <test>, abort <namespace:rlang>)
 
@@ -93,14 +87,11 @@
       metric_set(accuracy, foobar, sens, rlang::abort)
     Condition
       Error in `validate_function_class()`:
-      ! 
-      The combination of metric functions must be:
-      - only numeric metrics
-      - a mix of class metrics and class probability metrics
-      
-      - a mix of dynamic and static survival metrics
-      
-      The following metric function types are being mixed:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
       - class (accuracy, sens)
       - other (foobar <test>, abort <namespace:rlang>)
 
@@ -110,14 +101,11 @@
       metric_set(foobar)
     Condition
       Error in `validate_function_class()`:
-      ! 
-      The combination of metric functions must be:
-      - only numeric metrics
-      - a mix of class metrics and class probability metrics
-      
-      - a mix of dynamic and static survival metrics
-      
-      The following metric function types are being mixed:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
       - other (foobar <test>)
 
 # errors informatively for unevaluated metric factories
@@ -126,7 +114,7 @@
       metric_set(demographic_parity)
     Condition
       Error in `metric_set()`:
-      ! The input `demographic_parity` is a group-wise metric (`?yardstick::new_groupwise_metric()`) factory and must be passed a data-column before addition to a metric set.
+      ! The input `demographic_parity` is a groupwise metric (`?yardstick::new_groupwise_metric()`) factory and must be passed a data-column before addition to a metric set.
       i Did you mean to type e.g. `demographic_parity(col_name)`?
 
 ---
@@ -135,7 +123,7 @@
       metric_set(demographic_parity, roc_auc)
     Condition
       Error in `metric_set()`:
-      ! The input `demographic_parity` is a group-wise metric (`?yardstick::new_groupwise_metric()`) factory and must be passed a data-column before addition to a metric set.
+      ! The input `demographic_parity` is a groupwise metric (`?yardstick::new_groupwise_metric()`) factory and must be passed a data-column before addition to a metric set.
       i Did you mean to type e.g. `demographic_parity(col_name)`?
 
 ---
@@ -144,7 +132,7 @@
       metric_set(demographic_parity, equal_opportunity)
     Condition
       Error in `metric_set()`:
-      ! The inputs `demographic_parity` and `equal_opportunity` are group-wise metric (`?yardstick::new_groupwise_metric()`) factories and must be passed a data-column before addition to a metric set.
+      ! The inputs `demographic_parity` and `equal_opportunity` are groupwise metric (`?yardstick::new_groupwise_metric()`) factories and must be passed a data-column before addition to a metric set.
       i Did you mean to type e.g. `demographic_parity(col_name)`?
 
 ---
@@ -153,7 +141,7 @@
       metric_set(demographic_parity, equal_opportunity, roc_auc)
     Condition
       Error in `metric_set()`:
-      ! The inputs `demographic_parity` and `equal_opportunity` are group-wise metric (`?yardstick::new_groupwise_metric()`) factories and must be passed a data-column before addition to a metric set.
+      ! The inputs `demographic_parity` and `equal_opportunity` are groupwise metric (`?yardstick::new_groupwise_metric()`) factories and must be passed a data-column before addition to a metric set.
       i Did you mean to type e.g. `demographic_parity(col_name)`?
 
 # propagates 'caused by' error message when specifying the wrong column name

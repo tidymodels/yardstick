@@ -52,13 +52,9 @@ metrics, along with the types of the inputs they take.
 
 5) **dynamic survival metrics**
 
-    - `turth` - Surv
+    - `truth` - Surv
 
-    - `estimate` - numeric
-
-    - `censoring_weights` - numeric
-
-    - `eval_time` - numeric
+    - `...` - list of data.frames, each containing the 3 columns `.eval_time`, `.pred_survival, and `.weight_censored`
 
 ## Example
 

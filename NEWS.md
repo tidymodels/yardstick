@@ -18,6 +18,8 @@ calculated with `roc_auc_survival()`.
 
 * Added a print method for metrics (#435).
 
+* All warnings and errors have been updated to use the cli package for increased clarity and consistency. (#456, #457, #458)
+
 # yardstick 1.2.0
 
 ## New Metrics

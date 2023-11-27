@@ -86,12 +86,7 @@ huber_loss_pseudo_impl <- function(truth,
                                    delta,
                                    case_weights,
                                    call = caller_env()) {
-  if (!is_bare_numeric(delta, n = 1L)) {
-    abort("`delta` must be a single numeric value.", call = call)
-  }
-  if (!(delta >= 0)) {
-    abort("`delta` must be a positive value.", call = call)
-  }
+  check_number_decimal(delta, min = 0, call = call)
 
   a <- truth - estimate
   loss <- delta^2 * (sqrt(1 + (a / delta)^2) - 1)

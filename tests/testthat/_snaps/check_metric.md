@@ -4,7 +4,7 @@
       check_numeric_metric(1:10, 1:10, 1:11)
     Condition
       Error:
-      ! `case_weights` (11) must have the same length as `truth` (10).
+      ! `truth` (10) and `case_weights` (11) must be the same length.
 
 # check_numeric_metric() validates inputs
 
@@ -12,7 +12,7 @@
       check_numeric_metric(1, "1", 1)
     Condition
       Error:
-      ! `estimate` should be a numeric, not a `character`.
+      ! `estimate` should be a numeric, not a string.
 
 # check_class_metric() validates case_weights
 
@@ -20,7 +20,7 @@
       check_class_metric(letters, letters, 1:5)
     Condition
       Error:
-      ! `case_weights` (5) must have the same length as `truth` (26).
+      ! `truth` (26) and `case_weights` (5) must be the same length.
 
 # check_class_metric() validates inputs
 
@@ -28,7 +28,7 @@
       check_class_metric(1, "1", 1)
     Condition
       Error:
-      ! `truth` should be a factor, not a `numeric`.
+      ! `truth` should be a factor, not a a number.
 
 # check_class_metric() validates estimator
 
@@ -46,7 +46,7 @@
       estimator = "binary")
     Condition
       Error:
-      ! `case_weights` (4) must have the same length as `truth` (3).
+      ! `truth` (3) and `case_weights` (4) must be the same length.
 
 # check_prob_metric() validates inputs
 
@@ -64,7 +64,7 @@
         .pred_survival, case_weights = 1:151)
     Condition
       Error:
-      ! `case_weights` (151) must have the same length as `truth` (228).
+      ! `truth` (228) and `case_weights` (151) must be the same length.
 
 # check_static_survival_metric() validates inputs
 
@@ -73,5 +73,5 @@
         lung_surv$inst), case_weights = 1:150)
     Condition
       Error:
-      ! `case_weights` (150) must have the same length as `truth` (228).
+      ! `truth` (228) and `case_weights` (150) must be the same length.
 

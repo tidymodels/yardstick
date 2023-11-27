@@ -179,14 +179,20 @@ recall_multiclass <- function(data, estimator) {
 
 
 warn_recall_undefined_binary <- function(event, count) {
-  message <- paste0(
-    "While computing binary `recall()`, no true events were detected ",
-    "(i.e. `true_positive + false_negative = 0`). ",
-    "\n",
-    "Recall is undefined in this case, and `NA` will be returned.",
-    "\n",
-    "Note that ", count, " predicted event(s) actually occured for the problematic ",
-    "event level, '", event, "'."
+  message <- c(
+    "While computing binary {.fn recall}, no true events were detected \\
+    (i.e. `true_positive + false_negative = 0`).",
+    "Recall is undefined in this case, and `NA` will be returned."
+  )
+
+  message <- c(
+    message,
+    paste(
+      "Note that",
+      count,
+      "predicted event(s) actually occured for the problematic event level",
+      event
+    )
   )
 
   warn_recall_undefined(
@@ -198,15 +204,14 @@ warn_recall_undefined_binary <- function(event, count) {
 }
 
 warn_recall_undefined_multiclass <- function(events, counts) {
-  message <- paste0(
-    "While computing multiclass `recall()`, some levels had no true events ",
-    "(i.e. `true_positive + false_negative = 0`). ",
-    "\n",
-    "Recall is undefined in this case, and those levels will be removed from the averaged result.",
-    "\n",
-    "Note that the following number of predicted events actually occured for each problematic event level:",
-    "\n",
-    paste0("'", events, "': ", counts, collapse = "\n")
+  message <- c(
+    "While computing multiclass {.fn recall}, some levels had no true events \\
+    (i.e. `true_positive + false_negative = 0`).",
+    "Recall is undefined in this case, and those levels will be removed from \\
+    the averaged result.",
+    "Note that the following number of predicted events actually occured for \\
+    each problematic event level:",
+    paste0("'", events, "': ", counts, collapse = ", ")
   )
 
   warn_recall_undefined(
@@ -218,7 +223,7 @@ warn_recall_undefined_multiclass <- function(events, counts) {
 }
 
 warn_recall_undefined <- function(message, events, counts, ..., class = character()) {
-  warn(
+  cli::cli_warn(
     message = message,
     class = c(class, "yardstick_warning_recall_undefined"),
     events = events,

@@ -66,7 +66,7 @@ new_static_survival_metric <- function(fn, direction) {
 
 new_metric <- function(fn, direction, class = NULL) {
   if (!is.function(fn)) {
-    abort("`fn` must be a function.")
+    cli::cli_abort("{.arg fn} must be a function.")
   }
 
   direction <- arg_match(

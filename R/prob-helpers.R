@@ -11,7 +11,10 @@ auc <- function(x, y, na_rm = TRUE) {
   }
 
   if (is.unsorted(x, na.rm = TRUE, strictly = FALSE)) {
-    abort("`x` must already be in weakly increasing order.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg x} must already be in weakly increasing order.",
+      .internal = TRUE
+    )
   }
 
   # length x = length y

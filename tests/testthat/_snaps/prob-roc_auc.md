@@ -1,3 +1,12 @@
+# `roc_auc()` hand-till method ignores levels with 0 observations with a warning (#123)
+
+    Code
+      expect_identical(roc_auc_vec(truth, estimate), 0.5)
+    Condition
+      Warning:
+      x No observations were detected in `truth` for level: y.
+      i Computation will proceed by ignoring those levels.
+
 # warning is thrown when missing events
 
     Code
@@ -64,8 +73,8 @@
       out <- roc_auc_vec(x, estimate, estimator = "hand_till")
     Condition
       Warning:
-      No observations were detected in `truth` for level(s): 'y'
-      Computation will proceed by ignoring those levels.
+      x No observations were detected in `truth` for level: y.
+      i Computation will proceed by ignoring those levels.
 
 ---
 
@@ -73,8 +82,8 @@
       out <- roc_auc_vec(x, estimate, estimator = "hand_till")
     Condition
       Warning:
-      No observations were detected in `truth` for level(s): 'y', 'z'
-      Computation will proceed by ignoring those levels.
+      x No observations were detected in `truth` for levels: y and z.
+      i Computation will proceed by ignoring those levels.
 
 # can't use case weights and hand-till method
 
@@ -109,5 +118,5 @@
       roc_auc_vec(cp_truth, estimate)
     Condition
       Error in `roc_auc_vec()`:
-      ! `truth` should not a `class_pred` object.
+      ! `truth` should not a <class_pred> object.
 

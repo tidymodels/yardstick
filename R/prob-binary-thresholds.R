@@ -16,19 +16,36 @@ binary_threshold_curve <- function(truth,
   case_weights <- vec_cast(case_weights, to = double())
 
   if (!is.factor(truth)) {
-    abort("`truth` must be a factor.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} must be a factor, not {.obj_type_friendly {truth}}.",
+      .internal = TRUE
+    )
   }
   if (length(levels(truth)) != 2L) {
-    abort("`truth` must have two levels.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} must have two levels, not {length(levels(truth))}.",
+      .internal = TRUE
+    )
   }
   if (!is.numeric(estimate)) {
-    abort("`estimate` must be numeric.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg estimate} must be numeric, not {.obj_type_friendly {estimate}}.",
+      .internal = TRUE
+    )
   }
   if (length(truth) != length(estimate)) {
-    abort("`truth` and `estimate` must be the same length.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} ({length(truth)}) and \\
+      {.arg estimate} ({length(estimate)}) must be the same length.",
+      .internal = TRUE
+    )
   }
   if (length(truth) != length(case_weights)) {
-    abort("`truth` and `case_weights` must be the same length.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} ({length(truth)}) and \\
+      {.arg case_weights} ({length(case_weights)}) must be the same length.",
+      .internal = TRUE
+    )
   }
 
   truth <- unclass(truth)
@@ -67,7 +84,9 @@ binary_threshold_curve <- function(truth,
   case_weights_non_events <- (1 - truth) * case_weights
 
   if (sum(case_weights_events) == 0L) {
-    warn("There are `0` event cases in `truth`, results will be meaningless.")
+    cli::cli_warn(
+      "There are 0 event cases in {.arg truth}, results will be meaningless."
+    )
   }
 
   tp <- cumsum(case_weights_events)

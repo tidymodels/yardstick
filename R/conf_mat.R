@@ -223,7 +223,10 @@ conf_mat_impl <- function(truth, estimate, case_weights, call = caller_env()) {
   check_class_metric(truth, estimate, case_weights, estimator, call = call)
 
   if (length(levels(truth)) < 2) {
-    abort("`truth` must have at least 2 factor levels.", call = call)
+    cli::cli_abort(
+      "{.arg truth} must have at least 2 factor levels.",
+      call = call
+    )
   }
 
   yardstick_table(
@@ -245,7 +248,9 @@ conf_mat.table <- function(data, ...) {
   num_lev <- length(class_lev)
 
   if (num_lev < 2) {
-    abort("There must be at least 2 factors levels in the `data`")
+    cli::cli_abort(
+      "There must be at least 2 factors levels in the {.arg data}."
+    )
   }
 
   structure(
@@ -287,13 +292,24 @@ tidy.conf_mat <- function(x, ...) {
   )
 }
 
-flatten <- function(xtab) {
-  p <- ncol(xtab)
-  if (nrow(xtab) != p) {
-    stop("table must have equal dimensions")
+flatten <- function(xtab, call = caller_env()) {
+  n_col <- ncol(xtab)
+  n_row <- nrow(xtab)
+  if (n_row != n_col) {
+    cli::cli_abort(
+      "{.arg x} must have equal dimensions. \\
+      {.arg x} has {n_col} columns and {n_row} rows.",
+      call = call
+    )
   }
   flat <- as.vector(xtab)
-  names(flat) <- paste("cell", rep(1:p, p), rep(1:p, each = p), sep = "_")
+  names(flat) <- paste(
+    "cell",
+    rep(seq_len(n_col), n_col),
+    rep(seq_len(n_col), each = n_col),
+    sep = "_"
+  )
+
   flat
 }
 

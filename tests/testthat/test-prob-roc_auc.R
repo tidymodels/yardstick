@@ -78,9 +78,8 @@ test_that("`roc_auc()` hand-till method ignores levels with 0 observations with 
   colnames(estimate) <- c("x", "y", "z")
 
   # HandTill2001::auc(HandTill2001::multcap(truth, estimate))
-  expect_warning(
-    expect_identical(roc_auc_vec(truth, estimate), 0.5),
-    "No observations were detected in `truth` for level[(]s[)]: 'y'"
+  expect_snapshot(
+    expect_identical(roc_auc_vec(truth, estimate), 0.5)
   )
 })
 

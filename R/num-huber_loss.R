@@ -85,12 +85,7 @@ huber_loss_impl <- function(truth,
   # Weighted Huber Loss implementation confirmed against matlab:
   # https://www.mathworks.com/help/deeplearning/ref/dlarray.huber.html
 
-  if (!is_bare_numeric(delta, n = 1L)) {
-    abort("`delta` must be a single numeric value.", call = call)
-  }
-  if (!(delta >= 0)) {
-    abort("`delta` must be a positive value.", call = call)
-  }
+  check_number_decimal(delta, min = 0, call = call)
 
   a <- truth - estimate
   abs_a <- abs(a)

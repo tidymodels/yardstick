@@ -4,7 +4,7 @@
 
 pos_val <- function(xtab, event_level) {
   if (!all(dim(xtab) == 2)) {
-    abort("Only relevant for 2x2 tables")
+    cli::cli_abort("Only relevant for 2x2 tables.")
   }
 
   if (is_event_first(event_level)) {
@@ -16,7 +16,7 @@ pos_val <- function(xtab, event_level) {
 
 neg_val <- function(xtab, event_level) {
   if (!all(dim(xtab) == 2)) {
-    abort("Only relevant for 2x2 tables")
+    cli::cli_abort("Only relevant for 2x2 tables.")
   }
 
   if (is_event_first(event_level)) {
@@ -28,12 +28,21 @@ neg_val <- function(xtab, event_level) {
 
 # ------------------------------------------------------------------------------
 
-check_table <- function(x) {
-  if (!identical(nrow(x), ncol(x))) {
-    stop("the table must have nrow = ncol", call. = FALSE)
+check_table <- function(x, call = caller_env()) {
+  n_col <- ncol(x)
+  n_row <- nrow(x)
+  if (n_row != n_col) {
+    cli::cli_abort(
+      "{.arg x} must have equal dimensions. \\
+      {.arg x} has {n_col} columns and {n_row} rows.",
+      call = call
+    )
   }
   if (!isTRUE(all.equal(rownames(x), colnames(x)))) {
-    stop("the table must the same groups in the same order", call. = FALSE)
+    cli::cli_abort(
+      "The table must the same groups in the same order.",
+      call = call
+    )
   }
   invisible(NULL)
 }
@@ -67,19 +76,19 @@ as_factor_from_class_pred <- function(x) {
   }
 
   if (!is_installed("probably")) {
-    abort(paste0(
-      "A <class_pred> input was detected, but the probably package ",
-      "isn't installed. Install probably to be able to convert <class_pred> ",
-      "to <factor>."
-    ))
+    cli::cli_abort(
+      "A {.cls class_pred} input was detected, but the {.pkg probably} \\
+      package isn't installed. Install {.pkg probably} to be able to convert \\
+      {.cls class_pred} to {.cls factor}."
+    )
   }
   probably::as.factor(x)
 }
 
 abort_if_class_pred <- function(x, call = caller_env()) {
   if (is_class_pred(x)) {
-    abort(
-      "`truth` should not a `class_pred` object.",
+    cli::cli_abort(
+      "{.arg truth} should not a {.cls class_pred} object.",
       call = call
     )
   }
@@ -186,10 +195,18 @@ yardstick_cov <- function(truth,
 
   size <- vec_size(truth)
   if (size != vec_size(estimate)) {
-    abort("`truth` and `estimate` must be the same size.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} ({vec_size(truth)}) and \\
+      {.arg estimate} ({vec_size(estimate)}) must be the same size.",
+      .internal = TRUE
+    )
   }
   if (size != vec_size(case_weights)) {
-    abort("`truth` and `case_weights` must be the same size.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} ({vec_size(truth)}) and \\
+      {.arg case_weights} ({vec_size(case_weights)}) must be the same size.",
+      .internal = TRUE
+    )
   }
 
   if (size == 0L || size == 1L) {
@@ -232,10 +249,18 @@ yardstick_cor <- function(truth,
 
   size <- vec_size(truth)
   if (size != vec_size(estimate)) {
-    abort("`truth` and `estimate` must be the same size.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} ({vec_size(truth)}) and \\
+      {.arg estimate} ({vec_size(estimate)}) must be the same size.",
+      .internal = TRUE
+    )
   }
   if (size != vec_size(case_weights)) {
-    abort("`truth` and `case_weights` must be the same size.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} ({vec_size(truth)}) and \\
+      {.arg case_weights} ({vec_size(case_weights)}) must be the same size.",
+      .internal = TRUE
+    )
   }
 
   if (size == 0L || size == 1L) {
@@ -310,7 +335,7 @@ make_correlation_undefined_constant_message <- function(what) {
 }
 
 warn_correlation_undefined <- function(message, ..., class = character()) {
-  warn(
+  cli::cli_warn(
     message = message,
     class = c(class, "yardstick_warning_correlation_undefined"),
     ...
@@ -345,14 +370,17 @@ weighted_quantile <- function(x, weights, probabilities) {
 
   size <- vec_size(x)
   if (size != vec_size(weights)) {
-    abort("`x` and `weights` must have the same size.")
+    cli::cli_abort(
+      "{.arg x} ({vec_size(x)}) and {.arg weights} ({vec_size(weights)}) \\
+      must have the same size."
+    )
   }
 
   if (any(is.na(probabilities))) {
-    abort("`probabilities` can't be missing.")
+    cli::cli_abort("{.arg probabilities} can't have missing values.")
   }
   if (any(probabilities > 1 | probabilities < 0)) {
-    abort("`probabilities` must be within `[0, 1]`.")
+    cli::cli_abort("{.arg probabilities} must be within `[0, 1]`.")
   }
 
   if (size == 0L) {
@@ -397,20 +425,33 @@ yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
   }
 
   if (!is.factor(truth)) {
-    abort("`truth` must be a factor.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} must be a factor, not {.obj_type_friendly {truth}}.",
+      .internal = TRUE
+    )
   }
   if (!is.factor(estimate)) {
-    abort("`estimate` must be a factor.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg estimate} must be a factor, not {.obj_type_friendly {estimate}}.",
+      .internal = TRUE
+    )
   }
 
   levels <- levels(truth)
   n_levels <- length(levels)
 
   if (!identical(levels, levels(estimate))) {
-    abort("`truth` and `estimate` must have the same levels in the same order.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} and {.arg estimate} must have the same levels in the same \\
+      order.",
+      .internal = TRUE
+    )
   }
   if (n_levels < 2) {
-    abort("`truth` must have at least 2 factor levels.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} must have at least 2 factor levels.",
+      .internal = TRUE
+    )
   }
 
   # Supply `estimate` first to get it to correspond to the row names.
@@ -447,14 +488,17 @@ yardstick_truth_table <- function(truth, ..., case_weights = NULL) {
   abort_if_class_pred(truth)
 
   if (!is.factor(truth)) {
-    abort("`truth` must be a factor.", .internal = TRUE)
+    cli::cli_abort("{.arg truth} must be a factor.", .internal = TRUE)
   }
 
   levels <- levels(truth)
   n_levels <- length(levels)
 
   if (n_levels < 2) {
-    abort("`truth` must have at least 2 factor levels.", .internal = TRUE)
+    cli::cli_abort(
+      "{.arg truth} must have at least 2 factor levels.",
+      .internal = TRUE
+    )
   }
 
   # Always return a double matrix for type stability

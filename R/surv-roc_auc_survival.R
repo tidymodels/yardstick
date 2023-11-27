@@ -35,8 +35,6 @@
 #'
 #' @inheritParams brier_survival
 #'
-#' @param ... Not currently used.
-#'
 #' @author Emil Hvitfeldt
 #'
 #' @references
@@ -94,7 +92,12 @@ roc_auc_survival_vec <- function(truth,
                                  case_weights = NULL,
                                  ...) {
   # No checking since roc_curve_survival_vec() does checking
-  curve <- roc_curve_survival_vec(truth, estimate)
+  curve <- roc_curve_survival_vec(
+    truth = truth,
+    estimate = estimate,
+    na_rm = na_rm,
+    case_weights = case_weights
+  )
 
   curve %>%
     dplyr::group_by(.eval_time) %>%

@@ -17,8 +17,9 @@ get_weights <- function(data, estimator) {
     .col_sums <- colSums(data)
     .col_sums / sum(.col_sums)
   } else {
-    msg <- paste0("`estimator` type `", estimator, "` is unknown.")
-    abort(msg)
+    cli::cli_abort(
+      "{.arg estimator} type {.val {estimator}} is unknown."
+    )
   }
 }
 
