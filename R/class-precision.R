@@ -189,7 +189,7 @@ warn_precision_undefined_binary <- function(event, count) {
     paste(
       "Note that",
       count,
-      "true event(s) actually occured for the problematic event level,",
+      "true event(s) actually occurred for the problematic event level,",
       event
     )
   )
@@ -208,7 +208,7 @@ warn_precision_undefined_multiclass <- function(events, counts) {
     events (i.e. `true_positive + false_positive = 0`).",
     "Precision is undefined in this case, and those levels will be removed \\
     from the averaged result.",
-    "Note that the following number of true events actually occured for each \\
+    "Note that the following number of true events actually occurred for each \\
     problematic event level:",
     paste0("'", events, "': ", counts, collapse = ", ")
   )

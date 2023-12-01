@@ -190,7 +190,7 @@ warn_recall_undefined_binary <- function(event, count) {
     paste(
       "Note that",
       count,
-      "predicted event(s) actually occured for the problematic event level",
+      "predicted event(s) actually occurred for the problematic event level",
       event
     )
   )
@@ -209,7 +209,7 @@ warn_recall_undefined_multiclass <- function(events, counts) {
     (i.e. `true_positive + false_negative = 0`).",
     "Recall is undefined in this case, and those levels will be removed from \\
     the averaged result.",
-    "Note that the following number of predicted events actually occured for \\
+    "Note that the following number of predicted events actually occurred for \\
     each problematic event level:",
     paste0("'", events, "': ", counts, collapse = ", ")
   )

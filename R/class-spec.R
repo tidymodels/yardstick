@@ -258,7 +258,7 @@ warn_spec_undefined_binary <- function(event, count) {
     paste(
       "Note that",
       count,
-      "predicted negatives(s) actually occured for the problematic event level,",
+      "predicted negatives(s) actually occurred for the problematic event level,",
       event
     )
   )
@@ -277,7 +277,7 @@ warn_spec_undefined_multiclass <- function(events, counts) {
     (i.e. `true_negative + false_positive = 0`).",
     "Specificity is undefined in this case, and those levels will be removed \\
     from the averaged result.",
-    "Note that the following number of predicted negatives actually occured \\
+    "Note that the following number of predicted negatives actually occurred \\
     for each problematic event level:",
     paste0("'", events, "': ", counts, collapse = ", ")
   )
