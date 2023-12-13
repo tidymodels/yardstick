@@ -20,6 +20,8 @@ calculated with `roc_auc_survival()`.
 
 * All warnings and errors have been updated to use the cli package for increased clarity and consistency. (#456, #457, #458)
 
+* `brier_survival_integrated()` now throws an error if input data only includes 1 evalution time point. (#460)
+
 # yardstick 1.2.0
 
 ## New Metrics
