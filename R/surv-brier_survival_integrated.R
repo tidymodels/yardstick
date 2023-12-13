@@ -91,6 +91,14 @@ brier_survival_integrated_vec <- function(truth,
     truth, estimate, case_weights
   )
 
+  num_eval_times <- get_unique_eval_times(estimate)
+  if (num_eval_times < 2) {
+    cli::cli_abort(
+      "At least 2 evaluation time{?s} {?is/are} required. \\
+      Only {num_eval_times} unique time{?s} {?was/were} given."
+    )
+  }
+
   if (na_rm) {
     result <- yardstick_remove_missing(
       truth, seq_along(estimate), case_weights
@@ -109,6 +117,14 @@ brier_survival_integrated_vec <- function(truth,
   }
 
   brier_survival_integrated_impl(truth, estimate, case_weights)
+}
+
+get_unique_eval_times <- function(x) {
+  res <- lapply(x, function(x) x$.eval_time)
+  res <- unlist(res)
+  res <- unique(res)
+  res <- length(res)
+  res
 }
 
 brier_survival_integrated_impl <- function(truth,

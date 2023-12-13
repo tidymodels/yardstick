@@ -22,6 +22,21 @@ test_that("brier_survival_integrated calculations", {
   )
 })
 
+test_that("brier_survival_integrated calculations", {
+  lung_surv <- data_lung_surv()
+
+  lung_surv$.pred <- lapply(lung_surv$.pred, function(x) x[1, ])
+
+  expect_snapshot(
+    error = TRUE,
+    brier_survival_integrated(
+      data = lung_surv,
+      truth = surv_obj,
+      .pred
+    )
+  )
+})
+
 test_that("case weights", {
   lung_surv <- data_lung_surv()
   lung_surv$case_wts <- seq_len(nrow(lung_surv))
