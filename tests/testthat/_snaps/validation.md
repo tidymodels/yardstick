@@ -283,6 +283,15 @@
       Error:
       x Duplicate values of .eval_time are not allowed.
 
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv_order$surv_obj, lung_surv_order$
+        .pred)
+    Condition
+      Error:
+      x Values of .eval_time must be in increasing order.
+
 # validate_case_weights errors as expected
 
     Code

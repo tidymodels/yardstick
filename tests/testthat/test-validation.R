@@ -427,6 +427,18 @@ test_that("validate_surv_truth_list_estimate errors as expected", {
       lung_surv_duplicate$.pred
     )
   )
+
+  lung_surv_order <- lung_surv
+  lung_surv_order$.pred <- lapply(
+    lung_surv_order$.pred, dplyr::arrange, dplyr::desc(.eval_time)
+  )
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv_order$surv_obj,
+      lung_surv_order$.pred
+    )
+  )
 })
 
 test_that("validate_case_weights errors as expected", {
