@@ -203,6 +203,21 @@ validate_surv_truth_list_estimate <- function(truth,
       call = call
     )
   }
+
+  all_eval_times_list <- lapply(estimate, function(x) x$.eval_time)
+  all_eval_times <- unlist(all_eval_times_list)
+
+  if (any(all_eval_times < 0)) {
+    offenders <- unique(all_eval_times[all_eval_times < 0])
+
+    cli::cli_abort(
+      c(
+        x = "Negative values of {.field .eval_time} are not allowed.",
+        i = "The following negative values were found: {.val {offenders}}."
+      ),
+      call = call
+    )
+  }
 }
 
 validate_surv_truth_numeric_estimate <- function(truth,
