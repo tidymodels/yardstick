@@ -274,6 +274,15 @@
       Error:
       x Infinite values of .eval_time are not allowed.
 
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv_duplicate$surv_obj,
+      lung_surv_duplicate$.pred)
+    Condition
+      Error:
+      x Duplicate values of .eval_time are not allowed.
+
 # validate_case_weights errors as expected
 
     Code

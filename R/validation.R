@@ -236,6 +236,18 @@ validate_surv_truth_list_estimate <- function(truth,
       call = call
     )
   }
+
+  any_duplicates <- any(
+    vapply(all_eval_times_list, function(x) any(table(x) > 1), logical(1))
+  )
+  if (any_duplicates) {
+    cli::cli_abort(
+      c(
+        x = "Duplicate values of {.field .eval_time} are not allowed."
+      ),
+      call = call
+    )
+  }
 }
 
 validate_surv_truth_numeric_estimate <- function(truth,
