@@ -407,6 +407,16 @@ test_that("validate_surv_truth_list_estimate errors as expected", {
       lung_surv_na$.pred
     )
   )
+
+  lung_surv_inf <- lung_surv
+  lung_surv_inf$.pred[[1]]$.eval_time[1] <- Inf
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv_inf$surv_obj,
+      lung_surv_inf$.pred
+    )
+  )
 })
 
 test_that("validate_case_weights errors as expected", {

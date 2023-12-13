@@ -266,6 +266,14 @@
       Error:
       x Missing values in .eval_time are not allowed.
 
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv_inf$surv_obj, lung_surv_inf$.pred)
+    Condition
+      Error:
+      x Infinite values of .eval_time are not allowed.
+
 # validate_case_weights errors as expected
 
     Code

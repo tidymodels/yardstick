@@ -227,6 +227,15 @@ validate_surv_truth_list_estimate <- function(truth,
       call = call
     )
   }
+
+  if (any(is.infinite(all_eval_times))) {
+    cli::cli_abort(
+      c(
+        x = "Infinite values of {.field .eval_time} are not allowed."
+      ),
+      call = call
+    )
+  }
 }
 
 validate_surv_truth_numeric_estimate <- function(truth,
