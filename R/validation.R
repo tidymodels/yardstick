@@ -248,18 +248,6 @@ validate_surv_truth_list_estimate <- function(truth,
       call = call
     )
   }
-
-  any_not_in_order <- any(
-    vapply(all_eval_times_list, function(x) is.unsorted(x), logical(1))
-  )
-  if (any_not_in_order) {
-    cli::cli_abort(
-      c(
-        x = "Values of {.field .eval_time} must be in increasing order."
-      ),
-      call = call
-    )
-  }
 }
 
 validate_surv_truth_numeric_estimate <- function(truth,
