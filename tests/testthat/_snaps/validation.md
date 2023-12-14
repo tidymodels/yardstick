@@ -249,6 +249,40 @@
       Error:
       ! `estimate` should be a list, not a a double vector.
 
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv_neg$surv_obj, lung_surv_neg$.pred)
+    Condition
+      Error:
+      x Negative values of .eval_time are not allowed.
+      i The following negative values were found: -100.
+
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv_na$surv_obj, lung_surv_na$.pred)
+    Condition
+      Error:
+      x Missing values in .eval_time are not allowed.
+
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv_inf$surv_obj, lung_surv_inf$.pred)
+    Condition
+      Error:
+      x Infinite values of .eval_time are not allowed.
+
+---
+
+    Code
+      validate_surv_truth_list_estimate(lung_surv_duplicate$surv_obj,
+      lung_surv_duplicate$.pred)
+    Condition
+      Error:
+      x Duplicate values of .eval_time are not allowed.
+
 # validate_case_weights errors as expected
 
     Code

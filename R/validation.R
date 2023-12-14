@@ -203,6 +203,51 @@ validate_surv_truth_list_estimate <- function(truth,
       call = call
     )
   }
+
+  all_eval_times_list <- lapply(estimate, function(x) x$.eval_time)
+  all_eval_times <- unlist(all_eval_times_list)
+
+  if (any(is.na(all_eval_times))) {
+    cli::cli_abort(
+      c(
+        x = "Missing values in {.field .eval_time} are not allowed."
+      ),
+      call = call
+    )
+  }
+
+  if (any(all_eval_times < 0)) {
+    offenders <- unique(all_eval_times[all_eval_times < 0])
+
+    cli::cli_abort(
+      c(
+        x = "Negative values of {.field .eval_time} are not allowed.",
+        i = "The following negative values were found: {.val {offenders}}."
+      ),
+      call = call
+    )
+  }
+
+  if (any(is.infinite(all_eval_times))) {
+    cli::cli_abort(
+      c(
+        x = "Infinite values of {.field .eval_time} are not allowed."
+      ),
+      call = call
+    )
+  }
+
+  any_duplicates <- any(
+    vapply(all_eval_times_list, function(x) any(table(x) > 1), logical(1))
+  )
+  if (any_duplicates) {
+    cli::cli_abort(
+      c(
+        x = "Duplicate values of {.field .eval_time} are not allowed."
+      ),
+      call = call
+    )
+  }
 }
 
 validate_surv_truth_numeric_estimate <- function(truth,
