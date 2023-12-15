@@ -204,6 +204,26 @@ validate_surv_truth_list_estimate <- function(truth,
     )
   }
 
+  eval_time_cols <- lapply(estimate, function(x) x$.eval_time)
+
+  if (length(unique(eval_time_cols)) > 1) {
+    offenders <- vapply(
+      eval_time_cols,
+      function(x) !identical(x, eval_time_cols[[1]]),
+      logical(1)
+    )
+    offenders <- which(offenders)
+
+    cli::cli_abort(
+      c(
+        x = "All the {.field .eval_time} columns of {.arg estimate} must be \\
+            identical.",
+        i = "The folllowing index differed from the first: {.val {offenders}}."
+      ),
+      call = call
+    )
+  }
+
   all_eval_times_list <- lapply(estimate, function(x) x$.eval_time)
   all_eval_times <- unlist(all_eval_times_list)
 
