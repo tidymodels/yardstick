@@ -120,11 +120,8 @@ brier_survival_integrated_vec <- function(truth,
 }
 
 get_unique_eval_times <- function(x) {
-  res <- lapply(x, function(x) x$.eval_time)
-  res <- unlist(res)
-  res <- unique(res)
-  res <- length(res)
-  res
+  # Since validate_surv_truth_list_estimate() makes sure they are all the same
+  length(x[[1]]$.eval_time)
 }
 
 brier_survival_integrated_impl <- function(truth,

@@ -252,6 +252,16 @@
 ---
 
     Code
+      validate_surv_truth_list_estimate(lung_surv_not_all_same$surv_obj,
+      lung_surv_not_all_same$.pred)
+    Condition
+      Error:
+      x All the .eval_time columns of `estimate` must be identical.
+      i The folllowing index differed from the first: 5, 10, and 14.
+
+---
+
+    Code
       validate_surv_truth_list_estimate(lung_surv_neg$surv_obj, lung_surv_neg$.pred)
     Condition
       Error:

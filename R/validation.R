@@ -204,10 +204,29 @@ validate_surv_truth_list_estimate <- function(truth,
     )
   }
 
-  all_eval_times_list <- lapply(estimate, function(x) x$.eval_time)
-  all_eval_times <- unlist(all_eval_times_list)
+  eval_time_cols <- lapply(estimate, function(x) x$.eval_time)
 
-  if (any(is.na(all_eval_times))) {
+  if (length(unique(eval_time_cols)) > 1) {
+    offenders <- vapply(
+      eval_time_cols,
+      function(x) !identical(x, eval_time_cols[[1]]),
+      logical(1)
+    )
+    offenders <- which(offenders)
+
+    cli::cli_abort(
+      c(
+        x = "All the {.field .eval_time} columns of {.arg estimate} must be \\
+            identical.",
+        i = "The folllowing index differed from the first: {.val {offenders}}."
+      ),
+      call = call
+    )
+  }
+
+  eval_time <- eval_time_cols[[1]]
+
+  if (any(is.na(eval_time))) {
     cli::cli_abort(
       c(
         x = "Missing values in {.field .eval_time} are not allowed."
@@ -216,8 +235,8 @@ validate_surv_truth_list_estimate <- function(truth,
     )
   }
 
-  if (any(all_eval_times < 0)) {
-    offenders <- unique(all_eval_times[all_eval_times < 0])
+  if (any(eval_time < 0)) {
+    offenders <- unique(eval_time[eval_time < 0])
 
     cli::cli_abort(
       c(
@@ -228,7 +247,7 @@ validate_surv_truth_list_estimate <- function(truth,
     )
   }
 
-  if (any(is.infinite(all_eval_times))) {
+  if (any(is.infinite(eval_time))) {
     cli::cli_abort(
       c(
         x = "Infinite values of {.field .eval_time} are not allowed."
@@ -237,10 +256,7 @@ validate_surv_truth_list_estimate <- function(truth,
     )
   }
 
-  any_duplicates <- any(
-    vapply(all_eval_times_list, function(x) any(table(x) > 1), logical(1))
-  )
-  if (any_duplicates) {
+  if (any(duplicated(eval_time))) {
     cli::cli_abort(
       c(
         x = "Duplicate values of {.field .eval_time} are not allowed."
