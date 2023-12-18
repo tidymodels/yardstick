@@ -1,3 +1,10 @@
+# metric factory print method works
+
+    Code
+      equal_opportunity
+    Output
+      A metric factory (`?yardstick::new_groupwise_metric()`)
+
 # handles `direction` input
 
     Code
