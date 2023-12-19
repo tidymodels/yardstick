@@ -66,6 +66,10 @@ test_that("new_groupwise_metric() works with grouped input", {
   expect_identical(grouped_res, split_res)
 })
 
+test_that("metric factory print method works", {
+  expect_snapshot(equal_opportunity)
+})
+
 test_that("can accommodate redundant sensitive features", {
   data("hpc_cv")
 

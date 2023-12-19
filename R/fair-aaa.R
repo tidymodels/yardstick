@@ -222,6 +222,20 @@ groupwise_metric_class <- function(fn) {
   class(attr(fn, "metrics")[[1]])
 }
 
+#' @noRd
+#' @export
+print.metric_factory <- function(x, ...) {
+  cat(format(x), sep = "\n")
+  invisible(x)
+}
+
+#' @export
+format.metric_factory <- function(x, ...) {
+  cli::cli_format_method(
+    cli::cli_text("A {.help [metric factory](yardstick::new_groupwise_metric)}")
+  )
+}
+
 diff_range <- function(x) {
   estimates <- x$.estimate
 
