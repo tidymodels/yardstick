@@ -138,6 +138,7 @@ brier_survival_impl <- function(truth,
   surv_status <- .extract_surv_status(truth)
 
   if (!is.null(case_weights)) {
+    case_weights <- vec_cast(case_weights, to = double())
     norm_const <- sum(case_weights)
   } else {
     case_weights <- rep(1, length(estimate))
