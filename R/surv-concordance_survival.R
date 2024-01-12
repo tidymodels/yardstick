@@ -104,6 +104,8 @@ concordance_survival_vec <- function(truth,
 concordance_survival_impl <- function(truth, estimate, case_weights) {
   if (is.null(case_weights)) {
     case_weights <- rep(1, length(estimate))
+  } else {
+    case_weights <- vec_cast(case_weights, to = double())
   }
 
   survival::concordance(truth ~ estimate, weights = case_weights)$concordance
