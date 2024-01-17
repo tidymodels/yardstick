@@ -1,8 +1,9 @@
 #' General Function to Estimate Performance
 #'
-#' This function estimates one or more common performance
-#'  estimates depending on the class of `truth` (see **Value**
-#'  below) and returns them in a three column tibble.
+#' This function estimates one or more common performance estimates depending 
+#' on the class of `truth` (see **Value** below) and returns them in a three 
+#' column tibble. If you wish to modify the metrics used or how they are used
+#' see [metric_set()].
 #'
 #' @inheritParams roc_auc
 #'
