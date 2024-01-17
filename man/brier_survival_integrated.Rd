@@ -112,4 +112,3 @@ Other dynamic survival metrics:
 Emil Hvitfeldt
 }
 \concept{dynamic survival metrics}
-\keyword{internal}

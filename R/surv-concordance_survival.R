@@ -49,7 +49,6 @@
 #'   truth = surv_obj,
 #'   estimate = .pred_time
 #' )
-#' @keywords internal
 #' @export
 concordance_survival <- function(data, ...) {
   UseMethod("concordance_survival")

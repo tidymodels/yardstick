@@ -76,7 +76,6 @@
 #'
 #' # Or use autoplot
 #' autoplot(result)
-#' @keywords internal
 #' @export
 roc_curve_survival <- function(data, ...) {
   UseMethod("roc_curve_survival")
