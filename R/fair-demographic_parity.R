@@ -20,7 +20,6 @@
 #'
 #' @templateVar fn demographic_parity
 #' @templateVar internal_fn detection_prevalence
-#' @templateVar internal_fn [detection_prevalence()]
 #' @template return-fair
 #' @template event-fair
 #' @template examples-fair

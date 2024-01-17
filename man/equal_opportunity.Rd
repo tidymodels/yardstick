@@ -15,7 +15,7 @@ This function outputs a yardstick \emph{fairness metric} function. Given a
 grouping variable \code{by}, \code{equal_opportunity()} will return a yardstick metric
 function that is associated with the data-variable grouping \code{by} and a
 post-processor. The outputted function will first generate a set
-of \code{\link[=sens]{sens()}} metric values by group before summarizing across
+of sens metric values by group before summarizing across
 groups using the post-processing function.
 
 The outputted function only has a data frame method and is intended to
@@ -35,7 +35,7 @@ See the "Measuring Disparity" section for details on implementation.
 }
 \section{Measuring Disparity}{
 
-By default, this function takes the difference in range of \code{\link[=sens]{sens()}}
+By default, this function takes the difference in range of sens
 \code{.estimate}s across groups. That is, the maximum pair-wise disparity between
 groups is the return value of \code{equal_opportunity()}'s \code{.estimate}.
 
@@ -48,13 +48,13 @@ diff_range <- function(x, ...) \{diff(range(x$.estimate))\}
 
 equal_opportunity_2 <-
   new_groupwise_metric(
-    fn = \code{\link[=sens]{sens()}},
+    fn = sens,
     name = "equal_opportunity_2",
     aggregate = diff_range
   )
 }\if{html}{\out{</div>}}
 
-In \code{aggregate()}, \code{x} is the \code{metric_set()} output with \code{\link[=sens]{sens()}} values
+In \code{aggregate()}, \code{x} is the \code{metric_set()} output with sens values
 for each group, and \code{...} gives additional arguments (such as a grouping
 level to refer to as the "baseline") to pass to the function outputted
 by \code{equal_opportunity_2()} for context.

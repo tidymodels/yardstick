@@ -17,7 +17,6 @@
 #'
 #' @templateVar fn equal_opportunity
 #' @templateVar internal_fn sens
-#' @templateVar internal_fn [sens()]
 #' @template return-fair
 #' @template event-fair
 #' @template examples-fair
