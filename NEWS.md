@@ -22,6 +22,8 @@ calculated with `roc_auc_survival()`.
 
 * `brier_survival_integrated()` now throws an error if input data only includes 1 evalution time point. (#460)
 
+* Metrics now throw more informative error if `estimate` argument is wrongly used. (#443)
+
 # yardstick 1.2.0
 
 ## New Metrics
