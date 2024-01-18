@@ -98,4 +98,3 @@ Medicine, 15(4), 361-87, 1996.
 Emil Hvitfeldt
 }
 \concept{static survival metrics}
-\keyword{internal}

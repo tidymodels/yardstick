@@ -107,4 +107,3 @@ Compute the area under the ROC survival curve with \code{\link[=roc_auc_survival
 Emil Hvitfeldt
 }
 \concept{survival curve metrics}
-\keyword{internal}
