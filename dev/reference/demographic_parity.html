@@ -110,7 +110,7 @@ unquoted column name referring to a column in the un-preprocessed data.</p></dd>
 grouping variable <code>by</code>, <code>demographic_parity()</code> will return a yardstick metric
 function that is associated with the data-variable grouping <code>by</code> and a
 post-processor. The outputted function will first generate a set
-of <code><a href="detection_prevalence.html">detection_prevalence()</a></code> metric values by group before summarizing across
+of detection_prevalence metric values by group before summarizing across
 groups using the post-processing function.</p>
 
 
@@ -121,7 +121,7 @@ be used as part of a metric set.</p>
     <h2 id="measuring-disparity">Measuring Disparity<a class="anchor" aria-label="anchor" href="#measuring-disparity"></a></h2>
     
 
-<p>By default, this function takes the difference in range of <code><a href="detection_prevalence.html">detection_prevalence()</a></code>
+<p>By default, this function takes the difference in range of detection_prevalence
 <code>.estimate</code>s across groups. That is, the maximum pair-wise disparity between
 groups is the return value of <code>demographic_parity()</code>'s <code>.estimate</code>.</p>
 <p>For finer control of group treatment, construct a context-aware fairness
@@ -132,11 +132,11 @@ function:</p>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>demographic_parity_2 <span class="ot">&lt;-</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">new_groupwise_metric</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fn =</span> \code{\link[<span class="ot">=</span>detection_prevalence]{<span class="fu">detection_prevalence</span>()}},</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fn =</span> detection_prevalence,</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"demographic_parity_2"</span>,</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">aggregate =</span> diff_range</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre><p></p></div>
-<p>In <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code>, <code>x</code> is the <code><a href="metric_set.html">metric_set()</a></code> output with <code><a href="detection_prevalence.html">detection_prevalence()</a></code> values
+<p>In <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code>, <code>x</code> is the <code><a href="metric_set.html">metric_set()</a></code> output with detection_prevalence values
 for each group, and <code>...</code> gives additional arguments (such as a grouping
 level to refer to as the "baseline") to pass to the function outputted
 by <code>demographic_parity_2()</code> for context.</p>
