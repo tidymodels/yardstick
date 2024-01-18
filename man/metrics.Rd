@@ -58,9 +58,10 @@ and \code{\link[=mae]{mae()}}.
 }
 }
 \description{
-This function estimates one or more common performance
-estimates depending on the class of \code{truth} (see \strong{Value}
-below) and returns them in a three column tibble.
+This function estimates one or more common performance estimates depending
+on the class of \code{truth} (see \strong{Value} below) and returns them in a three
+column tibble. If you wish to modify the metrics used or how they are used
+see \code{\link[=metric_set]{metric_set()}}.
 }
 \examples{
 
