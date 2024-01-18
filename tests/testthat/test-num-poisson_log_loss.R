@@ -28,3 +28,21 @@ test_that("weighted results are working", {
     yardstick_mean(-stats::dpois(count_results$count, count_results$pred, log = TRUE), case_weights = count_results$weights)
   )
 })
+
+test_that("works with hardhat case weights", {
+  count_results <- data_counts()$basic
+  count_results$weights <- c(1, 2, 1, 1, 2, 1)
+
+  df <- count_results
+
+  imp_wgt <- hardhat::importance_weights(df$weights)
+  freq_wgt <- hardhat::frequency_weights(df$weights)
+
+  expect_no_error(
+    poisson_log_loss_vec(df$count, df$pred, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    poisson_log_loss_vec(df$count, df$pred, case_weights = freq_wgt)
+  ) 
+})

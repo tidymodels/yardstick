@@ -21,3 +21,21 @@ test_that("case weights are applied", {
     3.401406885440771965534
   )
 })
+
+test_that("works with hardhat case weights", {
+  count_results <- data_counts()$basic
+  count_results$weights <- c(1, 2, 1, 1, 2, 1)
+
+  df <- count_results
+
+  imp_wgt <- hardhat::importance_weights(df$weights)
+  freq_wgt <- hardhat::frequency_weights(df$weights)
+
+  expect_no_error(
+    rpiq_vec(df$count, df$pred, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    rpiq_vec(df$count, df$pred, case_weights = freq_wgt)
+  ) 
+})
