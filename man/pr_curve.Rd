@@ -45,7 +45,8 @@ used instead with a warning.}
 
 \item{case_weights}{The optional column identifier for case weights.
 This should be an unquoted column name that evaluates to a numeric column
-in \code{data}. For \verb{_vec()} functions, a numeric vector.}
+in \code{data}. For \verb{_vec()} functions, a numeric vector,
+\code{\link[hardhat:importance_weights]{hardhat::importance_weights()}}, or \code{\link[hardhat:frequency_weights]{hardhat::frequency_weights()}}.}
 }
 \value{
 A tibble with class \code{pr_df} or \code{pr_grouped_df} having
