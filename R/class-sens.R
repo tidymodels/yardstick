@@ -54,10 +54,8 @@
 #'
 #' @param event_level A single string. Either `"first"` or `"second"` to specify
 #'   which level of `truth` to consider as the "event". This argument is only
-#'   applicable when `estimator = "binary"`. The default uses an
-#'   internal helper that generally defaults to `"first"`, however, if the
-#'   deprecated global option `yardstick.event_first` is set, that will be
-#'   used instead with a warning.
+#'   applicable when `estimator = "binary"`. The default uses an internal helper
+#'   that defaults to `"first"`.
 #'
 #' @param ... Not currently used.
 #'

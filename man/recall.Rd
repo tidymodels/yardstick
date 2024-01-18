@@ -63,10 +63,8 @@ in \code{data}. For \verb{_vec()} functions, a numeric vector,
 
 \item{event_level}{A single string. Either \code{"first"} or \code{"second"} to specify
 which level of \code{truth} to consider as the "event". This argument is only
-applicable when \code{estimator = "binary"}. The default uses an
-internal helper that generally defaults to \code{"first"}, however, if the
-deprecated global option \code{yardstick.event_first} is set, that will be
-used instead with a warning.}
+applicable when \code{estimator = "binary"}. The default uses an internal helper
+that defaults to \code{"first"}.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
