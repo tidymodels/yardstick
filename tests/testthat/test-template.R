@@ -707,6 +707,17 @@ test_that("prob_metric_summarizer()'s errors when wrong things are passes", {
       obviouslywrong = TRUE
     )
   )
+
+  expect_snapshot(
+    error = TRUE,
+    prob_metric_summarizer(
+      name = "roc_auc",
+      fn = roc_auc_vec,
+      data = hpc_f1,
+      truth = obs,
+      estimate = VF:L
+    )
+  )
 })
 
 test_that("prob_metric_summarizer() deals with characters in truth", {
@@ -970,6 +981,17 @@ test_that("curve_metric_summarizer()'s errors when wrong things are passes", {
       obviouslywrong = TRUE
     )
   )
+
+  expect_snapshot(
+    error = TRUE,
+    curve_metric_summarizer(
+      name = "roc_curve",
+      fn = roc_curve_vec,
+      data = hpc_f1,
+      truth = obs,
+      estimate = VF:L
+    )
+  )
 })
 
 test_that("curve_metric_summarizer() deals with characters in truth", {
@@ -1203,6 +1225,17 @@ test_that("dynamic_survival_metric_summarizer()'s errors with bad input", {
       data = lung_surv,
       truth = surv_obj,
       surv_obj
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    dynamic_survival_metric_summarizer(
+      name = "brier_survival",
+      fn = brier_survival_vec,
+      data = lung_surv,
+      truth = surv_obj,
+      estimate = .pred
     )
   )
 })
@@ -1658,6 +1691,17 @@ test_that("curve_survival_metric_summarizer()'s errors with bad input", {
       data = lung_surv,
       truth = surv_obj,
       surv_obj
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    curve_survival_metric_summarizer(
+      name = "roc_curve_survival",
+      fn = roc_curve_survival_vec,
+      data = lung_surv,
+      truth = surv_obj,
+      estimate = .pred
     )
   )
 })
