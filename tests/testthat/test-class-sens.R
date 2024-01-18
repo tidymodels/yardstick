@@ -194,6 +194,21 @@ test_that("`sensitivity()` has a metric name unique to it (#232)", {
   )
 })
 
+test_that("works with hardhat case weights", {
+  lst <- data_altman()
+  df <- lst$pathology
+  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
+  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
+
+  expect_no_error(
+    sensitivity_vec(df$pathology, df$scan, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    sensitivity_vec(df$pathology, df$scan, case_weights = freq_wgt)
+  ) 
+})
+
 test_that("work with class_pred input", {
   skip_if_not_installed("probably")
 

@@ -63,3 +63,22 @@ test_that("case weights", {
     brier_integrated_res$.estimate
   )
 })
+
+
+test_that("works with hardhat case weights", {
+  lung_surv <- data_lung_surv()
+  lung_surv$case_wts <- rep(2, nrow(lung_surv))
+
+  df <- lung_surv
+
+  df$imp_wgt <- hardhat::importance_weights(lung_surv$case_wts)
+  df$freq_wgt <- hardhat::frequency_weights(lung_surv$case_wts)
+
+  expect_no_error(
+    brier_survival_integrated(df, truth = surv_obj, .pred, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    brier_survival_integrated(df, truth = surv_obj, .pred, case_weights = freq_wgt)
+  )
+})

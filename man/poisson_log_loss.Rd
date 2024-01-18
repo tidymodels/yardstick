@@ -33,7 +33,8 @@ values should be stripped before the computation proceeds.}
 
 \item{case_weights}{The optional column identifier for case weights. This
 should be an unquoted column name that evaluates to a numeric column in
-\code{data}. For \verb{_vec()} functions, a numeric vector.}
+\code{data}. For \verb{_vec()} functions, a numeric vector,
+\code{\link[hardhat:importance_weights]{hardhat::importance_weights()}}, or \code{\link[hardhat:frequency_weights]{hardhat::frequency_weights()}}.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},

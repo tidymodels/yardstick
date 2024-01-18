@@ -88,6 +88,21 @@ test_that("mn_log_loss() applies the min/max rule when a 'non-event' has probabi
   )
 })
 
+test_that("works with hardhat case weights", {
+  df <- two_class_example
+
+  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
+  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
+
+  expect_no_error(
+    mn_log_loss_vec(df$truth, df$Class1, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    mn_log_loss_vec(df$truth, df$Class1, case_weights = freq_wgt)
+  )
+})
+
 test_that("errors with class_pred input", {
   skip_if_not_installed("probably")
 

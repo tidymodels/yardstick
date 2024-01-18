@@ -49,7 +49,8 @@
 #'
 #' @param case_weights The optional column identifier for case weights.
 #'   This should be an unquoted column name that evaluates to a numeric column
-#'   in `data`. For `_vec()` functions, a numeric vector.
+#'   in `data`. For `_vec()` functions, a numeric vector, 
+#'   [hardhat::importance_weights()], or [hardhat::frequency_weights()].
 #'
 #' @param event_level A single string. Either `"first"` or `"second"` to specify
 #'   which level of `truth` to consider as the "event". This argument is only

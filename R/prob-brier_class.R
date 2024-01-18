@@ -152,5 +152,7 @@ brier_ind <- function(truth, estimate, case_weights = NULL) {
 brier_factor <- function(truth, estimate, case_weights = NULL) {
   inds <- hardhat::fct_encode_one_hot(truth)
 
+  case_weights <- vctrs::vec_cast(case_weights, to = double())
+
   brier_ind(inds, estimate, case_weights)
 }

@@ -65,7 +65,8 @@ values should be stripped before the computation proceeds.}
 
 \item{case_weights}{The optional column identifier for case weights.
 This should be an unquoted column name that evaluates to a numeric column
-in \code{data}. For \verb{_vec()} functions, a numeric vector.}
+in \code{data}. For \verb{_vec()} functions, a numeric vector,
+\code{\link[hardhat:importance_weights]{hardhat::importance_weights()}}, or \code{\link[hardhat:frequency_weights]{hardhat::frequency_weights()}}.}
 
 \item{event_level}{A single string. Either \code{"first"} or \code{"second"} to specify
 which level of \code{truth} to consider as the "event". This argument is only

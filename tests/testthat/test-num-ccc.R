@@ -66,3 +66,19 @@ test_that("can use hardhat case weights", {
   expect_identical(result1, expect1)
   expect_identical(result2, expect2)
 })
+
+test_that("works with hardhat case weights", {
+  solubility_test$weights <- floor(read_weights_solubility_test())
+  df <- solubility_test
+
+  imp_wgt <- hardhat::importance_weights(df$weights)
+  freq_wgt <- hardhat::frequency_weights(df$weights)
+
+  expect_no_error(
+    ccc_vec(df$solubility, df$prediction, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    ccc_vec(df$solubility, df$prediction, case_weights = freq_wgt)
+  ) 
+})
