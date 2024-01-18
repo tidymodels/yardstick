@@ -15,7 +15,7 @@ This function outputs a yardstick \emph{fairness metric} function. Given a
 grouping variable \code{by}, \code{demographic_parity()} will return a yardstick metric
 function that is associated with the data-variable grouping \code{by} and a
 post-processor. The outputted function will first generate a set
-of \code{\link[=detection_prevalence]{detection_prevalence()}} metric values by group before summarizing across
+of detection_prevalence metric values by group before summarizing across
 groups using the post-processing function.
 
 The outputted function only has a data frame method and is intended to
@@ -38,7 +38,7 @@ See the "Measuring Disparity" section for details on implementation.
 }
 \section{Measuring Disparity}{
 
-By default, this function takes the difference in range of \code{\link[=detection_prevalence]{detection_prevalence()}}
+By default, this function takes the difference in range of detection_prevalence
 \code{.estimate}s across groups. That is, the maximum pair-wise disparity between
 groups is the return value of \code{demographic_parity()}'s \code{.estimate}.
 
@@ -51,13 +51,13 @@ diff_range <- function(x, ...) \{diff(range(x$.estimate))\}
 
 demographic_parity_2 <-
   new_groupwise_metric(
-    fn = \code{\link[=detection_prevalence]{detection_prevalence()}},
+    fn = detection_prevalence,
     name = "demographic_parity_2",
     aggregate = diff_range
   )
 }\if{html}{\out{</div>}}
 
-In \code{aggregate()}, \code{x} is the \code{metric_set()} output with \code{\link[=detection_prevalence]{detection_prevalence()}} values
+In \code{aggregate()}, \code{x} is the \code{metric_set()} output with detection_prevalence values
 for each group, and \code{...} gives additional arguments (such as a grouping
 level to refer to as the "baseline") to pass to the function outputted
 by \code{demographic_parity_2()} for context.
