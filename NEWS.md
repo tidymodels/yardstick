@@ -201,7 +201,7 @@ calculated with `roc_auc_survival()`.
   the new explicit argument, `event_level`. All metric functions that previously
   supported changing the "event" level have gained this new argument.
   The global option was a historical design decision that can be classified as
-  a case of a [hidden argument](https://design.tidyverse.org/args-hidden.html#args-hidden).
+  a case of a hidden argument.
   Existing code that relied on this global option will continue to work in this
   version of yardstick, however you will now get a once-per-session warning
   that requests that you update to instead use the explicit `event_level`
