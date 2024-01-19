@@ -1,14 +1,14 @@
-# sknifedatar
+# modeltime
 
 <details>
 
-* Version: 0.1.2
-* GitHub: https://github.com/rafzamb/sknifedatar
-* Source code: https://github.com/cran/sknifedatar
-* Date/Publication: 2021-06-01 08:00:02 UTC
-* Number of recursive dependencies: 213
+* Version: 1.2.8
+* GitHub: https://github.com/business-science/modeltime
+* Source code: https://github.com/cran/modeltime
+* Date/Publication: 2023-09-02 15:10:02 UTC
+* Number of recursive dependencies: 249
 
-Run `revdep_details(, "sknifedatar")` for more info
+Run `revdepcheck::revdep_details(, "modeltime")` for more info
 
 </details>
 
@@ -16,26 +16,30 @@ Run `revdep_details(, "sknifedatar")` for more info
 
 *   checking examples ... ERROR
     ```
-    Running examples in ‘sknifedatar-Ex.R’ failed
+    Running examples in ‘modeltime-Ex.R’ failed
     The error most likely occurred in:
     
-    > ### Name: multieval
-    > ### Title: Evaluation of multiple metrics and predictions
-    > ### Aliases: multieval
+    > ### Name: parallel_start
+    > ### Title: Start parallel clusters using 'parallel' package
+    > ### Aliases: parallel_start parallel_stop
     > 
     > ### ** Examples
     > 
-    > set.seed(123)
-    ...
-     20. │                   └─tidyselect:::vars_select_eval(...)
-     21. │                     └─tidyselect:::walk_data_tree(expr, data_mask, context_mask)
-     22. │                       └─tidyselect:::as_indices_sel_impl(...)
-     23. │                         └─tidyselect:::as_indices_impl(...)
-     24. │                           └─vctrs::vec_as_subscript(x, logical = "error", call = call, arg = arg)
-     25. ├─dplyr::bind_rows(.)
-     26. │ └─rlang::list2(...)
-     27. ├─dplyr::mutate(., modelo = y)
-     28. └─rlang::cnd_signal(x)
+    > 
+    > # Starts 2 clusters
+    > parallel_start(2)
+    Error in serverSocket(port = port) : 
+      creation of server socket failed: port 11904 cannot be opened
+    Calls: parallel_start -> <Anonymous> -> makePSOCKcluster -> serverSocket
     Execution halted
+    ```
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘tidymodels’ ‘tidyverse’
+      All declared Imports should be used.
     ```
 
