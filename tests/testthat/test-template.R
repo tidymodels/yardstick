@@ -899,23 +899,18 @@ test_that("curve_metric_summarizer()'s na_rm argument work", {
 
   expect_identical(roc_curve_res, roc_curve_exp)
 
-  roc_curve_res <- curve_metric_summarizer(
-    name = "roc_curve",
-    fn = roc_curve_vec,
-    data = hpc_f1_na,
-    truth = obs,
-    VF:L,
-    na_rm = FALSE,
-    case_weights = NULL
+  expect_snapshot(
+    error = TRUE,
+    curve_metric_summarizer(
+      name = "roc_curve",
+      fn = roc_curve_vec,
+      data = hpc_f1_na,
+      truth = obs,
+      VF:L,
+      na_rm = FALSE,
+      case_weights = NULL
+    )
   )
-
-  roc_curve_exp <- dplyr::tibble(
-    .metric = "roc_curve",
-    .estimator = "multiclass",
-    .estimate = na_dbl
-  )
-
-  expect_identical(roc_curve_res, roc_curve_exp)
 })
 
 test_that("curve_metric_summarizer()'s case_weights argument work", {
@@ -1613,23 +1608,18 @@ test_that("curve_survival_metric_summarizer()'s na_rm argument works", {
 
   expect_identical(roc_curve_survival_res, roc_curve_survival_exp)
 
-  roc_curve_survival_res <- curve_survival_metric_summarizer(
-    name = "roc_curve_survival",
-    fn = roc_curve_survival_vec,
-    data = lung_surv,
-    truth = surv_obj,
-    .pred,
-    na_rm = FALSE,
-    case_weights = NULL
+  expect_snapshot(
+    error = TRUE,
+    curve_survival_metric_summarizer(
+      name = "roc_curve_survival",
+      fn = roc_curve_survival_vec,
+      data = lung_surv,
+      truth = surv_obj,
+      .pred,
+      na_rm = FALSE,
+      case_weights = NULL
+    )
   )
-
-  roc_curve_survival_exp <- dplyr::tibble(
-    .metric = "roc_curve_survival",
-    .estimator = "standard",
-    .estimate = na_dbl
-  )
-
-  expect_identical(roc_curve_survival_res, roc_curve_survival_exp)
 })
 
 test_that("curve_survival_metric_summarizer()'s case_weights argument works", {

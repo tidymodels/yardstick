@@ -100,6 +100,16 @@
       x This metric doesn't use the `estimate` argument.
       i Specify the columns without `estimate = `.
 
+# curve_metric_summarizer()'s na_rm argument work
+
+    Code
+      curve_metric_summarizer(name = "roc_curve", fn = roc_curve_vec, data = hpc_f1_na,
+        truth = obs, VF:L, na_rm = FALSE, case_weights = NULL)
+    Condition
+      Error:
+      x Missing values were detected and `na_ra = FALSE`.
+      i Not able to perform calculations.
+
 # curve_metric_summarizer()'s errors when wrong things are passes
 
     Code
@@ -206,6 +216,16 @@
       ! `...` must be empty.
       x Problematic argument:
       * obviouslywrong = TRUE
+
+# curve_survival_metric_summarizer()'s na_rm argument works
+
+    Code
+      curve_survival_metric_summarizer(name = "roc_curve_survival", fn = roc_curve_survival_vec,
+        data = lung_surv, truth = surv_obj, .pred, na_rm = FALSE, case_weights = NULL)
+    Condition
+      Error:
+      x Missing values were detected and `na_ra = FALSE`.
+      i Not able to perform calculations.
 
 # curve_survival_metric_summarizer()'s errors with bad input
 

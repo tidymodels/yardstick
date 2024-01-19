@@ -111,7 +111,10 @@ roc_curve_vec <- function(truth,
     estimate <- result$estimate
     case_weights <- result$case_weights
   } else if (yardstick_any_missing(truth, estimate, case_weights)) {
-    return(NA_real_)
+    cli::cli_abort(c(
+      x = "Missing values were detected and {.code na_ra = FALSE}.",
+      i = "Not able to perform calculations."
+    ))
   }
 
   # estimate here is a matrix of class prob columns

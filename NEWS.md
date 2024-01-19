@@ -26,6 +26,8 @@ calculated with `roc_auc_survival()`.
 
 * Metrics now throw more informative error if `estimate` argument is wrongly used. (#443)
 
+* Curve metrics now throw an informative error instead of returning `NA` when missing values are found and `na_rm = FALSE`. (#344)
+
 # yardstick 1.2.0
 
 ## New Metrics
