@@ -1,3 +1,12 @@
+## Submission 1.3.0
+
+Final additions to make survival metrics possible.
+
+We checked 36 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 0 packages
+
 ## Submission 1.2.0
 
 Major refactor done to allow new types of metrics to be used.
