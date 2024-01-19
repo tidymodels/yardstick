@@ -24,6 +24,8 @@ calculated with `roc_auc_survival()`.
 
 * Clarifying documentation about how `event_level` always default to `"first`. (#432)
 
+* Metrics now throw more informative error if `estimate` argument is wrongly used. (#443)
+
 # yardstick 1.2.0
 
 ## New Metrics

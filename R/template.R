@@ -802,6 +802,16 @@ yardstick_eval_select_dots <- function(...,
       return(get_known_selection(expr_label))
     }
   }
+  
+  if ("estimate" %in% names(match.call(expand.dots = FALSE)$...)) {
+    cli::cli_abort(
+      c(
+        x = "This metric doesn't use the {.arg estimate} argument.",
+        i = "Specify the columns without {.code estimate = }."
+      ),
+      call = error_call
+    )
+  }
 
   out <- tidyselect::eval_select(
     expr = expr(c(...)),
