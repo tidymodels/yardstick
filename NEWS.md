@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+## New Metrics
+
 * The Brier score for survival data was added with `brier_survival()`.
 
 * The Integrated Brier score for survival data was added with `brier_survival_integrated()`.
@@ -12,9 +14,11 @@ calculated with `roc_curve_survival()`.
 * Time-Dependent ROC AUC estimation for right-censored data can now be
 calculated with `roc_auc_survival()`.
 
-* `metric_set()` can now be used with a combination of dynamic and static survival metrics.
+## Improvements
 
 * `demographic_parity()`, `equalized_odds()`, and `equal_opportunity()` are new metrics for measuring model fairness. Each is implemented with the `new_groupwise_metric()` constructor, a general interface for defining group-aware metrics that allows for quickly and flexibly defining fairness metrics with the problem context in mind.
+
+* `metric_set()` can now be used with a combination of dynamic and static survival metrics.
 
 * Added a print method for metrics and metric sets (#435).
 
@@ -24,7 +28,11 @@ calculated with `roc_auc_survival()`.
 
 * Clarifying documentation about how `event_level` always default to `"first`. (#432)
 
+## Bug Fixes
+
 * Metrics now throw more informative error if `estimate` argument is wrongly used. (#443)
+
+## Breaking Changes
 
 * Curve metrics now throw an informative error instead of returning `NA` when missing values are found and `na_rm = FALSE`. (#344)
 
