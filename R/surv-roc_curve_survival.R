@@ -118,13 +118,11 @@ roc_curve_survival_vec <- function(truth,
     truth <- result$truth
     estimate <- estimate[result$estimate]
     case_weights <- result$case_weights
-  } else {
-    any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights
-    )
-    if (any_missing) {
-      return(NA_real_)
-    }
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    cli::cli_abort(c(
+      x = "Missing values were detected and {.code na_ra = FALSE}.",
+      i = "Not able to perform calculations."
+    ))
   }
 
   roc_curve_survival_impl(
