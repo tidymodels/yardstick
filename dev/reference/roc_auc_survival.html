@@ -89,7 +89,7 @@ should be a list column of data.frames corresponding to the output given when
 predicting with censored model. This should be an unquoted column name
 although this argument is passed by expression and supports
 <a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
-<code>_vec()</code> functions, a numeric vector. See Details below.</p></dd>
+<code>_vec()</code> functions, the dots are not used.</p></dd>
 
 
 <dt>truth</dt>
@@ -113,10 +113,9 @@ in <code>data</code>. For <code>_vec()</code> functions, a numeric vector,
 
 
 <dt>estimate</dt>
-<dd><p>If <code>truth</code> is binary, a numeric vector of class probabilities
-corresponding to the "relevant" class. Otherwise, a matrix with as many
-columns as factor levels of <code>truth</code>. <em>It is assumed that these are in the
-same order as the levels of <code>truth</code>.</em></p></dd>
+<dd><p>A list column of data.frames corresponding to the output
+given when predicting with censored model. See the details for more
+information regarding format.</p></dd>
 
 </dl></div>
     <div class="section level2">
