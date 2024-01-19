@@ -21,7 +21,7 @@ should be a list column of data.frames corresponding to the output given when
 predicting with {censored} model. This should be an unquoted column name
 although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
-\verb{_vec()} functions, a numeric vector. See Details below.}
+\verb{_vec()} functions, the dots are not used.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
@@ -37,10 +37,9 @@ This should be an unquoted column name that evaluates to a numeric column
 in \code{data}. For \verb{_vec()} functions, a numeric vector,
 \code{\link[hardhat:importance_weights]{hardhat::importance_weights()}}, or \code{\link[hardhat:frequency_weights]{hardhat::frequency_weights()}}.}
 
-\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
-corresponding to the "relevant" class. Otherwise, a matrix with as many
-columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
-same order as the levels of \code{truth}.}}
+\item{estimate}{A list column of data.frames corresponding to the output
+given when predicting with {censored} model. See the details for more
+information regarding format.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator}, and \code{.estimate}.
