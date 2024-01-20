@@ -4,7 +4,7 @@
 <!-- badges: start -->
 
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/main.svg)](https://codecov.io/github/tidymodels/yardstick?branch=main)
+Status](https://img.shields.io/codecov/c/github/tidymodels/yardstick/main.svg)](https://app.codecov.io/github/tidymodels/yardstick?branch=main)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![Downloads](https://cranlogs.r-pkg.org/badges/yardstick)](https://CRAN.R-project.org/package=yardstick)
 [![R-CMD-check](https://github.com/tidymodels/yardstick/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/yardstick/actions/workflows/R-CMD-check.yaml)
