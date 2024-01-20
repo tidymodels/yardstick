@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">yardstick</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,20 +60,35 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="yardstick-development-version">yardstick (development version)<a class="anchor" aria-label="anchor" href="#yardstick-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.0" id="yardstick-130">yardstick 1.3.0<a class="anchor" aria-label="anchor" href="#yardstick-130"></a></h2><p class="text-muted">CRAN release: 2024-01-19</p>
+<div class="section level3">
+<h3 id="new-metrics-1-3-0">New Metrics<a class="anchor" aria-label="anchor" href="#new-metrics-1-3-0"></a></h3>
 <ul><li><p>The Brier score for survival data was added with <code><a href="../reference/brier_survival.html">brier_survival()</a></code>.</p></li>
 <li><p>The Integrated Brier score for survival data was added with <code><a href="../reference/brier_survival_integrated.html">brier_survival_integrated()</a></code>.</p></li>
 <li><p>The Concordance index for survival data was added with <code><a href="../reference/concordance_survival.html">concordance_survival()</a></code>.</p></li>
 <li><p>Time-Dependent ROC curves estimation for right-censored data can now be calculated with <code><a href="../reference/roc_curve_survival.html">roc_curve_survival()</a></code>.</p></li>
 <li><p>Time-Dependent ROC AUC estimation for right-censored data can now be calculated with <code><a href="../reference/roc_auc_survival.html">roc_auc_survival()</a></code>.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="improvements-1-3-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-1-3-0"></a></h3>
+<ul><li><p><code><a href="../reference/demographic_parity.html">demographic_parity()</a></code>, <code><a href="../reference/equalized_odds.html">equalized_odds()</a></code>, and <code><a href="../reference/equal_opportunity.html">equal_opportunity()</a></code> are new metrics for measuring model fairness. Each is implemented with the <code><a href="../reference/new_groupwise_metric.html">new_groupwise_metric()</a></code> constructor, a general interface for defining group-aware metrics that allows for quickly and flexibly defining fairness metrics with the problem context in mind.</p></li>
 <li><p><code><a href="../reference/metric_set.html">metric_set()</a></code> can now be used with a combination of dynamic and static survival metrics.</p></li>
-<li><p><code><a href="../reference/demographic_parity.html">demographic_parity()</a></code>, <code><a href="../reference/equalized_odds.html">equalized_odds()</a></code>, and <code><a href="../reference/equal_opportunity.html">equal_opportunity()</a></code> are new metrics for measuring model fairness. Each is implemented with the <code><a href="../reference/new_groupwise_metric.html">new_groupwise_metric()</a></code> constructor, a general interface for defining group-aware metrics that allows for quickly and flexibly defining fairness metrics with the problem context in mind.</p></li>
 <li><p>Added a print method for metrics and metric sets (<a href="https://github.com/tidymodels/yardstick/issues/435" class="external-link">#435</a>).</p></li>
 <li><p>All warnings and errors have been updated to use the cli package for increased clarity and consistency. (<a href="https://github.com/tidymodels/yardstick/issues/456" class="external-link">#456</a>, <a href="https://github.com/tidymodels/yardstick/issues/457" class="external-link">#457</a>, <a href="https://github.com/tidymodels/yardstick/issues/458" class="external-link">#458</a>)</p></li>
 <li><p><code><a href="../reference/brier_survival_integrated.html">brier_survival_integrated()</a></code> now throws an error if input data only includes 1 evalution time point. (<a href="https://github.com/tidymodels/yardstick/issues/460" class="external-link">#460</a>)</p></li>
 <li><p>Clarifying documentation about how <code>event_level</code> always default to <code>"first</code>. (<a href="https://github.com/tidymodels/yardstick/issues/432" class="external-link">#432</a>)</p></li>
-<li><p>Metrics now throw more informative error if <code>estimate</code> argument is wrongly used. (<a href="https://github.com/tidymodels/yardstick/issues/443" class="external-link">#443</a>)</p></li>
-<li><p>Curve metrics now throw an informative error instead of returning <code>NA</code> when missing values are found and <code>na_rm = FALSE</code>. (<a href="https://github.com/tidymodels/yardstick/issues/344" class="external-link">#344</a>)</p></li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-3-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-0"></a></h3>
+<ul><li>Metrics now throw more informative error if <code>estimate</code> argument is wrongly used. (<a href="https://github.com/tidymodels/yardstick/issues/443" class="external-link">#443</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="breaking-changes-1-3-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-3-0"></a></h3>
+<ul><li>Curve metrics now throw an informative error instead of returning <code>NA</code> when missing values are found and <code>na_rm = FALSE</code>. (<a href="https://github.com/tidymodels/yardstick/issues/344" class="external-link">#344</a>)</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="yardstick-120">yardstick 1.2.0<a class="anchor" aria-label="anchor" href="#yardstick-120"></a></h2><p class="text-muted">CRAN release: 2023-04-21</p>
 <div class="section level3">
@@ -145,7 +160,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.7" id="yardstick-007">yardstick 0.0.7<a class="anchor" aria-label="anchor" href="#yardstick-007"></a></h2><p class="text-muted">CRAN release: 2020-07-13</p>
 <ul><li>
-<p>The global option, <code>yardstick.event_first</code>, has been deprecated in favor of the new explicit argument, <code>event_level</code>. All metric functions that previously supported changing the “event” level have gained this new argument. The global option was a historical design decision that can be classified as a case of a <a href="https://design.tidyverse.org/args-hidden.html#args-hidden" class="external-link">hidden argument</a>. Existing code that relied on this global option will continue to work in this version of yardstick, however you will now get a once-per-session warning that requests that you update to instead use the explicit <code>event_level</code> argument. The global option will be completely removed in a future version. To update, follow the guide below (<a href="https://github.com/tidymodels/yardstick/issues/163" class="external-link">#163</a>).</p>
+<p>The global option, <code>yardstick.event_first</code>, has been deprecated in favor of the new explicit argument, <code>event_level</code>. All metric functions that previously supported changing the “event” level have gained this new argument. The global option was a historical design decision that can be classified as a case of a hidden argument. Existing code that relied on this global option will continue to work in this version of yardstick, however you will now get a once-per-session warning that requests that you update to instead use the explicit <code>event_level</code> argument. The global option will be completely removed in a future version. To update, follow the guide below (<a href="https://github.com/tidymodels/yardstick/issues/163" class="external-link">#163</a>).</p>
 <pre><code>`options(yardstick.event_first = TRUE)`  -&gt; `event_level = "first"` (the default)
 `options(yardstick.event_first = FALSE)` -&gt; `event_level = "second"`</code></pre>
 </li>

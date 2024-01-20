@@ -12,7 +12,7 @@ overall calculation of model performance for all values of .eval_time."><meta pr
     
     <a class="navbar-brand me-2" href="../index.html">yardstick</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.3.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,10 +92,10 @@ overall calculation of model performance for all values of <code>.eval_time</cod
 <dt>...</dt>
 <dd><p>The column identifier for the survival probabilities this
 should be a list column of data.frames corresponding to the output given when
-predicting with censored model. This should be an unquoted column name
-although this argument is passed by expression and supports
-<a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can unquote column names). For
-<code>_vec()</code> functions, the dots are not used.</p></dd>
+predicting with <a href="https://censored.tidymodels.org/" class="external-link">censored</a> model. This
+should be an unquoted column name although this argument is passed by
+expression and supports <a href="https://rlang.r-lib.org/reference/topic-inject.html" class="external-link">quasiquotation</a> (you can
+unquote column names). For <code>_vec()</code> functions, the dots are not used.</p></dd>
 
 
 <dt>truth</dt>
@@ -120,8 +120,8 @@ in <code>data</code>. For <code>_vec()</code> functions, a numeric vector,
 
 <dt>estimate</dt>
 <dd><p>A list column of data.frames corresponding to the output
-given when predicting with censored model. See the details for more
-information regarding format.</p></dd>
+given when predicting with <a href="https://censored.tidymodels.org/" class="external-link">censored</a>
+model. See the details for more information regarding format.</p></dd>
 
 </dl></div>
     <div class="section level2">
