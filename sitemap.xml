@@ -19,6 +19,9 @@
     <loc>https://yardstick.tidymodels.org/MAINTENANCE.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/articles/grouping.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/articles/index.html</loc>
   </url>
   <url>
@@ -70,10 +73,19 @@
     <loc>https://yardstick.tidymodels.org/reference/conf_mat.html</loc>
   </url>
   <url>
+    <loc>https://yardstick.tidymodels.org/reference/demographic_parity.html</loc>
+  </url>
+  <url>
     <loc>https://yardstick.tidymodels.org/reference/detection_prevalence.html</loc>
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/developer-helpers.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/equal_opportunity.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/equalized_odds.html</loc>
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/f_meas.html</loc>
@@ -152,6 +164,9 @@
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/new-metric.html</loc>
+  </url>
+  <url>
+    <loc>https://yardstick.tidymodels.org/reference/new_groupwise_metric.html</loc>
   </url>
   <url>
     <loc>https://yardstick.tidymodels.org/reference/npv.html</loc>
