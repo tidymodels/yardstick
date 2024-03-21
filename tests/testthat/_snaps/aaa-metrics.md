@@ -152,6 +152,6 @@
       Error in `metric_set()`:
       ! Failed to compute `accuracy()`.
       Caused by error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `weight` doesn't exist.
 

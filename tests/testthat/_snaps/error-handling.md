@@ -4,7 +4,7 @@
       sens(pathology, truth = "patholosgy", estimate = "scan")
     Condition
       Error in `sens()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `patholosgy` doesn't exist.
 
 # `truth` should be factor
@@ -29,7 +29,7 @@
       sens(pathology, "a", scan)
     Condition
       Error in `sens()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `a` doesn't exist.
 
 # Bad unquoted input is caught
@@ -38,7 +38,7 @@
       sens(pathology, !!bad, scan)
     Condition
       Error in `sens()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `a` doesn't exist.
 
 # Non-allowed estimator

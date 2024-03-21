@@ -5,7 +5,7 @@
         estimate = disp)
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `not_a_real_column_name` doesn't exist.
 
 ---
@@ -15,7 +15,7 @@
         estimate = not_a_real_column_name)
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `not_a_real_column_name` doesn't exist.
 
 ---
@@ -36,7 +36,7 @@
         truth = not_a_real_column_name, estimate = pred)
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `not_a_real_column_name` doesn't exist.
 
 ---
@@ -46,7 +46,7 @@
         truth = obs, estimate = not_a_real_column_name)
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `not_a_real_column_name` doesn't exist.
 
 ---
@@ -67,7 +67,7 @@
         truth = obs, c(HELLO, F, M, L))
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `HELLO` doesn't exist.
 
 ---
@@ -77,7 +77,7 @@
         truth = obviouslywrong, VF:L)
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `obviouslywrong` doesn't exist.
 
 ---
@@ -87,7 +87,7 @@
         truth = obs, VF:L, obviouslywrong = TRUE)
     Condition
       Error:
-      ! Can't subset columns with `TRUE`.
+      ! Can't select columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
 ---
@@ -117,7 +117,7 @@
         truth = obs, c(HELLO, F, M, L))
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `HELLO` doesn't exist.
 
 ---
@@ -127,7 +127,7 @@
         truth = obviouslywrong, VF:L)
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `obviouslywrong` doesn't exist.
 
 ---
@@ -137,7 +137,7 @@
         truth = obs, VF:L, obviouslywrong = TRUE)
     Condition
       Error:
-      ! Can't subset columns with `TRUE`.
+      ! Can't select columns with `TRUE`.
       x `TRUE` must be numeric or character, not `TRUE`.
 
 ---
@@ -185,7 +185,7 @@
         data = lung_surv, truth = inst, estimate = .pred_time)
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `inst` doesn't exist.
 
 ---
