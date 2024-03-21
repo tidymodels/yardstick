@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* Bug was fixed in `roc_curve_survival()` where wrong weights were used. (#495, @asb2111).
+
 # yardstick 1.3.0
 
 ## New Metrics
