@@ -19,9 +19,9 @@ test_that("roc_curve_survival works", {
     exp_threshold <- tidyr::unnest(lung_surv, cols = .pred)
     exp_threshold <- dplyr::filter(exp_threshold, .eval_time == eval_time)
     exp_threshold <- exp_threshold$.pred_survival
-    exp_threshold <- sort(exp_threshold)
+    exp_threshold <- sort(exp_threshold, decreasing = TRUE)
     exp_threshold <- unique(exp_threshold)
-    exp_threshold <- c(-Inf, exp_threshold, Inf)
+    exp_threshold <- c(Inf, exp_threshold, -Inf)
     expect_identical(
       result_tmp$.threshold,
       exp_threshold
@@ -101,29 +101,43 @@ test_that("hand calculated equivalent", {
     dplyr::filter(.eval_time == my_eval_time)
 
   thresholds <- sort(lung_surv0$.pred_survival)
-  thresholds <- thresholds[c(1, 10, 100, 200, nrow(lung_surv0))]
 
   # Sensitivity
   calc_sensitivity <- function(threshold, data, eval_time) {
+    delta <- .extract_surv_status(data$surv_obj)
+    event_time <- .extract_surv_time(data$surv_obj)
+    res <- dplyr::tibble(.threshold = sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE))
+  
+    obs_time_le_time <- event_time <= data$.eval_time
+    obs_time_gt_time <- event_time > data$.eval_time
     n <- nrow(data)
-    event_time <- yardstick:::.extract_surv_time(data$surv_obj)
-    delta <- yardstick:::.extract_surv_status(data$surv_obj)
-    obs_time_le_time <- event_time <= eval_time
-    prob_le_thresh <- data$.pred_survival <= threshold
-
-    multiplier <- delta / (n * data$.weight_censored)
-    numer <- sum(obs_time_le_time * prob_le_thresh * multiplier, na.rm = TRUE)
-    denom <- sum(obs_time_le_time * multiplier, na.rm = TRUE)
-    numer / denom
+    
+    sensitivity_denom <- sum(obs_time_le_time * delta * data$.weight_censored, na.rm = TRUE)
+    
+    data_df <- data.frame(
+      le_time = obs_time_le_time,
+      delta = delta,
+      weight_censored = data$.weight_censored
+    )
+    
+    data_split <- vec_split(data_df, data$.pred_survival)
+    data_split <- data_split$val[order(data_split$key)]
+    
+    sensitivity <- vapply(
+      data_split,
+      function(x) sum(x$le_time * x$delta * x$weight_censored, na.rm = TRUE),
+      FUN.VALUE = numeric(1)
+    )
+    
+    sensitivity <- cumsum(sensitivity)
+    sensitivity <- sensitivity / sensitivity_denom
+    sensitivity <- dplyr::if_else(sensitivity > 1, 1, sensitivity)
+    sensitivity <- dplyr::if_else(sensitivity < 0, 0, sensitivity)
+    sensitivity <- c(0, sensitivity, 1)
+    sensitivity
   }
 
-  exp_sens <- vapply(
-    thresholds,
-    calc_sensitivity,
-    data = lung_surv0,
-    eval_time = my_eval_time,
-    FUN.VALUE = numeric(1)
-  )
+  exp_sens <- calc_sensitivity(thresholds, lung_surv0, my_eval_time)
 
   yardstick_res <- lung_surv %>%
     dplyr::slice(-14) %>%
@@ -131,7 +145,7 @@ test_that("hand calculated equivalent", {
       truth = surv_obj,
       .pred
     ) %>%
-    dplyr::filter(.threshold %in% thresholds)
+    dplyr::filter(.eval_time == my_eval_time)
 
   expect_equal(
     yardstick_res$sensitivity,
@@ -141,21 +155,37 @@ test_that("hand calculated equivalent", {
   # specificity
   calc_specificity <- function(threshold, data, eval_time) {
     event_time <- yardstick:::.extract_surv_time(data$surv_obj)
-    delta <- yardstick:::.extract_surv_status(data$surv_obj)
-    obs_time_gt_time <- event_time > eval_time
-    prob_le_thresh <- data$.pred_survival > threshold
-    numer <- sum(obs_time_gt_time * prob_le_thresh, na.rm = TRUE)
-    denom <- sum(obs_time_gt_time, na.rm = TRUE)
-    numer / denom
+
+    res <- dplyr::tibble(.threshold = sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE))
+  
+    obs_time_gt_time <- event_time > data$.eval_time
+    n <- nrow(data)
+    
+    specificity_denom <- sum(obs_time_gt_time * data$.weight_censored, na.rm = TRUE)
+    
+    data_df <- data.frame(
+      ge_time = obs_time_gt_time,
+      weight_censored = data$.weight_censored
+    )
+    
+    data_split <- vec_split(data_df, data$.pred_survival)
+    data_split <- data_split$val[order(data_split$key)]
+
+    specificity <- vapply(
+      data_split,
+      function(x) sum(x$ge_time * x$weight_censored, na.rm = TRUE),
+      FUN.VALUE = numeric(1)
+    )
+    specificity <- cumsum(specificity)
+    specificity <- specificity / specificity_denom
+    specificity <- dplyr::if_else(specificity > 1, 1, specificity)
+    specificity <- dplyr::if_else(specificity < 0, 0, specificity)
+    specificity <- c(0, specificity, 1)
+    specificity <- 1 - specificity
+    specificity
   }
 
-  exp_spec <- vapply(
-    thresholds,
-    calc_specificity,
-    data = lung_surv0,
-    eval_time = my_eval_time,
-    FUN.VALUE = numeric(1)
-  )
+  exp_spec <- calc_specificity(thresholds, lung_surv0, my_eval_time)
 
   yardstick_res <- lung_surv %>%
     dplyr::slice(-14) %>%
@@ -163,7 +193,7 @@ test_that("hand calculated equivalent", {
       truth = surv_obj,
       .pred
     ) %>%
-    dplyr::filter(.threshold %in% thresholds)
+    dplyr::filter(.eval_time == my_eval_time)
 
   expect_equal(
     yardstick_res$specificity,
