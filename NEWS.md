@@ -1,4 +1,4 @@
-# yardstick (development version)
+# yardstick 1.3.1
 
 ## Bug Fixes
 
