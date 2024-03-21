@@ -7,7 +7,7 @@ test_that("roc_curve_survival works", {
 
   expect_identical(
     names(result),
-    c(".threshold", "sensitivity", "specificity", ".eval_time")
+    c(".threshold", "specificity", "sensitivity", ".eval_time")
   )
 
   .eval_times <- unique(result$.eval_time)
