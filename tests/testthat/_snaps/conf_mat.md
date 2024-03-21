@@ -97,7 +97,7 @@
       conf_mat(two_class_example, not_truth, predicted)
     Condition
       Error in `conf_mat()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `not_truth` doesn't exist.
 
 ---
@@ -106,7 +106,7 @@
       conf_mat(two_class_example, truth, not_predicted)
     Condition
       Error in `conf_mat()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `not_predicted` doesn't exist.
 
 ---
@@ -116,7 +116,7 @@
       estimate = predicted)
     Condition
       Error in `conf_mat()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `not_truth` doesn't exist.
 
 ---
@@ -125,6 +125,6 @@
       conf_mat(dplyr::group_by(two_class_example, truth), truth = truth, estimate = not_predicted)
     Condition
       Error in `conf_mat()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `not_predicted` doesn't exist.
 
