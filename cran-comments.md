@@ -1,3 +1,11 @@
+## Submission 1.3.1
+
+We checked 37 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 0 packages
+
+
 ## Submission 1.3.0
 
 Final additions to make survival metrics possible.

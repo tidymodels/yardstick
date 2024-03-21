@@ -1,5 +1,9 @@
 # yardstick (development version)
 
+# yardstick 1.3.1
+
+## Bug Fixes
+
 * Bug was fixed in `roc_curve_survival()` where wrong weights were used. (#495, @asb2111).
 
 * Output of `roc_curve_survival()` now returns columns in same order as `roc_curve()`. (#498)
