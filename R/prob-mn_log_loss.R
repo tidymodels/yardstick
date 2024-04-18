@@ -11,7 +11,7 @@
 #' probabilities of `.6` and `.9` where both are classified as predicting
 #' a positive value, say, `"Yes"`, the accuracy metric would interpret them
 #' as having the same value. If the true output is `"Yes"`, log loss penalizes
-#' `.6` because it is "less sure" of it's result compared to the probability
+#' `.6` because it is "less sure" of its result compared to the probability
 #' of `.9`.
 #'
 #' @family class probability metrics
