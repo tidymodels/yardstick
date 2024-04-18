@@ -26,7 +26,7 @@ Examples sections for example uses.}
 }
 \value{
 This function is a
-\href{https://adv-r.hadley.nz/function-factories.html}{function factory}; it's
+\href{https://adv-r.hadley.nz/function-factories.html}{function factory}; its
 output is itself a function. Further, the functions that this function
 outputs are also function factories. More explicitly, this looks like:
 
