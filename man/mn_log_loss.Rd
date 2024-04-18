@@ -88,7 +88,7 @@ detailed view into the actual performance. For example, given two input
 probabilities of \code{.6} and \code{.9} where both are classified as predicting
 a positive value, say, \code{"Yes"}, the accuracy metric would interpret them
 as having the same value. If the true output is \code{"Yes"}, log loss penalizes
-\code{.6} because it is "less sure" of it's result compared to the probability
+\code{.6} because it is "less sure" of its result compared to the probability
 of \code{.9}.
 }
 \section{Multiclass}{
