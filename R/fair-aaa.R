@@ -39,7 +39,7 @@
 #'
 #' @return
 #' This function is a
-#' [function factory](https://adv-r.hadley.nz/function-factories.html); it's
+#' [function factory](https://adv-r.hadley.nz/function-factories.html); its
 #' output is itself a function. Further, the functions that this function
 #' outputs are also function factories. More explicitly, this looks like:
 #'
