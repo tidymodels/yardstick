@@ -342,7 +342,7 @@ flatten <- function(xtab, call = caller_env()) {
 #'
 #' [conf_mat()]
 #'
-#' @examples
+#' @examplesIf rlang::is_installed(c("tidyr"))
 #' data("two_class_example")
 #'
 #' cmat <- conf_mat(two_class_example, truth = "truth", estimate = "predicted")

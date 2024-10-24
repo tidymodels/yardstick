@@ -79,6 +79,7 @@ This method automatically groups by the \code{.eval_time} argument.
 Larger values of the score are associated with better model performance.
 }
 \examples{
+\dontshow{if (rlang::is_installed(c("tidyr"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(dplyr)
 
 lung_surv \%>\%
@@ -86,6 +87,7 @@ lung_surv \%>\%
     truth = surv_obj,
     .pred
   )
+\dontshow{\}) # examplesIf}
 }
 \references{
 Blanche, P., Dartigues, J.-F. and Jacqmin-Gadda, H. (2013), Review and
