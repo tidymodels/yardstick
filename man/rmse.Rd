@@ -84,8 +84,8 @@ metric_results \%>\%
 \seealso{
 Other numeric metrics: 
 \code{\link{ccc}()},
-\code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},
+\code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
 \code{\link{mae}()},
 \code{\link{mape}()},
@@ -95,14 +95,14 @@ Other numeric metrics:
 \code{\link{poisson_log_loss}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
-\code{\link{rsq_trad}()},
 \code{\link{rsq}()},
+\code{\link{rsq_trad}()},
 \code{\link{smape}()}
 
 Other accuracy metrics: 
 \code{\link{ccc}()},
-\code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},
+\code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
 \code{\link{mae}()},
 \code{\link{mape}()},

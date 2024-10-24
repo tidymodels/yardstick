@@ -36,7 +36,7 @@
 #'
 #' @template examples-binary-prob
 #' @template examples-multiclass-prob
-#' @examples
+#' @examplesIf rlang::is_installed(c("ggplot2"))
 #' # ---------------------------------------------------------------------------
 #' # Visualize gain_capture()
 #'

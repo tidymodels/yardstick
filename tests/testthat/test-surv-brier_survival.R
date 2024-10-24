@@ -1,4 +1,6 @@
 test_that("case weights", {
+  skip_if_not_installed("tidyr")
+
   lung_surv <- data_lung_surv()
 
   brier_res <- brier_survival(
@@ -14,6 +16,8 @@ test_that("case weights", {
 })
 
 test_that("case weights", {
+  skip_if_not_installed("tidyr")
+
   lung_surv <- data_lung_surv()
   lung_surv$case_wts <- rep(2, nrow(lung_surv))
 
@@ -37,6 +41,8 @@ test_that("case weights", {
 })
 
 test_that("works with hardhat case weights", {
+  skip_if_not_installed("tidyr")
+
   lung_surv <- data_lung_surv()
   lung_surv$case_wts <- rep(2, nrow(lung_surv))
 
@@ -57,6 +63,8 @@ test_that("works with hardhat case weights", {
 # riskRegression compare -------------------------------------------------------
 
 test_that("riskRegression equivalent", {
+  skip_if_not_installed("tidyr")
+
   riskRegression_res <- readRDS(test_path("data/brier_churn_res.rds"))
 
   yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%

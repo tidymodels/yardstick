@@ -175,6 +175,7 @@ gain_capture_vec(
    )
 )
 
+\dontshow{if (rlang::is_installed(c("ggplot2"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # ---------------------------------------------------------------------------
 # Visualize gain_capture()
 
@@ -182,7 +183,7 @@ gain_capture_vec(
 # 45 degree line, divided by the area of the shaded triangle.
 library(ggplot2)
 autoplot(gain_curve(two_class_example, truth, Class1))
-
+\dontshow{\}) # examplesIf}
 }
 \references{
 Engelmann, Bernd & Hayden, Evelyn & Tasche, Dirk (2003).

@@ -139,6 +139,7 @@ test_that("can mix class and class prob metrics together", {
 })
 
 test_that("dynamic survival metric sets", {
+  skip_if_not_installed("tidyr")
   my_set <- metric_set(brier_survival)
 
   expect_equal(
@@ -148,6 +149,7 @@ test_that("dynamic survival metric sets", {
 })
 
 test_that("can mix dynamic and static survival metric together", {
+  skip_if_not_installed("tidyr")
   expect_no_error(
     mixed_set <- metric_set(brier_survival, concordance_survival)
   )
@@ -157,6 +159,8 @@ test_that("can mix dynamic and static survival metric together", {
 })
 
 test_that("can mix dynamic and static survival metric together", {
+  skip_if_not_installed("tidyr")
+
   expect_no_error(
     mixed_set <- metric_set(
       brier_survival,
@@ -417,6 +421,8 @@ test_that("propagates 'caused by' error message when specifying the wrong column
 })
 
 test_that("metric_tweak and metric_set plays nicely together (#351)", {
+  skip_if_not_installed("tidyr")
+
   # Classification
   multi_ex <- data_three_by_three()
 

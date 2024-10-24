@@ -1,4 +1,6 @@
 test_that("roc_curve_survival works", {
+  skip_if_not_installed("tidyr")
+
   result <- roc_curve_survival(
     lung_surv,
     truth = surv_obj,
@@ -40,6 +42,8 @@ test_that("roc_curve_survival works", {
 # case weights -----------------------------------------------------------------
 
 test_that("case weights are applied", {
+  skip_if_not_installed("tidyr")
+
   wts_res <- lung_surv %>%
     dplyr::mutate(wts = hardhat::frequency_weights(rep(1:0, c(128, 100)))) %>%
     roc_curve_survival(
@@ -61,6 +65,8 @@ test_that("case weights are applied", {
 # self checking ----------------------------------------------------------------
 
 test_that("snapshot equivalent", {
+  skip_if_not_installed("tidyr")
+
   snapshot_res <- readRDS(test_path("data/ref_roc_curve_survival.rds"))
 
   yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
@@ -93,6 +99,8 @@ test_that("snapshot equivalent", {
 # Manual checking --------------------------------------------------------------
 
 test_that("hand calculated equivalent", {
+  skip_if_not_installed("tidyr")
+
   my_eval_time <- 300
 
   lung_surv0 <- lung_surv %>%
@@ -107,28 +115,28 @@ test_that("hand calculated equivalent", {
     delta <- .extract_surv_status(data$surv_obj)
     event_time <- .extract_surv_time(data$surv_obj)
     res <- dplyr::tibble(.threshold = sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE))
-  
+
     obs_time_le_time <- event_time <= data$.eval_time
     obs_time_gt_time <- event_time > data$.eval_time
     n <- nrow(data)
-    
+
     sensitivity_denom <- sum(obs_time_le_time * delta * data$.weight_censored, na.rm = TRUE)
-    
+
     data_df <- data.frame(
       le_time = obs_time_le_time,
       delta = delta,
       weight_censored = data$.weight_censored
     )
-    
+
     data_split <- vec_split(data_df, data$.pred_survival)
     data_split <- data_split$val[order(data_split$key)]
-    
+
     sensitivity <- vapply(
       data_split,
       function(x) sum(x$le_time * x$delta * x$weight_censored, na.rm = TRUE),
       FUN.VALUE = numeric(1)
     )
-    
+
     sensitivity <- cumsum(sensitivity)
     sensitivity <- sensitivity / sensitivity_denom
     sensitivity <- dplyr::if_else(sensitivity > 1, 1, sensitivity)
@@ -157,17 +165,17 @@ test_that("hand calculated equivalent", {
     event_time <- yardstick:::.extract_surv_time(data$surv_obj)
 
     res <- dplyr::tibble(.threshold = sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE))
-  
+
     obs_time_gt_time <- event_time > data$.eval_time
     n <- nrow(data)
-    
+
     specificity_denom <- sum(obs_time_gt_time * data$.weight_censored, na.rm = TRUE)
-    
+
     data_df <- data.frame(
       ge_time = obs_time_gt_time,
       weight_censored = data$.weight_censored
     )
-    
+
     data_split <- vec_split(data_df, data$.pred_survival)
     data_split <- data_split$val[order(data_split$key)]
 

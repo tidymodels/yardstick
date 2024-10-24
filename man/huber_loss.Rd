@@ -118,8 +118,8 @@ Other numeric metrics:
 \code{\link{rmse}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
-\code{\link{rsq_trad}()},
 \code{\link{rsq}()},
+\code{\link{rsq_trad}()},
 \code{\link{smape}()}
 
 Other accuracy metrics: 

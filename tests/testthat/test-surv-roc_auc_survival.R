@@ -1,4 +1,6 @@
 test_that("roc_curve_auc() calculations", {
+  skip_if_not_installed("tidyr")
+
   survival_curve <- roc_curve_survival(
     lung_surv,
     truth = surv_obj,
@@ -24,6 +26,8 @@ test_that("roc_curve_auc() calculations", {
 # case weights -----------------------------------------------------------------
 
 test_that("case weights are applied", {
+  skip_if_not_installed("tidyr")
+
   wts_res <- lung_surv %>%
     dplyr::mutate(wts = hardhat::frequency_weights(rep(1:0, c(128, 100)))) %>%
     roc_auc_survival(
@@ -43,6 +47,8 @@ test_that("case weights are applied", {
 })
 
 test_that("works with hardhat case weights", {
+  skip_if_not_installed("tidyr")
+
   lung_surv <- data_lung_surv()
   lung_surv$case_wts <- rep(2, nrow(lung_surv))
 
@@ -63,6 +69,8 @@ test_that("works with hardhat case weights", {
 # self checking ----------------------------------------------------------------
 
 test_that("snapshot equivalent", {
+  skip_if_not_installed("tidyr")
+
   snapshot_res <- readRDS(test_path("data/ref_roc_auc_survival.rds"))
 
   yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
@@ -85,6 +93,8 @@ test_that("snapshot equivalent", {
 # riskRegression compare -------------------------------------------------------
 
 test_that("riskRegression equivalent", {
+  skip_if_not_installed("tidyr")
+
   riskRegression_res <- readRDS(test_path("data/auc_churn_res.rds"))
 
   yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%

@@ -65,6 +65,7 @@ internal data set \code{lung_surv} shows an example of the format.
 This method automatically groups by the \code{.eval_time} argument.
 }
 \examples{
+\dontshow{if (rlang::is_installed(c("ggplot2"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 result <- roc_curve_survival(
   lung_surv,
   truth = surv_obj,
@@ -91,6 +92,7 @@ result \%>\%
 
 # Or use autoplot
 autoplot(result)
+\dontshow{\}) # examplesIf}
 }
 \references{
 Blanche, P., Dartigues, J.-F. and Jacqmin-Gadda, H. (2013), Review and
