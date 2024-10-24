@@ -27,12 +27,7 @@ binary_threshold_curve <- function(truth,
       .internal = TRUE
     )
   }
-  if (!is.numeric(estimate)) {
-    cli::cli_abort(
-      "{.arg estimate} must be numeric, not {.obj_type_friendly {estimate}}.",
-      .internal = TRUE
-    )
-  }
+  check_number_decimal(estimate, .internal = TRUE)
   if (length(truth) != length(estimate)) {
     cli::cli_abort(
       "{.arg truth} ({length(truth)}) and \\

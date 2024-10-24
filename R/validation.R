@@ -3,7 +3,7 @@ validate_numeric_truth_numeric_estimate <- function(truth,
                                                     call = caller_env()) {
   if (!is.numeric(truth)) {
     cli::cli_abort(
-      "{.arg truth} should be a numeric, \\
+      "{.arg truth} should be a numeric vector, \\
       not {.obj_type_friendly {truth}}.",
       call = call
     )
@@ -11,7 +11,7 @@ validate_numeric_truth_numeric_estimate <- function(truth,
 
   if (!is.numeric(estimate)) {
     cli::cli_abort(
-      "{.arg estimate} should be a numeric, \\
+      "{.arg estimate} should be a numeric vector, \\
       not {.obj_type_friendly {estimate}}.",
       call = call
     )
@@ -278,7 +278,7 @@ validate_surv_truth_numeric_estimate <- function(truth,
 
   if (!is.numeric(estimate)) {
     cli::cli_abort(
-      "{.arg estimate} should be a numeric, \\
+      "{.arg estimate} should be a numeric vector, \\
       not {.obj_type_friendly {estimate}}.",
       call = call
     )
@@ -342,16 +342,8 @@ validate_estimator <- function(estimator,
     allowed <- c("binary", "macro", "micro", "macro_weighted")
   }
 
-  check_string(estimator, call = call)
-
-  estimator_ok <- (estimator %in% allowed)
-
-  if (!estimator_ok) {
-    cli::cli_abort(
-      "{.arg estimator} must be one of: {allowed}, not {estimator}.",
-      call = call
-    )
-  }
+  estimator <- rlang::arg_match(estimator, allowed, error_call = call)
+  invisible(NULL)
 }
 
 validate_case_weights <- function(case_weights, size, call = caller_env()) {
@@ -369,5 +361,5 @@ validate_case_weights <- function(case_weights, size, call = caller_env()) {
     )
   }
 
-  invisible()
+  invisible(NULL)
 }
