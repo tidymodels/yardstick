@@ -73,6 +73,7 @@ is implemented.
 The function requires that the factors have exactly the same levels.
 }
 \examples{
+\dontshow{if (rlang::is_installed(c("tidyr", "ggplot2"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(dplyr)
 data("hpc_cv")
 
@@ -118,6 +119,7 @@ library(ggplot2)
 
 autoplot(cm, type = "mosaic")
 autoplot(cm, type = "heatmap")
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=summary.conf_mat]{summary.conf_mat()}} for computing a large number of metrics from one

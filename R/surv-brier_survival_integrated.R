@@ -43,7 +43,7 @@
 #' and comparison of prognostic classification schemes for survival data,”
 #' Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 #'
-#' @examples
+#' @examplesIf rlang::is_installed(c("tidyr"))
 #' library(dplyr)
 #'
 #' lung_surv %>%

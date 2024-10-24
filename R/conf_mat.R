@@ -39,7 +39,7 @@
 #' [summary.conf_mat()] for computing a large number of metrics from one
 #' confusion matrix.
 #'
-#' @examples
+#' @examplesIf rlang::is_installed(c("tidyr", "ggplot2"))
 #' library(dplyr)
 #' data("hpc_cv")
 #'

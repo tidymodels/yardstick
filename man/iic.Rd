@@ -104,8 +104,8 @@ permeability?" \emph{Science of the Total Environment}. 586: 466-472.
 \seealso{
 Other numeric metrics: 
 \code{\link{ccc}()},
-\code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},
+\code{\link{huber_loss_pseudo}()},
 \code{\link{mae}()},
 \code{\link{mape}()},
 \code{\link{mase}()},
@@ -115,14 +115,14 @@ Other numeric metrics:
 \code{\link{rmse}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
-\code{\link{rsq_trad}()},
 \code{\link{rsq}()},
+\code{\link{rsq_trad}()},
 \code{\link{smape}()}
 
 Other accuracy metrics: 
 \code{\link{ccc}()},
-\code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},
+\code{\link{huber_loss_pseudo}()},
 \code{\link{mae}()},
 \code{\link{mape}()},
 \code{\link{mase}()},

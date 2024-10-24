@@ -72,7 +72,7 @@
 #' @author Max Kuhn
 #'
 #' @template examples-binary-prob
-#' @examples
+#' @examplesIf rlang::is_installed(c("ggplot2"))
 #' # ---------------------------------------------------------------------------
 #' # `autoplot()`
 #'

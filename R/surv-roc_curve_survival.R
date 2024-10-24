@@ -49,7 +49,7 @@
 #' and comparison of prognostic classification schemes for survival data.
 #' _Statist. Med._, 18: 2529-2545.
 #'
-#' @examples
+#' @examplesIf rlang::is_installed(c("ggplot2"))
 #' result <- roc_curve_survival(
 #'   lung_surv,
 #'   truth = surv_obj,
@@ -180,14 +180,14 @@ roc_curve_survival_impl <- function(truth,
 
 roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
   res <- dplyr::tibble(.threshold = sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE))
-  
+
   obs_time_le_time <- event_time <= data$.eval_time
   obs_time_gt_time <- event_time > data$.eval_time
   n <- nrow(data)
-  
+
   sensitivity_denom <- sum(obs_time_le_time * delta * data$.weight_censored * case_weights, na.rm = TRUE)
   specificity_denom <- sum(obs_time_gt_time * data$.weight_censored * case_weights, na.rm = TRUE)
-  
+
   data_df <- data.frame(
     le_time = obs_time_le_time,
     ge_time = obs_time_gt_time,
@@ -195,10 +195,10 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
     weight_censored = data$.weight_censored,
     case_weights = case_weights
   )
-  
+
   data_split <- vec_split(data_df, data$.pred_survival)
   data_split <- data_split$val[order(data_split$key)]
-  
+
   specificity <- vapply(
     data_split,
     function(x) sum(x$ge_time * x$weight_censored * x$case_weights, na.rm = TRUE),
@@ -217,14 +217,14 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
     function(x) sum(x$le_time * x$delta * x$weight_censored * x$case_weights, na.rm = TRUE),
     FUN.VALUE = numeric(1)
   )
-  
+
   sensitivity <- cumsum(sensitivity)
   sensitivity <- sensitivity / sensitivity_denom
   sensitivity <- dplyr::if_else(sensitivity > 1, 1, sensitivity)
   sensitivity <- dplyr::if_else(sensitivity < 0, 0, sensitivity)
   sensitivity <- c(0, sensitivity, 1)
   res$sensitivity <- sensitivity
-  
+
   res
 }
 
