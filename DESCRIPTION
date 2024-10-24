@@ -7,7 +7,7 @@ Authors@R: c(
     person("Davis", "Vaughan", , "davis@posit.co", role = "aut"),
     person("Emil", "Hvitfeldt", , "emil.hvitfeldt@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0679-1945")),
-    person(given = "Posit Software, PBC", role = c("cph", "fnd"))
+    person("Posit Software, PBC", role = c("cph", "fnd"))
   )
 Description: Tidy tools for quantifying how well model fits to a data set
     such as confusion matrices, class probability curve summaries, and
@@ -42,9 +42,9 @@ Suggests:
     tidyr
 VignetteBuilder: 
     knitr
-Config/Needs/website:
-    tidyverse/tidytemplate
+Config/Needs/website: tidyverse/tidytemplate
 Config/testthat/edition: 3
+Config/usethis/last-upkeep: 2024-10-24
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
