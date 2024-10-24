@@ -185,8 +185,8 @@ validate_weighting <- function(x, call = caller_env()) {
 
   if (!ok) {
     cli::cli_abort(
-      "{.arg weighting} must be {.val none}, {.val linear}, or \\
-       {.val quadratic}, not {.obj_type_friendly {x}}.",
+      "{.arg weighting} must be {.val none}, {.val linear}, or
+       {.val quadratic}, not {.val {x}}.",
       call = call
     )
   }

@@ -27,17 +27,22 @@ binary_threshold_curve <- function(truth,
       .internal = TRUE
     )
   }
-  check_number_decimal(estimate, .internal = TRUE)
+  if (!is.numeric(estimate)) {
+    cli::cli_abort(
+      "{.arg estimate} must be numeric vector, not {.obj_type_friendly {estimate}}.",
+      .internal = TRUE
+    )
+  }
   if (length(truth) != length(estimate)) {
     cli::cli_abort(
-      "{.arg truth} ({length(truth)}) and \\
+      "{.arg truth} ({length(truth)}) and
       {.arg estimate} ({length(estimate)}) must be the same length.",
       .internal = TRUE
     )
   }
   if (length(truth) != length(case_weights)) {
     cli::cli_abort(
-      "{.arg truth} ({length(truth)}) and \\
+      "{.arg truth} ({length(truth)}) and
       {.arg case_weights} ({length(case_weights)}) must be the same length.",
       .internal = TRUE
     )

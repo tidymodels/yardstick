@@ -49,7 +49,7 @@
 #'
 #' @param case_weights The optional column identifier for case weights.
 #'   This should be an unquoted column name that evaluates to a numeric column
-#'   in `data`. For `_vec()` functions, a numeric vector, 
+#'   in `data`. For `_vec()` functions, a numeric vector,
 #'   [hardhat::importance_weights()], or [hardhat::frequency_weights()].
 #'
 #' @param event_level A single string. Either `"first"` or `"second"` to specify
@@ -277,7 +277,7 @@ sens_multiclass <- function(data, estimator) {
 
 warn_sens_undefined_binary <- function(event, count) {
   message <- c(
-    "While computing binary {.fn sens}, no true events were detected \\
+    "While computing binary {.fn sens}, no true events were detected
     (i.e. `true_positive + false_negative = 0`).",
     "Sensitivity is undefined in this case, and `NA` will be returned."
   )
@@ -302,11 +302,11 @@ warn_sens_undefined_binary <- function(event, count) {
 
 warn_sens_undefined_multiclass <- function(events, counts) {
   message <- c(
-    "While computing multiclass {.fn sens}, some levels had no true events \\
+    "While computing multiclass {.fn sens}, some levels had no true events
     (i.e. `true_positive + false_negative = 0`).",
-    "Sensitivity is undefined in this case, and those levels will be removed \\
+    "Sensitivity is undefined in this case, and those levels will be removed
     from the averaged result.",
-    "Note that the following number of predicted events actually occurred for \\
+    "Note that the following number of predicted events actually occurred for
     each problematic event level:",
     paste0("'", events, "': ", counts, collapse = ", ")
   )
