@@ -64,6 +64,7 @@ new_static_survival_metric <- function(fn, direction) {
   new_metric(fn, direction, class = "static_survival_metric")
 }
 
+#' @include import-standalone-types-check.R
 new_metric <- function(fn, direction, class = NULL) {
   check_function(fn)
 
