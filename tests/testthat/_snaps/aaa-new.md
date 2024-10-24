@@ -4,7 +4,7 @@
       new_class_metric(1, "maximize")
     Condition
       Error in `new_metric()`:
-      ! `fn` must be a function.
+      ! `fn` must be a function, not the number 1.
 
 # `direction` is validated
 

@@ -142,7 +142,7 @@ mase_impl <- function(truth,
 validate_truth_m <- function(truth, m, call = caller_env()) {
   if (length(truth) <= m) {
     cli::cli_abort(
-      "{.arg truth} ({length(truth)}) must have a length greater than \\
+      "{.arg truth} ({length(truth)}) must have a length greater than
       {.arg m} ({m}) to compute the out-of-sample naive mean absolute error.",
       call = call
     )

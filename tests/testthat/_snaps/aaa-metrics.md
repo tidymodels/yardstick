@@ -16,7 +16,7 @@
       Error in `metric_set()`:
       ! Failed to compute `rmse()`.
       Caused by error:
-      ! `estimate` should be a numeric, not a <factor> object.
+      ! `estimate` should be a numeric vector, not a <factor> object.
 
 ---
 

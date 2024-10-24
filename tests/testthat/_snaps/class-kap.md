@@ -4,7 +4,7 @@
       kap(three_class, truth = "obs", estimate = "pred", weighting = 1)
     Condition
       Error in `kap()`:
-      ! `weighting` must be a string.
+      ! `weighting` must be a single string, not the number 1.
 
 ---
 

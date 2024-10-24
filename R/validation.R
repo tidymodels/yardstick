@@ -3,7 +3,7 @@ validate_numeric_truth_numeric_estimate <- function(truth,
                                                     call = caller_env()) {
   if (!is.numeric(truth)) {
     cli::cli_abort(
-      "{.arg truth} should be a numeric, \\
+      "{.arg truth} should be a numeric vector,
       not {.obj_type_friendly {truth}}.",
       call = call
     )
@@ -11,7 +11,7 @@ validate_numeric_truth_numeric_estimate <- function(truth,
 
   if (!is.numeric(estimate)) {
     cli::cli_abort(
-      "{.arg estimate} should be a numeric, \\
+      "{.arg estimate} should be a numeric vector,
       not {.obj_type_friendly {estimate}}.",
       call = call
     )
@@ -36,7 +36,7 @@ validate_numeric_truth_numeric_estimate <- function(truth,
 
   if (n_truth != n_estimate) {
     cli::cli_abort(
-      "{.arg truth} ({n_truth}) and \\
+      "{.arg truth} ({n_truth}) and
       {.arg estimate} ({n_estimate}) must be the same length.",
       call = call
     )
@@ -48,7 +48,7 @@ validate_factor_truth_factor_estimate <- function(truth,
                                                   call = caller_env()) {
   if (!is.factor(truth)) {
     cli::cli_abort(
-      "{.arg truth} should be a factor, \\
+      "{.arg truth} should be a factor,
       not a {.obj_type_friendly {truth}}.",
       call = call
     )
@@ -56,7 +56,7 @@ validate_factor_truth_factor_estimate <- function(truth,
 
   if (!is.factor(estimate)) {
     cli::cli_abort(
-      "{.arg estimate} should be a factor, \\
+      "{.arg estimate} should be a factor,
       not a {.obj_type_friendly {estimate}}.",
       call = call
     )
@@ -81,7 +81,7 @@ validate_factor_truth_factor_estimate <- function(truth,
 
   if (n_truth != n_estimate) {
     cli::cli_abort(
-      "{.arg truth} ({n_truth}) and \\
+      "{.arg truth} ({n_truth}) and
       {.arg estimate} ({n_estimate}) must be the same length.",
       call = call
     )
@@ -94,7 +94,7 @@ validate_factor_truth_matrix_estimate <- function(truth,
                                                   call = caller_env()) {
   if (!is.factor(truth)) {
     cli::cli_abort(
-      "{.arg truth} should be a factor, \\
+      "{.arg truth} should be a factor,
       not a {.obj_type_friendly {truth}}.",
       call = call
     )
@@ -103,7 +103,7 @@ validate_factor_truth_matrix_estimate <- function(truth,
   if (estimator == "binary") {
     if (is.matrix(estimate)) {
       cli::cli_abort(
-        "You are using a binary metric but have passed multiple columns to \\
+        "You are using a binary metric but have passed multiple columns to
         {.arg ...}.",
         call = call
       )
@@ -111,7 +111,7 @@ validate_factor_truth_matrix_estimate <- function(truth,
 
     if (!is.numeric(estimate)) {
       cli::cli_abort(
-        "{.arg estimate} should be a numeric vector, \\
+        "{.arg estimate} should be a numeric vector,
         not {.obj_type_friendly {estimate}}.",
         call = call
       )
@@ -120,7 +120,7 @@ validate_factor_truth_matrix_estimate <- function(truth,
     n_lvls <- length(levels(truth))
     if (n_lvls != 2) {
       cli::cli_abort(
-        "{.arg estimator} is binary, only two class {.arg truth} factors are \\
+        "{.arg estimator} is binary, only two class {.arg truth} factors are
         allowed. A factor with {n_lvls} levels was provided.",
         call = call
       )
@@ -135,7 +135,7 @@ validate_factor_truth_matrix_estimate <- function(truth,
 
     if (n_lvls != n_cols) {
       cli::cli_abort(
-        "The number of levels in `truth` ({n_lvls}) \\
+        "The number of levels in `truth` ({n_lvls})
         must match the number of columns supplied in `...` ({n_cols}).",
         call = call
       )
@@ -144,7 +144,7 @@ validate_factor_truth_matrix_estimate <- function(truth,
     if (!is.numeric(as.vector(estimate))) {
       cls <- as.vector(estimate)
       cli::cli_abort(
-        "The columns supplied in {.arg ...} should be numerics, \\
+        "The columns supplied in {.arg ...} should be numerics,
         not {.cls cls}.",
         call = call
       )
@@ -157,7 +157,7 @@ validate_surv_truth_list_estimate <- function(truth,
                                               call = caller_env()) {
   if (!inherits(truth, "Surv")) {
     cli::cli_abort(
-      "`truth` should be a Surv object, \\
+      "`truth` should be a Surv object,
       not a {.obj_type_friendly {truth}}.",
       call = call
     )
@@ -165,7 +165,7 @@ validate_surv_truth_list_estimate <- function(truth,
 
   if (!is.list(estimate)) {
     cli::cli_abort(
-      "{.arg estimate} should be a list, \\
+      "{.arg estimate} should be a list,
       not a {.obj_type_friendly {estimate}}.",
       call = call
     )
@@ -187,8 +187,8 @@ validate_surv_truth_list_estimate <- function(truth,
 
   if (!all(has_names)) {
    cli::cli_abort(
-      "All data.frames of {.arg estimate} should include column names: \\
-      {.field (.eval_time)}, {.field (.pred_survival)}, and \\
+      "All data.frames of {.arg estimate} should include column names:
+      {.field (.eval_time)}, {.field (.pred_survival)}, and
       {.field (.weight_censored)}.",
       call = call)
   }
@@ -198,7 +198,7 @@ validate_surv_truth_list_estimate <- function(truth,
 
   if (n_truth != n_estimate) {
     cli::cli_abort(
-      "{.arg truth} ({n_truth}) and \\
+      "{.arg truth} ({n_truth}) and
       {.arg estimate} ({n_estimate}) must be the same length.",
       call = call
     )
@@ -216,7 +216,7 @@ validate_surv_truth_list_estimate <- function(truth,
 
     cli::cli_abort(
       c(
-        x = "All the {.field .eval_time} columns of {.arg estimate} must be \\
+        x = "All the {.field .eval_time} columns of {.arg estimate} must be
             identical.",
         i = "The folllowing index differed from the first: {.val {offenders}}."
       ),
@@ -271,14 +271,14 @@ validate_surv_truth_numeric_estimate <- function(truth,
                                                  call = caller_env()) {
   if (!.is_surv(truth, fail = FALSE)) {
     cli::cli_abort(
-      "{.arg truth} should be a Surv object, \\
+      "{.arg truth} should be a Surv object,
       not {.obj_type_friendly {truth}}.",
       call = call)
   }
 
   if (!is.numeric(estimate)) {
     cli::cli_abort(
-      "{.arg estimate} should be a numeric, \\
+      "{.arg estimate} should be a numeric vector,
       not {.obj_type_friendly {estimate}}.",
       call = call
     )
@@ -296,7 +296,7 @@ validate_surv_truth_numeric_estimate <- function(truth,
 
   if (n_truth != n_estimate) {
     cli::cli_abort(
-      "{.arg truth} ({n_truth}) and \\
+      "{.arg truth} ({n_truth}) and
       {.arg estimate} ({n_estimate}) must be the same length.",
       call = call
     )
@@ -311,7 +311,7 @@ validate_binary_estimator <- function(truth, estimator, call = caller_env()) {
   lvls <- levels(truth)
   if (length(lvls) != 2) {
     cli::cli_abort(
-      "{.arg estimator} is binary, only two class {.arg truth} factors are \\
+      "{.arg estimator} is binary, only two class {.arg truth} factors are
       allowed. A factor with {length(lvls)} levels was provided.",
       call = call
     )
@@ -342,16 +342,8 @@ validate_estimator <- function(estimator,
     allowed <- c("binary", "macro", "micro", "macro_weighted")
   }
 
-  check_string(estimator, call = call)
-
-  estimator_ok <- (estimator %in% allowed)
-
-  if (!estimator_ok) {
-    cli::cli_abort(
-      "{.arg estimator} must be one of: {allowed}, not {estimator}.",
-      call = call
-    )
-  }
+  estimator <- rlang::arg_match(estimator, allowed, error_call = call)
+  invisible(NULL)
 }
 
 validate_case_weights <- function(case_weights, size, call = caller_env()) {
@@ -363,11 +355,11 @@ validate_case_weights <- function(case_weights, size, call = caller_env()) {
 
   if (size_case_weights != size) {
     cli::cli_abort(
-      "{.arg truth} ({size}) and \\
+      "{.arg truth} ({size}) and
       {.arg case_weights} ({size_case_weights}) must be the same length.",
       call = call
     )
   }
 
-  invisible()
+  invisible(NULL)
 }

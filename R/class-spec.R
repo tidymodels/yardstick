@@ -248,7 +248,7 @@ spec_multiclass <- function(data, estimator) {
 
 warn_spec_undefined_binary <- function(event, count) {
   message <- c(
-    "While computing binary {.fn spec}, no true negatives were detected \\
+    "While computing binary {.fn spec}, no true negatives were detected
     (i.e. `true_negative + false_positive = 0`).",
     "Specificity is undefined in this case, and `NA` will be returned."
   )
@@ -273,11 +273,11 @@ warn_spec_undefined_binary <- function(event, count) {
 
 warn_spec_undefined_multiclass <- function(events, counts) {
   message <- c(
-    "While computing multiclass {.fn spec}, some levels had no true negatives \\
+    "While computing multiclass {.fn spec}, some levels had no true negatives
     (i.e. `true_negative + false_positive = 0`).",
-    "Specificity is undefined in this case, and those levels will be removed \\
+    "Specificity is undefined in this case, and those levels will be removed
     from the averaged result.",
-    "Note that the following number of predicted negatives actually occurred \\
+    "Note that the following number of predicted negatives actually occurred
     for each problematic event level:",
     paste0("'", events, "': ", counts, collapse = ", ")
   )

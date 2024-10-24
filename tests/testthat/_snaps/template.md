@@ -204,7 +204,7 @@
         data = lung_surv, truth = surv_obj, estimate = list)
     Condition
       Error:
-      ! `estimate` should be a numeric, not a list.
+      ! `estimate` should be a numeric vector, not a list.
 
 ---
 

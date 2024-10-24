@@ -177,9 +177,7 @@ make_weighting_matrix <- function(weighting, n_levels, call = caller_env()) {
 
 
 validate_weighting <- function(x, call = caller_env()) {
-  if (!is_string(x)) {
-    cli::cli_abort("{.arg weighting} must be a string.", call = call)
-  }
+  check_string(x, arg = "weighting", call = call)
 
   ok <- is_no_weighting(x) ||
     is_linear_weighting(x) ||
@@ -187,8 +185,8 @@ validate_weighting <- function(x, call = caller_env()) {
 
   if (!ok) {
     cli::cli_abort(
-      "{.arg weighting} must be {.val none}, {.val linear}, or \\
-      {.val quadratic}, not {.val {x}}.",
+      "{.arg weighting} must be {.val none}, {.val linear}, or
+       {.val quadratic}, not {.val {x}}.",
       call = call
     )
   }
