@@ -3,10 +3,6 @@
 # Column name extractors
 
 pos_val <- function(xtab, event_level) {
-  if (!all(dim(xtab) == 2)) {
-    cli::cli_abort("Only relevant for 2x2 tables.")
-  }
-
   if (is_event_first(event_level)) {
     colnames(xtab)[[1]]
   } else {
@@ -15,10 +11,6 @@ pos_val <- function(xtab, event_level) {
 }
 
 neg_val <- function(xtab, event_level) {
-  if (!all(dim(xtab) == 2)) {
-    cli::cli_abort("Only relevant for 2x2 tables.")
-  }
-
   if (is_event_first(event_level)) {
     colnames(xtab)[[2]]
   } else {
