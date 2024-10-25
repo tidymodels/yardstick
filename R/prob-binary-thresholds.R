@@ -16,24 +16,28 @@ binary_threshold_curve <- function(truth,
   case_weights <- vec_cast(case_weights, to = double())
 
   if (!is.factor(truth)) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg truth} must be a factor, not {.obj_type_friendly {truth}}.",
       .internal = TRUE
     )
   }
   if (length(levels(truth)) != 2L) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg truth} must have two levels, not {length(levels(truth))}.",
       .internal = TRUE
     )
   }
   if (!is.numeric(estimate)) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg estimate} must be numeric vector, not {.obj_type_friendly {estimate}}.",
       .internal = TRUE
     )
   }
   if (length(truth) != length(estimate)) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg truth} ({length(truth)}) and
       {.arg estimate} ({length(estimate)}) must be the same length.",
@@ -41,6 +45,7 @@ binary_threshold_curve <- function(truth,
     )
   }
   if (length(truth) != length(case_weights)) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg truth} ({length(truth)}) and
       {.arg case_weights} ({length(case_weights)}) must be the same length.",
