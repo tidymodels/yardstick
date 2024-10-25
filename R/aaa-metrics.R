@@ -270,6 +270,7 @@ metric_set <- function(...) {
   )) {
     make_survival_metric_function(fns)
   } else {
+    # should not be reachable
     cli::cli_abort(
       "{.fn validate_function_class} should have errored on unknown classes.",
       .internal = TRUE
@@ -345,6 +346,7 @@ get_quo_label <- function(quo) {
   out <- as_label(quo)
 
   if (length(out) != 1L) {
+    # should not be reachable
     cli::cli_abort(
       "{.code as_label(quo)} resulted in a character vector of length >1.",
       .internal = TRUE
