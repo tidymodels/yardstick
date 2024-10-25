@@ -1,4 +1,6 @@
 test_that("brier_survival_integrated calculations", {
+  skip_if_not_installed("tidyr")
+
   lung_surv <- data_lung_surv()
 
   brier_res <- brier_survival(
@@ -23,6 +25,8 @@ test_that("brier_survival_integrated calculations", {
 })
 
 test_that("brier_survival_integrated calculations", {
+  skip_if_not_installed("tidyr")
+
   lung_surv <- data_lung_surv()
 
   lung_surv$.pred <- lapply(lung_surv$.pred, function(x) x[1, ])
@@ -38,6 +42,8 @@ test_that("brier_survival_integrated calculations", {
 })
 
 test_that("case weights", {
+  skip_if_not_installed("tidyr")
+
   lung_surv <- data_lung_surv()
   lung_surv$case_wts <- seq_len(nrow(lung_surv))
 
@@ -66,6 +72,8 @@ test_that("case weights", {
 
 
 test_that("works with hardhat case weights", {
+  skip_if_not_installed("tidyr")
+
   lung_surv <- data_lung_surv()
   lung_surv$case_wts <- rep(2, nrow(lung_surv))
 

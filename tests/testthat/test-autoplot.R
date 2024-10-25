@@ -1,3 +1,5 @@
+skip_if_not_installed("ggplot2")
+
 # As of R 3.6, cannot rely on old sample() results to be the same.
 # Pre R 3.6, they were generated like this, and we have saved them
 # as static values to be more reproducible

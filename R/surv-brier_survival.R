@@ -19,13 +19,13 @@
 #'
 #' @param ... The column identifier for the survival probabilities this
 #' should be a list column of data.frames corresponding to the output given when
-#' predicting with [censored](https://censored.tidymodels.org/) model. This 
-#' should be an unquoted column name although this argument is passed by 
-#' expression and supports [quasiquotation][rlang::quasiquotation] (you can 
+#' predicting with [censored](https://censored.tidymodels.org/) model. This
+#' should be an unquoted column name although this argument is passed by
+#' expression and supports [quasiquotation][rlang::quasiquotation] (you can
 #' unquote column names). For `_vec()` functions, the dots are not used.
-#' 
-#' @param estimate A list column of data.frames corresponding to the output 
-#' given when predicting with [censored](https://censored.tidymodels.org/) 
+#'
+#' @param estimate A list column of data.frames corresponding to the output
+#' given when predicting with [censored](https://censored.tidymodels.org/)
 #' model. See the details for more information regarding format.
 #'
 #' @details
@@ -59,7 +59,9 @@
 #' comparison of prognostic classification schemes for survival data,”
 #' _Statistics in Medicine_, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 #'
-#' @examples
+#' @examplesIf rlang::is_installed(c("tidyr"))
+#' # example code
+#'
 #' library(dplyr)
 #'
 #' lung_surv %>%

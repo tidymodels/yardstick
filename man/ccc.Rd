@@ -107,8 +107,8 @@ coefficient to evaluate reproducibility". \emph{Biometrics}, 53(4),
 }
 \seealso{
 Other numeric metrics: 
-\code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},
+\code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
 \code{\link{mae}()},
 \code{\link{mape}()},
@@ -119,19 +119,19 @@ Other numeric metrics:
 \code{\link{rmse}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
-\code{\link{rsq_trad}()},
 \code{\link{rsq}()},
+\code{\link{rsq_trad}()},
 \code{\link{smape}()}
 
 Other consistency metrics: 
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
-\code{\link{rsq_trad}()},
-\code{\link{rsq}()}
+\code{\link{rsq}()},
+\code{\link{rsq_trad}()}
 
 Other accuracy metrics: 
-\code{\link{huber_loss_pseudo}()},
 \code{\link{huber_loss}()},
+\code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
 \code{\link{mae}()},
 \code{\link{mape}()},

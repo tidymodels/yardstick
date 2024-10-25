@@ -38,6 +38,8 @@ test_that("basic functionality", {
 })
 
 test_that("new_groupwise_metric() works with grouped input", {
+  skip_if_not_installed("tidyr")
+
   data("hpc_cv")
   hpc_cv$group <- sample(c("a", "b"), nrow(hpc_cv), replace = TRUE)
 
