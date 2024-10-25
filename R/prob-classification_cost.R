@@ -233,7 +233,7 @@ validate_costs <- function(costs, levels) {
   ok <- identical(sort(columns), sort(c("truth", "estimate", "cost")))
   if (!ok) {
     cli::cli_abort(
-      "{.arg costs} must have columns: \\
+      "{.arg costs} must have columns:
       {.val truth}, {.val estimate}, and {.val cost}. Not {columns}."
     )
   }
@@ -243,7 +243,7 @@ validate_costs <- function(costs, levels) {
   }
   if (!is.character(costs$truth)) {
     cli::cli_abort(
-      "{.code costs$truth} must be a character or factor column, \\
+      "{.code costs$truth} must be a character or factor column,
       not {.obj_type_friendly {costs$truth}}."
     )
   }
@@ -253,14 +253,14 @@ validate_costs <- function(costs, levels) {
   }
   if (!is.character(costs$estimate)) {
     cli::cli_abort(
-      "{.code costs$estimate} must be a character or factor column, \\
+      "{.code costs$estimate} must be a character or factor column,
       not {.obj_type_friendly {costs$estimate}}."
       )
   }
 
   if (!is.numeric(costs$cost)) {
     cli::cli_abort(
-      "{.code costs$cost} must be a numeric column, \\
+      "{.code costs$cost} must be a numeric column,
       not {.obj_type_friendly {costs$cost}}."
     )
   }
@@ -283,7 +283,7 @@ validate_costs <- function(costs, levels) {
   not_ok <- vec_duplicate_any(pairs)
   if (not_ok) {
     cli::cli_abort(
-      "{.field costs} cannot have duplicate \\
+      "{.field costs} cannot have duplicate
       {.field truth} / {.field estimate} combinations."
     )
   }

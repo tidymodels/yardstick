@@ -33,7 +33,7 @@ check_table <- function(x, call = caller_env()) {
   n_row <- nrow(x)
   if (n_row != n_col) {
     cli::cli_abort(
-      "{.arg x} must have equal dimensions. \\
+      "{.arg x} must have equal dimensions.
       {.arg x} has {n_col} columns and {n_row} rows.",
       call = call
     )
@@ -77,8 +77,8 @@ as_factor_from_class_pred <- function(x) {
 
   if (!is_installed("probably")) {
     cli::cli_abort(
-      "A {.cls class_pred} input was detected, but the {.pkg probably} \\
-      package isn't installed. Install {.pkg probably} to be able to convert \\
+      "A {.cls class_pred} input was detected, but the {.pkg probably}
+      package isn't installed. Install {.pkg probably} to be able to convert
       {.cls class_pred} to {.cls factor}."
     )
   }
@@ -196,14 +196,14 @@ yardstick_cov <- function(truth,
   size <- vec_size(truth)
   if (size != vec_size(estimate)) {
     cli::cli_abort(
-      "{.arg truth} ({vec_size(truth)}) and \\
+      "{.arg truth} ({vec_size(truth)}) and
       {.arg estimate} ({vec_size(estimate)}) must be the same size.",
       .internal = TRUE
     )
   }
   if (size != vec_size(case_weights)) {
     cli::cli_abort(
-      "{.arg truth} ({vec_size(truth)}) and \\
+      "{.arg truth} ({vec_size(truth)}) and
       {.arg case_weights} ({vec_size(case_weights)}) must be the same size.",
       .internal = TRUE
     )
@@ -250,14 +250,14 @@ yardstick_cor <- function(truth,
   size <- vec_size(truth)
   if (size != vec_size(estimate)) {
     cli::cli_abort(
-      "{.arg truth} ({vec_size(truth)}) and \\
+      "{.arg truth} ({vec_size(truth)}) and
       {.arg estimate} ({vec_size(estimate)}) must be the same size.",
       .internal = TRUE
     )
   }
   if (size != vec_size(case_weights)) {
     cli::cli_abort(
-      "{.arg truth} ({vec_size(truth)}) and \\
+      "{.arg truth} ({vec_size(truth)}) and
       {.arg case_weights} ({vec_size(case_weights)}) must be the same size.",
       .internal = TRUE
     )
@@ -371,7 +371,7 @@ weighted_quantile <- function(x, weights, probabilities) {
   size <- vec_size(x)
   if (size != vec_size(weights)) {
     cli::cli_abort(
-      "{.arg x} ({vec_size(x)}) and {.arg weights} ({vec_size(weights)}) \\
+      "{.arg x} ({vec_size(x)}) and {.arg weights} ({vec_size(weights)})
       must have the same size."
     )
   }
@@ -442,7 +442,7 @@ yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
 
   if (!identical(levels, levels(estimate))) {
     cli::cli_abort(
-      "{.arg truth} and {.arg estimate} must have the same levels in the same \\
+      "{.arg truth} and {.arg estimate} must have the same levels in the same
       order.",
       .internal = TRUE
     )
