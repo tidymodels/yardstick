@@ -84,10 +84,18 @@ test_that("works with hardhat case weights", {
   freq_wgt <- hardhat::frequency_weights(df$weights)
 
   expect_no_error(
-    mape_vec(df$solubility, df$prediction, case_weights = imp_wgt)
+    mase_vec(df$solubility, df$prediction, case_weights = imp_wgt)
   )
 
   expect_no_error(
-    mape_vec(df$solubility, df$prediction, case_weights = freq_wgt)
+    mase_vec(df$solubility, df$prediction, case_weights = freq_wgt)
   ) 
 })
+
+test_that("mase() errors if m is larger than number of observations", {
+  expect_snapshot(
+    error = TRUE,
+    mase(mtcars, mpg, disp, m = 100)
+  )
+})
+

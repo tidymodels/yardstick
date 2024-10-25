@@ -128,3 +128,11 @@
       ! Can't select columns that don't exist.
       x Column `not_predicted` doesn't exist.
 
+# conf_mat() error on 1-level factor truth
+
+    Code
+      conf_mat(table(1, 1))
+    Condition
+      Error in `conf_mat()`:
+      ! There must be at least 2 factors levels in the `data`.
+

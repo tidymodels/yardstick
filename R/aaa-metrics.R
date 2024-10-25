@@ -575,7 +575,9 @@ make_survival_metric_function <- function(fns) {
 
 validate_not_empty <- function(x, call = caller_env()) {
   if (is_empty(x)) {
-    cli::cli_abort("At least 1 function supplied to `...`.", call = call)
+    cli::cli_abort(
+      "At least 1 function must be supplied to {.code ...}.", call = call
+    )
   }
 }
 

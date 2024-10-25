@@ -38,3 +38,11 @@
       Error in `mase_vec()`:
       ! `mae_train` must be a number or `NULL`, not the string "x".
 
+# mase() errors if m is larger than number of observations
+
+    Code
+      mase(mtcars, mpg, disp, m = 100)
+    Condition
+      Error in `mase()`:
+      ! `truth` (32) must have a length greater than `m` (100) to compute the out-of-sample naive mean absolute error.
+

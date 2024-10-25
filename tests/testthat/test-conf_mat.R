@@ -290,3 +290,10 @@ test_that("conf_mat()'s errors when wrong things are passes", {
     )
   )
 })
+
+test_that("conf_mat() error on 1-level factor truth", {
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(table(1, 1))
+  )
+})

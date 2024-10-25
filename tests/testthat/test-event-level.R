@@ -17,3 +17,11 @@ test_that("`yardstick_event_level()` ignores option - FALSE, with a warning", {
   expect_snapshot(out <- yardstick_event_level())
   expect_identical(out, "first")
 })
+
+test_that("validate_event_level() works", {
+  expect_snapshot(
+    error = TRUE,
+    recall(two_class_example, truth, predicted, event_level = "wrong")
+  )
+})
+

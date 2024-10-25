@@ -252,6 +252,14 @@
 ---
 
     Code
+      validate_surv_truth_list_estimate(lung_surv$surv_obj[1:5, ], lung_surv$.pred)
+    Condition
+      Error:
+      ! `truth` (5) and `estimate` (228) must be the same length.
+
+---
+
+    Code
       validate_surv_truth_list_estimate(lung_surv_not_all_same$surv_obj,
       lung_surv_not_all_same$.pred)
     Condition

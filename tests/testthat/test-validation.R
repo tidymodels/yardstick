@@ -388,6 +388,14 @@ test_that("validate_surv_truth_list_estimate errors as expected", {
     )
   )
 
+  expect_snapshot(
+    error = TRUE,
+    validate_surv_truth_list_estimate(
+      lung_surv$surv_obj[1:5, ],
+      lung_surv$.pred
+    )
+  )
+
   lung_surv_not_all_same <- lung_surv
   lung_surv_not_all_same$.pred[[5]]$.eval_time[1] <- 350
   lung_surv_not_all_same$.pred[[10]]$.eval_time[1] <- 350

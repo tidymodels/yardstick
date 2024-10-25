@@ -14,6 +14,17 @@ test_that("missing values in case weights are considered by `na_rm`", {
   )
 })
 
+test_that("errors are thrown truth or estimate selects more than 1 column", {
+  expect_snapshot(
+    error = TRUE,
+    rmse(mtcars, mpg, tidyselect::starts_with("d"))
+  )
+  expect_snapshot(
+    error = TRUE,
+    rmse(mtcars, tidyselect::starts_with("d"), mpg)
+  )
+})
+
 ## numeric_metric_summarizer --------------------------------------------------
 
 test_that("numeric_metric_summarizer() works as expected", {
