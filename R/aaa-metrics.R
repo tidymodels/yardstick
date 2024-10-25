@@ -1,7 +1,7 @@
 #' General Function to Estimate Performance
 #'
-#' This function estimates one or more common performance estimates depending 
-#' on the class of `truth` (see **Value** below) and returns them in a three 
+#' This function estimates one or more common performance estimates depending
+#' on the class of `truth` (see **Value** below) and returns them in a three
 #' column tibble. If you wish to modify the metrics used or how they are used
 #' see [metric_set()].
 #'
@@ -305,8 +305,8 @@ format.metric_set <- function(x, ...) {
 
     for (i in seq_along(metrics)) {
       cli::cli_text(
-        "- {.fun {metric_names[i]}}, \\
-           {tolower(metric_types[i])}{metric_desc_paddings[i]} | \\
+        "- {.fun {metric_names[i]}},
+           {tolower(metric_types[i])}{metric_desc_paddings[i]} |
            {metric_descs[i]}"
       )
     }
@@ -585,7 +585,7 @@ validate_inputs_are_functions <- function(fns, call = caller_env()) {
   if (!all_fns) {
     not_fn <- which(!is_fun_vec)
     cli::cli_abort(
-      "All inputs to {.fn metric_set} must be functions. \\
+      "All inputs to {.fn metric_set} must be functions.
       These inputs are not: {not_fn}.",
       call = call
     )
@@ -660,8 +660,8 @@ validate_function_class <- function(fns) {
   if ("metric_factory" %in% fn_cls) {
     factories <- fn_cls[fn_cls == "metric_factory"]
     cli::cli_abort(
-      c("{cli::qty(factories)}The input{?s} {.arg {names(factories)}} \\
-         {?is a/are} {.help [groupwise metric](yardstick::new_groupwise_metric)} \\
+      c("{cli::qty(factories)}The input{?s} {.arg {names(factories)}}
+         {?is a/are} {.help [groupwise metric](yardstick::new_groupwise_metric)}
          {?factory/factories} and must be passed a data-column before
          addition to a metric set.",
         "i" = "Did you mean to type e.g. `{names(factories)[1]}(col_name)`?"),

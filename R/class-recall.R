@@ -180,7 +180,7 @@ recall_multiclass <- function(data, estimator) {
 
 warn_recall_undefined_binary <- function(event, count) {
   message <- c(
-    "While computing binary {.fn recall}, no true events were detected \\
+    "While computing binary {.fn recall}, no true events were detected
     (i.e. `true_positive + false_negative = 0`).",
     "Recall is undefined in this case, and `NA` will be returned."
   )
@@ -205,11 +205,11 @@ warn_recall_undefined_binary <- function(event, count) {
 
 warn_recall_undefined_multiclass <- function(events, counts) {
   message <- c(
-    "While computing multiclass {.fn recall}, some levels had no true events \\
+    "While computing multiclass {.fn recall}, some levels had no true events
     (i.e. `true_positive + false_negative = 0`).",
-    "Recall is undefined in this case, and those levels will be removed from \\
+    "Recall is undefined in this case, and those levels will be removed from
     the averaged result.",
-    "Note that the following number of predicted events actually occurred for \\
+    "Note that the following number of predicted events actually occurred for
     each problematic event level:",
     paste0("'", events, "': ", counts, collapse = ", ")
   )

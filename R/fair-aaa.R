@@ -143,7 +143,7 @@ new_groupwise_metric <- function(fn, name, aggregate, direction = "minimize") {
 
           if (by_str %in% gp_vars) {
             cli::cli_abort(
-              "Metric is internally grouped by {.field {by_str}}; grouping \\
+              "Metric is internally grouped by {.field {by_str}}; grouping
               {.arg data} by {.field {by_str}} is not well-defined."
             )
           }

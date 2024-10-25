@@ -297,7 +297,7 @@ flatten <- function(xtab, call = caller_env()) {
   n_row <- nrow(xtab)
   if (n_row != n_col) {
     cli::cli_abort(
-      "{.arg x} must have equal dimensions. \\
+      "{.arg x} must have equal dimensions.
       {.arg x} has {n_col} columns and {n_row} rows.",
       call = call
     )

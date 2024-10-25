@@ -179,7 +179,7 @@ precision_multiclass <- function(data, estimator) {
 
 warn_precision_undefined_binary <- function(event, count) {
   message <- c(
-    "While computing binary {.fn precision}, no predicted events were \\
+    "While computing binary {.fn precision}, no predicted events were
     detected (i.e. `true_positive + false_positive = 0`).",
     "Precision is undefined in this case, and `NA` will be returned."
   )
@@ -204,11 +204,11 @@ warn_precision_undefined_binary <- function(event, count) {
 
 warn_precision_undefined_multiclass <- function(events, counts) {
   message <- c(
-    "While computing multiclass {.fn precision}, some levels had no predicted \\
+    "While computing multiclass {.fn precision}, some levels had no predicted
     events (i.e. `true_positive + false_positive = 0`).",
-    "Precision is undefined in this case, and those levels will be removed \\
+    "Precision is undefined in this case, and those levels will be removed
     from the averaged result.",
-    "Note that the following number of true events actually occurred for each \\
+    "Note that the following number of true events actually occurred for each
     problematic event level:",
     paste0("'", events, "': ", counts, collapse = ", ")
   )

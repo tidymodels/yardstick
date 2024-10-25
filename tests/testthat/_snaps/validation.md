@@ -4,7 +4,7 @@
       validate_numeric_truth_numeric_estimate("1", 1)
     Condition
       Error:
-      ! `truth` should be a numeric, not a string.
+      ! `truth` should be a numeric vector, not a string.
 
 ---
 
@@ -12,7 +12,7 @@
       validate_numeric_truth_numeric_estimate(1, "1")
     Condition
       Error:
-      ! `estimate` should be a numeric, not a string.
+      ! `estimate` should be a numeric vector, not a string.
 
 ---
 
@@ -188,7 +188,7 @@
         .pred_time))
     Condition
       Error:
-      ! `estimate` should be a numeric, not a character vector.
+      ! `estimate` should be a numeric vector, not a character vector.
 
 ---
 

@@ -12,7 +12,7 @@
       check_numeric_metric(1, "1", 1)
     Condition
       Error:
-      ! `estimate` should be a numeric, not a string.
+      ! `estimate` should be a numeric vector, not a string.
 
 # check_class_metric() validates case_weights
 

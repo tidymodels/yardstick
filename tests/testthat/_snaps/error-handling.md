@@ -47,7 +47,7 @@
       sens(pathology, pathology, scan, estimator = "blah")
     Condition
       Error in `sens()`:
-      ! `estimator` must be one of: binary, macro, micro, and macro_weighted, not blah.
+      ! `estimator` must be one of "binary", "macro", "micro", or "macro_weighted", not "blah".
 
 # Bad estimator + truth combination
 
@@ -63,7 +63,7 @@
       sens(hpc_cv, obs, pred, estimator = 1)
     Condition
       Error in `sens()`:
-      ! `estimator` must be a single string, not the number 1.
+      ! `estimator` must be a character vector, not the number 1.
 
 ---
 
@@ -71,7 +71,7 @@
       sens(hpc_cv, obs, pred, estimator = c("1", "2"))
     Condition
       Error in `sens()`:
-      ! `estimator` must be a single string, not a character vector.
+      ! `estimator` must be one of "binary", "macro", "micro", or "macro_weighted", not "1".
 
 # Numeric matrix in numeric metric
 
