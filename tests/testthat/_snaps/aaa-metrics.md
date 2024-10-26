@@ -48,7 +48,7 @@
     Code
       metric_set(rmse, accuracy)
     Condition
-      Error in `validate_function_class()`:
+      Error in `metric_set()`:
       x The combination of metric functions must be:
       * only numeric metrics.
       * a mix of class metrics and class probability metrics.
@@ -72,7 +72,7 @@
     Code
       metric_set(accuracy, foobar, sens, rlang::abort)
     Condition
-      Error in `validate_function_class()`:
+      Error in `metric_set()`:
       x The combination of metric functions must be:
       * only numeric metrics.
       * a mix of class metrics and class probability metrics.
@@ -86,7 +86,7 @@
     Code
       metric_set(accuracy, foobar, sens, rlang::abort)
     Condition
-      Error in `validate_function_class()`:
+      Error in `metric_set()`:
       x The combination of metric functions must be:
       * only numeric metrics.
       * a mix of class metrics and class probability metrics.
@@ -100,7 +100,7 @@
     Code
       metric_set(foobar)
     Condition
-      Error in `validate_function_class()`:
+      Error in `metric_set()`:
       x The combination of metric functions must be:
       * only numeric metrics.
       * a mix of class metrics and class probability metrics.

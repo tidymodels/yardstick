@@ -399,7 +399,8 @@ warn_roc_truth_no_control <- function(control) {
 stop_roc_truth_no_control <- function(control) {
   cli::cli_abort(
     msg_roc_truth_no_control(control),
-    class = "yardstick_error_roc_truth_no_control"
+    class = "yardstick_error_roc_truth_no_control",
+    call = call("roc_curve")
   )
 }
 
@@ -415,9 +416,10 @@ warn_roc_truth_no_event <- function(event) {
     class = "yardstick_warning_roc_truth_no_event"
   )
 }
-stop_roc_truth_no_event <- function(event) {
+stop_roc_truth_no_event <- function(event, call = caller_env()) {
   cli::cli_abort(
     msg_roc_truth_no_event(event),
-    class = "yardstick_error_roc_truth_no_event"
+    class = "yardstick_error_roc_truth_no_event",
+    call = call
   )
 }

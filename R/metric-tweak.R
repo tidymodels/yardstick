@@ -85,7 +85,7 @@ metric_tweak <- function(.name, .fn, ...) {
 
 # ------------------------------------------------------------------------------
 
-check_protected_names <- function(fixed) {
+check_protected_names <- function(fixed, call = caller_env()) {
   protected <- protected_names()
   has_protected_name <- any(names(fixed) %in% protected)
 
@@ -94,7 +94,8 @@ check_protected_names <- function(fixed) {
   }
 
   cli::cli_abort(
-    "Arguments passed through {.arg ...} cannot be named any of: {protected}."
+    "Arguments passed through {.arg ...} cannot be named any of: {protected}.",
+    call = call
   )
 }
 
