@@ -717,7 +717,8 @@ validate_function_class <- function(fns) {
     "*" = "a mix of dynamic and static survival metrics.",
     "i" = "The following metric function types are being mixed:",
     fn_pastable
-  ))
+  ),
+  call = rlang::call2("metric_set"))
 }
 
 # Safely evaluate metrics in such a way that we can capture the

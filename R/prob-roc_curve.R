@@ -131,18 +131,20 @@ roc_curve_estimator_impl <- function(truth,
                                      estimate,
                                      estimator,
                                      event_level,
-                                     case_weights) {
+                                     case_weights,
+                                     call = caller_env()) {
   if (is_binary(estimator)) {
-    roc_curve_binary(truth, estimate, event_level, case_weights)
+    roc_curve_binary(truth, estimate, event_level, case_weights, call)
   } else {
-    roc_curve_multiclass(truth, estimate, case_weights)
+    roc_curve_multiclass(truth, estimate, case_weights, call)
   }
 }
 
 roc_curve_binary <- function(truth,
                              estimate,
                              event_level,
-                             case_weights) {
+                             case_weights,
+                             call) {
   lvls <- levels(truth)
 
   if (!is_event_first(event_level)) {
@@ -153,7 +155,7 @@ roc_curve_binary <- function(truth,
   control <- lvls[[2]]
 
   if (compute_n_occurrences(truth, event) == 0L) {
-    stop_roc_truth_no_event(event)
+    stop_roc_truth_no_event(event, call)
   }
   if (compute_n_occurrences(truth, control) == 0L) {
     stop_roc_truth_no_control(control)
@@ -197,7 +199,8 @@ roc_curve_binary <- function(truth,
 # One-VS-All approach
 roc_curve_multiclass <- function(truth,
                                  estimate,
-                                 case_weights) {
+                                 case_weights,
+                                 call) {
   one_vs_all_with_level(
     fn = roc_curve_binary,
     truth = truth,

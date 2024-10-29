@@ -87,7 +87,7 @@ test_that("work with class_pred input", {
 
   expect_snapshot(
     error = TRUE,
-    bal_accuracy(cp_truth, cp_estimate)
+    bal_accuracy_vec(cp_truth, cp_estimate)
   )
 })
 

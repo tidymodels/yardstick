@@ -37,6 +37,7 @@ one_vs_all_impl <- function(fn,
                             truth,
                             estimate,
                             case_weights,
+                            call,
                             ...) {
   lvls <- levels(truth)
   other <- "..other"
@@ -76,12 +77,14 @@ one_vs_all_with_level <- function(fn,
                                   truth,
                                   estimate,
                                   case_weights,
+                                  call,
                                   ...) {
   res <- one_vs_all_impl(
     fn = fn,
     truth = truth,
     estimate = estimate,
     case_weights = case_weights,
+    call = call,
     ...
   )
 

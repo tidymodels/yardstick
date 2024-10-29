@@ -11,7 +11,7 @@
     Code
       conf_mat(cp_hpc_cv, obs, pred)
     Condition
-      Error in `conf_mat_impl()`:
+      Error in `conf_mat()`:
       ! `truth` should not a <class_pred> object.
 
 ---
@@ -19,7 +19,7 @@
     Code
       conf_mat(dplyr::group_by(cp_hpc_cv, Resample), obs, pred)
     Condition
-      Error in `conf_mat_impl()`:
+      Error in `conf_mat()`:
       ! `truth` should not a <class_pred> object.
 
 # `class_pred` errors when passed to `metrics()`

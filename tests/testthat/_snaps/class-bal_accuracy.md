@@ -1,8 +1,8 @@
 # work with class_pred input
 
     Code
-      bal_accuracy(cp_truth, cp_estimate)
+      bal_accuracy_vec(cp_truth, cp_estimate)
     Condition
-      Error in `UseMethod()`:
-      ! no applicable method for 'bal_accuracy' applied to an object of class "c('class_pred', 'vctrs_vctr')"
+      Error in `bal_accuracy_vec()`:
+      ! `truth` should not a <class_pred> object.
 

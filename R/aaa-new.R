@@ -65,12 +65,13 @@ new_static_survival_metric <- function(fn, direction) {
 }
 
 #' @include import-standalone-types-check.R
-new_metric <- function(fn, direction, class = NULL) {
-  check_function(fn)
+new_metric <- function(fn, direction, class = NULL, call = caller_env()) {
+  check_function(fn, call = call)
 
   direction <- arg_match(
     direction,
-    values = c("maximize", "minimize", "zero")
+    values = c("maximize", "minimize", "zero"), 
+    error_call = call
   )
 
   class <- c(class, "metric", "function")

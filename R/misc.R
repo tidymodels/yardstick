@@ -70,7 +70,7 @@ is_class_pred <- function(x) {
   inherits(x, "class_pred")
 }
 
-as_factor_from_class_pred <- function(x) {
+as_factor_from_class_pred <- function(x, call) {
   if (!is_class_pred(x)) {
     return(x)
   }
@@ -79,7 +79,8 @@ as_factor_from_class_pred <- function(x) {
     cli::cli_abort(
       "A {.cls class_pred} input was detected, but the {.pkg probably}
       package isn't installed. Install {.pkg probably} to be able to convert
-      {.cls class_pred} to {.cls factor}."
+      {.cls class_pred} to {.cls factor}.",
+      call = call
     )
   }
   probably::as.factor(x)
