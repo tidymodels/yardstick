@@ -4,7 +4,7 @@
       metric_tweak("f_meas2", f_meas, data = 2)
     Condition
       Error in `metric_tweak()`:
-      ! Arguments passed through `...` cannot be named any of: data, truth, and estimate.
+      ! Arguments passed through `...` cannot be named any of: `data`, `truth`, and `estimate`.
 
 ---
 
@@ -12,7 +12,7 @@
       metric_tweak("f_meas2", f_meas, truth = 2)
     Condition
       Error in `metric_tweak()`:
-      ! Arguments passed through `...` cannot be named any of: data, truth, and estimate.
+      ! Arguments passed through `...` cannot be named any of: `data`, `truth`, and `estimate`.
 
 ---
 
@@ -20,7 +20,7 @@
       metric_tweak("f_meas2", f_meas, estimate = 2)
     Condition
       Error in `metric_tweak()`:
-      ! Arguments passed through `...` cannot be named any of: data, truth, and estimate.
+      ! Arguments passed through `...` cannot be named any of: `data`, `truth`, and `estimate`.
 
 # `name` must be a string
 
