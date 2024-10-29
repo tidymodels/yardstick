@@ -94,7 +94,7 @@ check_protected_names <- function(fixed, call = caller_env()) {
   }
 
   cli::cli_abort(
-    "Arguments passed through {.arg ...} cannot be named any of: {protected}.",
+    "Arguments passed through {.arg ...} cannot be named any of: {.arg {protected}}.",
     call = call
   )
 }
