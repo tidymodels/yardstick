@@ -163,6 +163,7 @@ roc_auc_estimator_impl <- function(truth,
     roc_auc_binary(truth, estimate, event_level, case_weights)
   } else if (estimator == "hand_till") {
     if (!is.null(case_weights)) {
+      # should be unreachable
       cli::cli_abort(
         "{.arg case_weights} should be `NULL` at this point for hand-till.",
         .internal = TRUE

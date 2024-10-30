@@ -155,3 +155,11 @@
       ! Can't select columns that don't exist.
       x Column `weight` doesn't exist.
 
+# metric_set() errors on empty input
+
+    Code
+      metric_set()
+    Condition
+      Error in `metric_set()`:
+      ! At least 1 function must be supplied to `...`.
+

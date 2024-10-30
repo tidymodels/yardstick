@@ -721,6 +721,7 @@ prob_estimate_convert <- function(estimate) {
   n_estimate <- ncol(estimate)
 
   if (n_estimate == 0L) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg estimate} should have errored during tidy-selection.",
       .internal = TRUE
@@ -780,7 +781,8 @@ yardstick_eval_select <- function(expr,
 
   if (length(out) != 1L) {
     cli::cli_abort(
-      "{.arg arg} must select exactly 1 column from `data`, not {length(out)}.",
+      "{.arg {arg}} must select exactly 1 column from {.arg data}, 
+      not {length(out)}.",
       call = error_call
     )
   }

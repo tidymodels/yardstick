@@ -161,6 +161,7 @@ mcc_multiclass_impl <- function(C) {
 
 check_mcc_data <- function(data) {
   if (!is.double(data) && !is.matrix(data)) {
+    # should not be reachable
     cli::cli_abort(
       "{.arg data} should be a double matrix at this point.",
       .internal = TRUE

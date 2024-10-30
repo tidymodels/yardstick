@@ -3,10 +3,6 @@
 # Column name extractors
 
 pos_val <- function(xtab, event_level) {
-  if (!all(dim(xtab) == 2)) {
-    cli::cli_abort("Only relevant for 2x2 tables.")
-  }
-
   if (is_event_first(event_level)) {
     colnames(xtab)[[1]]
   } else {
@@ -15,10 +11,6 @@ pos_val <- function(xtab, event_level) {
 }
 
 neg_val <- function(xtab, event_level) {
-  if (!all(dim(xtab) == 2)) {
-    cli::cli_abort("Only relevant for 2x2 tables.")
-  }
-
   if (is_event_first(event_level)) {
     colnames(xtab)[[2]]
   } else {
@@ -196,6 +188,7 @@ yardstick_cov <- function(truth,
 
   size <- vec_size(truth)
   if (size != vec_size(estimate)) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg truth} ({vec_size(truth)}) and
       {.arg estimate} ({vec_size(estimate)}) must be the same size.",
@@ -203,6 +196,7 @@ yardstick_cov <- function(truth,
     )
   }
   if (size != vec_size(case_weights)) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg truth} ({vec_size(truth)}) and
       {.arg case_weights} ({vec_size(case_weights)}) must be the same size.",
@@ -250,6 +244,7 @@ yardstick_cor <- function(truth,
 
   size <- vec_size(truth)
   if (size != vec_size(estimate)) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg truth} ({vec_size(truth)}) and
       {.arg estimate} ({vec_size(estimate)}) must be the same size.",
@@ -257,6 +252,7 @@ yardstick_cor <- function(truth,
     )
   }
   if (size != vec_size(case_weights)) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg truth} ({vec_size(truth)}) and
       {.arg case_weights} ({vec_size(case_weights)}) must be the same size.",
@@ -489,6 +485,7 @@ yardstick_truth_table <- function(truth, ..., case_weights = NULL) {
   abort_if_class_pred(truth)
 
   if (!is.factor(truth)) {
+    # should be unreachable
     cli::cli_abort("{.arg truth} must be a factor.", .internal = TRUE)
   }
 
@@ -496,6 +493,7 @@ yardstick_truth_table <- function(truth, ..., case_weights = NULL) {
   n_levels <- length(levels)
 
   if (n_levels < 2) {
+    # should be unreachable
     cli::cli_abort(
       "{.arg truth} must have at least 2 factor levels.",
       .internal = TRUE

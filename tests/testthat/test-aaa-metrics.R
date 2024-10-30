@@ -521,3 +521,10 @@ test_that("metric_tweak and metric_set plays nicely together (#351)", {
     ref
   )
 })
+
+test_that("metric_set() errors on empty input", {
+  expect_snapshot(
+    error = TRUE,
+    metric_set()
+  )
+})

@@ -50,6 +50,18 @@ test_that("`event_level = 'second'` works", {
   )
 })
 
+# na_rm ------------------------------------------------------------------------
+
+test_that("na_rm = FALSE errors if missing values are present", {
+  df <- two_class_example
+  df$Class1[1] <- NA
+  
+  expect_snapshot(
+    error = TRUE,
+    gain_curve_vec(df$truth, df$Class1, na_rm = FALSE)
+  )
+})
+
 # Duplicates -------------------------------------------------------------------
 
 test_that("duplicates are removed", {
