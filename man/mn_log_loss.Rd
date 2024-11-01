@@ -144,6 +144,7 @@ Other class probability metrics:
 \code{\link{classification_cost}()},
 \code{\link{gain_capture}()},
 \code{\link{pr_auc}()},
+\code{\link{ranked_prob_score}()},
 \code{\link{roc_auc}()},
 \code{\link{roc_aunp}()},
 \code{\link{roc_aunu}()}

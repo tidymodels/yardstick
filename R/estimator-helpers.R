@@ -136,6 +136,8 @@ finalize_estimator_internal.mn_log_loss <- finalize_estimator_internal.accuracy
 #' @export
 finalize_estimator_internal.brier_class <- finalize_estimator_internal.accuracy
 
+#' @export
+finalize_estimator_internal.ranked_prob_score <- finalize_estimator_internal.accuracy
 
 # Classification cost extends naturally to multiclass and produce the same
 # result regardless of the "event" level.
