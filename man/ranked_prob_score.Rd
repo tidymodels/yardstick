@@ -37,10 +37,8 @@ This should be an unquoted column name that evaluates to a numeric column
 in \code{data}. For \verb{_vec()} functions, a numeric vector,
 \code{\link[hardhat:importance_weights]{hardhat::importance_weights()}}, or \code{\link[hardhat:frequency_weights]{hardhat::frequency_weights()}}.}
 
-\item{estimate}{If \code{truth} is binary, a numeric vector of class probabilities
-corresponding to the "relevant" class. Otherwise, a matrix with as many
-columns as factor levels of \code{truth}. \emph{It is assumed that these are in the
-same order as the levels of \code{truth}.}}
+\item{estimate}{A matrix with as many columns as factor levels of \code{truth}. \emph{It
+is assumed that these are in the same order as the levels of \code{truth}.}}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
@@ -74,7 +72,6 @@ classes. Because of this, no averaging types are supported.
 }
 
 \examples{
-# Multiclass
 library(dplyr)
 data(hpc_cv)
 
