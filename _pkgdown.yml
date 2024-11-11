@@ -48,6 +48,7 @@ reference:
     - mn_log_loss
     - classification_cost
     - brier_class
+    - ranked_prob_score
 
   - title: Regression Metrics
     contents:

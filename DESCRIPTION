@@ -110,6 +110,7 @@ Collate:
     'prob-mn_log_loss.R'
     'prob-pr_auc.R'
     'prob-pr_curve.R'
+    'prob-ranked_prob_score.R'
     'prob-roc_auc.R'
     'prob-roc_aunp.R'
     'prob-roc_aunu.R'

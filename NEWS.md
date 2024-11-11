@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* The ranked probability score for ordinal classification data was added with `ranked_prob_score()`. (#524)
+
 # yardstick 1.3.1
 
 ## Bug Fixes
