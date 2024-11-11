@@ -8,6 +8,8 @@
 #'   although this argument is passed by expression and supports
 #'   [quasiquotation][rlang::quasiquotation] (you can unquote column names).
 #'   For `_vec()` functions, a factor vector with class `ordered`.
+#' @param estimate A matrix with as many columns as factor levels of `truth`. _It
+#' is assumed that these are in the same order as the levels of `truth`._
 #' @family class probability metrics
 #' @templateVar fn ranked_prob_score
 #' @template return
@@ -44,9 +46,7 @@
 #' Lechner, M., & Okasa, G. (2019). Random forest estimation of the ordered
 #' choice model. arXiv preprint arXiv:1907.02436. (see Section 5)
 #'
-#'
 #' @examples
-#' # Multiclass
 #' library(dplyr)
 #' data(hpc_cv)
 #'
@@ -104,9 +104,18 @@ ranked_prob_score_vec <- function(truth,
                    {.strong ordered} factor.")
   }
 
+  num_lvl <- length(levels(truth))
+  if (NCOL(estimate) == 1) {
+    cli::cli_abort("For these data, the ranked probability score requires
+                   {.arg estimate} to have {num_lvl} probability columns.")
+  }
+  estimate <- as.matrix(estimate)
+
+  # TODO should `...` be empty?
   estimator <- finalize_estimator(truth, metric_class = "ranked_prob_score")
 
-  check_prob_metric(truth, estimate, case_weights, estimator)
+  # TODO not binary
+  # check_prob_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {
     result <- yardstick_remove_missing(truth, estimate, case_weights)
