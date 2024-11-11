@@ -101,7 +101,7 @@ ranked_prob_score_vec <- function(truth,
   abort_if_class_pred(truth)
   if (!is.ordered(truth)) {
     cli::cli_abort("The ranked probability score requires the outcome to be an
-                   {.strong ordered} factor.")
+                   {.strong ordered} factor, not {.obj_type_friendly {truth}}.")
   }
 
   num_lvl <- length(levels(truth))
@@ -114,8 +114,7 @@ ranked_prob_score_vec <- function(truth,
   # TODO should `...` be empty?
   estimator <- finalize_estimator(truth, metric_class = "ranked_prob_score")
 
-  # TODO not binary
-  # check_prob_metric(truth, estimate, case_weights, estimator)
+  check_prob_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {
     result <- yardstick_remove_missing(truth, estimate, case_weights)
