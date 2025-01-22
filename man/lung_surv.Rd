@@ -12,7 +12,8 @@ Survival Analysis Results
 }
 \details{
 These data contain plausible results from applying predictive
-survival models to the \link{lung} data set using the censored package.
+survival models to the  \link[survival]{lung} data set using the censored
+package.
 }
 \examples{
 data(lung_surv)
