@@ -5,7 +5,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="yardstick">
 <title>Multiclass averaging • yardstick</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -17,69 +16,54 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multiclass averaging">
-<meta property="og:description" content="yardstick">
-<meta property="og:image" content="https://yardstick.tidymodels.org/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><script defer data-domain="yardstick.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multiclass averaging">
+<script defer data-domain="yardstick.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-none" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">yardstick</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.2</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/grouping.html">Grouping behavior in yardstick</a>
-    <a class="dropdown-item" href="../articles/metric-types.html">Metric types</a>
-    <a class="dropdown-item" href="../articles/multiclass.html">Multiclass averaging</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/grouping.html">Grouping behavior in yardstick</a></li>
+    <li><a class="dropdown-item" href="../articles/metric-types.html">Metric types</a></li>
+    <li><a class="dropdown-item" href="../articles/multiclass.html">Multiclass averaging</a></li>
+  </ul>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-learn-more">Learn more</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-learn-more">
-    <a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/develop/metrics/">Custom performance metrics</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-learn-more" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Learn more</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-learn-more">
+<li><a class="external-link dropdown-item" href="https://www.tidymodels.org/learn/develop/metrics/">Custom performance metrics</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/tidymodels/yardstick/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/tidymodels/yardstick/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article" id="container">
 
@@ -92,9 +76,9 @@
                         <h4 data-toc-skip class="author">Davis
 Vaughan</h4>
             
-            <h4 data-toc-skip class="date">2024-03-21</h4>
+            <h4 data-toc-skip class="date">2025-01-22</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/HEAD/vignettes/multiclass.Rmd" class="external-link"><code>vignettes/multiclass.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/v1.3.2/vignettes/multiclass.Rmd" class="external-link"><code>vignettes/multiclass.Rmd</code></a></small>
       <div class="d-none name"><code>multiclass.Rmd</code></div>
     </div>
 
@@ -117,9 +101,9 @@ have their own specialized multiclass implementations.</p>
 sets of binary predictions, calculates the corresponding metric for each
 of the binary cases, and then averages the results together. As an
 example, consider <code>precision</code> for the binary case.</p>
-<p><span class="math display">\[
-Pr = \frac{TP}{TP + FP}
-\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>r</mi><mo>=</mo><mfrac><mrow><mi>T</mi><mi>P</mi></mrow><mrow><mi>T</mi><mi>P</mi><mo>+</mo><mi>F</mi><mi>P</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+Pr = \frac{TP}{TP + FP} 
+</annotation></semantics></math></p>
 <p>In the multiclass case, if there were levels <code>A</code>,
 <code>B</code>, <code>C</code> and <code>D</code>, macro averaging
 reduces the problem to multiple one-vs-all comparisons. The
@@ -131,13 +115,13 @@ the other 3 levels to get a total of 4 precision values. The results are
 then averaged together.</p>
 <p>The formula representation looks like this. For <code>k</code>
 classes:</p>
-<p><span class="math display">\[
-Pr_{macro} = \frac{Pr_1 + Pr_2 + \ldots + Pr_k}{k} = Pr_1 \frac{1}{k} +
-Pr_2 \frac{1}{k} + \ldots + Pr_k \frac{1}{k}
-\]</span></p>
-<p>where <span class="math inline">\(PR_1\)</span> is the precision
-calculated from recoding the multiclass predictions down to just
-<code>class 1</code> and <code>other</code>.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><msub><mi>r</mi><mrow><mi>m</mi><mi>a</mi><mi>c</mi><mi>r</mi><mi>o</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>P</mi><msub><mi>r</mi><mn>1</mn></msub><mo>+</mo><mi>P</mi><msub><mi>r</mi><mn>2</mn></msub><mo>+</mo><mi>…</mi><mo>+</mo><mi>P</mi><msub><mi>r</mi><mi>k</mi></msub></mrow><mi>k</mi></mfrac><mo>=</mo><mi>P</mi><msub><mi>r</mi><mn>1</mn></msub><mfrac><mn>1</mn><mi>k</mi></mfrac><mo>+</mo><mi>P</mi><msub><mi>r</mi><mn>2</mn></msub><mfrac><mn>1</mn><mi>k</mi></mfrac><mo>+</mo><mi>…</mi><mo>+</mo><mi>P</mi><msub><mi>r</mi><mi>k</mi></msub><mfrac><mn>1</mn><mi>k</mi></mfrac></mrow><annotation encoding="application/x-tex">
+Pr_{macro} = \frac{Pr_1 + Pr_2 + \ldots + Pr_k}{k} = Pr_1 \frac{1}{k} + Pr_2 \frac{1}{k} + \ldots + Pr_k \frac{1}{k}
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><msub><mi>R</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">PR_1</annotation></semantics></math>
+is the precision calculated from recoding the multiclass predictions
+down to just <code>class 1</code> and <code>other</code>.</p>
 <p>Note that in macro averaging, all classes get equal weight when
 contributing their portion of the precision value to the total (here
 <code>1/4</code>). This might not be a realistic calculation when you
@@ -145,10 +129,9 @@ have a large amount of class imbalance. In that case, a <em>weighted
 macro average</em> might make more sense, where the weights are
 calculated by the frequency of that class in the <code>truth</code>
 column.</p>
-<p><span class="math display">\[
-Pr_{weighted-macro} = Pr_1 \frac{\#Obs_1}{N} + Pr_2 \frac{\#Obs_2}{N} +
-\ldots + Pr_k \frac{\#Obs_k}{N}
-\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><msub><mi>r</mi><mrow><mi>w</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>e</mi><mi>d</mi><mo>−</mo><mi>m</mi><mi>a</mi><mi>c</mi><mi>r</mi><mi>o</mi></mrow></msub><mo>=</mo><mi>P</mi><msub><mi>r</mi><mn>1</mn></msub><mfrac><mrow><mi>#</mi><mi>O</mi><mi>b</mi><msub><mi>s</mi><mn>1</mn></msub></mrow><mi>N</mi></mfrac><mo>+</mo><mi>P</mi><msub><mi>r</mi><mn>2</mn></msub><mfrac><mrow><mi>#</mi><mi>O</mi><mi>b</mi><msub><mi>s</mi><mn>2</mn></msub></mrow><mi>N</mi></mfrac><mo>+</mo><mi>…</mi><mo>+</mo><mi>P</mi><msub><mi>r</mi><mi>k</mi></msub><mfrac><mrow><mi>#</mi><mi>O</mi><mi>b</mi><msub><mi>s</mi><mi>k</mi></msub></mrow><mi>N</mi></mfrac></mrow><annotation encoding="application/x-tex">
+Pr_{weighted-macro} = Pr_1 \frac{\#Obs_1}{N} + Pr_2 \frac{\#Obs_2}{N} + \ldots + Pr_k \frac{\#Obs_k}{N}
+</annotation></semantics></math></p>
 </div>
 <div class="section level2">
 <h2 id="micro-averaging">Micro averaging<a class="anchor" aria-label="anchor" href="#micro-averaging"></a>
@@ -160,12 +143,12 @@ averaged together.</p>
 results for each class and using that as the numerator, and then
 calculating all of the true positive and false positive results for each
 class, and using that as the denominator.</p>
-<p><span class="math display">\[
-Pr_{micro} = \frac{TP_1 + TP_2 + \ldots + TP_k}{(TP_1 + TP_2 + \ldots +
-TP_k) + (FP_1 + FP_2 + \ldots + FP_k)}
-\]</span> In this case, rather than each <em>class</em> having equal
-weight, each <em>observation</em> gets equal weight. This gives the
-classes with the most observations more power.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><msub><mi>r</mi><mrow><mi>m</mi><mi>i</mi><mi>c</mi><mi>r</mi><mi>o</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>T</mi><msub><mi>P</mi><mn>1</mn></msub><mo>+</mo><mi>T</mi><msub><mi>P</mi><mn>2</mn></msub><mo>+</mo><mi>…</mi><mo>+</mo><mi>T</mi><msub><mi>P</mi><mi>k</mi></msub></mrow><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>T</mi><msub><mi>P</mi><mn>1</mn></msub><mo>+</mo><mi>T</mi><msub><mi>P</mi><mn>2</mn></msub><mo>+</mo><mi>…</mi><mo>+</mo><mi>T</mi><msub><mi>P</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>F</mi><msub><mi>P</mi><mn>1</mn></msub><mo>+</mo><mi>F</mi><msub><mi>P</mi><mn>2</mn></msub><mo>+</mo><mi>…</mi><mo>+</mo><mi>F</mi><msub><mi>P</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+Pr_{micro} = \frac{TP_1 + TP_2 + \ldots + TP_k}{(TP_1 + TP_2 + \ldots + TP_k) + (FP_1 + FP_2 + \ldots + FP_k)}
+</annotation></semantics></math> In this case, rather than each
+<em>class</em> having equal weight, each <em>observation</em> gets equal
+weight. This gives the classes with the most observations more
+power.</p>
 </div>
 <div class="section level2">
 <h2 id="specialized-multiclass-implementations">Specialized multiclass implementations<a class="anchor" aria-label="anchor" href="#specialized-multiclass-implementations"></a>
@@ -177,7 +160,9 @@ counterpart, with accuracy counting up the number of correctly predicted
 true values out of the total number of true values, and kappa being a
 linear combination of two accuracy values.</p>
 <p>Matthews correlation coefficient (MCC) has a known multiclass
-generalization as well, sometimes called the <span class="math inline">\(R_K\)</span> statistic. Refer to <a href="https://en.wikipedia.org/wiki/Matthews_correlation_coefficient#Multiclass_case" class="external-link">this
+generalization as well, sometimes called the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>K</mi></msub><annotation encoding="application/x-tex">R_K</annotation></semantics></math>
+statistic. Refer to <a href="https://en.wikipedia.org/wiki/Matthews_correlation_coefficient#Multiclass_case" class="external-link">this
 page</a> for more details.</p>
 <p>ROC AUC is an interesting metric in that it intuitively makes sense
 to perform macro averaging, which computes a multiclass AUC as the
@@ -189,7 +174,7 @@ does not have an easy visual interpretation like macro averaging. This
 is implemented as the <code>"hand_till"</code> method, and is the
 default for this metric.</p>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -198,13 +183,11 @@ default for this metric.</p>
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by <a href="https://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, Emil Hvitfeldt, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
+  <p>Developed by <a href="https://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, Emil Hvitfeldt, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" width="62" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
   </div></footer>

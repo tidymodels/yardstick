@@ -1,255 +1,87 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://yardstick.tidymodels.org/404.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/MAINTENANCE.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/articles/grouping.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/articles/metric-types.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/articles/multiclass.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/index.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/accuracy.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/average_precision.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/bal_accuracy.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/brier_class.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/brier_survival.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/brier_survival_integrated.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/ccc.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/check_metric.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/classification_cost.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/concordance_survival.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/conf_mat.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/demographic_parity.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/detection_prevalence.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/developer-helpers.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/equal_opportunity.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/equalized_odds.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/f_meas.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/gain_capture.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/gain_curve.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/hpc_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/huber_loss.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/huber_loss_pseudo.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/iic.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/j_index.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/kap.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/lift_curve.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/lung_surv.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/mae.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/mape.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/mase.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/mcc.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/metric-summarizers.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/metric_set.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/metric_summarizer.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/metric_tweak.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/metric_vec_template.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/metrics.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/mn_log_loss.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/mpe.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/msd.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/new-metric.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/new_groupwise_metric.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/npv.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/pathology.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/poisson_log_loss.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/ppv.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/pr_auc.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/pr_curve.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/precision.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/recall.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/rmse.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/roc_auc.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/roc_auc_survival.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/roc_aunp.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/roc_aunu.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/roc_curve.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/roc_curve_survival.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/rpd.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/rpiq.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/rsq.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/rsq_trad.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/sens.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/smape.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/solubility_test.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/spec.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/summary.conf_mat.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/two_class_example.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/yardstick-package.html</loc>
-  </url>
-  <url>
-    <loc>https://yardstick.tidymodels.org/reference/yardstick_remove_missing.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://yardstick.tidymodels.org/404.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/CONTRIBUTING.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/LICENSE-text.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/LICENSE.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/MAINTENANCE.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/articles/grouping.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/articles/index.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/articles/metric-types.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/articles/multiclass.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/authors.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/index.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/news/index.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/accuracy.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/average_precision.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/bal_accuracy.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/brier_class.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/brier_survival.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/brier_survival_integrated.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/ccc.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/check_metric.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/classification_cost.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/concordance_survival.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/conf_mat.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/demographic_parity.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/detection_prevalence.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/developer-helpers.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/equal_opportunity.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/equalized_odds.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/f_meas.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/gain_capture.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/gain_curve.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/hpc_cv.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/huber_loss.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/huber_loss_pseudo.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/iic.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/index.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/j_index.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/kap.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/lift_curve.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/lung_surv.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/mae.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/mape.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/mase.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/mcc.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/metric-summarizers.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/metric_set.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/metric_summarizer.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/metric_tweak.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/metric_vec_template.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/metrics.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/mn_log_loss.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/mpe.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/msd.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/new-metric.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/new_groupwise_metric.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/npv.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/pathology.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/poisson_log_loss.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/ppv.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/pr_auc.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/pr_curve.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/precision.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/recall.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/reexports.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/rmse.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/roc_auc.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/roc_auc_survival.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/roc_aunp.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/roc_aunu.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/roc_curve.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/roc_curve_survival.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/rpd.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/rpiq.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/rsq.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/rsq_trad.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/sens.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/smape.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/solubility_test.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/spec.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/summary.conf_mat.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/two_class_example.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/yardstick-package.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/reference/yardstick_remove_missing.html</loc></url>
 </urlset>
+
