@@ -1,6 +1,8 @@
+# yardstick (development version)
+
 # yardstick 1.3.2
 
-All messages, warnings and errors has been translated to use {cli} package (#517, #522).
+* All messages, warnings and errors has been translated to use {cli} package (#517, #522).
 
 # yardstick 1.3.1
 
