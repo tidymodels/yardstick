@@ -48,14 +48,6 @@
       i This is an internal error that was detected in the yardstick package.
         Please report it at <https://github.com/tidymodels/yardstick/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
-# case weights must be numeric
-
-    Code
-      yardstick_table(x, x, case_weights = "x")
-    Condition
-      Error in `hardhat::weighted_table()`:
-      ! Can't convert `weights` <character> to <double>.
-
 # works with constant inputs
 
     Code
