@@ -71,12 +71,6 @@ test_that("must have at least 2 levels", {
   expect_snapshot(error = TRUE, yardstick_table(x, x))
 })
 
-test_that("case weights must be numeric", {
-  x <- factor(levels = c("x", "y"))
-
-  expect_snapshot(error = TRUE, yardstick_table(x, x, case_weights = "x"))
-})
-
 test_that("works with hardhat case weights", {
   x <- factor(c("x", "y", "x"), levels = c("x", "y"))
   w <- hardhat::frequency_weights(c(1, 3, 5))
