@@ -78,6 +78,14 @@ accordance with the type of metric that is used.</p>
 <span>  call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">check_ordered_prob_metric</span><span class="op">(</span></span>
+<span>  <span class="va">truth</span>,</span>
+<span>  <span class="va">estimate</span>,</span>
+<span>  <span class="va">case_weights</span>,</span>
+<span>  <span class="va">estimator</span>,</span>
+<span>  call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">check_dynamic_survival_metric</span><span class="op">(</span></span>
 <span>  <span class="va">truth</span>,</span>
 <span>  <span class="va">estimate</span>,</span>
@@ -101,6 +109,7 @@ accordance with the type of metric that is used.</p>
 <dd><p>The realized vector of <code>truth</code>.</p><ul><li><p>For <code>check_numeric_metric()</code>, a numeric vector.</p></li>
 <li><p>For <code>check_class_metric()</code>, a factor.</p></li>
 <li><p>For <code>check_prob_metric()</code>, a factor.</p></li>
+<li><p>For <code>check_ordered_prob_metric()</code>, an ordered factor.</p></li>
 <li><p>For <code>check_dynamic_survival_metric()</code>, a Surv object.</p></li>
 <li><p>For <code>check_static_survival_metric()</code>, a Surv object.</p></li>
 </ul></dd>
@@ -110,6 +119,8 @@ accordance with the type of metric that is used.</p>
 <dd><p>The realized <code>estimate</code> result.</p><ul><li><p>For <code>check_numeric_metric()</code>, a numeric vector.</p></li>
 <li><p>For <code>check_class_metric()</code>, a factor.</p></li>
 <li><p>For <code>check_prob_metric()</code>, a numeric vector for binary <code>truth</code>,
+a numeric matrix for multic-class <code>truth</code>.</p></li>
+<li><p>For <code>check_ordered_prob_metric()</code>, a numeric vector for binary <code>truth</code>,
 a numeric matrix for multic-class <code>truth</code>.</p></li>
 <li><p>For <code>check_dynamic_survival_metric()</code>, list-column of data.frames.</p></li>
 <li><p>For <code>check_static_survival_metric()</code>, a numeric vector.</p></li>
