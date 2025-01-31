@@ -4,6 +4,7 @@
 \alias{new-metric}
 \alias{new_class_metric}
 \alias{new_prob_metric}
+\alias{new_ordered_prob_metric}
 \alias{new_numeric_metric}
 \alias{new_dynamic_survival_metric}
 \alias{new_integrated_survival_metric}
@@ -13,6 +14,8 @@
 new_class_metric(fn, direction)
 
 new_prob_metric(fn, direction)
+
+new_ordered_prob_metric(fn, direction)
 
 new_numeric_metric(fn, direction)
 

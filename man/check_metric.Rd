@@ -5,6 +5,7 @@
 \alias{check_numeric_metric}
 \alias{check_class_metric}
 \alias{check_prob_metric}
+\alias{check_ordered_prob_metric}
 \alias{check_dynamic_survival_metric}
 \alias{check_static_survival_metric}
 \title{Developer function for checking inputs in new metrics}
@@ -20,6 +21,14 @@ check_class_metric(
 )
 
 check_prob_metric(
+  truth,
+  estimate,
+  case_weights,
+  estimator,
+  call = caller_env()
+)
+
+check_ordered_prob_metric(
   truth,
   estimate,
   case_weights,
@@ -47,6 +56,7 @@ check_static_survival_metric(
 \item For \code{check_numeric_metric()}, a numeric vector.
 \item For \code{check_class_metric()}, a factor.
 \item For \code{check_prob_metric()}, a factor.
+\item For \code{check_ordered_prob_metric()}, an ordered factor.
 \item For \code{check_dynamic_survival_metric()}, a Surv object.
 \item For \code{check_static_survival_metric()}, a Surv object.
 }}
@@ -56,6 +66,8 @@ check_static_survival_metric(
 \item For \code{check_numeric_metric()}, a numeric vector.
 \item For \code{check_class_metric()}, a factor.
 \item For \code{check_prob_metric()}, a numeric vector for binary \code{truth},
+a numeric matrix for multic-class \code{truth}.
+\item For \code{check_ordered_prob_metric()}, a numeric vector for binary \code{truth},
 a numeric matrix for multic-class \code{truth}.
 \item For \code{check_dynamic_survival_metric()}, list-column of data.frames.
 \item For \code{check_static_survival_metric()}, a numeric vector.
