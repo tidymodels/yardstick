@@ -1,4 +1,4 @@
-# errors are thrown truth or estimate selects more than 1 column
+# errors are thrown if truth or estimate selects more than 1 column
 
     Code
       rmse(mtcars, mpg, tidyselect::starts_with("d"))

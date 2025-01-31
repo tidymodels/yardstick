@@ -99,6 +99,7 @@ Collate:
     'num-rsq.R'
     'num-rsq_trad.R'
     'num-smape.R'
+    'orderedprob-ranked_prob_score.R'
     'prob-average_precision.R'
     'prob-binary-thresholds.R'
     'prob-brier_class.R'

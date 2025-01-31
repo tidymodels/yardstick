@@ -49,6 +49,10 @@ reference:
     - classification_cost
     - brier_class
 
+  - title: Ordered Probability Metrics
+    contents:
+    - ranked_prob_score
+
   - title: Regression Metrics
     contents:
     - rmse
