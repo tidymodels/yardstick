@@ -27,6 +27,9 @@ test_that("poisson log-loss handles 0 valued estimates (#513)", {
   expect_false(
     is.nan(poisson_log_loss(count_results, count, pred)[[".estimate"]]),
   )
+  expect_false(
+    is.infinite(poisson_log_loss(count_results, count, pred)[[".estimate"]]),
+  )
 })
 
 test_that("weighted results are working", {
@@ -35,7 +38,7 @@ test_that("weighted results are working", {
 
   expect_identical(
     poisson_log_loss(count_results, count, pred, case_weights = weights)[[".estimate"]],
-    yardstick_mean(-stats::dpois(count_results$count, count_results$pred, log = TRUE), case_weights = count_results$weights)
+    yardstick_mean(log(gamma(count_results$count + 1)) + count_results$pred - log(count_results$pred) * count_results$count, case_weights = count_results$weights)
   )
 })
 
