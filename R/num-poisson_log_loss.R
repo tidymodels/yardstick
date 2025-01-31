@@ -75,8 +75,9 @@ poisson_log_loss_impl <- function(truth,
   if (!is.integer(truth)) {
     truth <- as.integer(truth)
   }
-
-  loss <- -stats::dpois(truth, estimate, log = TRUE)
+  eps <- 1e-15
+  estimate <- pmax(estimate, eps)
+  loss <- log(gamma(truth + 1)) + estimate - log(estimate) * truth
 
   yardstick_mean(loss, case_weights = case_weights)
 }
