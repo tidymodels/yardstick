@@ -19,6 +19,16 @@ test_that("poisson log-loss", {
   )
 })
 
+test_that("poisson log-loss handles 0 valued estimates (#513)", {
+  count_results <- data_counts()$basic
+
+  count_results$pred <- 0
+
+  expect_false(
+    is.nan(poisson_log_loss(count_results, count, pred)[[".estimate"]]),
+  )
+})
+
 test_that("weighted results are working", {
   count_results <- data_counts()$basic
   count_results$weights <- c(1, 2, 1, 1, 2, 1)
