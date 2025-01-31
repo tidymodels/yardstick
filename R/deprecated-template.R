@@ -261,6 +261,7 @@ validate_truth_estimate_types <- function(truth, estimate, estimator) {
   UseMethod("validate_truth_estimate_types")
 }
 
+#' @export
 validate_truth_estimate_types.default <- function(truth, estimate, estimator) {
   cls <- class(truth)[[1]]
   abort(paste0(
@@ -270,6 +271,7 @@ validate_truth_estimate_types.default <- function(truth, estimate, estimator) {
 }
 
 # factor / ?
+#' @export
 validate_truth_estimate_types.factor <- function(truth, estimate, estimator) {
   switch(estimator,
     "binary" = binary_checks(truth, estimate),
@@ -279,6 +281,7 @@ validate_truth_estimate_types.factor <- function(truth, estimate, estimator) {
 }
 
 # numeric / numeric
+#' @export
 validate_truth_estimate_types.numeric <- function(truth, estimate, estimator) {
   if (!is.numeric(estimate)) {
     cls <- class(estimate)[[1]]
@@ -308,6 +311,7 @@ binary_checks <- function(truth, estimate) {
 }
 
 # factor / unknown
+#' @export
 binary_checks.default <- function(truth, estimate) {
   cls <- class(estimate)[[1]]
   abort(paste0(
@@ -317,6 +321,7 @@ binary_checks.default <- function(truth, estimate) {
 }
 
 # factor / factor
+#' @export
 binary_checks.factor <- function(truth, estimate) {
   lvls_t <- levels(truth)
   lvls_e <- levels(estimate)
@@ -343,11 +348,13 @@ binary_checks.factor <- function(truth, estimate) {
 }
 
 # factor / numeric
+#' @export
 binary_checks.numeric <- function(truth, estimate) {
   # nothing to check here, all good
 }
 
 # factor / matrix
+#' @export
 binary_checks.matrix <- function(truth, estimate) {
   abort(paste0(
     "You are using a `binary` metric but have passed multiple columns to `...`"
@@ -361,12 +368,14 @@ multiclass_checks <- function(truth, estimate) {
 }
 
 # factor / unknown
+#' @export
 multiclass_checks.default <- function(truth, estimate) {
   cls <- class(estimate)[[1]]
   abort(paste0("`estimate` class `", cls, "` is unknown."))
 }
 
 # factor / factor, >2 classes each
+#' @export
 multiclass_checks.factor <- function(truth, estimate) {
   lvls_t <- levels(truth)
   lvls_e <- levels(estimate)
@@ -387,6 +396,7 @@ multiclass_checks.factor <- function(truth, estimate) {
 # factor / numeric, but should be matrix
 # (any probs function, if user went from binary->macro, they need to supply
 # all cols)
+#' @export
 multiclass_checks.numeric <- function(truth, estimate) {
   # this is bad, but we want to be consistent in erorr messages
   # with the factor / matrix check below
@@ -394,6 +404,7 @@ multiclass_checks.numeric <- function(truth, estimate) {
 }
 
 # factor / matrix (any probs functions)
+#' @export
 multiclass_checks.matrix <- function(truth, estimate) {
   n_lvls <- length(levels(truth))
   n_cols <- ncol(estimate)

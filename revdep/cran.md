@@ -1,7 +1,14 @@
 ## revdepcheck results
 
-We checked 37 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 41 reverse dependencies (40 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 0 new problems
- * We failed to check 0 packages
+ * We failed to check 3 packages
 
+Issues with CRAN packages are summarised below.
+
+### Failed to check
+
+* ldmppr (NA)
+* rTwig  (NA)
+* shapr  (NA)

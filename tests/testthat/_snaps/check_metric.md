@@ -57,6 +57,24 @@
       Error:
       ! You are using a binary metric but have passed multiple columns to `...`.
 
+# check_ordered_prob_metric() validates case_weights
+
+    Code
+      check_ordered_prob_metric(ordered(c("a", "b", "a")), matrix(1:6, nrow = 2), 1:4,
+      estimator = "binary")
+    Condition
+      Error:
+      ! `truth` (3) and `case_weights` (4) must be the same length.
+
+# check_ordered_prob_metric() validates inputs
+
+    Code
+      check_ordered_prob_metric(ordered(c("a", "b", "a")), matrix(1:6, nrow = 2), 1:3,
+      estimator = "binary")
+    Condition
+      Error:
+      ! You are using a binary metric but have passed multiple columns to `...`.
+
 # check_static_survival_metric() validates case_weights
 
     Code

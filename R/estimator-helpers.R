@@ -221,12 +221,14 @@ finalize_estimator_default <- function(x, estimator, call = caller_env()) {
   UseMethod("finalize_estimator_default")
 }
 
+#' @export
 finalize_estimator_default.default <- function(x,
                                                estimator,
                                                call = caller_env()) {
   "binary"
 }
 
+#' @export
 finalize_estimator_default.matrix <- function(x,
                                               estimator,
                                               call = caller_env()) {
@@ -234,6 +236,7 @@ finalize_estimator_default.matrix <- function(x,
 }
 
 # Covers all numeric metric functions
+#' @export
 finalize_estimator_default.numeric <- function(x,
                                                estimator,
                                                call = caller_env()) {
@@ -241,12 +244,14 @@ finalize_estimator_default.numeric <- function(x,
 }
 
 # Covers all dynamic survival functions
+#' @export
 finalize_estimator_default.Surv <- function(x,
                                             estimator,
                                             call = caller_env()) {
   "standard"
 }
 
+#' @export
 finalize_estimator_default.table <- function(x,
                                              estimator,
                                              call = caller_env()) {
@@ -257,6 +262,7 @@ finalize_estimator_default.table <- function(x,
   }
 }
 
+#' @export
 finalize_estimator_default.factor <- function(x,
                                               estimator,
                                               call = caller_env()) {
@@ -278,6 +284,7 @@ is_multiclass <- function(x) {
   UseMethod("is_multiclass")
 }
 
+#' @export
 is_multiclass.default <- function(x) {
   # dont throw a error here
   # this case should only happen if x is an
@@ -286,6 +293,7 @@ is_multiclass.default <- function(x) {
   FALSE
 }
 
+#' @export
 is_multiclass.table <- function(x) {
   n_col <- ncol(x)
 
@@ -300,6 +308,7 @@ is_multiclass.table <- function(x) {
   }
 }
 
+#' @export
 is_multiclass.factor <- function(x) {
   lvls <- levels(x)
   n_lvls <- length(lvls)

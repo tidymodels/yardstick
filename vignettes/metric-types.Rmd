@@ -38,19 +38,24 @@ metrics, along with the types of the inputs they take.
     
     - `estimate / ...` - multiple numeric columns containing class probabilities
   
-3) **Numeric metrics**
+3) **Ordered probability metrics** (soft predictions)
+    - `truth` - ordered factor
+    
+    - `estimate / ...` - multiple numeric columns containing class probabilities
+  
+4) **Numeric metrics**
 
     - `truth` - numeric
     
     - `estimate` - numeric
 
-4) **Static survival metircs**
+5) **Static survival metircs**
 
     - `truth` - Surv
 
     - `estimate` - numeric
 
-5) **Dynamic survival metrics**
+6) **Dynamic survival metrics**
 
     - `truth` - Surv
 
@@ -120,6 +125,7 @@ get_metrics <- function(fns, type) {
 all_metrics <- bind_rows(
   tibble(type = "class", metric = get_metrics(fns, "class_metric")),
   tibble(type = "class prob", metric = get_metrics(fns, "prob_metric")),
+  tibble(type = "ordered prob", metric = get_metrics(fns, "ordered_prob_metric")),
   tibble(type = "numeric", metric = get_metrics(fns, "numeric_metric")),
   tibble(type = "dynamic survival", metric = get_metrics(fns, "dynamic_survival_metric")),
   tibble(type = "static survival", metric = get_metrics(fns, "static_survival_metric"))
