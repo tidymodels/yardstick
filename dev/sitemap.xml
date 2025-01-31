@@ -61,6 +61,7 @@
 <url><loc>https://yardstick.tidymodels.org/dev/reference/pr_auc.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/pr_curve.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/precision.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/dev/reference/ranked_prob_score.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/recall.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/reexports.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/rmse.html</loc></url>
