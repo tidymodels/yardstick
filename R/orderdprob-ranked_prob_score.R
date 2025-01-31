@@ -80,7 +80,7 @@ ranked_prob_score.data.frame <- function(data,
                                          case_weights = NULL) {
   case_weights_quo <- enquo(case_weights)
 
-  prob_metric_summarizer(
+  ranked_prob_metric_summarizer(
     name = "ranked_prob_score",
     fn = ranked_prob_score_vec,
     data = data,
