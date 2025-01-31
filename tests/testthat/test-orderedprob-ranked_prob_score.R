@@ -5,7 +5,7 @@ test_that("basic results", {
   hpc_exp <- 0.08566779
 
   expect_equal(
-    yardstick:::ranked_prob_score_vec(hpc_cv$obs, hpc_cv %>% dplyr::select(VF:L)),
+    yardstick:::ranked_prob_score_vec(hpc_cv$obs, as.matrix(hpc_cv %>% dplyr::select(VF:L))),
     hpc_exp,
     tolerance = 0.01
   )
@@ -47,11 +47,19 @@ test_that("works with hardhat case weights", {
   freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
 
   expect_no_error(
-    ranked_prob_score_vec(df$truth, df[, 2:3], case_weights = imp_wgt)
+    ranked_prob_score_vec(
+      df$truth, 
+      as.matrix(df[c("Class1", "Class2")]), 
+      case_weights = imp_wgt
+    )
   )
 
   expect_no_error(
-    ranked_prob_score_vec(df$truth, df[, 2:3], case_weights = freq_wgt)
+    ranked_prob_score_vec(
+      df$truth, 
+      as.matrix(df[c("Class1", "Class2")]), 
+      case_weights = freq_wgt
+    )
   )
 })
 

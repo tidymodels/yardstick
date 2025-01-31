@@ -12,7 +12,7 @@
       ranked_prob_score_vec(two_class_example$truth, estimate)
     Condition
       Error in `ranked_prob_score_vec()`:
-      ! The ranked probability score requires the outcome to be an ordered factor, not a <factor> object.
+      ! `truth` should be a ordered factor, not a a <factor> object.
 
 ---
 
@@ -20,5 +20,5 @@
       ranked_prob_score_vec(ord_truth, estimate_1D)
     Condition
       Error in `ranked_prob_score_vec()`:
-      ! For these data, the ranked probability score requires `estimate` to have 2 probability columns.
+      ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (1).
 

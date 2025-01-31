@@ -66,7 +66,7 @@
 ranked_prob_score <- function(data, ...) {
   UseMethod("ranked_prob_score")
 }
-ranked_prob_score <- new_prob_metric(
+ranked_prob_score <- new_ordered_prob_metric(
   ranked_prob_score,
   direction = "minimize"
 )
@@ -80,7 +80,7 @@ ranked_prob_score.data.frame <- function(data,
                                          case_weights = NULL) {
   case_weights_quo <- enquo(case_weights)
 
-  ranked_prob_metric_summarizer(
+  ordered_prob_metric_summarizer(
     name = "ranked_prob_score",
     fn = ranked_prob_score_vec,
     data = data,
@@ -99,22 +99,10 @@ ranked_prob_score_vec <- function(truth,
                                   case_weights = NULL,
                                   ...) {
   abort_if_class_pred(truth)
-  if (!is.ordered(truth)) {
-    cli::cli_abort("The ranked probability score requires the outcome to be an
-                   {.strong ordered} factor, not {.obj_type_friendly {truth}}.")
-  }
 
-  num_lvl <- length(levels(truth))
-  if (NCOL(estimate) == 1) {
-    cli::cli_abort("For these data, the ranked probability score requires
-                   {.arg estimate} to have {num_lvl} probability columns.")
-  }
-  estimate <- as.matrix(estimate)
-
-  # TODO should `...` be empty?
   estimator <- finalize_estimator(truth, metric_class = "ranked_prob_score")
 
-  check_prob_metric(truth, estimate, case_weights, estimator)
+  check_ordered_prob_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {
     result <- yardstick_remove_missing(truth, estimate, case_weights)
