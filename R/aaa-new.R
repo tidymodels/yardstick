@@ -42,6 +42,12 @@ new_prob_metric <- function(fn, direction) {
 
 #' @rdname new-metric
 #' @export
+new_ordered_prob_metric <- function(fn, direction) {
+  new_metric(fn, direction, class = "ordered_prob_metric")
+}
+
+#' @rdname new-metric
+#' @export
 new_numeric_metric <- function(fn, direction) {
   new_metric(fn, direction, class = "numeric_metric")
 }

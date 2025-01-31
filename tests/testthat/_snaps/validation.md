@@ -173,6 +173,77 @@
       Error:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (5).
 
+# validate_ordered_truth_matrix_estimate errors as expected for binary
+
+    Code
+      validate_ordered_truth_matrix_estimate(c("a", "b", "a"), 1:3, estimator = "binary")
+    Condition
+      Error:
+      ! `truth` should be a ordered factor, not a a character vector.
+
+---
+
+    Code
+      validate_ordered_truth_matrix_estimate(ordered(c("a", "b", "a"), levels = c("a",
+        "b")), c("a", "b", "a"), estimator = "binary")
+    Condition
+      Error:
+      ! `estimate` should be a numeric vector, not a character vector.
+
+---
+
+    Code
+      validate_ordered_truth_matrix_estimate(ordered(character(), levels = c("a", "b")),
+      matrix(1:6, ncol = 2), estimator = "binary")
+    Condition
+      Error:
+      ! You are using a binary metric but have passed multiple columns to `...`.
+
+---
+
+    Code
+      validate_ordered_truth_matrix_estimate(ordered(c("a", "b", "a"), levels = c("a",
+        "b", "c")), 1:3, estimator = "binary")
+    Condition
+      Error:
+      ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 3 levels was provided.
+
+# validate_ordered_truth_matrix_estimate errors as expected for non-binary
+
+    Code
+      validate_ordered_truth_matrix_estimate(c("a", "b", "a"), matrix(1:6, ncol = 2),
+      estimator = "non binary")
+    Condition
+      Error:
+      ! `truth` should be a ordered factor, not a a character vector.
+
+---
+
+    Code
+      validate_ordered_truth_matrix_estimate(ordered(c("a", "b", "a"), levels = c("a",
+        "b")), 1:3, estimator = "non binary")
+    Condition
+      Error:
+      ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (1).
+
+---
+
+    Code
+      validate_ordered_truth_matrix_estimate(ordered(c("a", "b", "a"), levels = c("a",
+        "b")), matrix(as.character(1:6), ncol = 2), estimator = "non binary")
+    Condition
+      Error:
+      ! The columns supplied in `...` should be numerics, not <cls>.
+
+---
+
+    Code
+      validate_ordered_truth_matrix_estimate(ordered(c("a", "b", "a"), levels = c("a",
+        "b")), matrix(1:15, ncol = 5), estimator = "non binary")
+    Condition
+      Error:
+      ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (5).
+
 # validate_surv_truth_numeric_estimate errors as expected
 
     Code

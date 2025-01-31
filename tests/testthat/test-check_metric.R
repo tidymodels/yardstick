@@ -62,6 +62,30 @@ test_that("check_prob_metric() validates inputs", {
   )
 })
 
+test_that("check_ordered_prob_metric() validates case_weights", {
+  expect_snapshot(
+    error = TRUE,
+    check_ordered_prob_metric(
+      ordered(c("a", "b", "a")),
+      matrix(1:6, nrow = 2),
+      1:4,
+      estimator = "binary"
+    )
+  )
+})
+
+test_that("check_ordered_prob_metric() validates inputs", {
+  expect_snapshot(
+    error = TRUE,
+    check_ordered_prob_metric(
+      ordered(c("a", "b", "a")),
+      matrix(1:6, nrow = 2),
+      1:3,
+      estimator = "binary"
+    )
+  )
+})
+
 test_that("check_static_survival_metric() validates case_weights", {
   lung_surv <- data_lung_surv()
 

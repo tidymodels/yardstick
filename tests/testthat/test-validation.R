@@ -241,6 +241,137 @@ test_that("validate_factor_truth_matrix_estimate errors as expected for non-bina
   )
 })
 
+test_that("validate_ordered_truth_matrix_estimate errors as expected for binary", {
+  expect_no_error(
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a", "b", "a"), levels = c("a", "b")),
+      1:3,
+      estimator = "binary"
+    )
+  )
+
+  expect_no_error(
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a"), levels = c("a", "b")),
+      1,
+      estimator = "binary"
+    )
+  )
+
+  expect_no_error(
+    validate_ordered_truth_matrix_estimate(
+      ordered(character(), levels = c("a", "b")),
+      numeric(),
+      estimator = "binary"
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_ordered_truth_matrix_estimate(
+      c("a", "b", "a"),
+      1:3,
+      estimator = "binary"
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a", "b", "a"), levels = c("a", "b")),
+      c("a", "b", "a"),
+      estimator = "binary"
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_ordered_truth_matrix_estimate(
+      ordered(character(), levels = c("a", "b")),
+      matrix(1:6, ncol = 2),
+      estimator = "binary"
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a", "b", "a"), levels = c("a", "b", "c")),
+      1:3,
+      estimator = "binary"
+    )
+  )
+})
+
+test_that("validate_ordered_truth_matrix_estimate errors as expected for non-binary", {
+  expect_no_error(
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a", "b", "a"), levels = c("a", "b")),
+      matrix(1:6, ncol = 2),
+      estimator = "non binary"
+    )
+  )
+
+  expect_no_error(
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a", "b", "a"), levels = c("a", "b", "c", "d")),
+      matrix(1:12, ncol = 4),
+      estimator = "non binary"
+    )
+  )
+
+  expect_no_error(
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a"), levels = c("a", "b")),
+      matrix(1:2, ncol = 2),
+      estimator = "non binary"
+    )
+  )
+
+  expect_no_error(
+    validate_ordered_truth_matrix_estimate(
+      ordered(character(), levels = c("a", "b")),
+      matrix(numeric(), ncol = 2),
+      estimator = "non binary"
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_ordered_truth_matrix_estimate(
+      c("a", "b", "a"),
+      matrix(1:6, ncol = 2),
+      estimator = "non binary"
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a", "b", "a"), levels = c("a", "b")),
+      1:3,
+      estimator = "non binary"
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a", "b", "a"), levels = c("a", "b")),
+      matrix(as.character(1:6), ncol = 2),
+      estimator = "non binary"
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_ordered_truth_matrix_estimate(
+      ordered(c("a", "b", "a"), levels = c("a", "b")),
+      matrix(1:15, ncol = 5),
+      estimator = "non binary"
+    )
+  )
+})
 
 test_that("validate_numeric_truth_numeric_estimate errors as expected", {
   expect_no_error(

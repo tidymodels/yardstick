@@ -152,6 +152,70 @@ validate_factor_truth_matrix_estimate <- function(truth,
   }
 }
 
+validate_ordered_truth_matrix_estimate <- function(truth,
+                                                   estimate,
+                                                   estimator,
+                                                   call = caller_env()) {
+  if (!is.ordered(truth)) {
+    cli::cli_abort(
+      "{.arg truth} should be a ordered factor,
+      not a {.obj_type_friendly {truth}}.",
+      call = call
+    )
+  }
+
+  if (estimator == "binary") {
+    if (is.matrix(estimate)) {
+      cli::cli_abort(
+        "You are using a binary metric but have passed multiple columns to
+        {.arg ...}.",
+        call = call
+      )
+    }
+
+    if (!is.numeric(estimate)) {
+      cli::cli_abort(
+        "{.arg estimate} should be a numeric vector,
+        not {.obj_type_friendly {estimate}}.",
+        call = call
+      )
+    }
+
+    n_lvls <- length(levels(truth))
+    if (n_lvls != 2) {
+      cli::cli_abort(
+        "{.arg estimator} is binary, only two class {.arg truth} factors are
+        allowed. A factor with {n_lvls} levels was provided.",
+        call = call
+      )
+    }
+  } else {
+    n_lvls <- length(levels(truth))
+    if (is.matrix(estimate)) {
+      n_cols <- ncol(estimate)
+    } else {
+      n_cols <- 1L
+    }
+
+    if (n_lvls != n_cols) {
+      cli::cli_abort(
+        "The number of levels in `truth` ({n_lvls})
+        must match the number of columns supplied in `...` ({n_cols}).",
+        call = call
+      )
+    }
+
+    if (!is.numeric(as.vector(estimate))) {
+      cls <- as.vector(estimate)
+      cli::cli_abort(
+        "The columns supplied in {.arg ...} should be numerics,
+        not {.cls cls}.",
+        call = call
+      )
+    }
+  }
+}
+
 validate_surv_truth_list_estimate <- function(truth,
                                               estimate,
                                               call = caller_env()) {
