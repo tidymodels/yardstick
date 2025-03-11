@@ -143,6 +143,18 @@ test_that("can mix class and class prob metrics together", {
   )
 })
 
+test_that("can mix class and class prob and ordered metrics together", {
+  expect_no_error(
+    mixed_set <- metric_set(kap, roc_auc, ranked_prob_score)
+  )
+
+  hpc_cv$obs <- as.ordered(hpc_cv$obs)
+
+  expect_no_error(
+    mixed_set(hpc_cv, obs, VF:L, estimate = pred)
+  )
+})
+
 test_that("dynamic survival metric sets", {
   skip_if_not_installed("tidyr")
   my_set <- metric_set(brier_survival)
