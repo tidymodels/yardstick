@@ -30,7 +30,10 @@ test_that("case weights are applied", {
 
 test_that("yardstick correlation warnings are thrown", {
   cnd <- rlang::catch_cnd(iic_vec(c(1, 2), c(1, 1)))
-  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_estimate")
+  expect_s3_class(
+    cnd,
+    "yardstick_warning_correlation_undefined_constant_estimate"
+  )
 
   cnd <- rlang::catch_cnd(iic_vec(c(1, 1), c(1, 2)))
   expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_truth")
@@ -49,5 +52,5 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     iic_vec(df$solubility, df$prediction, case_weights = freq_wgt)
-  ) 
+  )
 })

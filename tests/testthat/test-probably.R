@@ -49,7 +49,11 @@ test_that("`class_pred` errors when passed to `metrics()`", {
 
   cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
   cp_estimate <- probably::as_class_pred(two_class_example$predicted, which = 2)
-  cp_df <- data.frame(truth = cp_truth, estimate = cp_estimate, class1 = two_class_example$Class1)
+  cp_df <- data.frame(
+    truth = cp_truth,
+    estimate = cp_estimate,
+    class1 = two_class_example$Class1
+  )
 
   expect_snapshot(
     error = TRUE,

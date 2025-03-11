@@ -76,7 +76,7 @@ new_metric <- function(fn, direction, class = NULL, call = caller_env()) {
 
   direction <- arg_match(
     direction,
-    values = c("maximize", "minimize", "zero"), 
+    values = c("maximize", "minimize", "zero"),
     error_call = call
   )
 

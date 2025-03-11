@@ -3,11 +3,13 @@
 # - Unique thresholds
 # - Number of true positives per threshold
 # - Number of false positives per threshold
-binary_threshold_curve <- function(truth,
-                                   estimate,
-                                   ...,
-                                   event_level = yardstick_event_level(),
-                                   case_weights = NULL) {
+binary_threshold_curve <- function(
+  truth,
+  estimate,
+  ...,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+) {
   check_dots_empty()
 
   if (is.null(case_weights)) {

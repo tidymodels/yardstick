@@ -39,12 +39,14 @@ msd <- new_numeric_metric(
 
 #' @rdname msd
 #' @export
-msd.data.frame <- function(data,
-                           truth,
-                           estimate,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+msd.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "msd",
     fn = msd_vec,
@@ -58,11 +60,7 @@ msd.data.frame <- function(data,
 
 #' @export
 #' @rdname msd
-msd_vec <- function(truth,
-                    estimate,
-                    na_rm = TRUE,
-                    case_weights = NULL,
-                    ...) {
+msd_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

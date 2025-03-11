@@ -70,7 +70,6 @@ test_that("case weights", {
   )
 })
 
-
 test_that("works with hardhat case weights", {
   skip_if_not_installed("tidyr")
 
@@ -83,10 +82,20 @@ test_that("works with hardhat case weights", {
   df$freq_wgt <- hardhat::frequency_weights(lung_surv$case_wts)
 
   expect_no_error(
-    brier_survival_integrated(df, truth = surv_obj, .pred, case_weights = imp_wgt)
+    brier_survival_integrated(
+      df,
+      truth = surv_obj,
+      .pred,
+      case_weights = imp_wgt
+    )
   )
 
   expect_no_error(
-    brier_survival_integrated(df, truth = surv_obj, .pred, case_weights = freq_wgt)
+    brier_survival_integrated(
+      df,
+      truth = surv_obj,
+      .pred,
+      case_weights = freq_wgt
+    )
   )
 })

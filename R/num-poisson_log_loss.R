@@ -30,12 +30,14 @@ poisson_log_loss <- new_numeric_metric(
 
 #' @rdname poisson_log_loss
 #' @export
-poisson_log_loss.data.frame <- function(data,
-                                        truth,
-                                        estimate,
-                                        na_rm = TRUE,
-                                        case_weights = NULL,
-                                        ...) {
+poisson_log_loss.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "poisson_log_loss",
     fn = poisson_log_loss_vec,
@@ -49,11 +51,13 @@ poisson_log_loss.data.frame <- function(data,
 
 #' @export
 #' @rdname poisson_log_loss
-poisson_log_loss_vec <- function(truth,
-                                 estimate,
-                                 na_rm = TRUE,
-                                 case_weights = NULL,
-                                 ...) {
+poisson_log_loss_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {
@@ -69,9 +73,7 @@ poisson_log_loss_vec <- function(truth,
   poisson_log_loss_impl(truth, estimate, case_weights)
 }
 
-poisson_log_loss_impl <- function(truth,
-                                  estimate,
-                                  case_weights) {
+poisson_log_loss_impl <- function(truth, estimate, case_weights) {
   if (!is.integer(truth)) {
     truth <- as.integer(truth)
   }

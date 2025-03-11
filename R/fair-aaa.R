@@ -149,7 +149,7 @@ new_groupwise_metric <- function(fn, name, aggregate, direction = "minimize") {
           }
 
           # error informatively when `fn` is a metric set; see `eval_safely()`
-          data_grouped <- dplyr::group_by(data, {{by}}, .add = TRUE)
+          data_grouped <- dplyr::group_by(data, {{ by }}, .add = TRUE)
           res <-
             tryCatch(
               fn(data_grouped, ...),

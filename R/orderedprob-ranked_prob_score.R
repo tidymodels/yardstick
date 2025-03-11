@@ -73,11 +73,13 @@ ranked_prob_score <- new_ordered_prob_metric(
 
 #' @export
 #' @rdname ranked_prob_score
-ranked_prob_score.data.frame <- function(data,
-                                         truth,
-                                         ...,
-                                         na_rm = TRUE,
-                                         case_weights = NULL) {
+ranked_prob_score.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL
+) {
   case_weights_quo <- enquo(case_weights)
 
   ordered_prob_metric_summarizer(
@@ -93,11 +95,13 @@ ranked_prob_score.data.frame <- function(data,
 
 #' @rdname ranked_prob_score
 #' @export
-ranked_prob_score_vec <- function(truth,
-                                  estimate,
-                                  na_rm = TRUE,
-                                  case_weights = NULL,
-                                  ...) {
+ranked_prob_score_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "ranked_prob_score")
@@ -121,16 +125,13 @@ ranked_prob_score_vec <- function(truth,
   )
 }
 
-ranked_prob_score_estimator_impl <- function(truth,
-                                             estimate,
-                                             case_weights) {
+ranked_prob_score_estimator_impl <- function(truth, estimate, case_weights) {
   rps_factor(
     truth = truth,
     estimate = estimate,
     case_weights = case_weights
   )
 }
-
 
 cumulative_rows <- function(x) {
   t(apply(x, 1, cumsum))

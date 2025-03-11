@@ -25,12 +25,14 @@ mae <- new_numeric_metric(
 
 #' @rdname mae
 #' @export
-mae.data.frame <- function(data,
-                           truth,
-                           estimate,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+mae.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "mae",
     fn = mae_vec,
@@ -44,11 +46,7 @@ mae.data.frame <- function(data,
 
 #' @export
 #' @rdname mae
-mae_vec <- function(truth,
-                    estimate,
-                    na_rm = TRUE,
-                    case_weights = NULL,
-                    ...) {
+mae_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

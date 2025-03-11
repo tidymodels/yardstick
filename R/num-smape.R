@@ -29,12 +29,14 @@ smape <- new_numeric_metric(
 
 #' @rdname smape
 #' @export
-smape.data.frame <- function(data,
-                             truth,
-                             estimate,
-                             na_rm = TRUE,
-                             case_weights = NULL,
-                             ...) {
+smape.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "smape",
     fn = smape_vec,
@@ -48,11 +50,7 @@ smape.data.frame <- function(data,
 
 #' @export
 #' @rdname smape
-smape_vec <- function(truth,
-                      estimate,
-                      na_rm = TRUE,
-                      case_weights = NULL,
-                      ...) {
+smape_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {
@@ -68,9 +66,7 @@ smape_vec <- function(truth,
   smape_impl(truth, estimate, case_weights)
 }
 
-smape_impl <- function(truth,
-                       estimate,
-                       case_weights) {
+smape_impl <- function(truth, estimate, case_weights) {
   numer <- abs(estimate - truth)
   denom <- (abs(truth) + abs(estimate)) / 2
   error <- numer / denom

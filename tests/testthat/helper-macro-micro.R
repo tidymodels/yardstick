@@ -4,11 +4,18 @@ data_three_by_three <- function() {
   as.table(
     matrix(
       c(
-        3, 1, 1,
-        0, 4, 2,
-        1, 3, 5
+        3,
+        1,
+        1,
+        0,
+        4,
+        2,
+        1,
+        3,
+        5
       ),
-      ncol = 3, byrow = TRUE,
+      ncol = 3,
+      byrow = TRUE,
       dimnames = list(c("c1", "c2", "c3"), c("c1", "c2", "c3"))
     )
   )
@@ -44,13 +51,25 @@ multi_submats <- list(
 # Just pass in a binary metric function
 macro_metric <- function(binary_metric, event_level = "first", ...) {
   mean(
-    vapply(multi_submats, binary_metric, numeric(1), event_level = event_level, ...)
+    vapply(
+      multi_submats,
+      binary_metric,
+      numeric(1),
+      event_level = event_level,
+      ...
+    )
   )
 }
 
 macro_weighted_metric <- function(binary_metric, event_level = "first", ...) {
   stats::weighted.mean(
-    vapply(multi_submats, binary_metric, numeric(1), event_level = event_level, ...),
+    vapply(
+      multi_submats,
+      binary_metric,
+      numeric(1),
+      event_level = event_level,
+      ...
+    ),
     weighted_macro_weights
   )
 }
@@ -58,18 +77,34 @@ macro_weighted_metric <- function(binary_metric, event_level = "first", ...) {
 # For micro examples, we calculate the pieces by hand and use them individually
 data_three_by_three_micro <- function() {
   res <- list(
-    tp = vapply(multi_submats, function(x) {
-      x[1, 1]
-    }, double(1)),
-    p = vapply(multi_submats, function(x) {
-      colSums(x)[1]
-    }, double(1)),
-    tn = vapply(multi_submats, function(x) {
-      x[2, 2]
-    }, double(1)),
-    n = vapply(multi_submats, function(x) {
-      colSums(x)[2]
-    }, double(1))
+    tp = vapply(
+      multi_submats,
+      function(x) {
+        x[1, 1]
+      },
+      double(1)
+    ),
+    p = vapply(
+      multi_submats,
+      function(x) {
+        colSums(x)[1]
+      },
+      double(1)
+    ),
+    tn = vapply(
+      multi_submats,
+      function(x) {
+        x[2, 2]
+      },
+      double(1)
+    ),
+    n = vapply(
+      multi_submats,
+      function(x) {
+        colSums(x)[2]
+      },
+      double(1)
+    )
   )
 
   res <- c(

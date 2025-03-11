@@ -57,12 +57,14 @@ rpd <- new_numeric_metric(
 
 #' @rdname rpd
 #' @export
-rpd.data.frame <- function(data,
-                           truth,
-                           estimate,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+rpd.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "rpd",
     fn = rpd_vec,
@@ -76,11 +78,7 @@ rpd.data.frame <- function(data,
 
 #' @export
 #' @rdname rpd
-rpd_vec <- function(truth,
-                    estimate,
-                    na_rm = TRUE,
-                    case_weights = NULL,
-                    ...) {
+rpd_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

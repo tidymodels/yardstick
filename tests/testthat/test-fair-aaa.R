@@ -1,13 +1,17 @@
 test_that("basic functionality", {
   data("hpc_cv")
 
-  silly <- function(...) {metric_tibbler("a", "b", 1)}
+  silly <- function(...) {
+    metric_tibbler("a", "b", 1)
+  }
   silly_metric <- new_class_metric(silly, "minimize")
   silly_new_groupwise_metric <-
     new_groupwise_metric(
       silly_metric,
       "silly",
-      aggregate = function(x, ...) {x$.estimate[1]}
+      aggregate = function(x, ...) {
+        x$.estimate[1]
+      }
     )
 
   expect_true(inherits(silly_new_groupwise_metric, "function"))
@@ -23,17 +27,21 @@ test_that("basic functionality", {
   expect_s3_class(m_set, "class_prob_metric_set")
   expect_equal(
     as_tibble(m_set),
-    tibble::tibble(metric = "silly_fairness_Resample",
-                   class = "class_metric",
-                   direction = "minimize")
+    tibble::tibble(
+      metric = "silly_fairness_Resample",
+      class = "class_metric",
+      direction = "minimize"
+    )
   )
 
   expect_equal(
     m_set(hpc_cv, truth = obs, estimate = pred),
-    tibble::tibble(.metric = "silly",
-                   .by = "Resample",
-                   .estimator = "b",
-                   ".estimate" = 1)
+    tibble::tibble(
+      .metric = "silly",
+      .by = "Resample",
+      .estimator = "b",
+      ".estimate" = 1
+    )
   )
 })
 
@@ -52,8 +60,8 @@ test_that("new_groupwise_metric() works with grouped input", {
 
   grouped_res <-
     hpc_cv %>%
-    dplyr::group_by(Resample) %>%
-    m_set(hpc_cv, truth = obs, estimate = pred)
+      dplyr::group_by(Resample) %>%
+      m_set(hpc_cv, truth = obs, estimate = pred)
 
   hpc_split <- vctrs::vec_split(hpc_cv, hpc_cv$Resample)
 
@@ -61,7 +69,8 @@ test_that("new_groupwise_metric() works with grouped input", {
     Resample = hpc_split$key,
     res = lapply(
       hpc_split$val,
-      function(x) m_set(x, truth = obs, estimate = pred))
+      function(x) m_set(x, truth = obs, estimate = pred)
+    )
   ) %>%
     tidyr::unnest(cols = res)
 
@@ -132,7 +141,7 @@ test_that("can mix fairness metrics with standard metrics", {
 
   m_set_sens <- metric_set(sens)
   expect_equal(
-    res[2,] %>% dplyr::select(-.by),
+    res[2, ] %>% dplyr::select(-.by),
     m_set_sens(hpc_cv, truth = obs, estimate = pred)
   )
 })
@@ -165,7 +174,9 @@ test_that("handles `direction` input", {
       new_groupwise_metric(
         sens,
         "inv_sens_diff",
-        function(x) {1/diff(range(x$.estimate))},
+        function(x) {
+          1 / diff(range(x$.estimate))
+        },
         direction = "maximize"
       )
   )
@@ -236,14 +247,18 @@ test_that("outputted function errors informatively with bad input", {
   )
 
   bad_truth_metric_set <-
-    new_groupwise_metric(metric_set(sens, spec), "bop", function(x) {1})(Resample)
+    new_groupwise_metric(metric_set(sens, spec), "bop", function(x) {
+      1
+    })(Resample)
   expect_snapshot(
     error = TRUE,
     bad_truth_metric_set(hpc_cv, truth = VF, estimate = pred)
   )
 
   bad_truth_metric <-
-    new_groupwise_metric(sens, "bop", function(x) {1})(Resample)
+    new_groupwise_metric(sens, "bop", function(x) {
+      1
+    })(Resample)
   expect_snapshot(
     error = TRUE,
     bad_truth_metric(hpc_cv, truth = VF, estimate = pred)

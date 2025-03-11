@@ -11,9 +11,18 @@ test_that("can create metric functions", {
   expect_identical(class(fn2), c("prob_metric", "metric", "function"))
   expect_identical(class(fn3), c("numeric_metric", "metric", "function"))
   expect_identical(class(fn3zero), c("numeric_metric", "metric", "function"))
-  expect_identical(class(fn4), c("dynamic_survival_metric", "metric", "function"))
-  expect_identical(class(fn5), c("static_survival_metric", "metric", "function"))
-  expect_identical(class(fn6), c("integrated_survival_metric", "metric", "function"))
+  expect_identical(
+    class(fn4),
+    c("dynamic_survival_metric", "metric", "function")
+  )
+  expect_identical(
+    class(fn5),
+    c("static_survival_metric", "metric", "function")
+  )
+  expect_identical(
+    class(fn6),
+    c("integrated_survival_metric", "metric", "function")
+  )
 
   expect_identical(attr(fn1, "direction"), "maximize")
   expect_identical(attr(fn2, "direction"), "maximize")

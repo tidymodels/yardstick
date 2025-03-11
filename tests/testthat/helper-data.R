@@ -23,7 +23,6 @@ data_powers <- function() {
   list(tabl_2_1 = tbl_2_1, df_2_1 = df_2_1)
 }
 
-
 data_altman <- function() {
   ## data from: Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 1:
   #'  sensitivity and specificity,'' *British Medical Journal*,
@@ -55,7 +54,9 @@ data_altman <- function() {
 # saveRDS(three_class_helpers, testthat::test_path("data/helper-three-class-helpers.rds"))
 
 data_three_class <- function() {
-  three_class_helpers <- readRDS(test_path("data/helper-three-class-helpers.rds"))
+  three_class_helpers <- readRDS(
+    test_path("data/helper-three-class-helpers.rds")
+  )
 
   three_class <- data.frame(
     obs = iris$Species,

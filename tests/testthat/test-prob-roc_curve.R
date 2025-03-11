@@ -38,18 +38,27 @@ test_that("ROC Curve", {
 
 test_that("Multiclass ROC Curve", {
   # HPC_CV takes too long
-  hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10"))
+  hpc_cv2 <- dplyr::filter(
+    hpc_cv,
+    Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")
+  )
 
   res <- roc_curve(hpc_cv2, obs, VF:L)
 
   # structural tests
-  expect_equal(colnames(res), c(".level", ".threshold", "specificity", "sensitivity"))
+  expect_equal(
+    colnames(res),
+    c(".level", ".threshold", "specificity", "sensitivity")
+  )
   expect_equal(unique(res$.level), levels(hpc_cv2$obs))
 
   res_g <- roc_curve(dplyr::group_by(hpc_cv2, Resample), obs, VF:L)
 
   # structural tests
-  expect_equal(colnames(res_g), c("Resample", ".level", ".threshold", "specificity", "sensitivity"))
+  expect_equal(
+    colnames(res_g),
+    c("Resample", ".level", ".threshold", "specificity", "sensitivity")
+  )
 })
 
 # ------------------------------------------------------------------------------
@@ -60,7 +69,9 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
 
-  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight), ]
+  hpc_cv_expanded <- hpc_cv[
+    vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),
+  ]
 
   expect_identical(
     roc_curve(hpc_cv, obs, VF:L, case_weights = weight),
@@ -72,7 +83,9 @@ test_that("can use hardhat case weights", {
   two_class_example$weight <- read_weights_two_class_example()
   curve1 <- roc_curve(two_class_example, truth, Class1, case_weights = weight)
 
-  two_class_example$weight <- hardhat::importance_weights(two_class_example$weight)
+  two_class_example$weight <- hardhat::importance_weights(
+    two_class_example$weight
+  )
   curve2 <- roc_curve(two_class_example, truth, Class1, case_weights = weight)
 
   expect_identical(curve1, curve2)
@@ -141,12 +154,17 @@ test_that("roc_curve() - multiclass one-vs-all approach results in error", {
 
   expect_snapshot(
     error = TRUE,
-    roc_curve_vec(no_event$obs, as.matrix(dplyr::select(no_event, VF:L)))[[".estimate"]]
+    roc_curve_vec(no_event$obs, as.matrix(dplyr::select(no_event, VF:L)))[[
+      ".estimate"
+    ]]
   )
 })
 
 test_that("roc_curve() - `options` is deprecated", {
-  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  skip_if(
+    getRversion() <= "3.5.3",
+    "Base R used a different deprecated warning class."
+  )
   rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot({

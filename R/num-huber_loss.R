@@ -34,13 +34,15 @@ huber_loss <- new_numeric_metric(
 
 #' @rdname huber_loss
 #' @export
-huber_loss.data.frame <- function(data,
-                                  truth,
-                                  estimate,
-                                  delta = 1,
-                                  na_rm = TRUE,
-                                  case_weights = NULL,
-                                  ...) {
+huber_loss.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  delta = 1,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "huber_loss",
     fn = huber_loss_vec,
@@ -56,12 +58,14 @@ huber_loss.data.frame <- function(data,
 
 #' @export
 #' @rdname huber_loss
-huber_loss_vec <- function(truth,
-                           estimate,
-                           delta = 1,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+huber_loss_vec <- function(
+  truth,
+  estimate,
+  delta = 1,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {
@@ -77,11 +81,13 @@ huber_loss_vec <- function(truth,
   huber_loss_impl(truth, estimate, delta, case_weights)
 }
 
-huber_loss_impl <- function(truth,
-                            estimate,
-                            delta,
-                            case_weights,
-                            call = caller_env()) {
+huber_loss_impl <- function(
+  truth,
+  estimate,
+  delta,
+  case_weights,
+  call = caller_env()
+) {
   # Weighted Huber Loss implementation confirmed against matlab:
   # https://www.mathworks.com/help/deeplearning/ref/dlarray.huber.html
 

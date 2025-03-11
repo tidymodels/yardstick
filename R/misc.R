@@ -146,9 +146,7 @@ yardstick_sum <- function(x, ..., case_weights = NULL, na_remove = FALSE) {
 
 # ------------------------------------------------------------------------------
 
-yardstick_sd <- function(x,
-                         ...,
-                         case_weights = NULL) {
+yardstick_sd <- function(x, ..., case_weights = NULL) {
   check_dots_empty()
 
   variance <- yardstick_var(
@@ -159,9 +157,7 @@ yardstick_sd <- function(x,
   sqrt(variance)
 }
 
-yardstick_var <- function(x,
-                          ...,
-                          case_weights = NULL) {
+yardstick_var <- function(x, ..., case_weights = NULL) {
   check_dots_empty()
 
   yardstick_cov(
@@ -171,10 +167,7 @@ yardstick_var <- function(x,
   )
 }
 
-yardstick_cov <- function(truth,
-                          estimate,
-                          ...,
-                          case_weights = NULL) {
+yardstick_cov <- function(truth, estimate, ..., case_weights = NULL) {
   check_dots_empty()
 
   if (is.null(case_weights)) {
@@ -227,10 +220,7 @@ yardstick_cov <- function(truth,
   cov[[1, 2]]
 }
 
-yardstick_cor <- function(truth,
-                          estimate,
-                          ...,
-                          case_weights = NULL) {
+yardstick_cor <- function(truth, estimate, ..., case_weights = NULL) {
   check_dots_empty()
 
   if (is.null(case_weights)) {
@@ -325,7 +315,9 @@ warn_correlation_undefined_constant_estimate <- function(estimate) {
 
 make_correlation_undefined_constant_message <- function(what) {
   paste0(
-    "A correlation computation is required, but `", what, "` is constant ",
+    "A correlation computation is required, but `",
+    what,
+    "` is constant ",
     "and has 0 standard deviation, resulting in a divide by 0 error. ",
     "`NA` will be returned."
   )

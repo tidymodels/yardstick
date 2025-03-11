@@ -51,7 +51,11 @@ tidy_churn <- readRDS(test_path("data/rr_churn_data.rds")) %>%
     .weight_censored = ipcw
   ) %>%
   dplyr::mutate(
-    .weight_censored = dplyr::if_else(status == 0 & time < .eval_time, NA, .weight_censored)
+    .weight_censored = dplyr::if_else(
+      status == 0 & time < .eval_time,
+      NA,
+      .weight_censored
+    )
   ) %>%
   tidyr::nest(.pred = -c(ID, time, status, model)) %>%
   dplyr::mutate(surv_obj = survival::Surv(time, status))

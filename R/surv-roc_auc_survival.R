@@ -67,11 +67,13 @@ roc_auc_survival <- new_dynamic_survival_metric(
 
 #' @rdname roc_auc_survival
 #' @export
-roc_auc_survival.data.frame <- function(data,
-                                        truth,
-                                        ...,
-                                        na_rm = TRUE,
-                                        case_weights = NULL) {
+roc_auc_survival.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL
+) {
   dynamic_survival_metric_summarizer(
     name = "roc_auc_survival",
     fn = roc_auc_survival_vec,
@@ -85,11 +87,13 @@ roc_auc_survival.data.frame <- function(data,
 
 #' @export
 #' @rdname roc_auc_survival
-roc_auc_survival_vec <- function(truth,
-                                 estimate,
-                                 na_rm = TRUE,
-                                 case_weights = NULL,
-                                 ...) {
+roc_auc_survival_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   # No checking since roc_curve_survival_vec() does checking
   curve <- roc_curve_survival_vec(
     truth = truth,

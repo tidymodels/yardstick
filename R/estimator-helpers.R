@@ -81,10 +81,12 @@ get_weights <- function(data, estimator) {
 #' @seealso [metric-summarizers] [check_metric] [yardstick_remove_missing]
 #'
 #' @export
-finalize_estimator <- function(x,
-                               estimator = NULL,
-                               metric_class = "default",
-                               call = caller_env()) {
+finalize_estimator <- function(
+  x,
+  estimator = NULL,
+  metric_class = "default",
+  call = caller_env()
+) {
   metric_dispatcher <- make_dummy(metric_class)
   finalize_estimator_internal(metric_dispatcher, x, estimator, call = call)
 }
@@ -93,18 +95,22 @@ finalize_estimator <- function(x,
 #' @param metric_dispatcher A simple dummy object with the class provided to
 #' `metric_class`. This is created and passed along for you.
 #' @export
-finalize_estimator_internal <- function(metric_dispatcher,
-                                        x,
-                                        estimator,
-                                        call = caller_env()) {
+finalize_estimator_internal <- function(
+  metric_dispatcher,
+  x,
+  estimator,
+  call = caller_env()
+) {
   UseMethod("finalize_estimator_internal")
 }
 
 #' @export
-finalize_estimator_internal.default <- function(metric_dispatcher,
-                                                x,
-                                                estimator,
-                                                call = caller_env()) {
+finalize_estimator_internal.default <- function(
+  metric_dispatcher,
+  x,
+  estimator,
+  call = caller_env()
+) {
   finalize_estimator_default(x, estimator, call = call)
 }
 
@@ -113,10 +119,12 @@ finalize_estimator_internal.default <- function(metric_dispatcher,
 # is considered the "event". Because of this, the user cannot set the estimator,
 # and it should only be "binary" or "multiclass"
 #' @export
-finalize_estimator_internal.accuracy <- function(metric_dispatcher,
-                                                 x,
-                                                 estimator,
-                                                 call = caller_env()) {
+finalize_estimator_internal.accuracy <- function(
+  metric_dispatcher,
+  x,
+  estimator,
+  call = caller_env()
+) {
   if (is_multiclass(x)) {
     "multiclass"
   } else {
@@ -137,10 +145,12 @@ finalize_estimator_internal.mn_log_loss <- finalize_estimator_internal.accuracy
 finalize_estimator_internal.brier_class <- finalize_estimator_internal.accuracy
 
 #' @export
-finalize_estimator_internal.ranked_prob_score <- function(metric_dispatcher,
-                                                 x,
-                                                 estimator,
-                                                 call = caller_env()) {
+finalize_estimator_internal.ranked_prob_score <- function(
+  metric_dispatcher,
+  x,
+  estimator,
+  call = caller_env()
+) {
   "multiclass"
 }
 
@@ -166,10 +176,12 @@ finalize_estimator_internal.pr_curve <- finalize_estimator_internal.accuracy
 # Hand Till method is the "best" multiclass extension to me
 # because it is immune to class imbalance like binary roc_auc
 #' @export
-finalize_estimator_internal.roc_auc <- function(metric_dispatcher,
-                                                x,
-                                                estimator,
-                                                call = caller_env()) {
+finalize_estimator_internal.roc_auc <- function(
+  metric_dispatcher,
+  x,
+  estimator,
+  call = caller_env()
+) {
   validate_estimator(
     estimator = estimator,
     estimator_override = c("binary", "macro", "macro_weighted", "hand_till")
@@ -188,10 +200,12 @@ finalize_estimator_internal.roc_auc <- function(metric_dispatcher,
 
 # PR AUC and Gain Capture don't have micro methods currently
 #' @export
-finalize_estimator_internal.pr_auc <- function(metric_dispatcher,
-                                               x,
-                                               estimator,
-                                               call = caller_env()) {
+finalize_estimator_internal.pr_auc <- function(
+  metric_dispatcher,
+  x,
+  estimator,
+  call = caller_env()
+) {
   validate_estimator(
     estimator = estimator,
     estimator_override = c("binary", "macro", "macro_weighted")
@@ -222,39 +236,45 @@ finalize_estimator_default <- function(x, estimator, call = caller_env()) {
 }
 
 #' @export
-finalize_estimator_default.default <- function(x,
-                                               estimator,
-                                               call = caller_env()) {
+finalize_estimator_default.default <- function(
+  x,
+  estimator,
+  call = caller_env()
+) {
   "binary"
 }
 
 #' @export
-finalize_estimator_default.matrix <- function(x,
-                                              estimator,
-                                              call = caller_env()) {
+finalize_estimator_default.matrix <- function(
+  x,
+  estimator,
+  call = caller_env()
+) {
   "macro"
 }
 
 # Covers all numeric metric functions
 #' @export
-finalize_estimator_default.numeric <- function(x,
-                                               estimator,
-                                               call = caller_env()) {
+finalize_estimator_default.numeric <- function(
+  x,
+  estimator,
+  call = caller_env()
+) {
   "standard"
 }
 
 # Covers all dynamic survival functions
 #' @export
-finalize_estimator_default.Surv <- function(x,
-                                            estimator,
-                                            call = caller_env()) {
+finalize_estimator_default.Surv <- function(x, estimator, call = caller_env()) {
   "standard"
 }
 
 #' @export
-finalize_estimator_default.table <- function(x,
-                                             estimator,
-                                             call = caller_env()) {
+finalize_estimator_default.table <- function(
+  x,
+  estimator,
+  call = caller_env()
+) {
   if (is_multiclass(x)) {
     "macro"
   } else {
@@ -263,16 +283,17 @@ finalize_estimator_default.table <- function(x,
 }
 
 #' @export
-finalize_estimator_default.factor <- function(x,
-                                              estimator,
-                                              call = caller_env()) {
+finalize_estimator_default.factor <- function(
+  x,
+  estimator,
+  call = caller_env()
+) {
   if (is_multiclass(x)) {
     "macro"
   } else {
     "binary"
   }
 }
-
 
 # Util -------------------------------------------------------------------------
 

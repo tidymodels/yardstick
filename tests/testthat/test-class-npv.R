@@ -19,7 +19,9 @@ test_that("npv", {
     tolerance = .001
   )
   expect_equal(
-    npv(pathology, truth = pathology, estimate = "scan", prevalence = .5)[[".estimate"]],
+    npv(pathology, truth = pathology, estimate = "scan", prevalence = .5)[[
+      ".estimate"
+    ]],
     0.85714,
     tolerance = .001
   )
@@ -59,7 +61,11 @@ test_that("Three class", {
     with(
       micro,
       (sum(tn) / sum(n) * sum((1 - prev))) /
-        ((1 - sum(tp) / sum(p)) * sum(prev) + (sum(tn) / sum(n) * sum((1 - prev))))
+        (
+          (1 - sum(tp) / sum(p)) *
+            sum(prev) +
+            (sum(tn) / sum(n) * sum((1 - prev)))
+        )
     )
   )
   # Prevalence defined by the user. Defined once for all levels?
@@ -85,7 +91,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     npv_vec(df$pathology, df$scan, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("work with class_pred input", {
@@ -125,7 +131,9 @@ test_that("Two class weighted - sklearn equivalent", {
   two_class_example$weights <- read_weights_two_class_example()
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$binary
   )
 })
@@ -137,7 +145,9 @@ test_that("Multi class weighted - sklearn equivalent", {
   hpc_cv$weights <- read_weights_hpc_cv()
 
   expect_equal(
-    r_metric(hpc_cv, obs, pred, estimator = "macro", case_weights = weights)[[".estimate"]],
+    r_metric(hpc_cv, obs, pred, estimator = "macro", case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$macro
   )
 })

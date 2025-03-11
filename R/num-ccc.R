@@ -44,13 +44,15 @@ ccc <- new_numeric_metric(
 
 #' @rdname ccc
 #' @export
-ccc.data.frame <- function(data,
-                           truth,
-                           estimate,
-                           bias = FALSE,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+ccc.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  bias = FALSE,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "ccc",
     fn = ccc_vec,
@@ -66,12 +68,14 @@ ccc.data.frame <- function(data,
 
 #' @export
 #' @rdname ccc
-ccc_vec <- function(truth,
-                    estimate,
-                    bias = FALSE,
-                    na_rm = TRUE,
-                    case_weights = NULL,
-                    ...) {
+ccc_vec <- function(
+  truth,
+  estimate,
+  bias = FALSE,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {
@@ -87,10 +91,7 @@ ccc_vec <- function(truth,
   ccc_impl(truth, estimate, bias, case_weights)
 }
 
-ccc_impl <- function(truth,
-                     estimate,
-                     bias,
-                     case_weights) {
+ccc_impl <- function(truth, estimate, bias, case_weights) {
   case_weights <- vec_cast(case_weights, to = double())
 
   truth_mean <- yardstick_mean(truth, case_weights = case_weights)
@@ -116,7 +117,9 @@ ccc_impl <- function(truth,
   }
 
   numerator <- 2 * covariance
-  denominator <- truth_variance + estimate_variance + (truth_mean - estimate_mean)^2
+  denominator <- truth_variance +
+    estimate_variance +
+    (truth_mean - estimate_mean)^2
 
   numerator / denominator
 }

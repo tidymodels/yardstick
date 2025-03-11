@@ -110,13 +110,15 @@ classification_cost <- new_prob_metric(
 
 #' @rdname classification_cost
 #' @export
-classification_cost.data.frame <- function(data,
-                                           truth,
-                                           ...,
-                                           costs = NULL,
-                                           na_rm = TRUE,
-                                           event_level = yardstick_event_level(),
-                                           case_weights = NULL) {
+classification_cost.data.frame <- function(
+  data,
+  truth,
+  ...,
+  costs = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+) {
   prob_metric_summarizer(
     name = "classification_cost",
     fn = classification_cost_vec,
@@ -133,13 +135,15 @@ classification_cost.data.frame <- function(data,
 
 #' @rdname classification_cost
 #' @export
-classification_cost_vec <- function(truth,
-                                    estimate,
-                                    costs = NULL,
-                                    na_rm = TRUE,
-                                    event_level = yardstick_event_level(),
-                                    case_weights = NULL,
-                                    ...) {
+classification_cost_vec <- function(
+  truth,
+  estimate,
+  costs = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "classification_cost")
@@ -166,24 +170,34 @@ classification_cost_vec <- function(truth,
   )
 }
 
-classification_cost_estimator_impl <- function(truth,
-                                               estimate,
-                                               costs,
-                                               estimator,
-                                               event_level,
-                                               case_weights) {
+classification_cost_estimator_impl <- function(
+  truth,
+  estimate,
+  costs,
+  estimator,
+  event_level,
+  case_weights
+) {
   if (is_binary(estimator)) {
-    classification_cost_binary(truth, estimate, costs, event_level, case_weights)
+    classification_cost_binary(
+      truth,
+      estimate,
+      costs,
+      event_level,
+      case_weights
+    )
   } else {
     classification_cost_multiclass(truth, estimate, costs, case_weights)
   }
 }
 
-classification_cost_binary <- function(truth,
-                                       estimate,
-                                       costs,
-                                       event_level,
-                                       case_weights) {
+classification_cost_binary <- function(
+  truth,
+  estimate,
+  costs,
+  event_level,
+  case_weights
+) {
   if (is_event_first(event_level)) {
     level1 <- estimate
     level2 <- 1 - estimate
@@ -198,7 +212,12 @@ classification_cost_binary <- function(truth,
   classification_cost_multiclass(truth, estimate, costs, case_weights)
 }
 
-classification_cost_multiclass <- function(truth, estimate, costs, case_weights) {
+classification_cost_multiclass <- function(
+  truth,
+  estimate,
+  costs,
+  case_weights
+) {
   levels <- levels(truth)
 
   costs <- validate_costs(costs, levels)
@@ -255,7 +274,7 @@ validate_costs <- function(costs, levels) {
     cli::cli_abort(
       "{.code costs$estimate} must be a character or factor column,
       not {.obj_type_friendly {costs$estimate}}."
-      )
+    )
   }
 
   if (!is.numeric(costs$cost)) {

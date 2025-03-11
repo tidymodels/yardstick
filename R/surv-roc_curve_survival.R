@@ -83,11 +83,13 @@ roc_curve_survival <- function(data, ...) {
 
 #' @export
 #' @rdname roc_curve_survival
-roc_curve_survival.data.frame <- function(data,
-                                          truth,
-                                          ...,
-                                          na_rm = TRUE,
-                                          case_weights = NULL) {
+roc_curve_survival.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL
+) {
   result <- curve_survival_metric_summarizer(
     name = "roc_curve_survival",
     fn = roc_curve_survival_vec,
@@ -101,28 +103,36 @@ roc_curve_survival.data.frame <- function(data,
   curve_finalize(result, data, "roc_survival_df", "grouped_roc_survival_df")
 }
 
-roc_curve_survival_vec <- function(truth,
-                                   estimate,
-                                   na_rm = TRUE,
-                                   case_weights = NULL,
-                                   ...) {
+roc_curve_survival_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   check_dynamic_survival_metric(
-    truth, estimate, case_weights
+    truth,
+    estimate,
+    case_weights
   )
 
   if (na_rm) {
     result <- yardstick_remove_missing(
-      truth, seq_along(estimate), case_weights
+      truth,
+      seq_along(estimate),
+      case_weights
     )
 
     truth <- result$truth
     estimate <- estimate[result$estimate]
     case_weights <- result$case_weights
   } else if (yardstick_any_missing(truth, estimate, case_weights)) {
-    cli::cli_abort(c(
-      x = "Missing values were detected and {.code na_ra = FALSE}.",
-      i = "Not able to perform calculations."
-    ))
+    cli::cli_abort(
+      c(
+        x = "Missing values were detected and {.code na_ra = FALSE}.",
+        i = "Not able to perform calculations."
+      )
+    )
   }
 
   roc_curve_survival_impl(
@@ -132,9 +142,7 @@ roc_curve_survival_vec <- function(truth,
   )
 }
 
-roc_curve_survival_impl <- function(truth,
-                                    estimate,
-                                    case_weights) {
+roc_curve_survival_impl <- function(truth, estimate, case_weights) {
   event_time <- .extract_surv_time(truth)
   delta <- .extract_surv_status(truth)
   case_weights <- vec_cast(case_weights, double())
@@ -162,7 +170,8 @@ roc_curve_survival_impl <- function(truth,
 
   out <- list()
   for (i in seq_along(.eval_times)) {
-    .eval_time_ind <- .eval_times[[i]] == data$.eval_time & not_missing_pred_survival
+    .eval_time_ind <- .eval_times[[i]] == data$.eval_time &
+      not_missing_pred_survival
 
     res <- roc_curve_survival_impl_one(
       data$event_time[.eval_time_ind],
@@ -179,14 +188,25 @@ roc_curve_survival_impl <- function(truth,
 }
 
 roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
-  res <- dplyr::tibble(.threshold = sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE))
+  res <- dplyr::tibble(
+    .threshold = sort(
+      unique(c(-Inf, data$.pred_survival, Inf)),
+      decreasing = TRUE
+    )
+  )
 
   obs_time_le_time <- event_time <= data$.eval_time
   obs_time_gt_time <- event_time > data$.eval_time
   n <- nrow(data)
 
-  sensitivity_denom <- sum(obs_time_le_time * delta * data$.weight_censored * case_weights, na.rm = TRUE)
-  specificity_denom <- sum(obs_time_gt_time * data$.weight_censored * case_weights, na.rm = TRUE)
+  sensitivity_denom <- sum(
+    obs_time_le_time * delta * data$.weight_censored * case_weights,
+    na.rm = TRUE
+  )
+  specificity_denom <- sum(
+    obs_time_gt_time * data$.weight_censored * case_weights,
+    na.rm = TRUE
+  )
 
   data_df <- data.frame(
     le_time = obs_time_le_time,
@@ -201,7 +221,8 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
 
   specificity <- vapply(
     data_split,
-    function(x) sum(x$ge_time * x$weight_censored * x$case_weights, na.rm = TRUE),
+    function(x)
+      sum(x$ge_time * x$weight_censored * x$case_weights, na.rm = TRUE),
     FUN.VALUE = numeric(1)
   )
   specificity <- cumsum(specificity)
@@ -214,7 +235,11 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
 
   sensitivity <- vapply(
     data_split,
-    function(x) sum(x$le_time * x$delta * x$weight_censored * x$case_weights, na.rm = TRUE),
+    function(x)
+      sum(
+        x$le_time * x$delta * x$weight_censored * x$case_weights,
+        na.rm = TRUE
+      ),
     FUN.VALUE = numeric(1)
   )
 

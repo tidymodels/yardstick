@@ -7,7 +7,12 @@ test_that("Three class format", {
   storage.mode(three_class_tb) <- "double"
 
   expect_identical(
-    conf_mat(three_class, truth = "obs", estimate = "pred", dnn = c("", ""))$table,
+    conf_mat(
+      three_class,
+      truth = "obs",
+      estimate = "pred",
+      dnn = c("", "")
+    )$table,
     three_class_tb
   )
 })
@@ -23,8 +28,18 @@ test_that("Summary method", {
   expect_equal(
     sum_obj_3$.metric,
     c(
-      "accuracy", "kap", "sens", "spec", "ppv", "npv", "mcc", "j_index",
-      "bal_accuracy", "detection_prevalence", "precision", "recall",
+      "accuracy",
+      "kap",
+      "sens",
+      "spec",
+      "ppv",
+      "npv",
+      "mcc",
+      "j_index",
+      "bal_accuracy",
+      "detection_prevalence",
+      "precision",
+      "recall",
       "f_meas"
     )
   )
@@ -37,8 +52,18 @@ test_that("Summary method", {
   expect_equal(
     sum_obj_2$.metric,
     c(
-      "accuracy", "kap", "sens", "spec", "ppv", "npv", "mcc", "j_index",
-      "bal_accuracy", "detection_prevalence", "precision", "recall",
+      "accuracy",
+      "kap",
+      "sens",
+      "spec",
+      "ppv",
+      "npv",
+      "mcc",
+      "j_index",
+      "bal_accuracy",
+      "detection_prevalence",
+      "precision",
+      "recall",
       "f_meas"
     )
   )
@@ -53,17 +78,37 @@ test_that("Summary method - estimators pass through", {
   lst <- data_three_class()
   three_class <- lst$three_class
 
-  sum_obj_micro <- summary(conf_mat(three_class, obs, pred), estimator = "micro")
-  sum_obj_macrow <- summary(conf_mat(three_class, obs, pred), estimator = "macro_weighted")
+  sum_obj_micro <- summary(
+    conf_mat(three_class, obs, pred),
+    estimator = "micro"
+  )
+  sum_obj_macrow <- summary(
+    conf_mat(three_class, obs, pred),
+    estimator = "macro_weighted"
+  )
 
   # All multiclass or micro
   expect_true(
-    all(vapply(sum_obj_micro$.estimator, `%in%`, logical(1), c("multiclass", "micro")))
+    all(
+      vapply(
+        sum_obj_micro$.estimator,
+        `%in%`,
+        logical(1),
+        c("multiclass", "micro")
+      )
+    )
   )
 
   # All multiclass or macro_weighted
   expect_true(
-    all(vapply(sum_obj_macrow$.estimator, `%in%`, logical(1), c("multiclass", "macro_weighted")))
+    all(
+      vapply(
+        sum_obj_macrow$.estimator,
+        `%in%`,
+        logical(1),
+        c("multiclass", "macro_weighted")
+      )
+    )
   )
 })
 
@@ -77,7 +122,9 @@ test_that("summary method - `event_level` passes through (#160)", {
 
   expect_equal(
     as.data.frame(summary(conf_mat(df, truth, prediction))),
-    as.data.frame(summary(conf_mat(df_rev, truth, prediction), event_level = "second"))
+    as.data.frame(
+      summary(conf_mat(df_rev, truth, prediction), event_level = "second")
+    )
   )
 })
 
@@ -105,7 +152,9 @@ test_that("Multilevel table -> conf_mat", {
 
 test_that("Multilevel matrix -> conf_mat", {
   expect_identical(
-    conf_mat(as.matrix(table(hpc_cv$pred, hpc_cv$obs, dnn = c("Prediction", "Truth")))),
+    conf_mat(
+      as.matrix(table(hpc_cv$pred, hpc_cv$obs, dnn = c("Prediction", "Truth")))
+    ),
     conf_mat(hpc_cv, obs, pred)
   )
 })
@@ -134,11 +183,13 @@ test_that("case weights are supported in data frame method", {
 
   expect_identical(
     conf_mat(two_class_example, truth, predicted, case_weights = weight)$table,
-    as.table(yardstick_table(
-      truth = two_class_example$truth,
-      estimate = two_class_example$predicted,
-      case_weights = two_class_example$weight
-    ))
+    as.table(
+      yardstick_table(
+        truth = two_class_example$truth,
+        estimate = two_class_example$predicted,
+        case_weights = two_class_example$weight
+      )
+    )
   )
 })
 
@@ -205,7 +256,10 @@ test_that("`as.data.frame.table()` method is run on the underlying `table` objec
 })
 
 test_that("`...` is deprecated with a warning", {
-  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  skip_if(
+    getRversion() <= "3.5.3",
+    "Base R used a different deprecated warning class."
+  )
   rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot(conf_mat(two_class_example, truth, predicted, foo = 1))
@@ -233,7 +287,12 @@ test_that("Errors are thrown correctly", {
 
   expect_snapshot(
     error = TRUE,
-    conf_mat(three_class, truth = onelevel, estimate = onelevel, dnn = c("", ""))
+    conf_mat(
+      three_class,
+      truth = onelevel,
+      estimate = onelevel,
+      dnn = c("", "")
+    )
   )
 })
 
@@ -257,7 +316,12 @@ test_that("Errors are thrown correctly - grouped", {
 
   expect_snapshot(
     error = TRUE,
-    conf_mat(three_class, truth = onelevel, estimate = onelevel, dnn = c("", ""))
+    conf_mat(
+      three_class,
+      truth = onelevel,
+      estimate = onelevel,
+      dnn = c("", "")
+    )
   )
 })
 

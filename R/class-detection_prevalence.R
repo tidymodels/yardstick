@@ -26,14 +26,16 @@ detection_prevalence <- new_class_metric(
 
 #' @export
 #' @rdname detection_prevalence
-detection_prevalence.data.frame <- function(data,
-                                            truth,
-                                            estimate,
-                                            estimator = NULL,
-                                            na_rm = TRUE,
-                                            case_weights = NULL,
-                                            event_level = yardstick_event_level(),
-                                            ...) {
+detection_prevalence.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   class_metric_summarizer(
     name = "detection_prevalence",
     fn = detection_prevalence_vec,
@@ -48,10 +50,12 @@ detection_prevalence.data.frame <- function(data,
 }
 
 #' @export
-detection_prevalence.table <- function(data,
-                                       estimator = NULL,
-                                       event_level = yardstick_event_level(),
-                                       ...) {
+detection_prevalence.table <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -63,23 +67,27 @@ detection_prevalence.table <- function(data,
 }
 
 #' @export
-detection_prevalence.matrix <- function(data,
-                                        estimator = NULL,
-                                        event_level = yardstick_event_level(),
-                                        ...) {
+detection_prevalence.matrix <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   data <- as.table(data)
   detection_prevalence.table(data, estimator, event_level)
 }
 
 #' @export
 #' @rdname detection_prevalence
-detection_prevalence_vec <- function(truth,
-                                     estimate,
-                                     estimator = NULL,
-                                     na_rm = TRUE,
-                                     case_weights = NULL,
-                                     event_level = yardstick_event_level(),
-                                     ...) {
+detection_prevalence_vec <- function(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

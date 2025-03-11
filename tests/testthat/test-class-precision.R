@@ -88,7 +88,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     precision_vec(df$pathology, df$scan, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("work with class_pred input", {
@@ -156,7 +156,9 @@ test_that("Two class case weighted - sklearn equivalent", {
   two_class_example$weights <- read_weights_two_class_example()
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$binary
   )
 })
@@ -172,11 +174,19 @@ test_that("Multi class case weighted - sklearn equivalent", {
     py_res$case_weight$macro
   )
   expect_equal(
-    r_metric(hpc_cv, obs, pred, estimator = "micro", case_weights = weights)[[".estimate"]],
+    r_metric(hpc_cv, obs, pred, estimator = "micro", case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$micro
   )
   expect_equal(
-    r_metric(hpc_cv, obs, pred, estimator = "macro_weighted", case_weights = weights)[[".estimate"]],
+    r_metric(
+      hpc_cv,
+      obs,
+      pred,
+      estimator = "macro_weighted",
+      case_weights = weights
+    )[[".estimate"]],
     py_res$case_weight$weighted
   )
 })

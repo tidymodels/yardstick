@@ -129,7 +129,10 @@ test_that("numeric_metric_summarizer()'s case_weights argument work", {
   rmse_exp <- dplyr::tibble(
     .metric = "rmse",
     .estimator = "standard",
-    .estimate = rmse_vec(mtcars$mpg[mtcars$vs == 1], mtcars$disp[mtcars$vs == 1])
+    .estimate = rmse_vec(
+      mtcars$mpg[mtcars$vs == 1],
+      mtcars$disp[mtcars$vs == 1]
+    )
   )
 
   expect_identical(rmse_res, rmse_exp)
@@ -179,7 +182,6 @@ test_that("numeric_metric_summarizer() deals with characters in truth and estima
     truth = "mpg",
     estimate = "disp"
   )
-
 
   rmse_exp <- dplyr::tibble(
     .metric = "rmse",
@@ -453,7 +455,6 @@ test_that("class_metric_summarizer() deals with characters in truth and estimate
     estimate = "pred"
   )
 
-
   accuracy_exp <- dplyr::tibble(
     .metric = "accuracy",
     .estimator = "multiclass",
@@ -528,7 +529,11 @@ test_that("prob_metric_summarizer() works as expected", {
   roc_auc_exp <- dplyr::tibble(
     .metric = "roc_auc",
     .estimator = "macro",
-    .estimate = roc_auc_vec(hpc_f1$obs, as.matrix(hpc_f1[3:6]), estimator = "macro")
+    .estimate = roc_auc_vec(
+      hpc_f1$obs,
+      as.matrix(hpc_f1[3:6]),
+      estimator = "macro"
+    )
   )
 
   expect_identical(roc_auc_res, roc_auc_exp)
@@ -566,7 +571,8 @@ test_that("prob_metric_summarizer() works with grouped input", {
 
 test_that("class_metric_summarizer()'s event_level works as expected", {
   hpc_f1 <- data_hpc_fold1()
-  hpc_f1$obs <- factor(hpc_f1$obs == "VF",
+  hpc_f1$obs <- factor(
+    hpc_f1$obs == "VF",
     levels = c(TRUE, FALSE),
     labels = c("VF", "nVF")
   )
@@ -840,7 +846,8 @@ test_that("curve_metric_summarizer() works with grouped input", {
 
 test_that("class_metric_summarizer()'s event_level works as expected", {
   hpc_f1 <- data_hpc_fold1()
-  hpc_f1$obs <- factor(hpc_f1$obs == "VF",
+  hpc_f1$obs <- factor(
+    hpc_f1$obs == "VF",
     levels = c(TRUE, FALSE),
     labels = c("VF", "nVF")
   )
@@ -905,7 +912,10 @@ test_that("curve_metric_summarizer()'s na_rm argument work", {
   roc_curve_exp <- dplyr::tibble(
     .metric = "roc_curve",
     .estimator = "multiclass",
-    .estimate = roc_curve_vec(hpc_f1$obs[-(1:5)], as.matrix(hpc_f1[-(1:5), 3:6]))
+    .estimate = roc_curve_vec(
+      hpc_f1$obs[-(1:5)],
+      as.matrix(hpc_f1[-(1:5), 3:6])
+    )
   )
 
   expect_identical(roc_curve_res, roc_curve_exp)
@@ -1341,7 +1351,8 @@ test_that("static_survival_metric_summarizer() works as expected", {
     .metric = "concordance_survival",
     .estimator = "standard",
     .estimate = concordance_survival_vec(
-      lung_surv$surv_obj, lung_surv$.pred_time
+      lung_surv$surv_obj,
+      lung_surv$.pred_time
     )
   )
 
@@ -1447,7 +1458,8 @@ test_that("static_survival_metric_summarizer()'s case_weights argument works", {
     .metric = "concordance_survival",
     .estimator = "standard",
     .estimate = concordance_survival_vec(
-      lung_surv$surv_obj, lung_surv$.pred_time,
+      lung_surv$surv_obj,
+      lung_surv$.pred_time,
       case_weights = lung_surv$wts
     )
   )
@@ -1536,7 +1548,8 @@ test_that("static_survival_metric_summarizer() deals with characters in truth an
     .metric = "concordance_survival",
     .estimator = "standard",
     .estimate = concordance_survival_vec(
-      lung_surv$surv_obj, lung_surv$.pred_time
+      lung_surv$surv_obj,
+      lung_surv$.pred_time
     )
   )
 

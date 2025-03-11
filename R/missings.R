@@ -19,11 +19,11 @@ NULL
 
 #' @rdname yardstick_remove_missing
 #' @export
-yardstick_remove_missing <- function(truth,
-                                     estimate,
-                                     case_weights) {
+yardstick_remove_missing <- function(truth, estimate, case_weights) {
   complete_cases <- stats::complete.cases(
-    truth, estimate, case_weights
+    truth,
+    estimate,
+    case_weights
   )
 
   if (.is_surv(truth, fail = FALSE)) {
@@ -54,9 +54,7 @@ yardstick_remove_missing <- function(truth,
 
 #' @rdname yardstick_remove_missing
 #' @export
-yardstick_any_missing <- function(truth,
-                                  estimate,
-                                  case_weights) {
+yardstick_any_missing <- function(truth, estimate, case_weights) {
   anyNA(truth) ||
     anyNA(estimate) ||
     (!is.null(case_weights) && anyNA(case_weights))

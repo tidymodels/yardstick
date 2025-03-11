@@ -68,12 +68,14 @@ mpe <- new_numeric_metric(
 
 #' @rdname mpe
 #' @export
-mpe.data.frame <- function(data,
-                           truth,
-                           estimate,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+mpe.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "mpe",
     fn = mpe_vec,
@@ -87,11 +89,7 @@ mpe.data.frame <- function(data,
 
 #' @export
 #' @rdname mpe
-mpe_vec <- function(truth,
-                    estimate,
-                    na_rm = TRUE,
-                    case_weights = NULL,
-                    ...) {
+mpe_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {
@@ -107,9 +105,7 @@ mpe_vec <- function(truth,
   mpe_impl(truth, estimate, case_weights)
 }
 
-mpe_impl <- function(truth,
-                     estimate,
-                     case_weights) {
+mpe_impl <- function(truth, estimate, case_weights) {
   error <- (truth - estimate) / truth
 
   out <- yardstick_mean(error, case_weights = case_weights)

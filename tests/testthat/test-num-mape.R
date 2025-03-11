@@ -8,7 +8,8 @@ test_that("Mean Absolute Percentage Error", {
   )
   expect_equal(
     mape(ex_dat, obs, pred_na)[[".estimate"]],
-    100 * mean(abs((ex_dat$obs[not_na] - ex_dat$pred[not_na]) / ex_dat$obs[not_na]))
+    100 *
+      mean(abs((ex_dat$obs[not_na] - ex_dat$pred[not_na]) / ex_dat$obs[not_na]))
   )
 })
 
@@ -35,7 +36,12 @@ test_that("Weighted results are the same as scikit-learn", {
   solubility_test_not_zero <- solubility_test[!zero_solubility, ]
 
   expect_equal(
-    mape(solubility_test_not_zero, solubility, prediction, case_weights = weights)[[".estimate"]],
+    mape(
+      solubility_test_not_zero,
+      solubility,
+      prediction,
+      case_weights = weights
+    )[[".estimate"]],
     read_pydata("py-mape")$case_weight * 100
   )
 })
@@ -53,5 +59,5 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     mape_vec(df$solubility, df$prediction, case_weights = freq_wgt)
-  ) 
+  )
 })

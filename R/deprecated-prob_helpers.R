@@ -62,6 +62,5 @@ dots_to_estimate <- function(data, ...) {
     estimate <- dot_nms[[1]]
   }
 
-
   estimate
 }

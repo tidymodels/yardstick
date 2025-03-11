@@ -34,11 +34,13 @@ test_that("1 out of order", {
   # triangle + rect + (triangle + rect) + rect - .5 = area under black line
   # but above 45% line
   numer <-
-    (.4 * 2 / 3) / 2 +
-    ((.6 - .4) * 2 / 3) +
-    ((.8 - .6) * 2 / 3) + ((.8 - .6) * (1 - 2 / 3)) / 2 +
-    ((1 - .8) * 1) -
-    .5
+    (.4 * 2 / 3) /
+      2 +
+      ((.6 - .4) * 2 / 3) +
+      ((.8 - .6) * 2 / 3) +
+      ((.8 - .6) * (1 - 2 / 3)) / 2 +
+      ((1 - .8) * 1) -
+      .5
 
   expect_equal(
     gain_capture(df2, truth2, estimate2)[[".estimate"]],
@@ -62,7 +64,9 @@ test_that("Multiclass gain capture", {
     hpc_fold1_macro_metric(gain_capture_binary)
   )
   expect_equal(
-    gain_capture(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
+    gain_capture(hpc_f1, obs, VF:L, estimator = "macro_weighted")[[
+      ".estimate"
+    ]],
     hpc_fold1_macro_weighted_metric(gain_capture_binary)
   )
 })
@@ -118,18 +122,36 @@ test_that("multiclass macro / macro_weighted - case weights are applied correctl
   hpc_f1$weight <- rep(1L, times = nrow(hpc_f1))
   hpc_f1$weight[c(2, 50, 200)] <- 3L
 
-  hpc_f1_expanded <- hpc_f1[vec_rep_each(vec_seq_along(hpc_f1), hpc_f1$weight), ]
+  hpc_f1_expanded <- hpc_f1[
+    vec_rep_each(vec_seq_along(hpc_f1), hpc_f1$weight),
+  ]
 
   estimator <- "macro"
   expect_identical(
-    gain_capture(hpc_f1, obs, VF:L, estimator = estimator, case_weights = weight)[[".estimate"]],
-    gain_capture(hpc_f1_expanded, obs, VF:L, estimator = estimator)[[".estimate"]]
+    gain_capture(
+      hpc_f1,
+      obs,
+      VF:L,
+      estimator = estimator,
+      case_weights = weight
+    )[[".estimate"]],
+    gain_capture(hpc_f1_expanded, obs, VF:L, estimator = estimator)[[
+      ".estimate"
+    ]]
   )
 
   estimator <- "macro_weighted"
   expect_identical(
-    gain_capture(hpc_f1, obs, VF:L, estimator = estimator, case_weights = weight)[[".estimate"]],
-    gain_capture(hpc_f1_expanded, obs, VF:L, estimator = estimator)[[".estimate"]]
+    gain_capture(
+      hpc_f1,
+      obs,
+      VF:L,
+      estimator = estimator,
+      case_weights = weight
+    )[[".estimate"]],
+    gain_capture(hpc_f1_expanded, obs, VF:L, estimator = estimator)[[
+      ".estimate"
+    ]]
   )
 })
 

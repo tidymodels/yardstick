@@ -35,12 +35,14 @@ rpiq <- new_numeric_metric(
 
 #' @rdname rpiq
 #' @export
-rpiq.data.frame <- function(data,
-                            truth,
-                            estimate,
-                            na_rm = TRUE,
-                            case_weights = NULL,
-                            ...) {
+rpiq.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "rpiq",
     fn = rpiq_vec,
@@ -54,11 +56,7 @@ rpiq.data.frame <- function(data,
 
 #' @export
 #' @rdname rpiq
-rpiq_vec <- function(truth,
-                     estimate,
-                     na_rm = TRUE,
-                     case_weights = NULL,
-                     ...) {
+rpiq_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

@@ -106,12 +106,14 @@ gain_curve <- function(data, ...) {
 
 #' @rdname gain_curve
 #' @export
-gain_curve.data.frame <- function(data,
-                                  truth,
-                                  ...,
-                                  na_rm = TRUE,
-                                  event_level = yardstick_event_level(),
-                                  case_weights = NULL) {
+gain_curve.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+) {
   result <- curve_metric_summarizer(
     name = "gain_curve",
     fn = gain_curve_vec,
@@ -129,12 +131,14 @@ gain_curve.data.frame <- function(data,
 # dont export gain_curve_vec / lift_curve_vec
 # not as meaningful to return a list of vectors
 # maybe it could return the tibble?
-gain_curve_vec <- function(truth,
-                           estimate,
-                           na_rm = TRUE,
-                           event_level = yardstick_event_level(),
-                           case_weights = NULL,
-                           ...) {
+gain_curve_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "gain_curve")
@@ -148,10 +152,12 @@ gain_curve_vec <- function(truth,
     estimate <- result$estimate
     case_weights <- result$case_weights
   } else if (yardstick_any_missing(truth, estimate, case_weights)) {
-    cli::cli_abort(c(
-      x = "Missing values were detected and {.code na_ra = FALSE}.",
-      i = "Not able to perform calculations."
-    ))
+    cli::cli_abort(
+      c(
+        x = "Missing values were detected and {.code na_ra = FALSE}.",
+        i = "Not able to perform calculations."
+      )
+    )
   }
 
   gain_curve_estimator_impl(
@@ -163,11 +169,13 @@ gain_curve_vec <- function(truth,
   )
 }
 
-gain_curve_estimator_impl <- function(truth,
-                                      estimate,
-                                      estimator,
-                                      event_level,
-                                      case_weights) {
+gain_curve_estimator_impl <- function(
+  truth,
+  estimate,
+  estimator,
+  event_level,
+  case_weights
+) {
   if (is_binary(estimator)) {
     gain_curve_binary(truth, estimate, event_level, case_weights)
   } else {
@@ -176,7 +184,12 @@ gain_curve_estimator_impl <- function(truth,
 }
 
 gain_curve_binary <- function(truth, estimate, event_level, case_weights) {
-  gain_list <- gain_curve_binary_impl(truth, estimate, event_level, case_weights)
+  gain_list <- gain_curve_binary_impl(
+    truth,
+    estimate,
+    event_level,
+    case_weights
+  )
   dplyr::tibble(!!!gain_list)
 }
 
@@ -191,10 +204,7 @@ gain_curve_multiclass <- function(truth, estimate, case_weights) {
 
 # Following the Example Problem 2 of:
 # http://www2.cs.uregina.ca/~dbd/cs831/notes/lift_chart/lift_chart.html
-gain_curve_binary_impl <- function(truth,
-                                   estimate,
-                                   event_level,
-                                   case_weights) {
+gain_curve_binary_impl <- function(truth, estimate, event_level, case_weights) {
   truth <- unclass(truth)
 
   # Events are re-coded as 1, non-events are 0. Easier for cumulative calcs.

@@ -8,7 +8,6 @@ probs <- t(apply(probs, 1, function(x) x / sum(x)))
 colnames(probs) <- levels(iris$Species)
 three_class <- cbind(three_class, as.data.frame(probs))
 
-
 ###################################################################
 
 test_that("correct metrics returned", {
@@ -21,11 +20,15 @@ test_that("correct metrics returned", {
     c("accuracy", "kap", "mn_log_loss", "roc_auc")
   )
   expect_equal(
-    metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[".metric"]],
+    metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[
+      ".metric"
+    ]],
     c("accuracy", "kap", "mn_log_loss", "roc_auc")
   )
   expect_equal(
-    metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[".estimator"]],
+    metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[
+      ".estimator"
+    ]],
     c("multiclass", "multiclass", "multiclass", "hand_till")
   )
   expect_equal(
@@ -66,7 +69,6 @@ reg_res_1 <- dplyr::bind_rows(
   mae(solubility_test, solubility, prediction)
 )
 
-
 test_that("correct results", {
   class_idx <- which(class_res_1$.metric %in% c("accuracy", "kap"))
 
@@ -87,7 +89,10 @@ test_that("correct results", {
 ###################################################################
 
 test_that("metrics() - `options` is deprecated", {
-  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  skip_if(
+    getRversion() <= "3.5.3",
+    "Base R used a different deprecated warning class."
+  )
   rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot({
@@ -185,7 +190,9 @@ test_that("can supply `event_level` even with metrics that don't use it", {
 
   expect_equal(
     as.data.frame(set(df, truth, Class1, estimate = predicted)),
-    as.data.frame(set(df_rev, truth, Class1, estimate = predicted, event_level = "second"))
+    as.data.frame(
+      set(df_rev, truth, Class1, estimate = predicted, event_level = "second")
+    )
   )
 })
 
@@ -271,7 +278,8 @@ test_that("metric_set can be coerced to a tibble", {
 })
 
 test_that("`metric_set()` errors contain env name for unknown functions (#128)", {
-  foobar <- function() {}
+  foobar <- function() {
+  }
 
   # Store env name in `name` attribute for `environmentName()` to find it
   env <- rlang::new_environment(parent = globalenv())
@@ -290,7 +298,8 @@ test_that("`metric_set()` errors contain env name for unknown functions (#128)",
 })
 
 test_that("`metric_set()` gives an informative error for a single non-metric function (#181)", {
-  foobar <- function() {}
+  foobar <- function() {
+  }
 
   # Store env name in `name` attribute for `environmentName()` to find it
   env <- rlang::new_environment(parent = globalenv())
@@ -349,7 +358,9 @@ test_that("all class metrics - `metric_set()` works with `case_weights`", {
   )
 
   expect_identical(
-    set(df, truth, estimate = estimate, case_weights = case_weights)[[".estimate"]],
+    set(df, truth, estimate = estimate, case_weights = case_weights)[[
+      ".estimate"
+    ]],
     c(1 / 4, 1 / 3)
   )
 })
@@ -372,12 +383,16 @@ test_that("all numeric metrics - `metric_set()` works with `case_weights`", {
   solubility_test$weight <- read_weights_solubility_test()
 
   expect <- c(
-    rmse(solubility_test, solubility, prediction, case_weights = weight)[[".estimate"]],
+    rmse(solubility_test, solubility, prediction, case_weights = weight)[[
+      ".estimate"
+    ]],
     rmse(solubility_test, solubility, prediction)[[".estimate"]]
   )
 
   expect_identical(
-    set(solubility_test, solubility, prediction, case_weights = weight)[[".estimate"]],
+    set(solubility_test, solubility, prediction, case_weights = weight)[[
+      ".estimate"
+    ]],
     expect
   )
 })
@@ -400,13 +415,23 @@ test_that("class and prob metrics - `metric_set()` works with `case_weights`", {
   two_class_example$weight <- read_weights_two_class_example()
 
   expect <- c(
-    accuracy(two_class_example, truth, predicted, case_weights = weight)[[".estimate"]],
+    accuracy(two_class_example, truth, predicted, case_weights = weight)[[
+      ".estimate"
+    ]],
     accuracy(two_class_example, truth, predicted)[[".estimate"]],
-    roc_auc(two_class_example, truth, Class1, case_weights = weight)[[".estimate"]]
+    roc_auc(two_class_example, truth, Class1, case_weights = weight)[[
+      ".estimate"
+    ]]
   )
 
   expect_identical(
-    set(two_class_example, truth, Class1, estimate = predicted, case_weights = weight)[[".estimate"]],
+    set(
+      two_class_example,
+      truth,
+      Class1,
+      estimate = predicted,
+      case_weights = weight
+    )[[".estimate"]],
     expect
   )
 })
@@ -416,7 +441,13 @@ test_that("propagates 'caused by' error message when specifying the wrong column
 
   # There is no `weight` column!
   expect_snapshot(error = TRUE, {
-    set(two_class_example, truth, Class1, estimate = predicted, case_weights = weight)
+    set(
+      two_class_example,
+      truth,
+      Class1,
+      estimate = predicted,
+      case_weights = weight
+    )
   })
 })
 
@@ -489,7 +520,9 @@ test_that("metric_tweak and metric_set plays nicely together (#351)", {
 
   expect_identical(
     metric_set(concordance_survival_na_rm, concordance_survival_no_na_rm)(
-      lung_surv_na, truth = surv_obj, estimate = .pred_time
+      lung_surv_na,
+      truth = surv_obj,
+      estimate = .pred_time
     ),
     ref
   )
@@ -516,7 +549,9 @@ test_that("metric_tweak and metric_set plays nicely together (#351)", {
 
   expect_identical(
     metric_set(brier_survival_na_rm, brier_survival_no_na_rm)(
-      lung_surv_na, truth = surv_obj, .pred
+      lung_surv_na,
+      truth = surv_obj,
+      .pred
     ),
     ref
   )

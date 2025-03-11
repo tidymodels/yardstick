@@ -92,12 +92,14 @@ conf_mat <- function(data, ...) {
 
 #' @export
 #' @rdname conf_mat
-conf_mat.data.frame <- function(data,
-                                truth,
-                                estimate,
-                                dnn = c("Prediction", "Truth"),
-                                case_weights = NULL,
-                                ...) {
+conf_mat.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  dnn = c("Prediction", "Truth"),
+  case_weights = NULL,
+  ...
+) {
   if (dots_n(...) != 0L) {
     warn_conf_mat_dots_deprecated()
   }
@@ -146,12 +148,14 @@ conf_mat.data.frame <- function(data,
 }
 
 #' @export
-conf_mat.grouped_df <- function(data,
-                                truth,
-                                estimate,
-                                dnn = c("Prediction", "Truth"),
-                                case_weights = NULL,
-                                ...) {
+conf_mat.grouped_df <- function(
+  data,
+  truth,
+  estimate,
+  dnn = c("Prediction", "Truth"),
+  case_weights = NULL,
+  ...
+) {
   if (dots_n(...) != 0L) {
     warn_conf_mat_dots_deprecated()
   }
@@ -367,12 +371,14 @@ flatten <- function(xtab, call = caller_env()) {
 #'     sd = sd(.estimate, na.rm = TRUE)
 #'   )
 #' @export
-summary.conf_mat <- function(object,
-                             prevalence = NULL,
-                             beta = 1,
-                             estimator = NULL,
-                             event_level = yardstick_event_level(),
-                             ...) {
+summary.conf_mat <- function(
+  object,
+  prevalence = NULL,
+  beta = 1,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   xtab <- object$table
 
   stats <- dplyr::bind_rows(
@@ -382,13 +388,27 @@ summary.conf_mat <- function(object,
     kap(xtab),
     sens(xtab, estimator = estimator, event_level = event_level),
     spec(xtab, estimator = estimator, event_level = event_level),
-    ppv(xtab, prevalence = prevalence, estimator = estimator, event_level = event_level),
-    npv(xtab, prevalence = prevalence, estimator = estimator, event_level = event_level),
+    ppv(
+      xtab,
+      prevalence = prevalence,
+      estimator = estimator,
+      event_level = event_level
+    ),
+    npv(
+      xtab,
+      prevalence = prevalence,
+      estimator = estimator,
+      event_level = event_level
+    ),
     # known multiclass extension
     mcc(xtab),
     j_index(xtab, estimator = estimator, event_level = event_level),
     bal_accuracy(xtab, estimator = estimator, event_level = event_level),
-    detection_prevalence(xtab, estimator = estimator, event_level = event_level),
+    detection_prevalence(
+      xtab,
+      estimator = estimator,
+      event_level = event_level
+    ),
     precision(xtab, estimator = estimator, event_level = event_level),
     recall(xtab, estimator = estimator, event_level = event_level),
     f_meas(xtab, beta = beta, estimator = estimator, event_level = event_level)
@@ -401,10 +421,7 @@ summary.conf_mat <- function(object,
 autoplot.conf_mat <- function(object, type = "mosaic", ...) {
   type <- arg_match(type, conf_mat_plot_types)
 
-  switch(type,
-    mosaic = cm_mosaic(object),
-    heatmap = cm_heat(object)
-  )
+  switch(type, mosaic = cm_mosaic(object), heatmap = cm_heat(object))
 }
 
 conf_mat_plot_types <- c("mosaic", "heatmap")

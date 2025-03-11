@@ -4,7 +4,9 @@ test_that("Two class", {
   path_tbl <- lst$path_tbl
 
   expect_equal(
-    detection_prevalence(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
+    detection_prevalence(pathology, truth = "pathology", estimate = "scan")[[
+      ".estimate"
+    ]],
     (231 + 32) / 344
   )
   expect_equal(
@@ -23,8 +25,17 @@ test_that("`event_level = 'second'` works", {
   path_tbl <- lst$path_tbl
 
   expect_equal(
-    detection_prevalence_vec(pathology$pathology, pathology$scan, event_level = "second"),
-    1 - detection_prevalence_vec(pathology$pathology, pathology$scan, event_level = "first")
+    detection_prevalence_vec(
+      pathology$pathology,
+      pathology$scan,
+      event_level = "second"
+    ),
+    1 -
+      detection_prevalence_vec(
+        pathology$pathology,
+        pathology$scan,
+        event_level = "first"
+      )
   )
 })
 
@@ -58,7 +69,9 @@ test_that("two class with case weights is correct", {
   )
 
   expect_identical(
-    detection_prevalence(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
+    detection_prevalence(df, truth, estimate, case_weights = case_weights)[[
+      ".estimate"
+    ]],
     3 / 4
   )
 })
@@ -75,7 +88,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     detection_prevalence_vec(df$pathology, df$scan, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("work with class_pred input", {

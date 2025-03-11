@@ -46,14 +46,16 @@ spec <- new_class_metric(
 
 #' @export
 #' @rdname spec
-spec.data.frame <- function(data,
-                            truth,
-                            estimate,
-                            estimator = NULL,
-                            na_rm = TRUE,
-                            case_weights = NULL,
-                            event_level = yardstick_event_level(),
-                            ...) {
+spec.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   class_metric_summarizer(
     name = "spec",
     fn = spec_vec,
@@ -68,10 +70,12 @@ spec.data.frame <- function(data,
 }
 
 #' @export
-spec.table <- function(data,
-                       estimator = NULL,
-                       event_level = yardstick_event_level(),
-                       ...) {
+spec.table <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -83,23 +87,27 @@ spec.table <- function(data,
 }
 
 #' @export
-spec.matrix <- function(data,
-                        estimator = NULL,
-                        event_level = yardstick_event_level(),
-                        ...) {
+spec.matrix <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   data <- as.table(data)
   spec.table(data, estimator, event_level)
 }
 
 #' @export
 #' @rdname spec
-spec_vec <- function(truth,
-                     estimate,
-                     estimator = NULL,
-                     na_rm = TRUE,
-                     case_weights = NULL,
-                     event_level = yardstick_event_level(),
-                     ...) {
+spec_vec <- function(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 
@@ -135,14 +143,16 @@ specificity <- new_class_metric(
 
 #' @rdname spec
 #' @export
-specificity.data.frame <- function(data,
-                                   truth,
-                                   estimate,
-                                   estimator = NULL,
-                                   na_rm = TRUE,
-                                   case_weights = NULL,
-                                   event_level = yardstick_event_level(),
-                                   ...) {
+specificity.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   class_metric_summarizer(
     name = "specificity",
     fn = spec_vec,
@@ -157,10 +167,12 @@ specificity.data.frame <- function(data,
 }
 
 #' @export
-specificity.table <- function(data,
-                              estimator = NULL,
-                              event_level = yardstick_event_level(),
-                              ...) {
+specificity.table <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -172,10 +184,12 @@ specificity.table <- function(data,
 }
 
 #' @export
-specificity.matrix <- function(data,
-                               estimator = NULL,
-                               event_level = yardstick_event_level(),
-                               ...) {
+specificity.matrix <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   data <- as.table(data)
   specificity.table(data, estimator, event_level)
 }
@@ -245,7 +259,6 @@ spec_multiclass <- function(data, estimator) {
   numer / denom
 }
 
-
 warn_spec_undefined_binary <- function(event, count) {
   message <- c(
     "While computing binary {.fn spec}, no true negatives were detected
@@ -290,7 +303,13 @@ warn_spec_undefined_multiclass <- function(events, counts) {
   )
 }
 
-warn_spec_undefined <- function(message, events, counts, ..., class = character()) {
+warn_spec_undefined <- function(
+  message,
+  events,
+  counts,
+  ...,
+  class = character()
+) {
   cli::cli_warn(
     message = message,
     class = c(class, "yardstick_warning_spec_undefined"),

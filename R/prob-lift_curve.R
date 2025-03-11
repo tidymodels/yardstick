@@ -92,12 +92,14 @@ lift_curve <- function(data, ...) {
 
 #' @rdname lift_curve
 #' @export
-lift_curve.data.frame <- function(data,
-                                  truth,
-                                  ...,
-                                  na_rm = TRUE,
-                                  event_level = yardstick_event_level(),
-                                  case_weights = NULL) {
+lift_curve.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+) {
   result <- curve_metric_summarizer(
     name = "lift_curve",
     fn = lift_curve_vec,
@@ -112,12 +114,14 @@ lift_curve.data.frame <- function(data,
   curve_finalize(result, data, "lift_df", "grouped_lift_df")
 }
 
-lift_curve_vec <- function(truth,
-                           estimate,
-                           na_rm = TRUE,
-                           event_level = yardstick_event_level(),
-                           case_weights = NULL,
-                           ...) {
+lift_curve_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+) {
   # Doesn't validate inputs here since it is done in gain_curve_vec()
 
   # tibble result, possibly grouped

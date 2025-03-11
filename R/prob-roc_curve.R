@@ -69,13 +69,15 @@ roc_curve <- function(data, ...) {
 
 #' @export
 #' @rdname roc_curve
-roc_curve.data.frame <- function(data,
-                                 truth,
-                                 ...,
-                                 na_rm = TRUE,
-                                 event_level = yardstick_event_level(),
-                                 case_weights = NULL,
-                                 options = list()) {
+roc_curve.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  options = list()
+) {
   check_roc_options_deprecated("roc_curve", options)
 
   result <- curve_metric_summarizer(
@@ -92,12 +94,14 @@ roc_curve.data.frame <- function(data,
   curve_finalize(result, data, "roc_df", "grouped_roc_df")
 }
 
-roc_curve_vec <- function(truth,
-                          estimate,
-                          na_rm = TRUE,
-                          event_level = yardstick_event_level(),
-                          case_weights = NULL,
-                          ...) {
+roc_curve_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "roc_curve")
@@ -111,10 +115,12 @@ roc_curve_vec <- function(truth,
     estimate <- result$estimate
     case_weights <- result$case_weights
   } else if (yardstick_any_missing(truth, estimate, case_weights)) {
-    cli::cli_abort(c(
-      x = "Missing values were detected and {.code na_ra = FALSE}.",
-      i = "Not able to perform calculations."
-    ))
+    cli::cli_abort(
+      c(
+        x = "Missing values were detected and {.code na_ra = FALSE}.",
+        i = "Not able to perform calculations."
+      )
+    )
   }
 
   # estimate here is a matrix of class prob columns
@@ -127,12 +133,14 @@ roc_curve_vec <- function(truth,
   )
 }
 
-roc_curve_estimator_impl <- function(truth,
-                                     estimate,
-                                     estimator,
-                                     event_level,
-                                     case_weights,
-                                     call = caller_env()) {
+roc_curve_estimator_impl <- function(
+  truth,
+  estimate,
+  estimator,
+  event_level,
+  case_weights,
+  call = caller_env()
+) {
   if (is_binary(estimator)) {
     roc_curve_binary(truth, estimate, event_level, case_weights, call)
   } else {
@@ -140,11 +148,7 @@ roc_curve_estimator_impl <- function(truth,
   }
 }
 
-roc_curve_binary <- function(truth,
-                             estimate,
-                             event_level,
-                             case_weights,
-                             call) {
+roc_curve_binary <- function(truth, estimate, event_level, case_weights, call) {
   lvls <- levels(truth)
 
   if (!is_event_first(event_level)) {
@@ -197,10 +201,7 @@ roc_curve_binary <- function(truth,
 }
 
 # One-VS-All approach
-roc_curve_multiclass <- function(truth,
-                                 estimate,
-                                 case_weights,
-                                 call) {
+roc_curve_multiclass <- function(truth, estimate, case_weights, call) {
   one_vs_all_with_level(
     fn = roc_curve_binary,
     truth = truth,
@@ -224,7 +225,6 @@ warn_roc_options_deprecated <- function(what) {
     )
   )
 }
-
 
 # Dynamically exported
 autoplot.roc_df <- function(object, ...) {

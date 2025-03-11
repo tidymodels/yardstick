@@ -47,14 +47,16 @@ j_index <- new_class_metric(
 
 #' @rdname j_index
 #' @export
-j_index.data.frame <- function(data,
-                               truth,
-                               estimate,
-                               estimator = NULL,
-                               na_rm = TRUE,
-                               case_weights = NULL,
-                               event_level = yardstick_event_level(),
-                               ...) {
+j_index.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   class_metric_summarizer(
     name = "j_index",
     fn = j_index_vec,
@@ -69,10 +71,12 @@ j_index.data.frame <- function(data,
 }
 
 #' @export
-j_index.table <- function(data,
-                          estimator = NULL,
-                          event_level = yardstick_event_level(),
-                          ...) {
+j_index.table <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -84,23 +88,27 @@ j_index.table <- function(data,
 }
 
 #' @export
-j_index.matrix <- function(data,
-                           estimator = NULL,
-                           event_level = yardstick_event_level(),
-                           ...) {
+j_index.matrix <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   data <- as.table(data)
   j_index.table(data, estimator, event_level)
 }
 
 #' @rdname j_index
 #' @export
-j_index_vec <- function(truth,
-                        estimate,
-                        estimator = NULL,
-                        na_rm = TRUE,
-                        case_weights = NULL,
-                        event_level = yardstick_event_level(),
-                        ...) {
+j_index_vec <- function(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

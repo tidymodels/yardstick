@@ -58,11 +58,13 @@ brier_class <- new_prob_metric(
 
 #' @export
 #' @rdname brier_class
-brier_class.data.frame <- function(data,
-                                   truth,
-                                   ...,
-                                   na_rm = TRUE,
-                                   case_weights = NULL) {
+brier_class.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL
+) {
   case_weights_quo <- enquo(case_weights)
 
   prob_metric_summarizer(
@@ -78,11 +80,13 @@ brier_class.data.frame <- function(data,
 
 #' @rdname brier_class
 #' @export
-brier_class_vec <- function(truth,
-                            estimate,
-                            na_rm = TRUE,
-                            case_weights = NULL,
-                            ...) {
+brier_class_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "brier_class")
@@ -106,9 +110,7 @@ brier_class_vec <- function(truth,
   )
 }
 
-brier_class_estimator_impl <- function(truth,
-                                       estimate,
-                                       case_weights) {
+brier_class_estimator_impl <- function(truth, estimate, case_weights) {
   brier_factor(
     truth = truth,
     estimate = estimate,

@@ -4,7 +4,9 @@ test_that("Two class", {
   path_tbl <- lst$path_tbl
 
   expect_equal(
-    bal_accuracy(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
+    bal_accuracy(pathology, truth = "pathology", estimate = "scan")[[
+      ".estimate"
+    ]],
     (sens(path_tbl)[[".estimate"]] + spec(path_tbl)[[".estimate"]]) / 2
   )
   expect_equal(
@@ -29,7 +31,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     bal_accuracy_vec(df$pathology, df$scan, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("`event_level = 'second'` should be identical to 'first'", {
@@ -38,8 +40,16 @@ test_that("`event_level = 'second'` should be identical to 'first'", {
   path_tbl <- lst$path_tbl
 
   expect_identical(
-    bal_accuracy_vec(pathology$pathology, pathology$scan, event_level = "first"),
-    bal_accuracy_vec(pathology$pathology, pathology$scan, event_level = "second")
+    bal_accuracy_vec(
+      pathology$pathology,
+      pathology$scan,
+      event_level = "first"
+    ),
+    bal_accuracy_vec(
+      pathology$pathology,
+      pathology$scan,
+      event_level = "second"
+    )
   )
 })
 
@@ -100,7 +110,9 @@ test_that("Two class weighted - sklearn equivalent", {
   two_class_example$weights <- read_weights_two_class_example()
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$binary
   )
 })

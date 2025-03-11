@@ -70,7 +70,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     accuracy_vec(df$pathology, df$scan, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("work with class_pred input", {

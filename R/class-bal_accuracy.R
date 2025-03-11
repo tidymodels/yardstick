@@ -25,14 +25,16 @@ bal_accuracy <- new_class_metric(
 
 #' @export
 #' @rdname bal_accuracy
-bal_accuracy.data.frame <- function(data,
-                                    truth,
-                                    estimate,
-                                    estimator = NULL,
-                                    na_rm = TRUE,
-                                    case_weights = NULL,
-                                    event_level = yardstick_event_level(),
-                                    ...) {
+bal_accuracy.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   class_metric_summarizer(
     name = "bal_accuracy",
     fn = bal_accuracy_vec,
@@ -47,10 +49,12 @@ bal_accuracy.data.frame <- function(data,
 }
 
 #' @export
-bal_accuracy.table <- function(data,
-                               estimator = NULL,
-                               event_level = yardstick_event_level(),
-                               ...) {
+bal_accuracy.table <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -62,23 +66,27 @@ bal_accuracy.table <- function(data,
 }
 
 #' @export
-bal_accuracy.matrix <- function(data,
-                                estimator = NULL,
-                                event_level = yardstick_event_level(),
-                                ...) {
+bal_accuracy.matrix <- function(
+  data,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   data <- as.table(data)
   bal_accuracy.table(data, estimator, event_level)
 }
 
 #' @export
 #' @rdname bal_accuracy
-bal_accuracy_vec <- function(truth,
-                             estimate,
-                             estimator = NULL,
-                             na_rm = TRUE,
-                             case_weights = NULL,
-                             event_level = yardstick_event_level(),
-                             ...) {
+bal_accuracy_vec <- function(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

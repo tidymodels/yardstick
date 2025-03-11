@@ -59,13 +59,15 @@ average_precision <- new_prob_metric(
 
 #' @export
 #' @rdname average_precision
-average_precision.data.frame <- function(data,
-                                         truth,
-                                         ...,
-                                         estimator = NULL,
-                                         na_rm = TRUE,
-                                         event_level = yardstick_event_level(),
-                                         case_weights = NULL) {
+average_precision.data.frame <- function(
+  data,
+  truth,
+  ...,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+) {
   prob_metric_summarizer(
     name = "average_precision",
     fn = average_precision_vec,
@@ -81,13 +83,15 @@ average_precision.data.frame <- function(data,
 
 #' @export
 #' @rdname average_precision
-average_precision_vec <- function(truth,
-                                  estimate,
-                                  estimator = NULL,
-                                  na_rm = TRUE,
-                                  event_level = yardstick_event_level(),
-                                  case_weights = NULL,
-                                  ...) {
+average_precision_vec <- function(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, estimator, "average_precision")
@@ -113,11 +117,13 @@ average_precision_vec <- function(truth,
   )
 }
 
-average_precision_estimator_impl <- function(truth,
-                                             estimate,
-                                             estimator,
-                                             event_level,
-                                             case_weights) {
+average_precision_estimator_impl <- function(
+  truth,
+  estimate,
+  estimator,
+  event_level,
+  case_weights
+) {
   if (is_binary(estimator)) {
     average_precision_binary(truth, estimate, event_level, case_weights)
   } else {
@@ -130,10 +136,12 @@ average_precision_estimator_impl <- function(truth,
   }
 }
 
-average_precision_binary <- function(truth,
-                                     estimate,
-                                     event_level,
-                                     case_weights) {
+average_precision_binary <- function(
+  truth,
+  estimate,
+  event_level,
+  case_weights
+) {
   # `na_rm` should already be done by `average_precision_vec()`
   curve <- pr_curve_vec(
     truth = truth,
@@ -149,9 +157,7 @@ average_precision_binary <- function(truth,
   sum(diff(recalls) * precisions[-1])
 }
 
-average_precision_multiclass <- function(truth,
-                                         estimate,
-                                         case_weights) {
+average_precision_multiclass <- function(truth, estimate, case_weights) {
   results <- one_vs_all_impl(
     fn = average_precision_binary,
     truth = truth,

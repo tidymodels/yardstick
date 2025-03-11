@@ -47,12 +47,14 @@ mcc <- new_class_metric(
 
 #' @export
 #' @rdname mcc
-mcc.data.frame <- function(data,
-                           truth,
-                           estimate,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+mcc.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   class_metric_summarizer(
     name = "mcc",
     fn = mcc_vec,
@@ -92,11 +94,7 @@ mcc.matrix <- function(data, ...) {
 
 #' @export
 #' @rdname mcc
-mcc_vec <- function(truth,
-                    estimate,
-                    na_rm = TRUE,
-                    case_weights = NULL,
-                    ...) {
+mcc_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

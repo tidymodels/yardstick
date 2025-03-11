@@ -57,14 +57,16 @@ mase <- new_numeric_metric(
 
 #' @rdname mase
 #' @export
-mase.data.frame <- function(data,
-                            truth,
-                            estimate,
-                            m = 1L,
-                            mae_train = NULL,
-                            na_rm = TRUE,
-                            case_weights = NULL,
-                            ...) {
+mase.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  m = 1L,
+  mae_train = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "mase",
     fn = mase_vec,
@@ -80,13 +82,15 @@ mase.data.frame <- function(data,
 
 #' @export
 #' @rdname mase
-mase_vec <- function(truth,
-                     estimate,
-                     m = 1L,
-                     mae_train = NULL,
-                     na_rm = TRUE,
-                     case_weights = NULL,
-                     ...) {
+mase_vec <- function(
+  truth,
+  estimate,
+  m = 1L,
+  mae_train = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {
@@ -108,12 +112,14 @@ mase_vec <- function(truth,
   )
 }
 
-mase_impl <- function(truth,
-                      estimate,
-                      m = 1L,
-                      mae_train = NULL,
-                      case_weights = NULL,
-                      call = caller_env()) {
+mase_impl <- function(
+  truth,
+  estimate,
+  m = 1L,
+  mae_train = NULL,
+  case_weights = NULL,
+  call = caller_env()
+) {
   check_number_whole(m, min = 0, call = call)
   check_number_decimal(mae_train, min = 0, allow_null = TRUE, call = call)
 

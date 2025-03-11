@@ -16,7 +16,9 @@ test_that("Weighted results are the same as scikit-learn", {
   solubility_test$weights <- read_weights_solubility_test()
 
   expect_identical(
-    rmse(solubility_test, solubility, prediction, case_weights = weights)[[".estimate"]],
+    rmse(solubility_test, solubility, prediction, case_weights = weights)[[
+      ".estimate"
+    ]],
     read_pydata("py-rmse")$case_weight
   )
 })
@@ -44,5 +46,5 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     rmse_vec(df$solubility, df$prediction, case_weights = freq_wgt)
-  ) 
+  )
 })

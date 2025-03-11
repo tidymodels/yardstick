@@ -436,7 +436,6 @@ test_that("validate_surv_truth_numeric_estimate errors as expected", {
   )
 })
 
-
 test_that("validate_surv_truth_list_estimate errors as expected", {
   lung_surv <- data_lung_surv()
   lung_surv$list <- lapply(seq_len(nrow(lung_surv)), identity)
