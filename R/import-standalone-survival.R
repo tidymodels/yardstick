@@ -16,7 +16,6 @@
 # 2023-02-28:
 # * Initial version
 
-
 # @param surv A [survival::Surv()] object
 # @details
 # `.is_censored_right()` always returns a logical while
@@ -56,10 +55,13 @@
   .is_surv(surv)
   res <- surv[, "status"]
   un_vals <- sort(unique(res))
-  event_type_to_01 <- !(.extract_surv_type(surv) %in% c("interval", "interval2", "mstate"))
+  event_type_to_01 <- !(
+    .extract_surv_type(surv) %in% c("interval", "interval2", "mstate")
+  )
   if (
     event_type_to_01 &&
-      (identical(un_vals, 1:2) || identical(un_vals, c(1.0, 2.0)))) {
+      (identical(un_vals, 1:2) || identical(un_vals, c(1.0, 2.0)))
+  ) {
     res <- res - 1
   }
   res
@@ -83,7 +85,9 @@
   good_type <- all(obj_type %in% type)
   if (!good_type && fail) {
     c_list <- paste0("'", type, "'")
-    msg <- cli::format_inline("For this usage, the allowed censoring type{?s} {?is/are}: {c_list}")
+    msg <- cli::format_inline(
+      "For this usage, the allowed censoring type{?s} {?is/are}: {c_list}"
+    )
     abort(msg, call = NULL)
   }
   good_type

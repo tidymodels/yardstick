@@ -62,9 +62,15 @@ test_that("can tweak a class prob metric", {
 
 test_that("can tweak a class prob metric that doesn't use `estimator`", {
   costs <- dplyr::tribble(
-    ~truth,   ~estimate, ~cost,
-    "Class1", "Class2",  1,
-    "Class2", "Class1",  2
+    ~truth,
+    ~estimate,
+    ~cost,
+    "Class1",
+    "Class2",
+    1,
+    "Class2",
+    "Class1",
+    2
   )
 
   classification_cost2 <- metric_tweak(
@@ -77,7 +83,9 @@ test_that("can tweak a class prob metric that doesn't use `estimator`", {
 
   expect_identical(
     result[[".estimate"]],
-    classification_cost(two_class_example, truth, Class1, costs = costs)[[".estimate"]]
+    classification_cost(two_class_example, truth, Class1, costs = costs)[[
+      ".estimate"
+    ]]
   )
 
   expect_identical(
@@ -111,7 +119,11 @@ test_that("can set `na_rm` in the tweaked metric", {
 })
 
 test_that("can set `estimator` in the tweaked metric", {
-  roc_auc_mw <- metric_tweak("roc_auc_mw", roc_auc, estimator = "macro_weighted")
+  roc_auc_mw <- metric_tweak(
+    "roc_auc_mw",
+    roc_auc,
+    estimator = "macro_weighted"
+  )
 
   expect_identical(
     roc_auc_mw(hpc_cv, obs, VF:L)[[".estimate"]],
@@ -144,7 +156,12 @@ test_that("`name` must be a string", {
 test_that("`fn` must be a metric function", {
   expect_snapshot(
     error = TRUE,
-    metric_tweak("foo", function() {}, beta = 2)
+    metric_tweak(
+      "foo",
+      function() {
+      },
+      beta = 2
+    )
   )
 })
 

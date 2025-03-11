@@ -65,13 +65,15 @@ kap <- new_class_metric(
 
 #' @export
 #' @rdname kap
-kap.data.frame <- function(data,
-                           truth,
-                           estimate,
-                           weighting = "none",
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+kap.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  weighting = "none",
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   class_metric_summarizer(
     name = "kap",
     fn = kap_vec,
@@ -85,9 +87,7 @@ kap.data.frame <- function(data,
 }
 
 #' @export
-kap.table <- function(data,
-                      weighting = "none",
-                      ...) {
+kap.table <- function(data, weighting = "none", ...) {
   check_table(data)
   metric_tibbler(
     .metric = "kap",
@@ -97,21 +97,21 @@ kap.table <- function(data,
 }
 
 #' @export
-kap.matrix <- function(data,
-                       weighting = "none",
-                       ...) {
+kap.matrix <- function(data, weighting = "none", ...) {
   data <- as.table(data)
   kap.table(data, weighting = weighting)
 }
 
 #' @export
 #' @rdname kap
-kap_vec <- function(truth,
-                    estimate,
-                    weighting = "none",
-                    na_rm = TRUE,
-                    case_weights = NULL,
-                    ...) {
+kap_vec <- function(
+  truth,
+  estimate,
+  weighting = "none",
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 
@@ -174,7 +174,6 @@ make_weighting_matrix <- function(weighting, n_levels, call = caller_env()) {
 }
 
 # ------------------------------------------------------------------------------
-
 
 validate_weighting <- function(x, call = caller_env()) {
   check_string(x, arg = "weighting", call = call)

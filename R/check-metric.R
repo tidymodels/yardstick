@@ -40,21 +40,25 @@ NULL
 
 #' @rdname check_metric
 #' @export
-check_numeric_metric <- function(truth,
-                                 estimate,
-                                 case_weights,
-                                 call = caller_env()) {
+check_numeric_metric <- function(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+) {
   validate_case_weights(case_weights, size = length(truth), call = call)
   validate_numeric_truth_numeric_estimate(truth, estimate, call = call)
 }
 
 #' @rdname check_metric
 #' @export
-check_class_metric <- function(truth,
-                               estimate,
-                               case_weights,
-                               estimator,
-                               call = caller_env()) {
+check_class_metric <- function(
+  truth,
+  estimate,
+  case_weights,
+  estimator,
+  call = caller_env()
+) {
   validate_case_weights(case_weights, size = length(truth), call = call)
   validate_factor_truth_factor_estimate(truth, estimate, call = call)
   validate_binary_estimator(truth, estimator, call = call)
@@ -62,11 +66,13 @@ check_class_metric <- function(truth,
 
 #' @rdname check_metric
 #' @export
-check_prob_metric <- function(truth,
-                              estimate,
-                              case_weights,
-                              estimator,
-                              call = caller_env()) {
+check_prob_metric <- function(
+  truth,
+  estimate,
+  case_weights,
+  estimator,
+  call = caller_env()
+) {
   validate_case_weights(case_weights, size = length(truth), call = call)
   validate_factor_truth_matrix_estimate(truth, estimate, estimator, call = call)
   validate_binary_estimator(truth, estimator, call = call)
@@ -74,32 +80,43 @@ check_prob_metric <- function(truth,
 
 #' @rdname check_metric
 #' @export
-check_ordered_prob_metric <- function(truth,
-                                      estimate,
-                                      case_weights,
-                                      estimator,
-                                      call = caller_env()) {
+check_ordered_prob_metric <- function(
+  truth,
+  estimate,
+  case_weights,
+  estimator,
+  call = caller_env()
+) {
   validate_case_weights(case_weights, size = length(truth), call = call)
-  validate_ordered_truth_matrix_estimate(truth, estimate, estimator, call = call)
+  validate_ordered_truth_matrix_estimate(
+    truth,
+    estimate,
+    estimator,
+    call = call
+  )
   validate_binary_estimator(truth, estimator, call = call)
 }
 
 #' @rdname check_metric
 #' @export
-check_dynamic_survival_metric <- function(truth,
-                                          estimate,
-                                          case_weights,
-                                          call = caller_env()) {
+check_dynamic_survival_metric <- function(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+) {
   validate_surv_truth_list_estimate(truth, estimate, call = call)
   validate_case_weights(case_weights, size = nrow(truth), call = call)
 }
 
 #' @rdname check_metric
 #' @export
-check_static_survival_metric <- function(truth,
-                                         estimate,
-                                         case_weights,
-                                         call = caller_env()) {
+check_static_survival_metric <- function(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+) {
   validate_case_weights(case_weights, size = nrow(truth), call = call)
   validate_surv_truth_numeric_estimate(truth, estimate, call = call)
 }

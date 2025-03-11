@@ -53,13 +53,15 @@ pr_auc <- new_prob_metric(
 
 #' @export
 #' @rdname pr_auc
-pr_auc.data.frame <- function(data,
-                              truth,
-                              ...,
-                              estimator = NULL,
-                              na_rm = TRUE,
-                              event_level = yardstick_event_level(),
-                              case_weights = NULL) {
+pr_auc.data.frame <- function(
+  data,
+  truth,
+  ...,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+) {
   prob_metric_summarizer(
     name = "pr_auc",
     fn = pr_auc_vec,
@@ -75,13 +77,15 @@ pr_auc.data.frame <- function(data,
 
 #' @export
 #' @rdname pr_auc
-pr_auc_vec <- function(truth,
-                       estimate,
-                       estimator = NULL,
-                       na_rm = TRUE,
-                       event_level = yardstick_event_level(),
-                       case_weights = NULL,
-                       ...) {
+pr_auc_vec <- function(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, estimator, "pr_auc")
@@ -107,11 +111,13 @@ pr_auc_vec <- function(truth,
   )
 }
 
-pr_auc_estimator_impl <- function(truth,
-                                  estimate,
-                                  estimator,
-                                  event_level,
-                                  case_weights) {
+pr_auc_estimator_impl <- function(
+  truth,
+  estimate,
+  estimator,
+  event_level,
+  case_weights
+) {
   if (is_binary(estimator)) {
     pr_auc_binary(truth, estimate, event_level, case_weights)
   } else {
@@ -126,10 +132,7 @@ pr_auc_estimator_impl <- function(truth,
 
 # Don't remove NA values so any errors propagate
 # (i.e. no if `truth` has no "events")
-pr_auc_binary <- function(truth,
-                          estimate,
-                          event_level,
-                          case_weights) {
+pr_auc_binary <- function(truth, estimate, event_level, case_weights) {
   curve <- pr_curve_vec(
     truth = truth,
     estimate = estimate,
@@ -145,9 +148,7 @@ pr_auc_binary <- function(truth,
   )
 }
 
-pr_auc_multiclass <- function(truth,
-                              estimate,
-                              case_weights) {
+pr_auc_multiclass <- function(truth, estimate, case_weights) {
   results <- one_vs_all_impl(
     fn = pr_auc_binary,
     truth = truth,

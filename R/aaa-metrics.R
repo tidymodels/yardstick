@@ -69,12 +69,14 @@ metrics <- function(data, ...) {
 
 #' @export
 #' @rdname metrics
-metrics.data.frame <- function(data,
-                               truth,
-                               estimate,
-                               ...,
-                               na_rm = TRUE,
-                               options = list()) {
+metrics.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  ...,
+  na_rm = TRUE,
+  options = list()
+) {
   check_roc_options_deprecated("metrics", options)
 
   names <- names(data)
@@ -263,11 +265,14 @@ metric_set <- function(...) {
     make_numeric_metric_function(fns)
   } else if (fn_cls %in% c("prob_metric", "class_metric")) {
     make_prob_class_metric_function(fns)
-  } else if (fn_cls %in% c(
-    "dynamic_survival_metric",
-    "static_survival_metric",
-    "integrated_survival_metric"
-  )) {
+  } else if (
+    fn_cls %in%
+      c(
+        "dynamic_survival_metric",
+        "static_survival_metric",
+        "integrated_survival_metric"
+      )
+  ) {
     make_survival_metric_function(fns)
   } else {
     # should not be reachable
@@ -296,13 +301,24 @@ format.metric_set <- function(x, ...) {
     metric_formats <- strsplit(metric_formats, " | ", fixed = TRUE)
 
     metric_names <- names(metric_formats)
-    metric_types <- vapply(metric_formats, `[`, character(1), 1, USE.NAMES = FALSE)
+    metric_types <- vapply(
+      metric_formats,
+      `[`,
+      character(1),
+      1,
+      USE.NAMES = FALSE
+    )
     metric_descs <- vapply(metric_formats, `[`, character(1), 2)
     metric_nchars <- nchar(metric_names) + nchar(metric_types)
     metric_desc_paddings <- max(metric_nchars) - metric_nchars
     # see r-lib/cli#506
     metric_desc_paddings <- lapply(metric_desc_paddings, rep, x = "\u00a0")
-    metric_desc_paddings <- vapply(metric_desc_paddings, paste, character(1), collapse = "")
+    metric_desc_paddings <- vapply(
+      metric_desc_paddings,
+      paste,
+      character(1),
+      collapse = ""
+    )
 
     for (i in seq_along(metrics)) {
       cli::cli_text(
@@ -365,14 +381,16 @@ get_quo_label <- function(quo) {
 }
 
 make_prob_class_metric_function <- function(fns) {
-  metric_function <- function(data,
-                              truth,
-                              ...,
-                              estimate,
-                              estimator = NULL,
-                              na_rm = TRUE,
-                              event_level = yardstick_event_level(),
-                              case_weights = NULL) {
+  metric_function <- function(
+    data,
+    truth,
+    ...,
+    estimate,
+    estimator = NULL,
+    na_rm = TRUE,
+    event_level = yardstick_event_level(),
+    case_weights = NULL
+  ) {
     # Find class vs prob metrics
     are_class_metrics <- vapply(
       X = fns,
@@ -400,7 +418,11 @@ make_prob_class_metric_function <- function(fns) {
 
       class_calls <- lapply(class_fns, call2, !!!class_args)
 
-      class_calls <- mapply(call_remove_static_arguments, class_calls, class_fns)
+      class_calls <- mapply(
+        call_remove_static_arguments,
+        class_calls,
+        class_fns
+      )
 
       class_list <- mapply(
         FUN = eval_safely,
@@ -462,12 +484,14 @@ make_prob_class_metric_function <- function(fns) {
 }
 
 make_numeric_metric_function <- function(fns) {
-  metric_function <- function(data,
-                              truth,
-                              estimate,
-                              na_rm = TRUE,
-                              case_weights = NULL,
-                              ...) {
+  metric_function <- function(
+    data,
+    truth,
+    estimate,
+    na_rm = TRUE,
+    case_weights = NULL,
+    ...
+  ) {
     # Construct common argument set for each metric call
     # Doing this dynamically inside the generated function means
     # we capture the correct arguments
@@ -509,13 +533,15 @@ make_numeric_metric_function <- function(fns) {
 }
 
 make_survival_metric_function <- function(fns) {
-  metric_function <- function(data,
-                              truth,
-                              ...,
-                              estimate,
-                              pred_time,
-                              na_rm = TRUE,
-                              case_weights = NULL) {
+  metric_function <- function(
+    data,
+    truth,
+    ...,
+    estimate,
+    pred_time,
+    na_rm = TRUE,
+    case_weights = NULL
+  ) {
     # Construct common argument set for each metric call
     # Doing this dynamically inside the generated function means
     # we capture the correct arguments
@@ -538,7 +564,9 @@ make_survival_metric_function <- function(fns) {
     )
 
     call_class_ind <- vapply(
-      fns, inherits, "static_survival_metric",
+      fns,
+      inherits,
+      "static_survival_metric",
       FUN.VALUE = logical(1)
     )
 
@@ -576,7 +604,8 @@ make_survival_metric_function <- function(fns) {
 validate_not_empty <- function(x, call = caller_env()) {
   if (is_empty(x)) {
     cli::cli_abort(
-      "At least 1 function must be supplied to {.code ...}.", call = call
+      "At least 1 function must be supplied to {.code ...}.",
+      call = call
     )
   }
 }
@@ -607,8 +636,11 @@ validate_function_class <- function(fns) {
     return(invisible(fns))
   }
   valid_cls <- c(
-    "class_metric", "prob_metric", "numeric_metric",
-    "dynamic_survival_metric", "static_survival_metric",
+    "class_metric",
+    "prob_metric",
+    "numeric_metric",
+    "dynamic_survival_metric",
+    "static_survival_metric",
     "integrated_survival_metric"
   )
 
@@ -621,41 +653,53 @@ validate_function_class <- function(fns) {
   # Special case of ONLY class and prob functions together
   # These are allowed to be together
   if (n_unique == 2) {
-    if (fn_cls_unique[1] %in% c("class_metric", "prob_metric") &&
-      fn_cls_unique[2] %in% c("class_metric", "prob_metric")) {
+    if (
+      fn_cls_unique[1] %in%
+        c("class_metric", "prob_metric") &&
+        fn_cls_unique[2] %in% c("class_metric", "prob_metric")
+    ) {
       return(invisible(fns))
     }
 
-    if (fn_cls_unique[1] %in% c(
-      "dynamic_survival_metric",
-      "static_survival_metric",
-      "integrated_survival_metric"
-    ) &&
-      fn_cls_unique[2] %in% c(
-        "dynamic_survival_metric",
-        "static_survival_metric",
-        "integrated_survival_metric"
-      )) {
+    if (
+      fn_cls_unique[1] %in%
+        c(
+          "dynamic_survival_metric",
+          "static_survival_metric",
+          "integrated_survival_metric"
+        ) &&
+        fn_cls_unique[2] %in%
+          c(
+            "dynamic_survival_metric",
+            "static_survival_metric",
+            "integrated_survival_metric"
+          )
+    ) {
       return(invisible(fns))
     }
   }
 
   if (n_unique == 3) {
-    if (fn_cls_unique[1] %in% c(
-      "dynamic_survival_metric",
-      "static_survival_metric",
-      "integrated_survival_metric"
-    ) &&
-      fn_cls_unique[2] %in% c(
-        "dynamic_survival_metric",
-        "static_survival_metric",
-        "integrated_survival_metric"
-      ) &&
-      fn_cls_unique[3] %in% c(
-        "dynamic_survival_metric",
-        "static_survival_metric",
-        "integrated_survival_metric"
-      )) {
+    if (
+      fn_cls_unique[1] %in%
+        c(
+          "dynamic_survival_metric",
+          "static_survival_metric",
+          "integrated_survival_metric"
+        ) &&
+        fn_cls_unique[2] %in%
+          c(
+            "dynamic_survival_metric",
+            "static_survival_metric",
+            "integrated_survival_metric"
+          ) &&
+        fn_cls_unique[3] %in%
+          c(
+            "dynamic_survival_metric",
+            "static_survival_metric",
+            "integrated_survival_metric"
+          )
+    ) {
       return(invisible(fns))
     }
   }
@@ -664,11 +708,13 @@ validate_function_class <- function(fns) {
   if ("metric_factory" %in% fn_cls) {
     factories <- fn_cls[fn_cls == "metric_factory"]
     cli::cli_abort(
-      c("{cli::qty(factories)}The input{?s} {.arg {names(factories)}}
+      c(
+        "{cli::qty(factories)}The input{?s} {.arg {names(factories)}}
          {?is a/are} {.help [groupwise metric](yardstick::new_groupwise_metric)}
          {?factory/factories} and must be passed a data-column before
          addition to a metric set.",
-        "i" = "Did you mean to type e.g. `{names(factories)[1]}(col_name)`?"),
+        "i" = "Did you mean to type e.g. `{names(factories)[1]}(col_name)`?"
+      ),
       call = rlang::call2("metric_set")
     )
   }
@@ -697,7 +743,11 @@ validate_function_class <- function(fns) {
     )
 
     fn_bad_names[[fn_cls_other_loc]] <- paste0(
-      fn_other_names, " ", "<", env_names_other, ">"
+      fn_other_names,
+      " ",
+      "<",
+      env_names_other,
+      ">"
     )
   }
 
@@ -714,15 +764,17 @@ validate_function_class <- function(fns) {
     USE.NAMES = FALSE
   )
 
-  cli::cli_abort(c(
-    "x" = "The combination of metric functions must be:",
-    "*" = "only numeric metrics.",
-    "*" = "a mix of class metrics and class probability metrics.",
-    "*" = "a mix of dynamic and static survival metrics.",
-    "i" = "The following metric function types are being mixed:",
-    fn_pastable
-  ),
-  call = rlang::call2("metric_set"))
+  cli::cli_abort(
+    c(
+      "x" = "The combination of metric functions must be:",
+      "*" = "only numeric metrics.",
+      "*" = "a mix of class metrics and class probability metrics.",
+      "*" = "a mix of dynamic and static survival metrics.",
+      "i" = "The following metric function types are being mixed:",
+      fn_pastable
+    ),
+    call = rlang::call2("metric_set")
+  )
 }
 
 # Safely evaluate metrics in such a way that we can capture the

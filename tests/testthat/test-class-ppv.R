@@ -19,7 +19,9 @@ test_that("ppv", {
     tolerance = .001
   )
   expect_equal(
-    ppv(pathology, truth = pathology, estimate = "scan", prevalence = .5)[[".estimate"]],
+    ppv(pathology, truth = pathology, estimate = "scan", prevalence = .5)[[
+      ".estimate"
+    ]],
     0.70642,
     tolerance = .001
   )
@@ -64,7 +66,11 @@ test_that("Three class", {
     with(
       micro,
       ((sum(tp) / sum(p)) * sum(prev)) /
-        ((sum(tp) / sum(p)) * sum(prev) + ((1 - sum(tn) / sum(n)) * sum((1 - prev))))
+        (
+          (sum(tp) / sum(p)) *
+            sum(prev) +
+            ((1 - sum(tn) / sum(n)) * sum((1 - prev)))
+        )
     )
   )
   # Prevalence defined by the user. Defined once for all levels?
@@ -73,7 +79,11 @@ test_that("Three class", {
     with(
       micro,
       ((sum(tp) / sum(p)) * sum(.4)) /
-        ((sum(tp) / sum(p)) * sum(.4) + ((1 - sum(tn) / sum(n)) * sum((1 - .4))))
+        (
+          (sum(tp) / sum(p)) *
+            sum(.4) +
+            ((1 - sum(tn) / sum(n)) * sum((1 - .4)))
+        )
     )
   )
 })
@@ -101,7 +111,9 @@ test_that("Two class weighted - sklearn equivalent", {
   two_class_example$weights <- read_weights_two_class_example()
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$binary
   )
 })
@@ -113,7 +125,9 @@ test_that("Multi class weighted - sklearn equivalent", {
   hpc_cv$weights <- read_weights_hpc_cv()
 
   expect_equal(
-    r_metric(hpc_cv, obs, pred, estimator = "macro", case_weights = weights)[[".estimate"]],
+    r_metric(hpc_cv, obs, pred, estimator = "macro", case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$macro
   )
 })
@@ -130,7 +144,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     ppv_vec(df$pathology, df$scan, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("work with class_pred input", {

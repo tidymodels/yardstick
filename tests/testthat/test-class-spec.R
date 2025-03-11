@@ -103,7 +103,9 @@ test_that("two class with case weights is correct", {
   )
 
   expect_identical(
-    specificity(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
+    specificity(df, truth, estimate, case_weights = case_weights)[[
+      ".estimate"
+    ]],
     1 / 2
   )
 })
@@ -146,7 +148,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     specificity_vec(df$pathology, df$scan, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("work with class_pred input", {

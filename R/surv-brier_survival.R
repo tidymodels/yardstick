@@ -81,11 +81,13 @@ brier_survival <- new_dynamic_survival_metric(
 
 #' @rdname brier_survival
 #' @export
-brier_survival.data.frame <- function(data,
-                                      truth,
-                                      ...,
-                                      na_rm = TRUE,
-                                      case_weights = NULL) {
+brier_survival.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL
+) {
   dynamic_survival_metric_summarizer(
     name = "brier_survival",
     fn = brier_survival_vec,
@@ -99,17 +101,23 @@ brier_survival.data.frame <- function(data,
 
 #' @export
 #' @rdname brier_survival
-brier_survival_vec <- function(truth,
-                               estimate,
-                               na_rm = TRUE,
-                               case_weights = NULL,
-                               ...) {
+brier_survival_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   check_dynamic_survival_metric(
-    truth, estimate, case_weights
+    truth,
+    estimate,
+    case_weights
   )
   if (na_rm) {
     result <- yardstick_remove_missing(
-      truth, seq_along(estimate), case_weights
+      truth,
+      seq_along(estimate),
+      case_weights
     )
 
     truth <- result$truth
@@ -117,7 +125,9 @@ brier_survival_vec <- function(truth,
     case_weights <- result$case_weights
   } else {
     any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights
+      truth,
+      estimate,
+      case_weights
     )
     if (any_missing) {
       return(NA_real_)
@@ -129,16 +139,22 @@ brier_survival_vec <- function(truth,
     dplyr::group_by(.eval_time) %>%
     dplyr::summarize(
       .estimate = brier_survival_impl(
-        truth, .pred_survival, .weight_censored, case_weights, .eval_time
+        truth,
+        .pred_survival,
+        .weight_censored,
+        case_weights,
+        .eval_time
       )
     )
 }
 
-brier_survival_impl <- function(truth,
-                                estimate,
-                                censoring_weights,
-                                case_weights,
-                                eval_time) {
+brier_survival_impl <- function(
+  truth,
+  estimate,
+  censoring_weights,
+  case_weights,
+  eval_time
+) {
   surv_time <- .extract_surv_time(truth)
   surv_status <- .extract_surv_status(truth)
 

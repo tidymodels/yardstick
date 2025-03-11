@@ -42,7 +42,6 @@ NULL
 #' str(solubility_test)
 NULL
 
-
 #' Multiclass Probability Predictions
 #'
 #' @details This data frame contains the predicted classes and
@@ -74,7 +73,6 @@ NULL
 #' levels(hpc_cv$obs)
 NULL
 
-
 #' Two Class Predictions
 #'
 #' @details These data are a test set form a model built for two
@@ -102,7 +100,7 @@ NULL
 #' Survival Analysis Results
 #'
 #' @details These data contain plausible results from applying predictive
-#' survival models to the  \link[survival]{lung} data set using the censored 
+#' survival models to the  \link[survival]{lung} data set using the censored
 #' package.
 #'
 #' @name lung_surv

@@ -59,12 +59,14 @@ rsq <- new_numeric_metric(
 
 #' @rdname rsq
 #' @export
-rsq.data.frame <- function(data,
-                           truth,
-                           estimate,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           ...) {
+rsq.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "rsq",
     fn = rsq_vec,
@@ -78,11 +80,7 @@ rsq.data.frame <- function(data,
 
 #' @export
 #' @rdname rsq
-rsq_vec <- function(truth,
-                    estimate,
-                    na_rm = TRUE,
-                    case_weights = NULL,
-                    ...) {
+rsq_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

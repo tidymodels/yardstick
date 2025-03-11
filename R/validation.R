@@ -1,6 +1,8 @@
-validate_numeric_truth_numeric_estimate <- function(truth,
-                                                    estimate,
-                                                    call = caller_env()) {
+validate_numeric_truth_numeric_estimate <- function(
+  truth,
+  estimate,
+  call = caller_env()
+) {
   if (!is.numeric(truth)) {
     cli::cli_abort(
       "{.arg truth} should be a numeric vector,
@@ -43,9 +45,11 @@ validate_numeric_truth_numeric_estimate <- function(truth,
   }
 }
 
-validate_factor_truth_factor_estimate <- function(truth,
-                                                  estimate,
-                                                  call = caller_env()) {
+validate_factor_truth_factor_estimate <- function(
+  truth,
+  estimate,
+  call = caller_env()
+) {
   if (!is.factor(truth)) {
     cli::cli_abort(
       "{.arg truth} should be a factor,
@@ -88,10 +92,12 @@ validate_factor_truth_factor_estimate <- function(truth,
   }
 }
 
-validate_factor_truth_matrix_estimate <- function(truth,
-                                                  estimate,
-                                                  estimator,
-                                                  call = caller_env()) {
+validate_factor_truth_matrix_estimate <- function(
+  truth,
+  estimate,
+  estimator,
+  call = caller_env()
+) {
   if (!is.factor(truth)) {
     cli::cli_abort(
       "{.arg truth} should be a factor,
@@ -152,10 +158,12 @@ validate_factor_truth_matrix_estimate <- function(truth,
   }
 }
 
-validate_ordered_truth_matrix_estimate <- function(truth,
-                                                   estimate,
-                                                   estimator,
-                                                   call = caller_env()) {
+validate_ordered_truth_matrix_estimate <- function(
+  truth,
+  estimate,
+  estimator,
+  call = caller_env()
+) {
   if (!is.ordered(truth)) {
     cli::cli_abort(
       "{.arg truth} should be a ordered factor,
@@ -216,9 +224,11 @@ validate_ordered_truth_matrix_estimate <- function(truth,
   }
 }
 
-validate_surv_truth_list_estimate <- function(truth,
-                                              estimate,
-                                              call = caller_env()) {
+validate_surv_truth_list_estimate <- function(
+  truth,
+  estimate,
+  call = caller_env()
+) {
   if (!inherits(truth, "Surv")) {
     cli::cli_abort(
       "`truth` should be a Surv object,
@@ -250,11 +260,12 @@ validate_surv_truth_list_estimate <- function(truth,
   )
 
   if (!all(has_names)) {
-   cli::cli_abort(
+    cli::cli_abort(
       "All data.frames of {.arg estimate} should include column names:
       {.field (.eval_time)}, {.field (.pred_survival)}, and
       {.field (.weight_censored)}.",
-      call = call)
+      call = call
+    )
   }
 
   n_truth <- nrow(truth)
@@ -330,14 +341,17 @@ validate_surv_truth_list_estimate <- function(truth,
   }
 }
 
-validate_surv_truth_numeric_estimate <- function(truth,
-                                                 estimate,
-                                                 call = caller_env()) {
+validate_surv_truth_numeric_estimate <- function(
+  truth,
+  estimate,
+  call = caller_env()
+) {
   if (!.is_surv(truth, fail = FALSE)) {
     cli::cli_abort(
       "{.arg truth} should be a Surv object,
       not {.obj_type_friendly {truth}}.",
-      call = call)
+      call = call
+    )
   }
 
   if (!is.numeric(estimate)) {
@@ -393,9 +407,11 @@ validate_binary_estimator <- function(truth, estimator, call = caller_env()) {
 #' this if your classification estimator does not support all of these methods.
 #' @rdname developer-helpers
 #' @export
-validate_estimator <- function(estimator,
-                               estimator_override = NULL,
-                               call = caller_env()) {
+validate_estimator <- function(
+  estimator,
+  estimator_override = NULL,
+  call = caller_env()
+) {
   if (is.null(estimator)) {
     return()
   }

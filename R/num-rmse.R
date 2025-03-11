@@ -48,12 +48,14 @@ rmse <- new_numeric_metric(
 
 #' @rdname rmse
 #' @export
-rmse.data.frame <- function(data,
-                            truth,
-                            estimate,
-                            na_rm = TRUE,
-                            case_weights = NULL,
-                            ...) {
+rmse.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "rmse",
     fn = rmse_vec,
@@ -67,11 +69,7 @@ rmse.data.frame <- function(data,
 
 #' @export
 #' @rdname rmse
-rmse_vec <- function(truth,
-                     estimate,
-                     na_rm = TRUE,
-                     case_weights = NULL,
-                     ...) {
+rmse_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

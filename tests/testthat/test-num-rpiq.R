@@ -9,7 +9,8 @@ test_that("rpiq", {
   )
   expect_equal(
     rpiq(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    stats::IQR(ex_dat$obs[not_na]) / sqrt(mean((ex_dat$obs[not_na] - ex_dat$pred[not_na])^2))
+    stats::IQR(ex_dat$obs[not_na]) /
+      sqrt(mean((ex_dat$obs[not_na] - ex_dat$pred[not_na])^2))
   )
 })
 
@@ -17,7 +18,9 @@ test_that("case weights are applied", {
   solubility_test$weights <- read_weights_solubility_test()
 
   expect_equal(
-    rpiq(solubility_test, solubility, prediction, case_weights = weights)[[".estimate"]],
+    rpiq(solubility_test, solubility, prediction, case_weights = weights)[[
+      ".estimate"
+    ]],
     3.401406885440771965534
   )
 })
@@ -37,5 +40,5 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     rpiq_vec(df$count, df$pred, case_weights = freq_wgt)
-  ) 
+  )
 })

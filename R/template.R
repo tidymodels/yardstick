@@ -71,16 +71,18 @@ NULL
 
 #' @rdname metric-summarizers
 #' @export
-numeric_metric_summarizer <- function(name,
-                                      fn,
-                                      data,
-                                      truth,
-                                      estimate,
-                                      ...,
-                                      na_rm = TRUE,
-                                      case_weights = NULL,
-                                      fn_options = list(),
-                                      error_call = caller_env()) {
+numeric_metric_summarizer <- function(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+) {
   check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
@@ -163,18 +165,20 @@ numeric_metric_summarizer <- function(name,
 
 #' @rdname metric-summarizers
 #' @export
-class_metric_summarizer <- function(name,
-                                    fn,
-                                    data,
-                                    truth,
-                                    estimate,
-                                    ...,
-                                    estimator = NULL,
-                                    na_rm = TRUE,
-                                    event_level = NULL,
-                                    case_weights = NULL,
-                                    fn_options = list(),
-                                    error_call = caller_env()) {
+class_metric_summarizer <- function(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
+  ...,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = NULL,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+) {
   check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
@@ -260,17 +264,19 @@ class_metric_summarizer <- function(name,
 
 #' @rdname metric-summarizers
 #' @export
-prob_metric_summarizer <- function(name,
-                                   fn,
-                                   data,
-                                   truth,
-                                   ...,
-                                   estimator = NULL,
-                                   na_rm = TRUE,
-                                   event_level = NULL,
-                                   case_weights = NULL,
-                                   fn_options = list(),
-                                   error_call = caller_env()) {
+prob_metric_summarizer <- function(
+  name,
+  fn,
+  data,
+  truth,
+  ...,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = NULL,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+) {
   truth <- enquo(truth)
   case_weights <- enquo(case_weights)
 
@@ -352,17 +358,19 @@ prob_metric_summarizer <- function(name,
 
 #' @rdname metric-summarizers
 #' @export
-ordered_prob_metric_summarizer <- function(name,
-                                           fn,
-                                           data,
-                                           truth,
-                                           ...,
-                                           estimator = NULL,
-                                           na_rm = TRUE,
-                                           event_level = NULL,
-                                           case_weights = NULL,
-                                           fn_options = list(),
-                                           error_call = caller_env()) {
+ordered_prob_metric_summarizer <- function(
+  name,
+  fn,
+  data,
+  truth,
+  ...,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = NULL,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+) {
   truth <- enquo(truth)
   case_weights <- enquo(case_weights)
 
@@ -444,17 +452,19 @@ ordered_prob_metric_summarizer <- function(name,
 
 #' @rdname metric-summarizers
 #' @export
-curve_metric_summarizer <- function(name,
-                                    fn,
-                                    data,
-                                    truth,
-                                    ...,
-                                    estimator = NULL,
-                                    na_rm = TRUE,
-                                    event_level = NULL,
-                                    case_weights = NULL,
-                                    fn_options = list(),
-                                    error_call = caller_env()) {
+curve_metric_summarizer <- function(
+  name,
+  fn,
+  data,
+  truth,
+  ...,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = NULL,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+) {
   truth <- enquo(truth)
   case_weights <- enquo(case_weights)
 
@@ -537,15 +547,17 @@ curve_metric_summarizer <- function(name,
 
 #' @rdname metric-summarizers
 #' @export
-dynamic_survival_metric_summarizer <- function(name,
-                                               fn,
-                                               data,
-                                               truth,
-                                               ...,
-                                               na_rm = TRUE,
-                                               case_weights = NULL,
-                                               fn_options = list(),
-                                               error_call = caller_env()) {
+dynamic_survival_metric_summarizer <- function(
+  name,
+  fn,
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+) {
   truth <- enquo(truth)
   case_weights <- enquo(case_weights)
 
@@ -629,16 +641,18 @@ dynamic_survival_metric_summarizer <- function(name,
 
 #' @rdname metric-summarizers
 #' @export
-static_survival_metric_summarizer <- function(name,
-                                              fn,
-                                              data,
-                                              truth,
-                                              estimate,
-                                              ...,
-                                              na_rm = TRUE,
-                                              case_weights = NULL,
-                                              fn_options = list(),
-                                              error_call = caller_env()) {
+static_survival_metric_summarizer <- function(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+) {
   check_dots_empty(call = error_call)
 
   truth <- enquo(truth)
@@ -721,15 +735,17 @@ static_survival_metric_summarizer <- function(name,
 
 #' @rdname metric-summarizers
 #' @export
-curve_survival_metric_summarizer <- function(name,
-                                             fn,
-                                             data,
-                                             truth,
-                                             ...,
-                                             na_rm = TRUE,
-                                             case_weights = NULL,
-                                             fn_options = list(),
-                                             error_call = caller_env()) {
+curve_survival_metric_summarizer <- function(
+  name,
+  fn,
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+) {
   truth <- enquo(truth)
   case_weights <- enquo(case_weights)
 
@@ -846,11 +862,13 @@ spliceable_argument <- function(x, name) {
   out
 }
 
-yardstick_eval_select <- function(expr,
-                                  data,
-                                  arg,
-                                  ...,
-                                  error_call = caller_env()) {
+yardstick_eval_select <- function(
+  expr,
+  data,
+  arg,
+  ...,
+  error_call = caller_env()
+) {
   check_dots_empty(call = error_call)
 
   if (!quo_is_missing(expr) && inherits(quo_get_expr(expr), "name")) {
@@ -884,19 +902,19 @@ yardstick_eval_select <- function(expr,
   out
 }
 
-yardstick_eval_select_dots <- function(...,
-                                       data,
-                                       error_call = caller_env()) {
+yardstick_eval_select_dots <- function(..., data, error_call = caller_env()) {
   expr <- quo(!!substitute(...))
 
-  if (!quo_is_missing(expr) && inherits(quo_get_expr(expr), c("name", "call"))) {
+  if (
+    !quo_is_missing(expr) && inherits(quo_get_expr(expr), c("name", "call"))
+  ) {
     expr_label <- as_label(expr)
 
     if (is_known_selection(expr_label)) {
       return(get_known_selection(expr_label))
     }
   }
-  
+
   if ("estimate" %in% names(match.call(expand.dots = FALSE)$...)) {
     cli::cli_abort(
       c(

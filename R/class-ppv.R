@@ -46,15 +46,17 @@ ppv <- new_class_metric(
 
 #' @rdname ppv
 #' @export
-ppv.data.frame <- function(data,
-                           truth,
-                           estimate,
-                           prevalence = NULL,
-                           estimator = NULL,
-                           na_rm = TRUE,
-                           case_weights = NULL,
-                           event_level = yardstick_event_level(),
-                           ...) {
+ppv.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  prevalence = NULL,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   class_metric_summarizer(
     name = "ppv",
     fn = ppv_vec,
@@ -70,11 +72,13 @@ ppv.data.frame <- function(data,
 }
 
 #' @export
-ppv.table <- function(data,
-                      prevalence = NULL,
-                      estimator = NULL,
-                      event_level = yardstick_event_level(),
-                      ...) {
+ppv.table <- function(
+  data,
+  prevalence = NULL,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -91,11 +95,13 @@ ppv.table <- function(data,
 }
 
 #' @export
-ppv.matrix <- function(data,
-                       prevalence = NULL,
-                       estimator = NULL,
-                       event_level = yardstick_event_level(),
-                       ...) {
+ppv.matrix <- function(
+  data,
+  prevalence = NULL,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   data <- as.table(data)
 
   ppv.table(
@@ -108,14 +114,16 @@ ppv.matrix <- function(data,
 
 #' @export
 #' @rdname ppv
-ppv_vec <- function(truth,
-                    estimate,
-                    prevalence = NULL,
-                    estimator = NULL,
-                    na_rm = TRUE,
-                    case_weights = NULL,
-                    event_level = yardstick_event_level(),
-                    ...) {
+ppv_vec <- function(
+  truth,
+  estimate,
+  prevalence = NULL,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 
@@ -147,10 +155,7 @@ ppv_vec <- function(truth,
   ppv_table_impl(data, estimator, event_level, prevalence = prevalence)
 }
 
-ppv_table_impl <- function(data,
-                           estimator,
-                           event_level,
-                           prevalence = NULL) {
+ppv_table_impl <- function(data, estimator, event_level, prevalence = NULL) {
   if (is_binary(estimator)) {
     ppv_binary(data, event_level, prevalence)
   } else {

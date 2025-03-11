@@ -40,7 +40,9 @@ test_that("Weighted results are the same as scikit-learn", {
   solubility_test$weights <- read_weights_solubility_test()
 
   expect_equal(
-    rsq_trad(solubility_test, solubility, prediction, case_weights = weights)[[".estimate"]],
+    rsq_trad(solubility_test, solubility, prediction, case_weights = weights)[[
+      ".estimate"
+    ]],
     read_pydata("py-rsq-trad")$case_weight
   )
 })
@@ -58,5 +60,5 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     rsq_trad_vec(df$solubility, df$prediction, case_weights = freq_wgt)
-  ) 
+  )
 })

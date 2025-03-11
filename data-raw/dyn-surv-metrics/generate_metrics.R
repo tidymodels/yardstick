@@ -1,6 +1,6 @@
-library(survival)        # survival_3.5-3
-library(riskRegression)  # riskRegression_2023.03.10
-library(prodlim)         # prodlim_2022.10.13
+library(survival) # survival_3.5-3
+library(riskRegression) # riskRegression_2023.03.10
+library(prodlim) # prodlim_2022.10.13
 library(modeldata)
 
 # ------------------------------------------------------------------------------
@@ -9,11 +9,11 @@ data(wa_churn)
 
 wa_churn <-
   wa_churn %>%
-  filter(!is.na(total_charges)) %>%
-  mutate(
-    status = ifelse(churn == "No", 1, 0)
-  ) %>%
-  select(tenure, status, female, total_charges)
+    filter(!is.na(total_charges)) %>%
+    mutate(
+      status = ifelse(churn == "No", 1, 0)
+    ) %>%
+    select(tenure, status, female, total_charges)
 
 # ------------------------------------------------------------------------------
 
@@ -38,7 +38,6 @@ xs_auc <- Score(
   seed = 1
 )
 
-
 xs_brier <- Score(
   list("churn" = cox_fit),
   formula = Surv(tenure, status) ~ 1,
@@ -52,7 +51,6 @@ xs_brier <- Score(
 )
 
 # ------------------------------------------------------------------------------
-
 
 # after getPerformanceData()
 if (FALSE) {

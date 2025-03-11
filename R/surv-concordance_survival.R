@@ -61,12 +61,14 @@ concordance_survival <- new_static_survival_metric(
 
 #' @rdname concordance_survival
 #' @export
-concordance_survival.data.frame <- function(data,
-                                            truth,
-                                            estimate,
-                                            na_rm = TRUE,
-                                            case_weights = NULL,
-                                            ...) {
+concordance_survival.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   static_survival_metric_summarizer(
     name = "concordance_survival",
     fn = concordance_survival_vec,
@@ -80,11 +82,13 @@ concordance_survival.data.frame <- function(data,
 
 #' @export
 #' @rdname concordance_survival
-concordance_survival_vec <- function(truth,
-                                     estimate,
-                                     na_rm = TRUE,
-                                     case_weights = NULL,
-                                     ...) {
+concordance_survival_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   check_static_survival_metric(truth, estimate, case_weights)
 
   if (na_rm) {

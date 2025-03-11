@@ -34,12 +34,7 @@ auc <- function(x, y, na_rm = TRUE) {
 
 # One vs all helper ------------------------------------------------------------
 
-one_vs_all_impl <- function(fn,
-                            truth,
-                            estimate,
-                            case_weights,
-                            call,
-                            ...) {
+one_vs_all_impl <- function(fn, truth, estimate, case_weights, call, ...) {
   lvls <- levels(truth)
   other <- "..other"
 
@@ -74,12 +69,14 @@ one_vs_all_impl <- function(fn,
   metric_lst
 }
 
-one_vs_all_with_level <- function(fn,
-                                  truth,
-                                  estimate,
-                                  case_weights,
-                                  call,
-                                  ...) {
+one_vs_all_with_level <- function(
+  fn,
+  truth,
+  estimate,
+  case_weights,
+  call,
+  ...
+) {
   res <- one_vs_all_impl(
     fn = fn,
     truth = truth,

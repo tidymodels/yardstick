@@ -5,27 +5,25 @@ test_that("Huber Loss", {
   delta <- 2
 
   expect_equal(
-    huber_loss(ex_dat, truth = "obs", estimate = "pred", delta = delta)[[".estimate"]],
+    huber_loss(ex_dat, truth = "obs", estimate = "pred", delta = delta)[[
+      ".estimate"
+    ]],
     {
       a <- ex_dat$obs - ex_dat$pred
       mean(
-        ifelse(abs(a) <= delta,
-          0.5 * a^2,
-          delta * (abs(a) - 0.5 * delta)
-        )
+        ifelse(abs(a) <= delta, 0.5 * a^2, delta * (abs(a) - 0.5 * delta))
       )
     }
   )
 
   expect_equal(
-    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = delta)[[".estimate"]],
+    huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = delta)[[
+      ".estimate"
+    ]],
     {
       a <- ex_dat$obs[not_na] - ex_dat$pred[not_na]
       mean(
-        ifelse(abs(a) <= delta,
-          0.5 * a^2,
-          delta * (abs(a) - 0.5 * delta)
-        )
+        ifelse(abs(a) <= delta, 0.5 * a^2, delta * (abs(a) - 0.5 * delta))
       )
     }
   )
@@ -65,5 +63,5 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     huber_loss_vec(df$solubility, df$prediction, case_weights = freq_wgt)
-  ) 
+  )
 })

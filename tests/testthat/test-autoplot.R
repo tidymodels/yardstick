@@ -25,7 +25,10 @@ two_class_resamples <- dplyr::bind_rows(
   dplyr::group_by(Resample)
 
 # make it smaller, and order it in the same order as what ggplot2 displays
-hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")) %>%
+hpc_cv2 <- dplyr::filter(
+  hpc_cv,
+  Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")
+) %>%
   dplyr::as_tibble() %>%
   dplyr::group_by(Resample) %>%
   dplyr::arrange(as.character(obs)) %>%
@@ -207,7 +210,12 @@ test_that("Gain Curve - multi class", {
 
   # polygon "perfect" corner (one per level)
   corners <- c(2, 5, 8, 11)
-  corner_vals <- c(31.0623556581986, 5.94688221709007, 11.9515011547344, 51.0392609699769)
+  corner_vals <- c(
+    31.0623556581986,
+    5.94688221709007,
+    11.9515011547344,
+    51.0392609699769
+  )
   expect_equal(.plot_data$data[[1]]$x[corners], corner_vals)
 })
 
@@ -230,7 +238,12 @@ test_that("Gain Curve - multi class, with resamples", {
 
   # polygon "perfect" corner (one per level)
   corners <- c(2, 5, 8, 11)
-  corner_vals <- c(30.9248554913295, 5.78034682080925, 11.8155619596542, 50.8620689655172)
+  corner_vals <- c(
+    30.9248554913295,
+    5.78034682080925,
+    11.8155619596542,
+    50.8620689655172
+  )
   expect_equal(.plot_data$data[[1]]$x[corners], corner_vals)
 })
 
@@ -329,7 +342,6 @@ test_that("Confusion Matrix - two class - heatmap", {
 
   .plot_data <- ggplot2::ggplot_build(.plot)
 
-
   # 4 panes
   expect_equal(nrow(.plot_data$data[[1]]), length(res$table))
 })
@@ -343,7 +355,6 @@ test_that("Confusion Matrix - multi class - heatmap", {
   expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot2::ggplot_build(.plot)
-
 
   # panes
   expect_equal(nrow(.plot_data$data[[1]]), length(res$table))
@@ -391,7 +402,6 @@ test_that("Confusion Matrix - two class - mosaic", {
   expect_s3_class(.plot, "gg")
 
   .plot_data <- ggplot2::ggplot_build(.plot)
-
 
   # 4 panes
   expect_equal(nrow(.plot_data$data[[1]]), length(res$table))

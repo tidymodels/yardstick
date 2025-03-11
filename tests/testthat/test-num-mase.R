@@ -89,7 +89,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     mase_vec(df$solubility, df$prediction, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("mase() errors if m is larger than number of observations", {
@@ -98,4 +98,3 @@ test_that("mase() errors if m is larger than number of observations", {
     mase(mtcars, mpg, disp, m = 100)
   )
 })
-

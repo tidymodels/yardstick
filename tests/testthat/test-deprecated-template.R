@@ -34,7 +34,6 @@ test_that("metric_summarizer() still works", {
   expect_identical(rmse_res, rmse_exp)
 })
 
-
 test_that("metric_summarizer()'s na_rm argument work", {
   local_options(lifecycle_verbosity = "quiet")
   mtcars_na <- mtcars
@@ -92,7 +91,10 @@ test_that("metric_summarizer()'s case_weights argument work", {
   rmse_exp <- dplyr::tibble(
     .metric = "rmse",
     .estimator = "standard",
-    .estimate = rmse_vec(mtcars$mpg[mtcars$vs == 1], mtcars$disp[mtcars$vs == 1])
+    .estimate = rmse_vec(
+      mtcars$mpg[mtcars$vs == 1],
+      mtcars$disp[mtcars$vs == 1]
+    )
   )
 
   expect_identical(rmse_res, rmse_exp)
@@ -132,7 +134,6 @@ test_that("metric_summarizer() deals with characters in truth and estimate", {
     truth = "mpg",
     estimate = "disp"
   )
-
 
   rmse_exp <- dplyr::tibble(
     .metric = "rmse",

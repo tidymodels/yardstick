@@ -4,11 +4,23 @@ test_that("Symmetric Mean Absolute Percentage Error", {
 
   expect_equal(
     smape(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    100 * mean(abs((ex_dat$obs - ex_dat$pred) / ((abs(ex_dat$obs) + abs(ex_dat$pred)) / 2)))
+    100 *
+      mean(
+        abs(
+          (ex_dat$obs - ex_dat$pred) /
+            ((abs(ex_dat$obs) + abs(ex_dat$pred)) / 2)
+        )
+      )
   )
   expect_equal(
     smape(ex_dat, obs, pred_na)[[".estimate"]],
-    100 * mean(abs((ex_dat$obs[not_na] - ex_dat$pred[not_na]) / ((abs(ex_dat$obs[not_na]) + abs(ex_dat$pred[not_na])) / 2)))
+    100 *
+      mean(
+        abs(
+          (ex_dat$obs[not_na] - ex_dat$pred[not_na]) /
+            ((abs(ex_dat$obs[not_na]) + abs(ex_dat$pred[not_na])) / 2)
+        )
+      )
   )
 })
 
@@ -36,5 +48,5 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     smape_vec(df$solubility, df$prediction, case_weights = freq_wgt)
-  ) 
+  )
 })

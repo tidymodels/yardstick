@@ -9,7 +9,14 @@ test_that("gain_curve() matches known result", {
   )
 
   # caret::lift(truth ~ estimate, df)
-  perc_found <- c(0, 33.3333333333333, 66.6666666666667, 66.6666666666667, 100, 100)
+  perc_found <- c(
+    0,
+    33.3333333333333,
+    66.6666666666667,
+    66.6666666666667,
+    100,
+    100
+  )
 
   expect_s3_class(gain_curve(df, truth, estimate), "gain_df")
   expect_equal(gain_curve(df, truth, estimate)$.percent_found, perc_found)
@@ -55,7 +62,7 @@ test_that("`event_level = 'second'` works", {
 test_that("na_rm = FALSE errors if missing values are present", {
   df <- two_class_example
   df$Class1[1] <- NA
-  
+
   expect_snapshot(
     error = TRUE,
     gain_curve_vec(df$truth, df$Class1, na_rm = FALSE)
@@ -67,7 +74,10 @@ test_that("na_rm = FALSE errors if missing values are present", {
 test_that("duplicates are removed", {
   # known answer
   dup_estimate <- c(.9, .9, .7, .68, .68)
-  dup_truth <- factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No"))
+  dup_truth <- factor(
+    c("Yes", "Yes", "No", "Yes", "No"),
+    levels = c("Yes", "No")
+  )
   dup_df <- data.frame(estimate = dup_estimate, truth = dup_truth)
 
   gain_df <- gain_curve(dup_df, truth, estimate)
@@ -80,7 +90,10 @@ test_that("duplicates are removed", {
 
 test_that("ordering of `truth` values within duplicated `estimate` groups doesn't affect the result", {
   dup_estimate <- c(.9, .9, .7, .68, .68)
-  dup_truth <- factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No"))
+  dup_truth <- factor(
+    c("Yes", "Yes", "No", "Yes", "No"),
+    levels = c("Yes", "No")
+  )
 
   dup_df1 <- data.frame(estimate = dup_estimate, truth = dup_truth)
 
@@ -142,7 +155,10 @@ test_that("gain_curve() works with case weights (ideally, frequency weights)", {
 
 test_that("gain_curve() works with case weights and multiclass (ideally, frequency weights)", {
   df <- data.frame(
-    truth = factor(c("Yes", "Yes", "No", "Maybe", "Yes", "Maybe", "No"), levels = c("Yes", "No", "Maybe")),
+    truth = factor(
+      c("Yes", "Yes", "No", "Maybe", "Yes", "Maybe", "No"),
+      levels = c("Yes", "No", "Maybe")
+    ),
     Yes = c(.9, .8, .7, .68, .5, .7, .3),
     No = c(.05, .05, .2, .2, .2, .1, .6),
     Maybe = c(.05, .15, .1, .12, .3, .2, .1),
@@ -159,14 +175,46 @@ test_that("gain_curve() works with case weights and multiclass (ideally, frequen
       rep("Maybe", 7)
     ),
     .n = c(
-      0, 2, 3, 9, 12, 14, 16,
-      0, 2, 8, 13, 16,
-      0, 2, 7, 8, 11, 14, 16
+      0,
+      2,
+      3,
+      9,
+      12,
+      14,
+      16,
+      0,
+      2,
+      8,
+      13,
+      16,
+      0,
+      2,
+      7,
+      8,
+      11,
+      14,
+      16
     ),
     .n_events = c(
-      0, 2, 3, 3, 3, 5, 5,
-      0, 2, 3, 3, 3,
-      0, 0, 5, 5, 8, 8, 8
+      0,
+      2,
+      3,
+      3,
+      3,
+      5,
+      5,
+      0,
+      2,
+      3,
+      3,
+      3,
+      0,
+      0,
+      5,
+      5,
+      8,
+      8,
+      8
     )
   )
   expect <- dplyr::group_by(expect, .level)

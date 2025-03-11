@@ -32,7 +32,8 @@ test_that("switch event definition", {
   )
   expect_equal(
     mcc(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
-    ((231 * 54) - (32 * 27)) / sqrt((231 + 32) * (231 + 27) * (54 + 32) * (54 + 27))
+    ((231 * 54) - (32 * 27)) /
+      sqrt((231 + 32) * (231 + 27) * (54 + 32) * (54 + 27))
   )
 })
 
@@ -170,7 +171,6 @@ test_that("global option is ignored in multiclass metrics", {
       yardstick.event_first = FALSE
     )
   )
-
 
   expect_equal(
     rlang::with_options(

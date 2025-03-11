@@ -39,7 +39,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     kap_vec(df$pathology, df$scan, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("work with class_pred input", {
@@ -134,7 +134,9 @@ test_that("linear weighting - sklearn equivalent", {
   r_metric <- kap
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, weighting = "linear")[[".estimate"]],
+    r_metric(two_class_example, truth, predicted, weighting = "linear")[[
+      ".estimate"
+    ]],
     py_res$linear_binary
   )
   expect_equal(
@@ -148,7 +150,9 @@ test_that("quadratic weighting - sklearn equivalent", {
   r_metric <- kap
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, weighting = "quadratic")[[".estimate"]],
+    r_metric(two_class_example, truth, predicted, weighting = "quadratic")[[
+      ".estimate"
+    ]],
     py_res$quadratic_binary
   )
   expect_equal(
@@ -164,7 +168,9 @@ test_that("Two class case weighted - sklearn equivalent", {
   two_class_example$weights <- read_weights_two_class_example()
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$binary
   )
 })
@@ -189,11 +195,19 @@ test_that("linear weighting case weighted - sklearn equivalent", {
   hpc_cv$weights <- read_weights_hpc_cv()
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, weighting = "linear", case_weights = weights)[[".estimate"]],
+    r_metric(
+      two_class_example,
+      truth,
+      predicted,
+      weighting = "linear",
+      case_weights = weights
+    )[[".estimate"]],
     py_res$case_weight$linear_binary
   )
   expect_equal(
-    r_metric(hpc_cv, obs, pred, weighting = "linear", case_weights = weights)[[".estimate"]],
+    r_metric(hpc_cv, obs, pred, weighting = "linear", case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$linear_multiclass
   )
 })
@@ -206,11 +220,23 @@ test_that("quadratic weighting case weighted - sklearn equivalent", {
   hpc_cv$weights <- read_weights_hpc_cv()
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, weighting = "quadratic", case_weights = weights)[[".estimate"]],
+    r_metric(
+      two_class_example,
+      truth,
+      predicted,
+      weighting = "quadratic",
+      case_weights = weights
+    )[[".estimate"]],
     py_res$case_weight$quadratic_binary
   )
   expect_equal(
-    r_metric(hpc_cv, obs, pred, weighting = "quadratic", case_weights = weights)[[".estimate"]],
+    r_metric(
+      hpc_cv,
+      obs,
+      pred,
+      weighting = "quadratic",
+      case_weights = weights
+    )[[".estimate"]],
     py_res$case_weight$quadratic_multiclass
   )
 })

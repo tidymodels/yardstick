@@ -8,7 +8,7 @@ test_that("basic results", {
     tolerance = 0.01
   )
 
-  hpc_inds <- model.matrix(~ . - 1, data = hpc_cv %>% dplyr::select(obs))
+  hpc_inds <- model.matrix(~. - 1, data = hpc_cv %>% dplyr::select(obs))
   expect_equal(
     yardstick:::brier_ind(hpc_inds, hpc_cv %>% dplyr::select(VF:L)),
     hpc_exp,
@@ -17,11 +17,13 @@ test_that("basic results", {
 
   expect_equal(
     yardstick:::brier_class(hpc_cv, obs, VF:L),
-    dplyr::tibble(.metric = "brier_class", .estimator = "multiclass", .estimate = hpc_exp),
+    dplyr::tibble(
+      .metric = "brier_class",
+      .estimator = "multiclass",
+      .estimate = hpc_exp
+    ),
     tolerance = 0.01
   )
-
-
 
   # ----------------------------------------------------------------------------
   # two classes
@@ -35,7 +37,10 @@ test_that("basic results", {
     tolerance = 0.01
   )
   expect_equal(
-    yardstick:::brier_factor(two_class_example$truth, two_class_example[, 2, drop = TRUE]),
+    yardstick:::brier_factor(
+      two_class_example$truth,
+      two_class_example[, 2, drop = TRUE]
+    ),
     two_cls_exp,
     tolerance = 0.01
   )

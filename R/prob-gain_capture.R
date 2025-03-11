@@ -56,13 +56,15 @@ gain_capture <- new_prob_metric(
 
 #' @rdname gain_capture
 #' @export
-gain_capture.data.frame <- function(data,
-                                    truth,
-                                    ...,
-                                    estimator = NULL,
-                                    na_rm = TRUE,
-                                    event_level = yardstick_event_level(),
-                                    case_weights = NULL) {
+gain_capture.data.frame <- function(
+  data,
+  truth,
+  ...,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+) {
   prob_metric_summarizer(
     name = "gain_capture",
     fn = gain_capture_vec,
@@ -78,13 +80,15 @@ gain_capture.data.frame <- function(data,
 
 #' @export
 #' @rdname gain_capture
-gain_capture_vec <- function(truth,
-                             estimate,
-                             estimator = NULL,
-                             na_rm = TRUE,
-                             event_level = yardstick_event_level(),
-                             case_weights = NULL,
-                             ...) {
+gain_capture_vec <- function(
+  truth,
+  estimate,
+  estimator = NULL,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, estimator, "gain_capture")
@@ -110,11 +114,13 @@ gain_capture_vec <- function(truth,
   )
 }
 
-gain_capture_estimator_impl <- function(truth,
-                                        estimate,
-                                        estimator,
-                                        event_level,
-                                        case_weights) {
+gain_capture_estimator_impl <- function(
+  truth,
+  estimate,
+  estimator,
+  event_level,
+  case_weights
+) {
   if (is_binary(estimator)) {
     gain_capture_binary(truth, estimate, event_level, case_weights)
   } else {
@@ -125,10 +131,7 @@ gain_capture_estimator_impl <- function(truth,
   }
 }
 
-gain_capture_binary <- function(truth,
-                                estimate,
-                                event_level,
-                                case_weights) {
+gain_capture_binary <- function(truth, estimate, event_level, case_weights) {
   # `na_rm` should already be done
   gain_list <- gain_curve_vec(
     truth,

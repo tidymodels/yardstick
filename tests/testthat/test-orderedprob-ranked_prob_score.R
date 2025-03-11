@@ -5,14 +5,21 @@ test_that("basic results", {
   hpc_exp <- 0.08566779
 
   expect_equal(
-    yardstick:::ranked_prob_score_vec(hpc_cv$obs, as.matrix(hpc_cv %>% dplyr::select(VF:L))),
+    yardstick:::ranked_prob_score_vec(
+      hpc_cv$obs,
+      as.matrix(hpc_cv %>% dplyr::select(VF:L))
+    ),
     hpc_exp,
     tolerance = 0.01
   )
 
   expect_equal(
     yardstick:::ranked_prob_score(hpc_cv, obs, VF:L),
-    dplyr::tibble(.metric = "ranked_prob_score", .estimator = "multiclass", .estimate = hpc_exp),
+    dplyr::tibble(
+      .metric = "ranked_prob_score",
+      .estimator = "multiclass",
+      .estimate = hpc_exp
+    ),
     tolerance = 0.01
   )
 
@@ -48,16 +55,16 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     ranked_prob_score_vec(
-      df$truth, 
-      as.matrix(df[c("Class1", "Class2")]), 
+      df$truth,
+      as.matrix(df[c("Class1", "Class2")]),
       case_weights = imp_wgt
     )
   )
 
   expect_no_error(
     ranked_prob_score_vec(
-      df$truth, 
-      as.matrix(df[c("Class1", "Class2")]), 
+      df$truth,
+      as.matrix(df[c("Class1", "Class2")]),
       case_weights = freq_wgt
     )
   )
@@ -86,5 +93,4 @@ test_that("errors with bad input", {
     error = TRUE,
     ranked_prob_score_vec(ord_truth, estimate_1D)
   )
-
 })

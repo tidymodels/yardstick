@@ -44,12 +44,14 @@ accuracy <- new_class_metric(
 
 #' @export
 #' @rdname accuracy
-accuracy.data.frame <- function(data,
-                                truth,
-                                estimate,
-                                na_rm = TRUE,
-                                case_weights = NULL,
-                                ...) {
+accuracy.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   class_metric_summarizer(
     name = "accuracy",
     fn = accuracy_vec,
@@ -81,7 +83,13 @@ accuracy.matrix <- function(data, ...) {
 
 #' @export
 #' @rdname accuracy
-accuracy_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+accuracy_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

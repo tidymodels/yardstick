@@ -11,7 +11,9 @@ test_that("AUNU is equivalent to macro estimator with case weights", {
   hpc_cv$weight <- read_weights_hpc_cv()
 
   expect_equal(
-    roc_auc(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[".estimate"]],
+    roc_auc(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[
+      ".estimate"
+    ]],
     roc_aunu(hpc_cv, obs, VF:L, case_weights = weight)[[".estimate"]]
   )
 })
@@ -30,7 +32,9 @@ test_that("AUNU results match mlr for soybean example", {
   measures_mlr <- 0.963473055084008
 
   expect_equal(
-    roc_aunu(soybeans, truth, `2-4-d-injury`:`rhizoctonia-root-rot`)[[".estimate"]],
+    roc_aunu(soybeans, truth, `2-4-d-injury`:`rhizoctonia-root-rot`)[[
+      ".estimate"
+    ]],
     measures_mlr
   )
 })
@@ -38,7 +42,10 @@ test_that("AUNU results match mlr for soybean example", {
 # ------------------------------------------------------------------------------
 
 test_that("roc_aunu() - `options` is deprecated", {
-  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  skip_if(
+    getRversion() <= "3.5.3",
+    "Base R used a different deprecated warning class."
+  )
   rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot({
@@ -74,11 +81,19 @@ test_that("works with hardhat case weights", {
   freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
 
   expect_no_error(
-    roc_aunu_vec(df$truth, as.matrix(df[c("Class1", "Class2")]), case_weights = imp_wgt)
+    roc_aunu_vec(
+      df$truth,
+      as.matrix(df[c("Class1", "Class2")]),
+      case_weights = imp_wgt
+    )
   )
 
   expect_no_error(
-    roc_aunu_vec(df$truth, as.matrix(df[c("Class1", "Class2")]), case_weights = freq_wgt)
+    roc_aunu_vec(
+      df$truth,
+      as.matrix(df[c("Class1", "Class2")]),
+      case_weights = freq_wgt
+    )
   )
 })
 

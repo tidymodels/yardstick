@@ -1,7 +1,7 @@
 test_that("Two class PR Curve", {
   # Known PR Curve result
   pr_example <- data.frame(
-    lab   = factor(c("Yes", "Yes", "No", "Yes"), levels = c("Yes", "No")),
+    lab = factor(c("Yes", "Yes", "No", "Yes"), levels = c("Yes", "No")),
     score = c(.9, .4, .35, .7)
   )
 
@@ -16,7 +16,6 @@ test_that("Two class PR Curve", {
     pr_result
   )
 })
-
 
 test_that("Multiclass PR Curve", {
   res <- pr_curve(hpc_cv, obs, VF:L)
@@ -196,7 +195,9 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
 
-  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight), ]
+  hpc_cv_expanded <- hpc_cv[
+    vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),
+  ]
 
   expect_identical(
     pr_curve(hpc_cv, obs, VF:L, case_weights = weight),
@@ -262,7 +263,7 @@ test_that("Binary weighted results are the same as scikit-learn", {
 test_that("na_rm = FALSE errors if missing values are present", {
   df <- two_class_example
   df$Class1[1] <- NA
-  
+
   expect_snapshot(
     error = TRUE,
     pr_curve_vec(df$truth, df$Class1, na_rm = FALSE)

@@ -37,7 +37,10 @@ test_that("`event_level = 'second'` works", {
 # HandTill2001::auc(HandTill2001::multcap(hpc_cv2$obs, as.matrix(select(hpc_cv2, VF:L))))
 test_that("Hand Till multiclass", {
   # HPC_CV takes too long
-  hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10"))
+  hpc_cv2 <- dplyr::filter(
+    hpc_cv,
+    Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")
+  )
 
   expect_equal(
     roc_auc(hpc_cv2, obs, VF:L)[[".estimate"]],
@@ -47,12 +50,19 @@ test_that("Hand Till multiclass", {
 
 test_that("can calculate Hand Till when prob matrix column names are different from level values", {
   # HPC_CV takes too long
-  hpc_cv2 <- dplyr::filter(hpc_cv, Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10"))
+  hpc_cv2 <- dplyr::filter(
+    hpc_cv,
+    Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")
+  )
 
   # Mimic how parsnip returns names
   colnames(hpc_cv2) <- c(
-    "obs", "pred",
-    ".pred_VF", ".pred_F", ".pred_M", ".pred_L",
+    "obs",
+    "pred",
+    ".pred_VF",
+    ".pred_F",
+    ".pred_M",
+    ".pred_L",
     "Resample"
   )
 
@@ -111,20 +121,80 @@ test_that("binary roc auc uses equivalent of pROC `direction = <`", {
 test_that("equivalent of `direction = <` is forced when individual binary AUCs are computed (#123)", {
   truth <- factor(
     c(
-      "c", "c", "c", "d", "d", "a", "d", "c", "a",
-      "a", "d", "b", "d", "a", "d", "a", "d", "d"
+      "c",
+      "c",
+      "c",
+      "d",
+      "d",
+      "a",
+      "d",
+      "c",
+      "a",
+      "a",
+      "d",
+      "b",
+      "d",
+      "a",
+      "d",
+      "a",
+      "d",
+      "d"
     ),
     levels = c("a", "b", "c", "d")
   )
 
   estimate <- c(
-    c(c(0.5, 0.4, 0.8, 0.5, 0.8, 1, 0.8, 0, 0.5, 2 / 3, 0, 1, 0.4, 1 / 6, 0.4, 0.8, 0.5, 0.6)),
+    c(
+      c(
+        0.5,
+        0.4,
+        0.8,
+        0.5,
+        0.8,
+        1,
+        0.8,
+        0,
+        0.5,
+        2 / 3,
+        0,
+        1,
+        0.4,
+        1 / 6,
+        0.4,
+        0.8,
+        0.5,
+        0.6
+      )
+    ),
     c(0, 0.2, 0, 0, 0, 0, 0, 0.6, 0, 1 / 3, 0, 0, 0, 5 / 6, 0.6, 0, 0, 0),
     c(0, 0.2, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    c(0.5, 0.2, 0.2, 0.5, 0.2, 0, 0.2, 0.2, 0.5, 0, 1, 0, 0.6, 0, 0, 0.2, 0.5, 0.4)
+    c(
+      0.5,
+      0.2,
+      0.2,
+      0.5,
+      0.2,
+      0,
+      0.2,
+      0.2,
+      0.5,
+      0,
+      1,
+      0,
+      0.6,
+      0,
+      0,
+      0.2,
+      0.5,
+      0.4
+    )
   )
 
-  estimate <- matrix(estimate, ncol = 4, dimnames = list(NULL, c("a", "b", "c", "d")))
+  estimate <- matrix(
+    estimate,
+    ncol = 4,
+    dimnames = list(NULL, c("a", "b", "c", "d"))
+  )
 
   # HandTill2001::auc(HandTill2001::multcap(truth, estimate))
   expect_equal(
@@ -170,22 +240,38 @@ test_that("multiclass one-vs-all approach results in multiple warnings", {
   no_event <- dplyr::filter(two_class_example, truth == "Class2")
 
   expect_snapshot(
-    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[".estimate"]]
+    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[
+      ".estimate"
+    ]]
   )
   expect_identical(out, NA_real_)
 
   expect_snapshot(
-    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[".estimate"]]
+    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro")[[
+      ".estimate"
+    ]]
   )
   expect_identical(out, NA_real_)
 
   expect_snapshot(
-    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro_weighted")[[".estimate"]]
+    out <- roc_auc(
+      no_event,
+      truth,
+      Class1,
+      Class2,
+      estimator = "macro_weighted"
+    )[[".estimate"]]
   )
   expect_identical(out, NA_real_)
 
   expect_snapshot(
-    out <- roc_auc(no_event, truth, Class1, Class2, estimator = "macro_weighted")[[".estimate"]]
+    out <- roc_auc(
+      no_event,
+      truth,
+      Class1,
+      Class2,
+      estimator = "macro_weighted"
+    )[[".estimate"]]
   )
   expect_identical(out, NA_real_)
 })
@@ -245,7 +331,12 @@ test_that("df method - presense of case weights affects default multiclass estim
   expect_identical(out$.estimator, "macro")
   expect_identical(
     out$.estimate,
-    roc_auc_vec(hpc_cv$obs, hpc_cv_estimate_matrix, estimator = "macro", case_weights = hpc_cv$weight)
+    roc_auc_vec(
+      hpc_cv$obs,
+      hpc_cv_estimate_matrix,
+      estimator = "macro",
+      case_weights = hpc_cv$weight
+    )
   )
 })
 
@@ -262,8 +353,17 @@ test_that("vec method - presense of case weights affects default multiclass esti
 
   # Unless case weights are supplied
   expect_identical(
-    roc_auc_vec(hpc_cv$obs, hpc_cv_estimate_matrix, case_weights = hpc_cv$weight),
-    roc_auc_vec(hpc_cv$obs, hpc_cv_estimate_matrix, estimator = "macro", case_weights = hpc_cv$weight)
+    roc_auc_vec(
+      hpc_cv$obs,
+      hpc_cv_estimate_matrix,
+      case_weights = hpc_cv$weight
+    ),
+    roc_auc_vec(
+      hpc_cv$obs,
+      hpc_cv_estimate_matrix,
+      estimator = "macro",
+      case_weights = hpc_cv$weight
+    )
   )
 })
 
@@ -292,7 +392,9 @@ test_that("Two class weighted ROC AUC matches sklearn", {
   two_class_example$weight <- read_weights_two_class_example()
 
   expect_equal(
-    roc_auc(two_class_example, truth, Class1, case_weights = weight)[[".estimate"]],
+    roc_auc(two_class_example, truth, Class1, case_weights = weight)[[
+      ".estimate"
+    ]],
     sklearn$case_weight$binary
   )
 })
@@ -320,11 +422,19 @@ test_that("Multiclass weighted ROC AUC matches sklearn", {
   hpc_cv$weight <- read_weights_hpc_cv()
 
   expect_equal(
-    roc_auc(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[".estimate"]],
+    roc_auc(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[
+      ".estimate"
+    ]],
     sklearn$case_weight$macro
   )
   expect_equal(
-    roc_auc(hpc_cv, obs, VF:L, estimator = "macro_weighted", case_weights = weight)[[".estimate"]],
+    roc_auc(
+      hpc_cv,
+      obs,
+      VF:L,
+      estimator = "macro_weighted",
+      case_weights = weight
+    )[[".estimate"]],
     sklearn$case_weight$macro_weighted
   )
 
@@ -337,7 +447,9 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
 
-  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight), ]
+  hpc_cv_expanded <- hpc_cv[
+    vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),
+  ]
 
   expect_identical(
     roc_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro"),
@@ -345,7 +457,13 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
   )
 
   expect_identical(
-    roc_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro_weighted"),
+    roc_auc(
+      hpc_cv,
+      obs,
+      VF:L,
+      case_weights = weight,
+      estimator = "macro_weighted"
+    ),
     roc_auc(hpc_cv_expanded, obs, VF:L, estimator = "macro_weighted")
   )
 })
@@ -353,7 +471,10 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 # ------------------------------------------------------------------------------
 
 test_that("roc_auc() - `options` is deprecated", {
-  skip_if(getRversion() <= "3.5.3", "Base R used a different deprecated warning class.")
+  skip_if(
+    getRversion() <= "3.5.3",
+    "Base R used a different deprecated warning class."
+  )
   rlang::local_options(lifecycle_verbosity = "warning")
 
   expect_snapshot({

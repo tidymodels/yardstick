@@ -24,26 +24,50 @@ weights_hpc_cv <- read_weights_hpc_cv()
 weights_two_class_example <- read_weights_two_class_example()
 weights_solubility_test <- read_weights_solubility_test()
 
-save_metric_results <- function(nm, fn, ..., average = c("macro", "micro", "weighted")) {
+save_metric_results <- function(
+  nm,
+  fn,
+  ...,
+  average = c("macro", "micro", "weighted")
+) {
   # Two class metrics
-  res <- list(fn(two_class_example$truth, two_class_example$predicted, ..., pos_label = "Class1"))
+  res <- list(
+    fn(
+      two_class_example$truth,
+      two_class_example$predicted,
+      ...,
+      pos_label = "Class1"
+    )
+  )
 
   # Multiclass metrics
-  res2 <- lapply(average, function(.x) fn(hpc_cv$obs, hpc_cv$pred, ..., average = .x))
+  res2 <- lapply(
+    average,
+    function(.x) fn(hpc_cv$obs, hpc_cv$pred, ..., average = .x)
+  )
 
   # Two class weighted metrics
-  case_weight <- list(fn(
-    two_class_example$truth,
-    two_class_example$predicted,
-    ...,
-    pos_label = "Class1",
-    sample_weight = weights_two_class_example
-  ))
+  case_weight <- list(
+    fn(
+      two_class_example$truth,
+      two_class_example$predicted,
+      ...,
+      pos_label = "Class1",
+      sample_weight = weights_two_class_example
+    )
+  )
 
   # Multiclass weighted metrics
   case_weight2 <- lapply(
     average,
-    function(.x) fn(hpc_cv$obs, hpc_cv$pred, ..., average = .x, sample_weight = weights_hpc_cv)
+    function(.x)
+      fn(
+        hpc_cv$obs,
+        hpc_cv$pred,
+        ...,
+        average = .x,
+        sample_weight = weights_hpc_cv
+      )
   )
 
   case_weight <- c(case_weight, case_weight2)
@@ -71,15 +95,25 @@ py_multiclass_weighted_confusion <- skmetrics$confusion_matrix(
   sample_weight = weights_hpc_cv
 )
 
-py_binary_weighted_FP <- colSums(py_binary_weighted_confusion) - diag(py_binary_weighted_confusion)
-py_binary_weighted_FN <- rowSums(py_binary_weighted_confusion) - diag(py_binary_weighted_confusion)
+py_binary_weighted_FP <- colSums(py_binary_weighted_confusion) -
+  diag(py_binary_weighted_confusion)
+py_binary_weighted_FN <- rowSums(py_binary_weighted_confusion) -
+  diag(py_binary_weighted_confusion)
 py_binary_weighted_TP <- diag(py_binary_weighted_confusion)
-py_binary_weighted_TN <- sum(py_binary_weighted_confusion) - (py_binary_weighted_FP + py_binary_weighted_FN + py_binary_weighted_TP)
+py_binary_weighted_TN <- sum(py_binary_weighted_confusion) -
+  (py_binary_weighted_FP + py_binary_weighted_FN + py_binary_weighted_TP)
 
-py_multiclass_weighted_FP <- colSums(py_multiclass_weighted_confusion) - diag(py_multiclass_weighted_confusion)
-py_multiclass_weighted_FN <- rowSums(py_multiclass_weighted_confusion) - diag(py_multiclass_weighted_confusion)
+py_multiclass_weighted_FP <- colSums(py_multiclass_weighted_confusion) -
+  diag(py_multiclass_weighted_confusion)
+py_multiclass_weighted_FN <- rowSums(py_multiclass_weighted_confusion) -
+  diag(py_multiclass_weighted_confusion)
 py_multiclass_weighted_TP <- diag(py_multiclass_weighted_confusion)
-py_multiclass_weighted_TN <- sum(py_multiclass_weighted_confusion) - (py_multiclass_weighted_FP + py_multiclass_weighted_FN + py_multiclass_weighted_TP)
+py_multiclass_weighted_TN <- sum(py_multiclass_weighted_confusion) -
+  (
+    py_multiclass_weighted_FP +
+      py_multiclass_weighted_FN +
+      py_multiclass_weighted_TP
+  )
 
 # ------------------------------------------------------------------------------
 
@@ -91,48 +125,126 @@ save_metric_results("f_meas_beta_.5", skmetrics$fbeta_score, beta = .5)
 
 # MCC
 py_mcc <- list(
-  binary = skmetrics$matthews_corrcoef(two_class_example$truth, two_class_example$predicted),
+  binary = skmetrics$matthews_corrcoef(
+    two_class_example$truth,
+    two_class_example$predicted
+  ),
   multiclass = skmetrics$matthews_corrcoef(hpc_cv$obs, hpc_cv$pred),
   case_weight = list(
-    binary = skmetrics$matthews_corrcoef(two_class_example$truth, two_class_example$predicted, sample_weight = weights_two_class_example),
-    multiclass = skmetrics$matthews_corrcoef(hpc_cv$obs, hpc_cv$pred, sample_weight = weights_hpc_cv)
+    binary = skmetrics$matthews_corrcoef(
+      two_class_example$truth,
+      two_class_example$predicted,
+      sample_weight = weights_two_class_example
+    ),
+    multiclass = skmetrics$matthews_corrcoef(
+      hpc_cv$obs,
+      hpc_cv$pred,
+      sample_weight = weights_hpc_cv
+    )
   )
 )
 saveRDS(py_mcc, test_path("py-data", "py-mcc.rds"), version = 2)
 
 # Accuracy
 py_accuracy <- list(
-  binary = skmetrics$accuracy_score(two_class_example$truth, two_class_example$predicted),
+  binary = skmetrics$accuracy_score(
+    two_class_example$truth,
+    two_class_example$predicted
+  ),
   multiclass = skmetrics$accuracy_score(hpc_cv$obs, hpc_cv$pred)
 )
 saveRDS(py_accuracy, test_path("py-data", "py-accuracy.rds"), version = 2)
 
 # Kappa
 py_kap <- list(
-  binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth)),
-  multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs)),
-  linear_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), weights = "linear"),
-  linear_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "linear"),
-  quadratic_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), weights = "quadratic"),
-  quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic"),
+  binary = skmetrics$cohen_kappa_score(
+    two_class_example$truth,
+    two_class_example$predicted,
+    labels = levels(two_class_example$truth)
+  ),
+  multiclass = skmetrics$cohen_kappa_score(
+    hpc_cv$obs,
+    hpc_cv$pred,
+    labels = levels(hpc_cv$obs)
+  ),
+  linear_binary = skmetrics$cohen_kappa_score(
+    two_class_example$truth,
+    two_class_example$predicted,
+    labels = levels(two_class_example$truth),
+    weights = "linear"
+  ),
+  linear_multiclass = skmetrics$cohen_kappa_score(
+    hpc_cv$obs,
+    hpc_cv$pred,
+    labels = levels(hpc_cv$obs),
+    weights = "linear"
+  ),
+  quadratic_binary = skmetrics$cohen_kappa_score(
+    two_class_example$truth,
+    two_class_example$predicted,
+    labels = levels(two_class_example$truth),
+    weights = "quadratic"
+  ),
+  quadratic_multiclass = skmetrics$cohen_kappa_score(
+    hpc_cv$obs,
+    hpc_cv$pred,
+    labels = levels(hpc_cv$obs),
+    weights = "quadratic"
+  ),
   case_weight = list(
-    binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), sample_weight = weights_two_class_example),
-    multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), sample_weight = weights_hpc_cv),
-    linear_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), weights = "linear", sample_weight = weights_two_class_example),
-    linear_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "linear", sample_weight = weights_hpc_cv),
-    quadratic_binary = skmetrics$cohen_kappa_score(two_class_example$truth, two_class_example$predicted, labels = levels(two_class_example$truth), weights = "quadratic", sample_weight = weights_two_class_example),
-    quadratic_multiclass = skmetrics$cohen_kappa_score(hpc_cv$obs, hpc_cv$pred, labels = levels(hpc_cv$obs), weights = "quadratic", sample_weight = weights_hpc_cv)
+    binary = skmetrics$cohen_kappa_score(
+      two_class_example$truth,
+      two_class_example$predicted,
+      labels = levels(two_class_example$truth),
+      sample_weight = weights_two_class_example
+    ),
+    multiclass = skmetrics$cohen_kappa_score(
+      hpc_cv$obs,
+      hpc_cv$pred,
+      labels = levels(hpc_cv$obs),
+      sample_weight = weights_hpc_cv
+    ),
+    linear_binary = skmetrics$cohen_kappa_score(
+      two_class_example$truth,
+      two_class_example$predicted,
+      labels = levels(two_class_example$truth),
+      weights = "linear",
+      sample_weight = weights_two_class_example
+    ),
+    linear_multiclass = skmetrics$cohen_kappa_score(
+      hpc_cv$obs,
+      hpc_cv$pred,
+      labels = levels(hpc_cv$obs),
+      weights = "linear",
+      sample_weight = weights_hpc_cv
+    ),
+    quadratic_binary = skmetrics$cohen_kappa_score(
+      two_class_example$truth,
+      two_class_example$predicted,
+      labels = levels(two_class_example$truth),
+      weights = "quadratic",
+      sample_weight = weights_two_class_example
+    ),
+    quadratic_multiclass = skmetrics$cohen_kappa_score(
+      hpc_cv$obs,
+      hpc_cv$pred,
+      labels = levels(hpc_cv$obs),
+      weights = "quadratic",
+      sample_weight = weights_hpc_cv
+    )
   )
 )
 saveRDS(py_kap, test_path("py-data", "py-kap.rds"), version = 2)
 
 # RMSE
 py_rmse <- list(
-  case_weight = sqrt(skmetrics$mean_squared_error(
-    y_true = solubility_test$solubility,
-    y_pred = solubility_test$prediction,
-    sample_weight = weights_solubility_test
-  ))
+  case_weight = sqrt(
+    skmetrics$mean_squared_error(
+      y_true = solubility_test$solubility,
+      y_pred = solubility_test$prediction,
+      sample_weight = weights_solubility_test
+    )
+  )
 )
 saveRDS(py_rmse, test_path("py-data", "py-rmse.rds"), version = 2)
 
@@ -180,11 +292,17 @@ py_bal_accuracy <- list(
     )
   )
 )
-saveRDS(py_bal_accuracy, test_path("py-data", "py-bal-accuracy.rds"), version = 2)
+saveRDS(
+  py_bal_accuracy,
+  test_path("py-data", "py-bal-accuracy.rds"),
+  version = 2
+)
 
 # NPV
-py_binary_weighted_NPV <- py_binary_weighted_TN / (py_binary_weighted_TN + py_binary_weighted_FN)
-py_multiclass_weighted_NPV <- py_multiclass_weighted_TN / (py_multiclass_weighted_TN + py_multiclass_weighted_FN)
+py_binary_weighted_NPV <- py_binary_weighted_TN /
+  (py_binary_weighted_TN + py_binary_weighted_FN)
+py_multiclass_weighted_NPV <- py_multiclass_weighted_TN /
+  (py_multiclass_weighted_TN + py_multiclass_weighted_FN)
 
 py_npv <- list(
   case_weight = list(
@@ -195,8 +313,10 @@ py_npv <- list(
 saveRDS(py_npv, test_path("py-data", "py-npv.rds"), version = 2)
 
 # PPV
-py_binary_weighted_PPV <- py_binary_weighted_TP / (py_binary_weighted_TP + py_binary_weighted_FP)
-py_multiclass_weighted_PPV <- py_multiclass_weighted_TP / (py_multiclass_weighted_TP + py_multiclass_weighted_FP)
+py_binary_weighted_PPV <- py_binary_weighted_TP /
+  (py_binary_weighted_TP + py_binary_weighted_FP)
+py_multiclass_weighted_PPV <- py_multiclass_weighted_TP /
+  (py_multiclass_weighted_TP + py_multiclass_weighted_FP)
 
 py_ppv <- list(
   case_weight = list(
@@ -209,7 +329,10 @@ saveRDS(py_ppv, test_path("py-data", "py-ppv.rds"), version = 2)
 # mn_log_loss
 # log_loss() requires labels in alphabetical order, because that is what LabelBinarizer() does
 log_loss_two_class_example_levels <- c("Class1", "Class2")
-log_loss_two_class_example_estimate <- cbind(Class1 = two_class_example$Class1, Class2 = two_class_example$Class2)
+log_loss_two_class_example_estimate <- cbind(
+  Class1 = two_class_example$Class1,
+  Class2 = two_class_example$Class2
+)
 
 log_loss_hpc_cv_levels <- c("F", "L", "M", "VF")
 log_loss_hpc_cv_estimate <- as.matrix(hpc_cv[log_loss_hpc_cv_levels])
@@ -217,15 +340,61 @@ log_loss_hpc_cv_estimate <- as.matrix(hpc_cv[log_loss_hpc_cv_levels])
 mn_log_loss_eps <- .Machine$double.eps
 
 py_mn_log_loss <- list(
-  binary = skmetrics$log_loss(two_class_example$truth, log_loss_two_class_example_estimate, labels = log_loss_two_class_example_levels, eps = mn_log_loss_eps),
-  multiclass = skmetrics$log_loss(hpc_cv$obs, log_loss_hpc_cv_estimate, labels = log_loss_hpc_cv_levels, eps = mn_log_loss_eps),
-  binary_sum = skmetrics$log_loss(two_class_example$truth, log_loss_two_class_example_estimate, labels = log_loss_two_class_example_levels, normalize = FALSE),
-  multiclass_sum = skmetrics$log_loss(hpc_cv$obs, log_loss_hpc_cv_estimate, labels = log_loss_hpc_cv_levels, eps = mn_log_loss_eps, normalize = FALSE),
+  binary = skmetrics$log_loss(
+    two_class_example$truth,
+    log_loss_two_class_example_estimate,
+    labels = log_loss_two_class_example_levels,
+    eps = mn_log_loss_eps
+  ),
+  multiclass = skmetrics$log_loss(
+    hpc_cv$obs,
+    log_loss_hpc_cv_estimate,
+    labels = log_loss_hpc_cv_levels,
+    eps = mn_log_loss_eps
+  ),
+  binary_sum = skmetrics$log_loss(
+    two_class_example$truth,
+    log_loss_two_class_example_estimate,
+    labels = log_loss_two_class_example_levels,
+    normalize = FALSE
+  ),
+  multiclass_sum = skmetrics$log_loss(
+    hpc_cv$obs,
+    log_loss_hpc_cv_estimate,
+    labels = log_loss_hpc_cv_levels,
+    eps = mn_log_loss_eps,
+    normalize = FALSE
+  ),
   case_weight = list(
-    binary = skmetrics$log_loss(two_class_example$truth, log_loss_two_class_example_estimate, labels = log_loss_two_class_example_levels, eps = mn_log_loss_eps, sample_weight = weights_two_class_example),
-    multiclass = skmetrics$log_loss(hpc_cv$obs, log_loss_hpc_cv_estimate, labels = log_loss_hpc_cv_levels, eps = mn_log_loss_eps, sample_weight = weights_hpc_cv),
-    binary_sum = skmetrics$log_loss(two_class_example$truth, log_loss_two_class_example_estimate, labels = log_loss_two_class_example_levels, normalize = FALSE, sample_weight = weights_two_class_example),
-    multiclass_sum = skmetrics$log_loss(hpc_cv$obs, log_loss_hpc_cv_estimate, labels = log_loss_hpc_cv_levels, eps = mn_log_loss_eps, normalize = FALSE, sample_weight = weights_hpc_cv)
+    binary = skmetrics$log_loss(
+      two_class_example$truth,
+      log_loss_two_class_example_estimate,
+      labels = log_loss_two_class_example_levels,
+      eps = mn_log_loss_eps,
+      sample_weight = weights_two_class_example
+    ),
+    multiclass = skmetrics$log_loss(
+      hpc_cv$obs,
+      log_loss_hpc_cv_estimate,
+      labels = log_loss_hpc_cv_levels,
+      eps = mn_log_loss_eps,
+      sample_weight = weights_hpc_cv
+    ),
+    binary_sum = skmetrics$log_loss(
+      two_class_example$truth,
+      log_loss_two_class_example_estimate,
+      labels = log_loss_two_class_example_levels,
+      normalize = FALSE,
+      sample_weight = weights_two_class_example
+    ),
+    multiclass_sum = skmetrics$log_loss(
+      hpc_cv$obs,
+      log_loss_hpc_cv_estimate,
+      labels = log_loss_hpc_cv_levels,
+      eps = mn_log_loss_eps,
+      normalize = FALSE,
+      sample_weight = weights_hpc_cv
+    )
   )
 )
 saveRDS(py_mn_log_loss, test_path("py-data", "py-mn_log_loss.rds"), version = 2)
@@ -286,21 +455,52 @@ saveRDS(py_pr_curve, test_path("py-data", "py-pr-curve.rds"), version = 2)
 # Average precision
 # sklearn doesn't support >2 levels in `truth` directly, but does support
 # "multi-label" `truth`, which ends up being the same thing here.
-average_precision_hpc_cv_truth <- model.matrix(~ obs - 1, hpc_cv)
+average_precision_hpc_cv_truth <- model.matrix(~obs - 1, hpc_cv)
 colnames(average_precision_hpc_cv_truth) <- levels(hpc_cv$obs)
 average_precision_hpc_cv_estimate <- as.matrix(hpc_cv[levels(hpc_cv$obs)])
 
 py_average_precision <- list(
-  binary = skmetrics$average_precision_score(two_class_example$truth, two_class_example$Class1, pos_label = "Class1"),
-  macro = skmetrics$average_precision_score(average_precision_hpc_cv_truth, average_precision_hpc_cv_estimate, average = "macro"),
-  macro_weighted = skmetrics$average_precision_score(average_precision_hpc_cv_truth, average_precision_hpc_cv_estimate, average = "weighted"),
+  binary = skmetrics$average_precision_score(
+    two_class_example$truth,
+    two_class_example$Class1,
+    pos_label = "Class1"
+  ),
+  macro = skmetrics$average_precision_score(
+    average_precision_hpc_cv_truth,
+    average_precision_hpc_cv_estimate,
+    average = "macro"
+  ),
+  macro_weighted = skmetrics$average_precision_score(
+    average_precision_hpc_cv_truth,
+    average_precision_hpc_cv_estimate,
+    average = "weighted"
+  ),
   case_weight = list(
-    binary = skmetrics$average_precision_score(two_class_example$truth, two_class_example$Class1, pos_label = "Class1", sample_weight = weights_two_class_example),
-    macro = skmetrics$average_precision_score(average_precision_hpc_cv_truth, average_precision_hpc_cv_estimate, average = "macro", sample_weight = weights_hpc_cv),
-    macro_weighted = skmetrics$average_precision_score(average_precision_hpc_cv_truth, average_precision_hpc_cv_estimate, average = "weighted", sample_weight = weights_hpc_cv)
+    binary = skmetrics$average_precision_score(
+      two_class_example$truth,
+      two_class_example$Class1,
+      pos_label = "Class1",
+      sample_weight = weights_two_class_example
+    ),
+    macro = skmetrics$average_precision_score(
+      average_precision_hpc_cv_truth,
+      average_precision_hpc_cv_estimate,
+      average = "macro",
+      sample_weight = weights_hpc_cv
+    ),
+    macro_weighted = skmetrics$average_precision_score(
+      average_precision_hpc_cv_truth,
+      average_precision_hpc_cv_estimate,
+      average = "weighted",
+      sample_weight = weights_hpc_cv
+    )
   )
 )
-saveRDS(py_average_precision, test_path("py-data", "py-average-precision.rds"), version = 2)
+saveRDS(
+  py_average_precision,
+  test_path("py-data", "py-average-precision.rds"),
+  version = 2
+)
 
 # ROC Curve
 make_py_two_class_roc_curve <- function(case_weights) {
@@ -379,17 +579,58 @@ saveRDS(py_roc_curve, test_path("py-data", "py-roc-curve.rds"), version = 2)
 # - Neither sklearn nor yardstick support case weights in combination with the
 #   Hand Till method
 roc_auc_hpc_cv_levels <- sort(levels(hpc_cv$obs))
-roc_auc_hpc_cv_estimate <- as.matrix(dplyr::select(hpc_cv, !!!syms(roc_auc_hpc_cv_levels)))
+roc_auc_hpc_cv_estimate <- as.matrix(
+  dplyr::select(hpc_cv, !!!syms(roc_auc_hpc_cv_levels))
+)
 
 py_roc_auc <- list(
-  binary = skmetrics$roc_auc_score(two_class_example$truth, two_class_example$Class2),
-  macro = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "macro", labels = roc_auc_hpc_cv_levels, multi_class = "ovr"),
-  macro_weighted = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "weighted", labels = roc_auc_hpc_cv_levels, multi_class = "ovr"),
-  hand_till = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "macro", labels = roc_auc_hpc_cv_levels, multi_class = "ovo"),
+  binary = skmetrics$roc_auc_score(
+    two_class_example$truth,
+    two_class_example$Class2
+  ),
+  macro = skmetrics$roc_auc_score(
+    hpc_cv$obs,
+    roc_auc_hpc_cv_estimate,
+    average = "macro",
+    labels = roc_auc_hpc_cv_levels,
+    multi_class = "ovr"
+  ),
+  macro_weighted = skmetrics$roc_auc_score(
+    hpc_cv$obs,
+    roc_auc_hpc_cv_estimate,
+    average = "weighted",
+    labels = roc_auc_hpc_cv_levels,
+    multi_class = "ovr"
+  ),
+  hand_till = skmetrics$roc_auc_score(
+    hpc_cv$obs,
+    roc_auc_hpc_cv_estimate,
+    average = "macro",
+    labels = roc_auc_hpc_cv_levels,
+    multi_class = "ovo"
+  ),
   case_weight = list(
-    binary = skmetrics$roc_auc_score(two_class_example$truth, two_class_example$Class2, sample_weight = weights_two_class_example),
-    macro = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "macro", labels = roc_auc_hpc_cv_levels, multi_class = "ovr", sample_weight = weights_hpc_cv),
-    macro_weighted = skmetrics$roc_auc_score(hpc_cv$obs, roc_auc_hpc_cv_estimate, average = "weighted", labels = roc_auc_hpc_cv_levels, multi_class = "ovr", sample_weight = weights_hpc_cv)
+    binary = skmetrics$roc_auc_score(
+      two_class_example$truth,
+      two_class_example$Class2,
+      sample_weight = weights_two_class_example
+    ),
+    macro = skmetrics$roc_auc_score(
+      hpc_cv$obs,
+      roc_auc_hpc_cv_estimate,
+      average = "macro",
+      labels = roc_auc_hpc_cv_levels,
+      multi_class = "ovr",
+      sample_weight = weights_hpc_cv
+    ),
+    macro_weighted = skmetrics$roc_auc_score(
+      hpc_cv$obs,
+      roc_auc_hpc_cv_estimate,
+      average = "weighted",
+      labels = roc_auc_hpc_cv_levels,
+      multi_class = "ovr",
+      sample_weight = weights_hpc_cv
+    )
   )
 )
 saveRDS(py_roc_auc, test_path("py-data", "py-roc-auc.rds"), version = 2)
@@ -410,7 +651,8 @@ py_brier_survival <- vapply(
   FUN.VALUE = numeric(1),
   FUN = function(x) {
     sksurv_metrics$brier_score(
-      sksurv_obj, sksurv_obj,
+      sksurv_obj,
+      sksurv_obj,
       dplyr::filter(lung_surv_unnest, .eval_time == x)$.pred_survival,
       x
     )[[2]]
@@ -418,24 +660,26 @@ py_brier_survival <- vapply(
 )
 
 names(py_brier_survival) <- eval_time_unique
-saveRDS(py_brier_survival, test_path("py-data", "py-brier-survival.rds"), version = 2)
+saveRDS(
+  py_brier_survival,
+  test_path("py-data", "py-brier-survival.rds"),
+  version = 2
+)
 
 # Fairness metrics via fairlearn
 py_demographic_parity <-
   list(
-    binary =
-      fairlearn$demographic_parity_difference(
-        hpc_cv$obs == "VF",
-        hpc_cv$pred == "VF",
-        sensitive_features = hpc_cv$Resample
-      ),
-    weighted =
-      fairlearn$demographic_parity_difference(
-        hpc_cv$obs == "VF",
-        hpc_cv$pred == "VF",
-        sensitive_features = hpc_cv$Resample,
-        sample_weight = weights_hpc_cv
-      )
+    binary = fairlearn$demographic_parity_difference(
+      hpc_cv$obs == "VF",
+      hpc_cv$pred == "VF",
+      sensitive_features = hpc_cv$Resample
+    ),
+    weighted = fairlearn$demographic_parity_difference(
+      hpc_cv$obs == "VF",
+      hpc_cv$pred == "VF",
+      sensitive_features = hpc_cv$Resample,
+      sample_weight = weights_hpc_cv
+    )
   )
 
 saveRDS(
@@ -446,19 +690,17 @@ saveRDS(
 
 py_equalized_odds <-
   list(
-    binary =
-      fairlearn$equalized_odds_difference(
-        hpc_cv$obs == "VF",
-        hpc_cv$pred == "VF",
-        sensitive_features = hpc_cv$Resample
-      ),
-    weighted =
-      fairlearn$equalized_odds_difference(
-        hpc_cv$obs == "VF",
-        hpc_cv$pred == "VF",
-        sensitive_features = hpc_cv$Resample,
-        sample_weight = weights_hpc_cv
-      )
+    binary = fairlearn$equalized_odds_difference(
+      hpc_cv$obs == "VF",
+      hpc_cv$pred == "VF",
+      sensitive_features = hpc_cv$Resample
+    ),
+    weighted = fairlearn$equalized_odds_difference(
+      hpc_cv$obs == "VF",
+      hpc_cv$pred == "VF",
+      sensitive_features = hpc_cv$Resample,
+      sample_weight = weights_hpc_cv
+    )
   )
 
 saveRDS(
@@ -469,19 +711,17 @@ saveRDS(
 
 py_equal_opportunity <-
   list(
-    binary =
-      fairlearn$true_positive_rate_difference(
-        hpc_cv$obs == "VF",
-        hpc_cv$pred == "VF",
-        sensitive_features = hpc_cv$Resample
-      ),
-    weighted =
-      fairlearn$true_positive_rate_difference(
-        hpc_cv$obs == "VF",
-        hpc_cv$pred == "VF",
-        sensitive_features = hpc_cv$Resample,
-        sample_weight = weights_hpc_cv
-      )
+    binary = fairlearn$true_positive_rate_difference(
+      hpc_cv$obs == "VF",
+      hpc_cv$pred == "VF",
+      sensitive_features = hpc_cv$Resample
+    ),
+    weighted = fairlearn$true_positive_rate_difference(
+      hpc_cv$obs == "VF",
+      hpc_cv$pred == "VF",
+      sensitive_features = hpc_cv$Resample,
+      sample_weight = weights_hpc_cv
+    )
   )
 
 saveRDS(

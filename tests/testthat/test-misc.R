@@ -33,8 +33,14 @@ test_that("two level weighted case is correct", {
 })
 
 test_that("three level weighted case is correct", {
-  truth <- factor(c("x", "x", "y", "y", "z", "z", "z"), levels = c("x", "y", "z"))
-  estimate <- factor(c("x", "y", "x", "x", "z", "x", "z"), levels = c("x", "y", "z"))
+  truth <- factor(
+    c("x", "x", "y", "y", "z", "z", "z"),
+    levels = c("x", "y", "z")
+  )
+  estimate <- factor(
+    c("x", "y", "x", "x", "z", "x", "z"),
+    levels = c("x", "y", "z")
+  )
   case_weights <- c(1, 1, 2, .5, 2, 3, 3)
 
   result <- yardstick_table(truth, estimate, case_weights = case_weights)
@@ -110,7 +116,10 @@ test_that("`na_remove` only removes NAs present in `x`", {
   w <- c(2, NA)
 
   expect_identical(yardstick_sum(x, case_weights = w), NA_real_)
-  expect_identical(yardstick_sum(x, case_weights = w, na_remove = TRUE), NA_real_)
+  expect_identical(
+    yardstick_sum(x, case_weights = w, na_remove = TRUE),
+    NA_real_
+  )
 })
 
 test_that("works with hardhat case weights", {
@@ -231,38 +240,46 @@ test_that("works with hardhat case weights", {
 
 test_that("works with constant inputs", {
   expect_snapshot({
-    (expect_warning(
-      object = out <- yardstick_cor(c(1, 2), c(1, 1)),
-      class = "yardstick_warning_correlation_undefined_constant_estimate"
-    ))
+    (
+      expect_warning(
+        object = out <- yardstick_cor(c(1, 2), c(1, 1)),
+        class = "yardstick_warning_correlation_undefined_constant_estimate"
+      )
+    )
   })
   expect_identical(out, NA_real_)
 
   expect_snapshot({
-    (expect_warning(
-      object = out <- yardstick_cor(c(1, 1), c(1, 2)),
-      class = "yardstick_warning_correlation_undefined_constant_truth"
-    ))
+    (
+      expect_warning(
+        object = out <- yardstick_cor(c(1, 1), c(1, 2)),
+        class = "yardstick_warning_correlation_undefined_constant_truth"
+      )
+    )
   })
   expect_identical(out, NA_real_)
 })
 
 test_that("warns with input of size 1", {
   expect_snapshot({
-    (expect_warning(
-      object = out <- yardstick_cor(1, 1),
-      class = "yardstick_warning_correlation_undefined_size_zero_or_one"
-    ))
+    (
+      expect_warning(
+        object = out <- yardstick_cor(1, 1),
+        class = "yardstick_warning_correlation_undefined_size_zero_or_one"
+      )
+    )
   })
   expect_identical(out, NA_real_)
 })
 
 test_that("warns with input of size 0", {
   expect_snapshot({
-    (expect_warning(
-      object = out <- yardstick_cor(double(), double()),
-      class = "yardstick_warning_correlation_undefined_size_zero_or_one"
-    ))
+    (
+      expect_warning(
+        object = out <- yardstick_cor(double(), double()),
+        class = "yardstick_warning_correlation_undefined_size_zero_or_one"
+      )
+    )
   })
   expect_identical(out, NA_real_)
 })
@@ -299,7 +316,10 @@ test_that("is a weighted variant of `quantile(type = 4)`", {
 })
 
 test_that("works with zero values", {
-  expect_identical(weighted_quantile(numeric(), numeric(), c(.5, .6)), c(NA_real_, NA_real_))
+  expect_identical(
+    weighted_quantile(numeric(), numeric(), c(.5, .6)),
+    c(NA_real_, NA_real_)
+  )
 })
 
 test_that("works with one value", {

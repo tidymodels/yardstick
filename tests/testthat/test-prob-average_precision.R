@@ -59,7 +59,9 @@ test_that("Two class weighted average precision matches sklearn", {
   two_class_example$weight <- read_weights_two_class_example()
 
   expect_equal(
-    average_precision(two_class_example, truth, Class1, case_weights = weight)[[".estimate"]],
+    average_precision(two_class_example, truth, Class1, case_weights = weight)[[
+      ".estimate"
+    ]],
     py$case_weight$binary
   )
 })
@@ -72,7 +74,9 @@ test_that("Multiclass average precision matches sklearn", {
     py$macro
   )
   expect_equal(
-    average_precision(hpc_cv, obs, VF:L, estimator = "macro_weighted")[[".estimate"]],
+    average_precision(hpc_cv, obs, VF:L, estimator = "macro_weighted")[[
+      ".estimate"
+    ]],
     py$macro_weighted
   )
 })
@@ -83,11 +87,23 @@ test_that("Multiclass weighted average precision matches sklearn", {
   hpc_cv$weight <- read_weights_hpc_cv()
 
   expect_equal(
-    average_precision(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[".estimate"]],
+    average_precision(
+      hpc_cv,
+      obs,
+      VF:L,
+      estimator = "macro",
+      case_weights = weight
+    )[[".estimate"]],
     py$case_weight$macro
   )
   expect_equal(
-    average_precision(hpc_cv, obs, VF:L, estimator = "macro_weighted", case_weights = weight)[[".estimate"]],
+    average_precision(
+      hpc_cv,
+      obs,
+      VF:L,
+      estimator = "macro_weighted",
+      case_weights = weight
+    )[[".estimate"]],
     py$case_weight$macro_weighted
   )
 })

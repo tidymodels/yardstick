@@ -51,7 +51,9 @@ test_that("Two class weighted PR AUC matches sklearn", {
   two_class_example$weight <- read_weights_two_class_example()
 
   expect_equal(
-    pr_auc(two_class_example, truth, Class1, case_weights = weight)[[".estimate"]],
+    pr_auc(two_class_example, truth, Class1, case_weights = weight)[[
+      ".estimate"
+    ]],
     sklearn_auc
   )
 })
@@ -62,7 +64,9 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
 
-  hpc_cv_expanded <- hpc_cv[vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight), ]
+  hpc_cv_expanded <- hpc_cv[
+    vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),
+  ]
 
   expect_identical(
     pr_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro"),
@@ -70,7 +74,13 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
   )
 
   expect_identical(
-    pr_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro_weighted"),
+    pr_auc(
+      hpc_cv,
+      obs,
+      VF:L,
+      case_weights = weight,
+      estimator = "macro_weighted"
+    ),
     pr_auc(hpc_cv_expanded, obs, VF:L, estimator = "macro_weighted")
   )
 })

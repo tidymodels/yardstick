@@ -5,15 +5,18 @@ test_that("Two class", {
 
   expect_equal(
     mcc(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
-    ((231 * 54) - (32 * 27)) / sqrt((231 + 32) * (231 + 27) * (54 + 32) * (54 + 27))
+    ((231 * 54) - (32 * 27)) /
+      sqrt((231 + 32) * (231 + 27) * (54 + 32) * (54 + 27))
   )
   expect_equal(
     mcc(path_tbl)[[".estimate"]],
-    ((231 * 54) - (32 * 27)) / sqrt((231 + 32) * (231 + 27) * (54 + 32) * (54 + 27))
+    ((231 * 54) - (32 * 27)) /
+      sqrt((231 + 32) * (231 + 27) * (54 + 32) * (54 + 27))
   )
   expect_equal(
     mcc(pathology, truth = pathology, estimate = scan_na)[[".estimate"]],
-    ((230 * 53) - (32 * 26)) / sqrt((230 + 32) * (230 + 26) * (53 + 32) * (53 + 26))
+    ((230 * 53) - (32 * 26)) /
+      sqrt((230 + 32) * (230 + 26) * (53 + 32) * (53 + 26))
   )
 })
 
@@ -51,7 +54,7 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     mcc_vec(df$pathology, df$scan, case_weights = freq_wgt)
-  ) 
+  )
 })
 
 test_that("work with class_pred input", {
@@ -82,7 +85,6 @@ test_that("work with class_pred input", {
   )
 })
 
-
 # sklearn compare --------------------------------------------------------------
 
 test_that("Two class - sklearn equivalent", {
@@ -112,7 +114,9 @@ test_that("Two class case weighted - sklearn equivalent", {
   two_class_example$weights <- read_weights_two_class_example()
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, case_weights = weights)[[".estimate"]],
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[
+      ".estimate"
+    ]],
     py_res$case_weight$binary
   )
 })

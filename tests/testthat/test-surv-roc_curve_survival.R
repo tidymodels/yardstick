@@ -114,13 +114,21 @@ test_that("hand calculated equivalent", {
   calc_sensitivity <- function(threshold, data, eval_time) {
     delta <- .extract_surv_status(data$surv_obj)
     event_time <- .extract_surv_time(data$surv_obj)
-    res <- dplyr::tibble(.threshold = sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE))
+    res <- dplyr::tibble(
+      .threshold = sort(
+        unique(c(-Inf, data$.pred_survival, Inf)),
+        decreasing = TRUE
+      )
+    )
 
     obs_time_le_time <- event_time <= data$.eval_time
     obs_time_gt_time <- event_time > data$.eval_time
     n <- nrow(data)
 
-    sensitivity_denom <- sum(obs_time_le_time * delta * data$.weight_censored, na.rm = TRUE)
+    sensitivity_denom <- sum(
+      obs_time_le_time * delta * data$.weight_censored,
+      na.rm = TRUE
+    )
 
     data_df <- data.frame(
       le_time = obs_time_le_time,
@@ -164,12 +172,20 @@ test_that("hand calculated equivalent", {
   calc_specificity <- function(threshold, data, eval_time) {
     event_time <- yardstick:::.extract_surv_time(data$surv_obj)
 
-    res <- dplyr::tibble(.threshold = sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE))
+    res <- dplyr::tibble(
+      .threshold = sort(
+        unique(c(-Inf, data$.pred_survival, Inf)),
+        decreasing = TRUE
+      )
+    )
 
     obs_time_gt_time <- event_time > data$.eval_time
     n <- nrow(data)
 
-    specificity_denom <- sum(obs_time_gt_time * data$.weight_censored, na.rm = TRUE)
+    specificity_denom <- sum(
+      obs_time_gt_time * data$.weight_censored,
+      na.rm = TRUE
+    )
 
     data_df <- data.frame(
       ge_time = obs_time_gt_time,

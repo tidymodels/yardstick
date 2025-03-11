@@ -50,5 +50,5 @@ test_that("works with hardhat case weights", {
 
   expect_no_error(
     msd_vec(df$solubility, df$prediction, case_weights = freq_wgt)
-  ) 
+  )
 })

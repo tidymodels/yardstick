@@ -88,12 +88,14 @@ roc_aunp <- new_prob_metric(
 
 #' @export
 #' @rdname roc_aunp
-roc_aunp.data.frame <- function(data,
-                                truth,
-                                ...,
-                                na_rm = TRUE,
-                                case_weights = NULL,
-                                options = list()) {
+roc_aunp.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  options = list()
+) {
   check_roc_options_deprecated("roc_aunp", options)
 
   prob_metric_summarizer(
@@ -111,12 +113,14 @@ roc_aunp.data.frame <- function(data,
 
 #' @rdname roc_aunp
 #' @export
-roc_aunp_vec <- function(truth,
-                         estimate,
-                         na_rm = TRUE,
-                         case_weights = NULL,
-                         options = list(),
-                         ...) {
+roc_aunp_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  options = list(),
+  ...
+) {
   abort_if_class_pred(truth)
 
   check_roc_options_deprecated("roc_aunp_vec", options)

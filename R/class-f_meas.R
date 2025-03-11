@@ -48,15 +48,17 @@ f_meas <- new_class_metric(
 
 #' @rdname f_meas
 #' @export
-f_meas.data.frame <- function(data,
-                              truth,
-                              estimate,
-                              beta = 1,
-                              estimator = NULL,
-                              na_rm = TRUE,
-                              case_weights = NULL,
-                              event_level = yardstick_event_level(),
-                              ...) {
+f_meas.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  beta = 1,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   class_metric_summarizer(
     name = "f_meas",
     fn = f_meas_vec,
@@ -72,11 +74,13 @@ f_meas.data.frame <- function(data,
 }
 
 #' @export
-f_meas.table <- function(data,
-                         beta = 1,
-                         estimator = NULL,
-                         event_level = yardstick_event_level(),
-                         ...) {
+f_meas.table <- function(
+  data,
+  beta = 1,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
@@ -88,25 +92,29 @@ f_meas.table <- function(data,
 }
 
 #' @export
-f_meas.matrix <- function(data,
-                          beta = 1,
-                          estimator = NULL,
-                          event_level = yardstick_event_level(),
-                          ...) {
+f_meas.matrix <- function(
+  data,
+  beta = 1,
+  estimator = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   data <- as.table(data)
   f_meas.table(data, beta, estimator, event_level)
 }
 
 #' @export
 #' @rdname f_meas
-f_meas_vec <- function(truth,
-                       estimate,
-                       beta = 1,
-                       estimator = NULL,
-                       na_rm = TRUE,
-                       case_weights = NULL,
-                       event_level = yardstick_event_level(),
-                       ...) {
+f_meas_vec <- function(
+  truth,
+  estimate,
+  beta = 1,
+  estimator = NULL,
+  na_rm = TRUE,
+  case_weights = NULL,
+  event_level = yardstick_event_level(),
+  ...
+) {
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

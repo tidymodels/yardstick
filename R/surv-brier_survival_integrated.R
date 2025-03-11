@@ -63,11 +63,13 @@ brier_survival_integrated <- new_integrated_survival_metric(
 
 #' @rdname brier_survival_integrated
 #' @export
-brier_survival_integrated.data.frame <- function(data,
-                                                 truth,
-                                                 ...,
-                                                 na_rm = TRUE,
-                                                 case_weights = NULL) {
+brier_survival_integrated.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL
+) {
   dynamic_survival_metric_summarizer(
     name = "brier_survival_integrated",
     fn = brier_survival_integrated_vec,
@@ -81,13 +83,17 @@ brier_survival_integrated.data.frame <- function(data,
 
 #' @export
 #' @rdname brier_survival_integrated
-brier_survival_integrated_vec <- function(truth,
-                                          estimate,
-                                          na_rm = TRUE,
-                                          case_weights = NULL,
-                                          ...) {
+brier_survival_integrated_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   check_dynamic_survival_metric(
-    truth, estimate, case_weights
+    truth,
+    estimate,
+    case_weights
   )
 
   num_eval_times <- get_unique_eval_times(estimate)
@@ -100,7 +106,9 @@ brier_survival_integrated_vec <- function(truth,
 
   if (na_rm) {
     result <- yardstick_remove_missing(
-      truth, seq_along(estimate), case_weights
+      truth,
+      seq_along(estimate),
+      case_weights
     )
 
     truth <- result$truth
@@ -108,7 +116,9 @@ brier_survival_integrated_vec <- function(truth,
     case_weights <- result$case_weights
   } else {
     any_missing <- yardstick_any_missing(
-      truth, estimate, case_weights
+      truth,
+      estimate,
+      case_weights
     )
     if (any_missing) {
       return(NA_real_)
@@ -123,9 +133,7 @@ get_unique_eval_times <- function(x) {
   length(x[[1]]$.eval_time)
 }
 
-brier_survival_integrated_impl <- function(truth,
-                                           estimate,
-                                           case_weights) {
+brier_survival_integrated_impl <- function(truth, estimate, case_weights) {
   res <- brier_survival_vec(
     truth = truth,
     estimate = estimate,

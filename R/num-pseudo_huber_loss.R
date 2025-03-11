@@ -33,13 +33,15 @@ huber_loss_pseudo <- new_numeric_metric(
 
 #' @rdname huber_loss_pseudo
 #' @export
-huber_loss_pseudo.data.frame <- function(data,
-                                         truth,
-                                         estimate,
-                                         delta = 1,
-                                         na_rm = TRUE,
-                                         case_weights = NULL,
-                                         ...) {
+huber_loss_pseudo.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  delta = 1,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   numeric_metric_summarizer(
     name = "huber_loss_pseudo",
     fn = huber_loss_pseudo_vec,
@@ -55,12 +57,14 @@ huber_loss_pseudo.data.frame <- function(data,
 
 #' @export
 #' @rdname huber_loss_pseudo
-huber_loss_pseudo_vec <- function(truth,
-                                  estimate,
-                                  delta = 1,
-                                  na_rm = TRUE,
-                                  case_weights = NULL,
-                                  ...) {
+huber_loss_pseudo_vec <- function(
+  truth,
+  estimate,
+  delta = 1,
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+) {
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {
@@ -81,11 +85,13 @@ huber_loss_pseudo_vec <- function(truth,
   )
 }
 
-huber_loss_pseudo_impl <- function(truth,
-                                   estimate,
-                                   delta,
-                                   case_weights,
-                                   call = caller_env()) {
+huber_loss_pseudo_impl <- function(
+  truth,
+  estimate,
+  delta,
+  case_weights,
+  call = caller_env()
+) {
   check_number_decimal(delta, min = 0, call = call)
 
   a <- truth - estimate

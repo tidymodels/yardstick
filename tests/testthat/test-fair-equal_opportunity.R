@@ -9,13 +9,23 @@ test_that("result matches reference implementation (fairlearn)", {
   eo <- equal_opportunity(Resample)
 
   expect_equal(
-    eo(hpc_cv, truth = obs_vf, estimate = pred_vf, event_level = "second")$.estimate,
+    eo(
+      hpc_cv,
+      truth = obs_vf,
+      estimate = pred_vf,
+      event_level = "second"
+    )$.estimate,
     py_res$binary
   )
 
   expect_equal(
-    eo(hpc_cv, truth = obs_vf, estimate = pred_vf,
-       event_level = "second", case_weights = case_weights)$.estimate,
+    eo(
+      hpc_cv,
+      truth = obs_vf,
+      estimate = pred_vf,
+      event_level = "second",
+      case_weights = case_weights
+    )$.estimate,
     py_res$weighted
   )
 })

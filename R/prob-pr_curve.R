@@ -64,12 +64,14 @@ pr_curve <- function(data, ...) {
 
 #' @export
 #' @rdname pr_curve
-pr_curve.data.frame <- function(data,
-                                truth,
-                                ...,
-                                na_rm = TRUE,
-                                event_level = yardstick_event_level(),
-                                case_weights = NULL) {
+pr_curve.data.frame <- function(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+) {
   result <- curve_metric_summarizer(
     name = "pr_curve",
     fn = pr_curve_vec,
@@ -85,12 +87,14 @@ pr_curve.data.frame <- function(data,
 }
 
 # Undecided of whether to export this or not
-pr_curve_vec <- function(truth,
-                         estimate,
-                         na_rm = TRUE,
-                         event_level = yardstick_event_level(),
-                         case_weights = NULL,
-                         ...) {
+pr_curve_vec <- function(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+) {
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "pr_curve")
@@ -104,10 +108,12 @@ pr_curve_vec <- function(truth,
     estimate <- result$estimate
     case_weights <- result$case_weights
   } else if (yardstick_any_missing(truth, estimate, case_weights)) {
-    cli::cli_abort(c(
-      x = "Missing values were detected and {.code na_ra = FALSE}.",
-      i = "Not able to perform calculations."
-    ))
+    cli::cli_abort(
+      c(
+        x = "Missing values were detected and {.code na_ra = FALSE}.",
+        i = "Not able to perform calculations."
+      )
+    )
   }
 
   pr_curve_estimator_impl(
@@ -119,11 +125,13 @@ pr_curve_vec <- function(truth,
   )
 }
 
-pr_curve_estimator_impl <- function(truth,
-                                    estimate,
-                                    estimator,
-                                    event_level,
-                                    case_weights) {
+pr_curve_estimator_impl <- function(
+  truth,
+  estimate,
+  estimator,
+  event_level,
+  case_weights
+) {
   if (is_binary(estimator)) {
     pr_curve_binary(truth, estimate, event_level, case_weights)
   } else {
@@ -131,10 +139,7 @@ pr_curve_estimator_impl <- function(truth,
   }
 }
 
-pr_curve_binary <- function(truth,
-                            estimate,
-                            event_level,
-                            case_weights) {
+pr_curve_binary <- function(truth, estimate, event_level, case_weights) {
   # Algorithm modified from page 866 of
   # http://people.inf.elte.hu/kiss/12dwhdm/roc.pdf
 
@@ -192,7 +197,6 @@ pr_curve_multiclass <- function(truth, estimate, case_weights) {
     case_weights = case_weights
   )
 }
-
 
 # Dynamically exported
 autoplot.pr_df <- function(object, ...) {
