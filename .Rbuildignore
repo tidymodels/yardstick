@@ -18,3 +18,5 @@ contributors.md
 ^CRAN-SUBMISSION$
 ^MAINTENANCE\.md$
 ^data-raw$
+^[\.]?air\.toml$
+^\.vscode$
