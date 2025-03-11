@@ -116,6 +116,7 @@ format.metric <- function(x, ...) {
       first_class,
       "prob_metric" = "probability metric",
       "class_metric" = "class metric",
+      "ordered_prob_metric" = "ordered probability metric",
       "numeric_metric" = "numeric metric",
       "dynamic_survival_metric" = "dynamic survival metric",
       "static_survival_metric" = "static survival metric",
