@@ -263,7 +263,9 @@ metric_set <- function(...) {
   # signature of the function is different depending on input functions
   if (fn_cls == "numeric_metric") {
     make_numeric_metric_function(fns)
-  } else if (fn_cls %in% c("prob_metric", "class_metric")) {
+  } else if (
+    fn_cls %in% c("prob_metric", "class_metric", "ordered_prob_metric")
+  ) {
     make_prob_class_metric_function(fns)
   } else if (
     fn_cls %in%
@@ -638,6 +640,7 @@ validate_function_class <- function(fns) {
   valid_cls <- c(
     "class_metric",
     "prob_metric",
+    "ordered_prob_metric",
     "numeric_metric",
     "dynamic_survival_metric",
     "static_survival_metric",
@@ -650,58 +653,21 @@ validate_function_class <- function(fns) {
     }
   }
 
-  # Special case of ONLY class and prob functions together
-  # These are allowed to be together
-  if (n_unique == 2) {
-    if (
-      fn_cls_unique[1] %in%
-        c("class_metric", "prob_metric") &&
-        fn_cls_unique[2] %in% c("class_metric", "prob_metric")
-    ) {
-      return(invisible(fns))
-    }
-
-    if (
-      fn_cls_unique[1] %in%
-        c(
-          "dynamic_survival_metric",
-          "static_survival_metric",
-          "integrated_survival_metric"
-        ) &&
-        fn_cls_unique[2] %in%
-          c(
-            "dynamic_survival_metric",
-            "static_survival_metric",
-            "integrated_survival_metric"
-          )
-    ) {
-      return(invisible(fns))
-    }
+  class_prob_cls <- c("class_metric", "prob_metric", "ordered_prob_metric")
+  if (
+    any(fn_cls_unique %in% class_prob_cls) &&
+      all(fn_cls_unique %in% class_prob_cls)
+  ) {
+    return(invisible(fns))
   }
 
-  if (n_unique == 3) {
-    if (
-      fn_cls_unique[1] %in%
-        c(
-          "dynamic_survival_metric",
-          "static_survival_metric",
-          "integrated_survival_metric"
-        ) &&
-        fn_cls_unique[2] %in%
-          c(
-            "dynamic_survival_metric",
-            "static_survival_metric",
-            "integrated_survival_metric"
-          ) &&
-        fn_cls_unique[3] %in%
-          c(
-            "dynamic_survival_metric",
-            "static_survival_metric",
-            "integrated_survival_metric"
-          )
-    ) {
-      return(invisible(fns))
-    }
+  surv_cls <- c(
+    "dynamic_survival_metric",
+    "static_survival_metric",
+    "integrated_survival_metric"
+  )
+  if (any(fn_cls_unique %in% surv_cls) && all(fn_cls_unique %in% surv_cls)) {
+    return(invisible(fns))
   }
 
   # Special case unevaluated groupwise metric factories
