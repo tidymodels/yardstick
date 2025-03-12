@@ -4,6 +4,8 @@
 
 * `poisson_log_loss()` has been enhanced to handle 0 valued estimates, no longer returning `Inf` or `NaN`. (#513)
 
+* Fixed bug where ranked probability metrics didn't work in combination with other classificiation metrics in `metric_set()`. (#539)
+
 # yardstick 1.3.2
 
 * All messages, warnings and errors has been translated to use {cli} package (#517, #522).
