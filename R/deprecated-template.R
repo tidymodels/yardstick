@@ -247,8 +247,8 @@ metric_vec_template <- function(
   } else {
     any_na <-
       anyNA(truth) ||
-        anyNA(estimate) ||
-        (has_case_weights && anyNA(case_weights))
+      anyNA(estimate) ||
+      (has_case_weights && anyNA(case_weights))
 
     # return NA if any NA
     if (any_na) {

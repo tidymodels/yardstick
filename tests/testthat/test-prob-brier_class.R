@@ -8,7 +8,7 @@ test_that("basic results", {
     tolerance = 0.01
   )
 
-  hpc_inds <- model.matrix(~. - 1, data = hpc_cv %>% dplyr::select(obs))
+  hpc_inds <- model.matrix(~ . - 1, data = hpc_cv %>% dplyr::select(obs))
   expect_equal(
     yardstick:::brier_ind(hpc_inds, hpc_cv %>% dplyr::select(VF:L)),
     hpc_exp,

@@ -284,8 +284,8 @@ roc_auc_adjust_result_estimator <- function(out, estimator, case_weights_quo) {
   # `case_weights` just for this one metric, and that seemed like too much work.
   automatically_chose_hand_till_but_also_used_case_weights <-
     is.null(estimator) &&
-      !quo_is_null(case_weights_quo) &&
-      identical(out[[".estimator"]][[1]], "hand_till")
+    !quo_is_null(case_weights_quo) &&
+    identical(out[[".estimator"]][[1]], "hand_till")
 
   if (automatically_chose_hand_till_but_also_used_case_weights) {
     # `roc_auc_vec()` actually "automatically" used `"macro"` weighting here

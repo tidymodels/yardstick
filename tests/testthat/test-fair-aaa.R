@@ -60,8 +60,8 @@ test_that("new_groupwise_metric() works with grouped input", {
 
   grouped_res <-
     hpc_cv %>%
-      dplyr::group_by(Resample) %>%
-      m_set(hpc_cv, truth = obs, estimate = pred)
+    dplyr::group_by(Resample) %>%
+    m_set(hpc_cv, truth = obs, estimate = pred)
 
   hpc_split <- vctrs::vec_split(hpc_cv, hpc_cv$Resample)
 

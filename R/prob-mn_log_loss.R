@@ -195,7 +195,7 @@ mn_log_loss_binary <- function(
 
 mn_log_loss_multiclass <- function(truth, estimate, sum, case_weights) {
   # Binarize factor
-  y <- stats::model.matrix(~truth - 1)
+  y <- stats::model.matrix(~ truth - 1)
 
   eps <- .Machine$double.eps
   estimate <- pmax(pmin(estimate, 1 - eps), eps)
