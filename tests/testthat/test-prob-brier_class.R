@@ -1,16 +1,16 @@
 test_that("basic results", {
-  # With the mclust pakcage, BrierScore(hpc_cv %>% select(VF:L) %>% as.matrix, hpc_cv$obs)
+  # With the mclust pakcage, BrierScore(hpc_cv |> select(VF:L) |> as.matrix, hpc_cv$obs)
   hpc_exp <- 0.21083946
 
   expect_equal(
-    yardstick:::brier_factor(hpc_cv$obs, hpc_cv %>% dplyr::select(VF:L)),
+    yardstick:::brier_factor(hpc_cv$obs, hpc_cv |> dplyr::select(VF:L)),
     hpc_exp,
     tolerance = 0.01
   )
 
-  hpc_inds <- model.matrix(~. - 1, data = hpc_cv %>% dplyr::select(obs))
+  hpc_inds <- model.matrix(~ . - 1, data = hpc_cv |> dplyr::select(obs))
   expect_equal(
-    yardstick:::brier_ind(hpc_inds, hpc_cv %>% dplyr::select(VF:L)),
+    yardstick:::brier_ind(hpc_inds, hpc_cv |> dplyr::select(VF:L)),
     hpc_exp,
     tolerance = 0.01
   )
@@ -28,7 +28,7 @@ test_that("basic results", {
   # ----------------------------------------------------------------------------
   # two classes
 
-  # BrierScore(two_class_example %>% dplyr::select(Class1, Class2) %>% as.matrix, two_class_example$truth)
+  # BrierScore(two_class_example |> dplyr::select(Class1, Class2) |> as.matrix, two_class_example$truth)
   two_cls_exp <- 0.10561859
 
   expect_equal(
@@ -51,7 +51,7 @@ test_that("basic results", {
   hpc_miss$obs[1] <- NA
   hpc_miss$L[2] <- NA
 
-  # With the mclust pakcage, BrierScore(hpc_cv[-(1:2), 3:6]%>% as.matrix, hpc_cv$obs[-(1:2)])
+  # With the mclust pakcage, BrierScore(hpc_cv[-(1:2), 3:6]|> as.matrix, hpc_cv$obs[-(1:2)])
   hpc_miss_exp <- 0.21095817
   expect_equal(
     brier_class(hpc_miss, obs, VF:L)$.estimate,
@@ -66,8 +66,8 @@ test_that("basic results", {
   hpc_wts <- hpc_cv[c(rep(1, 4), 1:nrow(hpc_cv)), ]
 
   expect_equal(
-    yardstick:::brier_factor(hpc_cv$obs, hpc_cv %>% dplyr::select(VF:L)),
-    yardstick:::brier_factor(hpc_wts$obs, hpc_wts %>% dplyr::select(VF:L)),
+    yardstick:::brier_factor(hpc_cv$obs, hpc_cv |> dplyr::select(VF:L)),
+    yardstick:::brier_factor(hpc_wts$obs, hpc_wts |> dplyr::select(VF:L)),
     tolerance = 0.01
   )
 })

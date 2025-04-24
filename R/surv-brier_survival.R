@@ -64,7 +64,7 @@
 #'
 #' library(dplyr)
 #'
-#' lung_surv %>%
+#' lung_surv |>
 #'   brier_survival(
 #'     truth = surv_obj,
 #'     .pred
@@ -134,9 +134,9 @@ brier_survival_vec <- function(
     }
   }
 
-  dplyr::tibble(estimate) %>%
-    tidyr::unnest(estimate) %>%
-    dplyr::group_by(.eval_time) %>%
+  dplyr::tibble(estimate) |>
+    tidyr::unnest(estimate) |>
+    dplyr::group_by(.eval_time) |>
     dplyr::summarize(
       .estimate = brier_survival_impl(
         truth,

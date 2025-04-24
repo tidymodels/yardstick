@@ -61,11 +61,9 @@ test_that("Three class", {
     with(
       micro,
       (sum(tn) / sum(n) * sum((1 - prev))) /
-        (
-          (1 - sum(tp) / sum(p)) *
-            sum(prev) +
-            (sum(tn) / sum(n) * sum((1 - prev)))
-        )
+        ((1 - sum(tp) / sum(p)) *
+          sum(prev) +
+          (sum(tn) / sum(n) * sum((1 - prev))))
     )
   )
   # Prevalence defined by the user. Defined once for all levels?

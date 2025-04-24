@@ -40,19 +40,19 @@
 #' data(hpc_cv)
 #'
 #' # You can use the col1:colN tidyselect syntax
-#' hpc_cv %>%
-#'   filter(Resample == "Fold01") %>%
+#' hpc_cv |>
+#'   filter(Resample == "Fold01") |>
 #'   mn_log_loss(obs, VF:L)
 #'
 #' # Groups are respected
-#' hpc_cv %>%
-#'   group_by(Resample) %>%
+#' hpc_cv |>
+#'   group_by(Resample) |>
 #'   mn_log_loss(obs, VF:L)
 #'
 #'
 #' # Vector version
 #' # Supply a matrix of class probabilities
-#' fold1 <- hpc_cv %>%
+#' fold1 <- hpc_cv |>
 #'   filter(Resample == "Fold01")
 #'
 #' mn_log_loss_vec(
@@ -195,7 +195,7 @@ mn_log_loss_binary <- function(
 
 mn_log_loss_multiclass <- function(truth, estimate, sum, case_weights) {
   # Binarize factor
-  y <- stats::model.matrix(~truth - 1)
+  y <- stats::model.matrix(~ truth - 1)
 
   eps <- .Machine$double.eps
   estimate <- pmax(pmin(estimate, 1 - eps), eps)

@@ -240,46 +240,38 @@ test_that("works with hardhat case weights", {
 
 test_that("works with constant inputs", {
   expect_snapshot({
-    (
-      expect_warning(
-        object = out <- yardstick_cor(c(1, 2), c(1, 1)),
-        class = "yardstick_warning_correlation_undefined_constant_estimate"
-      )
-    )
+    (expect_warning(
+      object = out <- yardstick_cor(c(1, 2), c(1, 1)),
+      class = "yardstick_warning_correlation_undefined_constant_estimate"
+    ))
   })
   expect_identical(out, NA_real_)
 
   expect_snapshot({
-    (
-      expect_warning(
-        object = out <- yardstick_cor(c(1, 1), c(1, 2)),
-        class = "yardstick_warning_correlation_undefined_constant_truth"
-      )
-    )
+    (expect_warning(
+      object = out <- yardstick_cor(c(1, 1), c(1, 2)),
+      class = "yardstick_warning_correlation_undefined_constant_truth"
+    ))
   })
   expect_identical(out, NA_real_)
 })
 
 test_that("warns with input of size 1", {
   expect_snapshot({
-    (
-      expect_warning(
-        object = out <- yardstick_cor(1, 1),
-        class = "yardstick_warning_correlation_undefined_size_zero_or_one"
-      )
-    )
+    (expect_warning(
+      object = out <- yardstick_cor(1, 1),
+      class = "yardstick_warning_correlation_undefined_size_zero_or_one"
+    ))
   })
   expect_identical(out, NA_real_)
 })
 
 test_that("warns with input of size 0", {
   expect_snapshot({
-    (
-      expect_warning(
-        object = out <- yardstick_cor(double(), double()),
-        class = "yardstick_warning_correlation_undefined_size_zero_or_one"
-      )
-    )
+    (expect_warning(
+      object = out <- yardstick_cor(double(), double()),
+      class = "yardstick_warning_correlation_undefined_size_zero_or_one"
+    ))
   })
   expect_identical(out, NA_real_)
 })

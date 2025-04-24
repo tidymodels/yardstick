@@ -59,9 +59,9 @@ test_that("new_groupwise_metric() works with grouped input", {
   )
 
   grouped_res <-
-    hpc_cv %>%
-      dplyr::group_by(Resample) %>%
-      m_set(hpc_cv, truth = obs, estimate = pred)
+    hpc_cv |>
+    dplyr::group_by(Resample) |>
+    m_set(hpc_cv, truth = obs, estimate = pred)
 
   hpc_split <- vctrs::vec_split(hpc_cv, hpc_cv$Resample)
 
@@ -71,7 +71,7 @@ test_that("new_groupwise_metric() works with grouped input", {
       hpc_split$val,
       function(x) m_set(x, truth = obs, estimate = pred)
     )
-  ) %>%
+  ) |>
     tidyr::unnest(cols = res)
 
   expect_identical(grouped_res, split_res)
@@ -141,7 +141,7 @@ test_that("can mix fairness metrics with standard metrics", {
 
   m_set_sens <- metric_set(sens)
   expect_equal(
-    res[2, ] %>% dplyr::select(-.by),
+    res[2, ] |> dplyr::select(-.by),
     m_set_sens(hpc_cv, truth = obs, estimate = pred)
   )
 })
@@ -270,8 +270,8 @@ test_that("outputted function errors informatively with redundant grouping", {
 
   expect_snapshot(
     error = TRUE,
-    hpc_cv %>%
-      dplyr::group_by(Resample) %>%
+    hpc_cv |>
+      dplyr::group_by(Resample) |>
       demographic_parity(Resample)(truth = obs, estimate = pred)
   )
 
@@ -279,8 +279,8 @@ test_that("outputted function errors informatively with redundant grouping", {
 
   expect_snapshot(
     error = TRUE,
-    hpc_cv %>%
-      dplyr::group_by(Resample) %>%
+    hpc_cv |>
+      dplyr::group_by(Resample) |>
       dp_res(truth = obs, estimate = pred)
   )
 })

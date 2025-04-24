@@ -7,7 +7,7 @@ test_that("brier_survival_integrated calculations", {
     data = lung_surv,
     truth = surv_obj,
     .pred
-  ) %>%
+  ) |>
     dplyr::summarise(
       .estimate = yardstick:::auc(.eval_time, .estimate) / max(.eval_time)
     )
@@ -53,7 +53,7 @@ test_that("case weights", {
     data = lung_surv,
     truth = surv_obj,
     .pred
-  ) %>%
+  ) |>
     dplyr::summarise(
       .estimate = yardstick:::auc(.eval_time, .estimate) / max(.eval_time)
     )

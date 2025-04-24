@@ -44,8 +44,8 @@
 #' data("hpc_cv")
 #'
 #' # The confusion matrix from a single assessment set (i.e. fold)
-#' cm <- hpc_cv %>%
-#'   filter(Resample == "Fold01") %>%
+#' cm <- hpc_cv |>
+#'   filter(Resample == "Fold01") |>
 #'   conf_mat(obs, pred)
 #' cm
 #'
@@ -54,20 +54,20 @@
 #' # First get the raw cell counts per fold using the `tidy` method
 #' library(tidyr)
 #'
-#' cells_per_resample <- hpc_cv %>%
-#'   group_by(Resample) %>%
-#'   conf_mat(obs, pred) %>%
-#'   mutate(tidied = lapply(conf_mat, tidy)) %>%
+#' cells_per_resample <- hpc_cv |>
+#'   group_by(Resample) |>
+#'   conf_mat(obs, pred) |>
+#'   mutate(tidied = lapply(conf_mat, tidy)) |>
 #'   unnest(tidied)
 #'
 #' # Get the totals per resample
-#' counts_per_resample <- hpc_cv %>%
-#'   group_by(Resample) %>%
-#'   summarize(total = n()) %>%
-#'   left_join(cells_per_resample, by = "Resample") %>%
+#' counts_per_resample <- hpc_cv |>
+#'   group_by(Resample) |>
+#'   summarize(total = n()) |>
+#'   left_join(cells_per_resample, by = "Resample") |>
 #'   # Compute the proportions
-#'   mutate(prop = value / total) %>%
-#'   group_by(name) %>%
+#'   mutate(prop = value / total) |>
+#'   group_by(name) |>
 #'   # Average
 #'   summarize(prop = mean(prop))
 #'
@@ -358,14 +358,14 @@ flatten <- function(xtab, call = caller_env()) {
 #' data("hpc_cv")
 #'
 #' # Compute statistics per resample then summarize
-#' all_metrics <- hpc_cv %>%
-#'   group_by(Resample) %>%
-#'   conf_mat(obs, pred) %>%
-#'   mutate(summary_tbl = lapply(conf_mat, summary)) %>%
+#' all_metrics <- hpc_cv |>
+#'   group_by(Resample) |>
+#'   conf_mat(obs, pred) |>
+#'   mutate(summary_tbl = lapply(conf_mat, summary)) |>
 #'   unnest(summary_tbl)
 #'
-#' all_metrics %>%
-#'   group_by(.metric) %>%
+#' all_metrics |>
+#'   group_by(.metric) |>
 #'   summarise(
 #'     mean = mean(.estimate, na.rm = TRUE),
 #'     sd = sd(.estimate, na.rm = TRUE)
@@ -443,7 +443,7 @@ cm_heat <- function(x) {
 
   axis_labels <- get_axis_labels(x)
 
-  df %>%
+  df |>
     ggplot2::ggplot(
       ggplot2::aes(
         x = Truth,

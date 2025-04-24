@@ -67,7 +67,7 @@ test_that("riskRegression equivalent", {
 
   riskRegression_res <- readRDS(test_path("data/brier_churn_res.rds"))
 
-  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
+  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) |>
     brier_survival(
       truth = surv_obj,
       .pred

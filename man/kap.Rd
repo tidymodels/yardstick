@@ -94,13 +94,13 @@ kap(two_class_example, truth, predicted)
 
 # Multiclass
 # kap() has a natural multiclass extension
-hpc_cv \%>\%
-  filter(Resample == "Fold01") \%>\%
+hpc_cv |>
+  filter(Resample == "Fold01") |>
   kap(obs, pred)
 
 # Groups are respected
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
   kap(obs, pred)
 }
 \references{

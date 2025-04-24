@@ -79,9 +79,9 @@ metrics(solubility_test, truth = solubility, estimate = prediction)
 # if you need more customization
 library(dplyr)
 
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
-  metrics(obs, pred, VF:L) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
+  metrics(obs, pred, VF:L) |>
   print(n = 40)
 
 }

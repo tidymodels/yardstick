@@ -109,11 +109,9 @@ py_multiclass_weighted_FN <- rowSums(py_multiclass_weighted_confusion) -
   diag(py_multiclass_weighted_confusion)
 py_multiclass_weighted_TP <- diag(py_multiclass_weighted_confusion)
 py_multiclass_weighted_TN <- sum(py_multiclass_weighted_confusion) -
-  (
-    py_multiclass_weighted_FP +
-      py_multiclass_weighted_FN +
-      py_multiclass_weighted_TP
-  )
+  (py_multiclass_weighted_FP +
+    py_multiclass_weighted_FN +
+    py_multiclass_weighted_TP)
 
 # ------------------------------------------------------------------------------
 
@@ -455,7 +453,7 @@ saveRDS(py_pr_curve, test_path("py-data", "py-pr-curve.rds"), version = 2)
 # Average precision
 # sklearn doesn't support >2 levels in `truth` directly, but does support
 # "multi-label" `truth`, which ends up being the same thing here.
-average_precision_hpc_cv_truth <- model.matrix(~obs - 1, hpc_cv)
+average_precision_hpc_cv_truth <- model.matrix(~ obs - 1, hpc_cv)
 colnames(average_precision_hpc_cv_truth) <- levels(hpc_cv$obs)
 average_precision_hpc_cv_estimate <- as.matrix(hpc_cv[levels(hpc_cv$obs)])
 

@@ -67,13 +67,13 @@ accuracy(two_class_example, truth, predicted)
 
 # Multiclass
 # accuracy() has a natural multiclass extension
-hpc_cv \%>\%
-  filter(Resample == "Fold01") \%>\%
+hpc_cv |>
+  filter(Resample == "Fold01") |>
   accuracy(obs, pred)
 
 # Groups are respected
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
   accuracy(obs, pred)
 }
 \seealso{

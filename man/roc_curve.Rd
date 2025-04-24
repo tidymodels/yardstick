@@ -116,7 +116,7 @@ roc_curve(two_class_example, truth, Class1)
 # Visualize the curve using ggplot2 manually
 library(ggplot2)
 library(dplyr)
-roc_curve(two_class_example, truth, Class1) \%>\%
+roc_curve(two_class_example, truth, Class1) |>
   ggplot(aes(x = 1 - specificity, y = sensitivity)) +
   geom_path() +
   geom_abline(lty = 3) +
@@ -130,15 +130,15 @@ autoplot(roc_curve(two_class_example, truth, Class1))
 
 # Multiclass one-vs-all approach
 # One curve per level
-hpc_cv \%>\%
-  filter(Resample == "Fold01") \%>\%
-  roc_curve(obs, VF:L) \%>\%
+hpc_cv |>
+  filter(Resample == "Fold01") |>
+  roc_curve(obs, VF:L) |>
   autoplot()
 
 # Same as above, but will all of the resamples
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
-  roc_curve(obs, VF:L) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
+  roc_curve(obs, VF:L) |>
   autoplot()
 }
 \dontshow{\}) # examplesIf}

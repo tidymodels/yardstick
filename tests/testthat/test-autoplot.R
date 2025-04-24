@@ -21,17 +21,17 @@ resample_idx <- readRDS(test_path("data/test_autoplot.rds"))
 two_class_resamples <- dplyr::bind_rows(
   lapply(resample_idx, function(idx) two_class_example[idx, ]),
   .id = "Resample"
-) %>%
+) |>
   dplyr::group_by(Resample)
 
 # make it smaller, and order it in the same order as what ggplot2 displays
 hpc_cv2 <- dplyr::filter(
   hpc_cv,
   Resample %in% c("Fold06", "Fold07", "Fold08", "Fold09", "Fold10")
-) %>%
-  dplyr::as_tibble() %>%
-  dplyr::group_by(Resample) %>%
-  dplyr::arrange(as.character(obs)) %>%
+) |>
+  dplyr::as_tibble() |>
+  dplyr::group_by(Resample) |>
+  dplyr::arrange(as.character(obs)) |>
   dplyr::ungroup()
 
 # ROC --------------------------------------------------------------------------
@@ -347,8 +347,8 @@ test_that("Confusion Matrix - two class - heatmap", {
 })
 
 test_that("Confusion Matrix - multi class - heatmap", {
-  res <- hpc_cv %>%
-    dplyr::filter(Resample == "Fold01") %>%
+  res <- hpc_cv |>
+    dplyr::filter(Resample == "Fold01") |>
     conf_mat(obs, pred)
 
   expect_no_error(.plot <- ggplot2::autoplot(res, type = "heatmap"))
@@ -408,8 +408,8 @@ test_that("Confusion Matrix - two class - mosaic", {
 })
 
 test_that("Confusion Matrix - multi class - mosaic", {
-  res <- hpc_cv %>%
-    dplyr::filter(Resample == "Fold01") %>%
+  res <- hpc_cv |>
+    dplyr::filter(Resample == "Fold01") |>
     conf_mat(obs, pred)
 
   expect_no_error(.plot <- ggplot2::autoplot(res, type = "mosaic"))

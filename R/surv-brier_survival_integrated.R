@@ -46,7 +46,7 @@
 #' @examplesIf rlang::is_installed(c("tidyr"))
 #' library(dplyr)
 #'
-#' lung_surv %>%
+#' lung_surv |>
 #'   brier_survival_integrated(
 #'     truth = surv_obj,
 #'     .pred

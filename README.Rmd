@@ -2,7 +2,8 @@
 output: github_document
 ---
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -10,7 +11,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r load, include = FALSE, message = FALSE, warning = FALSE}
+```{r}
+#| label: load
+#| include: false
+#| message: false
+#| warning: false
 library(yardstick)
 library(dplyr)
 options(width = 100, digits = 3)
@@ -33,7 +38,9 @@ options(width = 100, digits = 3)
 
 To install the package:
 
-```{r install, eval = FALSE}
+```{r}
+#| label: install
+#| eval: false
 install.packages("yardstick")
 
 # Development version:
@@ -45,7 +52,8 @@ pak::pak("tidymodels/yardstick")
 
 For example, suppose you create a classification model and predict on a new data set. You might have data that looks like this:
 
-```{r class-data}
+```{r}
+#| label: class-data
 library(yardstick)
 library(dplyr)
 
@@ -54,12 +62,13 @@ head(two_class_example)
 
 You can use a `dplyr`-like syntax to compute common performance characteristics of the model and get them back in a data frame:
 
-```{r class-metrics}
+```{r}
+#| label: class-metrics
 metrics(two_class_example, truth, predicted)
 
 # or
 
-two_class_example %>%
+two_class_example |>
   roc_auc(truth, Class1)
 ```
 
@@ -91,8 +100,8 @@ This calculates multiclass ROC AUC using the method described in Hand, Till (200
 and does it across all 10 resamples at once.
 
 ```{r}
-hpc_cv %>%
-  group_by(Resample) %>%
+hpc_cv |>
+  group_by(Resample) |>
   roc_auc(obs, VF:L)
 ```
 
@@ -101,13 +110,14 @@ hpc_cv %>%
 Curve based methods such as `roc_curve()`, `pr_curve()` and `gain_curve()` all
 have `ggplot2::autoplot()` methods that allow for powerful and easy visualization.
 
-```{r roc-curves}
+```{r}
+#| label: roc-curves
 #| fig-alt: "Faceted ROC curve. 1-specificity along the x-axis, sensitivity along the y-axis. Facets include the classes F, L, M, and VF. Each facet shows 10 lines colored to correspond to a resample. All the lines are quite overlapping. With VF having the tightest and highest values."
 library(ggplot2)
 
-hpc_cv %>%
-  group_by(Resample) %>%
-  roc_curve(obs, VF:L) %>%
+hpc_cv |>
+  group_by(Resample) |>
+  roc_curve(obs, VF:L) |>
   autoplot()
 ```
 

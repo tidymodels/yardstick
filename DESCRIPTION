@@ -7,7 +7,8 @@ Authors@R: c(
     person("Davis", "Vaughan", , "davis@posit.co", role = "aut"),
     person("Emil", "Hvitfeldt", , "emil.hvitfeldt@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0679-1945")),
-    person("Posit Software, PBC", role = c("cph", "fnd"))
+    person("Posit Software, PBC", role = c("cph", "fnd"),
+           comment = c(ROR = "03wc8by49"))
   )
 Description: Tidy tools for quantifying how well model fits to a data set
     such as confusion matrices, class probability curve summaries, and
@@ -17,7 +18,7 @@ URL: https://github.com/tidymodels/yardstick,
     https://yardstick.tidymodels.org
 BugReports: https://github.com/tidymodels/yardstick/issues
 Depends:
-    R (>= 3.6.0)
+    R (>= 4.1)
 Imports:
     cli,
     dplyr (>= 1.1.0),
@@ -44,7 +45,7 @@ VignetteBuilder:
     knitr
 Config/Needs/website: tidyverse/tidytemplate
 Config/testthat/edition: 3
-Config/usethis/last-upkeep: 2024-10-24
+Config/usethis/last-upkeep: 2025-04-24
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

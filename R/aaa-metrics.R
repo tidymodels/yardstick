@@ -57,9 +57,9 @@
 #' # if you need more customization
 #' library(dplyr)
 #'
-#' hpc_cv %>%
-#'   group_by(Resample) %>%
-#'   metrics(obs, pred, VF:L) %>%
+#' hpc_cv |>
+#'   group_by(Resample) |>
+#'   metrics(obs, pred, VF:L) |>
 #'   print(n = 40)
 #'
 #' @export metrics
@@ -195,8 +195,8 @@ metrics.data.frame <- function(
 #' # Groups are respected on the new metric function
 #' class_metrics <- metric_set(accuracy, kap)
 #'
-#' hpc_cv %>%
-#'   group_by(Resample) %>%
+#' hpc_cv |>
+#'   group_by(Resample) |>
 #'   class_metrics(obs, estimate = pred)
 #'
 #' # ---------------------------------------------------------------------------
@@ -238,8 +238,8 @@ metrics.data.frame <- function(
 #'
 #' class_and_probs_metrics <- metric_set(roc_auc, pr_auc, accuracy)
 #'
-#' hpc_cv %>%
-#'   group_by(Resample) %>%
+#' hpc_cv |>
+#'   group_by(Resample) |>
 #'   class_and_probs_metrics(obs, VF:L, estimate = pred)
 #'
 #' @seealso [metrics()]

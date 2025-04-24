@@ -34,42 +34,34 @@ test_that("case weights are applied", {
 
 test_that("yardstick correlation warnings are thrown", {
   expect_snapshot({
-    (
-      expect_warning(
-        object = out <- rsq_vec(1, 1),
-        class = "yardstick_warning_correlation_undefined_size_zero_or_one"
-      )
-    )
+    (expect_warning(
+      object = out <- rsq_vec(1, 1),
+      class = "yardstick_warning_correlation_undefined_size_zero_or_one"
+    ))
   })
   expect_identical(out, NA_real_)
 
   expect_snapshot({
-    (
-      expect_warning(
-        object = out <- rsq_vec(double(), double()),
-        class = "yardstick_warning_correlation_undefined_size_zero_or_one"
-      )
-    )
+    (expect_warning(
+      object = out <- rsq_vec(double(), double()),
+      class = "yardstick_warning_correlation_undefined_size_zero_or_one"
+    ))
   })
   expect_identical(out, NA_real_)
 
   expect_snapshot({
-    (
-      expect_warning(
-        object = out <- rsq_vec(c(1, 2), c(1, 1)),
-        class = "yardstick_warning_correlation_undefined_constant_estimate"
-      )
-    )
+    (expect_warning(
+      object = out <- rsq_vec(c(1, 2), c(1, 1)),
+      class = "yardstick_warning_correlation_undefined_constant_estimate"
+    ))
   })
   expect_identical(out, NA_real_)
 
   expect_snapshot({
-    (
-      expect_warning(
-        object = out <- rsq_vec(c(1, 1), c(1, 2)),
-        class = "yardstick_warning_correlation_undefined_constant_truth"
-      )
-    )
+    (expect_warning(
+      object = out <- rsq_vec(c(1, 1), c(1, 2)),
+      class = "yardstick_warning_correlation_undefined_constant_truth"
+    ))
   })
   expect_identical(out, NA_real_)
 })

@@ -14,11 +14,11 @@ load("data-raw/dyn-surv-metrics/rr_churn_data.RData")
 load("data-raw/dyn-surv-metrics/brier_churn_res.RData")
 load("data-raw/dyn-surv-metrics/auc_churn_res.RData")
 
-brier_churn_res %>%
-  filter(grepl("churn", model)) %>%
+brier_churn_res |>
+  filter(grepl("churn", model)) |>
   readr::write_rds("tests/testthat/data/brier_churn_res.rds")
 
-auc_churn_res %>%
+auc_churn_res |>
   readr::write_rds("tests/testthat/data/auc_churn_res.rds")
 
 # ------------------------------------------------------------------------------
@@ -41,24 +41,24 @@ rr_churn_data$ipcw[g_1] <- 1 / rr_churn_data$WTi[g_1]
 rr_churn_data$ipcw[g_2] <- 0
 rr_churn_data$ipcw[g_3] <- 1 / rr_churn_data$Wt[g_3]
 
-rr_churn_data %>%
+rr_churn_data |>
   readr::write_rds("tests/testthat/data/rr_churn_data.rds")
 
-tidy_churn <- readRDS(test_path("data/rr_churn_data.rds")) %>%
+tidy_churn <- readRDS(test_path("data/rr_churn_data.rds")) |>
   dplyr::rename(
     .eval_time = times,
     .pred_survival = surv_prob,
     .weight_censored = ipcw
-  ) %>%
+  ) |>
   dplyr::mutate(
     .weight_censored = dplyr::if_else(
       status == 0 & time < .eval_time,
       NA,
       .weight_censored
     )
-  ) %>%
-  tidyr::nest(.pred = -c(ID, time, status, model)) %>%
+  ) |>
+  tidyr::nest(.pred = -c(ID, time, status, model)) |>
   dplyr::mutate(surv_obj = survival::Surv(time, status))
 
-tidy_churn %>%
+tidy_churn |>
   readr::write_rds("tests/testthat/data/tidy_churn.rds")

@@ -44,16 +44,16 @@ test_that("roc_curve_survival works", {
 test_that("case weights are applied", {
   skip_if_not_installed("tidyr")
 
-  wts_res <- lung_surv %>%
-    dplyr::mutate(wts = hardhat::frequency_weights(rep(1:0, c(128, 100)))) %>%
+  wts_res <- lung_surv |>
+    dplyr::mutate(wts = hardhat::frequency_weights(rep(1:0, c(128, 100)))) |>
     roc_curve_survival(
       truth = surv_obj,
       .pred,
       case_weights = wts
     )
 
-  subset_res <- lung_surv %>%
-    dplyr::slice(1:128) %>%
+  subset_res <- lung_surv |>
+    dplyr::slice(1:128) |>
     roc_curve_survival(
       truth = surv_obj,
       .pred
@@ -69,7 +69,7 @@ test_that("snapshot equivalent", {
 
   snapshot_res <- readRDS(test_path("data/ref_roc_curve_survival.rds"))
 
-  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
+  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) |>
     roc_curve_survival(
       truth = surv_obj,
       .pred
@@ -103,9 +103,9 @@ test_that("hand calculated equivalent", {
 
   my_eval_time <- 300
 
-  lung_surv0 <- lung_surv %>%
-    dplyr::slice(-14) %>%
-    tidyr::unnest(.pred) %>%
+  lung_surv0 <- lung_surv |>
+    dplyr::slice(-14) |>
+    tidyr::unnest(.pred) |>
     dplyr::filter(.eval_time == my_eval_time)
 
   thresholds <- sort(lung_surv0$.pred_survival)
@@ -155,12 +155,12 @@ test_that("hand calculated equivalent", {
 
   exp_sens <- calc_sensitivity(thresholds, lung_surv0, my_eval_time)
 
-  yardstick_res <- lung_surv %>%
-    dplyr::slice(-14) %>%
+  yardstick_res <- lung_surv |>
+    dplyr::slice(-14) |>
     roc_curve_survival(
       truth = surv_obj,
       .pred
-    ) %>%
+    ) |>
     dplyr::filter(.eval_time == my_eval_time)
 
   expect_equal(
@@ -211,12 +211,12 @@ test_that("hand calculated equivalent", {
 
   exp_spec <- calc_specificity(thresholds, lung_surv0, my_eval_time)
 
-  yardstick_res <- lung_surv %>%
-    dplyr::slice(-14) %>%
+  yardstick_res <- lung_surv |>
+    dplyr::slice(-14) |>
     roc_curve_survival(
       truth = surv_obj,
       .pred
-    ) %>%
+    ) |>
     dplyr::filter(.eval_time == my_eval_time)
 
   expect_equal(
