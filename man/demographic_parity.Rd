@@ -74,13 +74,13 @@ head(hpc_cv)
 m_set <- metric_set(demographic_parity(Resample))
 
 # use output like any other metric set
-hpc_cv \%>\%
+hpc_cv |>
   m_set(truth = obs, estimate = pred)
 
 # can mix fairness metrics and regular metrics
 m_set_2 <- metric_set(sens, demographic_parity(Resample))
 
-hpc_cv \%>\%
+hpc_cv |>
   m_set_2(truth = obs, estimate = pred)
 }
 \references{

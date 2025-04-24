@@ -121,18 +121,18 @@ j_index(two_class_example, truth, predicted)
 library(dplyr)
 data(hpc_cv)
 
-hpc_cv \%>\%
-  filter(Resample == "Fold01") \%>\%
+hpc_cv |>
+  filter(Resample == "Fold01") |>
   j_index(obs, pred)
 
 # Groups are respected
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
   j_index(obs, pred)
 
 # Weighted macro averaging
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
   j_index(obs, pred, estimator = "macro_weighted")
 
 # Vector version

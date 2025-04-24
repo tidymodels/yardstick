@@ -79,8 +79,8 @@ result
 # Visualize the curve using ggplot2 manually
 library(ggplot2)
 library(dplyr)
-result \%>\%
-  mutate(.eval_time = format(.eval_time)) \%>\%
+result |>
+  mutate(.eval_time = format(.eval_time)) |>
   ggplot(aes(
     x = 1 - specificity, y = sensitivity,
     group = .eval_time, col = .eval_time

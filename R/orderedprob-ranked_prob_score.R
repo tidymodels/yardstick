@@ -53,13 +53,13 @@
 #' hpc_cv$obs <- as.ordered(hpc_cv$obs)
 #'
 #' # You can use the col1:colN tidyselect syntax
-#' hpc_cv %>%
-#'   filter(Resample == "Fold01") %>%
+#' hpc_cv |>
+#'   filter(Resample == "Fold01") |>
 #'   ranked_prob_score(obs, VF:L)
 #'
 #' # Groups are respected
-#' hpc_cv %>%
-#'   group_by(Resample) %>%
+#' hpc_cv |>
+#'   group_by(Resample) |>
 #'   ranked_prob_score(obs, VF:L)
 #'
 #' @export

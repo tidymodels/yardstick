@@ -83,7 +83,7 @@ Smaller values of the score are associated with better model performance.
 
 library(dplyr)
 
-lung_surv \%>\%
+lung_surv |>
   brier_survival(
     truth = surv_obj,
     .pred

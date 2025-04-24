@@ -50,7 +50,7 @@
 #' @examplesIf rlang::is_installed(c("tidyr"))
 #' library(dplyr)
 #'
-#' lung_surv %>%
+#' lung_surv |>
 #'   roc_auc_survival(
 #'     truth = surv_obj,
 #'     .pred
@@ -102,8 +102,8 @@ roc_auc_survival_vec <- function(
     case_weights = case_weights
   )
 
-  curve %>%
-    dplyr::group_by(.eval_time) %>%
+  curve |>
+    dplyr::group_by(.eval_time) |>
     dplyr::summarize(.estimate = roc_trap_auc(specificity, sensitivity))
 }
 

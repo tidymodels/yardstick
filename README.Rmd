@@ -59,7 +59,7 @@ metrics(two_class_example, truth, predicted)
 
 # or
 
-two_class_example %>%
+two_class_example |>
   roc_auc(truth, Class1)
 ```
 
@@ -91,8 +91,8 @@ This calculates multiclass ROC AUC using the method described in Hand, Till (200
 and does it across all 10 resamples at once.
 
 ```{r}
-hpc_cv %>%
-  group_by(Resample) %>%
+hpc_cv |>
+  group_by(Resample) |>
   roc_auc(obs, VF:L)
 ```
 
@@ -105,9 +105,9 @@ have `ggplot2::autoplot()` methods that allow for powerful and easy visualizatio
 #| fig-alt: "Faceted ROC curve. 1-specificity along the x-axis, sensitivity along the y-axis. Facets include the classes F, L, M, and VF. Each facet shows 10 lines colored to correspond to a resample. All the lines are quite overlapping. With VF having the tightest and highest values."
 library(ggplot2)
 
-hpc_cv %>%
-  group_by(Resample) %>%
-  roc_curve(obs, VF:L) %>%
+hpc_cv |>
+  group_by(Resample) |>
+  roc_curve(obs, VF:L) |>
   autoplot()
 ```
 

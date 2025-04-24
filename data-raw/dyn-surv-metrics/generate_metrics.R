@@ -8,11 +8,11 @@ library(modeldata)
 data(wa_churn)
 
 wa_churn <-
-  wa_churn %>%
-  filter(!is.na(total_charges)) %>%
+  wa_churn |>
+  filter(!is.na(total_charges)) |>
   mutate(
     status = ifelse(churn == "No", 1, 0)
-  ) %>%
+  ) |>
   select(tenure, status, female, total_charges)
 
 # ------------------------------------------------------------------------------

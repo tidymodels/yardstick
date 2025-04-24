@@ -86,14 +86,14 @@ solubility_resampled <- bind_rows(
 )
 
 # Compute the metric by group
-metric_results <- solubility_resampled \%>\%
-  group_by(resample) \%>\%
+metric_results <- solubility_resampled |>
+  group_by(resample) |>
   iic(solubility, prediction)
 
 metric_results
 
 # Resampled mean estimate
-metric_results \%>\%
+metric_results |>
   summarise(avg_estimate = mean(.estimate))
 }
 \references{

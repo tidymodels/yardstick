@@ -137,8 +137,8 @@ test_that("Grouped conf_mat() handler works", {
 
   expect_equal(
     res$conf_mat[[1]],
-    hpc_cv %>%
-      dplyr::filter(Resample == "Fold01") %>%
+    hpc_cv |>
+      dplyr::filter(Resample == "Fold01") |>
       conf_mat(obs, pred)
   )
 })

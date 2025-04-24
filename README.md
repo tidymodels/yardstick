@@ -61,7 +61,7 @@ metrics(two_class_example, truth, predicted)
 
 # or
 
-two_class_example %>%
+two_class_example |>
   roc_auc(truth, Class1)
 #> # A tibble: 1 × 3
 #>   .metric .estimator .estimate
@@ -119,8 +119,8 @@ This calculates multiclass ROC AUC using the method described in Hand,
 Till (2001), and does it across all 10 resamples at once.
 
 ``` r
-hpc_cv %>%
-  group_by(Resample) %>%
+hpc_cv |>
+  group_by(Resample) |>
   roc_auc(obs, VF:L)
 #> # A tibble: 10 × 4
 #>    Resample .metric .estimator .estimate
@@ -146,9 +146,9 @@ powerful and easy visualization.
 ``` r
 library(ggplot2)
 
-hpc_cv %>%
-  group_by(Resample) %>%
-  roc_curve(obs, VF:L) %>%
+hpc_cv |>
+  group_by(Resample) |>
+  roc_curve(obs, VF:L) |>
   autoplot()
 ```
 

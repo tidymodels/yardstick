@@ -89,8 +89,8 @@ multi_metric(solubility_test, truth = solubility, estimate = prediction)
 # Groups are respected on the new metric function
 class_metrics <- metric_set(accuracy, kap)
 
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
   class_metrics(obs, estimate = pred)
 
 # ---------------------------------------------------------------------------
@@ -132,8 +132,8 @@ multi_metric2(solubility_test, truth = solubility, estimate = prediction)
 
 class_and_probs_metrics <- metric_set(roc_auc, pr_auc, accuracy)
 
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
   class_and_probs_metrics(obs, VF:L, estimate = pred)
 
 }

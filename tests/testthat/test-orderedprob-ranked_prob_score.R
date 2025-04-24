@@ -7,7 +7,7 @@ test_that("basic results", {
   expect_equal(
     yardstick:::ranked_prob_score_vec(
       hpc_cv$obs,
-      as.matrix(hpc_cv %>% dplyr::select(VF:L))
+      as.matrix(hpc_cv |> dplyr::select(VF:L))
     ),
     hpc_exp,
     tolerance = 0.01

@@ -150,17 +150,17 @@ autoplot(gain_curve(two_class_example, truth, Class1))
 
 # Multiclass one-vs-all approach
 # One curve per level
-hpc_cv \%>\%
-  filter(Resample == "Fold01") \%>\%
-  gain_curve(obs, VF:L) \%>\%
+hpc_cv |>
+  filter(Resample == "Fold01") |>
+  gain_curve(obs, VF:L) |>
   autoplot()
 
 # Same as above, but will all of the resamples
 # The resample with the minimum (farthest to the left) "perfect" value is
 # used to draw the shaded region
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
-  gain_curve(obs, VF:L) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
+  gain_curve(obs, VF:L) |>
   autoplot()
 \dontshow{\}) # examplesIf}
 }

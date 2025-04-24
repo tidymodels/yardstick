@@ -5,8 +5,8 @@ test_that("roc_curve_auc() calculations", {
     lung_surv,
     truth = surv_obj,
     .pred
-  ) %>%
-    dplyr::group_by(.eval_time) %>%
+  ) |>
+    dplyr::group_by(.eval_time) |>
     dplyr::summarise(
       .estimate = yardstick:::auc(1 - specificity, sensitivity)
     )
@@ -28,16 +28,16 @@ test_that("roc_curve_auc() calculations", {
 test_that("case weights are applied", {
   skip_if_not_installed("tidyr")
 
-  wts_res <- lung_surv %>%
-    dplyr::mutate(wts = hardhat::frequency_weights(rep(1:0, c(128, 100)))) %>%
+  wts_res <- lung_surv |>
+    dplyr::mutate(wts = hardhat::frequency_weights(rep(1:0, c(128, 100)))) |>
     roc_auc_survival(
       truth = surv_obj,
       .pred,
       case_weights = wts
     )
 
-  subset_res <- lung_surv %>%
-    dplyr::slice(1:128) %>%
+  subset_res <- lung_surv |>
+    dplyr::slice(1:128) |>
     roc_auc_survival(
       truth = surv_obj,
       .pred
@@ -73,7 +73,7 @@ test_that("snapshot equivalent", {
 
   snapshot_res <- readRDS(test_path("data/ref_roc_auc_survival.rds"))
 
-  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
+  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) |>
     roc_auc_survival(
       truth = surv_obj,
       .pred
@@ -97,7 +97,7 @@ test_that("riskRegression equivalent", {
 
   riskRegression_res <- readRDS(test_path("data/auc_churn_res.rds"))
 
-  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) %>%
+  yardstick_res <- readRDS(test_path("data/tidy_churn.rds")) |>
     roc_auc_survival(
       truth = surv_obj,
       .pred

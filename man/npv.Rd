@@ -141,18 +141,18 @@ npv(two_class_example, truth, predicted)
 library(dplyr)
 data(hpc_cv)
 
-hpc_cv \%>\%
-  filter(Resample == "Fold01") \%>\%
+hpc_cv |>
+  filter(Resample == "Fold01") |>
   npv(obs, pred)
 
 # Groups are respected
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
   npv(obs, pred)
 
 # Weighted macro averaging
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
   npv(obs, pred, estimator = "macro_weighted")
 
 # Vector version

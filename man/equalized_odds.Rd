@@ -70,13 +70,13 @@ head(hpc_cv)
 m_set <- metric_set(equalized_odds(Resample))
 
 # use output like any other metric set
-hpc_cv \%>\%
+hpc_cv |>
   m_set(truth = obs, estimate = pred)
 
 # can mix fairness metrics and regular metrics
 m_set_2 <- metric_set(sens, equalized_odds(Resample))
 
-hpc_cv \%>\%
+hpc_cv |>
   m_set_2(truth = obs, estimate = pred)
 }
 \references{

@@ -93,7 +93,7 @@ This method automatically groups by the \code{.eval_time} argument.
 \dontshow{if (rlang::is_installed(c("tidyr"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(dplyr)
 
-lung_surv \%>\%
+lung_surv |>
   brier_survival_integrated(
     truth = surv_obj,
     .pred

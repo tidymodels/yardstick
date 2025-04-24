@@ -82,7 +82,7 @@ Larger values of the score are associated with better model performance.
 \dontshow{if (rlang::is_installed(c("tidyr"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(dplyr)
 
-lung_surv \%>\%
+lung_surv |>
   roc_auc_survival(
     truth = surv_obj,
     .pred

@@ -85,17 +85,17 @@
 #'
 #' # Multiclass one-vs-all approach
 #' # One curve per level
-#' hpc_cv %>%
-#'   filter(Resample == "Fold01") %>%
-#'   gain_curve(obs, VF:L) %>%
+#' hpc_cv |>
+#'   filter(Resample == "Fold01") |>
+#'   gain_curve(obs, VF:L) |>
 #'   autoplot()
 #'
 #' # Same as above, but will all of the resamples
 #' # The resample with the minimum (farthest to the left) "perfect" value is
 #' # used to draw the shaded region
-#' hpc_cv %>%
-#'   group_by(Resample) %>%
-#'   gain_curve(obs, VF:L) %>%
+#' hpc_cv |>
+#'   group_by(Resample) |>
+#'   gain_curve(obs, VF:L) |>
 #'   autoplot()
 #'
 #' @export
@@ -266,7 +266,6 @@ gain_curve_binary_impl <- function(truth, estimate, event_level, case_weights) {
 
 autoplot.gain_df <- function(object, ...) {
   `%+%` <- ggplot2::`%+%`
-  `%>%` <- dplyr::`%>%`
 
   # Base chart
   chart <- ggplot2::ggplot(data = object)
@@ -308,13 +307,13 @@ autoplot.gain_df <- function(object, ...) {
   # If grouped (ie resamples), we take the min of all "perfect" values
   #   to ensure we capture all lines in the polygon
   # If multiclass, we calculate each level separately
-  poly_data <- object %>%
-    maybe_group_by_level() %>%
-    dplyr::summarise(slope = 1 / (max(.n_events) / dplyr::last(.n))) %>%
-    dplyr::mutate(perfect = 100 / slope) %>%
-    maybe_group_by_level(with_old = FALSE) %>%
-    dplyr::summarise(perfect = min(perfect)) %>%
-    maybe_group_by_level() %>%
+  poly_data <- object |>
+    maybe_group_by_level() |>
+    dplyr::summarise(slope = 1 / (max(.n_events) / dplyr::last(.n))) |>
+    dplyr::mutate(perfect = 100 / slope) |>
+    maybe_group_by_level(with_old = FALSE) |>
+    dplyr::summarise(perfect = min(perfect)) |>
+    maybe_group_by_level() |>
     dplyr::do(
       dplyr::tibble(
         x = c(0, .$perfect, 100),

@@ -4,7 +4,6 @@
 ## usethis namespace: start
 #' @import rlang
 #' @import vctrs
-#' @importFrom dplyr %>%
 #' @importFrom dplyr as_tibble
 #' @importFrom lifecycle deprecated
 #' @useDynLib yardstick, .registration = TRUE

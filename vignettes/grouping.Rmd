@@ -43,8 +43,8 @@ For the purposes of this vignette, we'll also add a column `batch` to the data a
 set.seed(1)
 
 hpc <-
-  tibble(hpc_cv) %>%
-  mutate(batch = sample(c("a", "b"), nrow(.), replace = TRUE)) %>%
+  tibble(hpc_cv) |>
+  mutate(batch = sample(c("a", "b"), nrow(hpc_cv), replace = TRUE)) |>
   select(-c(VF, F, M, L))
 
 hpc
@@ -53,8 +53,8 @@ hpc
 If we wanted to compute the accuracy of the first resampled model, we could write:
 
 ```{r acc-1}
-hpc %>% 
-  filter(Resample == "Fold01") %>%
+hpc |> 
+  filter(Resample == "Fold01") |>
   accuracy(obs, pred)
 ```
 
@@ -63,8 +63,8 @@ The metric function returns one row, giving the `.metric`, `.estimator`, and `.e
 If we instead group the data by fold, metric functions like `accuracy` will know to compute values for each group; in the output, each row will correspond to a Resample.
 
 ```{r hpc-cv-2}
-hpc %>% 
-  group_by(Resample) %>%
+hpc |> 
+  group_by(Resample) |>
   accuracy(obs, pred)
 ```
 
@@ -79,7 +79,7 @@ Groupwise metrics are associated with a data-column such that, when passed data 
 More concretely, let's turn to an example where there is no pre-existing grouping in the data. Consider the portion of the HPC data pertaining to the first resample:
 
 ```{r res-1}
-hpc %>% 
+hpc |> 
   filter(Resample == "Fold01")
 ```
 
@@ -87,9 +87,9 @@ Suppose that the `batch`es in the data represent two groups for which model perf
 
 ```{r acc-by-group}
 acc_by_group <- 
-  hpc %>% 
-  filter(Resample == "Fold01") %>%
-  group_by(batch) %>%
+  hpc |> 
+  filter(Resample == "Fold01") |>
+  group_by(batch) |>
   accuracy(obs, pred)
 
 acc_by_group
@@ -143,8 +143,8 @@ class(accuracy_diff_by_batch)
 We can use the `accuracy_diff_by_batch()` metric in the same way that we would use `accuracy()`. On its own:
 
 ```{r ex-acc-diff-by-batch}
-hpc %>% 
-  filter(Resample == "Fold01") %>%
+hpc |> 
+  filter(Resample == "Fold01") |>
   accuracy_diff_by_batch(obs, pred)
 ```
 
@@ -153,16 +153,16 @@ We can also add `accuracy_diff_by_batch()` to metric sets:
 ```{r ex-acc-diff-by-batch-ms}
 acc_ms <- metric_set(accuracy, accuracy_diff_by_batch)
 
-hpc %>% 
-  filter(Resample == "Fold01") %>%
+hpc |> 
+  filter(Resample == "Fold01") |>
   acc_ms(truth = obs, estimate = pred)
 ```
 
 _Groupwise metrics are group-aware._ When passed data with any grouping variables other than the column passed as the first argument to `accuracy_diff()`---in this case, `group`---`accuracy_diff_by_batch()` will behave like any other yardstick metric. For example:
 
 ```{r ex-acc-diff-by-batch-2}
-hpc %>% 
-  group_by(Resample) %>%
+hpc |> 
+  group_by(Resample) |>
   accuracy_diff_by_batch(obs, pred)
 ```
 

@@ -154,13 +154,13 @@ hpc_costs <- tribble(
 )
 
 # You can use the col1:colN tidyselect syntax
-hpc_cv \%>\%
-  filter(Resample == "Fold01") \%>\%
+hpc_cv |>
+  filter(Resample == "Fold01") |>
   classification_cost(obs, VF:L, costs = hpc_costs)
 
 # Groups are respected
-hpc_cv \%>\%
-  group_by(Resample) \%>\%
+hpc_cv |>
+  group_by(Resample) |>
   classification_cost(obs, VF:L, costs = hpc_costs)
 }
 \seealso{
