@@ -11,7 +11,9 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include = FALSE}
+```{r}
+#| label: setup
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -68,7 +70,9 @@ probabilities and class predictions for a linear discriminant analysis fit to
 the HPC data set of Kuhn and Johnson (2013). It is fit with 10 fold cross-validation,
 and the predictions for all folds are included.
 
-```{r, warning = FALSE, message = FALSE}
+```{r}
+#| warning: false
+#| message: false
 library(yardstick)
 library(dplyr)
 data("hpc_cv")
@@ -109,7 +113,11 @@ hpc_cv |>
 Below is a table of all of the metrics available in `yardstick`, grouped
 by type.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: asis
 library(knitr)
 library(dplyr)
 

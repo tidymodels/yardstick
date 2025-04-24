@@ -9,7 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
+```{r}
+#| label: setup
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -20,7 +22,9 @@ The 1.3.0 release of yardstick introduced an implementation for _groupwise metri
 
 <!-- TODO: link to forthcoming tidymodels blog post -->
 
-```{r pkgs, message = FALSE}
+```{r}
+#| label: pkgs
+#| message: false
 library(yardstick)
 library(dplyr)
 
@@ -33,13 +37,15 @@ Even before the implementation of groupwise metrics, _all_ yardstick metrics had
 
 To demonstrate, we'll make use of the `hpc_cv` data set, containing class probabilities and class predictions for a linear discriminant analysis fit to the HPC data set of Kuhn and Johnson (2013). The model is evaluated via 10-fold cross-validation, and the predictions for all folds are included. 
 
-```{r hpc-cv}
+```{r}
+#| label: hpc-cv
 tibble(hpc_cv)
 ```
 
 For the purposes of this vignette, we'll also add a column `batch` to the data and select off the columns for the class probabilities, which we don't need.
 
-```{r hpc-modify}
+```{r}
+#| label: hpc-modify
 set.seed(1)
 
 hpc <-
@@ -52,7 +58,8 @@ hpc
 
 If we wanted to compute the accuracy of the first resampled model, we could write:
 
-```{r acc-1}
+```{r}
+#| label: acc-1
 hpc |> 
   filter(Resample == "Fold01") |>
   accuracy(obs, pred)
@@ -62,7 +69,8 @@ The metric function returns one row, giving the `.metric`, `.estimator`, and `.e
 
 If we instead group the data by fold, metric functions like `accuracy` will know to compute values for each group; in the output, each row will correspond to a Resample.
 
-```{r hpc-cv-2}
+```{r}
+#| label: hpc-cv-2
 hpc |> 
   group_by(Resample) |>
   accuracy(obs, pred)
@@ -78,14 +86,16 @@ Groupwise metrics are associated with a data-column such that, when passed data 
 
 More concretely, let's turn to an example where there is no pre-existing grouping in the data. Consider the portion of the HPC data pertaining to the first resample:
 
-```{r res-1}
+```{r}
+#| label: res-1
 hpc |> 
   filter(Resample == "Fold01")
 ```
 
 Suppose that the `batch`es in the data represent two groups for which model performance ought not to differ. To quantify the degree to which model performance differs for these two groups, we could compute accuracy values for either group separately, and then take their difference. First, computing accuracies:
 
-```{r acc-by-group}
+```{r}
+#| label: acc-by-group
 acc_by_group <- 
   hpc |> 
   filter(Resample == "Fold01") |>
@@ -97,7 +107,8 @@ acc_by_group
 
 Now, taking the difference:
 
-```{r diff-acc}
+```{r}
+#| label: diff-acc
 diff(c(acc_by_group$.estimate[2], acc_by_group$.estimate[1]))
 ```
 
@@ -120,19 +131,22 @@ accuracy_diff <-
 
 The output, `accuracy_diff`, is a function subclass called a `metric_factory`:
 
-```{r acc-diff-class}
+```{r}
+#| label: acc-diff-class
 class(accuracy_diff)
 ```
 
 `accuracy_diff` now knows to take accuracy values for each group and then return the difference between the accuracy for the first and second result as output. The last thing we need to associate with the object is the name of the grouping variable to pass to `group_by()`; we can pass that variable name to `accuracy_diff` to do so:
 
-```{r acc-diff-by}
+```{r}
+#| label: acc-diff-by
 accuracy_diff_by_batch <- accuracy_diff(batch)
 ```
 
 The output, `accuracy_diff_by_batch`, is a yardstick metric function like any other:
 
-```{r metric-classes}
+```{r}
+#| label: metric-classes
 class(accuracy)
 
 class(accuracy_diff_by_batch)
@@ -142,7 +156,8 @@ class(accuracy_diff_by_batch)
 
 We can use the `accuracy_diff_by_batch()` metric in the same way that we would use `accuracy()`. On its own:
 
-```{r ex-acc-diff-by-batch}
+```{r}
+#| label: ex-acc-diff-by-batch
 hpc |> 
   filter(Resample == "Fold01") |>
   accuracy_diff_by_batch(obs, pred)
@@ -150,7 +165,8 @@ hpc |>
 
 We can also add `accuracy_diff_by_batch()` to metric sets:
 
-```{r ex-acc-diff-by-batch-ms}
+```{r}
+#| label: ex-acc-diff-by-batch-ms
 acc_ms <- metric_set(accuracy, accuracy_diff_by_batch)
 
 hpc |> 
@@ -160,7 +176,8 @@ hpc |>
 
 _Groupwise metrics are group-aware._ When passed data with any grouping variables other than the column passed as the first argument to `accuracy_diff()`---in this case, `group`---`accuracy_diff_by_batch()` will behave like any other yardstick metric. For example:
 
-```{r ex-acc-diff-by-batch-2}
+```{r}
+#| label: ex-acc-diff-by-batch-2
 hpc |> 
   group_by(Resample) |>
   accuracy_diff_by_batch(obs, pred)
