@@ -532,3 +532,14 @@ test_that("errors with class_pred input", {
     roc_auc_vec(cp_truth, estimate)
   )
 })
+
+test_that("logical inputs work", {
+  expect_equal(
+    roc_auc_vec(
+      two_class_example$truth == 'Class1',
+      two_class_example$Class1
+    ) |>
+      round(4),
+    0.9393
+  )
+})
