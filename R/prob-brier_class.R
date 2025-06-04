@@ -91,6 +91,9 @@ brier_class_vec <- function(
 
   estimator <- finalize_estimator(truth, metric_class = "brier_class")
 
+  if (is.logical(truth)) {
+    truth <- factor(truth)
+  }
   check_prob_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {

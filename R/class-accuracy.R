@@ -94,6 +94,10 @@ accuracy_vec <- function(
   estimate <- as_factor_from_class_pred(estimate)
 
   estimator <- finalize_estimator(truth, metric_class = "accuracy")
+  if (is.logical(truth)) {
+    truth <- factor(truth)
+    estimate <- factor(estimate)
+  }
   check_class_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {

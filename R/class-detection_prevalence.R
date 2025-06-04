@@ -93,6 +93,11 @@ detection_prevalence_vec <- function(
 
   estimator <- finalize_estimator(truth, estimator)
 
+  if (is.logical(truth)) {
+    event_level <- "second"  # TRUE is second level of levels(factor(truth))
+    truth <- factor(truth)
+    estimate <- factor(estimate)
+  }
   check_class_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {

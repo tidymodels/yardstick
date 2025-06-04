@@ -117,6 +117,10 @@ kap_vec <- function(
 
   estimator <- finalize_estimator(truth, metric_class = "kap")
 
+  if (is.logical(truth)) {
+    truth <- factor(truth)
+    estimate <- factor(estimate)
+  }
   check_class_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {
