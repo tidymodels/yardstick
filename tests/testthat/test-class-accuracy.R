@@ -120,3 +120,22 @@ test_that("Multi class - sklearn equivalent", {
     py_res$multiclass
   )
 })
+
+test_that("reject character input", {
+  expect_snapshot(
+    error = TRUE,
+    accuracy_vec(
+      two_class_example$truth == 'Class1',
+      c("TRUE", "FALSE")[as.integer(two_class_example$predicted)]
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    accuracy_vec(
+      c("TRUE", "FALSE")[as.integer(two_class_example$truth)],
+      two_class_example$predicted == 'Class1'
+    )
+  )
+})
+
