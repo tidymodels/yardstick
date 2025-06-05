@@ -148,6 +148,10 @@ classification_cost_vec <- function(
 
   estimator <- finalize_estimator(truth, metric_class = "classification_cost")
 
+  if (is.logical(truth)) {
+    event_level <- "second"  # TRUE is second level of levels(factor(truth))
+    truth <- factor(truth)
+  }
   check_prob_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {

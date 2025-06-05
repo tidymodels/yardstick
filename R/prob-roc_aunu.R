@@ -127,6 +127,9 @@ roc_aunu_vec <- function(
 
   estimator <- "macro"
 
+  if (is.logical(truth)) {
+    truth <- factor(truth)
+  }
   check_prob_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {

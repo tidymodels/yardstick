@@ -100,6 +100,10 @@ mcc_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
 
   estimator <- finalize_estimator(truth, metric_class = "mcc")
 
+  if (is.logical(truth)) {
+    truth <- factor(truth)
+    estimate <- if (is.logical(estimate)) factor(estimate) else estimate
+  }
   check_class_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {

@@ -224,6 +224,10 @@ conf_mat_impl <- function(truth, estimate, case_weights, call = caller_env()) {
   estimate <- as_factor_from_class_pred(estimate, call = call)
 
   estimator <- "not binary"
+  if (is.logical(truth)) {
+    truth <- factor(truth)
+    estimate <- if (is.logical(estimate)) factor(estimate) else estimate
+  }
   check_class_metric(truth, estimate, case_weights, estimator, call = call)
 
   if (length(levels(truth)) < 2) {

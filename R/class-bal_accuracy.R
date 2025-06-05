@@ -92,6 +92,11 @@ bal_accuracy_vec <- function(
 
   estimator <- finalize_estimator(truth, estimator)
 
+  if (is.logical(truth)) {
+    event_level <- "second"  # TRUE is second level of levels(factor(truth))
+    truth <- factor(truth)
+    estimate <- if (is.logical(estimate)) factor(estimate) else estimate
+  }
   check_class_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {

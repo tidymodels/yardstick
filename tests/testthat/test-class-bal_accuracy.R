@@ -116,3 +116,15 @@ test_that("Two class weighted - sklearn equivalent", {
     py_res$case_weight$binary
   )
 })
+
+
+test_that("logical inputs work", {
+  expect_equal(
+    bal_accuracy_vec(
+      two_class_example$truth == 'Class1',
+      two_class_example$predicted == 'Class1'
+    ) |>
+      round(4),
+    0.8366
+  )
+})

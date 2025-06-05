@@ -127,6 +127,9 @@ roc_aunp_vec <- function(
 
   estimator <- "macro_weighted"
 
+  if (is.logical(truth)) {
+    truth <- factor(truth)
+  }
   check_prob_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {
