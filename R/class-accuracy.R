@@ -96,7 +96,7 @@ accuracy_vec <- function(
   estimator <- finalize_estimator(truth, metric_class = "accuracy")
   if (is.logical(truth)) {
     truth <- factor(truth)
-    estimate <- factor(estimate)
+    estimate <- if (is.logical(estimate)) factor(estimate) else estimate
   }
   check_class_metric(truth, estimate, case_weights, estimator)
 

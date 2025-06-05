@@ -119,7 +119,7 @@ kap_vec <- function(
 
   if (is.logical(truth)) {
     truth <- factor(truth)
-    estimate <- factor(estimate)
+    estimate <- if (is.logical(estimate)) factor(estimate) else estimate
   }
   check_class_metric(truth, estimate, case_weights, estimator)
 
