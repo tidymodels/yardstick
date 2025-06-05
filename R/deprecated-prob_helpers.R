@@ -1,3 +1,5 @@
+# nocov start
+
 # `...` -> estimate matrix / vector helper -------------------------------------
 
 #' Developer helpers
@@ -64,3 +66,5 @@ dots_to_estimate <- function(data, ...) {
 
   estimate
 }
+
+# nocov end

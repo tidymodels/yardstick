@@ -1,3 +1,5 @@
+# nocov start
+
 #' Developer function for summarizing new metrics
 #'
 #' @description
@@ -526,3 +528,5 @@ validate_truth_estimate_checks <- function(
   validate_truth_estimate_types(truth, estimate, estimator)
   validate_truth_estimate_lengths(truth, estimate)
 }
+
+# nocov end
