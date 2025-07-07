@@ -12,7 +12,7 @@
 #' @param quantile_levels probabilities. If specified, the score will be
 #'   computed at this set of levels. Otherwise, those present in `x` will be
 #'   used.
-#' @param na_handling character. Determines missing values are handled.
+#' @param na_handling character. Determines how missing values are handled.
 #'   For `"impute"`, missing values will be
 #'   calculated if possible using the available quantiles. For `"drop"`,
 #'   explicitly missing values are ignored in the calculation of the score, but
@@ -50,59 +50,78 @@
 #' )
 #'
 #'
-#' # Using some actual forecasts --------
-#' library(dplyr)
-#' training <- covid_case_death_rates %>%
-#'   filter(time_value >= "2021-10-01", time_value <= "2021-12-01")
-#' preds <- flatline_forecaster(
-#'   training, "death_rate",
-#'   flatline_args_list(quantile_levels = c(.01, .025, 1:19 / 20, .975, .99))
-#' )$predictions
-#' actuals <- covid_case_death_rates %>%
-#'   filter(time_value == as.Date("2021-12-01") + 7) %>%
-#'   select(geo_value, time_value, actual = death_rate)
-#' preds <- left_join(preds, actuals,
-#'   by = c("target_date" = "time_value", "geo_value")
-#' ) %>%
-#'   mutate(wis = weighted_interval_score(.pred_distn, actual))
-#' preds
-weighted_interval_score <- function(
-    x,
-    actual,
-    quantile_levels = NULL,
-    na_handling = c("impute", "drop", "propagate", "fail"),
-    ...) {
-  UseMethod("weighted_interval_score")
+wis <- function(data,...){
+  UseMethod("wis")
 }
-
+wis <- new_numeric_metric(
+  mae,
+  direction = "minimize"
+)
 
 #' @export
-weighted_interval_score.quantile_pred <- function(
-    x, actual,
+#' @rdname wis
+wis_vec <- function(
+    truth,
+    estimate,
     quantile_levels = NULL,
-    na_handling = c("impute", "drop", "propagate", "fail"),
-    ...) {
-  rlang::check_dots_empty()
-  n <- vctrs::vec_size(x)
-  if (length(actual) == 1L) actual <- rep(actual, n)
-  assert_numeric(actual, finite = TRUE, len = n)
-  assert_numeric(quantile_levels, lower = 0, upper = 1, null.ok = TRUE)
-  na_handling <- rlang::arg_match(na_handling)
-  old_quantile_levels <- x %@% "quantile_levels"
-  if (na_handling == "fail") {
-    if (is.null(quantile_levels)) {
-      cli_abort('`na_handling = "fail"` requires `quantile_levels` to be specified.')
-    }
-    if (!all(quantile_levels %in% old_quantile_levels)) {
-      return(rep(NA_real_, n))
+    na_rm = TRUE,
+    na_impute = c("none", "explicit", "any"),
+    case_weights = NULL,
+    ...
+) {
+  check_quantile_metric(truth, estimate, case_weights)
+  estimate_quantile_levels <- hardhat::extract_quantile_levels(estimate)
+  na_impute <- rlang::arg_match(na_impute)
+
+  # If we requested particular levels, but we don't impute, and the levels
+  # aren't all there, then return NA
+  if (!is.null(quantile_levels)) {
+    hardhat::check_quantile_levels(quantile_levels)
+    if (na_impute == "none" && !(all(quantile_levels %in% estimate_quantile_levels))) {
+      return(NA_real_)
     }
   }
-  tau <- quantile_levels %||% old_quantile_levels
-  x <- extrapolate_quantiles(x, tau, replace_na = (na_handling == "impute"))
-  x <- as.matrix(x)[, attr(x, "quantile_levels") %in% tau, drop = FALSE]
-  na_rm <- (na_handling == "drop")
-  map2_dbl(vctrs::vec_chop(x), actual, ~ wis_one_quantile(.x, tau, .y, na_rm))
+  quantile_levels <- quantile_levels %||% estimate_quantile_levels
+
+  if (na_rm) {
+    result <- yardstick_remove_missing(truth, estimate, case_weights)
+
+    truth <- result$truth
+    estimate <- result$estimate
+    case_weights <- result$case_weights
+  } else if (yardstick_any_missing(truth, estimate, case_weights)) {
+    return(NA_real_)
+  }
+
+  wis_impl(
+    truth = truth,
+    estimate = estimate,
+    quantile_levels = quantile_levels,
+    na_impute = na_impute,
+    case_weights = case_weights
+  )
 }
+
+wis_impl <- function(
+    truth,
+    estimate,
+    quantile_levels = NULL,
+    na_impute = c("none", "explicit", "any"),
+    case_weights = NULL,
+    ...
+) {
+  estimate <- impute_quantiles(estimate, quantile_levels, replace_na = (na_handling == "impute"))
+  estimate <- as.matrix(estimate)[, attr(x, "quantile_levels") %in% quantile_levels, drop = FALSE]
+  na_rm <- (na_handling == "drop")
+  errors <- as.vector(mapply(
+    FUN = function(.x, .y) wis_one_quantile(.x, quantile_levels, .y, na_rm),
+    vctrs::vec_chop(estimate),
+    truth
+  ), "double")
+
+  yardstick_mean(vec_score, case_weights = case_weights)
+}
+
 
 wis_one_quantile <- function(q, tau, actual, na_rm) {
   2 * mean(pmax(tau * (actual - q), (1 - tau) * (q - actual)), na.rm = na_rm)
