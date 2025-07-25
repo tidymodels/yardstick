@@ -13,7 +13,7 @@
 #' This formulation takes survival probability predictions at one or more
 #' specific _evaluation times_ and, for each time, computes the ROC curve. To
 #' account for censoring, inverse probability of censoring weights (IPCW) are
-#' used in the calculations. See equation 7 of section 4.3 in Blanche _at al_
+#' used in the calculations. See equation 7 of section 4.3 in Blanche _et al_
 #' (2013) for the details.
 #'
 #' The column passed to `...` should be a list column with one element per
@@ -221,8 +221,9 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
 
   specificity <- vapply(
     data_split,
-    function(x)
-      sum(x$ge_time * x$weight_censored * x$case_weights, na.rm = TRUE),
+    function(x) {
+      sum(x$ge_time * x$weight_censored * x$case_weights, na.rm = TRUE)
+    },
     FUN.VALUE = numeric(1)
   )
   specificity <- cumsum(specificity)
@@ -235,11 +236,12 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
 
   sensitivity <- vapply(
     data_split,
-    function(x)
+    function(x) {
       sum(
         x$le_time * x$delta * x$weight_censored * x$case_weights,
         na.rm = TRUE
-      ),
+      )
+    },
     FUN.VALUE = numeric(1)
   )
 
