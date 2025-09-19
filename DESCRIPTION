@@ -35,14 +35,13 @@ Suggests:
     covr,
     crayon,
     ggplot2,
-    knitr,
     probably (>= 1.0.0),
+    quarto,
     rmarkdown,
     survival (>= 3.5-0),
     testthat (>= 3.0.0),
     tidyr
-VignetteBuilder: 
-    knitr
+VignetteBuilder: quarto
 Config/Needs/website: tidyverse/tidytemplate
 Config/testthat/edition: 3
 Config/usethis/last-upkeep: 2025-04-24
