@@ -28,7 +28,7 @@
       check_class_metric(1, "1", 1)
     Condition
       Error:
-      ! `truth` should be a factor, not a number.
+      ! `truth` should be a factor, not a a number.
 
 # check_class_metric() validates estimator
 

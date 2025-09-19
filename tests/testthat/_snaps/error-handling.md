@@ -13,7 +13,7 @@
       sens(df, truth, estimate)
     Condition
       Error in `sens()`:
-      ! `truth` should be a factor, not a number.
+      ! `truth` should be a factor, not a a number.
 
 # At least 2 levels in truth
 

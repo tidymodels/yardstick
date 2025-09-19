@@ -12,7 +12,7 @@
       ranked_prob_score_vec(two_class_example$truth, estimate)
     Condition
       Error in `ranked_prob_score_vec()`:
-      ! `truth` should be a ordered factor, not a <factor> object.
+      ! `truth` should be a ordered factor, not a a <factor> object.
 
 ---
 
