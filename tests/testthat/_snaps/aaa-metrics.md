@@ -6,7 +6,7 @@
       Error in `metric_set()`:
       ! Failed to compute `accuracy()`.
       Caused by error:
-      ! `estimate` should be a factor, not a a double vector.
+      ! `estimate` should be a factor, not a double vector.
 
 ---
 

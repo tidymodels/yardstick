@@ -92,7 +92,7 @@
       bad_truth_metric_set(hpc_cv, truth = VF, estimate = pred)
     Condition
       Error in `bop()`:
-      ! `truth` should be a factor, not a a double vector.
+      ! `truth` should be a factor, not a double vector.
 
 ---
 
@@ -100,7 +100,7 @@
       bad_truth_metric(hpc_cv, truth = VF, estimate = pred)
     Condition
       Error in `bop()`:
-      ! `truth` should be a factor, not a a double vector.
+      ! `truth` should be a factor, not a double vector.
 
 # outputted function errors informatively with redundant grouping
 

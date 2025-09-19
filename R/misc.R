@@ -62,16 +62,15 @@ is_class_pred <- function(x) {
   inherits(x, "class_pred")
 }
 
-as_factor_from_class_pred <- function(x, call) {
+as_factor_from_class_pred <- function(x, call = caller_env()) {
   if (!is_class_pred(x)) {
     return(x)
   }
 
   if (!is_installed("probably")) {
-    cli::cli_abort(
-      "A {.cls class_pred} input was detected, but the {.pkg probably}
-      package isn't installed. Install {.pkg probably} to be able to convert
-      {.cls class_pred} to {.cls factor}.",
+    check_installed(
+      pkg = "probably",
+      reason = cli::format_inline("\nA {.cls class_pred} input was detected and {.pkg probably} is required to convert {.cls class_pred} to {.cls factor}."),
       call = call
     )
   }

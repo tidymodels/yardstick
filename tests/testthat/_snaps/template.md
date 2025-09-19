@@ -173,7 +173,7 @@
         data = lung_surv, truth = .pred_time, .pred)
     Condition
       Error:
-      ! `truth` should be a Surv object, not a a double vector.
+      ! `truth` should be a Surv object, not a double vector.
 
 ---
 
@@ -182,7 +182,7 @@
         data = lung_surv, truth = surv_obj, surv_obj)
     Condition
       Error:
-      ! `estimate` should be a list, not a a <Surv> object.
+      ! `estimate` should be a list, not a <Surv> object.
 
 ---
 
@@ -250,7 +250,7 @@
         data = lung_surv, truth = .pred_time, .pred)
     Condition
       Error:
-      ! `truth` should be a Surv object, not a a double vector.
+      ! `truth` should be a Surv object, not a double vector.
 
 ---
 
@@ -259,7 +259,7 @@
         data = lung_surv, truth = surv_obj, surv_obj)
     Condition
       Error:
-      ! `estimate` should be a list, not a a <Surv> object.
+      ! `estimate` should be a list, not a <Surv> object.
 
 ---
 

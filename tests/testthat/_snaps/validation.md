@@ -53,7 +53,7 @@
       validate_factor_truth_factor_estimate("1", 1)
     Condition
       Error:
-      ! `truth` should be a factor, not a a string.
+      ! `truth` should be a factor, not a string.
 
 ---
 
@@ -62,7 +62,7 @@
       levels = c("a", "b")))
     Condition
       Error:
-      ! `truth` should be a factor, not a a character vector.
+      ! `truth` should be a factor, not a character vector.
 
 ---
 
@@ -71,7 +71,7 @@
         "b")), c("a", "b", "a"))
     Condition
       Error:
-      ! `estimate` should be a factor, not a a character vector.
+      ! `estimate` should be a factor, not a character vector.
 
 ---
 
@@ -108,7 +108,7 @@
       validate_factor_truth_matrix_estimate(c("a", "b", "a"), 1:3, estimator = "binary")
     Condition
       Error:
-      ! `truth` should be a factor, not a a character vector.
+      ! `truth` should be a factor, not a character vector.
 
 ---
 
@@ -144,7 +144,7 @@
       estimator = "non binary")
     Condition
       Error:
-      ! `truth` should be a factor, not a a character vector.
+      ! `truth` should be a factor, not a character vector.
 
 ---
 
@@ -179,7 +179,7 @@
       validate_ordered_truth_matrix_estimate(c("a", "b", "a"), 1:3, estimator = "binary")
     Condition
       Error:
-      ! `truth` should be a ordered factor, not a a character vector.
+      ! `truth` should be a ordered factor, not a character vector.
 
 ---
 
@@ -215,7 +215,7 @@
       estimator = "non binary")
     Condition
       Error:
-      ! `truth` should be a ordered factor, not a a character vector.
+      ! `truth` should be a ordered factor, not a character vector.
 
 ---
 
@@ -276,7 +276,7 @@
       validate_surv_truth_list_estimate("1", 1)
     Condition
       Error:
-      ! `truth` should be a Surv object, not a a string.
+      ! `truth` should be a Surv object, not a string.
 
 ---
 
@@ -309,7 +309,7 @@
         .pred_time))
     Condition
       Error:
-      ! `estimate` should be a list, not a a character vector.
+      ! `estimate` should be a list, not a character vector.
 
 ---
 
@@ -318,7 +318,7 @@
         .pred_time)
     Condition
       Error:
-      ! `estimate` should be a list, not a a double vector.
+      ! `estimate` should be a list, not a double vector.
 
 ---
 
