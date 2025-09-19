@@ -67,13 +67,14 @@ as_factor_from_class_pred <- function(x, call = caller_env()) {
     return(x)
   }
 
-  if (!is_installed("probably")) {
-    check_installed(
-      pkg = "probably",
-      reason = cli::format_inline("\nA {.cls class_pred} input was detected and {.pkg probably} is required to convert {.cls class_pred} to {.cls factor}."),
-      call = call
-    )
-  }
+  check_installed(
+    pkg = "probably",
+    reason = cli::format_inline(
+      "\nA {.cls class_pred} input was detected and {.pkg probably} is required to convert {.cls class_pred} to {.cls factor}."
+    ),
+    call = call
+  )
+
   probably::as.factor(x)
 }
 
