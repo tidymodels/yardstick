@@ -20,3 +20,5 @@ contributors.md
 ^data-raw$
 ^[\.]?air\.toml$
 ^\.vscode$
+^vignettes/\.quarto$
+^vignettes/*_files$
