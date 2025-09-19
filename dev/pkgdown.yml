@@ -5,7 +5,7 @@ articles:
   grouping: grouping.html
   metric-types: metric-types.html
   multiclass: multiclass.html
-last_built: 2025-06-05T14:40Z
+last_built: 2025-09-19T19:36Z
 urls:
   reference: https://yardstick.tidymodels.org/reference
   article: https://yardstick.tidymodels.org/articles
