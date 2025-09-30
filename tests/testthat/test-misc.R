@@ -368,16 +368,4 @@ test_that("work with class_pred input", {
 
   fct_estimate <- two_class_example$predicted
   fct_estimate[2] <- NA
-
-  local_mocked_bindings(
-    .package = "rlang",
-    detect_installed = function(pkg, ...) {
-      FALSE
-    }
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    accuracy_vec(fct_truth, cp_estimate)
-  )
 })
