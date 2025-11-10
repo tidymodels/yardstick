@@ -1,0 +1,84 @@
+# Multiclass averaging
+
+## Introduction
+
+Classification metrics in `yardstick` where both the `truth` and
+`estimate` columns are factors are implemented for the binary and the
+multiclass case. The multiclass implementations use `micro`, `macro`,
+and `macro_weighted` averaging where applicable, and some metrics have
+their own specialized multiclass implementations.
+
+## Macro averaging
+
+Macro averaging reduces your multiclass predictions down to multiple
+sets of binary predictions, calculates the corresponding metric for each
+of the binary cases, and then averages the results together. As an
+example, consider `precision` for the binary case.
+
+$$Pr = \frac{TP}{TP + FP}$$
+
+In the multiclass case, if there were levels `A`, `B`, `C` and `D`,
+macro averaging reduces the problem to multiple one-vs-all comparisons.
+The `truth` and `estimate` columns are recoded such that the only two
+levels are `A` and `other`, and then precision is calculated based on
+those recoded columns, with `A` being the “relevant” column. This
+process is repeated for the other 3 levels to get a total of 4 precision
+values. The results are then averaged together.
+
+The formula representation looks like this. For `k` classes:
+
+$$Pr_{macro} = \frac{Pr_{1} + Pr_{2} + \ldots + Pr_{k}}{k} = Pr_{1}\frac{1}{k} + Pr_{2}\frac{1}{k} + \ldots + Pr_{k}\frac{1}{k}$$
+
+where $PR_{1}$ is the precision calculated from recoding the multiclass
+predictions down to just `class 1` and `other`.
+
+Note that in macro averaging, all classes get equal weight when
+contributing their portion of the precision value to the total (here
+`1/4`). This might not be a realistic calculation when you have a large
+amount of class imbalance. In that case, a *weighted macro average*
+might make more sense, where the weights are calculated by the frequency
+of that class in the `truth` column.
+
+$$Pr_{weighted - macro} = Pr_{1}\frac{\# Obs_{1}}{N} + Pr_{2}\frac{\# Obs_{2}}{N} + \ldots + Pr_{k}\frac{\# Obs_{k}}{N}$$
+
+## Micro averaging
+
+Micro averaging treats the entire set of data as an aggregate result,
+and calculates 1 metric rather than `k` metrics that get averaged
+together.
+
+For precision, this works by calculating all of the true positive
+results for each class and using that as the numerator, and then
+calculating all of the true positive and false positive results for each
+class, and using that as the denominator.
+
+$$Pr_{micro} = \frac{TP_{1} + TP_{2} + \ldots + TP_{k}}{\left( TP_{1} + TP_{2} + \ldots + TP_{k} \right) + \left( FP_{1} + FP_{2} + \ldots + FP_{k} \right)}$$
+In this case, rather than each *class* having equal weight, each
+*observation* gets equal weight. This gives the classes with the most
+observations more power.
+
+## Specialized multiclass implementations
+
+Some metrics have known analytical multiclass extensions, and do not
+need to use averaging to get an estimate of multiclass performance.
+
+Accuracy and Kappa use the same definitions as their binary counterpart,
+with accuracy counting up the number of correctly predicted true values
+out of the total number of true values, and kappa being a linear
+combination of two accuracy values.
+
+Matthews correlation coefficient (MCC) has a known multiclass
+generalization as well, sometimes called the $R_{K}$ statistic. Refer to
+[this
+page](https://en.wikipedia.org/wiki/Matthews_correlation_coefficient#Multiclass_case)
+for more details.
+
+ROC AUC is an interesting metric in that it intuitively makes sense to
+perform macro averaging, which computes a multiclass AUC as the average
+of the area under multiple binary ROC curves. However, this loses an
+important property of the ROC AUC statistic in that its binary case is
+insensitive to class distribution. To combat this, a multiclass metric
+was created that retains insensitivity to class distribution, but does
+not have an easy visual interpretation like macro averaging. This is
+implemented as the `"hand_till"` method, and is the default for this
+metric.
