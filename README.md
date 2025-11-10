@@ -1,5 +1,5 @@
 
-# yardstick <img src="man/figures/logo.png" align="right"/>
+# yardstick <a href="https://yardstick.tidymodels.org"><img src="man/figures/logo.png" align="right" height="138" alt="yardstick website" /></a>
 
 <!-- badges: start -->
 
