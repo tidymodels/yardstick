@@ -175,7 +175,7 @@ gain_capture_vec(
    )
 )
 
-\dontshow{if (rlang::is_installed(c("ggplot2"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("ggplot2"))) withAutoprint(\{ # examplesIf}
 # ---------------------------------------------------------------------------
 # Visualize gain_capture()
 
