@@ -90,7 +90,7 @@ internal data set \code{lung_surv} shows an example of the format.
 This method automatically groups by the \code{.eval_time} argument.
 }
 \examples{
-\dontshow{if (rlang::is_installed(c("tidyr"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("tidyr"))) withAutoprint(\{ # examplesIf}
 library(dplyr)
 
 lung_surv |>

@@ -73,7 +73,7 @@ is implemented.
 The function requires that the factors have exactly the same levels.
 }
 \examples{
-\dontshow{if (rlang::is_installed(c("tidyr", "ggplot2"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("tidyr", "ggplot2"))) withAutoprint(\{ # examplesIf}
 library(dplyr)
 data("hpc_cv")
 

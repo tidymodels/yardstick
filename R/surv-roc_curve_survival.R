@@ -221,8 +221,9 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
 
   specificity <- vapply(
     data_split,
-    function(x)
-      sum(x$ge_time * x$weight_censored * x$case_weights, na.rm = TRUE),
+    function(x) {
+      sum(x$ge_time * x$weight_censored * x$case_weights, na.rm = TRUE)
+    },
     FUN.VALUE = numeric(1)
   )
   specificity <- cumsum(specificity)
@@ -235,11 +236,12 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
 
   sensitivity <- vapply(
     data_split,
-    function(x)
+    function(x) {
       sum(
         x$le_time * x$delta * x$weight_censored * x$case_weights,
         na.rm = TRUE
-      ),
+      )
+    },
     FUN.VALUE = numeric(1)
   )
 

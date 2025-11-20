@@ -109,7 +109,7 @@ data(two_class_example)
 # `"truth"`, it is the event of interest and we pass in probabilities for it.
 roc_curve(two_class_example, truth, Class1)
 
-\dontshow{if (rlang::is_installed(c("ggplot2"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("ggplot2"))) withAutoprint(\{ # examplesIf}
 # ---------------------------------------------------------------------------
 # `autoplot()`
 
