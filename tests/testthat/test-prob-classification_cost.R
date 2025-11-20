@@ -5,15 +5,15 @@ test_that("binary - uses user defined costs", {
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "B",
-    2,
-    "B",
-    "A",
-    3
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "B"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3
   )
 
   exp_cost <-
@@ -32,15 +32,15 @@ test_that("binary - respects `event_first`", {
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "B",
-    2,
-    "B",
-    "A",
-    3
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "B"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3
   )
 
   exp_cost <-
@@ -61,15 +61,15 @@ test_that("costs$truth can be factor", {
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "B",
-    2,
-    "B",
-    "A",
-    3
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "B"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3
   )
 
   costs2 <- costs
@@ -119,36 +119,36 @@ test_that("multiclass - respects user defined costs", {
     C = c(0, .15, .20, .1, .2, .4)
   )
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "A",
-    0,
-    "A",
-    "B",
-    1,
-    "A",
-    "C",
-    2,
-    "B",
-    "A",
-    3,
-    "B",
-    "B",
-    0,
-    "B",
-    "C",
-    4,
-    "C",
-    "A",
-    5,
-    "C",
-    "B",
-    6,
-    "C",
-    "C",
-    0,
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "A"       ,
+            0 ,
+    "A"       ,
+    "B"       ,
+            1 ,
+    "A"       ,
+    "C"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3 ,
+    "B"       ,
+    "B"       ,
+            0 ,
+    "B"       ,
+    "C"       ,
+            4 ,
+    "C"       ,
+    "A"       ,
+            5 ,
+    "C"       ,
+    "B"       ,
+            6 ,
+    "C"       ,
+    "C"       ,
+            0 ,
   )
 
   exp_cost <-
@@ -186,62 +186,62 @@ test_that("multiclass - fills in missing combinations with zero cost", {
     C = c(0, .15, .20, .1, .2, .4)
   )
   costs_partial <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "A",
-    0,
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "A"       ,
+            0 ,
     # "A",    "B",          1,
-    "A",
-    "C",
-    2,
-    "B",
-    "A",
-    3,
+    "A"       ,
+    "C"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3 ,
     # "B",    "B",          0,
-    "B",
-    "C",
-    4,
-    "C",
-    "A",
-    5,
+    "B"       ,
+    "C"       ,
+            4 ,
+    "C"       ,
+    "A"       ,
+            5 ,
     # "C",    "B",          6,
-    "C",
-    "C",
-    0,
+    "C"       ,
+    "C"       ,
+            0 ,
   )
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "A",
-    0,
-    "A",
-    "B",
-    0,
-    "A",
-    "C",
-    2,
-    "B",
-    "A",
-    3,
-    "B",
-    "B",
-    0,
-    "B",
-    "C",
-    4,
-    "C",
-    "A",
-    5,
-    "C",
-    "B",
-    0,
-    "C",
-    "C",
-    0,
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "A"       ,
+            0 ,
+    "A"       ,
+    "B"       ,
+            0 ,
+    "A"       ,
+    "C"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3 ,
+    "B"       ,
+    "B"       ,
+            0 ,
+    "B"       ,
+    "C"       ,
+            4 ,
+    "C"       ,
+    "A"       ,
+            5 ,
+    "C"       ,
+    "B"       ,
+            0 ,
+    "C"       ,
+    "C"       ,
+            0 ,
   )
 
   expect_identical(
@@ -281,15 +281,15 @@ test_that("costs$estimate must contain the right levels", {
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "b",
-    2,
-    "B",
-    "A",
-    3
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "b"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3
   )
 
   expect_snapshot(
@@ -305,15 +305,15 @@ test_that("costs$truth must contain the right levels", {
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "a",
-    "B",
-    2,
-    "B",
-    "A",
-    3
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "a"       ,
+    "B"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3
   )
 
   expect_snapshot(
@@ -329,15 +329,15 @@ test_that("costs$truth, costs$estimate, and costs$cost must have the right type"
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    1,
-    "B",
-    2,
-    2,
-    "A",
-    3
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+            1 ,
+    "B"       ,
+            2 ,
+            2 ,
+    "A"       ,
+            3
   )
   expect_snapshot(
     error = TRUE,
@@ -345,15 +345,15 @@ test_that("costs$truth, costs$estimate, and costs$cost must have the right type"
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    1,
-    2,
-    "B",
-    2,
-    3
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+            1 ,
+            2 ,
+    "B"       ,
+            2 ,
+            3
   )
   expect_snapshot(
     error = TRUE,
@@ -361,14 +361,14 @@ test_that("costs$truth, costs$estimate, and costs$cost must have the right type"
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "B",
-    "1",
-    "B",
-    "A",
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "B"       ,
+    "1"       ,
+    "B"       ,
+    "A"       ,
     "2"
   )
   expect_snapshot(
@@ -384,15 +384,15 @@ test_that("costs$truth and costs$estimate cannot contain duplicate pairs", {
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "B",
-    2,
-    "A",
-    "B",
-    3
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "B"       ,
+            2 ,
+    "A"       ,
+    "B"       ,
+            3
   )
 
   expect_snapshot(
@@ -411,15 +411,15 @@ test_that("binary - uses case weights", {
   )
 
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "B",
-    2,
-    "B",
-    "A",
-    3
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "B"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3
   )
 
   exp_cost <-
@@ -446,36 +446,36 @@ test_that("multiclass - uses case weights", {
     weight = c(1, 2, 3, 4, 5, 6)
   )
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "A",
-    "A",
-    0,
-    "A",
-    "B",
-    1,
-    "A",
-    "C",
-    2,
-    "B",
-    "A",
-    3,
-    "B",
-    "B",
-    0,
-    "B",
-    "C",
-    4,
-    "C",
-    "A",
-    5,
-    "C",
-    "B",
-    6,
-    "C",
-    "C",
-    0,
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "A"       ,
+    "A"       ,
+            0 ,
+    "A"       ,
+    "B"       ,
+            1 ,
+    "A"       ,
+    "C"       ,
+            2 ,
+    "B"       ,
+    "A"       ,
+            3 ,
+    "B"       ,
+    "B"       ,
+            0 ,
+    "B"       ,
+    "C"       ,
+            4 ,
+    "C"       ,
+    "A"       ,
+            5 ,
+    "C"       ,
+    "B"       ,
+            6 ,
+    "C"       ,
+    "C"       ,
+            0 ,
   )
 
   exp_cost <-
