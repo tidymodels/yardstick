@@ -122,6 +122,7 @@ Collate:
     'surv-concordance_survival.R'
     'surv-roc_auc_survival.R'
     'surv-roc_curve_survival.R'
+    'surv-two_class_stats_survival.R'
     'template.R'
     'validation.R'
     'yardstick-package.R'

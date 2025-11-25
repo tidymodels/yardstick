@@ -107,6 +107,7 @@ roc_curve_survival_vec <- function(
   truth,
   estimate,
   na_rm = TRUE,
+  thresholds = NULL,
   case_weights = NULL,
   ...
 ) {
@@ -138,11 +139,12 @@ roc_curve_survival_vec <- function(
   roc_curve_survival_impl(
     truth = truth,
     estimate = estimate,
+    thresholds = thresholds,
     case_weights = case_weights
   )
 }
 
-roc_curve_survival_impl <- function(truth, estimate, case_weights) {
+roc_curve_survival_impl <- function(truth, estimate, case_weights, thresholds = NULL) {
   event_time <- .extract_surv_time(truth)
   delta <- .extract_surv_status(truth)
   case_weights <- vec_cast(case_weights, double())
@@ -177,7 +179,8 @@ roc_curve_survival_impl <- function(truth, estimate, case_weights) {
       data$event_time[.eval_time_ind],
       data$delta[.eval_time_ind],
       data[.eval_time_ind, ],
-      data$case_weights[.eval_time_ind]
+      data$case_weights[.eval_time_ind],
+      thresholds = thresholds
     )
 
     res$.eval_time <- .eval_times[[i]]
@@ -187,13 +190,14 @@ roc_curve_survival_impl <- function(truth, estimate, case_weights) {
   dplyr::bind_rows(out)
 }
 
-roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
-  res <- dplyr::tibble(
-    .threshold = sort(
-      unique(c(-Inf, data$.pred_survival, Inf)),
-      decreasing = TRUE
-    )
-  )
+roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights, thresholds = NULL) {
+  if (is.null(thresholds)) {
+    .thresholds <- sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE)
+  } else {
+    # Doesn't work well;
+    .thresholds <- sort(unique(c(-Inf, data$.pred_survival, thresholds, Inf)), decreasing = TRUE)
+  }
+  res <- dplyr::tibble(.threshold = .thresholds)
 
   obs_time_le_time <- event_time <= data$.eval_time
   obs_time_gt_time <- event_time > data$.eval_time
@@ -251,6 +255,10 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
   sensitivity <- dplyr::if_else(sensitivity < 0, 0, sensitivity)
   sensitivity <- c(0, sensitivity, 1)
   res$sensitivity <- sensitivity
+
+  if (!is.null(thresholds)) {
+    res <- dplyr::inner_join(res, tibble::tibble(.threshold = thresholds), by = ".threshold")
+  }
 
   res
 }

@@ -98,7 +98,8 @@ comparison of prognostic classification schemes for survival data,”
 \seealso{
 Other dynamic survival metrics: 
 \code{\link{brier_survival_integrated}()},
-\code{\link{roc_auc_survival}()}
+\code{\link{roc_auc_survival}()},
+\code{\link{two_class_stats_survival}()}
 }
 \author{
 Emil Hvitfeldt
