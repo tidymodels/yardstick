@@ -107,9 +107,9 @@ two_class_stats_survival_vec <- function(
     na_rm = na_rm,
     case_weights = case_weights
   )
-  browser()
-  curve |>
-    dplyr::group_by(.eval_time) |>
-    dplyr::summarize(.estimate = roc_trap_auc(specificity, sensitivity))
+
+  curve$.threshold <- NULL
+
+  curve
 }
 

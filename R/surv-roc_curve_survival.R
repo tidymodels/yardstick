@@ -191,12 +191,7 @@ roc_curve_survival_impl <- function(truth, estimate, case_weights, thresholds = 
 }
 
 roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights, thresholds = NULL) {
-  if (is.null(thresholds)) {
-    .thresholds <- sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE)
-  } else {
-    # Doesn't work well;
-    .thresholds <- sort(unique(c(-Inf, data$.pred_survival, thresholds, Inf)), decreasing = TRUE)
-  }
+  .thresholds <- sort(unique(c(-Inf, data$.pred_survival, Inf)), decreasing = TRUE)
   res <- dplyr::tibble(.threshold = .thresholds)
 
   obs_time_le_time <- event_time <= data$.eval_time
@@ -257,7 +252,14 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights, t
   res$sensitivity <- sensitivity
 
   if (!is.null(thresholds)) {
-    res <- dplyr::inner_join(res, tibble::tibble(.threshold = thresholds), by = ".threshold")
+    stps_spec <- estimate_steps(res$.threshold, res$specificity, increasing = TRUE)
+    stps_sens <- estimate_steps(res$.threshold, res$sensitivity, increasing = FALSE)
+
+    res_spec <- find_stat(thresholds, stps_spec, name = ".estimate")
+    res_spec$.metric <- "specificity"
+    res_sens <- find_stat(thresholds, stps_sens, name = ".estimate")
+    res_sens$.metric <- "sensitivity"
+    res <- dplyr::bind_rows(res_spec, res_sens)
   }
 
   res
@@ -288,3 +290,36 @@ autoplot.roc_survival_df <- function(object, ...) {
 
   roc_chart
 }
+
+# Used to find points on a step function
+estimate_steps <- function(x, y, increasing = TRUE) {
+  x[is.infinite(x) & x > 0] <- 1.0
+  x[is.infinite(x) & x < 0] <- 0.0
+  ord <- order(x)
+  x <- x[ord]
+  y <- y[ord]
+  if (increasing) {
+    first <- min(y) - .Machine$double.eps
+  } else {
+    first <- max(y) + .Machine$double.eps
+  }
+  y <- c(first, y[ord])
+
+  steps <- stats::stepfun(x, y)
+  dplyr::tibble(
+    thresh = environment(steps)$x,
+    stat = environment(steps)$y
+  )
+}
+
+find_stat <- function(thresholds, tbl, name = "statistic") {
+  find_interval <- findInterval(
+    x = thresholds,
+    vec = tbl$thresh
+  )
+  find_interval[find_interval == 0] <- 1
+  ret <- tbl$stat[find_interval]
+  tibble::tibble(.threshold = thresholds, stat = ret) |>
+    rlang::set_names(c(".threshold", name))
+}
+
