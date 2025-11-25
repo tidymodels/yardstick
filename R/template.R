@@ -823,6 +823,101 @@ curve_survival_metric_summarizer <- function(
   out
 }
 
+
+#' @rdname metric-summarizers
+#' @export
+linear_pred_survival_metric_summarizer <- function(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+) {
+  check_dots_empty(call = error_call)
+
+  truth <- enquo(truth)
+  estimate <- enquo(estimate)
+  case_weights <- enquo(case_weights)
+
+  truth <- yardstick_eval_select(
+    expr = truth,
+    data = data,
+    arg = "truth",
+    error_call = error_call
+  )
+  estimate <- yardstick_eval_select(
+    expr = estimate,
+    data = data,
+    arg = "estimate",
+    error_call = error_call
+  )
+
+  if (quo_is_null(case_weights)) {
+    group_case_weights <- NULL
+  } else {
+    case_weights <- yardstick_eval_select(
+      expr = case_weights,
+      data = data,
+      arg = "case_weights",
+      error_call = error_call
+    )
+  }
+
+  group_rows <- dplyr::group_rows(data)
+  group_keys <- dplyr::group_keys(data)
+  data <- dplyr::ungroup(data)
+  groups <- vec_chop(data, indices = group_rows)
+  out <- vector("list", length = length(groups))
+
+  for (i in seq_along(groups)) {
+    group <- groups[[i]]
+
+    group_truth <- group[[truth]]
+    group_estimate <- group[[estimate]]
+
+    if (is_string(case_weights)) {
+      group_case_weights <- group[[case_weights]]
+    }
+
+    elt_out <- list(
+      .metric = name,
+      .estimator = finalize_estimator(
+        group_truth,
+        metric_class = name,
+        call = error_call
+      ),
+      .estimate = inject(
+        withCallingHandlers(
+          fn(
+            truth = group_truth,
+            estimate = group_estimate,
+            case_weights = group_case_weights,
+            na_rm = na_rm,
+            !!!fn_options
+          ),
+          error = function(cnd) {
+            cnd$call <- error_call
+            cnd_signal(cnd)
+          }
+        )
+      )
+    )
+
+    out[[i]] <- tibble::new_tibble(elt_out)
+  }
+
+  group_keys <- vec_rep_each(group_keys, times = list_sizes(out))
+  out <- vec_rbind(!!!out)
+  out <- vec_cbind(group_keys, out)
+
+  out
+}
+
 prob_estimate_convert <- function(estimate) {
   check_data_frame(estimate, .internal = TRUE)
 

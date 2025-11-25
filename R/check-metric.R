@@ -120,3 +120,15 @@ check_static_survival_metric <- function(
   validate_case_weights(case_weights, size = nrow(truth), call = call)
   validate_surv_truth_numeric_estimate(truth, estimate, call = call)
 }
+
+#' @rdname check_metric
+#' @export
+check_linear_pred_survival_metric <- function(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+) {
+  validate_case_weights(case_weights, size = nrow(truth), call = call)
+  validate_surv_truth_numeric_estimate(truth, estimate, call = call)
+}

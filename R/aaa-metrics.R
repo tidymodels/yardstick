@@ -272,7 +272,8 @@ metric_set <- function(...) {
       c(
         "dynamic_survival_metric",
         "static_survival_metric",
-        "integrated_survival_metric"
+        "integrated_survival_metric",
+        "linear_pred_survival_metric"
       )
   ) {
     make_survival_metric_function(fns)
@@ -547,37 +548,110 @@ make_survival_metric_function <- function(fns) {
     # Construct common argument set for each metric call
     # Doing this dynamically inside the generated function means
     # we capture the correct arguments
-    dynamic_call_args <- quos(
+
+    is_static <- vapply(
+      fns,
+      inherits,
+      logical(1),
+      "static_survival_metric"
+    )
+    is_linear_pred <- vapply(
+      fns,
+      inherits,
+      logical(1),
+      "linear_pred_survival_metric"
+    )
+    is_dynamic_or_integrated <- vapply(
+      fns,
+      function(fn) {
+        inherits(fn, "dynamic_survival_metric") ||
+          inherits(fn, "integrated_survival_metric")
+      },
+      FUN.VALUE = logical(1)
+    )
+
+    # Static and linear pred metrics both use the `estimate` argument
+    # so we need route the columns to the correct metric functions
+    is_set_of_static_and_linear_pred <- any(is_static) && any(is_linear_pred)
+
+    if (is_set_of_static_and_linear_pred) {
+      estimate_eval <- tidyselect::eval_select(
+        expr = enquo(estimate),
+        data = data,
+        allow_rename = TRUE,
+        allow_empty = FALSE,
+        error_call = current_env()
+      )
+
+      estimate_names <- names(estimate_eval)
+      expected_names <- c("static", "linear_pred")
+
+      if (!setequal(estimate_names, expected_names)) {
+        cli::cli_abort(
+          c(
+            "When mixing static and linear predictor survival metrics,
+             {.arg estimate} must use named selection.",
+            "i" = "Use {.code estimate = c(static = col1, linear_pred = col2)}.",
+            "i" = "Expected names: {.val {expected_names}}.",
+            "x" = "Received names: {.val {estimate_names}}."
+          ),
+          call = current_env()
+        )
+      }
+
+      static_col_name <- names(data)[estimate_eval["static"]]
+      linear_pred_col_name <- names(data)[estimate_eval["linear_pred"]]
+
+      args_static <- quos(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!sym(static_col_name),
+        na_rm = na_rm,
+        case_weights = !!enquo(case_weights),
+        ... = ...
+      )
+
+      args_linear_pred <- quos(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!sym(linear_pred_col_name),
+        na_rm = na_rm,
+        case_weights = !!enquo(case_weights),
+        ... = ...
+      )
+
+      calls_static <- lapply(fns[is_static], call2, !!!args_static)
+      calls_linear_pred <- lapply(
+        fns[is_linear_pred],
+        call2,
+        !!!args_linear_pred
+      )
+
+      calls_estimate <- c(calls_static, calls_linear_pred)
+    } else {
+      args_estimate <- quos(
+        data = data,
+        truth = !!enquo(truth),
+        estimate = !!enquo(estimate),
+        na_rm = na_rm,
+        case_weights = !!enquo(case_weights),
+        ... = ...
+      )
+
+      needs_estimate_arg <- is_static | is_linear_pred
+      calls_estimate <- lapply(fns[needs_estimate_arg], call2, !!!args_estimate)
+    }
+
+    args_dots <- quos(
       data = data,
       truth = !!enquo(truth),
       ... = ...,
       na_rm = na_rm,
-      case_weights = !!enquo(case_weights),
-      ... = ...
+      case_weights = !!enquo(case_weights)
     )
+    calls_dots <- lapply(fns[is_dynamic_or_integrated], call2, !!!args_dots)
 
-    static_call_args <- quos(
-      data = data,
-      truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
-      na_rm = na_rm,
-      case_weights = !!enquo(case_weights),
-      ... = ...
-    )
-
-    call_class_ind <- vapply(
-      fns,
-      inherits,
-      "static_survival_metric",
-      FUN.VALUE = logical(1)
-    )
-
-    # Construct calls from the functions + arguments
-    dynamic_calls <- lapply(fns[!call_class_ind], call2, !!!dynamic_call_args)
-    static_calls <- lapply(fns[call_class_ind], call2, !!!static_call_args)
-
-    calls <- c(dynamic_calls, static_calls)
-
+    calls <- c(calls_dots, calls_estimate)
     calls <- mapply(call_remove_static_arguments, calls, fns)
 
     # Evaluate
@@ -644,7 +718,8 @@ validate_function_class <- function(fns) {
     "numeric_metric",
     "dynamic_survival_metric",
     "static_survival_metric",
-    "integrated_survival_metric"
+    "integrated_survival_metric",
+    "linear_pred_survival_metric"
   )
 
   if (n_unique == 1L) {
@@ -664,7 +739,8 @@ validate_function_class <- function(fns) {
   surv_cls <- c(
     "dynamic_survival_metric",
     "static_survival_metric",
-    "integrated_survival_metric"
+    "integrated_survival_metric",
+    "linear_pred_survival_metric"
   )
   if (any(fn_cls_unique %in% surv_cls) && all(fn_cls_unique %in% surv_cls)) {
     return(invisible(fns))
