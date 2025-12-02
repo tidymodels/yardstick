@@ -583,21 +583,7 @@ make_survival_metric_function <- function(fns) {
         error_call = current_env()
       )
 
-      estimate_names <- names(estimate_eval)
-      expected_names <- c("static", "linear_pred")
-
-      if (!setequal(estimate_names, expected_names)) {
-        cli::cli_abort(
-          c(
-            "When mixing static and linear predictor survival metrics,
-             {.arg estimate} must use named selection.",
-            "i" = "Use {.code estimate = c(static = col1, linear_pred = col2)}.",
-            "i" = "Expected names: {.val {expected_names}}.",
-            "x" = "Received names: {.val {estimate_names}}."
-          ),
-          call = current_env()
-        )
-      }
+      validate_estimate_static_linear_pred(estimate_eval, call = current_env())
 
       static_col_name <- names(data)[estimate_eval["static"]]
       linear_pred_col_name <- names(data)[estimate_eval["linear_pred"]]
@@ -817,6 +803,35 @@ validate_function_class <- function(fns) {
     ),
     call = rlang::call2("metric_set")
   )
+}
+
+validate_estimate_static_linear_pred <- function(
+  estimate_eval,
+  call = caller_env()
+) {
+  if (length(estimate_eval) != 2L) {
+    cli::cli_abort(
+      "{.arg estimate} must select exactly 2 columns from {.arg data}, 
+      not {length(estimate_eval)}.",
+      call = call
+    )
+  }
+
+  estimate_names <- names(estimate_eval)
+  expected_names <- c("static", "linear_pred")
+
+  if (!setequal(estimate_names, expected_names)) {
+    cli::cli_abort(
+      c(
+        "When mixing static and linear predictor survival metrics,
+             {.arg estimate} must use named selection.",
+        "i" = "Use {.code estimate = c(static = col1, linear_pred = col2)}.",
+        "i" = "Expected names: {.val {expected_names}}.",
+        "x" = "Received names: {.val {estimate_names}}."
+      ),
+      call = call
+    )
+  }
 }
 
 # Safely evaluate metrics in such a way that we can capture the
