@@ -11,8 +11,8 @@ weighted_interval_score_vec(
   truth,
   estimate,
   quantile_levels = NULL,
-  na_rm = TRUE,
-  na_impute = c("none", "explicit", "any"),
+  na_rm = FALSE,
+  quantile_estimate_nas = c("impute", "drop", "propagate"),
   case_weights = NULL,
   ...
 )
@@ -22,22 +22,41 @@ weighted_interval_score_vec(
 
 \item{quantile_levels}{probabilities. If specified, the score will be
 computed at this set of levels. Otherwise, those present in \code{x} will be
-used.}
+used. If \code{quantile_levels} do not exactly match those available in \code{x},
+then some quantiles will have implicit missingness. Handling of these
+is determined by \code{quantile_estimate_nas}.}
+
+\item{na_rm}{logical. If \code{TRUE}, missing values in \code{actual} or both implicit and
+explicit (values of \code{NA} present in \code{x}), will be ignored (dropped) in the
+calculation of the summary score. If \code{FALSE} (the default), any \code{NA}s will
+result in the summary being \code{NA}.}
+
+\item{quantile_estimate_nas}{character. This argument applies only to \code{x}.
+It handles imputation of individual \code{quantile_levels} that are necessary to
+compute a score. Because each element of \code{x} is a \link[hardhat:quantile_pred]{hardhat::quantile_pred},
+it is possible for these to be missing for particular
+\code{quantile_levels}. There are a number of different possibilities for such
+missingness. The options are as follows:
+\itemize{
+\item For \code{"impute"}, both explicit and implicit missing values will be imputed
+using \code{\link[hardhat:impute_quantiles]{hardhat::impute_quantiles()}} prior to the calculation of the score.
+So the score will be \code{NA} only if imputation fails.
+\item For \code{"drop"}, any explicit missing values will be removed
+before calculating the score for a particular prediction. This may be
+reasonable due to the weighting. For example, if the estimate has
+\code{quantile_levels = c(.25, .5, .75)} but the median is \code{NA} for a particular
+prediction, it may be reasonable to average the accuracy of \code{c(.25, .75)}
+for that prediction with others that don't have missingness. This option
+is only works if \code{quantile_levels = NULL} or is a subset of the
+\code{quantile_levels} in \code{x}.
+\item For \code{"propagate"}, any missing value predictions will result in that
+element of \code{x} having a score of \code{NA}. If \code{na_rm = TRUE}, then these will
+be removed before averaging.
+}}
 
 \item{x}{A vector of class \code{quantile_pred}.}
 
 \item{actual}{double. Actual value(s)}
-
-\item{na_handling}{character. Determines how missing values are handled.
-For \code{"impute"}, missing values will be
-calculated if possible using the available quantiles. For \code{"drop"},
-explicitly missing values are ignored in the calculation of the score, but
-implicitly missing values are imputed if possible.
-For \code{"propogate"}, the resulting score will be \code{NA} if any missing values
-exist. Finally, if
-\code{quantile_levels} is specified, \code{"fail"} will result in
-the score being \code{NA} when any required quantile levels (implicit or explicit)
-do not have corresponding values.}
 }
 \value{
 a vector of nonnegative scores.
@@ -51,25 +70,36 @@ of COVID-19 forecasting.
 }
 \examples{
 quantile_levels <- c(.2, .4, .6, .8)
-predq1 <- 1:4 #
-predq2 <- 8:11
-dstn <- quantile_pred(rbind(predq1, predq2), quantile_levels)
-actual <- c(3.3, 7.1)
-weighted_interval_score(dstn, actual)
-weighted_interval_score(dstn, actual, c(.25, .5, .75))
+pred1 <- 1:4
+pred2 <- 8:11
+preds <- quantile_pred(rbind(pred1, pred2), quantile_levels)
+truth <- c(3.3, 7.1)
+weighted_interval_score_vec(truth, preds)
+weighted_interval_score_vec(truth, preds, quantile_levels = c(.25, .5, .75))
 
 # Missing value behaviours
-dstn <- quantile_pred(matrix(c(1, 2, NA, 4), nrow = 1), 1:4 / 5)
-weighted_interval_score(dstn, 2.5)
-weighted_interval_score(dstn, 2.5, 1:9 / 10)
-weighted_interval_score(dstn, 2.5, 1:9 / 10, na_handling = "drop")
-weighted_interval_score(dstn, 2.5, na_handling = "propagate")
-weighted_interval_score(
-  quantile_pred(matrix(1:4, nrow = 1), 1:4 / 5),
-  actual = 2.5,
-  quantile_levels = 1:9 / 10,
-  na_handling = "fail"
-)
 
+preds_na <- quantile_pred(rbind(pred1, c(1, 2, NA, 4)), 1:4 / 5)
+truth <- c(2.5, 2.5)
+weighted_interval_score_vec(truth, preds_na)
+weighted_interval_score_vec(truth, preds_na, quantile_levels = 1:9 / 10)
+expect_error(weighted_interval_score_vec(
+  truth,
+  preds_na,
+  quantile_levels = 1:9 / 10,
+  quantile_estimate_nas = "drop"
+))
+weighted_interval_score_vec(
+  truth,
+  preds_na,
+  quantile_levels = c(2, 3) / 5,
+  quantile_estimate_nas = "drop"
+)
+weighted_interval_score_vec(
+  truth, preds_na, na_rm = TRUE, quantile_estimate_nas = "propagate"
+)
+weighted_interval_score_vec(
+  truth, preds_na, quantile_estimate_nas = "propagate"
+)
 
 }
