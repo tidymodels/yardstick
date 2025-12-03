@@ -50,24 +50,24 @@
 #' )
 #'
 #'
-wis <- function(data,...){
-  UseMethod("wis")
+weighted_interval_score <- function(data, ...) {
+  UseMethod("weighted_interval_score")
 }
-wis <- new_numeric_metric(
+weighted_interval_score <- new_numeric_metric(
   mae,
   direction = "minimize"
 )
 
 #' @export
-#' @rdname wis
-wis_vec <- function(
-    truth,
-    estimate,
-    quantile_levels = NULL,
-    na_rm = TRUE,
-    na_impute = c("none", "explicit", "any"),
-    case_weights = NULL,
-    ...
+#' @rdname weighted_interval_score
+weighted_interval_score_vec <- function(
+  truth,
+  estimate,
+  quantile_levels = NULL,
+  na_rm = TRUE,
+  na_impute = c("none", "explicit", "any"),
+  case_weights = NULL,
+  ...
 ) {
   check_quantile_metric(truth, estimate, case_weights)
   estimate_quantile_levels <- hardhat::extract_quantile_levels(estimate)
@@ -77,7 +77,10 @@ wis_vec <- function(
   # aren't all there, then return NA
   if (!is.null(quantile_levels)) {
     hardhat::check_quantile_levels(quantile_levels)
-    if (na_impute == "none" && !(all(quantile_levels %in% estimate_quantile_levels))) {
+    if (
+      na_impute == "none" &&
+        !(all(quantile_levels %in% estimate_quantile_levels))
+    ) {
       return(NA_real_)
     }
   }
@@ -103,21 +106,31 @@ wis_vec <- function(
 }
 
 wis_impl <- function(
-    truth,
-    estimate,
-    quantile_levels = NULL,
-    na_impute = c("none", "explicit", "any"),
-    case_weights = NULL,
-    ...
+  truth,
+  estimate,
+  quantile_levels = NULL,
+  na_impute = c("none", "explicit", "any"),
+  case_weights = NULL,
+  ...
 ) {
-  estimate <- impute_quantiles(estimate, quantile_levels, replace_na = (na_handling == "impute"))
-  estimate <- as.matrix(estimate)[, attr(x, "quantile_levels") %in% quantile_levels, drop = FALSE]
+  estimate <- impute_quantiles(
+    estimate,
+    quantile_levels,
+    replace_na = (na_handling == "impute")
+  )
+  estimate <- as.matrix(estimate)[,
+    attr(x, "quantile_levels") %in% quantile_levels,
+    drop = FALSE
+  ]
   na_rm <- (na_handling == "drop")
-  errors <- as.vector(mapply(
-    FUN = function(.x, .y) wis_one_quantile(.x, quantile_levels, .y, na_rm),
-    vctrs::vec_chop(estimate),
-    truth
-  ), "double")
+  errors <- as.vector(
+    mapply(
+      FUN = function(.x, .y) wis_one_quantile(.x, quantile_levels, .y, na_rm),
+      vctrs::vec_chop(estimate),
+      truth
+    ),
+    "double"
+  )
 
   yardstick_mean(vec_score, case_weights = case_weights)
 }
