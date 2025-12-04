@@ -8,6 +8,7 @@
 \alias{check_ordered_prob_metric}
 \alias{check_dynamic_survival_metric}
 \alias{check_static_survival_metric}
+\alias{check_linear_pred_survival_metric}
 \title{Developer function for checking inputs in new metrics}
 \usage{
 check_numeric_metric(truth, estimate, case_weights, call = caller_env())
@@ -44,6 +45,13 @@ check_dynamic_survival_metric(
 )
 
 check_static_survival_metric(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+)
+
+check_linear_pred_survival_metric(
   truth,
   estimate,
   case_weights,
