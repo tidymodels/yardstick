@@ -76,7 +76,7 @@
                         <h4 data-toc-skip class="author">Davis
 Vaughan</h4>
             
-            <h4 data-toc-skip class="date">2025-11-20</h4>
+            <h4 data-toc-skip class="date">2025-12-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidymodels/yardstick/blob/main/vignettes/metric-types.Rmd" class="external-link"><code>vignettes/metric-types.Rmd</code></a></small>
       <div class="d-none name"><code>metric-types.Rmd</code></div>
@@ -87,13 +87,13 @@ Vaughan</h4>
 <div class="section level2">
 <h2 id="metric-types">Metric types<a class="anchor" aria-label="anchor" href="#metric-types"></a>
 </h2>
-<p>There are three main metric types in <code>yardstick</code>: class,
-class probability, and numeric. Each type of metric has standardized
-argument syntax, and all metrics return the same kind of output (a
-tibble with 3 columns). This standardization allows metrics to easily be
-grouped together and used with grouped data frames for computing on
-multiple resamples at once. Below are the five types of metrics, along
-with the types of the inputs they take.</p>
+<p>There are different main metric types in <code>yardstick</code>:
+class, class probability, numeric, and survival. Each type of metric has
+standardized argument syntax, and all metrics return the same kind of
+output (a tibble with 3 columns). This standardization allows metrics to
+easily be grouped together and used with grouped data frames for
+computing on multiple resamples at once. Below are the different types
+of metrics, along with the types of the inputs they take.</p>
 <ol style="list-style-type: decimal">
 <li>
 <p><strong>Class metrics</strong> (hard predictions)</p>
@@ -127,7 +127,7 @@ class probabilities</p></li>
 </ul>
 </li>
 <li>
-<p><strong>Static survival metircs</strong></p>
+<p><strong>Static survival metrics</strong></p>
 <ul>
 <li><p><code>truth</code> - Surv</p></li>
 <li><p><code>estimate</code> - numeric</p></li>
@@ -138,8 +138,15 @@ class probabilities</p></li>
 <ul>
 <li><p><code>truth</code> - Surv</p></li>
 <li><p><code>...</code> - list of data.frames, each containing the 3
-columns <code>.eval_time</code>,
-<code>.pred_survival, and</code>.weight_censored`</p></li>
+columns <code>.eval_time</code>, <code>.pred_survival</code>, and
+<code>.weight_censored</code></p></li>
+</ul>
+</li>
+<li>
+<p><strong>Linear predictor survival metrics</strong></p>
+<ul>
+<li><p><code>truth</code> - Surv</p></li>
+<li><p><code>estimate</code> - numeric</p></li>
 </ul>
 </li>
 </ol>

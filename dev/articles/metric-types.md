@@ -2,13 +2,13 @@
 
 ## Metric types
 
-There are three main metric types in `yardstick`: class, class
-probability, and numeric. Each type of metric has standardized argument
-syntax, and all metrics return the same kind of output (a tibble with 3
-columns). This standardization allows metrics to easily be grouped
-together and used with grouped data frames for computing on multiple
-resamples at once. Below are the five types of metrics, along with the
-types of the inputs they take.
+There are different main metric types in `yardstick`: class, class
+probability, numeric, and survival. Each type of metric has standardized
+argument syntax, and all metrics return the same kind of output (a
+tibble with 3 columns). This standardization allows metrics to easily be
+grouped together and used with grouped data frames for computing on
+multiple resamples at once. Below are the different types of metrics,
+along with the types of the inputs they take.
 
 1.  **Class metrics** (hard predictions)
 
@@ -36,7 +36,7 @@ types of the inputs they take.
 
     - `estimate` - numeric
 
-5.  **Static survival metircs**
+5.  **Static survival metrics**
 
     - `truth` - Surv
 
@@ -47,7 +47,13 @@ types of the inputs they take.
     - `truth` - Surv
 
     - `...` - list of data.frames, each containing the 3 columns
-      `.eval_time`, `.pred_survival, and`.weight_censored\`
+      `.eval_time`, `.pred_survival`, and `.weight_censored`
+
+7.  **Linear predictor survival metrics**
+
+    - `truth` - Surv
+
+    - `estimate` - numeric
 
 ## Example
 

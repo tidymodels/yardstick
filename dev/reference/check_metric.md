@@ -52,6 +52,13 @@ check_static_survival_metric(
   case_weights,
   call = caller_env()
 )
+
+check_linear_pred_survival_metric(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+)
 ```
 
 ## Arguments

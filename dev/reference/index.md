@@ -204,6 +204,7 @@
   [`dynamic_survival_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   [`static_survival_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   [`curve_survival_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
+  [`linear_pred_survival_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   : Developer function for summarizing new metrics
 - [`check_numeric_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
   [`check_class_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
@@ -211,6 +212,7 @@
   [`check_ordered_prob_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
   [`check_dynamic_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
   [`check_static_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  [`check_linear_pred_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
   : Developer function for checking inputs in new metrics
 - [`yardstick_remove_missing()`](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
   [`yardstick_any_missing()`](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
@@ -228,6 +230,7 @@
   [`new_dynamic_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   [`new_integrated_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   [`new_static_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
+  [`new_linear_pred_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   : Construct a new metric function
 
 ## Data Sets

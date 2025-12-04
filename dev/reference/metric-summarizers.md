@@ -125,6 +125,19 @@ curve_survival_metric_summarizer(
   fn_options = list(),
   error_call = caller_env()
 )
+
+linear_pred_survival_metric_summarizer(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+)
 ```
 
 ## Arguments

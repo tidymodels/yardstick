@@ -13,9 +13,12 @@
   ([\#513](https://github.com/tidymodels/yardstick/issues/513))
 
 - Fixed bug where ranked probability metrics didn’t work in combination
-  with other classificiation metrics in
+  with other classification metrics in
   [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md).
   ([\#539](https://github.com/tidymodels/yardstick/issues/539))
+
+- Added infrastructure for survival metrics on the linear predictor.
+  ([\#551](https://github.com/tidymodels/yardstick/issues/551))
 
 ## yardstick 1.3.2
 
