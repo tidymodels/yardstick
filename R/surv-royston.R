@@ -46,6 +46,7 @@ royston_survival <- new_linear_pred_survival_metric(
   direction = "maximize"
 )
 
+#' @rdname royston_survival
 #' @export
 royston_survival.data.frame <- function(
   data,
@@ -66,6 +67,7 @@ royston_survival.data.frame <- function(
   )
 }
 
+#' @rdname royston_survival
 #' @export
 royston_survival_vec <- function(
   truth,
@@ -99,7 +101,7 @@ royston_survival_impl <- function(truth, estimate, case_weights) {
   bns <- normal_score_blom(estimate, case_weights)
 
   fit <- survival::coxph(truth ~ bns, weights = case_weights)
-  est <- unname(coef(fit))
+  est <- unname(stats::coef(fit))
   est^2 / (est^2 + pi^2 / 6)
 }
 
@@ -113,7 +115,7 @@ normal_score_blom <- function(x, case_weights) {
       # does not need kappa (from Royston & Sauerbrei 2004) because it'll
       # "disappear" into the baseline hazard of the Cox model in
       # `royston_survival_impl()`
-      z = qnorm((.data$x_first - 3 / 8) / (dplyr::n() + 0.25))
+      z = stats::qnorm((.data$x_first - 3 / 8) / (dplyr::n() + 0.25))
     ) |>
     # average over ties
     dplyr::mutate(s = mean(.data$z), .by = "x") |>

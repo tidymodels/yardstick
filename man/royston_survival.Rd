@@ -2,9 +2,15 @@
 % Please edit documentation in R/surv-royston.R
 \name{royston_survival}
 \alias{royston_survival}
+\alias{royston_survival.data.frame}
+\alias{royston_survival_vec}
 \title{Royston-Sauerbei D statistic}
 \usage{
 royston_survival(data, ...)
+
+\method{royston_survival}{data.frame}(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
+
+royston_survival_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
@@ -12,11 +18,25 @@ royston_survival(data, ...)
 
 \item{...}{Currently not used.}
 
+\item{truth}{The column identifier for the true survival result (that
+is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
+although this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
+
 \item{estimate}{The column identifier for the predicted linear predictor,
 this should be a numeric variable. This should be an unquoted column name
 although this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
+
+\item{na_rm}{A \code{logical} value indicating whether \code{NA}
+values should be stripped before the computation proceeds.}
+
+\item{case_weights}{The optional column identifier for case weights.
+This should be an unquoted column name that evaluates to a numeric column
+in \code{data}. For \verb{_vec()} functions, a numeric vector,
+\code{\link[hardhat:importance_weights]{hardhat::importance_weights()}}, or \code{\link[hardhat:frequency_weights]{hardhat::frequency_weights()}}.}
 }
 \value{
 A \code{tibble} with columns \code{.metric}, \code{.estimator},
