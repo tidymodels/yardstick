@@ -90,19 +90,33 @@ royston_survival_vec <- function(
 }
 
 royston_survival_impl <- function(truth, estimate, case_weights) {
-  bns <- normal_score_blom(estimate)
+  if (is.null(case_weights)) {
+    case_weights <- rep(1, length(estimate))
+  } else {
+    case_weights <- vec_cast(case_weights, to = double())
+  }
 
-  fit <- survival::coxph(truth ~ bns)
+  bns <- normal_score_blom(estimate, case_weights)
+
+  fit <- survival::coxph(truth ~ bns, weights = case_weights)
   est <- unname(coef(fit))
   est^2 / (est^2 + pi^2 / 6)
 }
 
-normal_score_blom <- function(x) {
-  tibble::tibble(x = x) %>%
+normal_score_blom <- function(x, case_weights) {
+  tibble::tibble(
+    .row = rep(seq_along(x), times = case_weights),
+    x = rep(x, times = case_weights),
+  ) |>
     dplyr::mutate(
       x_first = rank(.data$x, ties.method = "first"),
+      # does not need kappa (from Royston & Sauerbrei 2004) because it'll
+      # "disappear" into the baseline hazard of the Cox model in
+      # `royston_survival_impl()`
       z = qnorm((.data$x_first - 3 / 8) / (dplyr::n() + 0.25))
-    ) %>%
-    dplyr::mutate(s = mean(.data$z), .by = "x") %>%
+    ) |>
+    # average over ties
+    dplyr::mutate(s = mean(.data$z), .by = "x") |>
+    dplyr::slice(1, .by = .row) |>
     dplyr::pull("s")
 }
