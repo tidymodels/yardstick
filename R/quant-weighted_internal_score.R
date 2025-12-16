@@ -94,7 +94,7 @@ weighted_interval_score <- function(data, ...) {
   UseMethod("weighted_interval_score")
 }
 weighted_interval_score <- new_numeric_metric(
-  mae,
+  weighted_interval_score,
   direction = "minimize"
 )
 
