@@ -18,7 +18,14 @@ weighted_interval_score_vec(
 )
 }
 \arguments{
+\item{data}{A \code{data.frame} containing the columns specified by the \code{truth}
+and \code{estimate} arguments.}
+
 \item{...}{not used}
+
+\item{truth}{double. Actual value(s)}
+
+\item{estimate}{A vector of class \code{quantile_pred}.}
 
 \item{quantile_levels}{probabilities. If specified, the score will be
 computed at this set of levels. Otherwise, those present in \code{x} will be
@@ -54,9 +61,10 @@ element of \code{x} having a score of \code{NA}. If \code{na_rm = TRUE}, then th
 be removed before averaging.
 }}
 
-\item{x}{A vector of class \code{quantile_pred}.}
-
-\item{actual}{double. Actual value(s)}
+\item{case_weights}{The optional column identifier for case weights. This
+should be an unquoted column name that evaluates to a numeric column in
+\code{data}. For \verb{_vec()} functions, a numeric vector,
+\code{\link[hardhat:importance_weights]{hardhat::importance_weights()}}, or \code{\link[hardhat:frequency_weights]{hardhat::frequency_weights()}}.}
 }
 \value{
 a vector of nonnegative scores.
@@ -69,6 +77,8 @@ generalization of absolute error. For example, see \href{https://arxiv.org/abs/2
 of COVID-19 forecasting.
 }
 \examples{
+library(hardhat)
+
 quantile_levels <- c(.2, .4, .6, .8)
 pred1 <- 1:4
 pred2 <- 8:11
@@ -83,7 +93,7 @@ preds_na <- quantile_pred(rbind(pred1, c(1, 2, NA, 4)), 1:4 / 5)
 truth <- c(2.5, 2.5)
 weighted_interval_score_vec(truth, preds_na)
 weighted_interval_score_vec(truth, preds_na, quantile_levels = 1:9 / 10)
-expect_error(weighted_interval_score_vec(
+try(weighted_interval_score_vec(
   truth,
   preds_na,
   quantile_levels = 1:9 / 10,

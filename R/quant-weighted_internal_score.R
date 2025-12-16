@@ -7,8 +7,13 @@
 #' al. (2020)](https://arxiv.org/abs/2005.12881) for discussion in the context
 #' of COVID-19 forecasting.
 #'
-#' @param x A vector of class `quantile_pred`.
-#' @param actual double. Actual value(s)
+#' @param data A `data.frame` containing the columns specified by the `truth`
+#' and `estimate` arguments.
+#'
+#' @param truth double. Actual value(s)
+#'
+#' @param estimate A vector of class `quantile_pred`.
+#'
 #' @param quantile_levels probabilities. If specified, the score will be
 #'   computed at this set of levels. Otherwise, those present in `x` will be
 #'   used. If `quantile_levels` do not exactly match those available in `x`,
@@ -38,12 +43,20 @@
 #'   explicit (values of `NA` present in `x`), will be ignored (dropped) in the
 #'   calculation of the summary score. If `FALSE` (the default), any `NA`s will
 #'   result in the summary being `NA`.
+#'
+#' @param case_weights The optional column identifier for case weights. This
+#' should be an unquoted column name that evaluates to a numeric column in
+#' `data`. For `_vec()` functions, a numeric vector,
+#' [hardhat::importance_weights()], or [hardhat::frequency_weights()].
+#'
 #' @param ... not used
 #'
 #' @return a vector of nonnegative scores.
 #'
 #' @export
 #' @examples
+#' library(hardhat)
+#'
 #' quantile_levels <- c(.2, .4, .6, .8)
 #' pred1 <- 1:4
 #' pred2 <- 8:11
@@ -58,7 +71,7 @@
 #' truth <- c(2.5, 2.5)
 #' weighted_interval_score_vec(truth, preds_na)
 #' weighted_interval_score_vec(truth, preds_na, quantile_levels = 1:9 / 10)
-#' expect_error(weighted_interval_score_vec(
+#' try(weighted_interval_score_vec(
 #'   truth,
 #'   preds_na,
 #'   quantile_levels = 1:9 / 10,
