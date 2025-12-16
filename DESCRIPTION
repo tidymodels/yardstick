@@ -126,3 +126,5 @@ Collate:
     'template.R'
     'validation.R'
     'yardstick-package.R'
+Remotes:
+    tidymodels/hardhat
