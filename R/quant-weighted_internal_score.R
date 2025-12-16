@@ -1,24 +1,32 @@
 #' Compute weighted interval score
 #'
-#' Weighted interval score (WIS), a well-known quantile-based
-#' approximation of the commonly-used continuous ranked probability score
-#' (CRPS). WIS is a proper score, and can be thought of as a distributional
-#' generalization of absolute error. For example, see [Bracher et
-#' al. (2020)](https://arxiv.org/abs/2005.12881) for discussion in the context
-#' of COVID-19 forecasting.
+#' Weighted interval score (WIS), a well-known quantile-based approximation of
+#' the commonly-used continuous ranked probability score (CRPS). WIS is a proper
+#' score, and can be thought of as a distributional generalization of absolute
+#' error. For example, see
+#' [Bracher et al. (2020)](https://arxiv.org/abs/2005.12881) for discussion in
+#' the context of COVID-19 forecasting.
 #'
 #' @param data A `data.frame` containing the columns specified by the `truth`
-#' and `estimate` arguments.
+#'   and `estimate` arguments.
 #'
-#' @param truth double. Actual value(s)
+#' @param truth The column identifier for the true class results
+#'   (that is a `numeric`). This should be an unquoted column name although
+#'   this argument is passed by expression and supports
+#'   [quasiquotation][rlang::quasiquotation] (you can unquote column
+#'   names). For `_vec()` functions, a `factor` vector.
 #'
-#' @param estimate A vector of class `quantile_pred`.
+#' @param estimate The column identifier for the predicted class results
+#'   (that is also `quantile_pred`). As with `truth` this can be specified
+#'   different ways but the primary method is to use an unquoted variable name.
+#'   For `_vec()` functions, a `quantile_pred` vector.
 #'
 #' @param quantile_levels probabilities. If specified, the score will be
 #'   computed at this set of levels. Otherwise, those present in `x` will be
 #'   used. If `quantile_levels` do not exactly match those available in `x`,
-#'   then some quantiles will have implicit missingness. Handling of these
-#'   is determined by `quantile_estimate_nas`.
+#'   then some quantiles will have implicit missingness. Handling of these is
+#'   determined by `quantile_estimate_nas`.
+#'
 #' @param quantile_estimate_nas character. This argument applies only to `x`.
 #'   It handles imputation of individual `quantile_levels` that are necessary to
 #'   compute a score. Because each element of `x` is a [hardhat::quantile_pred],
@@ -39,15 +47,16 @@
 #'   * For `"propagate"`, any missing value predictions will result in that
 #'   element of `x` having a score of `NA`. If `na_rm = TRUE`, then these will
 #'   be removed before averaging.
-#' @param na_rm logical. If `TRUE`, missing values in `actual` or both implicit and
-#'   explicit (values of `NA` present in `x`), will be ignored (dropped) in the
-#'   calculation of the summary score. If `FALSE` (the default), any `NA`s will
-#'   result in the summary being `NA`.
+#'
+#' @param na_rm logical. If `TRUE`, missing values in `actual` or both implicit
+#'   and explicit (values of `NA` present in `x`), will be ignored (dropped) in
+#'   the calculation of the summary score. If `FALSE` (the default), any `NA`s
+#'   will result in the summary being `NA`.
 #'
 #' @param case_weights The optional column identifier for case weights. This
-#' should be an unquoted column name that evaluates to a numeric column in
-#' `data`. For `_vec()` functions, a numeric vector,
-#' [hardhat::importance_weights()], or [hardhat::frequency_weights()].
+#'   should be an unquoted column name that evaluates to a numeric column in
+#'   `data`. For `_vec()` functions, a numeric vector,
+#'   [hardhat::importance_weights()], or [hardhat::frequency_weights()].
 #'
 #' @param ... not used
 #'

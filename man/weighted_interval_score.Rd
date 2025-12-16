@@ -23,20 +23,27 @@ and \code{estimate} arguments.}
 
 \item{...}{not used}
 
-\item{truth}{double. Actual value(s)}
+\item{truth}{The column identifier for the true class results
+(that is a \code{numeric}). This should be an unquoted column name although
+this argument is passed by expression and supports
+\link[rlang:topic-inject]{quasiquotation} (you can unquote column
+names). For \verb{_vec()} functions, a \code{factor} vector.}
 
-\item{estimate}{A vector of class \code{quantile_pred}.}
+\item{estimate}{The column identifier for the predicted class results
+(that is also \code{quantile_pred}). As with \code{truth} this can be specified
+different ways but the primary method is to use an unquoted variable name.
+For \verb{_vec()} functions, a \code{quantile_pred} vector.}
 
 \item{quantile_levels}{probabilities. If specified, the score will be
 computed at this set of levels. Otherwise, those present in \code{x} will be
 used. If \code{quantile_levels} do not exactly match those available in \code{x},
-then some quantiles will have implicit missingness. Handling of these
-is determined by \code{quantile_estimate_nas}.}
+then some quantiles will have implicit missingness. Handling of these is
+determined by \code{quantile_estimate_nas}.}
 
-\item{na_rm}{logical. If \code{TRUE}, missing values in \code{actual} or both implicit and
-explicit (values of \code{NA} present in \code{x}), will be ignored (dropped) in the
-calculation of the summary score. If \code{FALSE} (the default), any \code{NA}s will
-result in the summary being \code{NA}.}
+\item{na_rm}{logical. If \code{TRUE}, missing values in \code{actual} or both implicit
+and explicit (values of \code{NA} present in \code{x}), will be ignored (dropped) in
+the calculation of the summary score. If \code{FALSE} (the default), any \code{NA}s
+will result in the summary being \code{NA}.}
 
 \item{quantile_estimate_nas}{character. This argument applies only to \code{x}.
 It handles imputation of individual \code{quantile_levels} that are necessary to
@@ -70,11 +77,12 @@ should be an unquoted column name that evaluates to a numeric column in
 a vector of nonnegative scores.
 }
 \description{
-Weighted interval score (WIS), a well-known quantile-based
-approximation of the commonly-used continuous ranked probability score
-(CRPS). WIS is a proper score, and can be thought of as a distributional
-generalization of absolute error. For example, see \href{https://arxiv.org/abs/2005.12881}{Bracher et al. (2020)} for discussion in the context
-of COVID-19 forecasting.
+Weighted interval score (WIS), a well-known quantile-based approximation of
+the commonly-used continuous ranked probability score (CRPS). WIS is a proper
+score, and can be thought of as a distributional generalization of absolute
+error. For example, see
+\href{https://arxiv.org/abs/2005.12881}{Bracher et al. (2020)} for discussion in
+the context of COVID-19 forecasting.
 }
 \examples{
 library(hardhat)
