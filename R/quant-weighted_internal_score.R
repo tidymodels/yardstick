@@ -14,7 +14,7 @@
 #'   (that is a `numeric`). This should be an unquoted column name although
 #'   this argument is passed by expression and supports
 #'   [quasiquotation][rlang::quasiquotation] (you can unquote column
-#'   names). For `_vec()` functions, a `factor` vector.
+#'   names). For `_vec()` functions, a `numeric` vector.
 #'
 #' @param estimate The column identifier for the predicted class results
 #'   (that is also `quantile_pred`). As with `truth` this can be specified

@@ -27,7 +27,7 @@ and \code{estimate} arguments.}
 (that is a \code{numeric}). This should be an unquoted column name although
 this argument is passed by expression and supports
 \link[rlang:topic-inject]{quasiquotation} (you can unquote column
-names). For \verb{_vec()} functions, a \code{factor} vector.}
+names). For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{estimate}{The column identifier for the predicted class results
 (that is also \code{quantile_pred}). As with \code{truth} this can be specified
