@@ -69,6 +69,12 @@ metrics, along with the types of the inputs they take.
 
     - `estimate` - numeric
 
+8) **Quantile metrics**
+
+    - `truth` - numeric
+
+    - `estimate` - quantile_pred
+
 ## Example
 
 In the following example, the `hpc_cv` data set is used. It contains class
@@ -151,6 +157,10 @@ all_metrics <- bind_rows(
   tibble(
     type = "static survival",
     metric = get_metrics(fns, "static_survival_metric")
+  ),
+  tibble(
+    type = "quantile",
+    metric = get_metrics(fns, "quantile_metric")
   )
 )
 

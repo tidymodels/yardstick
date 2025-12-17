@@ -102,7 +102,7 @@
 weighted_interval_score <- function(data, ...) {
   UseMethod("weighted_interval_score")
 }
-weighted_interval_score <- new_numeric_metric(
+weighted_interval_score <- new_quantile_metric(
   weighted_interval_score,
   direction = "minimize"
 )

@@ -76,6 +76,12 @@ new_linear_pred_survival_metric <- function(fn, direction) {
   new_metric(fn, direction, class = "linear_pred_survival_metric")
 }
 
+#' @rdname new-metric
+#' @export
+new_quantile_metric <- function(fn, direction) {
+  new_metric(fn, direction, class = "quantile_metric")
+}
+
 #' @include import-standalone-types-check.R
 new_metric <- function(fn, direction, class = NULL, call = caller_env()) {
   check_function(fn, call = call)
@@ -128,6 +134,7 @@ format.metric <- function(x, ...) {
       "static_survival_metric" = "static survival metric",
       "integrated_survival_metric" = "integrated survival metric",
       "linear_pred_survival_metric" = "linear predictor survival metric",
+      "quantile_metric" = "quantile metric",
       "metric"
     )
 
