@@ -102,6 +102,9 @@ royston_survival_impl <- function(truth, estimate, case_weights) {
 
   fit <- survival::coxph(truth ~ bns, weights = case_weights)
   est <- unname(stats::coef(fit))
+  # the regression coefficient is sigma* in Royston & Sauerbrei 2004
+  # because `normal_score_blom()` returns their u_i (not z_i)
+  # we thus don't need to scale the coefficient with kappa here
   est^2 / (est^2 + pi^2 / 6)
 }
 
