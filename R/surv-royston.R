@@ -115,7 +115,7 @@ normal_score_blom <- function(x, case_weights) {
       # does not need kappa (from Royston & Sauerbrei 2004) because it'll
       # "disappear" into the baseline hazard of the Cox model in
       # `royston_survival_impl()`
-      z = stats::qnorm((.data$x_first - 3 / 8) / (dplyr::n() + 0.25))
+      z = stats::qnorm((.data$x_first - 3 / 8) / (dplyr::n() + 1 / 4))
     ) |>
     # average over ties
     dplyr::mutate(s = mean(.data$z), .by = "x") |>
