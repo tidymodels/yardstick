@@ -8,6 +8,10 @@
 
 * Added infrastructure for survival metrics on the linear predictor. (#551)
 
+* Added infrastructure for quantile metrics. (#569)
+
+* Added quantile metric `weighted_interval_score()`. (#569)
+
 # yardstick 1.3.2
 
 * All messages, warnings and errors has been translated to use {cli} package (#517, #522).
