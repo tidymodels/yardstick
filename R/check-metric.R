@@ -144,5 +144,5 @@ check_quantile_metric <- function(
   call = caller_env()
 ) {
   validate_numeric_truth_quantile_estimate(truth, estimate, call = call)
-  validate_case_weights(case_weights, size = nrow(truth), call = call)
+  validate_case_weights(case_weights, size = length(truth), call = call)
 }
