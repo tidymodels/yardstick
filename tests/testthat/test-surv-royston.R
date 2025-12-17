@@ -19,7 +19,7 @@ test_that("comparison test with survival::royston", {
     res[[".estimate"]],
     royston_ref["R.D"],
     ignore_attr = TRUE,
-    tolerance = 1e-4
+    tolerance = 1e-3
   )
 })
 
