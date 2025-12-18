@@ -116,7 +116,7 @@ Collate:
     'prob-roc_aunp.R'
     'prob-roc_aunu.R'
     'prob-roc_curve.R'
-    'quant-weighted_internal_score.R'
+    'quant-weighted_interval_score.R'
     'reexports.R'
     'surv-brier_survival.R'
     'surv-brier_survival_integrated.R'
