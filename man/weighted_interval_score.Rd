@@ -2,10 +2,22 @@
 % Please edit documentation in R/quant-weighted_internal_score.R
 \name{weighted_interval_score}
 \alias{weighted_interval_score}
+\alias{weighted_interval_score.data.frame}
 \alias{weighted_interval_score_vec}
 \title{Compute weighted interval score}
 \usage{
 weighted_interval_score(data, ...)
+
+\method{weighted_interval_score}{data.frame}(
+  data,
+  truth,
+  estimate,
+  quantile_levels = NULL,
+  na_rm = TRUE,
+  quantile_estimate_nas = c("impute", "drop", "propagate"),
+  case_weights = NULL,
+  ...
+)
 
 weighted_interval_score_vec(
   truth,

@@ -107,6 +107,33 @@ weighted_interval_score <- new_quantile_metric(
   direction = "minimize"
 )
 
+#' @rdname weighted_interval_score
+#' @export
+weighted_interval_score.data.frame <- function(
+  data,
+  truth,
+  estimate,
+  quantile_levels = NULL,
+  na_rm = TRUE,
+  quantile_estimate_nas = c("impute", "drop", "propagate"),
+  case_weights = NULL,
+  ...
+) {
+  quantile_metric_summarizer(
+    name = "weighted_interval_score",
+    fn = weighted_interval_score_vec,
+    data = data,
+    truth = !!enquo(truth),
+    estimate = !!enquo(estimate),
+    na_rm = na_rm,
+    case_weights = !!enquo(case_weights),
+    fn_options = list(
+      quantile_levels = quantile_levels,
+      quantile_estimate_nas = quantile_estimate_nas
+    )
+  )
+}
+
 #' @export
 #' @rdname weighted_interval_score
 weighted_interval_score_vec <- function(
@@ -119,8 +146,10 @@ weighted_interval_score_vec <- function(
   ...
 ) {
   check_quantile_metric(truth, estimate, case_weights)
+
   estimate_quantile_levels <- hardhat::extract_quantile_levels(estimate)
   quantile_estimate_nas <- rlang::arg_match(quantile_estimate_nas)
+
   if (!is.null(quantile_levels)) {
     hardhat::check_quantile_levels(quantile_levels)
     all_levels_estimated <- all(quantile_levels %in% estimate_quantile_levels)
@@ -171,25 +200,22 @@ wis_impl <- function(
   quantile_levels,
   rowwise_na_rm = TRUE
 ) {
-  as.vector(
-    mapply(
-      FUN = function(.x, .y) {
-        wis_one_quantile(.x, quantile_levels, .y, rowwise_na_rm)
-      },
-      vctrs::vec_chop(estimate),
-      truth
-    ),
-    "double"
+  res <- mapply(
+    FUN = function(.x, .y) {
+      wis_one_quantile(.x, quantile_levels, .y, rowwise_na_rm)
+    },
+    vctrs::vec_chop(estimate),
+    truth
   )
+
+  as.vector(res, "double")
 }
 
 wis_one_quantile <- function(values, quantile_levels, truth, na_rm) {
-  2 *
-    mean(
-      pmax(
-        quantile_levels * (truth - values),
-        (1 - quantile_levels) * (values - truth)
-      ),
-      na.rm = na_rm
-    )
+  res <- pmax(
+    quantile_levels * (truth - values),
+    (1 - quantile_levels) * (values - truth)
+  )
+
+  2 * mean(res, na.rm = na_rm)
 }
