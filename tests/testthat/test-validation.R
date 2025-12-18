@@ -594,3 +594,57 @@ test_that("validate_case_weights errors as expected", {
     validate_case_weights(1:10, 11)
   )
 })
+
+test_that("validate_numeric_truth_quantile_estimate errors as expected", {
+  expect_no_error(
+    validate_numeric_truth_quantile_estimate(
+      c(3.3, 7.1),
+      hardhat::quantile_pred(rbind(1:4, 8:11), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_no_error(
+    validate_numeric_truth_quantile_estimate(
+      3.3,
+      hardhat::quantile_pred(rbind(1:4), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_no_error(
+    validate_numeric_truth_quantile_estimate(
+      3L,
+      hardhat::quantile_pred(rbind(1:4), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_no_error(
+    validate_numeric_truth_quantile_estimate(
+      numeric(),
+      hardhat::quantile_pred(matrix(nrow = 0, ncol = 4), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_numeric_truth_quantile_estimate(
+      "4",
+      hardhat::quantile_pred(rbind(1:4), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_numeric_truth_quantile_estimate(
+      3.3,
+      3.4
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_numeric_truth_quantile_estimate(
+      c(3.3, 7.1, 1),
+      hardhat::quantile_pred(rbind(1:4, 8:11), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+})
