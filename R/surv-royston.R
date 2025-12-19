@@ -109,7 +109,10 @@ royston_survival_impl <- function(truth, estimate, case_weights) {
 }
 
 normal_score_blom <- function(x, case_weights) {
-  tibble::tibble(
+  # includes observations with zero weights
+  x_0 <- tibble::tibble(.row = seq_along(x), x = x)
+
+  rankits <- tibble::tibble(
     .row = rep(seq_along(x), times = case_weights),
     x = rep(x, times = case_weights),
   ) |>
@@ -122,6 +125,8 @@ normal_score_blom <- function(x, case_weights) {
     ) |>
     # average over ties
     dplyr::mutate(s = mean(.data$z), .by = "x") |>
-    dplyr::slice(1, .by = .row) |>
+    dplyr::slice(1, .by = .row)
+
+  dplyr::left_join(x_0, rankits, by = c(".row")) |>
     dplyr::pull("s")
 }

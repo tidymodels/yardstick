@@ -43,6 +43,13 @@ test_that("`normal_score_blom()` works with case weights", {
     nsb[1],
     mean(qnorm((1:4 - 3 / 8) / (sum(case_weights) + 0.25)))
   )
+
+  # weights of zero
+  x <- 1:10 + 0.5
+  case_weights <- c(0, 0, rep(2, 8))
+  nsb <- normal_score_blom(x, case_weights)
+  expect_length(nsb, 10)
+  expect_true(all(is.na(nsb[1:2])))
 })
 
 test_that("case weights works with equal weights", {
@@ -70,7 +77,7 @@ test_that("case weights works with equal weights", {
 
 test_that("works with hardhat case weights", {
   lung_surv <- data_lung_surv()
-  lung_surv$case_wts <- rep(2, nrow(lung_surv))
+  lung_surv$case_wts <- c(rep(0, 10), rep(2, nrow(lung_surv) - 10))
 
   df <- lung_surv
 
