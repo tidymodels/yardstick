@@ -184,6 +184,28 @@ test_that("can mix dynamic and static survival metric together", {
   )
 })
 
+test_that("quantile metric sets", {
+  reg_set <- metric_set(weighted_interval_score, weighted_interval_score)
+
+  quantile_levels <- c(.2, .4, .6, .8)
+  pred1 <- 1:4
+  pred2 <- 8:11
+  example <- dplyr::tibble(
+    preds = hardhat::quantile_pred(rbind(pred1, pred2), quantile_levels),
+    truth = c(3.3, 7.1)
+  )
+
+  exp <- dplyr::bind_rows(
+    weighted_interval_score(example, truth = truth, estimate = preds),
+    weighted_interval_score(example, truth = truth, estimate = preds)
+  )
+
+  expect_identical(
+    reg_set(example, truth = truth, estimate = preds),
+    exp
+  )
+})
+
 test_that("can supply `event_level` even with metrics that don't use it", {
   df <- two_class_example
 
