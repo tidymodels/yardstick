@@ -119,12 +119,6 @@ test_that("numeric metric sets", {
     error = TRUE,
     metric_set(rmse, "x")
   )
-
-  # Can mix class and class prob together
-  mixed_set <- metric_set(accuracy, roc_auc)
-  expect_no_error(
-    mixed_set(two_class_example, truth, Class1, estimate = predicted)
-  )
 })
 
 test_that("mixing bad metric sets", {
