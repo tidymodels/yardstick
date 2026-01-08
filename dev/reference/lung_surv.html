@@ -66,8 +66,8 @@ package.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">lung_surv</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">lung_surv</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> tibble [228 × 3] (S3: tbl_df/tbl/data.frame)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ .pred     :List of 228</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> tibble [228 × 4] (S3: tbl_df/tbl/data.frame)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ .pred            :List of 228</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ : tibble [5 × 5] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ .eval_time      : num [1:5] 100 200 300 400 500</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ .pred_survival  : num [1:5] 0.819 0.597 0.407 0.264 0.164</span>
@@ -663,12 +663,13 @@ package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ .pred_censored  : num [1:5] 0.995 0.928 0.76 0.663 0.613</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ .weight_censored: num [1:5] 1.01 1.08 1.31 1.51 1.63</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. [list output truncated]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ .pred_time: num [1:228] 324 476 521 368 506 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ surv_obj  : 'Surv' num [1:228, 1:2]  306   455  1010+  210   883  1022+  310   361   218   166  ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ .pred_time       : num [1:228] 324 476 521 368 506 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ surv_obj         : 'Surv' num [1:228, 1:2]  306   455  1010+  210   883  1022+  310   361   218   166  ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "dimnames")=List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ : NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ : chr [1:2] "time" "status"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..- attr(*, "type")= chr "right"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ .pred_linear_pred: num [1:228] 5.78 6.17 6.26 5.91 6.23 ...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># `surv_obj` is a `Surv()` object</span></span></span>
 </code></pre></div>

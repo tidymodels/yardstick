@@ -18,14 +18,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/tidymodels/yardstick/blob/main/DESCRIPTION)
 
-Kuhn M, Vaughan D, Hvitfeldt E (2025). *yardstick: Tidy
+Kuhn M, Vaughan D, Hvitfeldt E (2026). *yardstick: Tidy
 Characterizations of Model Performance*. R package version 1.3.2.9000,
 <https://github.com/tidymodels/yardstick>.
 
     @Manual{,
       title = {yardstick: Tidy Characterizations of Model Performance},
       author = {Max Kuhn and Davis Vaughan and Emil Hvitfeldt},
-      year = {2025},
+      year = {2026},
       note = {R package version 1.3.2.9000},
       url = {https://github.com/tidymodels/yardstick},
     }

@@ -19,8 +19,8 @@ set using the censored package.
 ``` r
 data(lung_surv)
 str(lung_surv)
-#> tibble [228 × 3] (S3: tbl_df/tbl/data.frame)
-#>  $ .pred     :List of 228
+#> tibble [228 × 4] (S3: tbl_df/tbl/data.frame)
+#>  $ .pred            :List of 228
 #>   ..$ : tibble [5 × 5] (S3: tbl_df/tbl/data.frame)
 #>   .. ..$ .eval_time      : num [1:5] 100 200 300 400 500
 #>   .. ..$ .pred_survival  : num [1:5] 0.819 0.597 0.407 0.264 0.164
@@ -616,12 +616,13 @@ str(lung_surv)
 #>   .. ..$ .pred_censored  : num [1:5] 0.995 0.928 0.76 0.663 0.613
 #>   .. ..$ .weight_censored: num [1:5] 1.01 1.08 1.31 1.51 1.63
 #>   .. [list output truncated]
-#>  $ .pred_time: num [1:228] 324 476 521 368 506 ...
-#>  $ surv_obj  : 'Surv' num [1:228, 1:2]  306   455  1010+  210   883  1022+  310   361   218   166  ...
+#>  $ .pred_time       : num [1:228] 324 476 521 368 506 ...
+#>  $ surv_obj         : 'Surv' num [1:228, 1:2]  306   455  1010+  210   883  1022+  310   361   218   166  ...
 #>   ..- attr(*, "dimnames")=List of 2
 #>   .. ..$ : NULL
 #>   .. ..$ : chr [1:2] "time" "status"
 #>   ..- attr(*, "type")= chr "right"
+#>  $ .pred_linear_pred: num [1:228] 5.78 6.17 6.26 5.91 6.23 ...
 
 # `surv_obj` is a `Surv()` object
 ```

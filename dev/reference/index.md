@@ -164,6 +164,12 @@
   [`concordance_survival_vec()`](https://yardstick.tidymodels.org/dev/reference/concordance_survival.md)
   : Concordance index for right-censored data
 
+## Linear Predictor Survival Metrics
+
+- [`royston_survival()`](https://yardstick.tidymodels.org/dev/reference/royston_survival.md)
+  [`royston_survival_vec()`](https://yardstick.tidymodels.org/dev/reference/royston_survival.md)
+  : Royston-Sauerbei D statistic
+
 ## Curve Survival Functions
 
 - [`roc_curve_survival()`](https://yardstick.tidymodels.org/dev/reference/roc_curve_survival.md)
