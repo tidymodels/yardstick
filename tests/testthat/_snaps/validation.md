@@ -38,15 +38,6 @@
       Error:
       ! `truth` (4) and `estimate` (5) must be the same length.
 
----
-
-    Code
-      validate_binary_estimator(factor(c("a", "b", "a"), levels = c("a", "b", "c")),
-      estimator = "binary")
-    Condition
-      Error:
-      ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 3 levels was provided.
-
 # validate_factor_truth_factor_estimate errors as expected
 
     Code
@@ -244,6 +235,15 @@
       Error:
       ! The number of levels in `truth` (2) must match the number of columns supplied in `...` (5).
 
+# validate_binary_estimator errors as expected
+
+    Code
+      validate_binary_estimator(factor(c("a", "b", "a"), levels = c("a", "b", "c")),
+      estimator = "binary")
+    Condition
+      Error:
+      ! `estimator` is binary, only two class `truth` factors are allowed. A factor with 3 levels was provided.
+
 # validate_surv_truth_numeric_estimate errors as expected
 
     Code
@@ -379,4 +379,30 @@
     Condition
       Error:
       ! `truth` (11) and `case_weights` (10) must be the same length.
+
+# validate_numeric_truth_quantile_estimate errors as expected
+
+    Code
+      validate_numeric_truth_quantile_estimate("4", hardhat::quantile_pred(rbind(1:4),
+      c(0.2, 0.4, 0.6, 0.8)))
+    Condition
+      Error:
+      ! `truth` should be a numeric vector, not a string.
+
+---
+
+    Code
+      validate_numeric_truth_quantile_estimate(3.3, 3.4)
+    Condition
+      Error:
+      ! `estimate` should be a <quantile_pred> object, not a number.
+
+---
+
+    Code
+      validate_numeric_truth_quantile_estimate(c(3.3, 7.1, 1), hardhat::quantile_pred(
+        rbind(1:4, 8:11), c(0.2, 0.4, 0.6, 0.8)))
+    Condition
+      Error:
+      ! `truth` (3) and `estimate` (2) must be the same length.
 

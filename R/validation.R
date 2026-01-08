@@ -443,3 +443,43 @@ validate_case_weights <- function(case_weights, size, call = caller_env()) {
 
   invisible(NULL)
 }
+
+validate_numeric_truth_quantile_estimate <- function(
+  truth,
+  estimate,
+  call = caller_env()
+) {
+  if (!is.numeric(truth)) {
+    cli::cli_abort(
+      "{.arg truth} should be a numeric vector,
+      not {.obj_type_friendly {truth}}.",
+      call = call
+    )
+  }
+
+  if (!inherits(estimate, "quantile_pred")) {
+    cli::cli_abort(
+      "{.arg estimate} should be a {.cls quantile_pred} object,
+      not {.obj_type_friendly {estimate}}.",
+      call = call
+    )
+  }
+
+  if (is.matrix(truth)) {
+    cli::cli_abort(
+      "{.arg truth} should be a numeric vector, not a numeric matrix.",
+      call = call
+    )
+  }
+
+  n_truth <- length(truth)
+  n_estimate <- vctrs::vec_size(estimate)
+
+  if (n_truth != n_estimate) {
+    cli::cli_abort(
+      "{.arg truth} ({n_truth}) and
+      {.arg estimate} ({n_estimate}) must be the same length.",
+      call = call
+    )
+  }
+}

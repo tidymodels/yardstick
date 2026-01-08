@@ -10,6 +10,7 @@
 \alias{new_integrated_survival_metric}
 \alias{new_static_survival_metric}
 \alias{new_linear_pred_survival_metric}
+\alias{new_quantile_metric}
 \title{Construct a new metric function}
 \usage{
 new_class_metric(fn, direction)
@@ -27,6 +28,8 @@ new_integrated_survival_metric(fn, direction)
 new_static_survival_metric(fn, direction)
 
 new_linear_pred_survival_metric(fn, direction)
+
+new_quantile_metric(fn, direction)
 }
 \arguments{
 \item{fn}{A function. The metric function to attach a metric-specific class

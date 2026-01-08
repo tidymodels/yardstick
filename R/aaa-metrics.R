@@ -267,6 +267,8 @@ metric_set <- function(...) {
     fn_cls %in% c("prob_metric", "class_metric", "ordered_prob_metric")
   ) {
     make_prob_class_metric_function(fns)
+  } else if (fn_cls == "quantile_metric") {
+    make_quantile_metric_function(fns)
   } else if (
     fn_cls %in%
       c(
@@ -663,6 +665,55 @@ make_survival_metric_function <- function(fns) {
   metric_function
 }
 
+make_quantile_metric_function <- function(fns) {
+  metric_function <- function(
+    data,
+    truth,
+    estimate,
+    na_rm = TRUE,
+    case_weights = NULL,
+    ...
+  ) {
+    # Construct common argument set for each metric call
+    # Doing this dynamically inside the generated function means
+    # we capture the correct arguments
+    call_args <- quos(
+      data = data,
+      truth = !!enquo(truth),
+      estimate = !!enquo(estimate),
+      na_rm = na_rm,
+      case_weights = !!enquo(case_weights),
+      ... = ...
+    )
+
+    # Construct calls from the functions + arguments
+    calls <- lapply(fns, call2, !!!call_args)
+
+    calls <- mapply(call_remove_static_arguments, calls, fns)
+
+    # Evaluate
+    metric_list <- mapply(
+      FUN = eval_safely,
+      calls, # .x
+      names(calls), # .y
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE
+    )
+
+    dplyr::bind_rows(metric_list)
+  }
+
+  class(metric_function) <- c(
+    "quantile_metric_set",
+    "metric_set",
+    class(metric_function)
+  )
+
+  attr(metric_function, "metrics") <- fns
+
+  metric_function
+}
+
 validate_not_empty <- function(x, call = caller_env()) {
   if (is_empty(x)) {
     cli::cli_abort(
@@ -705,7 +756,8 @@ validate_function_class <- function(fns) {
     "dynamic_survival_metric",
     "static_survival_metric",
     "integrated_survival_metric",
-    "linear_pred_survival_metric"
+    "linear_pred_survival_metric",
+    "quantile_metric"
   )
 
   if (n_unique == 1L) {

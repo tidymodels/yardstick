@@ -98,6 +98,10 @@ reference:
   contents:
   - roc_curve_survival
 
+- title: Quantile Metrics
+  contents:
+  - weighted_interval_score
+
 - title: Curve Functions
   contents:
   - roc_curve
