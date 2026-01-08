@@ -82,6 +82,7 @@
 <url><loc>https://yardstick.tidymodels.org/dev/reference/spec.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/summary.conf_mat.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/two_class_example.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/dev/reference/weighted_interval_score.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/yardstick-package.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.html</loc></url>
 </urlset>

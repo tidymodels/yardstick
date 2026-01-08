@@ -2,8 +2,9 @@
 
 `numeric_metric_summarizer()`, `class_metric_summarizer()`,
 `prob_metric_summarizer()`, `curve_metric_summarizer()`,
-`dynamic_survival_metric_summarizer()`, and
-`static_survival_metric_summarizer()` are useful alongside
+`dynamic_survival_metric_summarizer()`,
+`static_survival_metric_summarizer()`, and
+`quantile_metric_summarizer()` are useful alongside
 [check_metric](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
 and
 [yardstick_remove_missing](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
@@ -138,6 +139,19 @@ linear_pred_survival_metric_summarizer(
   fn_options = list(),
   error_call = caller_env()
 )
+
+quantile_metric_summarizer(
+  name,
+  fn,
+  data,
+  truth,
+  estimate,
+  ...,
+  na_rm = TRUE,
+  case_weights = NULL,
+  fn_options = list(),
+  error_call = caller_env()
+)
 ```
 
 ## Arguments
@@ -160,8 +174,9 @@ linear_pred_survival_metric_summarizer(
   data frame version of your metric function that called
   `numeric_metric_summarizer()`, `class_metric_summarizer()`,
   `prob_metric_summarizer()`, `curve_metric_summarizer()`,
-  `dynamic_survival_metric_summarizer()`, or
-  `static_survival_metric_summarizer()`.
+  `dynamic_survival_metric_summarizer()`,
+  `static_survival_metric_summarizer()`, or
+  `quantile_metric_summarizer()`.
 
 - truth:
 
@@ -221,11 +236,12 @@ linear_pred_survival_metric_summarizer(
 
 `numeric_metric_summarizer()`, `class_metric_summarizer()`,
 `prob_metric_summarizer()`, `curve_metric_summarizer()`,
+`dynamic_survival_metric_summarizer()`,
 `dynamic_survival_metric_summarizer()`, and
-`dynamic_survival_metric_summarizer()` are generally called from the
-data frame version of your metric function. It knows how to call your
-metric over grouped data frames and returns a `tibble` consistent with
-other metrics.
+`quantile_metric_summarizer()` are generally called from the data frame
+version of your metric function. It knows how to call your metric over
+grouped data frames and returns a `tibble` consistent with other
+metrics.
 
 ## See also
 

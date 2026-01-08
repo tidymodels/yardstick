@@ -105,7 +105,9 @@ accordance with the type of metric that is used.</p>
 <span>  <span class="va">estimate</span>,</span>
 <span>  <span class="va">case_weights</span>,</span>
 <span>  call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_quantile_metric</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">case_weights</span>, call <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -119,6 +121,7 @@ accordance with the type of metric that is used.</p>
 <li><p>For <code>check_ordered_prob_metric()</code>, an ordered factor.</p></li>
 <li><p>For <code>check_dynamic_survival_metric()</code>, a Surv object.</p></li>
 <li><p>For <code>check_static_survival_metric()</code>, a Surv object.</p></li>
+<li><p>For <code>check_quantile_metric()</code>, a numeric vector.</p></li>
 </ul></dd>
 
 
@@ -131,6 +134,7 @@ a numeric matrix for multic-class <code>truth</code>.</p></li>
 a numeric matrix for multic-class <code>truth</code>.</p></li>
 <li><p>For <code>check_dynamic_survival_metric()</code>, list-column of data.frames.</p></li>
 <li><p>For <code>check_static_survival_metric()</code>, a numeric vector.</p></li>
+<li><p>For <code>check_quantile_metric()</code>, a <code><a href="https://hardhat.tidymodels.org/reference/quantile_pred.html" class="external-link">hardhat::quantile_pred</a></code> vector.</p></li>
 </ul></dd>
 
 

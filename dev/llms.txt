@@ -352,6 +352,12 @@ By contributing to this project, you agree to abide by its terms.
 - [`roc_curve_survival()`](https://yardstick.tidymodels.org/dev/reference/roc_curve_survival.md)
   : Time-Dependent ROC surve for Censored Data
 
+## Quantile Metrics
+
+- [`weighted_interval_score()`](https://yardstick.tidymodels.org/dev/reference/weighted_interval_score.md)
+  [`weighted_interval_score_vec()`](https://yardstick.tidymodels.org/dev/reference/weighted_interval_score.md)
+  : Compute weighted interval score
+
 ## Curve Functions
 
 - [`roc_curve()`](https://yardstick.tidymodels.org/dev/reference/roc_curve.md)
@@ -388,6 +394,7 @@ By contributing to this project, you agree to abide by its terms.
   [`static_survival_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   [`curve_survival_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   [`linear_pred_survival_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
+  [`quantile_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   : Developer function for summarizing new metrics
 - [`check_numeric_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
   [`check_class_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
@@ -396,6 +403,7 @@ By contributing to this project, you agree to abide by its terms.
   [`check_dynamic_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
   [`check_static_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
   [`check_linear_pred_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  [`check_quantile_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
   : Developer function for checking inputs in new metrics
 - [`yardstick_remove_missing()`](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
   [`yardstick_any_missing()`](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
@@ -414,6 +422,7 @@ By contributing to this project, you agree to abide by its terms.
   [`new_integrated_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   [`new_static_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   [`new_linear_pred_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
+  [`new_quantile_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   : Construct a new metric function
 
 ## Data Sets

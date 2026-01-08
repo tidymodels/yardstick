@@ -55,6 +55,12 @@ along with the types of the inputs they take.
 
     - `estimate` - numeric
 
+8.  **Quantile metrics**
+
+    - `truth` - numeric
+
+    - `estimate` - quantile_pred
+
 ## Example
 
 In the following example, the `hpc_cv` data set is used. It contains
@@ -159,49 +165,50 @@ hpc_cv |>
 Below is a table of all of the metrics available in `yardstick`, grouped
 by type.
 
-| type             | metric                                                                                             |
-|:-----------------|:---------------------------------------------------------------------------------------------------|
-| class            | [`accuracy()`](https://yardstick.tidymodels.org/dev/reference/accuracy.md)                         |
-| class            | [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md)                 |
-| class            | [`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md) |
-| class            | [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md)                             |
-| class            | [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)                           |
-| class            | [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md)                                   |
-| class            | [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md)                                   |
-| class            | [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md)                                   |
-| class            | [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md)                                   |
-| class            | [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md)                       |
-| class            | [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md)                             |
-| class            | [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md)                                 |
-| class            | [`sensitivity()`](https://yardstick.tidymodels.org/dev/reference/sens.md)                          |
-| class            | [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)                                 |
-| class            | [`specificity()`](https://yardstick.tidymodels.org/dev/reference/spec.md)                          |
-| class prob       | [`average_precision()`](https://yardstick.tidymodels.org/dev/reference/average_precision.md)       |
-| class prob       | [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)                   |
-| class prob       | [`classification_cost()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)   |
-| class prob       | [`gain_capture()`](https://yardstick.tidymodels.org/dev/reference/gain_capture.md)                 |
-| class prob       | [`mn_log_loss()`](https://yardstick.tidymodels.org/dev/reference/mn_log_loss.md)                   |
-| class prob       | [`pr_auc()`](https://yardstick.tidymodels.org/dev/reference/pr_auc.md)                             |
-| class prob       | [`roc_auc()`](https://yardstick.tidymodels.org/dev/reference/roc_auc.md)                           |
-| class prob       | [`roc_aunp()`](https://yardstick.tidymodels.org/dev/reference/roc_aunp.md)                         |
-| class prob       | [`roc_aunu()`](https://yardstick.tidymodels.org/dev/reference/roc_aunu.md)                         |
-| ordered prob     | [`ranked_prob_score()`](https://yardstick.tidymodels.org/dev/reference/ranked_prob_score.md)       |
-| numeric          | [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md)                                   |
-| numeric          | [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md)                     |
-| numeric          | [`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md)       |
-| numeric          | [`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md)                                   |
-| numeric          | [`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md)                                   |
-| numeric          | [`mape()`](https://yardstick.tidymodels.org/dev/reference/mape.md)                                 |
-| numeric          | [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md)                                 |
-| numeric          | [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)                                   |
-| numeric          | [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md)                                   |
-| numeric          | [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md)         |
-| numeric          | [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)                                 |
-| numeric          | [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md)                                   |
-| numeric          | [`rpiq()`](https://yardstick.tidymodels.org/dev/reference/rpiq.md)                                 |
-| numeric          | [`rsq()`](https://yardstick.tidymodels.org/dev/reference/rsq.md)                                   |
-| numeric          | [`rsq_trad()`](https://yardstick.tidymodels.org/dev/reference/rsq_trad.md)                         |
-| numeric          | [`smape()`](https://yardstick.tidymodels.org/dev/reference/smape.md)                               |
-| dynamic survival | [`brier_survival()`](https://yardstick.tidymodels.org/dev/reference/brier_survival.md)             |
-| dynamic survival | [`roc_auc_survival()`](https://yardstick.tidymodels.org/dev/reference/roc_auc_survival.md)         |
-| static survival  | [`concordance_survival()`](https://yardstick.tidymodels.org/dev/reference/concordance_survival.md) |
+| type             | metric                                                                                                   |
+|:-----------------|:---------------------------------------------------------------------------------------------------------|
+| class            | [`accuracy()`](https://yardstick.tidymodels.org/dev/reference/accuracy.md)                               |
+| class            | [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md)                       |
+| class            | [`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md)       |
+| class            | [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md)                                   |
+| class            | [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)                                 |
+| class            | [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md)                                         |
+| class            | [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md)                                         |
+| class            | [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md)                                         |
+| class            | [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md)                                         |
+| class            | [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md)                             |
+| class            | [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md)                                   |
+| class            | [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md)                                       |
+| class            | [`sensitivity()`](https://yardstick.tidymodels.org/dev/reference/sens.md)                                |
+| class            | [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)                                       |
+| class            | [`specificity()`](https://yardstick.tidymodels.org/dev/reference/spec.md)                                |
+| class prob       | [`average_precision()`](https://yardstick.tidymodels.org/dev/reference/average_precision.md)             |
+| class prob       | [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)                         |
+| class prob       | [`classification_cost()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)         |
+| class prob       | [`gain_capture()`](https://yardstick.tidymodels.org/dev/reference/gain_capture.md)                       |
+| class prob       | [`mn_log_loss()`](https://yardstick.tidymodels.org/dev/reference/mn_log_loss.md)                         |
+| class prob       | [`pr_auc()`](https://yardstick.tidymodels.org/dev/reference/pr_auc.md)                                   |
+| class prob       | [`roc_auc()`](https://yardstick.tidymodels.org/dev/reference/roc_auc.md)                                 |
+| class prob       | [`roc_aunp()`](https://yardstick.tidymodels.org/dev/reference/roc_aunp.md)                               |
+| class prob       | [`roc_aunu()`](https://yardstick.tidymodels.org/dev/reference/roc_aunu.md)                               |
+| ordered prob     | [`ranked_prob_score()`](https://yardstick.tidymodels.org/dev/reference/ranked_prob_score.md)             |
+| numeric          | [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md)                                         |
+| numeric          | [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md)                           |
+| numeric          | [`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md)             |
+| numeric          | [`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md)                                         |
+| numeric          | [`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md)                                         |
+| numeric          | [`mape()`](https://yardstick.tidymodels.org/dev/reference/mape.md)                                       |
+| numeric          | [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md)                                       |
+| numeric          | [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)                                         |
+| numeric          | [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md)                                         |
+| numeric          | [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md)               |
+| numeric          | [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)                                       |
+| numeric          | [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md)                                         |
+| numeric          | [`rpiq()`](https://yardstick.tidymodels.org/dev/reference/rpiq.md)                                       |
+| numeric          | [`rsq()`](https://yardstick.tidymodels.org/dev/reference/rsq.md)                                         |
+| numeric          | [`rsq_trad()`](https://yardstick.tidymodels.org/dev/reference/rsq_trad.md)                               |
+| numeric          | [`smape()`](https://yardstick.tidymodels.org/dev/reference/smape.md)                                     |
+| dynamic survival | [`brier_survival()`](https://yardstick.tidymodels.org/dev/reference/brier_survival.md)                   |
+| dynamic survival | [`roc_auc_survival()`](https://yardstick.tidymodels.org/dev/reference/roc_auc_survival.md)               |
+| static survival  | [`concordance_survival()`](https://yardstick.tidymodels.org/dev/reference/concordance_survival.md)       |
+| quantile         | [`weighted_interval_score()`](https://yardstick.tidymodels.org/dev/reference/weighted_interval_score.md) |

@@ -29,6 +29,8 @@ new_integrated_survival_metric(fn, direction)
 new_static_survival_metric(fn, direction)
 
 new_linear_pred_survival_metric(fn, direction)
+
+new_quantile_metric(fn, direction)
 ```
 
 ## Arguments

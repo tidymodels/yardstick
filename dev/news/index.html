@@ -47,6 +47,8 @@
 <li><p><code><a href="../reference/poisson_log_loss.html">poisson_log_loss()</a></code> has been enhanced to handle 0 valued estimates, no longer returning <code>Inf</code> or <code>NaN</code>. (<a href="https://github.com/tidymodels/yardstick/issues/513" class="external-link">#513</a>)</p></li>
 <li><p>Fixed bug where ranked probability metrics didn’t work in combination with other classification metrics in <code><a href="../reference/metric_set.html">metric_set()</a></code>. (<a href="https://github.com/tidymodels/yardstick/issues/539" class="external-link">#539</a>)</p></li>
 <li><p>Added infrastructure for survival metrics on the linear predictor. (<a href="https://github.com/tidymodels/yardstick/issues/551" class="external-link">#551</a>)</p></li>
+<li><p>Added infrastructure for quantile metrics. (<a href="https://github.com/tidymodels/yardstick/issues/569" class="external-link">#569</a>)</p></li>
+<li><p>Added quantile metric <code><a href="../reference/weighted_interval_score.html">weighted_interval_score()</a></code>. (<a href="https://github.com/tidymodels/yardstick/issues/569" class="external-link">#569</a>)</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.2" id="yardstick-132">yardstick 1.3.2<a class="anchor" aria-label="anchor" href="#yardstick-132"></a></h2><p class="text-muted">CRAN release: 2025-01-22</p>

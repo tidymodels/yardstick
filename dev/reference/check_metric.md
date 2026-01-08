@@ -59,6 +59,8 @@ check_linear_pred_survival_metric(
   case_weights,
   call = caller_env()
 )
+
+check_quantile_metric(truth, estimate, case_weights, call = caller_env())
 ```
 
 ## Arguments
@@ -79,6 +81,8 @@ check_linear_pred_survival_metric(
 
   - For `check_static_survival_metric()`, a Surv object.
 
+  - For `check_quantile_metric()`, a numeric vector.
+
 - estimate:
 
   The realized `estimate` result.
@@ -96,6 +100,10 @@ check_linear_pred_survival_metric(
   - For `check_dynamic_survival_metric()`, list-column of data.frames.
 
   - For `check_static_survival_metric()`, a numeric vector.
+
+  - For `check_quantile_metric()`, a
+    [`hardhat::quantile_pred`](https://hardhat.tidymodels.org/reference/quantile_pred.html)
+    vector.
 
 - case_weights:
 
