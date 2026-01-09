@@ -224,3 +224,10 @@ test_that("hand calculated equivalent", {
     exp_spec
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    roc_auc_survival_vec(1, 1, na_rm = "yes")
+  )
+})

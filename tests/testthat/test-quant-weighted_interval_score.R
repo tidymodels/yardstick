@@ -84,3 +84,10 @@ test_that("Missing value behaviours works", {
     NA_real_
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    weighted_interval_score_vec(1, 1, na_rm = "yes")
+  )
+})

@@ -120,3 +120,10 @@ test_that("Multi class - sklearn equivalent", {
     py_res$multiclass
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    accuracy_vec(1, 1, na_rm = "yes")
+  )
+})

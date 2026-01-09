@@ -23,3 +23,11 @@
       Error in `gain_curve_vec_vec()`:
       ! could not find function "gain_curve_vec_vec"
 
+# na_rm argument check
+
+    Code
+      gain_curve_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `gain_curve_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+

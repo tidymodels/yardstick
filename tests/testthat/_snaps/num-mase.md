@@ -46,3 +46,11 @@
       Error in `mase()`:
       ! `truth` (32) must have a length greater than `m` (100) to compute the out-of-sample naive mean absolute error.
 
+# na_rm argument check
+
+    Code
+      mase_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `mase_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+

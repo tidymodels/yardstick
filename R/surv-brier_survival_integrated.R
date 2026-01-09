@@ -90,6 +90,7 @@ brier_survival_integrated_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   check_dynamic_survival_metric(
     truth,
     estimate,

@@ -208,3 +208,10 @@ test_that("errors with class_pred input", {
     lift_curve_vec(cp_truth, estimate)
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    lift_curve_vec(1, 1, na_rm = "yes")
+  )
+})

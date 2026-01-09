@@ -94,3 +94,10 @@ test_that("errors with bad input", {
     ranked_prob_score_vec(ord_truth, estimate_1D)
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    ranked_prob_score_vec(1, 1, na_rm = "yes")
+  )
+})

@@ -113,6 +113,7 @@ mn_log_loss_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "mn_log_loss")

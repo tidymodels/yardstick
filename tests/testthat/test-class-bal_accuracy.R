@@ -116,3 +116,10 @@ test_that("Two class weighted - sklearn equivalent", {
     py_res$case_weight$binary
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    bal_accuracy_vec(1, 1, na_rm = "yes")
+  )
+})

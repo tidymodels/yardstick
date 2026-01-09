@@ -295,3 +295,10 @@ test_that("Multi class weighted - sklearn equivalent", {
     py_res_.5$case_weight$weighted
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    f_meas_vec(1, 1, na_rm = "yes")
+  )
+})

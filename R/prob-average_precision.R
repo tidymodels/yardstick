@@ -92,6 +92,7 @@ average_precision_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, estimator, "average_precision")

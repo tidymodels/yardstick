@@ -98,3 +98,10 @@ test_that("mase() errors if m is larger than number of observations", {
     mase(mtcars, mpg, disp, m = 100)
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    mase_vec(1, 1, na_rm = "yes")
+  )
+})

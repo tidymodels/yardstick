@@ -54,3 +54,10 @@ test_that("works with hardhat case weights", {
     iic_vec(df$solubility, df$prediction, case_weights = freq_wgt)
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    iic_vec(1, 1, na_rm = "yes")
+  )
+})

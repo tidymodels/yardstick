@@ -115,3 +115,10 @@ test_that("work with class_pred input", {
     roc_aunp_vec(cp_truth, estimate)
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    roc_aunp_vec(1, 1, na_rm = "yes")
+  )
+})

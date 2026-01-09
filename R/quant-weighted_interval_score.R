@@ -145,6 +145,7 @@ weighted_interval_score_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   check_quantile_metric(truth, estimate, case_weights)
 
   estimate_quantile_levels <- hardhat::extract_quantile_levels(estimate)

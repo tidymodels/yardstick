@@ -124,6 +124,7 @@ ppv_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 
