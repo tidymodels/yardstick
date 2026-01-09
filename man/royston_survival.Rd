@@ -16,7 +16,7 @@ royston_survival_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
 \code{...}.}
 
-\item{...}{Currently not used.}
+\item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
