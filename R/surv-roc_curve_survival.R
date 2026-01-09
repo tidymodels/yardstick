@@ -13,7 +13,7 @@
 #' This formulation takes survival probability predictions at one or more
 #' specific _evaluation times_ and, for each time, computes the ROC curve. To
 #' account for censoring, inverse probability of censoring weights (IPCW) are
-#' used in the calculations. See equation 7 of section 4.3 in Blanche _at al_
+#' used in the calculations. See equation 7 of section 4.3 in Blanche _et al_
 #' (2013) for the details.
 #'
 #' The column passed to `...` should be a list column with one element per
