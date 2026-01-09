@@ -5,7 +5,7 @@
 test_that("Perfect gain capture", {
   df <- data.frame(
     truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
-    estimate = c(.9, .8, .4, .68, .4)
+    estimate = c(0.9, 0.8, 0.4, 0.68, 0.4)
   )
 
   expect_equal(
@@ -24,23 +24,23 @@ test_that("Perfect gain capture", {
 
 test_that("1 out of order", {
   # 1 element out of order (3)
-  estimate2 <- c(.9, .8, .7, .68, .4)
+  estimate2 <- c(0.9, 0.8, 0.7, 0.68, 0.4)
   truth2 <- factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No"))
   df2 <- data.frame(truth2, estimate2)
 
   # triangle + rectangle - .5 = shaded area
-  denom <- (3 / 5 * 1) / 2 + ((1 - 3 / 5) * 1) - .5
+  denom <- (3 / 5 * 1) / 2 + ((1 - 3 / 5) * 1) - 0.5
 
   # triangle + rect + (triangle + rect) + rect - .5 = area under black line
   # but above 45% line
   numer <-
-    (.4 * 2 / 3) /
+    (0.4 * 2 / 3) /
     2 +
-    ((.6 - .4) * 2 / 3) +
-    ((.8 - .6) * 2 / 3) +
-    ((.8 - .6) * (1 - 2 / 3)) / 2 +
-    ((1 - .8) * 1) -
-    .5
+    ((0.6 - 0.4) * 2 / 3) +
+    ((0.8 - 0.6) * 2 / 3) +
+    ((0.8 - 0.6) * (1 - 2 / 3)) / 2 +
+    ((1 - 0.8) * 1) -
+    0.5
 
   expect_equal(
     gain_capture(df2, truth2, estimate2)[[".estimate"]],
@@ -104,7 +104,7 @@ test_that("gain_capture = 2 * ROCAUC - 1", {
 test_that("binary - case weights are applied correctly", {
   df <- data.frame(
     truth = factor(c("Yes", "No", "No", "Yes", "Yes"), levels = c("Yes", "No")),
-    estimate = c(.9, .8, .4, .68, .4),
+    estimate = c(0.9, 0.8, 0.4, 0.68, 0.4),
     weight = c(2, 1, 2, 1, 1)
   )
 

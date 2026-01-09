@@ -451,7 +451,7 @@ multiclass_checks.numeric <- function(truth, estimate) {
 # factor / matrix (any probs functions)
 #' @export
 multiclass_checks.matrix <- function(truth, estimate) {
-  n_lvls <- length(levels(truth))
+  n_lvls <- nlevels(truth)
   n_cols <- ncol(estimate)
 
   if (n_lvls != n_cols) {

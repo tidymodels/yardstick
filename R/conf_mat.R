@@ -226,7 +226,7 @@ conf_mat_impl <- function(truth, estimate, case_weights, call = caller_env()) {
   estimator <- "not binary"
   check_class_metric(truth, estimate, case_weights, estimator, call = call)
 
-  if (length(levels(truth)) < 2) {
+  if (nlevels(truth) < 2) {
     cli::cli_abort(
       "{.arg truth} must have at least 2 factor levels.",
       call = call

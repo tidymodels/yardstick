@@ -1,7 +1,7 @@
 test_that("known corner cases are correct", {
   # first value - tp = 1
   truth <- factor("a", levels = c("a", "b"))
-  estimate <- .9
+  estimate <- 0.9
   df <- data.frame(truth, estimate)
 
   expect_equal(
@@ -20,7 +20,7 @@ test_that("known corner cases are correct", {
 
   # first value - fp = 1, no `truth` events
   truth <- factor("b", levels = c("a", "b"))
-  estimate <- .9
+  estimate <- 0.9
   df <- data.frame(truth, estimate)
 
   expect_snapshot(out <- average_precision(df, truth, estimate)$.estimate)

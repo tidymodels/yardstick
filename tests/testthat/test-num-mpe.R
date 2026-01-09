@@ -1,7 +1,7 @@
 test_that("`mpe()` works", {
   set.seed(1812)
   df <- data.frame(obs = rnorm(50))
-  df$pred <- .2 + 1.1 * df$obs + rnorm(50, sd = 0.5)
+  df$pred <- 0.2 + 1.1 * df$obs + rnorm(50, sd = 0.5)
 
   expect_identical(
     mpe(df, truth = "obs", estimate = "pred")[[".estimate"]],

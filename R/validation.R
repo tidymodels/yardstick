@@ -123,7 +123,7 @@ validate_factor_truth_matrix_estimate <- function(
       )
     }
 
-    n_lvls <- length(levels(truth))
+    n_lvls <- nlevels(truth)
     if (n_lvls != 2) {
       cli::cli_abort(
         "{.arg estimator} is binary, only two class {.arg truth} factors are
@@ -132,7 +132,7 @@ validate_factor_truth_matrix_estimate <- function(
       )
     }
   } else {
-    n_lvls <- length(levels(truth))
+    n_lvls <- nlevels(truth)
     if (is.matrix(estimate)) {
       n_cols <- ncol(estimate)
     } else {
@@ -189,7 +189,7 @@ validate_ordered_truth_matrix_estimate <- function(
       )
     }
 
-    n_lvls <- length(levels(truth))
+    n_lvls <- nlevels(truth)
     if (n_lvls != 2) {
       cli::cli_abort(
         "{.arg estimator} is binary, only two class {.arg truth} factors are
@@ -198,7 +198,7 @@ validate_ordered_truth_matrix_estimate <- function(
       )
     }
   } else {
-    n_lvls <- length(levels(truth))
+    n_lvls <- nlevels(truth)
     if (is.matrix(estimate)) {
       n_cols <- ncol(estimate)
     } else {
@@ -301,7 +301,7 @@ validate_surv_truth_list_estimate <- function(
 
   eval_time <- eval_time_cols[[1]]
 
-  if (any(is.na(eval_time))) {
+  if (anyNA(eval_time)) {
     cli::cli_abort(
       c(
         x = "Missing values in {.field .eval_time} are not allowed."
@@ -331,7 +331,7 @@ validate_surv_truth_list_estimate <- function(
     )
   }
 
-  if (any(duplicated(eval_time))) {
+  if (anyDuplicated(eval_time) > 0) {
     cli::cli_abort(
       c(
         x = "Duplicate values of {.field .eval_time} are not allowed."

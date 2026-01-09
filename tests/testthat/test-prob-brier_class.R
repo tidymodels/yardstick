@@ -63,7 +63,7 @@ test_that("basic results", {
   # with case weights
   wts <- rep(1, nrow(hpc_cv))
   wts[1] <- 5
-  hpc_wts <- hpc_cv[c(rep(1, 4), 1:nrow(hpc_cv)), ]
+  hpc_wts <- hpc_cv[c(rep(1, 4), seq_len(nrow(hpc_cv))), ]
 
   expect_equal(
     yardstick:::brier_factor(hpc_cv$obs, hpc_cv |> dplyr::select(VF:L)),

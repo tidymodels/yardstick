@@ -18,7 +18,7 @@ test_that("Mean Absolute Scaled Error", {
   scaled_error <- (truth - pred) / mae_denom
   known_mase_with_m <- mean(abs(scaled_error))
 
-  mae_train <- .5
+  mae_train <- 0.5
 
   mae_denom <- mae_train
   scaled_error <- (truth - pred) / mae_denom

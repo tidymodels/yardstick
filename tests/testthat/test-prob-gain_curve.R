@@ -5,7 +5,7 @@
 test_that("gain_curve() matches known result", {
   df <- data.frame(
     truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
-    estimate = c(.9, .8, .7, .68, .5)
+    estimate = c(0.9, 0.8, 0.7, 0.68, 0.5)
   )
 
   # caret::lift(truth ~ estimate, df)
@@ -34,7 +34,7 @@ test_that("error handling", {
 test_that("quasiquotation works", {
   df <- data.frame(
     truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
-    estimate = c(.9, .8, .7, .68, .5)
+    estimate = c(0.9, 0.8, 0.7, 0.68, 0.5)
   )
 
   tru <- as.name("truth")
@@ -73,7 +73,7 @@ test_that("na_rm = FALSE errors if missing values are present", {
 
 test_that("duplicates are removed", {
   # known answer
-  dup_estimate <- c(.9, .9, .7, .68, .68)
+  dup_estimate <- c(0.9, 0.9, 0.7, 0.68, 0.68)
   dup_truth <- factor(
     c("Yes", "Yes", "No", "Yes", "No"),
     levels = c("Yes", "No")
@@ -89,7 +89,7 @@ test_that("duplicates are removed", {
 })
 
 test_that("ordering of `truth` values within duplicated `estimate` groups doesn't affect the result", {
-  dup_estimate <- c(.9, .9, .7, .68, .68)
+  dup_estimate <- c(0.9, 0.9, 0.7, 0.68, 0.68)
   dup_truth <- factor(
     c("Yes", "Yes", "No", "Yes", "No"),
     levels = c("Yes", "No")
@@ -134,7 +134,7 @@ test_that("Grouped structure is correct", {
 test_that("gain_curve() works with case weights (ideally, frequency weights)", {
   df <- data.frame(
     truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
-    estimate = c(.9, .8, .7, .68, .5),
+    estimate = c(0.9, 0.8, 0.7, 0.68, 0.5),
     weight = c(2, 1, 1, 3, 2)
   )
 
@@ -159,9 +159,9 @@ test_that("gain_curve() works with case weights and multiclass (ideally, frequen
       c("Yes", "Yes", "No", "Maybe", "Yes", "Maybe", "No"),
       levels = c("Yes", "No", "Maybe")
     ),
-    Yes = c(.9, .8, .7, .68, .5, .7, .3),
-    No = c(.05, .05, .2, .2, .2, .1, .6),
-    Maybe = c(.05, .15, .1, .12, .3, .2, .1),
+    Yes = c(0.9, 0.8, 0.7, 0.68, 0.5, 0.7, 0.3),
+    No = c(0.05, 0.05, 0.2, 0.2, 0.2, 0.1, 0.6),
+    Maybe = c(0.05, 0.15, 0.1, 0.12, 0.3, 0.2, 0.1),
     weight = c(2, 1, 1, 3, 2, 5, 2)
   )
 
@@ -236,7 +236,7 @@ test_that("gain_curve() with case weights scales `.n` and `.n_events`", {
   # This is required for the `autoplot()` method
   df <- data.frame(
     truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
-    estimate = c(.9, .8, .7, .68, .5),
+    estimate = c(0.9, 0.8, 0.7, 0.68, 0.5),
     weight = c(2, 1, 1, 3, 2)
   )
 
@@ -254,7 +254,7 @@ test_that("gain_curve() with case weights scales `.n` and `.n_events`", {
 test_that("gain_curve() works with hardhat case weights", {
   df <- data.frame(
     truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
-    estimate = c(.9, .8, .7, .68, .5),
+    estimate = c(0.9, 0.8, 0.7, 0.68, 0.5),
     weight = c(2, 1, 1, 3, 2)
   )
 

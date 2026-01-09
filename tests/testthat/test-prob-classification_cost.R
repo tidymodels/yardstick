@@ -1,7 +1,7 @@
 test_that("binary - uses user defined costs", {
   df <- data.frame(
     obs = factor(c("B", "A", "B"), levels = c("A", "B")),
-    A = c(1, .80, .51)
+    A = c(1, 0.80, 0.51)
   )
 
   costs <- dplyr::tribble(
@@ -28,7 +28,7 @@ test_that("binary - uses user defined costs", {
 test_that("binary - respects `event_first`", {
   df <- data.frame(
     obs = factor(c("B", "A", "B"), levels = c("A", "B")),
-    B = c(1, .80, .51)
+    B = c(1, 0.80, 0.51)
   )
 
   costs <- dplyr::tribble(
@@ -57,7 +57,7 @@ test_that("binary - respects `event_first`", {
 test_that("costs$truth can be factor", {
   df <- data.frame(
     obs = factor(c("B", "A", "B"), levels = c("A", "B")),
-    A = c(1, .80, .51)
+    A = c(1, 0.80, 0.51)
   )
 
   costs <- dplyr::tribble(
@@ -94,9 +94,9 @@ test_that("binary - requires 1 column of probabilities", {
 test_that("multiclass - uses equal costs by default", {
   df <- data.frame(
     obs = factor(c("A", "A", "A", "B", "B", "C")),
-    A = c(1, .80, .51, .1, .2, .3),
-    B = c(0, .05, .29, .8, .6, .3),
-    C = c(0, .15, .20, .1, .2, .4)
+    A = c(1, 0.80, 0.51, 0.1, 0.2, 0.3),
+    B = c(0, 0.05, 0.29, 0.8, 0.6, 0.3),
+    C = c(0, 0.15, 0.20, 0.1, 0.2, 0.4)
   )
 
   A <- df$B[df$obs == "A"] + df$C[df$obs == "A"]
@@ -114,9 +114,9 @@ test_that("multiclass - uses equal costs by default", {
 test_that("multiclass - respects user defined costs", {
   df <- data.frame(
     obs = factor(c("A", "A", "A", "B", "B", "C")),
-    A = c(1, .80, .51, .1, .2, .3),
-    B = c(0, .05, .29, .8, .6, .3),
-    C = c(0, .15, .20, .1, .2, .4)
+    A = c(1, 0.80, 0.51, 0.1, 0.2, 0.3),
+    B = c(0, 0.05, 0.29, 0.8, 0.6, 0.3),
+    C = c(0, 0.15, 0.20, 0.1, 0.2, 0.4)
   )
   costs <- dplyr::tribble(
     ~truth    ,
@@ -181,9 +181,9 @@ test_that("multiclass - respects user defined costs", {
 test_that("multiclass - fills in missing combinations with zero cost", {
   df <- data.frame(
     obs = factor(c("A", "A", "A", "B", "B", "C")),
-    A = c(1, .80, .51, .1, .2, .3),
-    B = c(0, .05, .29, .8, .6, .3),
-    C = c(0, .15, .20, .1, .2, .4)
+    A = c(1, 0.80, 0.51, 0.1, 0.2, 0.3),
+    B = c(0, 0.05, 0.29, 0.8, 0.6, 0.3),
+    C = c(0, 0.15, 0.20, 0.1, 0.2, 0.4)
   )
   costs_partial <- dplyr::tribble(
     ~truth    ,
@@ -255,7 +255,7 @@ test_that("multiclass - fills in missing combinations with zero cost", {
 test_that("costs must be a data frame with the right column names", {
   df <- data.frame(
     obs = factor(c("B", "A", "B"), levels = c("A", "B")),
-    A = c(1, .80, .51)
+    A = c(1, 0.80, 0.51)
   )
 
   expect_snapshot(
@@ -277,7 +277,7 @@ test_that("costs must be a data frame with the right column names", {
 test_that("costs$estimate must contain the right levels", {
   df <- data.frame(
     obs = factor(c("B", "A", "B"), levels = c("A", "B")),
-    A = c(1, .80, .51)
+    A = c(1, 0.80, 0.51)
   )
 
   costs <- dplyr::tribble(
@@ -301,7 +301,7 @@ test_that("costs$estimate must contain the right levels", {
 test_that("costs$truth must contain the right levels", {
   df <- data.frame(
     obs = factor(c("B", "A", "B"), levels = c("A", "B")),
-    A = c(1, .80, .51)
+    A = c(1, 0.80, 0.51)
   )
 
   costs <- dplyr::tribble(
@@ -325,7 +325,7 @@ test_that("costs$truth must contain the right levels", {
 test_that("costs$truth, costs$estimate, and costs$cost must have the right type", {
   df <- data.frame(
     obs = factor(c("B", "A", "B"), levels = c("A", "B")),
-    A = c(1, .80, .51)
+    A = c(1, 0.80, 0.51)
   )
 
   costs <- dplyr::tribble(
@@ -380,7 +380,7 @@ test_that("costs$truth, costs$estimate, and costs$cost must have the right type"
 test_that("costs$truth and costs$estimate cannot contain duplicate pairs", {
   df <- data.frame(
     obs = factor(c("B", "A", "B"), levels = c("A", "B")),
-    A = c(1, .80, .51)
+    A = c(1, 0.80, 0.51)
   )
 
   costs <- dplyr::tribble(
@@ -406,7 +406,7 @@ test_that("costs$truth and costs$estimate cannot contain duplicate pairs", {
 test_that("binary - uses case weights", {
   df <- data.frame(
     obs = factor(c("B", "A", "B"), levels = c("A", "B")),
-    A = c(1, .80, .51),
+    A = c(1, 0.80, 0.51),
     weight = c(1, 2, 2)
   )
 
@@ -440,9 +440,9 @@ test_that("binary - uses case weights", {
 test_that("multiclass - uses case weights", {
   df <- data.frame(
     obs = factor(c("A", "A", "A", "B", "B", "C")),
-    A = c(1, .80, .51, .1, .2, .3),
-    B = c(0, .05, .29, .8, .6, .3),
-    C = c(0, .15, .20, .1, .2, .4),
+    A = c(1, 0.80, 0.51, 0.1, 0.2, 0.3),
+    B = c(0, 0.05, 0.29, 0.8, 0.6, 0.3),
+    C = c(0, 0.15, 0.20, 0.1, 0.2, 0.4),
     weight = c(1, 2, 3, 4, 5, 6)
   )
   costs <- dplyr::tribble(

@@ -806,8 +806,8 @@ validate_function_class <- function(fns) {
   })
 
   # clean up for nicer printing
-  fn_cls_unique <- gsub("_metric", "", fn_cls_unique)
-  fn_cls_unique <- gsub("function", "other", fn_cls_unique)
+  fn_cls_unique <- gsub("_metric", "", fn_cls_unique, fixed = TRUE)
+  fn_cls_unique <- gsub("function", "other", fn_cls_unique, fixed = TRUE)
 
   fn_cls_other <- fn_cls_unique == "other"
 

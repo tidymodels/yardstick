@@ -15,18 +15,18 @@ test_that("`event_level = 'second'` works", {
 test_that("Three class", {
   ll_dat <- data.frame(
     obs = factor(c("A", "A", "A", "B", "B", "C")),
-    A = c(1, .80, .51, .1, .2, .3),
-    B = c(0, .05, .29, .8, .6, .3),
-    C = c(0, .15, .20, .1, .2, .4)
+    A = c(1, 0.80, 0.51, 0.1, 0.2, 0.3),
+    B = c(0, 0.05, 0.29, 0.8, 0.6, 0.3),
+    C = c(0, 0.15, 0.20, 0.1, 0.2, 0.4)
   )
 
   expect_equal(
     mn_log_loss(ll_dat, obs, LETTERS[1:3])[[".estimate"]],
-    -(log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4)) / 6
+    -(log(1) + log(0.8) + log(0.51) + log(0.8) + log(0.6) + log(0.4)) / 6
   )
   expect_equal(
     mn_log_loss(ll_dat, truth = "obs", A, B, C, sum = TRUE)[[".estimate"]],
-    -(log(1) + log(.8) + log(.51) + log(.8) + log(.6) + log(.4))
+    -(log(1) + log(0.8) + log(0.51) + log(0.8) + log(0.6) + log(0.4))
   )
 })
 
@@ -55,12 +55,12 @@ test_that("Issue #29", {
   expect_equal(
     mn_log_loss(x[1:2, ], truth = truth, No)[[".estimate"]],
     0.9844328,
-    tolerance = .0001
+    tolerance = 0.0001
   )
   expect_equal(
     mn_log_loss(x, truth = truth, No)[[".estimate"]],
     12.6708396674381,
-    tolerance = .0001
+    tolerance = 0.0001
   )
 })
 
@@ -68,7 +68,7 @@ test_that("Issue #29", {
 
 test_that("mn_log_loss() applies the min/max rule when an 'event' has probability 0 (#103)", {
   truth <- factor(c("Yes", "No", "Yes"), levels = c("Yes", "No"))
-  estimate <- c(.5, .5, 0)
+  estimate <- c(0.5, 0.5, 0)
 
   expect_equal(
     mn_log_loss_vec(truth, estimate),
@@ -79,7 +79,7 @@ test_that("mn_log_loss() applies the min/max rule when an 'event' has probabilit
 
 test_that("mn_log_loss() applies the min/max rule when a 'non-event' has probability 1 (#103)", {
   truth <- factor(c("Yes", "No", "No"), levels = c("Yes", "No"))
-  estimate <- c(.5, .5, 1)
+  estimate <- c(0.5, 0.5, 1)
 
   expect_equal(
     mn_log_loss_vec(truth, estimate),

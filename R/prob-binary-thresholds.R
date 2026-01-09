@@ -24,7 +24,7 @@ binary_threshold_curve <- function(
       .internal = TRUE
     )
   }
-  if (length(levels(truth)) != 2L) {
+  if (nlevels(truth) != 2L) {
     # should be unreachable
     cli::cli_abort(
       "{.arg truth} must have two levels, not {length(levels(truth))}.",

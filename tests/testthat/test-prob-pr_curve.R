@@ -2,7 +2,7 @@ test_that("Two class PR Curve", {
   # Known PR Curve result
   pr_example <- data.frame(
     lab = factor(c("Yes", "Yes", "No", "Yes"), levels = c("Yes", "No")),
-    score = c(.9, .4, .35, .7)
+    score = c(0.9, 0.4, 0.35, 0.7)
   )
 
   pr_result <- list(
@@ -38,7 +38,7 @@ test_that("Multiclass PR Curve", {
 
 test_that("PR - perfect separation", {
   truth <- factor(c("x", "x", "y", "y"))
-  prob <- c(.9, .8, .4, .3)
+  prob <- c(0.9, 0.8, 0.4, 0.3)
 
   data <- data.frame(truth, prob)
   val_curve <- pr_curve(data, truth, prob)
@@ -46,7 +46,7 @@ test_that("PR - perfect separation", {
 
   expect_equal(
     val_curve$recall,
-    c(0, .5, 1, 1, 1)
+    c(0, 0.5, 1, 1, 1)
   )
 
   expect_equal(
@@ -56,7 +56,7 @@ test_that("PR - perfect separation", {
 
   expect_equal(
     val_curve$.threshold,
-    c(Inf, .9, .8, .4, .3)
+    c(Inf, 0.9, 0.8, 0.4, 0.3)
   )
 
   expect_equal(
@@ -67,7 +67,7 @@ test_that("PR - perfect separation", {
 
 test_that("PR - perfect separation - duplicates probs at the end", {
   truth <- factor(c("x", "x", "y", "y"))
-  prob <- c(.9, .8, .3, .3)
+  prob <- c(0.9, 0.8, 0.3, 0.3)
 
   data <- data.frame(truth, prob)
   val_curve <- pr_curve(data, truth, prob)
@@ -75,7 +75,7 @@ test_that("PR - perfect separation - duplicates probs at the end", {
 
   expect_equal(
     val_curve$recall,
-    c(0, .5, 1, 1)
+    c(0, 0.5, 1, 1)
   )
 
   expect_equal(
@@ -85,7 +85,7 @@ test_that("PR - perfect separation - duplicates probs at the end", {
 
   expect_equal(
     val_curve$.threshold,
-    c(Inf, .9, .8, .3)
+    c(Inf, 0.9, 0.8, 0.3)
   )
 
   expect_equal(
@@ -96,7 +96,7 @@ test_that("PR - perfect separation - duplicates probs at the end", {
 
 test_that("PR - perfect separation - duplicates probs at the start", {
   truth <- factor(c("x", "x", "y", "y"))
-  prob <- c(.9, .9, .4, .3)
+  prob <- c(0.9, 0.9, 0.4, 0.3)
 
   data <- data.frame(truth, prob)
   val_curve <- pr_curve(data, truth, prob)
@@ -114,7 +114,7 @@ test_that("PR - perfect separation - duplicates probs at the start", {
 
   expect_equal(
     val_curve$.threshold,
-    c(Inf, .9, .4, .3)
+    c(Inf, 0.9, 0.4, 0.3)
   )
 
   expect_equal(
@@ -127,7 +127,7 @@ test_that("PR - same class prob, different prediction value", {
   # x class prob .9
   # y class prob .9
   truth <- factor(c("x", "y", "y", "x", "x"))
-  prob <- c(.9, .9, .8, .4, .3)
+  prob <- c(0.9, 0.9, 0.8, 0.4, 0.3)
 
   data <- data.frame(truth, prob)
   val_curve <- pr_curve(data, truth, prob)
@@ -145,7 +145,7 @@ test_that("PR - same class prob, different prediction value", {
 
   expect_equal(
     val_curve$.threshold,
-    c(Inf, .9, .8, .4, .3)
+    c(Inf, 0.9, 0.8, 0.4, 0.3)
   )
 
   expect_equal(
@@ -177,7 +177,7 @@ test_that("PR - zero row data frame works", {
 test_that("PR - No `truth` gives `NaN` recall values", {
   df <- data.frame(
     y = factor(c("b", "b"), levels = c("a", "b")),
-    x = c(.1, .2)
+    x = c(0.1, 0.2)
   )
 
   expect_warning({
@@ -211,7 +211,7 @@ test_that("zero weights don't affect the curve", {
   # If they weren't removed, we'd get a `NaN` from a division by zero issue
   df <- dplyr::tibble(
     truth = factor(c("b", "a", "b", "a", "a"), levels = c("a", "b")),
-    a = c(.75, .7, .4, .9, .8),
+    a = c(0.75, 0.7, 0.4, 0.9, 0.8),
     weight = c(0, 1, 3, 0, 5)
   )
 

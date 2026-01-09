@@ -96,7 +96,7 @@ test_that("can tweak a class prob metric that doesn't use `estimator`", {
 
 test_that("can combine tweaked metrics into a metric set", {
   f_meas2 <- metric_tweak("f_meas2", f_meas, beta = 2)
-  ppv2 <- metric_tweak("ppv2", ppv, prevalence = .4)
+  ppv2 <- metric_tweak("ppv2", ppv, prevalence = 0.4)
   roc_auc2 <- metric_tweak("roc_auc2", roc_auc)
 
   set <- metric_set(f_meas2, ppv2, roc_auc2)

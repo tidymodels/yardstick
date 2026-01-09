@@ -6,7 +6,7 @@ test_that("binary roc curve uses equivalent of pROC `direction = <`", {
   # This would force `direction = "auto"` to choose `>`,
   # which would be incorrect. We are required to force `direction = <` for
   # our purposes of having `estimate` match the event
-  estimate <- c(.8, .2, .1)
+  estimate <- c(0.8, 0.2, 0.1)
 
   # # pROC expects levels to be in the order of control, then event.
   # roc <- pROC::roc(
@@ -97,7 +97,7 @@ test_that("zero weights don't affect the curve", {
   # If they weren't removed, we'd get a `NaN` from a division by zero issue
   df <- dplyr::tibble(
     truth = factor(c("b", "a", "b", "a", "a"), levels = c("a", "b")),
-    a = c(.75, .7, .4, .9, .8),
+    a = c(0.75, 0.7, 0.4, 0.9, 0.8),
     weight = c(0, 1, 3, 0, 5)
   )
 

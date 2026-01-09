@@ -15,7 +15,7 @@ load("data-raw/dyn-surv-metrics/brier_churn_res.RData")
 load("data-raw/dyn-surv-metrics/auc_churn_res.RData")
 
 brier_churn_res |>
-  filter(grepl("churn", model)) |>
+  filter(grepl("churn", model, fixed = TRUE)) |>
   readr::write_rds("tests/testthat/data/brier_churn_res.rds")
 
 auc_churn_res |>
