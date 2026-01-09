@@ -62,15 +62,15 @@ test_that("can tweak a class prob metric", {
 
 test_that("can tweak a class prob metric that doesn't use `estimator`", {
   costs <- dplyr::tribble(
-    ~truth,
-    ~estimate,
-    ~cost,
-    "Class1",
-    "Class2",
-    1,
-    "Class2",
-    "Class1",
-    2
+    ~truth    ,
+    ~estimate ,
+    ~cost     ,
+    "Class1"  ,
+    "Class2"  ,
+            1 ,
+    "Class2"  ,
+    "Class1"  ,
+            2
   )
 
   classification_cost2 <- metric_tweak(
@@ -158,8 +158,7 @@ test_that("`fn` must be a metric function", {
     error = TRUE,
     metric_tweak(
       "foo",
-      function() {
-      },
+      function() {},
       beta = 2
     )
   )

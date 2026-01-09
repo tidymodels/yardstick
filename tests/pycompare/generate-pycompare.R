@@ -60,7 +60,7 @@ save_metric_results <- function(
   # Multiclass weighted metrics
   case_weight2 <- lapply(
     average,
-    function(.x)
+    function(.x) {
       fn(
         hpc_cv$obs,
         hpc_cv$pred,
@@ -68,6 +68,7 @@ save_metric_results <- function(
         average = .x,
         sample_weight = weights_hpc_cv
       )
+    }
   )
 
   case_weight <- c(case_weight, case_weight2)

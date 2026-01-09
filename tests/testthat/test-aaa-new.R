@@ -6,6 +6,7 @@ test_that("can create metric functions", {
   fn4 <- new_dynamic_survival_metric(function() 1, "minimize")
   fn5 <- new_static_survival_metric(function() 1, "minimize")
   fn6 <- new_integrated_survival_metric(function() 1, "minimize")
+  fn7 <- new_quantile_metric(function() 1, "minimize")
 
   expect_identical(class(fn1), c("class_metric", "metric", "function"))
   expect_identical(class(fn2), c("prob_metric", "metric", "function"))
@@ -23,6 +24,10 @@ test_that("can create metric functions", {
     class(fn6),
     c("integrated_survival_metric", "metric", "function")
   )
+  expect_identical(
+    class(fn7),
+    c("quantile_metric", "metric", "function")
+  )
 
   expect_identical(attr(fn1, "direction"), "maximize")
   expect_identical(attr(fn2, "direction"), "maximize")
@@ -31,6 +36,7 @@ test_that("can create metric functions", {
   expect_identical(attr(fn4, "direction"), "minimize")
   expect_identical(attr(fn5, "direction"), "minimize")
   expect_identical(attr(fn6, "direction"), "minimize")
+  expect_identical(attr(fn7, "direction"), "minimize")
 })
 
 test_that("`fn` is validated", {

@@ -8,6 +8,8 @@
 \alias{check_ordered_prob_metric}
 \alias{check_dynamic_survival_metric}
 \alias{check_static_survival_metric}
+\alias{check_linear_pred_survival_metric}
+\alias{check_quantile_metric}
 \title{Developer function for checking inputs in new metrics}
 \usage{
 check_numeric_metric(truth, estimate, case_weights, call = caller_env())
@@ -49,6 +51,15 @@ check_static_survival_metric(
   case_weights,
   call = caller_env()
 )
+
+check_linear_pred_survival_metric(
+  truth,
+  estimate,
+  case_weights,
+  call = caller_env()
+)
+
+check_quantile_metric(truth, estimate, case_weights, call = caller_env())
 }
 \arguments{
 \item{truth}{The realized vector of \code{truth}.
@@ -59,6 +70,7 @@ check_static_survival_metric(
 \item For \code{check_ordered_prob_metric()}, an ordered factor.
 \item For \code{check_dynamic_survival_metric()}, a Surv object.
 \item For \code{check_static_survival_metric()}, a Surv object.
+\item For \code{check_quantile_metric()}, a numeric vector.
 }}
 
 \item{estimate}{The realized \code{estimate} result.
@@ -71,6 +83,7 @@ a numeric matrix for multic-class \code{truth}.
 a numeric matrix for multic-class \code{truth}.
 \item For \code{check_dynamic_survival_metric()}, list-column of data.frames.
 \item For \code{check_static_survival_metric()}, a numeric vector.
+\item For \code{check_quantile_metric()}, a \code{hardhat::quantile_pred} vector.
 }}
 
 \item{case_weights}{The realized case weights, as a numeric vector. This must

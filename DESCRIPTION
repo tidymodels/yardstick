@@ -23,7 +23,7 @@ Imports:
     cli,
     dplyr (>= 1.1.0),
     generics (>= 0.1.2),
-    hardhat (>= 1.3.0),
+    hardhat (>= 1.4.2.9000),
     lifecycle (>= 1.0.3),
     rlang (>= 1.1.4),
     tibble,
@@ -49,7 +49,7 @@ Config/usethis/last-upkeep: 2025-04-24
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Collate: 
     'aaa-metrics.R'
     'import-standalone-types-check.R'
@@ -116,12 +116,16 @@ Collate:
     'prob-roc_aunp.R'
     'prob-roc_aunu.R'
     'prob-roc_curve.R'
+    'quant-weighted_interval_score.R'
     'reexports.R'
     'surv-brier_survival.R'
     'surv-brier_survival_integrated.R'
     'surv-concordance_survival.R'
     'surv-roc_auc_survival.R'
     'surv-roc_curve_survival.R'
+    'surv-royston.R'
     'template.R'
     'validation.R'
     'yardstick-package.R'
+Remotes:
+    tidymodels/hardhat

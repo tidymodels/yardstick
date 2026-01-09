@@ -119,12 +119,6 @@ test_that("numeric metric sets", {
     error = TRUE,
     metric_set(rmse, "x")
   )
-
-  # Can mix class and class prob together
-  mixed_set <- metric_set(accuracy, roc_auc)
-  expect_no_error(
-    mixed_set(two_class_example, truth, Class1, estimate = predicted)
-  )
 })
 
 test_that("mixing bad metric sets", {
@@ -187,6 +181,28 @@ test_that("can mix dynamic and static survival metric together", {
   )
   expect_no_error(
     mixed_set(lung_surv, surv_obj, .pred, estimate = .pred_time)
+  )
+})
+
+test_that("quantile metric sets", {
+  reg_set <- metric_set(weighted_interval_score, weighted_interval_score)
+
+  quantile_levels <- c(.2, .4, .6, .8)
+  pred1 <- 1:4
+  pred2 <- 8:11
+  example <- dplyr::tibble(
+    preds = hardhat::quantile_pred(rbind(pred1, pred2), quantile_levels),
+    truth = c(3.3, 7.1)
+  )
+
+  exp <- dplyr::bind_rows(
+    weighted_interval_score(example, truth = truth, estimate = preds),
+    weighted_interval_score(example, truth = truth, estimate = preds)
+  )
+
+  expect_identical(
+    reg_set(example, truth = truth, estimate = preds),
+    exp
   )
 })
 
@@ -290,8 +306,7 @@ test_that("metric_set can be coerced to a tibble", {
 })
 
 test_that("`metric_set()` errors contain env name for unknown functions (#128)", {
-  foobar <- function() {
-  }
+  foobar <- function() {}
 
   # Store env name in `name` attribute for `environmentName()` to find it
   env <- rlang::new_environment(parent = globalenv())
@@ -310,8 +325,7 @@ test_that("`metric_set()` errors contain env name for unknown functions (#128)",
 })
 
 test_that("`metric_set()` gives an informative error for a single non-metric function (#181)", {
-  foobar <- function() {
-  }
+  foobar <- function() {}
 
   # Store env name in `name` attribute for `environmentName()` to find it
   env <- rlang::new_environment(parent = globalenv())

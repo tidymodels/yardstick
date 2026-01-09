@@ -144,11 +144,3 @@
       Error in `weighted_quantile()`:
       ! `probabilities` can't have missing values.
 
-# work with class_pred input
-
-    Code
-      accuracy_vec(fct_truth, cp_estimate)
-    Condition
-      Error in `as_factor_from_class_pred()`:
-      ! A <class_pred> input was detected, but the probably package isn't installed. Install probably to be able to convert <class_pred> to <factor>.
-
