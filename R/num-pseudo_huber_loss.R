@@ -65,6 +65,7 @@ huber_loss_pseudo_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

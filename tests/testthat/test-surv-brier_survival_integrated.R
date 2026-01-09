@@ -99,3 +99,10 @@ test_that("works with hardhat case weights", {
     )
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    brier_survival_integrated_vec(1, 1, na_rm = "yes")
+  )
+})

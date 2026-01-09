@@ -269,3 +269,10 @@ test_that("na_rm = FALSE errors if missing values are present", {
     pr_curve_vec(df$truth, df$Class1, na_rm = FALSE)
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    pr_curve_vec(1, 1, na_rm = "yes")
+  )
+})

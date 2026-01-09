@@ -114,3 +114,10 @@ test_that("errors with class_pred input", {
     pr_auc_vec(cp_truth, estimate)
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    pr_auc_vec(1, 1, na_rm = "yes")
+  )
+})

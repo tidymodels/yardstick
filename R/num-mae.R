@@ -47,6 +47,7 @@ mae.data.frame <- function(
 #' @export
 #' @rdname mae
 mae_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

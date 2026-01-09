@@ -12,6 +12,8 @@
 
 * Added quantile metric `weighted_interval_score()`. (#569)
 
+* Added checks to all metrics for `na_rm` argument. (#349)
+
 # yardstick 1.3.2
 
 * All messages, warnings and errors has been translated to use {cli} package (#517, #522).

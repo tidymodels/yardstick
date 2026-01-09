@@ -89,6 +89,7 @@ concordance_survival_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   check_static_survival_metric(truth, estimate, case_weights)
 
   if (na_rm) {

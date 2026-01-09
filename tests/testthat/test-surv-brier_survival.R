@@ -83,3 +83,10 @@ test_that("riskRegression equivalent", {
     yardstick_res$.estimate
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    brier_survival_vec(1, 1, na_rm = "yes")
+  )
+})

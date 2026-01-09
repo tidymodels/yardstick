@@ -61,6 +61,7 @@ msd.data.frame <- function(
 #' @export
 #' @rdname msd
 msd_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

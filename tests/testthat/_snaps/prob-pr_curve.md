@@ -23,3 +23,11 @@
       x Missing values were detected and `na_ra = FALSE`.
       i Not able to perform calculations.
 
+# na_rm argument check
+
+    Code
+      pr_curve_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `pr_curve_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+

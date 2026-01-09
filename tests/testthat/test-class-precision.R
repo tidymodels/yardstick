@@ -190,3 +190,10 @@ test_that("Multi class case weighted - sklearn equivalent", {
     py_res$case_weight$weighted
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    precision_vec(1, 1, na_rm = "yes")
+  )
+})

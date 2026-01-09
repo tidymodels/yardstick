@@ -122,6 +122,7 @@ lift_curve_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   # Doesn't validate inputs here since it is done in gain_curve_vec()
 
   # tibble result, possibly grouped

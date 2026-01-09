@@ -178,3 +178,10 @@ test_that("work with class_pred input", {
     specificity_vec(cp_truth, cp_estimate)
   )
 })
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    specificity_vec(1, 1, na_rm = "yes")
+  )
+})

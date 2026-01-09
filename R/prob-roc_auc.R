@@ -126,6 +126,7 @@ roc_auc_vec <- function(
   options = list(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   check_roc_options_deprecated("roc_auc_vec", options)

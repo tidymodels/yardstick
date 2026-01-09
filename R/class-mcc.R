@@ -95,6 +95,7 @@ mcc.matrix <- function(data, ...) {
 #' @export
 #' @rdname mcc
 mcc_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 
