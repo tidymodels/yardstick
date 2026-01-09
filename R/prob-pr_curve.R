@@ -201,8 +201,6 @@ pr_curve_multiclass <- function(truth, estimate, case_weights) {
 
 # Dynamically exported
 autoplot.pr_df <- function(object, ...) {
-  `%+%` <- ggplot2::`%+%`
-
   # Base chart
   pr_chart <- ggplot2::ggplot(data = object)
 
@@ -216,7 +214,7 @@ autoplot.pr_df <- function(object, ...) {
       color = expr(interaction(!!!grps, sep = "_"))
     )
 
-    pr_chart <- pr_chart %+%
+    pr_chart <- pr_chart +
       ggplot2::labs(color = grps_chr)
   } else {
     interact_expr <- list()
@@ -230,16 +228,16 @@ autoplot.pr_df <- function(object, ...) {
   )
 
   # build the graph
-  pr_chart <- pr_chart %+%
-    ggplot2::geom_path(mapping = aes_spliced) %+%
-    ggplot2::lims(x = c(0, 1), y = c(0, 1)) %+%
-    ggplot2::coord_equal(ratio = 1) %+%
+  pr_chart <- pr_chart +
+    ggplot2::geom_path(mapping = aes_spliced) +
+    ggplot2::lims(x = c(0, 1), y = c(0, 1)) +
+    ggplot2::coord_equal(ratio = 1) +
     ggplot2::theme_bw()
 
   # If we have .level, that means this was multiclass
   # and we want to show 1 vs all graphs
   if (".level" %in% colnames(object)) {
-    pr_chart <- pr_chart %+%
+    pr_chart <- pr_chart +
       ggplot2::facet_wrap(~.level)
   }
 

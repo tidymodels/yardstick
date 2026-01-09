@@ -266,8 +266,6 @@ gain_curve_binary_impl <- function(truth, estimate, event_level, case_weights) {
 # dynamically exported in .onLoad()
 
 autoplot.gain_df <- function(object, ...) {
-  `%+%` <- ggplot2::`%+%`
-
   # Base chart
   chart <- ggplot2::ggplot(data = object)
 
@@ -281,7 +279,7 @@ autoplot.gain_df <- function(object, ...) {
 
     # Add group legend label
     grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
-    chart <- chart %+%
+    chart <- chart +
       ggplot2::labs(color = grps_chr)
   } else {
     interact_expr <- list()
@@ -328,7 +326,7 @@ autoplot.gain_df <- function(object, ...) {
   x <- as.name("x")
   y <- as.name("y")
 
-  chart <- chart %+%
+  chart <- chart +
 
     # boundary poly
     ggplot2::geom_polygon(
@@ -340,7 +338,7 @@ autoplot.gain_df <- function(object, ...) {
       # fill
       fill = "lightgrey",
       alpha = 0.4
-    ) %+%
+    ) +
 
     # gain curve
     ggplot2::geom_line(
@@ -350,18 +348,18 @@ autoplot.gain_df <- function(object, ...) {
         !!!interact_expr
       ),
       data = object
-    ) %+%
+    ) +
 
     ggplot2::labs(
       x = "% Tested",
       y = "% Found"
-    ) %+%
+    ) +
 
     ggplot2::theme_bw()
 
   # facet by .level if this was a multiclass computation
   if (".level" %in% colnames(object)) {
-    chart <- chart %+%
+    chart <- chart +
       ggplot2::facet_wrap(~.level)
   }
 

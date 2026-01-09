@@ -427,8 +427,6 @@ autoplot.conf_mat <- function(object, type = "mosaic", ...) {
 conf_mat_plot_types <- c("mosaic", "heatmap")
 
 cm_heat <- function(x) {
-  `%+%` <- ggplot2::`%+%`
-
   df <- as.data.frame.table(x$table)
   # Force specific column names for referencing in ggplot2 code
   names(df) <- c("Prediction", "Truth", "Freq")
@@ -450,19 +448,19 @@ cm_heat <- function(x) {
         y = Prediction,
         fill = Freq
       )
-    ) %+%
-    ggplot2::geom_tile() %+%
+    ) +
+    ggplot2::geom_tile() +
     ggplot2::scale_fill_gradient(
       low = "grey90",
       high = "grey40"
-    ) %+%
+    ) +
     ggplot2::theme(
       panel.background = ggplot2::element_blank(),
       legend.position = "none"
-    ) %+%
+    ) +
     ggplot2::geom_text(
       mapping = ggplot2::aes(label = Freq)
-    ) %+%
+    ) +
     ggplot2::labs(
       x = axis_labels$x,
       y = axis_labels$y
@@ -494,8 +492,6 @@ space_y_fun <- function(data, id, x_data) {
 }
 
 cm_mosaic <- function(x) {
-  `%+%` <- ggplot2::`%+%`
-
   cm_zero <- (as.numeric(x$table == 0) / 2) + x$table
 
   x_data <- space_fun(colSums(cm_zero), 200)
@@ -512,7 +508,7 @@ cm_mosaic <- function(x) {
   tick_labels <- colnames(cm_zero)
   axis_labels <- get_axis_labels(x)
 
-  ggplot2::ggplot(full_data) %+%
+  ggplot2::ggplot(full_data) +
     ggplot2::geom_rect(
       ggplot2::aes(
         xmin = xmin,
@@ -520,19 +516,19 @@ cm_mosaic <- function(x) {
         ymin = ymin,
         ymax = ymax
       )
-    ) %+%
+    ) +
     ggplot2::scale_x_continuous(
       breaks = (x_data$xmin + x_data$xmax) / 2,
       labels = tick_labels
-    ) %+%
+    ) +
     ggplot2::scale_y_continuous(
       breaks = (y1_data$ymin + y1_data$ymax) / 2,
       labels = tick_labels
-    ) %+%
+    ) +
     ggplot2::labs(
       y = axis_labels$y,
       x = axis_labels$x
-    ) %+%
+    ) +
     ggplot2::theme(panel.background = ggplot2::element_blank())
 }
 
