@@ -258,7 +258,6 @@ roc_curve_survival_impl_one <- function(event_time, delta, data, case_weights) {
 
 # Dynamically exported
 autoplot.roc_survival_df <- function(object, ...) {
-  `%+%` <- ggplot2::`%+%`
   object$.eval_time <- format(object$.eval_time)
 
   # Base chart
@@ -273,10 +272,10 @@ autoplot.roc_survival_df <- function(object, ...) {
   )
 
   # build the graph
-  roc_chart <- roc_chart %+%
-    ggplot2::geom_step(mapping = roc_aes, direction = "hv") %+%
-    ggplot2::geom_abline(lty = 3) %+%
-    ggplot2::coord_equal() %+%
+  roc_chart <- roc_chart +
+    ggplot2::geom_step(mapping = roc_aes, direction = "hv") +
+    ggplot2::geom_abline(lty = 3) +
+    ggplot2::coord_equal() +
     ggplot2::theme_bw()
 
   roc_chart

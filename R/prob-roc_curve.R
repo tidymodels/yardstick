@@ -229,8 +229,6 @@ warn_roc_options_deprecated <- function(what) {
 
 # Dynamically exported
 autoplot.roc_df <- function(object, ...) {
-  `%+%` <- ggplot2::`%+%`
-
   # Base chart
   roc_chart <- ggplot2::ggplot(data = object)
 
@@ -244,7 +242,7 @@ autoplot.roc_df <- function(object, ...) {
       color = expr(interaction(!!!grps, sep = "_"))
     )
 
-    roc_chart <- roc_chart %+%
+    roc_chart <- roc_chart +
       ggplot2::labs(color = grps_chr)
   } else {
     interact_expr <- list()
@@ -258,16 +256,16 @@ autoplot.roc_df <- function(object, ...) {
   )
 
   # build the graph
-  roc_chart <- roc_chart %+%
-    ggplot2::geom_path(mapping = aes_spliced) %+%
-    ggplot2::geom_abline(lty = 3) %+%
-    ggplot2::coord_equal() %+%
+  roc_chart <- roc_chart +
+    ggplot2::geom_path(mapping = aes_spliced) +
+    ggplot2::geom_abline(lty = 3) +
+    ggplot2::coord_equal() +
     ggplot2::theme_bw()
 
   # If we have .level, that means this was multiclass
   # and we want to show 1 vs all graphs
   if (".level" %in% colnames(object)) {
-    roc_chart <- roc_chart %+%
+    roc_chart <- roc_chart +
       ggplot2::facet_wrap(~.level)
   }
 

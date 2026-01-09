@@ -150,8 +150,6 @@ lift_curve_vec <- function(
 # dynamically exported in .onLoad()
 
 autoplot.lift_df <- function(object, ...) {
-  `%+%` <- ggplot2::`%+%`
-
   # Remove data before first event (is this okay?)
   object <- dplyr::filter(object, .n_events > 0)
 
@@ -168,7 +166,7 @@ autoplot.lift_df <- function(object, ...) {
 
     # Add group legend label
     grps_chr <- paste0(dplyr::group_vars(object), collapse = "_")
-    chart <- chart %+%
+    chart <- chart +
       ggplot2::labs(color = grps_chr)
   } else {
     interact_expr <- list()
@@ -185,7 +183,7 @@ autoplot.lift_df <- function(object, ...) {
   x <- as.name("x")
   y <- as.name("y")
 
-  chart <- chart %+%
+  chart <- chart +
 
     # gain curve
     ggplot2::geom_line(
@@ -195,7 +193,7 @@ autoplot.lift_df <- function(object, ...) {
         !!!interact_expr
       ),
       data = object
-    ) %+%
+    ) +
 
     # baseline
     ggplot2::geom_line(
@@ -206,18 +204,18 @@ autoplot.lift_df <- function(object, ...) {
       data = baseline,
       colour = "grey60",
       linetype = 2
-    ) %+%
+    ) +
 
     ggplot2::labs(
       x = "% Tested",
       y = "Lift"
-    ) %+%
+    ) +
 
     ggplot2::theme_bw()
 
   # facet by .level if this was a multiclass computation
   if (".level" %in% colnames(object)) {
-    chart <- chart %+%
+    chart <- chart +
       ggplot2::facet_wrap(~.level)
   }
 
