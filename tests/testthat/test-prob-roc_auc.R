@@ -79,9 +79,9 @@ test_that("`roc_auc()` hand-till method ignores levels with 0 observations with 
   truth <- factor(c("x", "x", "z"), levels = c("x", "y", "z"))
 
   estimate <- c(
-    c(.8, .5, .6),
-    c(.1, .1, .1),
-    c(.1, .4, .3)
+    c(0.8, 0.5, 0.6),
+    c(0.1, 0.1, 0.1),
+    c(0.1, 0.4, 0.3)
   )
 
   estimate <- matrix(estimate, ncol = 3)
@@ -103,7 +103,7 @@ test_that("binary roc auc uses equivalent of pROC `direction = <`", {
   # This would force `direction = "auto"` to choose `>`,
   # which would be incorrect. We are required to force `direction = <` for
   # our purposes of having `estimate` match the event
-  estimate <- c(.8, .2, .1)
+  estimate <- c(0.8, 0.2, 0.1)
 
   # # pROC() expects levels to be in the order of control, then event.
   # auc <- pROC::auc(
@@ -280,8 +280,8 @@ test_that("hand till approach throws warning and returns `NaN` when only 1 level
   x <- factor(c("x", "x", "x"), levels = c("x", "y"))
 
   estimate <- c(
-    c(.8, .5, .6),
-    c(.2, .5, .4)
+    c(0.8, 0.5, 0.6),
+    c(0.2, 0.5, 0.4)
   )
 
   estimate <- matrix(estimate, ncol = 2)
@@ -296,9 +296,9 @@ test_that("hand till approach throws warning and returns `NaN` when only 1 level
   x <- factor(c("x", "x", "x"), levels = c("x", "y", "z"))
 
   estimate <- c(
-    c(.8, .5, .6),
-    c(.1, .1, .1),
-    c(.1, .4, .3)
+    c(0.8, 0.5, 0.6),
+    c(0.1, 0.1, 0.1),
+    c(0.1, 0.4, 0.3)
   )
 
   estimate <- matrix(estimate, ncol = 3)

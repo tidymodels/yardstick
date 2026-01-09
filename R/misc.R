@@ -365,7 +365,7 @@ weighted_quantile <- function(x, weights, probabilities) {
     )
   }
 
-  if (any(is.na(probabilities))) {
+  if (anyNA(probabilities)) {
     cli::cli_abort("{.arg probabilities} can't have missing values.")
   }
   if (any(probabilities > 1 | probabilities < 0)) {

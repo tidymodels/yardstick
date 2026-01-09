@@ -6,24 +6,24 @@ test_that("npv", {
   expect_equal(
     npv(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
     2 / 3,
-    tolerance = .001
+    tolerance = 0.001
   )
   expect_equal(
     npv(path_tbl)[[".estimate"]],
     2 / 3,
-    tolerance = .001
+    tolerance = 0.001
   )
   expect_equal(
     npv(pathology, truth = pathology, estimate = "scan_na")[[".estimate"]],
     0.67088,
-    tolerance = .001
+    tolerance = 0.001
   )
   expect_equal(
     npv(pathology, truth = pathology, estimate = "scan", prevalence = .5)[[
       ".estimate"
     ]],
     0.85714,
-    tolerance = .001
+    tolerance = 0.001
   )
 })
 
@@ -71,8 +71,8 @@ test_that("Three class", {
     npv(multi_ex, estimator = "micro", prevalence = .4)[[".estimate"]],
     with(
       micro,
-      (sum(tn) / sum(n) * sum((1 - .4))) /
-        ((1 - sum(tp) / sum(p)) * sum(.4) + (sum(tn) / sum(n) * sum((1 - .4))))
+      (sum(tn) / sum(n) * sum((1 - 0.4))) /
+        ((1 - sum(tp) / sum(p)) * sum(0.4) + (sum(tn) / sum(n) * sum((1 - 0.4))))
     )
   )
 })

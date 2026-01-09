@@ -140,7 +140,7 @@ cumulative_rows <- function(x) {
 
 # When `truth` is a factor
 rps_factor <- function(truth, estimate, case_weights = NULL) {
-  num_class <- length(levels(truth))
+  num_class <- nlevels(truth)
   inds <- hardhat::fct_encode_one_hot(truth)
   cum_ind <- cumulative_rows(inds)
   cum_estimate <- cumulative_rows(estimate)

@@ -187,7 +187,7 @@ test_that("can mix dynamic and static survival metric together", {
 test_that("quantile metric sets", {
   reg_set <- metric_set(weighted_interval_score, weighted_interval_score)
 
-  quantile_levels <- c(.2, .4, .6, .8)
+  quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
   pred1 <- 1:4
   pred2 <- 8:11
   example <- dplyr::tibble(

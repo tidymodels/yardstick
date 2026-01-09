@@ -1,5 +1,5 @@
 test_that("weighted_interval_score_vec works", {
-  quantile_levels <- c(.2, .4, .6, .8)
+  quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
   pred1 <- 1:4
   pred2 <- 8:11
   example <- dplyr::tibble(
@@ -16,7 +16,7 @@ test_that("weighted_interval_score_vec works", {
 })
 
 test_that("quantile_levels argument works", {
-  quantile_levels <- c(.2, .4, .6, .8)
+  quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
   pred1 <- 1:4
   pred2 <- 8:11
   example <- dplyr::tibble(
@@ -28,7 +28,7 @@ test_that("quantile_levels argument works", {
     example,
     truth = truth,
     estimate = preds,
-    quantile_levels = c(.25, .5, .75)
+    quantile_levels = c(0.25, 0.5, 0.75)
   )
 
   levels_default <- weighted_interval_score(
