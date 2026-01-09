@@ -27,6 +27,9 @@
   [`weighted_interval_score()`](https://yardstick.tidymodels.org/dev/reference/weighted_interval_score.md).
   ([\#569](https://github.com/tidymodels/yardstick/issues/569))
 
+- Added checks to all metrics for `na_rm` argument.
+  ([\#349](https://github.com/tidymodels/yardstick/issues/349))
+
 ## yardstick 1.3.2
 
 CRAN release: 2025-01-22
