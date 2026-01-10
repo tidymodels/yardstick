@@ -33,7 +33,7 @@ weighted_interval_score_vec(
 \item{data}{A \code{data.frame} containing the columns specified by the \code{truth}
 and \code{estimate} arguments.}
 
-\item{...}{not used}
+\item{...}{Not Currently used.}
 
 \item{truth}{The column identifier for the true class results
 (that is a \code{numeric}). This should be an unquoted column name although
