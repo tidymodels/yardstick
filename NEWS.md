@@ -14,6 +14,8 @@
 
 * Added checks to all metrics for `na_rm` argument. (#349)
 
+* Removed crayon as a suggested package. (#574)
+
 # yardstick 1.3.2
 
 * All messages, warnings and errors has been translated to use {cli} package (#517, #522).
