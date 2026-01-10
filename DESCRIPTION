@@ -33,7 +33,6 @@ Imports:
     withr
 Suggests: 
     covr,
-    crayon,
     ggplot2,
     knitr,
     probably (>= 1.0.0),
