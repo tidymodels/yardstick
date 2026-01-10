@@ -34,7 +34,7 @@ concordance_survival_vec(
 
 - ...:
 
-  Currently not used.
+  Not currently used.
 
 - truth:
 

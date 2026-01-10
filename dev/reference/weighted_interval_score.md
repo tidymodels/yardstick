@@ -44,7 +44,7 @@ weighted_interval_score_vec(
 
 - ...:
 
-  not used
+  Not Currently used.
 
 - truth:
 

@@ -21,7 +21,7 @@ royston_survival_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 
 - ...:
 
-  Currently not used.
+  Not currently used.
 
 - truth:
 
