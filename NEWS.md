@@ -14,6 +14,8 @@
 
 * Added checks to all metrics for `na_rm` argument. (#349)
 
+* Removed crayon as a suggested package. (#574)
+
 * Added improved argument checking for metrics with additional arguments. (#519)
 
 # yardstick 1.3.2
