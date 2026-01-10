@@ -12,6 +12,10 @@ test_that("can create metric functions", {
     function() 1,
     "minimize"
   )
+  linear_pred_survival_metric <- new_linear_pred_survival_metric(
+    function() 1,
+    "minimize"
+  )
   quantile_metric <- new_quantile_metric(function() 1, "minimize")
 
   expect_identical(class(class_metric), c("class_metric", "metric", "function"))
@@ -31,6 +35,10 @@ test_that("can create metric functions", {
   expect_identical(
     class(static_survival_metric),
     c("static_survival_metric", "metric", "function")
+  )
+  expect_identical(
+    class(linear_pred_survival_metric),
+    c("linear_pred_survival_metric", "metric", "function")
   )
   expect_identical(
     class(integrated_survival_metric),
