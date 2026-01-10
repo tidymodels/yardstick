@@ -1,42 +1,54 @@
 test_that("can create metric functions", {
-  fn1 <- new_class_metric(function() 1, "maximize")
-  fn2 <- new_prob_metric(function() 1, "maximize")
-  fn3 <- new_numeric_metric(function() 1, "minimize")
-  fn3zero <- new_numeric_metric(function() 1, "zero")
-  fn4 <- new_dynamic_survival_metric(function() 1, "minimize")
-  fn5 <- new_static_survival_metric(function() 1, "minimize")
-  fn6 <- new_integrated_survival_metric(function() 1, "minimize")
-  fn7 <- new_quantile_metric(function() 1, "minimize")
+  class_metric <- new_class_metric(function() 1, "maximize")
+  prob_metric <- new_prob_metric(function() 1, "maximize")
+  numeric_metric <- new_numeric_metric(function() 1, "minimize")
+  numeric_zero_metric <- new_numeric_metric(function() 1, "zero")
+  dynamic_survival_metric <- new_dynamic_survival_metric(
+    function() 1,
+    "minimize"
+  )
+  static_survival_metric <- new_static_survival_metric(function() 1, "minimize")
+  integrated_survival_metric <- new_integrated_survival_metric(
+    function() 1,
+    "minimize"
+  )
+  quantile_metric <- new_quantile_metric(function() 1, "minimize")
 
-  expect_identical(class(fn1), c("class_metric", "metric", "function"))
-  expect_identical(class(fn2), c("prob_metric", "metric", "function"))
-  expect_identical(class(fn3), c("numeric_metric", "metric", "function"))
-  expect_identical(class(fn3zero), c("numeric_metric", "metric", "function"))
+  expect_identical(class(class_metric), c("class_metric", "metric", "function"))
+  expect_identical(class(prob_metric), c("prob_metric", "metric", "function"))
   expect_identical(
-    class(fn4),
+    class(numeric_metric),
+    c("numeric_metric", "metric", "function")
+  )
+  expect_identical(
+    class(numeric_zero_metric),
+    c("numeric_metric", "metric", "function")
+  )
+  expect_identical(
+    class(dynamic_survival_metric),
     c("dynamic_survival_metric", "metric", "function")
   )
   expect_identical(
-    class(fn5),
+    class(static_survival_metric),
     c("static_survival_metric", "metric", "function")
   )
   expect_identical(
-    class(fn6),
+    class(integrated_survival_metric),
     c("integrated_survival_metric", "metric", "function")
   )
   expect_identical(
-    class(fn7),
+    class(quantile_metric),
     c("quantile_metric", "metric", "function")
   )
 
-  expect_identical(attr(fn1, "direction"), "maximize")
-  expect_identical(attr(fn2, "direction"), "maximize")
-  expect_identical(attr(fn3, "direction"), "minimize")
-  expect_identical(attr(fn3zero, "direction"), "zero")
-  expect_identical(attr(fn4, "direction"), "minimize")
-  expect_identical(attr(fn5, "direction"), "minimize")
-  expect_identical(attr(fn6, "direction"), "minimize")
-  expect_identical(attr(fn7, "direction"), "minimize")
+  expect_identical(attr(class_metric, "direction"), "maximize")
+  expect_identical(attr(prob_metric, "direction"), "maximize")
+  expect_identical(attr(numeric_metric, "direction"), "minimize")
+  expect_identical(attr(numeric_zero_metric, "direction"), "zero")
+  expect_identical(attr(dynamic_survival_metric, "direction"), "minimize")
+  expect_identical(attr(static_survival_metric, "direction"), "minimize")
+  expect_identical(attr(integrated_survival_metric, "direction"), "minimize")
+  expect_identical(attr(quantile_metric, "direction"), "minimize")
 })
 
 test_that("`fn` is validated", {
