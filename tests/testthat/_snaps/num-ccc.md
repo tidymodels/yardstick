@@ -6,3 +6,11 @@
       Error in `ccc_vec()`:
       ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
+# bad argument check
+
+    Code
+      ccc_vec(1, 1, bias = "yes")
+    Condition
+      Error in `ccc_vec()`:
+      ! `bias` must be `TRUE` or `FALSE`, not the string "yes".
+

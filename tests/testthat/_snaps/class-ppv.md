@@ -24,3 +24,11 @@
       Error in `ppv_vec()`:
       ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
+# bad argument check
+
+    Code
+      ppv_vec(1, 1, prevalence = "yes")
+    Condition
+      Error in `ppv_vec()`:
+      ! `prevalence` must be a number or `NULL`, not the string "yes".
+

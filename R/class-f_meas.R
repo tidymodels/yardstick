@@ -116,6 +116,7 @@ f_meas_vec <- function(
   ...
 ) {
   check_bool(na_rm)
+  check_number_decimal(beta, min = 0)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

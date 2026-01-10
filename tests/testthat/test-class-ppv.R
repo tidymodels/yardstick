@@ -177,3 +177,10 @@ test_that("na_rm argument check", {
     ppv_vec(1, 1, na_rm = "yes")
   )
 })
+
+test_that("bad argument check", {
+  expect_snapshot(
+    error = TRUE,
+    ppv_vec(1, 1, prevalence = "yes")
+  )
+})
