@@ -1,16 +1,4 @@
-set.seed(1311)
-three_class <- data.frame(
-  obs = iris$Species,
-  pred = sample(iris$Species, replace = TRUE)
-)
-probs <- matrix(runif(150 * 3), nrow = 150)
-probs <- t(apply(probs, 1, function(x) x / sum(x)))
-colnames(probs) <- levels(iris$Species)
-three_class <- cbind(three_class, as.data.frame(probs))
-
-###################################################################
-
-test_that("correct metrics returned", {
+test_that("metrics() correctly picks the right metrics", {
   expect_equal(
     metrics(two_class_example, truth, predicted)[[".metric"]],
     c("accuracy", "kap")
@@ -20,15 +8,11 @@ test_that("correct metrics returned", {
     c("accuracy", "kap", "mn_log_loss", "roc_auc")
   )
   expect_equal(
-    metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[
-      ".metric"
-    ]],
+    metrics(hpc_cv, "obs", "pred", VF:L)[[".metric"]],
     c("accuracy", "kap", "mn_log_loss", "roc_auc")
   )
   expect_equal(
-    metrics(three_class, "obs", "pred", setosa, versicolor, virginica)[[
-      ".estimator"
-    ]],
+    metrics(hpc_cv, "obs", "pred", VF:L)[[".estimator"]],
     c("multiclass", "multiclass", "multiclass", "hand_till")
   )
   expect_equal(
@@ -36,8 +20,6 @@ test_that("correct metrics returned", {
     c("rmse", "rsq", "mae")
   )
 })
-
-###################################################################
 
 test_that("bad args", {
   expect_snapshot(
@@ -50,43 +32,38 @@ test_that("bad args", {
   )
   expect_snapshot(
     error = TRUE,
-    metrics(three_class, "obs", "pred", setosa, versicolor)
+    metrics(hpc_cv, "obs", "pred", VF:M)
   )
 })
 
-###################################################################
+test_that("metrics() produces correct results", {
+  class_res <- dplyr::bind_rows(
+    accuracy(two_class_example, truth, predicted),
+    kap(two_class_example, truth, predicted),
+    mn_log_loss(two_class_example, truth, Class1),
+    roc_auc(two_class_example, truth, Class1)
+  )
 
-class_res_1 <- dplyr::bind_rows(
-  accuracy(two_class_example, truth, predicted),
-  kap(two_class_example, truth, predicted),
-  mn_log_loss(two_class_example, truth, Class1),
-  roc_auc(two_class_example, truth, Class1)
-)
-
-reg_res_1 <- dplyr::bind_rows(
-  rmse(solubility_test, solubility, "prediction"),
-  rsq(solubility_test, solubility, prediction),
-  mae(solubility_test, solubility, prediction)
-)
-
-test_that("correct results", {
-  class_idx <- which(class_res_1$.metric %in% c("accuracy", "kap"))
+  reg_res <- dplyr::bind_rows(
+    rmse(solubility_test, solubility, "prediction"),
+    rsq(solubility_test, solubility, prediction),
+    mae(solubility_test, solubility, prediction)
+  )
+  class_idx <- which(class_res$.metric %in% c("accuracy", "kap"))
 
   expect_equal(
     metrics(two_class_example, truth, predicted)[[".estimate"]],
-    class_res_1[class_idx, ][[".estimate"]]
+    class_res[class_idx, ][[".estimate"]]
   )
   expect_equal(
     metrics(two_class_example, truth, predicted, Class1)[[".estimate"]],
-    class_res_1[[".estimate"]]
+    class_res[[".estimate"]]
   )
   expect_equal(
     metrics(solubility_test, solubility, prediction)[[".estimate"]],
-    reg_res_1[[".estimate"]]
+    reg_res[[".estimate"]]
   )
 })
-
-###################################################################
 
 test_that("metrics() - `options` is deprecated", {
   skip_if(

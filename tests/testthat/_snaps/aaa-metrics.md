@@ -21,10 +21,10 @@
 ---
 
     Code
-      metrics(three_class, "obs", "pred", setosa, versicolor)
+      metrics(hpc_cv, "obs", "pred", VF:M)
     Condition
       Error in `mn_log_loss()`:
-      ! The number of levels in `truth` (3) must match the number of columns supplied in `...` (2).
+      ! The number of levels in `truth` (4) must match the number of columns supplied in `...` (3).
 
 # metrics() - `options` is deprecated
 
