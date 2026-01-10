@@ -30,6 +30,13 @@
 - Added checks to all metrics for `na_rm` argument.
   ([\#349](https://github.com/tidymodels/yardstick/issues/349))
 
+- Removed crayon as a suggested package.
+  ([\#574](https://github.com/tidymodels/yardstick/issues/574))
+
+- Added improved argument checking for metrics with additional
+  arguments.
+  ([\#519](https://github.com/tidymodels/yardstick/issues/519))
+
 ## yardstick 1.3.2
 
 CRAN release: 2025-01-22
