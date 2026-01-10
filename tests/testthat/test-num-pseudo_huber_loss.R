@@ -74,3 +74,10 @@ test_that("na_rm argument check", {
     huber_loss_pseudo_vec(1, 1, na_rm = "yes")
   )
 })
+
+test_that("bad argument check", {
+  expect_snapshot(
+    error = TRUE,
+    huber_loss_pseudo_vec(1, 1, delta = "yes")
+  )
+})
