@@ -1,13 +1,28 @@
 test_that("can create metric functions", {
-  class_metric <- new_class_metric(function() 1, "maximize")
-  prob_metric <- new_prob_metric(function() 1, "maximize")
-  numeric_metric <- new_numeric_metric(function() 1, "minimize")
-  numeric_zero_metric <- new_numeric_metric(function() 1, "zero")
+  class_metric <- new_class_metric(
+    function() 1,
+    "maximize"
+  )
+  prob_metric <- new_prob_metric(
+    function() 1,
+    "maximize"
+  )
+  numeric_metric <- new_numeric_metric(
+    function() 1,
+    "minimize"
+  )
+  numeric_zero_metric <- new_numeric_metric(
+    function() 1,
+    "zero"
+  )
   dynamic_survival_metric <- new_dynamic_survival_metric(
     function() 1,
     "minimize"
   )
-  static_survival_metric <- new_static_survival_metric(function() 1, "minimize")
+  static_survival_metric <- new_static_survival_metric(
+    function() 1,
+    "minimize"
+  )
   integrated_survival_metric <- new_integrated_survival_metric(
     function() 1,
     "minimize"
@@ -16,10 +31,19 @@ test_that("can create metric functions", {
     function() 1,
     "minimize"
   )
-  quantile_metric <- new_quantile_metric(function() 1, "minimize")
+  quantile_metric <- new_quantile_metric(
+    function() 1,
+    "minimize"
+  )
 
-  expect_identical(class(class_metric), c("class_metric", "metric", "function"))
-  expect_identical(class(prob_metric), c("prob_metric", "metric", "function"))
+  expect_identical(
+    class(class_metric),
+    c("class_metric", "metric", "function")
+  )
+  expect_identical(
+    class(prob_metric),
+    c("prob_metric", "metric", "function")
+  )
   expect_identical(
     class(numeric_metric),
     c("numeric_metric", "metric", "function")
