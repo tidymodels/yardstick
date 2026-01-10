@@ -90,3 +90,11 @@
       Error in `f_meas_vec()`:
       ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
+# bad argument check
+
+    Code
+      f_meas_vec(1, 1, beta = "yes")
+    Condition
+      Error in `f_meas_vec()`:
+      ! `beta` must be a number, not the string "yes".
+

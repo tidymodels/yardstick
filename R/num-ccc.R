@@ -77,6 +77,7 @@ ccc_vec <- function(
   ...
 ) {
   check_bool(na_rm)
+  check_bool(bias)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

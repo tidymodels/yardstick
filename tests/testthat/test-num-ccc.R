@@ -132,3 +132,10 @@ test_that("na_rm argument check", {
     ccc_vec(1, 1, na_rm = "yes")
   )
 })
+
+test_that("bad argument check", {
+  expect_snapshot(
+    error = TRUE,
+    ccc_vec(1, 1, bias = "yes")
+  )
+})

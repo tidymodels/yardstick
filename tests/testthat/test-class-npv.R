@@ -72,7 +72,9 @@ test_that("Three class", {
     with(
       micro,
       (sum(tn) / sum(n) * sum((1 - 0.4))) /
-        ((1 - sum(tp) / sum(p)) * sum(0.4) + (sum(tn) / sum(n) * sum((1 - 0.4))))
+        ((1 - sum(tp) / sum(p)) *
+          sum(0.4) +
+          (sum(tn) / sum(n) * sum((1 - 0.4))))
     )
   )
 })
@@ -154,5 +156,12 @@ test_that("na_rm argument check", {
   expect_snapshot(
     error = TRUE,
     npv_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("bad argument check", {
+  expect_snapshot(
+    error = TRUE,
+    npv_vec(1, 1, prevalence = "yes")
   )
 })

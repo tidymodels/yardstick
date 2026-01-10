@@ -54,3 +54,11 @@
       Error in `mase_vec()`:
       ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
+# bad argument check
+
+    Code
+      mase_vec(1, 1, m = "yes")
+    Condition
+      Error in `mase_vec()`:
+      ! `m` must be a whole number, not the string "yes".
+

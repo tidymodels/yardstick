@@ -14,3 +14,11 @@
       Error in `mn_log_loss_vec()`:
       ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
+# bad argument check
+
+    Code
+      mn_log_loss_vec(1, 1, sum = "yes")
+    Condition
+      Error in `mn_log_loss_vec()`:
+      ! `sum` must be `TRUE` or `FALSE`, not the string "yes".
+

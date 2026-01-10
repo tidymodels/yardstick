@@ -92,6 +92,7 @@ mase_vec <- function(
   ...
 ) {
   check_bool(na_rm)
+  #check_number_whole(m, min = 1)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

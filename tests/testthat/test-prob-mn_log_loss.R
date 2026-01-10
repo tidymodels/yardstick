@@ -196,3 +196,10 @@ test_that("na_rm argument check", {
     mn_log_loss_vec(1, 1, na_rm = "yes")
   )
 })
+
+test_that("bad argument check", {
+  expect_snapshot(
+    error = TRUE,
+    mn_log_loss_vec(1, 1, sum = "yes")
+  )
+})

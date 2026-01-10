@@ -67,6 +67,7 @@ huber_loss_vec <- function(
   ...
 ) {
   check_bool(na_rm)
+  check_number_decimal(delta, min = 0)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

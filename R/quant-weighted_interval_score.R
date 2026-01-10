@@ -58,7 +58,7 @@
 #'   `data`. For `_vec()` functions, a numeric vector,
 #'   [hardhat::importance_weights()], or [hardhat::frequency_weights()].
 #'
-#' @param ... not used
+#' @param ... Not Currently used.
 #'
 #' @return a vector of nonnegative scores.
 #'
