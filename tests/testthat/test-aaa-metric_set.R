@@ -74,6 +74,8 @@ test_that("metric_set() - static survival", {
 })
 
 test_that("metric_set() - dynamic survival", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     brier_survival(lung_surv, truth = surv_obj, .pred),
     roc_auc_survival(lung_surv, truth = surv_obj, .pred)
@@ -88,6 +90,8 @@ test_that("metric_set() - dynamic survival", {
 })
 
 test_that("metric_set() - integrated survival", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     brier_survival_integrated(lung_surv, truth = surv_obj, .pred),
     brier_survival_integrated(lung_surv, truth = surv_obj, .pred)
@@ -138,6 +142,8 @@ test_that("metric_set() - quantile", {
 })
 
 test_that("metric_set() - can mix class and prob", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     accuracy(two_class_example, truth, predicted),
     roc_auc(two_class_example, truth, Class1)
@@ -152,6 +158,8 @@ test_that("metric_set() - can mix class and prob", {
 })
 
 test_that("metric_set() - can mix class and orderedprob", {
+  skip_if_not_installed("tidyr")
+
   two_class_example$truth <- as.ordered(two_class_example$truth)
 
   exp <- dplyr::bind_rows(
@@ -168,6 +176,8 @@ test_that("metric_set() - can mix class and orderedprob", {
 })
 
 test_that("metric_set() - can mix prob and orderedprob", {
+  skip_if_not_installed("tidyr")
+
   hpc_cv$obs <- as.ordered(hpc_cv$obs)
 
   exp <- dplyr::bind_rows(
@@ -184,6 +194,8 @@ test_that("metric_set() - can mix prob and orderedprob", {
 })
 
 test_that("metric_set() - can mix class, prob, and orderedprob", {
+  skip_if_not_installed("tidyr")
+
   hpc_cv$obs <- as.ordered(hpc_cv$obs)
 
   exp <- dplyr::bind_rows(
@@ -201,6 +213,8 @@ test_that("metric_set() - can mix class, prob, and orderedprob", {
 })
 
 test_that("metric_set() - can mix static and dynamic survival", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     brier_survival(lung_surv, truth = surv_obj, .pred),
     concordance_survival(lung_surv, truth = surv_obj, estimate = .pred_time)
@@ -215,6 +229,8 @@ test_that("metric_set() - can mix static and dynamic survival", {
 })
 
 test_that("metric_set() - can mix static and integrated survival", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     brier_survival_integrated(lung_surv, truth = surv_obj, .pred),
     concordance_survival(lung_surv, truth = surv_obj, estimate = .pred_time)
@@ -229,6 +245,8 @@ test_that("metric_set() - can mix static and integrated survival", {
 })
 
 test_that("metric_set() - can mix dynamic and integrated survival", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     brier_survival(lung_surv, truth = surv_obj, .pred),
     brier_survival_integrated(lung_surv, truth = surv_obj, .pred)
@@ -243,6 +261,8 @@ test_that("metric_set() - can mix dynamic and integrated survival", {
 })
 
 test_that("metric_set() - can mix static and linear predictor survival", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     concordance_survival(lung_surv, truth = surv_obj, estimate = .pred_time),
     royston_survival(lung_surv, truth = surv_obj, .pred_linear_pred)
@@ -261,6 +281,8 @@ test_that("metric_set() - can mix static and linear predictor survival", {
 })
 
 test_that("metric_set() - can mix dynamic and linear predictor survival", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     brier_survival(lung_surv, truth = surv_obj, .pred),
     royston_survival(lung_surv, truth = surv_obj, .pred_linear_pred)
@@ -275,6 +297,8 @@ test_that("metric_set() - can mix dynamic and linear predictor survival", {
 })
 
 test_that("metric_set() - can mix integrated and linear predictor survival", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     brier_survival_integrated(lung_surv, truth = surv_obj, .pred),
     royston_survival(lung_surv, truth = surv_obj, .pred_linear_pred)
@@ -289,6 +313,8 @@ test_that("metric_set() - can mix integrated and linear predictor survival", {
 })
 
 test_that("metric_set() - can mix static, dynamic, integrated, and linear predictor survival", {
+  skip_if_not_installed("tidyr")
+
   exp <- dplyr::bind_rows(
     brier_survival(lung_surv, truth = surv_obj, .pred),
     brier_survival_integrated(lung_surv, truth = surv_obj, .pred),
