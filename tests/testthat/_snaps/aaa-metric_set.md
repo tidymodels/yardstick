@@ -1,4 +1,112 @@
-# numeric metric sets
+# print metric_set works
+
+    Code
+      metric_set(accuracy)
+    Output
+      A metric set, consisting of:
+      - `accuracy()`, a class metric | direction: maximize
+
+---
+
+    Code
+      metric_set(roc_auc)
+    Output
+      A metric set, consisting of:
+      - `roc_auc()`, a probability metric | direction: maximize
+
+---
+
+    Code
+      metric_set(ranked_prob_score)
+    Output
+      A metric set, consisting of:
+      - `ranked_prob_score()`, a ordered probability metric | direction: minimize
+
+---
+
+    Code
+      metric_set(rmse)
+    Output
+      A metric set, consisting of:
+      - `rmse()`, a numeric metric | direction: minimize
+
+---
+
+    Code
+      metric_set(concordance_survival)
+    Output
+      A metric set, consisting of:
+      - `concordance_survival()`, a static survival metric | direction: maximize
+
+---
+
+    Code
+      metric_set(brier_survival)
+    Output
+      A metric set, consisting of:
+      - `brier_survival()`, a dynamic survival metric | direction: minimize
+
+---
+
+    Code
+      metric_set(brier_survival_integrated)
+    Output
+      A metric set, consisting of:
+      - `brier_survival_integrated()`, a integrated survival metric | direction:
+      minimize
+
+---
+
+    Code
+      metric_set(royston_survival)
+    Output
+      A metric set, consisting of:
+      - `royston_survival()`, a linear predictor survival metric | direction:
+      maximize
+
+---
+
+    Code
+      metric_set(weighted_interval_score)
+    Output
+      A metric set, consisting of:
+      - `weighted_interval_score()`, a quantile metric | direction: minimize
+
+---
+
+    Code
+      metric_set(accuracy, roc_auc, ranked_prob_score)
+    Output
+      A metric set, consisting of:
+      - `accuracy()`, a class metric                        | direction: maximize
+      - `roc_auc()`, a probability metric                   | direction: maximize
+      - `ranked_prob_score()`, a ordered probability metric | direction: minimize
+
+---
+
+    Code
+      metric_set(concordance_survival, brier_survival, brier_survival_integrated,
+        royston_survival)
+    Output
+      A metric set, consisting of:
+      - `concordance_survival()`, a static survival metric          | direction:
+      maximize
+      - `brier_survival()`, a dynamic survival metric               | direction:
+      minimize
+      - `brier_survival_integrated()`, a integrated survival metric | direction:
+      minimize
+      - `royston_survival()`, a linear predictor survival metric    | direction:
+      maximize
+
+# metric_set() errors on bad input
+
+    Code
+      metric_set("x")
+    Condition
+      Error in `metric_set()`:
+      ! All inputs to `metric_set()` must be functions. These inputs are not: 1.
+
+---
 
     Code
       metric_set(rmse, "x")
@@ -6,7 +114,15 @@
       Error in `metric_set()`:
       ! All inputs to `metric_set()` must be functions. These inputs are not: 2.
 
-# mixing bad metric sets
+# metric_set() errors on empty input
+
+    Code
+      metric_set()
+    Condition
+      Error in `metric_set()`:
+      ! At least 1 function must be supplied to `...`.
+
+# metric_set() errors on mixing incombatible metrics
 
     Code
       metric_set(rmse, accuracy)
@@ -20,15 +136,36 @@
       - numeric (rmse)
       - class (accuracy)
 
-# print metric_set works
+---
 
     Code
-      metric_set(rmse, rsq, ccc)
-    Output
-      A metric set, consisting of:
-      - `rmse()`, a numeric metric | direction: minimize
-      - `rsq()`, a numeric metric  | direction: maximize
-      - `ccc()`, a numeric metric  | direction: maximize
+      metric_set(rmse, accuracy, brier_survival)
+    Condition
+      Error in `metric_set()`:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
+      - numeric (rmse)
+      - class (accuracy)
+      - dynamic_survival (brier_survival)
+
+---
+
+    Code
+      metric_set(rmse, accuracy, brier_survival, weighted_interval_score)
+    Condition
+      Error in `metric_set()`:
+      x The combination of metric functions must be:
+      * only numeric metrics.
+      * a mix of class metrics and class probability metrics.
+      * a mix of dynamic and static survival metrics.
+      i The following metric function types are being mixed:
+      - numeric (rmse)
+      - class (accuracy)
+      - dynamic_survival (brier_survival)
+      - quantile (weighted_interval_score)
 
 # `metric_set()` errors contain env name for unknown functions (#128)
 
@@ -117,12 +254,4 @@
       Caused by error:
       ! Can't select columns that don't exist.
       x Column `weight` doesn't exist.
-
-# metric_set() errors on empty input
-
-    Code
-      metric_set()
-    Condition
-      Error in `metric_set()`:
-      ! At least 1 function must be supplied to `...`.
 
