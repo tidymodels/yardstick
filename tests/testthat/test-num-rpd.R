@@ -1,37 +1,33 @@
-test_that("rpd", {
+test_that("Calculations are correct", {
   ex_dat <- generate_numeric_test_data()
-  not_na <- !is.na(ex_dat$pred_na)
 
   expect_equal(
-    rpd(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
+    rpd_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
     stats::sd(ex_dat$obs) / (sqrt(mean((ex_dat$obs - ex_dat$pred)^2)))
-  )
-  expect_equal(
-    rpd(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    stats::sd(ex_dat$obs[not_na]) /
-      (sqrt(mean((ex_dat$obs[not_na] - ex_dat$pred[not_na])^2)))
   )
 })
 
-test_that("case weights are applied", {
+test_that("Case weights calculations are correct", {
   solubility_test$weights <- read_weights_solubility_test()
 
+  sd <- yardstick_sd(
+    solubility_test$solubility,
+    case_weights = solubility_test$weights
+  )
+  rmse <- rmse_vec(
+    solubility_test$solubility,
+    solubility_test$prediction,
+    case_weights = solubility_test$weights
+  )
+  exp <- sd / rmse
+
   expect_identical(
-    rpd(solubility_test, solubility, prediction, case_weights = weights)[[
-      ".estimate"
-    ]],
-    {
-      sd <- yardstick_sd(
-        solubility_test$solubility,
-        case_weights = solubility_test$weights
-      )
-      rmse <- rmse_vec(
-        solubility_test$solubility,
-        solubility_test$prediction,
-        case_weights = solubility_test$weights
-      )
-      sd / rmse
-    }
+    rpd_vec(
+      truth = solubility_test$solubility,
+      estimate = solubility_test$prediction,
+      case_weights = solubility_test$weights
+    ),
+    exp
   )
 })
 

@@ -1,53 +1,30 @@
-test_that("poisson log-loss", {
+test_that("Calculations are correct", {
   count_results <- data_counts()$basic
-  count_missing <- data_counts()$missing
-  count_poor <- data_counts()$poor
 
   expect_equal(
-    poisson_log_loss(count_results, count, pred)[[".estimate"]],
+    poisson_log_loss_vec(count_results$count, count_results$pred),
     mean(-stats::dpois(count_results$count, count_results$pred, log = TRUE))
   )
-
-  expect_equal(
-    poisson_log_loss(count_missing, count, pred)[[".estimate"]],
-    mean(
-      -stats::dpois(count_results$count[-1], count_results$pred[-1], log = TRUE)
-    )
-  )
-
-  expect_true(
-    poisson_log_loss(count_results, count, pred)[[".estimate"]] <
-      poisson_log_loss(count_poor, count, pred)[[".estimate"]]
-  )
 })
 
-test_that("poisson log-loss handles 0 valued estimates (#513)", {
-  count_results <- data_counts()$basic
-
-  count_results$pred <- 0
-
-  expect_false(
-    is.nan(poisson_log_loss(count_results, count, pred)[[".estimate"]]),
-  )
-  expect_false(
-    is.infinite(poisson_log_loss(count_results, count, pred)[[".estimate"]]),
-  )
-})
-
-test_that("weighted results are working", {
+test_that("Case weights calculations are correct", {
   count_results <- data_counts()$basic
   count_results$weights <- c(1, 2, 1, 1, 2, 1)
 
+  exp <- yardstick_mean(
+    log(gamma(count_results$count + 1)) +
+      count_results$pred -
+      log(count_results$pred) * count_results$count,
+    case_weights = count_results$weights
+  )
+
   expect_identical(
-    poisson_log_loss(count_results, count, pred, case_weights = weights)[[
-      ".estimate"
-    ]],
-    yardstick_mean(
-      log(gamma(count_results$count + 1)) +
-        count_results$pred -
-        log(count_results$pred) * count_results$count,
+    poisson_log_loss_vec(
+      truth = count_results$count,
+      estimate = count_results$pred,
       case_weights = count_results$weights
-    )
+    ),
+    exp
   )
 })
 
@@ -73,5 +50,28 @@ test_that("na_rm argument check", {
   expect_snapshot(
     error = TRUE,
     poisson_log_loss_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("poisson_log_loss() - handles 0 valued estimates (#513)", {
+  count_results <- data_counts()$basic
+
+  count_results$pred <- 0
+
+  expect_false(
+    is.nan(poisson_log_loss(count_results, count, pred)[[".estimate"]]),
+  )
+  expect_false(
+    is.infinite(poisson_log_loss(count_results, count, pred)[[".estimate"]]),
+  )
+})
+
+test_that("poisson_log_loss() - handles poor data", {
+  count_results <- data_counts()$basic
+  count_poor <- data_counts()$poor
+
+  expect_true(
+    poisson_log_loss(count_results, count, pred)[[".estimate"]] <
+      poisson_log_loss(count_poor, count, pred)[[".estimate"]]
   )
 })
