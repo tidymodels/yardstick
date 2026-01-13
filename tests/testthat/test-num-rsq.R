@@ -7,6 +7,22 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  expect_identical(
+    rsq_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_equal(
+    rsq_vec(truth = ex_dat$obs, ex_dat$pred),
+    stats::cor(ex_dat[-na_ind, 1:2])[1, 2]^2
+  )
+})
+
 test_that("Case weights calculations are correct", {
   df <- dplyr::tibble(
     truth = c(1, 2, 3, 4, 5),

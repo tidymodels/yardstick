@@ -16,6 +16,31 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  truth <- ex_dat$obs[-na_ind]
+  pred <- ex_dat$pred[-na_ind]
+
+  truth_lag <- dplyr::lag(truth, 1L)
+  naive_error <- truth - truth_lag
+  mae_denom <- mean(abs(naive_error)[-1])
+  scaled_error <- (truth - pred) / mae_denom
+  exp <- mean(abs(scaled_error))
+
+  expect_identical(
+    mase_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_equal(
+    mase_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    exp
+  )
+})
+
 test_that("Case weights calculations are correct", {
   truth <- c(1, 2, 3)
   estimate <- c(2, 4, 3)

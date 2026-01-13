@@ -7,6 +7,22 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  expect_identical(
+    mape_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_equal(
+    mape_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    100 * mean(abs((ex_dat$obs - ex_dat$pred) / ex_dat$obs), na.rm = TRUE)
+  )
+})
+
 test_that("Case weights calculations are correct", {
   solubility_test$weights <- read_weights_solubility_test()
   zero_solubility <- solubility_test$solubility == 0

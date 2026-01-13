@@ -23,6 +23,38 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  ccc_unbiased <- function(truth, estimate) {
+    # Unbiased estimator
+    m_e <- mean(estimate)
+    m_t <- mean(truth)
+
+    # Uses unbiased `n-1` denom
+    v_e <- stats::var(estimate)
+    v_t <- stats::var(truth)
+
+    # Uses unbiased `n-1` denom
+    cov <- cov(truth, estimate)
+
+    2 * cov / (v_e + v_t + (m_e - m_t)^2)
+  }
+
+  expect_identical(
+    ccc_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_equal(
+    ccc_vec(ex_dat$obs, ex_dat$pred),
+    ccc_unbiased(ex_dat$obs[-na_ind], ex_dat$pred[-na_ind]),
+    tolerance = 0.001
+  )
+})
+
 test_that("Case weights calculations are correct", {
   solubility_test$weights <- read_weights_solubility_test()
 

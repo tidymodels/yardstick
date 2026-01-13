@@ -7,6 +7,22 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  expect_identical(
+    msd_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_identical(
+    msd_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    mean(ex_dat$obs - ex_dat$pred, na.rm = TRUE)
+  )
+})
+
 test_that("Case weights calculations are correct", {
   truth <- c(1, 2, 3)
   estimate <- c(1, 4, 4)

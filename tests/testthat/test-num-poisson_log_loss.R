@@ -7,6 +7,29 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("Calculations handles NAs", {
+  count_results <- data_counts()$basic
+  na_ind <- 1:2
+  count_results$pred[na_ind] <- NA
+
+  expect_identical(
+    poisson_log_loss_vec(
+      truth = count_results$count,
+      estimate = count_results$pred,
+      na_rm = FALSE
+    ),
+    NA_real_
+  )
+
+  expect_equal(
+    poisson_log_loss_vec(count_results$count, count_results$pred),
+    mean(
+      -stats::dpois(count_results$count, count_results$pred, log = TRUE),
+      na.rm = TRUE
+    )
+  )
+})
+
 test_that("Case weights calculations are correct", {
   count_results <- data_counts()$basic
   count_results$weights <- c(1, 2, 1, 1, 2, 1)

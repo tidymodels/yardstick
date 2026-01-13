@@ -13,6 +13,28 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  delta <- 2
+  a <- ex_dat$obs[-na_ind] - ex_dat$pred[-na_ind]
+  exp <- mean(
+    ifelse(abs(a) <= delta, 0.5 * a^2, delta * (abs(a) - 0.5 * delta))
+  )
+
+  expect_identical(
+    huber_loss_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_equal(
+    huber_loss_vec(truth = ex_dat$obs, estimate = ex_dat$pred, delta = delta),
+    exp
+  )
+})
+
 test_that("Case weights calculations are correct", {
   truth <- c(1, 2, 3)
   estimate <- c(2, 4, 3)
