@@ -11,6 +11,15 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("both interfaces gives the same results", {
+  ex_dat <- generate_numeric_test_data()
+
+  expect_identical(
+    rsq_trad_vec(ex_dat$obs, ex_dat$pred),
+    rsq_trad(ex_dat, obs, pred)[[".estimate"]],
+  )
+})
+
 test_that("Calculations handles NAs", {
   ex_dat <- generate_numeric_test_data()
   na_ind <- 1:10

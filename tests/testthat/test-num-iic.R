@@ -10,6 +10,15 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("both interfaces gives the same results", {
+  ex_dat <- generate_numeric_test_data()
+
+  expect_identical(
+    iic_vec(ex_dat$obs, ex_dat$pred),
+    iic(ex_dat, obs, pred)[[".estimate"]],
+  )
+})
+
 test_that("Calculations handles NAs", {
   ex_dat <- generate_numeric_test_data()
   na_ind <- 1:10

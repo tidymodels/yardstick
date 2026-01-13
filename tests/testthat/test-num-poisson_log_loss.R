@@ -7,6 +7,15 @@ test_that("Calculations are correct", {
   )
 })
 
+test_that("both interfaces gives the same results", {
+  ex_dat <- generate_numeric_test_data()
+
+  expect_identical(
+    poisson_log_loss_vec(ex_dat$obs, ex_dat$pred),
+    poisson_log_loss(ex_dat, obs, pred)[[".estimate"]],
+  )
+})
+
 test_that("Calculations handles NAs", {
   count_results <- data_counts()$basic
   na_ind <- 1:2
