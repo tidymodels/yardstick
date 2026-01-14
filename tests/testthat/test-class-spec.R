@@ -57,16 +57,20 @@ test_that("Three class", {
 
 # ------------------------------------------------------------------------------
 
-test_that("Binary `spec()` returns `NA` with a warning when undefined (tn + fp = 0) (#98)", {
+test_that("Binary returns `NA` with a warning when results are undefined (#98)", {
+  # specificity - (tn + fp = 0)
   levels <- c("a", "b")
   truth <- factor(c("a", "a"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
 
-  expect_snapshot(out <- spec_vec(truth, estimate))
+  expect_snapshot(
+    out <- spec_vec(truth, estimate)
+  )
   expect_identical(out, NA_real_)
 })
 
-test_that("Multiclass `spec()` returns averaged value with `NA`s removed + a warning when undefined (tn + fp = 0) (#98)", {
+test_that("Multiclass returns averaged value a warning when results is undefined (#98)", {
+  # specificity - (tn + fp = 0)
   levels <- c("a", "b", "c", "d")
 
   # When `d` is the event we get spec      = 3/3  = (tn = 3, fp = 0)
@@ -80,7 +84,7 @@ test_that("Multiclass `spec()` returns averaged value with `NA`s removed + a war
   expect_equal(out, (1 + 1 / 3 + 1) / 3, tolerance = 0.000001)
 })
 
-test_that("`NA` is still returned if there are some undefined spec values but `na.rm = FALSE`", {
+test_that("`NA` is still returned if there are some undefined values but `na.rm = FALSE`", {
   levels <- c("a", "b")
   truth <- factor(c("a", "a"), levels = levels)
   estimate <- factor(c("a", NA), levels = levels)
@@ -112,7 +116,7 @@ test_that("two class with case weights is correct", {
 
 # ------------------------------------------------------------------------------
 
-test_that("`specificity()` has a metric name unique to it (#232)", {
+test_that("has a metric name unique to it (#232)", {
   lst <- data_altman()
   pathology <- lst$pathology
   path_tbl <- lst$path_tbl

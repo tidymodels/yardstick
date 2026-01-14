@@ -85,8 +85,8 @@ test_that("Three class", {
 })
 
 # ------------------------------------------------------------------------------
-
-test_that("Binary `ppv()` returns `NA` with a warning when `sens()` is undefined (tp + fn = 0) (#101)", {
+test_that("Binary returns `NA` with a warning when results are undefined (#98)", {
+  # sensitivity - (tp + fn = 0)
   levels <- c("a", "b")
   truth <- factor(c("b", "b"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
@@ -94,7 +94,6 @@ test_that("Binary `ppv()` returns `NA` with a warning when `sens()` is undefined
   expect_snapshot(
     out <- ppv_vec(truth, estimate)
   )
-
   expect_identical(out, NA_real_)
 })
 
@@ -114,7 +113,7 @@ test_that("Two class weighted - sklearn equivalent", {
   )
 })
 
-test_that("Multi class weighted - sklearn equivalent", {
+test_that("Multi class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-ppv")
   r_metric <- ppv
 

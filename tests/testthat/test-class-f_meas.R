@@ -63,7 +63,8 @@ test_that("`NA` values propagate from binary `recall()`", {
 
 # ------------------------------------------------------------------------------
 
-test_that("Binary `f_meas()` returns `NA` with a warning when recall is undefined (tp + fn = 0) (#98)", {
+test_that("Binary returns `NA` with a warning when results are undefined (#98)", {
+  # Recall - (tp + fn = 0)
   levels <- c("a", "b")
   truth <- factor(c("b", "b"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
@@ -71,11 +72,9 @@ test_that("Binary `f_meas()` returns `NA` with a warning when recall is undefine
   expect_snapshot(
     out <- f_meas_vec(truth, estimate)
   )
-
   expect_identical(out, NA_real_)
-})
 
-test_that("Binary `f_meas()` returns `NA` with a warning when precision is undefined (tp + fp = 0) (#98)", {
+  # Precision - (tp + fp = 0)
   levels <- c("a", "b")
   truth <- factor("a", levels = levels)
   estimate <- factor("b", levels = levels)
@@ -83,11 +82,11 @@ test_that("Binary `f_meas()` returns `NA` with a warning when precision is undef
   expect_snapshot(
     out <- f_meas_vec(truth, estimate)
   )
-
   expect_identical(out, NA_real_)
 })
 
-test_that("Multiclass `f_meas()` returns averaged value with `NA`s removed + a warning when recall is undefined (tp + fn = 0) (#98)", {
+test_that("Multiclass returns averaged value a warning when results is undefined (#98)", {
+  # recall - (tp + fn = 0)
   levels <- c("a", "b", "c")
 
   truth <- factor(c("a", "b", "b"), levels = levels)
@@ -100,20 +99,8 @@ test_that("Multiclass `f_meas()` returns averaged value with `NA`s removed + a w
   expect_identical(out, 5 / 6)
 })
 
-test_that("Multiclass `f_meas()` returns averaged value with `NA`s removed + a warning when precision is undefined (tp + fn = 0) (#98)", {
-  levels <- c("a", "b", "c")
 
-  truth <- factor(c("a", "b", "c"), levels = levels)
-  estimate <- factor(c("a", "b", "b"), levels = levels)
-
-  expect_snapshot(
-    out <- f_meas_vec(truth, estimate)
-  )
-
-  expect_identical(out, 5 / 6)
-})
-
-test_that("`NA` is still returned if there are some undefined recall values but `na.rm = FALSE`", {
+test_that("`NA` is still returned if there are some undefined values but `na.rm = FALSE`", {
   levels <- c("a", "b", "c")
   truth <- factor(c("a", "b", "b"), levels = levels)
   estimate <- factor(c("a", NA, "c"), levels = levels)
@@ -238,7 +225,7 @@ test_that("Two class weighted - sklearn equivalent", {
   )
 })
 
-test_that("Multi class weighted - sklearn equivalent", {
+test_that("Multi class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-f_meas")
   py_res_.5 <- read_pydata("py-f_meas_beta_.5")
   r_metric <- f_meas

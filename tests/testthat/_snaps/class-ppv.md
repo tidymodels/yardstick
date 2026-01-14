@@ -1,4 +1,4 @@
-# Binary `ppv()` returns `NA` with a warning when `sens()` is undefined (tp + fn = 0) (#101)
+# Binary returns `NA` with a warning when results are undefined (#98)
 
     Code
       out <- ppv_vec(truth, estimate)

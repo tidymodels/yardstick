@@ -32,19 +32,19 @@ test_that("`event_level = 'second'` works", {
 })
 
 # ------------------------------------------------------------------------------
-
-test_that("Binary `precision()` returns `NA` with a warning when undefined (tp + fp = 0) (#98)", {
+test_that("Binary returns `NA` with a warning when results are undefined (#98)", {
+  # precision - (tp + fp = 0)
   truth <- factor("a", levels = c("a", "b"))
   estimate <- factor("b", levels = c("a", "b"))
 
   expect_snapshot(
     out <- precision_vec(truth, estimate)
   )
-
   expect_identical(out, NA_real_)
 })
 
-test_that("Multiclass `precision()` returns averaged value with `NA`s removed + a warning when undefined (tp + fp = 0) (#98)", {
+test_that("Multiclass returns averaged value a warning when results is undefined (#98)", {
+  # precision - (tp - fp = 0)
   levels <- c("a", "b", "c", "d")
 
   # When `d` is the event we get precision = 0 = 0 / (0 + 3)
@@ -68,7 +68,7 @@ test_that("Multiclass `precision()` returns averaged value with `NA`s removed + 
   expect_identical(out, 1 / 3)
 })
 
-test_that("`NA` is still returned if there are some undefined precision values but `na.rm = FALSE`", {
+test_that("`NA` is still returned if there are some undefined values but `na.rm = FALSE`", {
   levels <- c("a", "b", "c", "d")
   truth <- factor(c("a", "b", "c"), levels = levels)
   estimate <- factor(c("a", NA, "c"), levels)

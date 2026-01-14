@@ -138,7 +138,7 @@ test_that("Two class weighted - sklearn equivalent", {
   )
 })
 
-test_that("Multi class weighted - sklearn equivalent", {
+test_that("Multi class case weighted - sklearn equivalent", {
   py_res <- read_pydata("py-npv")
   r_metric <- npv
 

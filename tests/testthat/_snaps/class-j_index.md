@@ -1,4 +1,4 @@
-# Binary `j_index()` returns `NA` with a warning when sensitivity is undefined (tp + fn = 0) (#265)
+# Binary returns `NA` with a warning when results are undefined (#98)
 
     Code
       out <- j_index_vec(truth, estimate)
@@ -8,7 +8,7 @@
       Sensitivity is undefined in this case, and `NA` will be returned.
       Note that 1 predicted event(s) actually occurred for the problematic event level, a
 
-# Binary `j_index()` returns `NA` with a warning when specificity is undefined (tn + fp = 0) (#265)
+---
 
     Code
       out <- j_index_vec(truth, estimate)
@@ -18,7 +18,7 @@
       Specificity is undefined in this case, and `NA` will be returned.
       Note that 1 predicted negatives(s) actually occurred for the problematic event level, a
 
-# Multiclass `j_index()` returns averaged value with `NA`s removed + a warning when sensitivity is undefined (tp + fn = 0) (#265)
+# Multiclass returns averaged value a warning when results is undefined (#98)
 
     Code
       out <- j_index_vec(truth, estimate)
@@ -29,7 +29,7 @@
       Note that the following number of predicted events actually occurred for each problematic event level:
       'c': 1
 
-# Multiclass `j_index()` returns averaged value with `NA`s removed + a warning when specificity is undefined (tn + fp = 0) (#265)
+---
 
     Code
       out <- j_index_vec(truth, estimate)

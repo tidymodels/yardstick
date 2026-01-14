@@ -33,16 +33,20 @@ test_that("`event_level = 'second'` works", {
 
 # ------------------------------------------------------------------------------
 
-test_that("Binary `recall()` returns `NA` with a warning when undefined (tp + fn = 0) (#98)", {
+test_that("Binary returns `NA` with a warning when results are undefined (#98)", {
+  # recall - (tp + fn = 0)
   levels <- c("a", "b")
   truth <- factor(c("b", "b"), levels = levels)
   estimate <- factor(c("a", "b"), levels = levels)
 
-  expect_snapshot(out <- recall_vec(truth, estimate))
+  expect_snapshot(
+    out <- recall_vec(truth, estimate)
+  )
   expect_identical(out, NA_real_)
 })
 
-test_that("Multiclass `recall()` returns averaged value with `NA`s removed + a warning when undefined (tp + fn = 0) (#98)", {
+test_that("Multiclass returns averaged value a warning when results is undefined (#98)", {
+  # recall - (tp + fn = 0)
   levels <- c("a", "b", "c", "d")
 
   # When `d` is the event we get recall    = 0.5 = (tp = 1, fn = 1)
@@ -56,7 +60,7 @@ test_that("Multiclass `recall()` returns averaged value with `NA`s removed + a w
   expect_identical(out, 0.75)
 })
 
-test_that("`NA` is still returned if there are some undefined recall values but `na.rm = FALSE`", {
+test_that("`NA` is still returned if there are some undefined values but `na.rm = FALSE`", {
   levels <- c("a", "b", "c", "d")
   truth <- factor(c("a", "d", "d"), levels = levels)
   estimate <- factor(c("a", NA, "c"), levels = levels)

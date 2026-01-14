@@ -1,4 +1,4 @@
-# Binary `precision()` returns `NA` with a warning when undefined (tp + fp = 0) (#98)
+# Binary returns `NA` with a warning when results are undefined (#98)
 
     Code
       out <- precision_vec(truth, estimate)
@@ -8,7 +8,7 @@
       Precision is undefined in this case, and `NA` will be returned.
       Note that 1 true event(s) actually occurred for the problematic event level, a
 
-# Multiclass `precision()` returns averaged value with `NA`s removed + a warning when undefined (tp + fp = 0) (#98)
+# Multiclass returns averaged value a warning when results is undefined (#98)
 
     Code
       out <- precision_vec(truth, estimate)
