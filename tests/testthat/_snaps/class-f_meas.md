@@ -1,4 +1,20 @@
-# `NA` values propagate from binary `precision()`
+# work with class_pred input
+
+    Code
+      f_meas_vec(cp_truth, cp_estimate)
+    Condition
+      Error in `f_meas_vec()`:
+      ! `truth` should not a <class_pred> object.
+
+# na_rm argument check
+
+    Code
+      f_meas_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `f_meas_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+
+# `NA` values propagate from binary `precision()` (#77)
 
     Code
       out <- precision_vec(truth, estimate)
@@ -15,7 +31,7 @@
       Precision is undefined in this case, and `NA` will be returned.
       Note that 2 true event(s) actually occurred for the problematic event level, a
 
-# `NA` values propagate from binary `recall()`
+# `NA` values propagate from binary `recall()` (#77)
 
     Code
       out <- recall_vec(truth, estimate)
@@ -62,22 +78,6 @@
       Recall is undefined in this case, and those levels will be removed from the averaged result.
       Note that the following number of predicted events actually occurred for each problematic event level:
       'c': 1
-
-# work with class_pred input
-
-    Code
-      f_meas_vec(cp_truth, cp_estimate)
-    Condition
-      Error in `f_meas_vec()`:
-      ! `truth` should not a <class_pred> object.
-
-# na_rm argument check
-
-    Code
-      f_meas_vec(1, 1, na_rm = "yes")
-    Condition
-      Error in `f_meas_vec()`:
-      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
 # bad argument check
 

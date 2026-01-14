@@ -1,49 +1,56 @@
-test_that("two class produces identical results regardless of level order", {
+test_that("Calculations are correct - two class", {
   lst <- data_altman()
-  df <- lst$pathology
-
-  df_rev <- df
-  df_rev$pathology <- stats::relevel(df_rev$pathology, "norm")
-  df_rev$scan <- stats::relevel(df_rev$scan, "norm")
+  pathology <- lst$pathology
 
   expect_equal(
-    accuracy_vec(df$pathology, df$scan),
-    accuracy_vec(df_rev$pathology, df_rev$scan)
+    accuracy_vec(pathology$pathology, pathology$scan),
+    mean(pathology$pathology == pathology$scan)
   )
 })
 
-test_that("Three class", {
+test_that("Calculations are correct - three class", {
   lst <- data_three_class()
   three_class <- lst$three_class
-  three_class_tb <- lst$three_class_tb
 
   expect_equal(
-    accuracy(three_class, truth = "obs", estimate = "pred")[[".estimate"]],
+    accuracy_vec(truth = three_class$obs, estimate = three_class$pred),
     (24 + 17 + 14) / 150
-  )
-  expect_equal(
-    accuracy(three_class_tb)[[".estimate"]],
-    (24 + 17 + 14) / 150
-  )
-  expect_equal(
-    accuracy(as.matrix(three_class_tb))[[".estimate"]],
-    (24 + 17 + 14) / 150
-  )
-  expect_equal(
-    accuracy(three_class, obs, pred_na)[[".estimate"]],
-    (11 + 10 + 11) / 140
-  )
-  expect_equal(
-    colnames(accuracy(three_class, truth = "obs", estimate = "pred")),
-    c(".metric", ".estimator", ".estimate")
-  )
-  expect_equal(
-    accuracy(three_class, truth = "obs", estimate = "pred")[[".metric"]],
-    "accuracy"
   )
 })
 
-test_that("two class with case weights is correct", {
+test_that("All interfaces gives the same results", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+  path_mat <- as.matrix(path_tbl)
+
+  exp <- accuracy_vec(pathology$pathology, pathology$scan)
+
+  expect_identical(
+    accuracy(path_tbl)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    accuracy(path_mat)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    accuracy(pathology, truth = pathology, estimate = scan)[[".estimate"]],
+    exp
+  )
+})
+
+test_that("Calculations handles NAs", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+
+  expect_equal(
+    accuracy_vec(truth = pathology$pathology, estimate = pathology$scan_na),
+    mean(pathology$pathology == pathology$scan_na, na.rm = TRUE)
+  )
+})
+
+test_that("Case weights calculations are correct", {
   df <- data.frame(
     truth = factor(c("x", "x", "y"), levels = c("x", "y")),
     estimate = factor(c("x", "y", "x"), levels = c("x", "y")),
@@ -55,21 +62,6 @@ test_that("two class with case weights is correct", {
   expect_identical(
     accuracy(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
     1 / 4
-  )
-})
-
-test_that("works with hardhat case weights", {
-  lst <- data_altman()
-  df <- lst$pathology
-  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
-  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
-
-  expect_no_error(
-    accuracy_vec(df$pathology, df$scan, case_weights = imp_wgt)
-  )
-
-  expect_no_error(
-    accuracy_vec(df$pathology, df$scan, case_weights = freq_wgt)
   )
 })
 
@@ -101,7 +93,29 @@ test_that("work with class_pred input", {
   )
 })
 
-test_that("Two class - sklearn equivalent", {
+test_that("works with hardhat case weights", {
+  lst <- data_altman()
+  df <- lst$pathology
+  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
+  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
+
+  expect_no_error(
+    accuracy_vec(df$pathology, df$scan, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    accuracy_vec(df$pathology, df$scan, case_weights = freq_wgt)
+  )
+})
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    accuracy_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("sklearn equivalent", {
   py_res <- read_pydata("py-accuracy")
   r_metric <- accuracy
 
@@ -109,9 +123,7 @@ test_that("Two class - sklearn equivalent", {
     r_metric(two_class_example, truth, predicted)[[".estimate"]],
     py_res$binary
   )
-})
 
-test_that("Multi class - sklearn equivalent", {
   py_res <- read_pydata("py-accuracy")
   r_metric <- accuracy
 
@@ -121,9 +133,16 @@ test_that("Multi class - sklearn equivalent", {
   )
 })
 
-test_that("na_rm argument check", {
-  expect_snapshot(
-    error = TRUE,
-    accuracy_vec(1, 1, na_rm = "yes")
+test_that("two class produces identical results regardless of level order", {
+  lst <- data_altman()
+  df <- lst$pathology
+
+  df_rev <- df
+  df_rev$pathology <- stats::relevel(df_rev$pathology, "norm")
+  df_rev$scan <- stats::relevel(df_rev$scan, "norm")
+
+  expect_equal(
+    accuracy_vec(df$pathology, df$scan),
+    accuracy_vec(df_rev$pathology, df_rev$scan)
   )
 })

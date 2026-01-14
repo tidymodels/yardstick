@@ -1,3 +1,19 @@
+# work with class_pred input
+
+    Code
+      precision_vec(cp_truth, cp_estimate)
+    Condition
+      Error in `precision_vec()`:
+      ! `truth` should not a <class_pred> object.
+
+# na_rm argument check
+
+    Code
+      precision_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `precision_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+
 # Binary returns `NA` with a warning when results are undefined (#98)
 
     Code
@@ -29,20 +45,4 @@
       Precision is undefined in this case, and those levels will be removed from the averaged result.
       Note that the following number of true events actually occurred for each problematic event level:
       'c': 1
-
-# work with class_pred input
-
-    Code
-      precision_vec(cp_truth, cp_estimate)
-    Condition
-      Error in `precision_vec()`:
-      ! `truth` should not a <class_pred> object.
-
-# na_rm argument check
-
-    Code
-      precision_vec(1, 1, na_rm = "yes")
-    Condition
-      Error in `precision_vec()`:
-      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 

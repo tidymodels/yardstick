@@ -1,47 +1,17 @@
-test_that("Two class", {
+test_that("Calculations are correct - two class", {
   lst <- data_altman()
   pathology <- lst$pathology
-  path_tbl <- lst$path_tbl
-
-  expect_equal(
-    detection_prevalence(pathology, truth = "pathology", estimate = "scan")[[
-      ".estimate"
-    ]],
-    (231 + 32) / 344
-  )
-  expect_equal(
-    detection_prevalence(path_tbl)[[".estimate"]],
-    (231 + 32) / 344
-  )
-  expect_equal(
-    detection_prevalence(pathology, pathology, scan)[[".estimate"]],
-    (231 + 32) / 344
-  )
-})
-
-test_that("`event_level = 'second'` works", {
-  lst <- data_altman()
-  pathology <- lst$pathology
-  path_tbl <- lst$path_tbl
 
   expect_equal(
     detection_prevalence_vec(
-      pathology$pathology,
-      pathology$scan,
-      event_level = "second"
+      truth = pathology$pathology,
+      estimate = pathology$scan
     ),
-    1 -
-      detection_prevalence_vec(
-        pathology$pathology,
-        pathology$scan,
-        event_level = "first"
-      )
+    (231 + 32) / 344
   )
 })
 
-# ------------------------------------------------------------------------------
-
-test_that("Three class", {
+test_that("Calculations are correct - three class", {
   multi_ex <- data_three_by_three()
   micro <- data_three_by_three_micro()
 
@@ -59,9 +29,44 @@ test_that("Three class", {
   )
 })
 
-# ------------------------------------------------------------------------------
+test_that("All interfaces gives the same results", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+  path_mat <- as.matrix(path_tbl)
 
-test_that("two class with case weights is correct", {
+  exp <- detection_prevalence_vec(pathology$pathology, pathology$scan)
+
+  expect_identical(
+    detection_prevalence(path_tbl)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    detection_prevalence(path_mat)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    detection_prevalence(pathology, truth = pathology, estimate = scan)[[
+      ".estimate"
+    ]],
+    exp
+  )
+})
+
+test_that("Calculations handles NAs", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+
+  expect_equal(
+    detection_prevalence_vec(
+      truth = pathology$pathology,
+      estimate = pathology$scan_na
+    ),
+    (230 + 32) / 341
+  )
+})
+
+test_that("Case weights calculations are correct", {
   df <- data.frame(
     truth = factor(c("x", "x", "y"), levels = c("x", "y")),
     estimate = factor(c("x", "y", "x"), levels = c("x", "y")),
@@ -69,25 +74,12 @@ test_that("two class with case weights is correct", {
   )
 
   expect_identical(
-    detection_prevalence(df, truth, estimate, case_weights = case_weights)[[
-      ".estimate"
-    ]],
+    detection_prevalence_vec(
+      truth = df$truth,
+      estimate = df$estimate,
+      case_weights = df$case_weights
+    ),
     3 / 4
-  )
-})
-
-test_that("works with hardhat case weights", {
-  lst <- data_altman()
-  df <- lst$pathology
-  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
-  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
-
-  expect_no_error(
-    detection_prevalence_vec(df$pathology, df$scan, case_weights = imp_wgt)
-  )
-
-  expect_no_error(
-    detection_prevalence_vec(df$pathology, df$scan, case_weights = freq_wgt)
   )
 })
 
@@ -119,9 +111,44 @@ test_that("work with class_pred input", {
   )
 })
 
+test_that("works with hardhat case weights", {
+  lst <- data_altman()
+  df <- lst$pathology
+  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
+  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
+
+  expect_no_error(
+    detection_prevalence_vec(df$pathology, df$scan, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    detection_prevalence_vec(df$pathology, df$scan, case_weights = freq_wgt)
+  )
+})
+
 test_that("na_rm argument check", {
   expect_snapshot(
     error = TRUE,
     detection_prevalence(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("`event_level = 'second'` works", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+
+  expect_equal(
+    detection_prevalence_vec(
+      pathology$pathology,
+      pathology$scan,
+      event_level = "second"
+    ),
+    1 -
+      detection_prevalence_vec(
+        pathology$pathology,
+        pathology$scan,
+        event_level = "first"
+      )
   )
 })

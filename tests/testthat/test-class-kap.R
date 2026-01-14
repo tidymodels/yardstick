@@ -1,44 +1,155 @@
-test_that("two class produces identical results regardless of level order", {
+test_that("Calculations are correct - two class", {
   lst <- data_altman()
-  df <- lst$pathology
+  pathology <- lst$pathology
 
-  df_rev <- df
-  df_rev$pathology <- stats::relevel(df_rev$pathology, "norm")
-  df_rev$scan <- stats::relevel(df_rev$scan, "norm")
+  # https://en.wikipedia.org/wiki/Cohen%27s_kappa
+  a <- lst$path_tbl[1, 1]
+  b <- lst$path_tbl[1, 2]
+  c <- lst$path_tbl[2, 1]
+  d <- lst$path_tbl[2, 2]
+
+  total <- a + b + c + d
+  p_o <- (a + d) / total
+  p_yes <- (a + b) / total * (a + c) / total
+  p_no <- (c + d) / total * (b + d) / total
+  p_e <- p_yes + p_no
+  exp <- (p_o - p_e) / (1 - p_e)
 
   expect_equal(
-    kap_vec(df$pathology, df$scan),
-    kap_vec(df_rev$pathology, df_rev$scan)
+    kap_vec(truth = pathology$pathology, estimate = pathology$scan),
+    exp
   )
 })
 
-test_that("kap errors with wrong `weighting`", {
+test_that("Calculations are correct - three class", {
+  # expected results from e1071::classAgreement(three_class_tb)$kappa
+
   lst <- data_three_class()
   three_class <- lst$three_class
 
-  expect_snapshot(
-    error = TRUE,
-    kap(three_class, truth = "obs", estimate = "pred", weighting = 1)
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    kap(three_class, truth = "obs", estimate = "pred", weighting = "not right")
+  expect_equal(
+    kap_vec(truth = three_class$obs, estimate = three_class$pred),
+    0.05
   )
 })
 
-test_that("works with hardhat case weights", {
+test_that("All interfaces gives the same results", {
   lst <- data_altman()
-  df <- lst$pathology
-  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
-  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+  path_mat <- as.matrix(path_tbl)
 
-  expect_no_error(
-    kap_vec(df$pathology, df$scan, case_weights = imp_wgt)
+  exp <- kap_vec(pathology$pathology, pathology$scan)
+
+  expect_identical(
+    kap(path_tbl)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    kap(path_mat)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    kap(pathology, truth = pathology, estimate = scan)[[".estimate"]],
+    exp
+  )
+})
+
+test_that("Calculations handles NAs", {
+  # e1071::classAgreement(table(three_class$pred_na, three_class$obs))$kappa
+
+  lst <- data_three_class()
+  three_class <- lst$three_class
+
+  expect_equal(
+    kap_vec(truth = three_class$obs, estimate = three_class$pred_na),
+    -0.1570248,
+    tolerance = 0.000001
+  )
+})
+
+test_that("Case weights calculations are correct", {
+  df <- data.frame(
+    truth = factor(c("x", "x", "y"), levels = c("x", "y")),
+    estimate = factor(c("x", "y", "x"), levels = c("x", "y")),
+    case_weights = c(1L, 10L, 2L)
   )
 
-  expect_no_error(
-    kap_vec(df$pathology, df$scan, case_weights = freq_wgt)
+  expect_equal(
+    kap_vec(df$truth, df$estimate, case_weights = df$case_weights),
+    -0.344827586
+  )
+
+  py_res <- read_pydata("py-kap")
+  r_metric <- kap
+
+  two_class_example$weights <- read_weights_two_class_example()
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted, case_weights = weights)[[
+      ".estimate"
+    ]],
+    py_res$case_weight$binary
+  )
+
+  py_res <- read_pydata("py-kap")
+  r_metric <- kap
+
+  hpc_cv$weights <- read_weights_hpc_cv()
+
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$multiclass
+  )
+
+  py_res <- read_pydata("py-kap")
+  r_metric <- kap
+
+  two_class_example$weights <- read_weights_two_class_example()
+  hpc_cv$weights <- read_weights_hpc_cv()
+
+  expect_equal(
+    r_metric(
+      two_class_example,
+      truth,
+      predicted,
+      weighting = "linear",
+      case_weights = weights
+    )[[".estimate"]],
+    py_res$case_weight$linear_binary
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, weighting = "linear", case_weights = weights)[[
+      ".estimate"
+    ]],
+    py_res$case_weight$linear_multiclass
+  )
+
+  py_res <- read_pydata("py-kap")
+  r_metric <- kap
+
+  two_class_example$weights <- read_weights_two_class_example()
+  hpc_cv$weights <- read_weights_hpc_cv()
+
+  expect_equal(
+    r_metric(
+      two_class_example,
+      truth,
+      predicted,
+      weighting = "quadratic",
+      case_weights = weights
+    )[[".estimate"]],
+    py_res$case_weight$quadratic_binary
+  )
+  expect_equal(
+    r_metric(
+      hpc_cv,
+      obs,
+      pred,
+      weighting = "quadratic",
+      case_weights = weights
+    )[[".estimate"]],
+    py_res$case_weight$quadratic_multiclass
   )
 })
 
@@ -70,46 +181,29 @@ test_that("work with class_pred input", {
   )
 })
 
-# ------------------------------------------------------------------------------
+test_that("works with hardhat case weights", {
+  lst <- data_altman()
+  df <- lst$pathology
+  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
+  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
 
-# expected results from e1071::classAgreement(three_class_tb)$kappa
-# e1071::classAgreement(table(three_class$pred_na, three_class$obs))$kappa
+  expect_no_error(
+    kap_vec(df$pathology, df$scan, case_weights = imp_wgt)
+  )
 
-test_that("Three class", {
-  lst <- data_three_class()
-  three_class <- lst$three_class
-  three_class_tb <- lst$three_class_tb
-
-  expect_equal(
-    kap(three_class, truth = "obs", estimate = "pred")[[".estimate"]],
-    0.05
-  )
-  expect_equal(
-    kap(three_class_tb)[[".estimate"]],
-    0.05
-  )
-  expect_equal(
-    kap(as.matrix(three_class_tb))[[".estimate"]],
-    0.05
-  )
-  expect_equal(
-    kap(three_class, obs, pred_na)[[".estimate"]],
-    -0.1570248,
-    tolerance = 0.000001
-  )
-  expect_equal(
-    colnames(kap(three_class, truth = "obs", estimate = "pred")),
-    c(".metric", ".estimator", ".estimate")
-  )
-  expect_equal(
-    kap(three_class, truth = "obs", estimate = "pred")[[".metric"]],
-    "kap"
+  expect_no_error(
+    kap_vec(df$pathology, df$scan, case_weights = freq_wgt)
   )
 })
 
-# sklearn compare --------------------------------------------------------------
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    kap_vec(1, 1, na_rm = "yes")
+  )
+})
 
-test_that("Two class - sklearn equivalent", {
+test_that("sklearn equivalent", {
   py_res <- read_pydata("py-kap")
   r_metric <- kap
 
@@ -117,9 +211,7 @@ test_that("Two class - sklearn equivalent", {
     r_metric(two_class_example, truth, predicted)[[".estimate"]],
     py_res$binary
   )
-})
 
-test_that("Multi class - sklearn equivalent", {
   py_res <- read_pydata("py-kap")
   r_metric <- kap
 
@@ -127,9 +219,7 @@ test_that("Multi class - sklearn equivalent", {
     r_metric(hpc_cv, obs, pred)[[".estimate"]],
     py_res$multiclass
   )
-})
 
-test_that("linear weighting - sklearn equivalent", {
   py_res <- read_pydata("py-kap")
   r_metric <- kap
 
@@ -143,9 +233,7 @@ test_that("linear weighting - sklearn equivalent", {
     r_metric(hpc_cv, obs, pred, weighting = "linear")[[".estimate"]],
     py_res$linear_multiclass
   )
-})
 
-test_that("quadratic weighting - sklearn equivalent", {
   py_res <- read_pydata("py-kap")
   r_metric <- kap
 
@@ -161,89 +249,31 @@ test_that("quadratic weighting - sklearn equivalent", {
   )
 })
 
-test_that("Two class case weighted - sklearn equivalent", {
-  py_res <- read_pydata("py-kap")
-  r_metric <- kap
+test_that("two class produces identical results regardless of level order", {
+  lst <- data_altman()
+  df <- lst$pathology
 
-  two_class_example$weights <- read_weights_two_class_example()
+  df_rev <- df
+  df_rev$pathology <- stats::relevel(df_rev$pathology, "norm")
+  df_rev$scan <- stats::relevel(df_rev$scan, "norm")
 
   expect_equal(
-    r_metric(two_class_example, truth, predicted, case_weights = weights)[[
-      ".estimate"
-    ]],
-    py_res$case_weight$binary
+    kap_vec(df$pathology, df$scan),
+    kap_vec(df_rev$pathology, df_rev$scan)
   )
 })
 
-test_that("Multi class case weighted - sklearn equivalent", {
-  py_res <- read_pydata("py-kap")
-  r_metric <- kap
+test_that("kap errors with wrong `weighting`", {
+  lst <- data_three_class()
+  three_class <- lst$three_class
 
-  hpc_cv$weights <- read_weights_hpc_cv()
-
-  expect_equal(
-    r_metric(hpc_cv, obs, pred, case_weights = weights)[[".estimate"]],
-    py_res$case_weight$multiclass
-  )
-})
-
-test_that("linear weighting case weighted - sklearn equivalent", {
-  py_res <- read_pydata("py-kap")
-  r_metric <- kap
-
-  two_class_example$weights <- read_weights_two_class_example()
-  hpc_cv$weights <- read_weights_hpc_cv()
-
-  expect_equal(
-    r_metric(
-      two_class_example,
-      truth,
-      predicted,
-      weighting = "linear",
-      case_weights = weights
-    )[[".estimate"]],
-    py_res$case_weight$linear_binary
-  )
-  expect_equal(
-    r_metric(hpc_cv, obs, pred, weighting = "linear", case_weights = weights)[[
-      ".estimate"
-    ]],
-    py_res$case_weight$linear_multiclass
-  )
-})
-
-test_that("quadratic weighting case weighted - sklearn equivalent", {
-  py_res <- read_pydata("py-kap")
-  r_metric <- kap
-
-  two_class_example$weights <- read_weights_two_class_example()
-  hpc_cv$weights <- read_weights_hpc_cv()
-
-  expect_equal(
-    r_metric(
-      two_class_example,
-      truth,
-      predicted,
-      weighting = "quadratic",
-      case_weights = weights
-    )[[".estimate"]],
-    py_res$case_weight$quadratic_binary
-  )
-  expect_equal(
-    r_metric(
-      hpc_cv,
-      obs,
-      pred,
-      weighting = "quadratic",
-      case_weights = weights
-    )[[".estimate"]],
-    py_res$case_weight$quadratic_multiclass
-  )
-})
-
-test_that("na_rm argument check", {
   expect_snapshot(
     error = TRUE,
-    kap_vec(1, 1, na_rm = "yes")
+    kap(three_class, truth = "obs", estimate = "pred", weighting = 1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    kap(three_class, truth = "obs", estimate = "pred", weighting = "not right")
   )
 })

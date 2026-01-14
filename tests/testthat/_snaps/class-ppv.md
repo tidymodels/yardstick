@@ -1,13 +1,3 @@
-# Binary returns `NA` with a warning when results are undefined (#98)
-
-    Code
-      out <- ppv_vec(truth, estimate)
-    Condition
-      Warning:
-      While computing binary `sens()`, no true events were detected (i.e. `true_positive + false_negative = 0`).
-      Sensitivity is undefined in this case, and `NA` will be returned.
-      Note that 1 predicted event(s) actually occurred for the problematic event level, a
-
 # work with class_pred input
 
     Code
@@ -23,6 +13,16 @@
     Condition
       Error in `ppv_vec()`:
       ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+
+# Binary returns `NA` with a warning when results are undefined (#98)
+
+    Code
+      out <- ppv_vec(truth, estimate)
+    Condition
+      Warning:
+      While computing binary `sens()`, no true events were detected (i.e. `true_positive + false_negative = 0`).
+      Sensitivity is undefined in this case, and `NA` will be returned.
+      Note that 1 predicted event(s) actually occurred for the problematic event level, a
 
 # bad argument check
 

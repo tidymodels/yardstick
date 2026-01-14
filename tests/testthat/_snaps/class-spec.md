@@ -1,3 +1,19 @@
+# work with class_pred input
+
+    Code
+      specificity_vec(cp_truth, cp_estimate)
+    Condition
+      Error in `specificity_vec()`:
+      ! `truth` should not a <class_pred> object.
+
+# na_rm argument check
+
+    Code
+      specificity_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `specificity_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+
 # Binary returns `NA` with a warning when results are undefined (#98)
 
     Code
@@ -18,20 +34,4 @@
       Specificity is undefined in this case, and those levels will be removed from the averaged result.
       Note that the following number of predicted negatives actually occurred for each problematic event level:
       'a': 2
-
-# work with class_pred input
-
-    Code
-      specificity_vec(cp_truth, cp_estimate)
-    Condition
-      Error in `specificity_vec()`:
-      ! `truth` should not a <class_pred> object.
-
-# na_rm argument check
-
-    Code
-      specificity_vec(1, 1, na_rm = "yes")
-    Condition
-      Error in `specificity_vec()`:
-      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
