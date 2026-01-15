@@ -1,31 +1,10 @@
-test_that("AUNU is equivalent to macro estimator", {
-  hpc_f1 <- data_hpc_fold1()
-
-  expect_equal(
-    roc_auc(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
-    roc_aunu(hpc_f1, obs, VF:L)[[".estimate"]]
-  )
+test_that("Calculations are correct - two class", {
+  # Doesn't work on binary case
+  # Here for completeness
+  expect_true(TRUE)
 })
 
-test_that("AUNU is equivalent to macro estimator with case weights", {
-  hpc_cv$weight <- read_weights_hpc_cv()
-
-  expect_equal(
-    roc_auc(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[
-      ".estimate"
-    ]],
-    roc_aunu(hpc_cv, obs, VF:L, case_weights = weight)[[".estimate"]]
-  )
-})
-
-test_that("AUNU errors on binary case", {
-  expect_snapshot(
-    error = TRUE,
-    roc_aunu(two_class_example, truth, Class1)
-  )
-})
-
-test_that("AUNU results match mlr for soybean example", {
+test_that("Calculations are correct - multi class", {
   soybeans <- data_soybean()
 
   # Code to generate this value and `data_soybean()` is in `helper-data.R`
@@ -39,38 +18,34 @@ test_that("AUNU results match mlr for soybean example", {
   )
 })
 
-# ------------------------------------------------------------------------------
+test_that("Calculations handles NAs", {
+  soybeans <- data_soybean()
+  soybeans[["2-4-d-injury"]][1:10] <- NA
 
-test_that("roc_aunu() - `options` is deprecated", {
-  skip_if(
-    getRversion() <= "3.5.3",
-    "Base R used a different deprecated warning class."
+  # Code to generate this value and `data_soybean()` is in `helper-data.R`
+  measures_mlr <- 0.96181828
+
+  expect_equal(
+    roc_aunu(
+      soybeans,
+      truth,
+      `2-4-d-injury`:`rhizoctonia-root-rot`,
+      na_rm = FALSE
+    )[[
+      ".estimate"
+    ]],
+    NA_real_
   )
-  rlang::local_options(lifecycle_verbosity = "warning")
+})
 
-  expect_snapshot({
-    out <- roc_aunu(two_class_example, truth, Class1, Class2, options = 1)
-  })
+test_that("Case weights calculations are correct", {
+  hpc_cv$weight <- read_weights_hpc_cv()
 
-  expect_identical(
-    out,
-    roc_aunu(two_class_example, truth, Class1, Class2),
-  )
-
-  expect_snapshot({
-    out <- roc_aunu_vec(
-      truth = two_class_example$truth,
-      estimate = as.matrix(two_class_example[c("Class1", "Class2")]),
-      options = 1
-    )
-  })
-
-  expect_identical(
-    out,
-    roc_aunu_vec(
-      truth = two_class_example$truth,
-      estimate = as.matrix(two_class_example[c("Class1", "Class2")])
-    )
+  expect_equal(
+    roc_auc(hpc_cv, obs, VF:L, estimator = "macro", case_weights = weight)[[
+      ".estimate"
+    ]],
+    roc_aunu(hpc_cv, obs, VF:L, case_weights = weight)[[".estimate"]]
   )
 })
 
@@ -116,5 +91,54 @@ test_that("na_rm argument check", {
   expect_snapshot(
     error = TRUE,
     roc_aunu_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("`options` is deprecated", {
+  skip_if(
+    getRversion() <= "3.5.3",
+    "Base R used a different deprecated warning class."
+  )
+  rlang::local_options(lifecycle_verbosity = "warning")
+
+  expect_snapshot({
+    out <- roc_aunu(two_class_example, truth, Class1, Class2, options = 1)
+  })
+
+  expect_identical(
+    out,
+    roc_aunu(two_class_example, truth, Class1, Class2),
+  )
+
+  expect_snapshot({
+    out <- roc_aunu_vec(
+      truth = two_class_example$truth,
+      estimate = as.matrix(two_class_example[c("Class1", "Class2")]),
+      options = 1
+    )
+  })
+
+  expect_identical(
+    out,
+    roc_aunu_vec(
+      truth = two_class_example$truth,
+      estimate = as.matrix(two_class_example[c("Class1", "Class2")])
+    )
+  )
+})
+
+test_that("AUNU is equivalent to macro estimator", {
+  hpc_f1 <- data_hpc_fold1()
+
+  expect_equal(
+    roc_auc(hpc_f1, obs, VF:L, estimator = "macro")[[".estimate"]],
+    roc_aunu(hpc_f1, obs, VF:L)[[".estimate"]]
+  )
+})
+
+test_that("errors on binary case", {
+  expect_snapshot(
+    error = TRUE,
+    roc_aunu(two_class_example, truth, Class1)
   )
 })

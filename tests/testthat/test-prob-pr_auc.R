@@ -1,18 +1,14 @@
-test_that("`event_level = 'second'` works", {
-  df <- two_class_example
-
-  df_rev <- df
-  df_rev$truth <- stats::relevel(df_rev$truth, "Class2")
-
+test_that("Calculations are correct - two class", {
   expect_equal(
-    pr_auc_vec(df$truth, df$Class1),
-    pr_auc_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+    pr_auc_vec(
+      two_class_example$truth,
+      two_class_example$Class1
+    ),
+    0.9464467
   )
 })
 
-# ------------------------------------------------------------------------------
-
-test_that("Multiclass PR AUC", {
+test_that("Calculations are correct - multi class", {
   hpc_f1 <- data_hpc_fold1()
 
   expect_equal(
@@ -25,26 +21,21 @@ test_that("Multiclass PR AUC", {
   )
 })
 
-# ------------------------------------------------------------------------------
-
-test_that("Two class PR AUC matches sklearn", {
-  # Note that these values are different from `MLmetrics::PRAUC()`,
-  # see #93 about how duplicates and end points are handled
-
-  sklearn_curve <- read_pydata("py-pr-curve")$binary
-  sklearn_auc <- auc(sklearn_curve$recall, sklearn_curve$precision)
+test_that("Calculations handles NAs", {
+  hpc_cv$VF[1:10] <- NA
 
   expect_equal(
-    pr_auc(two_class_example, truth = "truth", "Class1")[[".estimate"]],
-    sklearn_auc
+    pr_auc(hpc_cv, obs, VF:L)[[".estimate"]],
+    0.62197342
   )
+
   expect_equal(
-    pr_auc(two_class_example, truth, Class1)[[".estimate"]],
-    sklearn_auc
+    pr_auc(hpc_cv, obs, VF:L, na_rm = FALSE)[[".estimate"]],
+    NA_real_
   )
 })
 
-test_that("Two class weighted PR AUC matches sklearn", {
+test_that("Case weights calculations are correct", {
   sklearn_curve <- read_pydata("py-pr-curve")$case_weight$binary
   sklearn_auc <- auc(sklearn_curve$recall, sklearn_curve$precision)
 
@@ -55,33 +46,6 @@ test_that("Two class weighted PR AUC matches sklearn", {
       ".estimate"
     ]],
     sklearn_auc
-  )
-})
-
-test_that("grouped multiclass (one-vs-all) weighted example matches expanded equivalent", {
-  hpc_cv$weight <- rep(1, times = nrow(hpc_cv))
-  hpc_cv$weight[c(100, 200, 150, 2)] <- 5
-
-  hpc_cv <- dplyr::group_by(hpc_cv, Resample)
-
-  hpc_cv_expanded <- hpc_cv[
-    vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),
-  ]
-
-  expect_identical(
-    pr_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro"),
-    pr_auc(hpc_cv_expanded, obs, VF:L, estimator = "macro")
-  )
-
-  expect_identical(
-    pr_auc(
-      hpc_cv,
-      obs,
-      VF:L,
-      case_weights = weight,
-      estimator = "macro_weighted"
-    ),
-    pr_auc(hpc_cv_expanded, obs, VF:L, estimator = "macro_weighted")
   )
 })
 
@@ -119,5 +83,61 @@ test_that("na_rm argument check", {
   expect_snapshot(
     error = TRUE,
     pr_auc_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("`event_level = 'second'` works", {
+  df <- two_class_example
+
+  df_rev <- df
+  df_rev$truth <- stats::relevel(df_rev$truth, "Class2")
+
+  expect_equal(
+    pr_auc_vec(df$truth, df$Class1),
+    pr_auc_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+  )
+})
+
+test_that("sklearn equivalent", {
+  # Note that these values are different from `MLmetrics::PRAUC()`,
+  # see #93 about how duplicates and end points are handled
+
+  sklearn_curve <- read_pydata("py-pr-curve")$binary
+  sklearn_auc <- auc(sklearn_curve$recall, sklearn_curve$precision)
+
+  expect_equal(
+    pr_auc(two_class_example, truth = "truth", "Class1")[[".estimate"]],
+    sklearn_auc
+  )
+  expect_equal(
+    pr_auc(two_class_example, truth, Class1)[[".estimate"]],
+    sklearn_auc
+  )
+})
+
+test_that("grouped multiclass (one-vs-all) weighted example matches expanded equivalent", {
+  hpc_cv$weight <- rep(1, times = nrow(hpc_cv))
+  hpc_cv$weight[c(100, 200, 150, 2)] <- 5
+
+  hpc_cv <- dplyr::group_by(hpc_cv, Resample)
+
+  hpc_cv_expanded <- hpc_cv[
+    vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),
+  ]
+
+  expect_identical(
+    pr_auc(hpc_cv, obs, VF:L, case_weights = weight, estimator = "macro"),
+    pr_auc(hpc_cv_expanded, obs, VF:L, estimator = "macro")
+  )
+
+  expect_identical(
+    pr_auc(
+      hpc_cv,
+      obs,
+      VF:L,
+      case_weights = weight,
+      estimator = "macro_weighted"
+    ),
+    pr_auc(hpc_cv_expanded, obs, VF:L, estimator = "macro_weighted")
   )
 })

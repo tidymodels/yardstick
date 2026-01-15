@@ -1,3 +1,19 @@
+# errors with class_pred input
+
+    Code
+      classification_cost_vec(cp_truth, estimate)
+    Condition
+      Error in `classification_cost_vec()`:
+      ! `truth` should not a <class_pred> object.
+
+# na_rm argument check
+
+    Code
+      classification_cost_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `classification_cost_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+
 # binary - requires 1 column of probabilities
 
     Code
@@ -77,20 +93,4 @@
     Condition
       Error in `classification_cost()`:
       ! costs cannot have duplicate truth / estimate combinations.
-
-# errors with class_pred input
-
-    Code
-      classification_cost_vec(cp_truth, estimate)
-    Condition
-      Error in `classification_cost_vec()`:
-      ! `truth` should not a <class_pred> object.
-
-# na_rm argument check
-
-    Code
-      classification_cost_vec(1, 1, na_rm = "yes")
-    Condition
-      Error in `classification_cost_vec()`:
-      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 

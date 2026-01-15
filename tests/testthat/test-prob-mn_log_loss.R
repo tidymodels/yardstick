@@ -1,18 +1,17 @@
-test_that("`event_level = 'second'` works", {
-  df <- two_class_example
-
-  df_rev <- df
-  df_rev$truth <- stats::relevel(df_rev$truth, "Class2")
+test_that("Calculations are correct - two class", {
+  df <- data.frame(
+    obs = factor(c("A", "A", "A", "B", "B", "B")),
+    A = c(1, 0.80, 0.51, 0.1, 0.2, 0.3),
+    B = c(0, 0.20, 0.49, 0.9, 0.8, 0.7)
+  )
 
   expect_equal(
-    mn_log_loss_vec(df$truth, df$Class1),
-    mn_log_loss_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+    mn_log_loss_vec(df$obs, df$A),
+    -(log(1) + log(0.8) + log(0.51) + log(0.9) + log(0.8) + log(0.7)) / 6
   )
 })
 
-# ------------------------------------------------------------------------------
-
-test_that("Three class", {
+test_that("Calculations are correct - multi class", {
   ll_dat <- data.frame(
     obs = factor(c("A", "A", "A", "B", "B", "C")),
     A = c(1, 0.80, 0.51, 0.1, 0.2, 0.3),
@@ -21,70 +20,67 @@ test_that("Three class", {
   )
 
   expect_equal(
-    mn_log_loss(ll_dat, obs, LETTERS[1:3])[[".estimate"]],
+    mn_log_loss(ll_dat, obs, A:C)[[".estimate"]],
     -(log(1) + log(0.8) + log(0.51) + log(0.8) + log(0.6) + log(0.4)) / 6
   )
+})
+
+test_that("Calculations handles NAs", {
+  ll_dat <- data.frame(
+    obs = factor(c("A", "A", "A", "B", "B", "C")),
+    A = c(1, 0.80, 0.51, 0.1, 0.2, 0.3),
+    B = c(0, NA, 0.29, 0.8, 0.6, 0.3),
+    C = c(0, NA, 0.20, 0.1, 0.2, 0.4)
+  )
+
   expect_equal(
-    mn_log_loss(ll_dat, truth = "obs", A, B, C, sum = TRUE)[[".estimate"]],
-    -(log(1) + log(0.8) + log(0.51) + log(0.8) + log(0.6) + log(0.4))
+    mn_log_loss(ll_dat, obs, A:C)[[".estimate"]],
+    -(log(1) + log(0.51) + log(0.8) + log(0.6) + log(0.4)) / 5
+  )
+
+  expect_equal(
+    mn_log_loss(ll_dat, obs, A:C, na_rm = FALSE)[[".estimate"]],
+    NA_real_
   )
 })
 
-test_that("Issue #29", {
-  x <-
-    structure(
-      list(
-        No = c(0.860384856004899, 1, 1),
-        Yes = c(0.139615143995101, 0, 0),
-        prob = c(0.139615143995101, 0, 0),
-        estimate = structure(
-          c(1L, 1L, 1L),
-          .Label = c("No", "Yes"),
-          class = "factor"
-        ),
-        truth = structure(
-          c(2L, 1L, 2L),
-          .Label = c("No", "Yes"),
-          class = "factor"
-        ),
-        truth_num = c(1, 0, 1)
-      ),
-      row.names = c(NA, -3L),
-      class = c("tbl_df", "tbl", "data.frame")
-    )
+test_that("Case weights calculations are correct", {
+  py_res <- read_pydata("py-mn_log_loss")
+  r_metric <- mn_log_loss
+
+  two_class_example$weights <- read_weights_two_class_example()
+
   expect_equal(
-    mn_log_loss(x[1:2, ], truth = truth, No)[[".estimate"]],
-    0.9844328,
-    tolerance = 0.0001
+    r_metric(two_class_example, truth, Class1, case_weights = weights)[[
+      ".estimate"
+    ]],
+    py_res$case_weight$binary
   )
   expect_equal(
-    mn_log_loss(x, truth = truth, No)[[".estimate"]],
-    12.6708396674381,
-    tolerance = 0.0001
+    r_metric(
+      two_class_example,
+      truth,
+      Class1,
+      sum = TRUE,
+      case_weights = weights
+    )[[".estimate"]],
+    py_res$case_weight$binary_sum
   )
-})
 
-# ------------------------------------------------------------------------------
+  py_res <- read_pydata("py-mn_log_loss")
+  r_metric <- mn_log_loss
 
-test_that("mn_log_loss() applies the min/max rule when an 'event' has probability 0 (#103)", {
-  truth <- factor(c("Yes", "No", "Yes"), levels = c("Yes", "No"))
-  estimate <- c(0.5, 0.5, 0)
+  hpc_cv$weights <- read_weights_hpc_cv()
 
   expect_equal(
-    mn_log_loss_vec(truth, estimate),
-    12.476649250079,
-    tolerance = 0.0001
+    r_metric(hpc_cv, obs, VF:L, case_weights = weights)[[".estimate"]],
+    py_res$case_weight$multiclass
   )
-})
-
-test_that("mn_log_loss() applies the min/max rule when a 'non-event' has probability 1 (#103)", {
-  truth <- factor(c("Yes", "No", "No"), levels = c("Yes", "No"))
-  estimate <- c(0.5, 0.5, 1)
-
   expect_equal(
-    mn_log_loss_vec(truth, estimate),
-    12.476649250079,
-    tolerance = 0.0001
+    r_metric(hpc_cv, obs, VF:L, sum = TRUE, case_weights = weights)[[
+      ".estimate"
+    ]],
+    py_res$case_weight$multiclass_sum
   )
 })
 
@@ -118,9 +114,33 @@ test_that("errors with class_pred input", {
   )
 })
 
-# ------------------------------------------------------------------------------
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    mn_log_loss_vec(1, 1, na_rm = "yes")
+  )
+})
 
-test_that("Two class - sklearn equivalent", {
+test_that("bad argument check", {
+  expect_snapshot(
+    error = TRUE,
+    mn_log_loss_vec(1, 1, sum = "yes")
+  )
+})
+
+test_that("`event_level = 'second'` works", {
+  df <- two_class_example
+
+  df_rev <- df
+  df_rev$truth <- stats::relevel(df_rev$truth, "Class2")
+
+  expect_equal(
+    mn_log_loss_vec(df$truth, df$Class1),
+    mn_log_loss_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+  )
+})
+
+test_that("sklearn equivalent", {
   py_res <- read_pydata("py-mn_log_loss")
   r_metric <- mn_log_loss
 
@@ -132,9 +152,7 @@ test_that("Two class - sklearn equivalent", {
     r_metric(two_class_example, truth, Class1, sum = TRUE)[[".estimate"]],
     py_res$binary_sum
   )
-})
 
-test_that("Multi class - sklearn equivalent", {
   py_res <- read_pydata("py-mn_log_loss")
   r_metric <- mn_log_loss
 
@@ -148,58 +166,59 @@ test_that("Multi class - sklearn equivalent", {
   )
 })
 
-test_that("Two class case weighted - sklearn equivalent", {
-  py_res <- read_pydata("py-mn_log_loss")
-  r_metric <- mn_log_loss
-
-  two_class_example$weights <- read_weights_two_class_example()
-
-  expect_equal(
-    r_metric(two_class_example, truth, Class1, case_weights = weights)[[
-      ".estimate"
-    ]],
-    py_res$case_weight$binary
+test_that("sum argument works", {
+  df <- data.frame(
+    obs = factor(c("A", "A", "A", "B", "B", "B")),
+    A = c(1, 0.80, 0.51, 0.1, 0.2, 0.3),
+    B = c(0, 0.20, 0.49, 0.9, 0.8, 0.7)
   )
+
   expect_equal(
-    r_metric(
-      two_class_example,
-      truth,
-      Class1,
-      sum = TRUE,
-      case_weights = weights
-    )[[".estimate"]],
-    py_res$case_weight$binary_sum
+    mn_log_loss_vec(df$obs, df$A, sum = TRUE),
+    -(log(1) + log(0.8) + log(0.51) + log(0.9) + log(0.8) + log(0.7))
   )
 })
 
-test_that("Multi class case weighted - sklearn equivalent", {
-  py_res <- read_pydata("py-mn_log_loss")
-  r_metric <- mn_log_loss
-
-  hpc_cv$weights <- read_weights_hpc_cv()
+test_that("Issue (#29)", {
+  x <- tibble::tibble(
+    No = c(0.860384856004899, 1, 1),
+    Yes = c(0.139615143995101, 0, 0),
+    prob = c(0.139615143995101, 0, 0),
+    estimate = factor("No", levels = c("No", "Yes")),
+    truth = factor(c("Yes", "No", "Yes")),
+    truth_num = c(1, 0, 1),
+  )
 
   expect_equal(
-    r_metric(hpc_cv, obs, VF:L, case_weights = weights)[[".estimate"]],
-    py_res$case_weight$multiclass
+    mn_log_loss(x[1:2, ], truth = truth, No)[[".estimate"]],
+    0.9844328,
+    tolerance = 0.0001
   )
   expect_equal(
-    r_metric(hpc_cv, obs, VF:L, sum = TRUE, case_weights = weights)[[
-      ".estimate"
-    ]],
-    py_res$case_weight$multiclass_sum
+    mn_log_loss(x, truth = truth, No)[[".estimate"]],
+    12.6708396674381,
+    tolerance = 0.0001
   )
 })
 
-test_that("na_rm argument check", {
-  expect_snapshot(
-    error = TRUE,
-    mn_log_loss_vec(1, 1, na_rm = "yes")
+test_that("mn_log_loss() applies the min/max rule when an 'event' has probability 0 (#103)", {
+  truth <- factor(c("Yes", "No", "Yes"), levels = c("Yes", "No"))
+  estimate <- c(0.5, 0.5, 0)
+
+  expect_equal(
+    mn_log_loss_vec(truth, estimate),
+    12.476649250079,
+    tolerance = 0.0001
   )
 })
 
-test_that("bad argument check", {
-  expect_snapshot(
-    error = TRUE,
-    mn_log_loss_vec(1, 1, sum = "yes")
+test_that("mn_log_loss() applies the min/max rule when a 'non-event' has probability 1 (#103)", {
+  truth <- factor(c("Yes", "No", "No"), levels = c("Yes", "No"))
+  estimate <- c(0.5, 0.5, 1)
+
+  expect_equal(
+    mn_log_loss_vec(truth, estimate),
+    12.476649250079,
+    tolerance = 0.0001
   )
 })
