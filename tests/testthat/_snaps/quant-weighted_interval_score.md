@@ -1,4 +1,4 @@
-# Missing value behaviours works
+# Calculations handles NAs
 
     Code
       weighted_interval_score_vec(truth, preds_na, quantile_levels = 1:9 / 10,

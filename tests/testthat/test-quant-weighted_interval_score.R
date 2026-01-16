@@ -1,4 +1,19 @@
-test_that("weighted_interval_score_vec works", {
+test_that("Calculations are correct", {
+  quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
+  pred1 <- 1:4
+  pred2 <- 8:11
+  example <- dplyr::tibble(
+    preds = hardhat::quantile_pred(rbind(pred1, pred2), quantile_levels),
+    truth = c(3.3, 7.1)
+  )
+
+  expect_equal(
+    weighted_interval_score_vec(example$truth, example$preds),
+    1.275
+  )
+})
+
+test_that("All interfaces gives the same results", {
   quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
   pred1 <- 1:4
   pred2 <- 8:11
@@ -15,32 +30,7 @@ test_that("weighted_interval_score_vec works", {
   )
 })
 
-test_that("quantile_levels argument works", {
-  quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
-  pred1 <- 1:4
-  pred2 <- 8:11
-  example <- dplyr::tibble(
-    preds = hardhat::quantile_pred(rbind(pred1, pred2), quantile_levels),
-    truth = c(3.3, 7.1)
-  )
-
-  levels_set <- weighted_interval_score(
-    example,
-    truth = truth,
-    estimate = preds,
-    quantile_levels = c(0.25, 0.5, 0.75)
-  )
-
-  levels_default <- weighted_interval_score(
-    example,
-    truth = truth,
-    estimate = preds
-  )
-
-  expect_true(levels_set$.estimate != levels_default$.estimate)
-})
-
-test_that("Missing value behaviours works", {
+test_that("Calculations handles NAs", {
   pred1 <- 1:4
   preds_na <- hardhat::quantile_pred(rbind(pred1, c(1, 2, NA, 4)), 1:4 / 5)
   truth <- c(2.5, 2.5)
@@ -83,6 +73,81 @@ test_that("Missing value behaviours works", {
     ),
     NA_real_
   )
+})
+
+test_that("Case weights calculations are correct", {
+  quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
+  pred1 <- 1:4
+  pred2 <- 8:11
+  pred3 <- 8:11
+  example <- dplyr::tibble(
+    preds = hardhat::quantile_pred(rbind(pred1, pred2, pred3), quantile_levels),
+    truth = c(3.3, 7.1, 3),
+    weights = c(1, 1, 0)
+  )
+
+  expect_equal(
+    weighted_interval_score_vec(
+      truth = example$truth,
+      estimate = example$preds,
+      case_weights = example$weights
+    ),
+    1.275
+  )
+})
+
+test_that("works with hardhat case weights", {
+  quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
+  pred1 <- 1:4
+  pred2 <- 8:11
+  example <- dplyr::tibble(
+    preds = hardhat::quantile_pred(rbind(pred1, pred2), quantile_levels),
+    truth = c(3.3, 7.1)
+  )
+
+  imp_wgt <- hardhat::importance_weights(c(1, 1))
+  freq_wgt <- hardhat::frequency_weights(c(1, 1))
+
+  expect_no_error(
+    weighted_interval_score_vec(
+      truth = example$truth,
+      estimate = example$preds,
+      case_weights = imp_wgt
+    )
+  )
+
+  expect_no_error(
+    weighted_interval_score_vec(
+      truth = example$truth,
+      estimate = example$preds,
+      case_weights = freq_wgt
+    )
+  )
+})
+
+test_that("quantile_levels argument works", {
+  quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
+  pred1 <- 1:4
+  pred2 <- 8:11
+  example <- dplyr::tibble(
+    preds = hardhat::quantile_pred(rbind(pred1, pred2), quantile_levels),
+    truth = c(3.3, 7.1)
+  )
+
+  levels_set <- weighted_interval_score(
+    example,
+    truth = truth,
+    estimate = preds,
+    quantile_levels = c(0.25, 0.5, 0.75)
+  )
+
+  levels_default <- weighted_interval_score(
+    example,
+    truth = truth,
+    estimate = preds
+  )
+
+  expect_true(levels_set$.estimate != levels_default$.estimate)
 })
 
 test_that("na_rm argument check", {
