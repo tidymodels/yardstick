@@ -129,7 +129,9 @@ For `sens_vec()`, a single `numeric` value (or `NA`).
 ## Details
 
 The sensitivity (`sens()`) is defined as the proportion of positive
-results out of the number of samples which were actually positive.
+results out of the number of samples which were actually positive. For
+positive observations, the proportion of model predictions that
+correctly predicted positive.
 
 When the denominator of the calculation is `0`, sensitivity is
 undefined. This happens when both `# true_positive = 0` and

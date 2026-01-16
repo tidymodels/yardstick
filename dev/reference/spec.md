@@ -129,7 +129,8 @@ For `spec_vec()`, a single `numeric` value (or `NA`).
 ## Details
 
 The specificity measures the proportion of negatives that are correctly
-identified as negatives.
+identified as negatives. For negative observations, the proportion of
+model predictions that correctly predicted negative.
 
 When the denominator of the calculation is `0`, specificity is
 undefined. This happens when both `# true_negative = 0` and

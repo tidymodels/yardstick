@@ -171,7 +171,8 @@ the number of groups.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The sensitivity (<code>sens()</code>) is defined as the proportion of positive
 results out of the number of samples which were actually
-positive.</p>
+positive. For positive observations, the proportion of model predictions
+that correctly predicted positive.</p>
 <p>When the denominator of the calculation is <code>0</code>, sensitivity is undefined.
 This happens when both <code># true_positive = 0</code> and <code># false_negative = 0</code>
 are true, which mean that there were no true events. When computing binary
