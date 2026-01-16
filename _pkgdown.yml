@@ -3,6 +3,7 @@ url: https://yardstick.tidymodels.org
 template:
   package: tidytemplate
   bootstrap: 5
+  math-rendering: katex
   bslib:
     primary: "#CA225E"
   includes:

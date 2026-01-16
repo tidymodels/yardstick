@@ -94,7 +94,7 @@ values. Assuming you have \code{n} rows returned from \code{\link[=pr_curve]{pr_
 from \code{2} to \code{n}, multiplying the precision value \code{p_i} by the increase in
 recall over the previous threshold, \code{r_i - r_(i-1)}.
 
-\deqn{AP = \sum (r_{i} - r_{i-1}) * p_i}
+\deqn{AP = \sum (r_{i} - r_{i-1}) \cdot p_i}
 
 By summing from \code{2} to \code{n}, the precision value \code{p_1} is never used. While
 \code{\link[=pr_curve]{pr_curve()}} returns a value for \code{p_1}, it is technically undefined as
