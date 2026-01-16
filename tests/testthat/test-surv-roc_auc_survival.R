@@ -1,4 +1,4 @@
-test_that("roc_curve_auc() calculations", {
+test_that("Calculations are correct", {
   skip_if_not_installed("tidyr")
 
   survival_curve <- roc_curve_survival(
@@ -23,9 +23,59 @@ test_that("roc_curve_auc() calculations", {
   )
 })
 
-# case weights -----------------------------------------------------------------
+test_that("All interfaces gives the same results", {
+  skip_if_not_installed("tidyr")
 
-test_that("case weights are applied", {
+  lung_surv <- data_lung_surv()
+
+  expect_equal(
+    unclass(roc_curve_survival_vec(
+      truth = lung_surv$surv_obj,
+      lung_surv$.pred
+    )),
+    unclass(roc_curve_survival(
+      lung_surv,
+      truth = surv_obj,
+      .pred
+    ))
+  )
+})
+
+test_that("Calculations handles NAs", {
+  skip_if_not_installed("tidyr")
+
+  lung_surv <- data_lung_surv()
+  lung_surv$surv_obj[1:10] <- NA
+
+  expect_equal(
+    roc_curve_survival_vec(
+      truth = lung_surv$surv_obj,
+      lung_surv$.pred
+    ),
+    roc_curve_survival_vec(
+      truth = lung_surv$surv_obj[-(1:10)],
+      lung_surv$.pred[-(1:10)]
+    )
+  )
+})
+
+test_that("na_rm = FALSE errors if missing values are present", {
+  skip_if_not_installed("tidyr")
+
+  lung_surv <- data_lung_surv()
+  lung_surv$surv_obj[1:10] <- NA
+
+  expect_snapshot(
+    error = TRUE,
+    roc_curve_survival_vec(
+      truth = lung_surv$surv_obj,
+      lung_surv$.pred,
+      na_rm = FALSE
+    )
+  )
+})
+
+test_that("Case weights calculations are correct", {
   skip_if_not_installed("tidyr")
 
   wts_res <- lung_surv |>
@@ -66,9 +116,8 @@ test_that("works with hardhat case weights", {
   )
 })
 
-# self checking ----------------------------------------------------------------
-
 test_that("snapshot equivalent", {
+  # self checking to avoid breakage over time
   skip_if_not_installed("tidyr")
 
   snapshot_res <- readRDS(test_path("data/ref_roc_auc_survival.rds"))
@@ -89,8 +138,6 @@ test_that("snapshot equivalent", {
     yardstick_res$.eval_time
   )
 })
-
-# riskRegression compare -------------------------------------------------------
 
 test_that("riskRegression equivalent", {
   skip_if_not_installed("tidyr")

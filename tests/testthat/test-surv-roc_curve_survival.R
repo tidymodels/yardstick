@@ -1,4 +1,4 @@
-test_that("roc_curve_survival works", {
+test_that("Calculations are correct", {
   skip_if_not_installed("tidyr")
 
   result <- roc_curve_survival(
@@ -39,9 +39,7 @@ test_that("roc_curve_survival works", {
   }
 })
 
-# case weights -----------------------------------------------------------------
-
-test_that("case weights are applied", {
+test_that("Case weights calculations are correct", {
   skip_if_not_installed("tidyr")
 
   wts_res <- lung_surv |>
@@ -62,9 +60,8 @@ test_that("case weights are applied", {
   expect_identical(subset_res, wts_res)
 })
 
-# self checking ----------------------------------------------------------------
-
 test_that("snapshot equivalent", {
+  # self checking to avoid breakage over time
   skip_if_not_installed("tidyr")
 
   snapshot_res <- readRDS(test_path("data/ref_roc_curve_survival.rds"))
@@ -95,8 +92,6 @@ test_that("snapshot equivalent", {
     yardstick_res$.eval_time
   )
 })
-
-# Manual checking --------------------------------------------------------------
 
 test_that("hand calculated equivalent", {
   skip_if_not_installed("tidyr")
