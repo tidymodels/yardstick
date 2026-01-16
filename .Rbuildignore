@@ -20,3 +20,4 @@ contributors.md
 ^data-raw$
 ^[\.]?air\.toml$
 ^\.vscode$
+^\.claude$
