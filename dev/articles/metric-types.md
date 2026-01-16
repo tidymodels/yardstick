@@ -10,31 +10,31 @@ grouped together and used with grouped data frames for computing on
 multiple resamples at once. Below are the different types of metrics,
 along with the types of the inputs they take.
 
-1.  **Class metrics** (hard predictions)
+1.  **Numeric metrics**
+
+    - `truth` - numeric
+
+    - `estimate` - numeric
+
+2.  **Class metrics** (hard predictions)
 
     - `truth` - factor
 
     - `estimate` - factor
 
-2.  **Class probability metrics** (soft predictions)
+3.  **Class probability metrics** (soft predictions)
 
     - `truth` - factor
 
     - `estimate / ...` - multiple numeric columns containing class
       probabilities
 
-3.  **Ordered probability metrics** (soft predictions)
+4.  **Ordered probability metrics** (soft predictions)
 
     - `truth` - ordered factor
 
     - `estimate / ...` - multiple numeric columns containing class
       probabilities
-
-4.  **Numeric metrics**
-
-    - `truth` - numeric
-
-    - `estimate` - numeric
 
 5.  **Static survival metrics**
 
@@ -42,20 +42,27 @@ along with the types of the inputs they take.
 
     - `estimate` - numeric
 
-6.  **Dynamic survival metrics**
+6.  **Dynamic survival metrics** (one value per evaluation time)
 
     - `truth` - Surv
 
     - `...` - list of data.frames, each containing the 3 columns
       `.eval_time`, `.pred_survival`, and `.weight_censored`
 
-7.  **Linear predictor survival metrics**
+7.  **Integrated survival metrics** (one value across evaluation times)
+
+    - `truth` - Surv
+
+    - `...` - list of data.frames, each containing the 3 columns
+      `.eval_time`, `.pred_survival`, and `.weight_censored`
+
+8.  **Linear predictor survival metrics**
 
     - `truth` - Surv
 
     - `estimate` - numeric
 
-8.  **Quantile metrics**
+9.  **Quantile metrics**
 
     - `truth` - numeric
 

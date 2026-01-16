@@ -96,6 +96,13 @@ computing on multiple resamples at once. Below are the different types
 of metrics, along with the types of the inputs they take.</p>
 <ol style="list-style-type: decimal">
 <li>
+<p><strong>Numeric metrics</strong></p>
+<ul>
+<li><p><code>truth</code> - numeric</p></li>
+<li><p><code>estimate</code> - numeric</p></li>
+</ul>
+</li>
+<li>
 <p><strong>Class metrics</strong> (hard predictions)</p>
 <ul>
 <li><p><code>truth</code> - factor</p></li>
@@ -120,13 +127,6 @@ class probabilities</p></li>
 </ul>
 </li>
 <li>
-<p><strong>Numeric metrics</strong></p>
-<ul>
-<li><p><code>truth</code> - numeric</p></li>
-<li><p><code>estimate</code> - numeric</p></li>
-</ul>
-</li>
-<li>
 <p><strong>Static survival metrics</strong></p>
 <ul>
 <li><p><code>truth</code> - Surv</p></li>
@@ -134,7 +134,18 @@ class probabilities</p></li>
 </ul>
 </li>
 <li>
-<p><strong>Dynamic survival metrics</strong></p>
+<p><strong>Dynamic survival metrics</strong> (one value per
+evaluation time)</p>
+<ul>
+<li><p><code>truth</code> - Surv</p></li>
+<li><p><code>...</code> - list of data.frames, each containing the 3
+columns <code>.eval_time</code>, <code>.pred_survival</code>, and
+<code>.weight_censored</code></p></li>
+</ul>
+</li>
+<li>
+<p><strong>Integrated survival metrics</strong> (one value across
+evaluation times)</p>
 <ul>
 <li><p><code>truth</code> - Surv</p></li>
 <li><p><code>...</code> - list of data.frames, each containing the 3
