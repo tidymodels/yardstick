@@ -37,6 +37,9 @@
   arguments.
   ([\#519](https://github.com/tidymodels/yardstick/issues/519))
 
+- Fixed documentation to show equations correctly.
+  ([\#541](https://github.com/tidymodels/yardstick/issues/541))
+
 ## yardstick 1.3.2
 
 CRAN release: 2025-01-22

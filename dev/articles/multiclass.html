@@ -11,7 +11,8 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
@@ -101,9 +102,9 @@ have their own specialized multiclass implementations.</p>
 sets of binary predictions, calculates the corresponding metric for each
 of the binary cases, and then averages the results together. As an
 example, consider <code>precision</code> for the binary case.</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>r</mi><mo>=</mo><mfrac><mrow><mi>T</mi><mi>P</mi></mrow><mrow><mi>T</mi><mi>P</mi><mo>+</mo><mi>F</mi><mi>P</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">
-Pr = \frac{TP}{TP + FP} 
-</annotation></semantics></math></p>
+<p><span class="math display">
+Pr = \frac{TP}{TP + FP}
+</span></p>
 <p>In the multiclass case, if there were levels <code>A</code>,
 <code>B</code>, <code>C</code> and <code>D</code>, macro averaging
 reduces the problem to multiple one-vs-all comparisons. The
@@ -115,13 +116,13 @@ the other 3 levels to get a total of 4 precision values. The results are
 then averaged together.</p>
 <p>The formula representation looks like this. For <code>k</code>
 classes:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><msub><mi>r</mi><mrow><mi>m</mi><mi>a</mi><mi>c</mi><mi>r</mi><mi>o</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>P</mi><msub><mi>r</mi><mn>1</mn></msub><mo>+</mo><mi>P</mi><msub><mi>r</mi><mn>2</mn></msub><mo>+</mo><mi>…</mi><mo>+</mo><mi>P</mi><msub><mi>r</mi><mi>k</mi></msub></mrow><mi>k</mi></mfrac><mo>=</mo><mi>P</mi><msub><mi>r</mi><mn>1</mn></msub><mfrac><mn>1</mn><mi>k</mi></mfrac><mo>+</mo><mi>P</mi><msub><mi>r</mi><mn>2</mn></msub><mfrac><mn>1</mn><mi>k</mi></mfrac><mo>+</mo><mi>…</mi><mo>+</mo><mi>P</mi><msub><mi>r</mi><mi>k</mi></msub><mfrac><mn>1</mn><mi>k</mi></mfrac></mrow><annotation encoding="application/x-tex">
-Pr_{macro} = \frac{Pr_1 + Pr_2 + \ldots + Pr_k}{k} = Pr_1 \frac{1}{k} + Pr_2 \frac{1}{k} + \ldots + Pr_k \frac{1}{k}
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><msub><mi>R</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">PR_1</annotation></semantics></math>
-is the precision calculated from recoding the multiclass predictions
-down to just <code>class 1</code> and <code>other</code>.</p>
+<p><span class="math display">
+Pr_{macro} = \frac{Pr_1 + Pr_2 + \ldots + Pr_k}{k} = Pr_1 \frac{1}{k} +
+Pr_2 \frac{1}{k} + \ldots + Pr_k \frac{1}{k}
+</span></p>
+<p>where <span class="math inline">PR_1</span> is the precision
+calculated from recoding the multiclass predictions down to just
+<code>class 1</code> and <code>other</code>.</p>
 <p>Note that in macro averaging, all classes get equal weight when
 contributing their portion of the precision value to the total (here
 <code>1/4</code>). This might not be a realistic calculation when you
@@ -129,9 +130,10 @@ have a large amount of class imbalance. In that case, a <em>weighted
 macro average</em> might make more sense, where the weights are
 calculated by the frequency of that class in the <code>truth</code>
 column.</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><msub><mi>r</mi><mrow><mi>w</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>e</mi><mi>d</mi><mo>−</mo><mi>m</mi><mi>a</mi><mi>c</mi><mi>r</mi><mi>o</mi></mrow></msub><mo>=</mo><mi>P</mi><msub><mi>r</mi><mn>1</mn></msub><mfrac><mrow><mi>#</mi><mi>O</mi><mi>b</mi><msub><mi>s</mi><mn>1</mn></msub></mrow><mi>N</mi></mfrac><mo>+</mo><mi>P</mi><msub><mi>r</mi><mn>2</mn></msub><mfrac><mrow><mi>#</mi><mi>O</mi><mi>b</mi><msub><mi>s</mi><mn>2</mn></msub></mrow><mi>N</mi></mfrac><mo>+</mo><mi>…</mi><mo>+</mo><mi>P</mi><msub><mi>r</mi><mi>k</mi></msub><mfrac><mrow><mi>#</mi><mi>O</mi><mi>b</mi><msub><mi>s</mi><mi>k</mi></msub></mrow><mi>N</mi></mfrac></mrow><annotation encoding="application/x-tex">
-Pr_{weighted-macro} = Pr_1 \frac{\#Obs_1}{N} + Pr_2 \frac{\#Obs_2}{N} + \ldots + Pr_k \frac{\#Obs_k}{N}
-</annotation></semantics></math></p>
+<p><span class="math display">
+Pr_{weighted-macro} = Pr_1 \frac{\#Obs_1}{N} + Pr_2 \frac{\#Obs_2}{N} +
+\ldots + Pr_k \frac{\#Obs_k}{N}
+</span></p>
 </div>
 <div class="section level2">
 <h2 id="micro-averaging">Micro averaging<a class="anchor" aria-label="anchor" href="#micro-averaging"></a>
@@ -143,12 +145,12 @@ averaged together.</p>
 results for each class and using that as the numerator, and then
 calculating all of the true positive and false positive results for each
 class, and using that as the denominator.</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><msub><mi>r</mi><mrow><mi>m</mi><mi>i</mi><mi>c</mi><mi>r</mi><mi>o</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>T</mi><msub><mi>P</mi><mn>1</mn></msub><mo>+</mo><mi>T</mi><msub><mi>P</mi><mn>2</mn></msub><mo>+</mo><mi>…</mi><mo>+</mo><mi>T</mi><msub><mi>P</mi><mi>k</mi></msub></mrow><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>T</mi><msub><mi>P</mi><mn>1</mn></msub><mo>+</mo><mi>T</mi><msub><mi>P</mi><mn>2</mn></msub><mo>+</mo><mi>…</mi><mo>+</mo><mi>T</mi><msub><mi>P</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>F</mi><msub><mi>P</mi><mn>1</mn></msub><mo>+</mo><mi>F</mi><msub><mi>P</mi><mn>2</mn></msub><mo>+</mo><mi>…</mi><mo>+</mo><mi>F</mi><msub><mi>P</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
-Pr_{micro} = \frac{TP_1 + TP_2 + \ldots + TP_k}{(TP_1 + TP_2 + \ldots + TP_k) + (FP_1 + FP_2 + \ldots + FP_k)}
-</annotation></semantics></math> In this case, rather than each
-<em>class</em> having equal weight, each <em>observation</em> gets equal
-weight. This gives the classes with the most observations more
-power.</p>
+<p><span class="math display">
+Pr_{micro} = \frac{TP_1 + TP_2 + \ldots + TP_k}{(TP_1 + TP_2 + \ldots +
+TP_k) + (FP_1 + FP_2 + \ldots + FP_k)}
+</span> In this case, rather than each <em>class</em> having equal
+weight, each <em>observation</em> gets equal weight. This gives the
+classes with the most observations more power.</p>
 </div>
 <div class="section level2">
 <h2 id="specialized-multiclass-implementations">Specialized multiclass implementations<a class="anchor" aria-label="anchor" href="#specialized-multiclass-implementations"></a>
@@ -160,9 +162,7 @@ counterpart, with accuracy counting up the number of correctly predicted
 true values out of the total number of true values, and kappa being a
 linear combination of two accuracy values.</p>
 <p>Matthews correlation coefficient (MCC) has a known multiclass
-generalization as well, sometimes called the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>K</mi></msub><annotation encoding="application/x-tex">R_K</annotation></semantics></math>
-statistic. Refer to <a href="https://en.wikipedia.org/wiki/Matthews_correlation_coefficient#Multiclass_case" class="external-link">this
+generalization as well, sometimes called the <span class="math inline">R_K</span> statistic. Refer to <a href="https://en.wikipedia.org/wiki/Matthews_correlation_coefficient#Multiclass_case" class="external-link">this
 page</a> for more details.</p>
 <p>ROC AUC is an interesting metric in that it intuitively makes sense
 to perform macro averaging, which computes a multiclass AUC as the

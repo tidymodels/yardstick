@@ -149,8 +149,10 @@ Suppose a 2x2 table with notation:
 
 The formulas used here are:
 
-\$\$recall = A/(A+C)\$\$ \$\$precision = A/(A+B)\$\$ \$\$F\_{meas} =
-(1+\beta^2) \* precision \* recall/((\beta^2 \* precision)+recall)\$\$
+\$\$\text{recall} = \frac{A}{A + C}\$\$ \$\$\text{precision} =
+\frac{A}{A + B}\$\$ \$\$F\_{meas} = \frac{(1 + \beta^2) \cdot
+\text{precision} \cdot \text{recall}}{\beta^2 \cdot \text{precision} +
+\text{recall}}\$\$
 
 See the references for discussions of the statistics.
 

@@ -118,7 +118,7 @@ precision values. Assuming you have `n` rows returned from
 it is a sum from `2` to `n`, multiplying the precision value `p_i` by
 the increase in recall over the previous threshold, `r_i - r_(i-1)`.
 
-\$\$AP = \sum (r\_{i} - r\_{i-1}) \* p_i\$\$
+\$\$AP = \sum (r\_{i} - r\_{i-1}) \cdot p_i\$\$
 
 By summing from `2` to `n`, the precision value `p_1` is never used.
 While

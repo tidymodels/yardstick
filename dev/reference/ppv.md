@@ -149,12 +149,19 @@ Suppose a 2x2 table with notation:
 
 The formulas used here are:
 
-\$\$Sensitivity = A/(A+C)\$\$ \$\$Specificity = D/(B+D)\$\$
-\$\$Prevalence = (A+C)/(A+B+C+D)\$\$ \$\$PPV = (Sensitivity \*
-Prevalence) / ((Sensitivity \* Prevalence) + ((1-Specificity) \*
-(1-Prevalence)))\$\$ \$\$NPV = (Specificity \* (1-Prevalence)) /
-(((1-Sensitivity) \* Prevalence) + ((Specificity) \*
-(1-Prevalence)))\$\$
+\$\$\text{Sensitivity} = \frac{A}{A + C}\$\$
+
+\$\$\text{Specificity} = \frac{D}{B + D}\$\$
+
+\$\$\text{Prevalence} = \frac{A + C}{A + B + C + D}\$\$
+
+\$\$\text{PPV} = \frac{\text{Sensitivity} \cdot
+\text{Prevalence}}{(\text{Sensitivity} \cdot \text{Prevalence}) + ((1 -
+\text{Specificity}) \cdot (1 - \text{Prevalence}))}\$\$
+
+\$\$\text{NPV} = \frac{\text{Specificity} \cdot (1 -
+\text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) +
+((\text{Specificity}) \cdot (1-Prevalence))}\$\$
 
 See the references for discussions of the statistics.
 

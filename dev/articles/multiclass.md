@@ -15,7 +15,7 @@ sets of binary predictions, calculates the corresponding metric for each
 of the binary cases, and then averages the results together. As an
 example, consider `precision` for the binary case.
 
-$$Pr = \frac{TP}{TP + FP}$$
+Pr = \frac{TP}{TP + FP}
 
 In the multiclass case, if there were levels `A`, `B`, `C` and `D`,
 macro averaging reduces the problem to multiple one-vs-all comparisons.
@@ -27,9 +27,10 @@ values. The results are then averaged together.
 
 The formula representation looks like this. For `k` classes:
 
-$$Pr_{macro} = \frac{Pr_{1} + Pr_{2} + \ldots + Pr_{k}}{k} = Pr_{1}\frac{1}{k} + Pr_{2}\frac{1}{k} + \ldots + Pr_{k}\frac{1}{k}$$
+Pr\_{macro} = \frac{Pr_1 + Pr_2 + \ldots + Pr_k}{k} = Pr_1 \frac{1}{k} +
+Pr_2 \frac{1}{k} + \ldots + Pr_k \frac{1}{k}
 
-where $PR_{1}$ is the precision calculated from recoding the multiclass
+where PR_1 is the precision calculated from recoding the multiclass
 predictions down to just `class 1` and `other`.
 
 Note that in macro averaging, all classes get equal weight when
@@ -39,7 +40,8 @@ amount of class imbalance. In that case, a *weighted macro average*
 might make more sense, where the weights are calculated by the frequency
 of that class in the `truth` column.
 
-$$Pr_{weighted - macro} = Pr_{1}\frac{\# Obs_{1}}{N} + Pr_{2}\frac{\# Obs_{2}}{N} + \ldots + Pr_{k}\frac{\# Obs_{k}}{N}$$
+Pr\_{weighted-macro} = Pr_1 \frac{\\Obs_1}{N} + Pr_2 \frac{\\Obs_2}{N} +
+\ldots + Pr_k \frac{\\Obs_k}{N}
 
 ## Micro averaging
 
@@ -52,10 +54,10 @@ results for each class and using that as the numerator, and then
 calculating all of the true positive and false positive results for each
 class, and using that as the denominator.
 
-$$Pr_{micro} = \frac{TP_{1} + TP_{2} + \ldots + TP_{k}}{\left( TP_{1} + TP_{2} + \ldots + TP_{k} \right) + \left( FP_{1} + FP_{2} + \ldots + FP_{k} \right)}$$
-In this case, rather than each *class* having equal weight, each
-*observation* gets equal weight. This gives the classes with the most
-observations more power.
+Pr\_{micro} = \frac{TP_1 + TP_2 + \ldots + TP_k}{(TP_1 + TP_2 + \ldots +
+TP_k) + (FP_1 + FP_2 + \ldots + FP_k)} In this case, rather than each
+*class* having equal weight, each *observation* gets equal weight. This
+gives the classes with the most observations more power.
 
 ## Specialized multiclass implementations
 
@@ -68,7 +70,7 @@ out of the total number of true values, and kappa being a linear
 combination of two accuracy values.
 
 Matthews correlation coefficient (MCC) has a known multiclass
-generalization as well, sometimes called the $R_{K}$ statistic. Refer to
+generalization as well, sometimes called the R_K statistic. Refer to
 [this
 page](https://en.wikipedia.org/wiki/Matthews_correlation_coefficient#Multiclass_case)
 for more details.
