@@ -96,6 +96,11 @@ error. For example, see
 \href{https://arxiv.org/abs/2005.12881}{Bracher et al. (2020)} for discussion in
 the context of COVID-19 forecasting.
 }
+\details{
+Weighted interval score is a metric that should be
+minimized. The output ranges from 0 to
+infinity, with 0 indicating perfect predictions.
+}
 \examples{
 library(hardhat)
 

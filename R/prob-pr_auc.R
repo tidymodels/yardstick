@@ -33,6 +33,11 @@
 #' multiclass metrics. The default will automatically choose `"binary"` or
 #' `"macro"` based on `truth`.
 #'
+#' @details
+#' PR AUC is a metric that should be `r attr(pr_auc, "direction")`d. The output
+#' ranges from 0 to 1, with 1 indicating perfect precision and recall at all
+#' thresholds.
+#'
 #' @seealso
 #'
 #' [pr_curve()] for computing the full precision recall curve.

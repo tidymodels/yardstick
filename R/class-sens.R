@@ -60,6 +60,10 @@
 #'
 #' @param ... Not currently used.
 #'
+#' @details
+#' Sensitivity is a metric that should be `r attr(sens, "direction")`d. The
+#' output ranges from 0 to 1, with 1 indicating that all actual positives were
+#' predicted as positive.
 #'
 #' @author Max Kuhn
 #'

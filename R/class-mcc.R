@@ -13,6 +13,12 @@
 #'
 #' @inheritParams sens
 #'
+#' @details
+#' MCC is a metric that should be `r attr(mcc, "direction")`d. The output
+#' ranges from -1 to 1, with 1 indicating perfect predictions. A value of 0
+#' indicates no better than random prediction, and negative values indicate
+#' inverse prediction.
+#'
 #' @author Max Kuhn
 #'
 #' @references Giuseppe, J. (2012). "A Comparison of MCC and CEN Error

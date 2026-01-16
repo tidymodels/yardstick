@@ -17,6 +17,10 @@
 #' @param bias A `logical`; should the biased estimate of variance
 #' be used (as is Lin (1989))?
 #'
+#' @details
+#' CCC is a metric that should be `r attr(ccc, "direction")`d. The output
+#' ranges from -1 to 1, with 1 indicating perfect agreement.
+#'
 #' @author Max Kuhn
 #'
 #' @references

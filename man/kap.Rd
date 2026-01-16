@@ -77,6 +77,11 @@ Kappa is a similar measure to \code{\link[=accuracy]{accuracy()}}, but is normal
 the accuracy that would be expected by chance alone and is very useful
 when one or more classes have large frequency distributions.
 }
+\details{
+Kappa is a metric that should be maximized. The output
+ranges from -1 to 1, with 1 indicating perfect agreement. Negative values
+indicate agreement worse than chance.
+}
 \section{Multiclass}{
 
 

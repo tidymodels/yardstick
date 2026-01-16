@@ -60,6 +60,11 @@
 #'
 #' @param ... Not Currently used.
 #'
+#' @details
+#' Weighted interval score is a metric that should be
+#' `r attr(weighted_interval_score, "direction")`d. The output ranges from 0 to
+#' infinity, with 0 indicating perfect predictions.
+#'
 #' @return a vector of nonnegative scores.
 #'
 #' @export

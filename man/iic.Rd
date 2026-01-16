@@ -65,6 +65,10 @@ interpretative value.
 The IIC is seen as an alternative to the traditional correlation
 coefficient and is in the same units as the original data.
 }
+\details{
+IIC is a metric that should be maximized. The output
+ranges from -1 to 1, with 1 indicating perfect agreement.
+}
 \examples{
 # Supply truth and predictions as bare column names
 iic(solubility_test, solubility, prediction)

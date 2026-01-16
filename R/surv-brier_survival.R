@@ -29,6 +29,9 @@
 #' model. See the details for more information regarding format.
 #'
 #' @details
+#' Brier survival score is a metric that should be
+#' `r attr(brier_survival, "direction")`d. The output ranges from 0 to 1, with
+#' 0 indicating perfect predictions.
 #'
 #' This formulation takes survival probability predictions at one or more
 #' specific _evaluation times_ and, for each time, computes the Brier score. To

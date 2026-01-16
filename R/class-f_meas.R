@@ -22,6 +22,9 @@
 #'  the harmonic mean of the two values but other values weight
 #'  recall beta times more important than precision.
 #'
+#' @details
+#' F measure is a metric that should be `r attr(f_meas, "direction")`d. The
+#' output ranges from 0 to 1, with 1 indicating perfect precision and recall.
 #'
 #' @references
 #'

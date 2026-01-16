@@ -55,6 +55,10 @@ Compute the area under the ROC survival curve using predicted survival
 probabilities that corresponds to different time points.
 }
 \details{
+ROC AUC survival is a metric that should be
+maximized. The output ranges from 0 to 1,
+with 1 indicating perfect discrimination.
+
 This formulation takes survival probability predictions at one or more
 specific \emph{evaluation times} and, for each time, computes the area under the
 ROC curve. To account for censoring, inverse probability of censoring weights

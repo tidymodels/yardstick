@@ -5,6 +5,9 @@
 #' [roc_curve()] for the full curve.
 #'
 #' @details
+#' ROC AUC is a metric that should be `r attr(roc_auc, "direction")`d. The
+#' output ranges from 0 to 1, with 1 indicating perfect discrimination.
+#'
 #' Generally, an ROC AUC value is between `0.5` and `1`, with `1` being a
 #' perfect prediction model. If your value is between `0` and `0.5`, then
 #' this implies that you have meaningful information in your model, but it

@@ -54,6 +54,10 @@ Compute the ranked probability score (RPS) for a classification model using
 ordered classes.
 }
 \details{
+Ranked probability score is a metric that should be
+minimized. The output ranges from 0 to 1,
+with 0 indicating perfect predictions.
+
 The ranked probability score is a Brier score for ordinal data that uses the
 \emph{cumulative} probability of an event (i.e. \code{Pr[class <= i]} for \code{i} = 1,
 2, ..., \code{C} classes). These probabilities are compared to indicators for the

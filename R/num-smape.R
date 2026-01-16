@@ -13,6 +13,10 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' SMAPE is a metric that should be `r attr(smape, "direction")`d. The output
+#' ranges from 0 to 200, with 0 indicating perfect predictions.
+#'
 #' @author Max Kuhn, Riaz Hedayati
 #'
 #' @template examples-numeric

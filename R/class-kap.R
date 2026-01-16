@@ -25,6 +25,11 @@
 #'   In the binary case, all 3 weightings produce the same value, since it is
 #'   only ever possible to be 1 unit away from the true value.
 #'
+#' @details
+#' Kappa is a metric that should be `r attr(kap, "direction")`d. The output
+#' ranges from -1 to 1, with 1 indicating perfect agreement. Negative values
+#' indicate agreement worse than chance.
+#'
 #' @author Max Kuhn
 #' @author Jon Harmon
 #'

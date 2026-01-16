@@ -28,6 +28,10 @@
 #' @param sum A `logical`. Should the sum of the likelihood contributions be
 #' returned (instead of the mean value)?
 #'
+#' @details
+#' Log loss is a metric that should be `r attr(mn_log_loss, "direction")`d. The
+#' output ranges from 0 to infinity, with 0 indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @examples

@@ -25,6 +25,11 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' RPD is a metric that should be `r attr(rpd, "direction")`d. The output
+#' ranges from 0 to infinity, with higher values indicating better model
+#' performance.
+#'
 #' @author Pierre Roudier
 #'
 #' @seealso

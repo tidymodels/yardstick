@@ -22,6 +22,11 @@
 #' @param prevalence A numeric value for the rate of the
 #'  "positive" class of the data.
 #'
+#' @details
+#' PPV is a metric that should be `r attr(ppv, "direction")`d. The output
+#' ranges from 0 to 1, with 1 indicating all predicted positives are true
+#' positives.
+#'
 #' @author Max Kuhn
 #'
 #' @references

@@ -21,6 +21,10 @@
 #'
 #' @inheritParams pr_auc
 #'
+#' @details
+#' Gain capture is a metric that should be `r attr(gain_capture, "direction")`d.
+#' The output ranges from 0 to 1, with 1 indicating perfect discrimination.
+#'
 #' @author Max Kuhn
 #'
 #' @references

@@ -19,6 +19,11 @@
 #'
 #' @inheritParams ppv
 #'
+#' @details
+#' NPV is a metric that should be `r attr(npv, "direction")`d. The output
+#' ranges from 0 to 1, with 1 indicating all predicted negatives are true
+#' negatives.
+#'
 #' @author Max Kuhn
 #'
 #' @references

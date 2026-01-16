@@ -14,6 +14,10 @@
 #' @param delta A single `numeric` value. Defines the boundary where the loss function
 #' transitions from quadratic to linear. Defaults to 1.
 #'
+#' @details
+#' Huber loss is a metric that should be `r attr(huber_loss, "direction")`d. The
+#' output ranges from 0 to infinity, with 0 indicating perfect predictions.
+#'
 #' @author James Blair
 #'
 #' @references

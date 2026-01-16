@@ -31,6 +31,10 @@
 #' comparison of performance measures for classification". _Pattern Recognition
 #' Letters_. 30 (1), pp 27-38.
 #'
+#' @details
+#' ROC AUNP is a metric that should be `r attr(roc_aunp, "direction")`d. The
+#' output ranges from 0 to 1, with 1 indicating perfect discrimination.
+#'
 #' @seealso
 #'
 #' [roc_aunu()] for computing the area under the ROC curve of each class against

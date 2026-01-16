@@ -55,6 +55,9 @@ For \code{brier_class_vec()}, a single \code{numeric} value (or \code{NA}).
 Compute the Brier score for a classification model.
 }
 \details{
+Brier score is a metric that should be minimized.
+The output ranges from 0 to 0.5, with 0 indicating perfect predictions.
+
 The Brier score is analogous to the mean squared error in regression models.
 The difference between a binary indicator for a class and its corresponding
 class probability are squared and averaged.

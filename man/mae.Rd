@@ -50,6 +50,10 @@ For \code{mae_vec()}, a single \code{numeric} value (or \code{NA}).
 Calculate the mean absolute error. This metric is in the same units as the
 original data.
 }
+\details{
+MAE is a metric that should be minimized. The output
+ranges from 0 to infinity, with 0 indicating perfect predictions.
+}
 \examples{
 # Supply truth and predictions as bare column names
 mae(solubility_test, solubility, prediction)

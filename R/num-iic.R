@@ -27,6 +27,10 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' IIC is a metric that should be `r attr(iic, "direction")`d. The output
+#' ranges from -1 to 1, with 1 indicating perfect agreement.
+#'
 #' @references Toropova, A. and Toropov, A. (2017). "The index of ideality
 #'   of correlation. A criterion of predictability of QSAR models for skin
 #'   permeability?" _Science of the Total Environment_. 586: 466-472.

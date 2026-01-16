@@ -11,6 +11,12 @@
 #'
 #' @inheritParams sens
 #'
+#' @details
+#' Detection prevalence is a metric that should be
+#' `r attr(detection_prevalence, "direction")`d. The output ranges from 0 to 1.
+#' The "optimal" value depends on the true prevalence of positive events in the
+#' data.
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-class

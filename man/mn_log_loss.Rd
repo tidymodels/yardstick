@@ -90,6 +90,9 @@ a positive value, say, \code{"Yes"}, the accuracy metric would interpret them
 as having the same value. If the true output is \code{"Yes"}, log loss penalizes
 \code{.6} because it is "less sure" of its result compared to the probability
 of \code{.9}.
+
+Log loss is a metric that should be minimized. The
+output ranges from 0 to infinity, with 0 indicating perfect predictions.
 }
 \section{Multiclass}{
 

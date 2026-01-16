@@ -7,6 +7,9 @@
 #' @templateVar fn brier_survival_integrated
 #' @template return-dynamic-survival
 #' @details
+#' Integrated Brier survival score is a metric that should be
+#' `r attr(brier_survival_integrated, "direction")`d. The output ranges from 0
+#' to 1, with 0 indicating perfect predictions.
 #'
 #' The integrated time-dependent brier score is calculated in an "area under the
 #' curve" fashion. The brier score is calculated for each value of `.eval_time`.

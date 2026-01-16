@@ -53,6 +53,9 @@ Calculate the symmetric mean absolute percentage error. This metric is in
 \details{
 This implementation of \code{smape()} is the "usual definition" where the
 denominator is divided by two.
+
+SMAPE is a metric that should be minimized. The output
+ranges from 0 to 200, with 0 indicating perfect predictions.
 }
 \examples{
 # Supply truth and predictions as bare column names

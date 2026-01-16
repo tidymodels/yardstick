@@ -66,6 +66,9 @@ cases, a warning is thrown and \code{NA} is returned. This can occur when a mode
 predicts a single value for all samples. For example, a regularized model
 that eliminates all predictors except for the intercept would do this.
 Another example would be a CART model that contains no splits.
+
+R squared is a metric that should be maximized. The output
+ranges from 0 to 1, with 1 indicating perfect predictions.
 }
 \examples{
 # Supply truth and predictions as bare column names

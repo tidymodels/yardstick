@@ -93,6 +93,9 @@ required and known, it can be passed through in the \code{mae_train} argument
 and it will be used instead. If the in-sample data is available, the
 naive mean absolute error can easily be computed with
 \code{mae(data, truth, lagged_truth)}.
+
+MASE is a metric that should be minimized. The output
+ranges from 0 to infinity, with 0 indicating perfect predictions.
 }
 \examples{
 # Supply truth and predictions as bare column names

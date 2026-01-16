@@ -12,6 +12,9 @@
 #' threshold. See [pr_curve()] for the full curve.
 #'
 #' @details
+#' Average precision is a metric that should be
+#' `r attr(average_precision, "direction")`d. The output ranges from 0 to 1,
+#' with 1 indicating perfect precision and recall at all thresholds.
 #'
 #' The computation for average precision is a weighted average of the precision
 #' values. Assuming you have `n` rows returned from [pr_curve()], it is a sum

@@ -89,6 +89,10 @@ It computes a weighted average of the precision values returned from
 threshold. See \code{\link[=pr_curve]{pr_curve()}} for the full curve.
 }
 \details{
+Average precision is a metric that should be
+maximized. The output ranges from 0 to 1,
+with 1 indicating perfect precision and recall at all thresholds.
+
 The computation for average precision is a weighted average of the precision
 values. Assuming you have \code{n} rows returned from \code{\link[=pr_curve]{pr_curve()}}, it is a sum
 from \code{2} to \code{n}, multiplying the precision value \code{p_i} by the increase in

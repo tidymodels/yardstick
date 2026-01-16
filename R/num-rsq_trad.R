@@ -19,6 +19,12 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' Traditional R squared is a metric that should be
+#' `r attr(rsq_trad, "direction")`d. The output ranges from negative infinity
+#' to 1, with 1 indicating perfect predictions. Negative values can occur when
+#' the model is non-informative.
+#'
 #' @author Max Kuhn
 #'
 #' @references

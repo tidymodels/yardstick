@@ -78,6 +78,11 @@ For \code{bal_accuracy_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Balanced accuracy is computed here as the average of \code{\link[=sens]{sens()}} and \code{\link[=spec]{spec()}}.
 }
+\details{
+Balanced accuracy is a metric that should be
+maximized. The output ranges from 0 to 1, with 1
+indicating perfect predictions.
+}
 \section{Relevant Level}{
 
 

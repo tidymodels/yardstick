@@ -36,6 +36,10 @@
 #' seasonality, then `m = 7L` would be a reasonable choice for a 7-day seasonal
 #' naive calculation.
 #'
+#' @details
+#' MASE is a metric that should be `r attr(mase, "direction")`d. The output
+#' ranges from 0 to infinity, with 0 indicating perfect predictions.
+#'
 #' @author Alex Hallam
 #'
 #' @references

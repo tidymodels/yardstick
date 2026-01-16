@@ -6,6 +6,11 @@
 #' probabilities and the mean cost is returned.
 #'
 #' @details
+#' Classification cost is a metric that should be
+#' `r attr(classification_cost, "direction")`d. The output ranges from 0 to
+#' infinity, with 0 indicating perfect predictions (when costs for correct
+#' predictions are zero).
+#'
 #' As an example, suppose that there are three classes: `"A"`, `"B"`, and `"C"`.
 #' Suppose there is a truly `"A"` observation with class probabilities `A = 0.3
 #' / B = 0.3 / C = 0.4`. Suppose that, when the true result is class `"A"`, the

@@ -15,6 +15,12 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' MPE is a metric where the optimal value is `r attr(mpe, "direction")`. The
+#' output ranges from negative infinity to infinity, with 0 indicating
+#' predictions are
+#' unbiased.
+#'
 #' @author Thomas Bierhance
 #'
 #' @export

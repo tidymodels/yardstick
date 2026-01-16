@@ -13,6 +13,10 @@
 #'
 #' @inheritParams sens
 #'
+#' @details
+#' Accuracy is a metric that should be `r attr(accuracy, "direction")`d. The
+#' output ranges from 0 to 1, with 1 indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @export

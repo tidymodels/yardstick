@@ -69,6 +69,10 @@ Calculate the Huber loss, a loss function used in robust regression. This
 loss function is less sensitive to outliers than \code{\link[=rmse]{rmse()}}. This function is
 quadratic for small residual values and linear for large residual values.
 }
+\details{
+Huber loss is a metric that should be minimized. The
+output ranges from 0 to infinity, with 0 indicating perfect predictions.
+}
 \examples{
 # Supply truth and predictions as bare column names
 huber_loss(solubility_test, solubility, prediction)

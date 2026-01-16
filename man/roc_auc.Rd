@@ -96,6 +96,9 @@ For \code{roc_auc_vec()}, a single \code{numeric} value (or \code{NA}).
 \code{\link[=roc_curve]{roc_curve()}} for the full curve.
 }
 \details{
+ROC AUC is a metric that should be maximized. The
+output ranges from 0 to 1, with 1 indicating perfect discrimination.
+
 Generally, an ROC AUC value is between \code{0.5} and \code{1}, with \code{1} being a
 perfect prediction model. If your value is between \code{0} and \code{0.5}, then
 this implies that you have meaningful information in your model, but it

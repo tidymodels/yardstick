@@ -6,6 +6,8 @@
 #' @templateVar fn brier_class
 #' @template return
 #' @details
+#' Brier score is a metric that should be `r attr(brier_class, "direction")`d.
+#' The output ranges from 0 to 0.5, with 0 indicating perfect predictions.
 #'
 #' The Brier score is analogous to the mean squared error in regression models.
 #' The difference between a binary indicator for a class and its corresponding

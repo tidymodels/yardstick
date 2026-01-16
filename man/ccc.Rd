@@ -64,6 +64,9 @@ Calculate the concordance correlation coefficient.
 \code{\link[=ccc]{ccc()}} is a metric of both consistency/correlation and accuracy,
 while metrics such as \code{\link[=rmse]{rmse()}} are strictly for accuracy and metrics
 such as \code{\link[=rsq]{rsq()}} are strictly for consistency/correlation
+
+CCC is a metric that should be maximized. The output
+ranges from -1 to 1, with 1 indicating perfect agreement.
 }
 \examples{
 # Supply truth and predictions as bare column names

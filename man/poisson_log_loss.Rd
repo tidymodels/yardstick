@@ -48,6 +48,11 @@ For \code{poisson_log_loss_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Calculate the loss function for the Poisson distribution.
 }
+\details{
+Poisson log loss is a metric that should be
+minimized. The output ranges from 0 to
+infinity, with 0 indicating perfect predictions.
+}
 \examples{
 count_truth <- c(2L,   7L,   1L,   1L,   0L,  3L)
 count_pred  <- c(2.14, 5.35, 1.65, 1.56, 1.3, 2.71)

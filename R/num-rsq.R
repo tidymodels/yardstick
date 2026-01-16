@@ -26,6 +26,10 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' R squared is a metric that should be `r attr(rsq, "direction")`d. The output
+#' ranges from 0 to 1, with 1 indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @references

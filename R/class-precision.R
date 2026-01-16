@@ -27,6 +27,11 @@
 #'
 #' @inheritParams sens
 #'
+#' @details
+#' Precision is a metric that should be `r attr(precision, "direction")`d. The
+#' output ranges from 0 to 1, with 1 indicating that all predicted positives
+#' were actual positives.
+#'
 #' @references
 #'
 #' Buckland, M., & Gey, F. (1994). The relationship

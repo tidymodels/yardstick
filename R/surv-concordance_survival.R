@@ -6,6 +6,9 @@
 #' @templateVar fn concordance_survival
 #' @template return
 #' @details
+#' Concordance is a metric that should be
+#' `r attr(concordance_survival, "direction")`d. The output ranges from 0 to 1,
+#' with 1 indicating perfect concordance.
 #'
 #' The concordance index is defined as the proportion of all comparable pairs in
 #' which the predictions and outcomes are concordant.

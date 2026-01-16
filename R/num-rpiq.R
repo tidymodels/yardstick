@@ -16,6 +16,11 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' RPIQ is a metric that should be `r attr(rpiq, "direction")`d. The output
+#' ranges from 0 to infinity, with higher values indicating better model
+#' performance.
+#'
 #' @author Pierre Roudier
 #'
 #' @seealso

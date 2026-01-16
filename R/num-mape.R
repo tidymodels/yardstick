@@ -13,6 +13,10 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' MAPE is a metric that should be `r attr(mape, "direction")`d. The output
+#' ranges from 0 to infinity, with 0 indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-numeric

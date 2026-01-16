@@ -68,6 +68,11 @@ For \code{huber_loss_pseudo_vec()}, a single \code{numeric} value (or \code{NA})
 Calculate the Pseudo-Huber Loss, a smooth approximation of \code{\link[=huber_loss]{huber_loss()}}.
 Like \code{\link[=huber_loss]{huber_loss()}}, this is less sensitive to outliers than \code{\link[=rmse]{rmse()}}.
 }
+\details{
+Pseudo-Huber loss is a metric that should be
+minimized. The output ranges from 0 to
+infinity, with 0 indicating perfect predictions.
+}
 \examples{
 # Supply truth and predictions as bare column names
 huber_loss_pseudo(solubility_test, solubility, prediction)
