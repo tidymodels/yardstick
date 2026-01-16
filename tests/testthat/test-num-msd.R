@@ -1,32 +1,38 @@
-test_that("`msd()` works", {
-  set.seed(1812)
-  df <- data.frame(obs = rnorm(50))
-  df$pred <- 0.2 + 1.1 * df$obs + rnorm(50, sd = 0.5)
+test_that("Calculations are correct", {
+  ex_dat <- generate_numeric_test_data()
 
   expect_identical(
-    msd(df, truth = "obs", estimate = "pred")[[".estimate"]],
-    mean(df$obs - df$pred)
-  )
-
-  # adding some NA values and check that they are ignored
-  ind <- c(10, 20, 30, 40, 50)
-  df$pred[ind] <- NA
-
-  expect_identical(
-    msd(df, obs, pred)[[".estimate"]],
-    mean(df$obs[-ind] - df$pred[-ind])
+    msd_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    mean(ex_dat$obs - ex_dat$pred)
   )
 })
 
-test_that("positive and negative errors cancel each other out", {
-  expect_identical(msd_vec(c(100, -100), c(0, 0)), 0)
+test_that("both interfaces gives the same results", {
+  ex_dat <- generate_numeric_test_data()
+
+  expect_identical(
+    msd_vec(ex_dat$obs, ex_dat$pred),
+    msd(ex_dat, obs, pred)[[".estimate"]],
+  )
 })
 
-test_that("differences are computed as `truth - estimate`", {
-  expect_identical(msd_vec(0, 1), -1)
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  expect_identical(
+    msd_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_identical(
+    msd_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    mean(ex_dat$obs - ex_dat$pred, na.rm = TRUE)
+  )
 })
 
-test_that("weighted results are correct", {
+test_that("Case weights calculations are correct", {
   truth <- c(1, 2, 3)
   estimate <- c(1, 4, 4)
   weights <- c(0, 1, 2)
@@ -58,4 +64,12 @@ test_that("na_rm argument check", {
     error = TRUE,
     msd_vec(1, 1, na_rm = "yes")
   )
+})
+
+test_that("msd() - positive and negative errors cancel each other out", {
+  expect_identical(msd_vec(c(100, -100), c(0, 0)), 0)
+})
+
+test_that("msd() - differences are computed as `truth - estimate`", {
+  expect_identical(msd_vec(0, 1), -1)
 })

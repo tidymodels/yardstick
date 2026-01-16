@@ -1,73 +1,48 @@
-test_that("basic results", {
+test_that("Calculations are correct - two class", {
+  # BrierScore(two_class_example |>
+  #   dplyr::select(Class1, Class2) |>
+  #   as.matrix, two_class_example$truth)
+
+  expect_equal(
+    brier_class_vec(two_class_example$truth, two_class_example$Class1),
+    0.10561859,
+    tolerance = 0.01
+  )
+})
+
+test_that("Calculations are correct - multi class", {
   # With the mclust pakcage, BrierScore(hpc_cv |> select(VF:L) |> as.matrix, hpc_cv$obs)
   hpc_exp <- 0.21083946
 
   expect_equal(
-    yardstick:::brier_factor(hpc_cv$obs, hpc_cv |> dplyr::select(VF:L)),
+    brier_class(hpc_cv, obs, VF:L)[[".estimate"]],
     hpc_exp,
     tolerance = 0.01
   )
+})
 
-  hpc_inds <- model.matrix(~ . - 1, data = hpc_cv |> dplyr::select(obs))
+test_that("Calculations handles NAs", {
+  hpc_cv$VF[1:10] <- NA
+
   expect_equal(
-    yardstick:::brier_ind(hpc_inds, hpc_cv |> dplyr::select(VF:L)),
-    hpc_exp,
-    tolerance = 0.01
+    brier_class(hpc_cv, obs, VF:L)[[".estimate"]],
+    0.21143119
   )
 
   expect_equal(
-    yardstick:::brier_class(hpc_cv, obs, VF:L),
-    dplyr::tibble(
-      .metric = "brier_class",
-      .estimator = "multiclass",
-      .estimate = hpc_exp
-    ),
-    tolerance = 0.01
+    brier_class(hpc_cv, obs, VF:L, na_rm = FALSE)[[".estimate"]],
+    NA_real_
   )
+})
 
-  # ----------------------------------------------------------------------------
-  # two classes
-
-  # BrierScore(two_class_example |> dplyr::select(Class1, Class2) |> as.matrix, two_class_example$truth)
-  two_cls_exp <- 0.10561859
-
-  expect_equal(
-    yardstick:::brier_factor(two_class_example$truth, two_class_example[, 2:3]),
-    two_cls_exp,
-    tolerance = 0.01
-  )
-  expect_equal(
-    yardstick:::brier_factor(
-      two_class_example$truth,
-      two_class_example[, 2, drop = TRUE]
-    ),
-    two_cls_exp,
-    tolerance = 0.01
-  )
-
-  # ----------------------------------------------------------------------------
-  # with missing data
-  hpc_miss <- hpc_cv
-  hpc_miss$obs[1] <- NA
-  hpc_miss$L[2] <- NA
-
-  # With the mclust pakcage, BrierScore(hpc_cv[-(1:2), 3:6]|> as.matrix, hpc_cv$obs[-(1:2)])
-  hpc_miss_exp <- 0.21095817
-  expect_equal(
-    brier_class(hpc_miss, obs, VF:L)$.estimate,
-    hpc_miss_exp,
-    tolerance = 0.01
-  )
-
-  # ----------------------------------------------------------------------------
-  # with case weights
+test_that("Case weights calculations are correct", {
   wts <- rep(1, nrow(hpc_cv))
   wts[1] <- 5
   hpc_wts <- hpc_cv[c(rep(1, 4), seq_len(nrow(hpc_cv))), ]
 
   expect_equal(
-    yardstick:::brier_factor(hpc_cv$obs, hpc_cv |> dplyr::select(VF:L)),
-    yardstick:::brier_factor(hpc_wts$obs, hpc_wts |> dplyr::select(VF:L)),
+    brier_class(hpc_cv, obs, VF:L),
+    brier_class(hpc_wts, obs, VF:L),
     tolerance = 0.01
   )
 })

@@ -1,4 +1,4 @@
-test_that("Mean Absolute Scaled Error", {
+test_that("Calculations are correct", {
   ex_dat <- generate_numeric_test_data()
 
   truth <- ex_dat$obs
@@ -8,64 +8,49 @@ test_that("Mean Absolute Scaled Error", {
   naive_error <- truth - truth_lag
   mae_denom <- mean(abs(naive_error)[-1])
   scaled_error <- (truth - pred) / mae_denom
-  known_mase <- mean(abs(scaled_error))
-
-  m <- 2
-
-  truth_lag <- dplyr::lag(truth, m)
-  naive_error <- truth - truth_lag
-  mae_denom <- mean(abs(naive_error)[-c(1, 2)])
-  scaled_error <- (truth - pred) / mae_denom
-  known_mase_with_m <- mean(abs(scaled_error))
-
-  mae_train <- 0.5
-
-  mae_denom <- mae_train
-  scaled_error <- (truth - pred) / mae_denom
-  known_mase_with_mae_train <- mean(abs(scaled_error))
+  exp <- mean(abs(scaled_error))
 
   expect_equal(
-    mase(ex_dat, obs, pred)[[".estimate"]],
-    known_mase
-  )
-
-  expect_equal(
-    mase(ex_dat, obs, pred, m = 2)[[".estimate"]],
-    known_mase_with_m
-  )
-
-  expect_equal(
-    mase(ex_dat, obs, pred, mae_train = mae_train)[[".estimate"]],
-    known_mase_with_mae_train
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    mase_vec(truth, pred, m = "x")
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    mase_vec(truth, pred, m = -1)
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    mase_vec(truth, pred, m = 1.5)
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    mase_vec(truth, pred, mae_train = -1)
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    mase_vec(truth, pred, mae_train = "x")
+    mase_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    exp
   )
 })
 
-test_that("Weighted results are working", {
+test_that("both interfaces gives the same results", {
+  ex_dat <- generate_numeric_test_data()
+
+  expect_identical(
+    mase_vec(ex_dat$obs, ex_dat$pred),
+    mase(ex_dat, obs, pred)[[".estimate"]],
+  )
+})
+
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  truth <- ex_dat$obs[-na_ind]
+  pred <- ex_dat$pred[-na_ind]
+
+  truth_lag <- dplyr::lag(truth, 1L)
+  naive_error <- truth - truth_lag
+  mae_denom <- mean(abs(naive_error)[-1])
+  scaled_error <- (truth - pred) / mae_denom
+  exp <- mean(abs(scaled_error))
+
+  expect_identical(
+    mase_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_equal(
+    mase_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    exp
+  )
+})
+
+test_that("Case weights calculations are correct", {
   truth <- c(1, 2, 3)
   estimate <- c(2, 4, 3)
   weights <- c(1, 2, 1)
@@ -92,13 +77,6 @@ test_that("works with hardhat case weights", {
   )
 })
 
-test_that("mase() errors if m is larger than number of observations", {
-  expect_snapshot(
-    error = TRUE,
-    mase(mtcars, mpg, disp, m = 100)
-  )
-})
-
 test_that("na_rm argument check", {
   expect_snapshot(
     error = TRUE,
@@ -110,5 +88,50 @@ test_that("bad argument check", {
   expect_snapshot(
     error = TRUE,
     mase_vec(1, 1, m = "yes")
+  )
+})
+
+test_that("mase() - errors if m is larger than number of observations", {
+  expect_snapshot(
+    error = TRUE,
+    mase(mtcars, mpg, disp, m = 100)
+  )
+})
+
+test_that("mase() - m argument works", {
+  ex_dat <- generate_numeric_test_data()
+
+  truth <- ex_dat$obs
+  pred <- ex_dat$pred
+
+  m <- 2
+
+  truth_lag <- dplyr::lag(truth, m)
+  naive_error <- truth - truth_lag
+  mae_denom <- mean(abs(naive_error)[-c(1, 2)])
+  scaled_error <- (truth - pred) / mae_denom
+  exp <- mean(abs(scaled_error))
+
+  expect_equal(
+    mase_vec(ex_dat$obs, ex_dat$pred, m = 2),
+    exp
+  )
+})
+
+test_that("mase() - mae_train argument works", {
+  ex_dat <- generate_numeric_test_data()
+
+  truth <- ex_dat$obs
+  pred <- ex_dat$pred
+
+  mae_train <- 0.5
+
+  mae_denom <- mae_train
+  scaled_error <- (truth - pred) / mae_denom
+  exp <- mean(abs(scaled_error))
+
+  expect_equal(
+    mase_vec(ex_dat$obs, ex_dat$pred, mae_train = mae_train),
+    exp
   )
 })

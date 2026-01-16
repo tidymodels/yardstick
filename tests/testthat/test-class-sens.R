@@ -1,55 +1,14 @@
-test_that("Two class", {
+test_that("Calculations are correct - two class", {
   lst <- data_altman()
   pathology <- lst$pathology
-  path_tbl <- lst$path_tbl
 
   expect_equal(
-    sens(pathology, truth = "pathology", estimate = "scan")[[".estimate"]],
+    sens_vec(truth = pathology$pathology, estimate = pathology$scan),
     231 / 258
-  )
-  expect_equal(
-    sens(pathology, estimate = scan, truth = pathology)[[".estimate"]],
-    231 / 258
-  )
-  expect_equal(
-    sens(pathology, pathology, scan)[[".estimate"]],
-    231 / 258
-  )
-  expect_equal(
-    sens(path_tbl)[[".estimate"]],
-    231 / 258
-  )
-  expect_equal(
-    sens(pathology, truth = pathology, estimate = "scan_na")[[".estimate"]],
-    230 / 256
-  )
-  expect_equal(
-    sens(as.matrix(path_tbl))[[".estimate"]],
-    231 / 258
-  )
-  expect_equal(
-    sens(pathology, pathology, scan_na, na_rm = FALSE)[[".estimate"]],
-    NA_real_
   )
 })
 
-test_that("`event_level = 'second'` works", {
-  lst <- data_altman()
-  df <- lst$pathology
-
-  df_rev <- df
-  df_rev$pathology <- stats::relevel(df_rev$pathology, "norm")
-  df_rev$scan <- stats::relevel(df_rev$scan, "norm")
-
-  expect_equal(
-    sens_vec(df$pathology, df$scan),
-    sens_vec(df_rev$pathology, df_rev$scan, event_level = "second")
-  )
-})
-
-# ------------------------------------------------------------------------------
-
-test_that("Three class", {
+test_that("Calculations are correct - three class", {
   multi_ex <- data_three_by_three()
   micro <- data_three_by_three_micro()
 
@@ -68,72 +27,39 @@ test_that("Three class", {
   )
 })
 
-# ------------------------------------------------------------------------------
+test_that("All interfaces gives the same results", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+  path_mat <- as.matrix(path_tbl)
 
-test_that("Binary `sens()` returns `NA` with a warning when undefined (tp + fn = 0) (#98)", {
-  levels <- c("a", "b")
-  truth <- factor(c("b", "b"), levels = levels)
-  estimate <- factor(c("a", "b"), levels = levels)
+  exp <- sens_vec(pathology$pathology, pathology$scan)
 
-  expect_snapshot(out <- sens_vec(truth, estimate))
-  expect_identical(out, NA_real_)
-})
-
-test_that("Multiclass `sens()` returns averaged value with `NA`s removed + a warning when undefined (tp + fn = 0) (#98)", {
-  levels <- c("a", "b", "c", "d")
-
-  # When `d` is the event we get sens      = 0.5 = (tp = 1, fn = 1)
-  # When `a` is the event we get sens      = 1   = (tp = 1, fn = 0)
-  # When `b` is the event we get a warning = NA  = (tp = 0, fn = 0)
-  # When `c` is the event we get a warning = NA  = (tp = 0, fn = 0)
-  truth <- factor(c("a", "d", "d"), levels = levels)
-  estimate <- factor(c("a", "d", "c"), levels = levels)
-
-  expect_snapshot(out <- sens_vec(truth, estimate))
-  expect_identical(out, 0.75)
-})
-
-test_that("`NA` is still returned if there are some undefined sens values but `na.rm = FALSE`", {
-  levels <- c("a", "b", "c", "d")
-  truth <- factor(c("a", "d", "d"), levels = levels)
-  estimate <- factor(c("a", NA, "c"), levels = levels)
-  expect_equal(sens_vec(truth, estimate, na_rm = FALSE), NA_real_)
-  expect_warning(sens_vec(truth, estimate, na_rm = FALSE), NA)
-})
-
-# ------------------------------------------------------------------------------
-
-test_that("Two class - sklearn equivalent", {
-  # Same as recall
-  py_res <- read_pydata("py-recall")
-  r_metric <- sens
-
-  expect_equal(
-    r_metric(two_class_example, truth, predicted)[[".estimate"]],
-    py_res$binary
+  expect_identical(
+    sens(path_tbl)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    sens(path_mat)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    sens(pathology, truth = pathology, estimate = scan)[[".estimate"]],
+    exp
   )
 })
 
-test_that("Multi class - sklearn equivalent", {
-  # Same as recall
-  py_res <- read_pydata("py-recall")
-  r_metric <- sens
+test_that("Calculations handles NAs", {
+  lst <- data_altman()
+  pathology <- lst$pathology
 
   expect_equal(
-    r_metric(hpc_cv, obs, pred)[[".estimate"]],
-    py_res$macro
-  )
-  expect_equal(
-    r_metric(hpc_cv, obs, pred, "micro")[[".estimate"]],
-    py_res$micro
-  )
-  expect_equal(
-    r_metric(hpc_cv, obs, pred, "macro_weighted")[[".estimate"]],
-    py_res$weighted
+    sens_vec(truth = pathology$pathology, estimate = pathology$scan_na),
+    230 / 256
   )
 })
 
-test_that("Two class weighted - sklearn equivalent", {
+test_that("Case weights calculations are correct", {
   # Same as recall
   py_res <- read_pydata("py-recall")
   r_metric <- sens
@@ -146,9 +72,7 @@ test_that("Two class weighted - sklearn equivalent", {
     ]],
     py_res$case_weight$binary
   )
-})
 
-test_that("Multi class weighted - sklearn equivalent", {
   # Same as recall
   py_res <- read_pydata("py-recall")
   r_metric <- sens
@@ -174,47 +98,6 @@ test_that("Multi class weighted - sklearn equivalent", {
       case_weights = weights
     )[[".estimate"]],
     py_res$case_weight$weighted
-  )
-})
-
-# ------------------------------------------------------------------------------
-
-test_that("`sensitivity()` has a metric name unique to it (#232)", {
-  lst <- data_altman()
-  pathology <- lst$pathology
-  path_tbl <- lst$path_tbl
-
-  expect_identical(
-    sens(pathology, truth = "pathology", estimate = "scan")[[".metric"]],
-    "sens"
-  )
-  expect_identical(
-    sensitivity(pathology, truth = "pathology", estimate = "scan")[[".metric"]],
-    "sensitivity"
-  )
-
-  expect_identical(
-    sens(path_tbl)[[".metric"]],
-    "sens"
-  )
-  expect_identical(
-    sensitivity(path_tbl)[[".metric"]],
-    "sensitivity"
-  )
-})
-
-test_that("works with hardhat case weights", {
-  lst <- data_altman()
-  df <- lst$pathology
-  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
-  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
-
-  expect_no_error(
-    sensitivity_vec(df$pathology, df$scan, case_weights = imp_wgt)
-  )
-
-  expect_no_error(
-    sensitivity_vec(df$pathology, df$scan, case_weights = freq_wgt)
   )
 })
 
@@ -246,9 +129,125 @@ test_that("work with class_pred input", {
   )
 })
 
+test_that("works with hardhat case weights", {
+  lst <- data_altman()
+  df <- lst$pathology
+  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
+  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
+
+  expect_no_error(
+    sensitivity_vec(df$pathology, df$scan, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    sensitivity_vec(df$pathology, df$scan, case_weights = freq_wgt)
+  )
+})
+
 test_that("na_rm argument check", {
   expect_snapshot(
     error = TRUE,
     sensitivity_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("sklearn equivalent", {
+  # Same as recall
+  py_res <- read_pydata("py-recall")
+  r_metric <- sens
+
+  expect_equal(
+    r_metric(two_class_example, truth, predicted)[[".estimate"]],
+    py_res$binary
+  )
+
+  # Same as recall
+  py_res <- read_pydata("py-recall")
+  r_metric <- sens
+
+  expect_equal(
+    r_metric(hpc_cv, obs, pred)[[".estimate"]],
+    py_res$macro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, "micro")[[".estimate"]],
+    py_res$micro
+  )
+  expect_equal(
+    r_metric(hpc_cv, obs, pred, "macro_weighted")[[".estimate"]],
+    py_res$weighted
+  )
+})
+
+test_that("`event_level = 'second'` works", {
+  lst <- data_altman()
+  df <- lst$pathology
+
+  df_rev <- df
+  df_rev$pathology <- stats::relevel(df_rev$pathology, "norm")
+  df_rev$scan <- stats::relevel(df_rev$scan, "norm")
+
+  expect_equal(
+    sens_vec(df$pathology, df$scan),
+    sens_vec(df_rev$pathology, df_rev$scan, event_level = "second")
+  )
+})
+
+test_that("Binary returns `NA` with a warning when results are undefined (#98)", {
+  # sensitivity (tp + fn = 0)
+  levels <- c("a", "b")
+  truth <- factor(c("b", "b"), levels = levels)
+  estimate <- factor(c("a", "b"), levels = levels)
+
+  expect_snapshot(
+    out <- sens_vec(truth, estimate)
+  )
+  expect_identical(out, NA_real_)
+})
+
+test_that("Multiclass returns averaged value a warning when results is undefined (#98)", {
+  # sensitivity - (tp + fn = 0)
+  levels <- c("a", "b", "c", "d")
+
+  # When `d` is the event we get sens      = 0.5 = (tp = 1, fn = 1)
+  # When `a` is the event we get sens      = 1   = (tp = 1, fn = 0)
+  # When `b` is the event we get a warning = NA  = (tp = 0, fn = 0)
+  # When `c` is the event we get a warning = NA  = (tp = 0, fn = 0)
+  truth <- factor(c("a", "d", "d"), levels = levels)
+  estimate <- factor(c("a", "d", "c"), levels = levels)
+
+  expect_snapshot(out <- sens_vec(truth, estimate))
+  expect_identical(out, 0.75)
+})
+
+test_that("`NA` is still returned if there are some undefined values but `na.rm = FALSE`", {
+  levels <- c("a", "b", "c", "d")
+  truth <- factor(c("a", "d", "d"), levels = levels)
+  estimate <- factor(c("a", NA, "c"), levels = levels)
+  expect_equal(sens_vec(truth, estimate, na_rm = FALSE), NA_real_)
+  expect_warning(sens_vec(truth, estimate, na_rm = FALSE), NA)
+})
+
+test_that("has a metric name unique to it (#232)", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+
+  expect_identical(
+    sens(pathology, truth = "pathology", estimate = "scan")[[".metric"]],
+    "sens"
+  )
+  expect_identical(
+    sensitivity(pathology, truth = "pathology", estimate = "scan")[[".metric"]],
+    "sensitivity"
+  )
+
+  expect_identical(
+    sens(path_tbl)[[".metric"]],
+    "sens"
+  )
+  expect_identical(
+    sensitivity(path_tbl)[[".metric"]],
+    "sensitivity"
   )
 })

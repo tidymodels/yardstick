@@ -1,47 +1,53 @@
-test_that("Pseudo-Huber Loss", {
+test_that("Calculations are correct", {
   ex_dat <- generate_numeric_test_data()
-  not_na <- !is.na(ex_dat$pred_na)
 
   delta <- 2
+  a <- ex_dat$obs - ex_dat$pred
+  exp <- mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
+
   expect_equal(
-    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred", delta = delta)[[
-      ".estimate"
-    ]],
-    {
-      a <- ex_dat$obs - ex_dat$pred
-      mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
-    }
-  )
-  expect_equal(
-    huber_loss_pseudo(
-      ex_dat,
-      truth = "obs",
-      estimate = "pred_na",
+    huber_loss_pseudo_vec(
+      truth = ex_dat$obs,
+      estimate = ex_dat$pred,
       delta = delta
-    )[[".estimate"]],
-    {
-      a <- ex_dat$obs[not_na] - ex_dat$pred[not_na]
-      mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
-    }
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    huber_loss_pseudo(ex_dat, truth = "obs", estimate = "pred_na", delta = -1)
-  )
-
-  expect_snapshot(
-    error = TRUE,
-    huber_loss_pseudo(
-      ex_dat,
-      truth = "obs",
-      estimate = "pred_na",
-      delta = c(1, 2)
-    )
+    ),
+    exp
   )
 })
 
-test_that("Weighted results are working", {
+test_that("both interfaces gives the same results", {
+  ex_dat <- generate_numeric_test_data()
+
+  expect_identical(
+    huber_loss_pseudo_vec(ex_dat$obs, ex_dat$pred),
+    huber_loss_pseudo(ex_dat, obs, pred)[[".estimate"]],
+  )
+})
+
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  delta <- 2
+  a <- ex_dat$obs[-na_ind] - ex_dat$pred[-na_ind]
+  exp <- mean(delta^2 * (sqrt(1 + (a / delta)^2) - 1))
+
+  expect_identical(
+    huber_loss_pseudo_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+  expect_equal(
+    huber_loss_pseudo_vec(
+      truth = ex_dat$obs,
+      estimate = ex_dat$pred,
+      delta = delta
+    ),
+    exp
+  )
+})
+
+test_that("Case weights calculations are correct", {
   truth <- c(1, 2, 3)
   estimate <- c(2, 4, 3)
   weights <- c(1, 2, 1)

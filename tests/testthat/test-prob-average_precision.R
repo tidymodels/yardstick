@@ -1,59 +1,37 @@
-test_that("known corner cases are correct", {
-  # first value - tp = 1
-  truth <- factor("a", levels = c("a", "b"))
-  estimate <- 0.9
-  df <- data.frame(truth, estimate)
+test_that("Calculations are correct - two class", {
+  curve <- pr_curve_vec(two_class_example$truth, two_class_example$Class1)
+
+  recalls <- curve[["recall"]]
+  precisions <- curve[["precision"]]
 
   expect_equal(
-    average_precision(df, truth, estimate)$.estimate,
-    1
-  )
-
-  # With the recall == 0 case precision value
-  # defined to be precision == 1, we also expect
-  # these to match pr_auc()
-
-  expect_equal(
-    average_precision(df, truth, estimate)$.estimate,
-    pr_auc(df, truth, estimate)$.estimate
-  )
-
-  # first value - fp = 1, no `truth` events
-  truth <- factor("b", levels = c("a", "b"))
-  estimate <- 0.9
-  df <- data.frame(truth, estimate)
-
-  expect_snapshot(out <- average_precision(df, truth, estimate)$.estimate)
-  expect_identical(out, NaN)
-
-  # Same as pr_auc()
-  expect_snapshot(out <- average_precision(df, truth, estimate)$.estimate)
-  expect_snapshot(expect <- pr_auc(df, truth, estimate)$.estimate)
-  expect_identical(out, expect)
-})
-
-test_that("`event_level = 'second'` works", {
-  df <- two_class_example
-
-  df_rev <- df
-  df_rev$truth <- stats::relevel(df_rev$truth, "Class2")
-
-  expect_equal(
-    average_precision_vec(df$truth, df$Class1),
-    average_precision_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+    average_precision_vec(two_class_example$truth, two_class_example$Class1),
+    sum(diff(recalls) * precisions[-1])
   )
 })
 
-test_that("Two class average precision matches sklearn", {
-  py <- read_pydata("py-average-precision")
-
+test_that("Calculations are correct - multi class", {
   expect_equal(
-    average_precision(two_class_example, truth, Class1)[[".estimate"]],
-    py$binary
+    average_precision(hpc_cv, obs, VF:L)[[".estimate"]],
+    0.623566079
   )
 })
 
-test_that("Two class weighted average precision matches sklearn", {
+test_that("Calculations handles NAs", {
+  hpc_cv$VF[1:10] <- NA
+
+  expect_equal(
+    average_precision(hpc_cv, obs, VF:L)[[".estimate"]],
+    0.623365730
+  )
+
+  expect_equal(
+    average_precision(hpc_cv, obs, VF:L, na_rm = FALSE)[[".estimate"]],
+    NA_real_
+  )
+})
+
+test_that("Case weights calculations are correct", {
   py <- read_pydata("py-average-precision")
 
   two_class_example$weight <- read_weights_two_class_example()
@@ -64,24 +42,7 @@ test_that("Two class weighted average precision matches sklearn", {
     ]],
     py$case_weight$binary
   )
-})
 
-test_that("Multiclass average precision matches sklearn", {
-  py <- read_pydata("py-average-precision")
-
-  expect_equal(
-    average_precision(hpc_cv, obs, VF:L, estimator = "macro")[[".estimate"]],
-    py$macro
-  )
-  expect_equal(
-    average_precision(hpc_cv, obs, VF:L, estimator = "macro_weighted")[[
-      ".estimate"
-    ]],
-    py$macro_weighted
-  )
-})
-
-test_that("Multiclass weighted average precision matches sklearn", {
   py <- read_pydata("py-average-precision")
 
   hpc_cv$weight <- read_weights_hpc_cv()
@@ -143,4 +104,72 @@ test_that("na_rm argument check", {
     error = TRUE,
     average_precision_vec(1, 1, na_rm = "yes")
   )
+})
+
+test_that("`event_level = 'second'` works", {
+  df <- two_class_example
+
+  df_rev <- df
+  df_rev$truth <- stats::relevel(df_rev$truth, "Class2")
+
+  expect_equal(
+    average_precision_vec(df$truth, df$Class1),
+    average_precision_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+  )
+})
+
+test_that("sklearn equivalent", {
+  py <- read_pydata("py-average-precision")
+
+  expect_equal(
+    average_precision(two_class_example, truth, Class1)[[".estimate"]],
+    py$binary
+  )
+
+  py <- read_pydata("py-average-precision")
+
+  expect_equal(
+    average_precision(hpc_cv, obs, VF:L, estimator = "macro")[[".estimate"]],
+    py$macro
+  )
+  expect_equal(
+    average_precision(hpc_cv, obs, VF:L, estimator = "macro_weighted")[[
+      ".estimate"
+    ]],
+    py$macro_weighted
+  )
+})
+
+test_that("known corner cases are correct", {
+  # first value - tp = 1
+  truth <- factor("a", levels = c("a", "b"))
+  estimate <- 0.9
+  df <- data.frame(truth, estimate)
+
+  expect_equal(
+    average_precision(df, truth, estimate)$.estimate,
+    1
+  )
+
+  # With the recall == 0 case precision value
+  # defined to be precision == 1, we also expect
+  # these to match pr_auc()
+
+  expect_equal(
+    average_precision(df, truth, estimate)$.estimate,
+    pr_auc(df, truth, estimate)$.estimate
+  )
+
+  # first value - fp = 1, no `truth` events
+  truth <- factor("b", levels = c("a", "b"))
+  estimate <- 0.9
+  df <- data.frame(truth, estimate)
+
+  expect_snapshot(out <- average_precision(df, truth, estimate)$.estimate)
+  expect_identical(out, NaN)
+
+  # Same as pr_auc()
+  expect_snapshot(out <- average_precision(df, truth, estimate)$.estimate)
+  expect_snapshot(expect <- pr_auc(df, truth, estimate)$.estimate)
+  expect_identical(out, expect)
 })

@@ -1,3 +1,11 @@
+# na_rm argument check
+
+    Code
+      rsq_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `rsq_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+
 # yardstick correlation warnings are thrown
 
     Code
@@ -37,12 +45,4 @@
       <warning/yardstick_warning_correlation_undefined_constant_truth>
       Warning:
       A correlation computation is required, but `truth` is constant and has 0 standard deviation, resulting in a divide by 0 error. `NA` will be returned.
-
-# na_rm argument check
-
-    Code
-      rsq_vec(1, 1, na_rm = "yes")
-    Condition
-      Error in `rsq_vec()`:
-      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 

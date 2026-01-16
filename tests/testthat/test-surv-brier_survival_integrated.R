@@ -1,4 +1,4 @@
-test_that("brier_survival_integrated calculations", {
+test_that("Calculations are correct", {
   skip_if_not_installed("tidyr")
 
   lung_surv <- data_lung_surv()
@@ -24,24 +24,40 @@ test_that("brier_survival_integrated calculations", {
   )
 })
 
-test_that("brier_survival_integrated calculations", {
+test_that("All interfaces gives the same results", {
   skip_if_not_installed("tidyr")
 
   lung_surv <- data_lung_surv()
 
-  lung_surv$.pred <- lapply(lung_surv$.pred, function(x) x[1, ])
-
-  expect_snapshot(
-    error = TRUE,
+  expect_equal(
+    brier_survival_integrated_vec(
+      truth = lung_surv$surv_obj,
+      lung_surv$.pred
+    ),
     brier_survival_integrated(
-      data = lung_surv,
+      lung_surv,
       truth = surv_obj,
       .pred
-    )
+    )[[".estimate"]]
   )
 })
 
-test_that("case weights", {
+test_that("Calculations handles NAs", {
+  skip_if_not_installed("tidyr")
+
+  lung_surv <- data_lung_surv()
+  lung_surv$surv_obj[1:10] <- NA
+
+  expect_equal(
+    brier_survival_integrated_vec(
+      truth = lung_surv$surv_obj,
+      lung_surv$.pred
+    ),
+    0.157160962
+  )
+})
+
+test_that("Case weights calculations are correct", {
   skip_if_not_installed("tidyr")
 
   lung_surv <- data_lung_surv()
@@ -104,5 +120,22 @@ test_that("na_rm argument check", {
   expect_snapshot(
     error = TRUE,
     brier_survival_integrated_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("Errors on too few evaluation times", {
+  skip_if_not_installed("tidyr")
+
+  lung_surv <- data_lung_surv()
+
+  lung_surv$.pred <- lapply(lung_surv$.pred, function(x) x[1, ])
+
+  expect_snapshot(
+    error = TRUE,
+    brier_survival_integrated(
+      data = lung_surv,
+      truth = surv_obj,
+      .pred
+    )
   )
 })

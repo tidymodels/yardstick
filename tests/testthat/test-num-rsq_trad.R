@@ -1,40 +1,54 @@
-test_that("Traditional R^2", {
+test_that("Calculations are correct", {
   ex_dat <- generate_numeric_test_data()
-  not_na <- !is.na(ex_dat$pred_na)
+
+  exp <- 1 -
+    (sum((ex_dat$obs - ex_dat$pred)^2) /
+      sum((ex_dat$obs - mean(ex_dat$obs))^2))
 
   expect_equal(
-    rsq_trad(ex_dat, truth = "obs", estimate = "pred")[[".estimate"]],
-    1 -
-      (sum((ex_dat$obs - ex_dat$pred)^2) /
-        sum((ex_dat$obs - mean(ex_dat$obs))^2))
-  )
-  expect_equal(
-    rsq_trad(ex_dat, truth = "obs", estimate = "pred_na")[[".estimate"]],
-    1 -
-      (sum((ex_dat$obs[not_na] - ex_dat$pred[not_na])^2) /
-        sum((ex_dat$obs[not_na] - mean(ex_dat$obs[not_na]))^2))
-  )
-  expect_equal(
-    rsq_trad(ex_dat, truth = "obs", estimate = rand)[[".estimate"]],
-    1 -
-      (sum((ex_dat$obs - ex_dat$rand)^2) /
-        sum((ex_dat$obs - mean(ex_dat$obs))^2))
-  )
-  expect_equal(
-    rsq_trad(ex_dat, obs, rand_na)[[".estimate"]],
-    1 -
-      (sum((ex_dat$obs[not_na] - ex_dat$rand[not_na])^2) /
-        sum((ex_dat$obs[not_na] - mean(ex_dat$obs[not_na]))^2))
+    rsq_trad_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    exp
   )
 })
 
-test_that("Weighted results are the same as scikit-learn", {
+test_that("both interfaces gives the same results", {
+  ex_dat <- generate_numeric_test_data()
+
+  expect_identical(
+    rsq_trad_vec(ex_dat$obs, ex_dat$pred),
+    rsq_trad(ex_dat, obs, pred)[[".estimate"]],
+  )
+})
+
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  exp <- 1 -
+    (sum((ex_dat$obs[-na_ind] - ex_dat$pred[-na_ind])^2) /
+      sum((ex_dat$obs[-na_ind] - mean(ex_dat$obs[-na_ind]))^2))
+
+  expect_identical(
+    rsq_trad_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_equal(
+    rsq_trad_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    exp
+  )
+})
+
+test_that("Case weights calculations are correct", {
   solubility_test$weights <- read_weights_solubility_test()
 
   expect_equal(
-    rsq_trad(solubility_test, solubility, prediction, case_weights = weights)[[
-      ".estimate"
-    ]],
+    rsq_trad_vec(
+      truth = solubility_test$solubility,
+      estimate = solubility_test$prediction,
+      case_weights = solubility_test$weights
+    ),
     read_pydata("py-rsq-trad")$case_weight
   )
 })
