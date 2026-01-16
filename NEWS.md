@@ -18,6 +18,8 @@
 
 * Added improved argument checking for metrics with additional arguments. (#519)
 
+* Fixed documentation to show equations correctly. (#541)
+
 # yardstick 1.3.2
 
 * All messages, warnings and errors has been translated to use {cli} package (#517, #522).
