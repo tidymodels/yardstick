@@ -108,7 +108,8 @@ Highly related functions are \code{\link[=sens]{sens()}}, \code{\link[=ppv]{ppv(
 }
 \details{
 The specificity measures the proportion of negatives that are correctly
-identified as negatives.
+identified as negatives. For negative observations, the proportion of model
+predictions that correctly predicted negative.
 
 When the denominator of the calculation is \code{0}, specificity is undefined.
 This happens when both \verb{# true_negative = 0} and \verb{# false_positive = 0}
