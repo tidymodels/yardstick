@@ -161,8 +161,16 @@ all_metrics <- bind_rows(
     metric = get_metrics(fns, "dynamic_survival_metric")
   ),
   tibble(
+    type = "integrated survival",
+    metric = get_metrics(fns, "integrated_survival_metric")
+  ),
+  tibble(
     type = "static survival",
     metric = get_metrics(fns, "static_survival_metric")
+  ),
+  tibble(
+    type = "linear predictor survival",
+    metric = get_metrics(fns, "linear_pred_survival_metric")
   ),
   tibble(
     type = "quantile",

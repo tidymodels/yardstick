@@ -1,25 +1,28 @@
 #' Developer function for summarizing new metrics
 #'
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-#' `prob_metric_summarizer()`, `curve_metric_summarizer()`,
-#' `dynamic_survival_metric_summarizer()`,
-#' `static_survival_metric_summarizer()`, and `quantile_metric_summarizer()` are
-#' useful alongside [check_metric] and [yardstick_remove_missing] for
-#' implementing new custom metrics. These functions call the metric function
-#' inside `dplyr::summarise()` or `dplyr::reframe()` for
-#' `curve_metric_summarizer()`. See
+#' These functions are useful alongside [check_metric] and
+#' [yardstick_remove_missing] for implementing new custom metrics. These
+#' functions call the metric function inside `dplyr::summarise()` or
+#' `dplyr::reframe()` for `curve_metric_summarizer()`. See
 #' [Custom performance metrics](https://www.tidymodels.org/learn/develop/metrics/)
 #' for more information.
 #'
 #' @details
 #'
-#' `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-#' `prob_metric_summarizer()`, `curve_metric_summarizer()`,
-#' `dynamic_survival_metric_summarizer()`,
-#' `dynamic_survival_metric_summarizer()`, and `quantile_metric_summarizer()`
-#' are generally called from the data frame version of your metric function. It
-#' knows how to call your metric over grouped data frames and returns a `tibble`
-#' consistent with other metrics.
+#' The following functions are generally called from the data frame version of
+#' your metric function. They know how to call your metric over grouped data
+#' frames and return a `tibble` consistent with other metrics.
+#'
+#' - `numeric_metric_summarizer()`
+#' - `class_metric_summarizer()`
+#' - `prob_metric_summarizer()`
+#' - `ordered_prob_metric_summarizer()`
+#' - `curve_metric_summarizer()`
+#' - `dynamic_survival_metric_summarizer()`
+#' - `static_survival_metric_summarizer()`
+#' - `curve_survival_metric_summarizer()`
+#' - `linear_pred_survival_metric_summarizer()`
+#' - `quantile_metric_summarizer()`
 #'
 #' @inheritParams rlang::args_dots_empty
 #' @inheritParams rlang::args_error_context
@@ -33,12 +36,8 @@
 #' needed to calculate the metric.
 #'
 #' @param data The data frame with `truth` and `estimate` columns passed in from
-#'   the data frame version of your metric function that called
-#'   `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-#'   `prob_metric_summarizer()`, `curve_metric_summarizer()`,
-#'   `dynamic_survival_metric_summarizer()`,
-#'   `static_survival_metric_summarizer()`, or
-#'   `quantile_metric_summarizer()`.
+#' the data frame version of your metric function that called the metric
+#' summarizer.
 #'
 #' @param truth The unquoted column name corresponding to the `truth` column.
 #'
