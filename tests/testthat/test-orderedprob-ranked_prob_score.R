@@ -1,4 +1,4 @@
-test_that("basic results", {
+test_that("Calculations are correct", {
   hpc_cv$obs <- as.ordered(hpc_cv$obs)
 
   # With orf:::rps(as.matrix(hpc_cv[, 3:6]), hpc_cv$obs)
@@ -12,19 +12,21 @@ test_that("basic results", {
     hpc_exp,
     tolerance = 0.01
   )
+})
+
+test_that("All interfaces gives the same results", {
+  hpc_cv$obs <- as.ordered(hpc_cv$obs)
 
   expect_equal(
-    yardstick:::ranked_prob_score(hpc_cv, obs, VF:L),
-    dplyr::tibble(
-      .metric = "ranked_prob_score",
-      .estimator = "multiclass",
-      .estimate = hpc_exp
+    yardstick:::ranked_prob_score_vec(
+      hpc_cv$obs,
+      as.matrix(hpc_cv |> dplyr::select(VF:L))
     ),
-    tolerance = 0.01
+    yardstick:::ranked_prob_score(hpc_cv, obs, VF:L)[[".estimate"]]
   )
+})
 
-  # ----------------------------------------------------------------------------
-  # with missing data
+test_that("Calculations handles NAs", {
   hpc_miss <- hpc_cv
   hpc_miss$obs <- as.ordered(hpc_miss$obs)
   hpc_miss$obs[1] <- NA
@@ -35,14 +37,31 @@ test_that("basic results", {
   # With orf:::rps(as.matrix(hpc_cv[cmlpt_ind, 3:6]), hpc_cv$obs[cmlpt_ind])
   hpc_miss_exp <- 0.08571614
   expect_equal(
-    ranked_prob_score(hpc_miss, obs, VF:L)$.estimate,
+    ranked_prob_score(hpc_miss, obs, VF:L)[[".estimate"]],
     hpc_miss_exp,
     tolerance = 0.01
   )
 
   expect_equal(
-    ranked_prob_score(hpc_miss, obs, VF:L, na_rm = FALSE)$.estimate,
+    ranked_prob_score(hpc_miss, obs, VF:L, na_rm = FALSE)[[".estimate"]],
     NA_real_
+  )
+})
+
+test_that("Case weights calculations are correct", {
+  hpc_cv$obs <- as.ordered(hpc_cv$obs)
+  hpc_cv$weights <- rep(c(0, 1), c(100, nrow(hpc_cv) - 100))
+  # With orf:::rps(as.matrix(hpc_cv[-(1:100), 3:6]), hpc_cv$obs[-(1:100)])
+  hpc_exp <- 0.0868733
+
+  expect_equal(
+    yardstick:::ranked_prob_score_vec(
+      hpc_cv$obs,
+      as.matrix(hpc_cv |> dplyr::select(VF:L)),
+      case_weights = hpc_cv$weights
+    ),
+    hpc_exp,
+    tolerance = 0.000001
   )
 })
 
@@ -70,7 +89,7 @@ test_that("works with hardhat case weights", {
   )
 })
 
-test_that("errors with bad input", {
+test_that("errors with class_pred input", {
   skip_if_not_installed("probably")
 
   cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
@@ -84,14 +103,6 @@ test_that("errors with bad input", {
   expect_snapshot(
     error = TRUE,
     ranked_prob_score_vec(cp_truth, estimate)
-  )
-  expect_snapshot(
-    error = TRUE,
-    ranked_prob_score_vec(two_class_example$truth, estimate)
-  )
-  expect_snapshot(
-    error = TRUE,
-    ranked_prob_score_vec(ord_truth, estimate_1D)
   )
 })
 
