@@ -1,10 +1,6 @@
 # Developer function for summarizing new metrics
 
-`numeric_metric_summarizer()`, `class_metric_summarizer()`,
-`prob_metric_summarizer()`, `curve_metric_summarizer()`,
-`dynamic_survival_metric_summarizer()`,
-`static_survival_metric_summarizer()`, and
-`quantile_metric_summarizer()` are useful alongside
+These functions are useful alongside
 [check_metric](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
 and
 [yardstick_remove_missing](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
@@ -171,12 +167,8 @@ quantile_metric_summarizer(
 - data:
 
   The data frame with `truth` and `estimate` columns passed in from the
-  data frame version of your metric function that called
-  `numeric_metric_summarizer()`, `class_metric_summarizer()`,
-  `prob_metric_summarizer()`, `curve_metric_summarizer()`,
-  `dynamic_survival_metric_summarizer()`,
-  `static_survival_metric_summarizer()`, or
-  `quantile_metric_summarizer()`.
+  data frame version of your metric function that called the metric
+  summarizer.
 
 - truth:
 
@@ -234,14 +226,29 @@ quantile_metric_summarizer(
 
 ## Details
 
-`numeric_metric_summarizer()`, `class_metric_summarizer()`,
-`prob_metric_summarizer()`, `curve_metric_summarizer()`,
-`dynamic_survival_metric_summarizer()`,
-`dynamic_survival_metric_summarizer()`, and
-`quantile_metric_summarizer()` are generally called from the data frame
-version of your metric function. It knows how to call your metric over
-grouped data frames and returns a `tibble` consistent with other
-metrics.
+The following functions are generally called from the data frame version
+of your metric function. They know how to call your metric over grouped
+data frames and return a `tibble` consistent with other metrics.
+
+- `numeric_metric_summarizer()`
+
+- `class_metric_summarizer()`
+
+- `prob_metric_summarizer()`
+
+- `ordered_prob_metric_summarizer()`
+
+- `curve_metric_summarizer()`
+
+- `dynamic_survival_metric_summarizer()`
+
+- `static_survival_metric_summarizer()`
+
+- `curve_survival_metric_summarizer()`
+
+- `linear_pred_survival_metric_summarizer()`
+
+- `quantile_metric_summarizer()`
 
 ## See also
 
