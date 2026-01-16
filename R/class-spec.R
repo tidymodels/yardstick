@@ -5,7 +5,8 @@
 #' Highly related functions are [sens()], [ppv()], and [npv()].
 #'
 #' The specificity measures the proportion of negatives that are correctly
-#' identified as negatives.
+#' identified as negatives. For negative observations, the proportion of model
+#' predictions that correctly predicted negative.
 #'
 #' When the denominator of the calculation is `0`, specificity is undefined.
 #' This happens when both `# true_negative = 0` and `# false_positive = 0`
