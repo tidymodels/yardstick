@@ -7,8 +7,8 @@
 #'
 #' The formulas used here are:
 #'
-#' \deqn{recall = A/(A+C)}
-#' \deqn{precision = A/(A+B)}
-#' \deqn{F_{meas} = (1+\beta^2) * precision * recall/((\beta^2 * precision)+recall)}
+#' \deqn{\text{recall} = \frac{A}{A + C}}
+#' \deqn{\text{precision} = \frac{A}{A + B}}
+#' \deqn{F_{meas} = \frac{(1 + \beta^2) \cdot \text{precision} \cdot \text{recall}}{\beta^2 \cdot \text{precision} + \text{recall}}}
 #'
 #' See the references for discussions of the statistics.

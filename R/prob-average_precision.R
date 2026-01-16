@@ -18,7 +18,7 @@
 #' from `2` to `n`, multiplying the precision value `p_i` by the increase in
 #' recall over the previous threshold, `r_i - r_(i-1)`.
 #'
-#' \deqn{AP = \sum (r_{i} - r_{i-1}) * p_i}
+#' \deqn{AP = \sum (r_{i} - r_{i-1}) \cdot p_i}
 #'
 #' By summing from `2` to `n`, the precision value `p_1` is never used. While
 #' [pr_curve()] returns a value for `p_1`, it is technically undefined as
