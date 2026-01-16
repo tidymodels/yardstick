@@ -1,4 +1,4 @@
-test_that("Two class PR Curve", {
+test_that("Calculations are correct", {
   # Known PR Curve result
   pr_example <- data.frame(
     lab = factor(c("Yes", "Yes", "No", "Yes"), levels = c("Yes", "No")),
@@ -15,9 +15,7 @@ test_that("Two class PR Curve", {
     as.list(pr_curve(pr_example, truth = "lab", "score")),
     pr_result
   )
-})
 
-test_that("Multiclass PR Curve", {
   res <- pr_curve(hpc_cv, obs, VF:L)
 
   expect_equal(
@@ -31,12 +29,94 @@ test_that("Multiclass PR Curve", {
   )
 })
 
-# ------------------------------------------------------------------------------
-# More tests involving issue #93
+test_that("na_rm = FALSE errors if missing values are present", {
+  df <- two_class_example
+  df$Class1[1] <- NA
 
-# These are worked out examples with hand written known answers
+  expect_snapshot(
+    error = TRUE,
+    pr_curve_vec(df$truth, df$Class1, na_rm = FALSE)
+  )
+})
 
-test_that("PR - perfect separation", {
+test_that("Case weights calculations are correct", {
+  # grouped multiclass (one-vs-all) weighted example matches expanded equivalent
+  hpc_cv$weight <- rep(1, times = nrow(hpc_cv))
+  hpc_cv$weight[c(100, 200, 150, 2)] <- 5
+
+  hpc_cv <- dplyr::group_by(hpc_cv, Resample)
+
+  hpc_cv_expanded <- hpc_cv[
+    vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),
+  ]
+
+  expect_identical(
+    pr_curve(hpc_cv, obs, VF:L, case_weights = weight),
+    pr_curve(hpc_cv_expanded, obs, VF:L)
+  )
+
+  # zero weights don't affect the curve
+  # If they weren't removed, we'd get a `NaN` from a division by zero issue
+  df <- dplyr::tibble(
+    truth = factor(c("b", "a", "b", "a", "a"), levels = c("a", "b")),
+    a = c(0.75, 0.7, 0.4, 0.9, 0.8),
+    weight = c(0, 1, 3, 0, 5)
+  )
+
+  expect_identical(
+    pr_curve(df, truth, a, case_weights = weight),
+    pr_curve(df[df$weight != 0, ], truth, a, case_weights = weight)
+  )
+
+  two_class_example$weight <- read_weights_two_class_example()
+
+  curve <- pr_curve(two_class_example, truth, Class1, case_weights = weight)
+
+  expect_identical(
+    curve,
+    read_pydata("py-pr-curve")$case_weight$binary
+  )
+})
+
+test_that("works with hardhat case weights", {
+  df <- data.frame(
+    truth = factor(c("Yes", "Yes", "No", "Yes", "No"), levels = c("Yes", "No")),
+    estimate = c(0.9, 0.8, 0.7, 0.68, 0.5),
+    weight = c(2, 1, 1, 3, 2)
+  )
+
+  curve1 <- pr_curve(df, truth, estimate, case_weights = weight)
+
+  df$weight <- hardhat::frequency_weights(df$weight)
+
+  curve2 <- pr_curve(df, truth, estimate, case_weights = weight)
+
+  expect_identical(curve1, curve2)
+})
+
+test_that("errors with class_pred input", {
+  skip_if_not_installed("probably")
+
+  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
+  fct_truth <- two_class_example$truth
+  fct_truth[1] <- NA
+
+  estimate <- two_class_example$Class1
+
+  expect_snapshot(
+    error = TRUE,
+    pr_curve_vec(cp_truth, estimate)
+  )
+})
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    pr_curve_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("PR - perfect separation (#93)", {
   truth <- factor(c("x", "x", "y", "y"))
   prob <- c(0.9, 0.8, 0.4, 0.3)
 
@@ -65,7 +145,7 @@ test_that("PR - perfect separation", {
   )
 })
 
-test_that("PR - perfect separation - duplicates probs at the end", {
+test_that("PR - perfect separation - duplicates probs at the end (#93)", {
   truth <- factor(c("x", "x", "y", "y"))
   prob <- c(0.9, 0.8, 0.3, 0.3)
 
@@ -94,7 +174,7 @@ test_that("PR - perfect separation - duplicates probs at the end", {
   )
 })
 
-test_that("PR - perfect separation - duplicates probs at the start", {
+test_that("PR - perfect separation - duplicates probs at the start (#93)", {
   truth <- factor(c("x", "x", "y", "y"))
   prob <- c(0.9, 0.9, 0.4, 0.3)
 
@@ -123,7 +203,7 @@ test_that("PR - perfect separation - duplicates probs at the start", {
   )
 })
 
-test_that("PR - same class prob, different prediction value", {
+test_that("PR - same class prob, different prediction value (#93)", {
   # x class prob .9
   # y class prob .9
   truth <- factor(c("x", "y", "y", "x", "x"))
@@ -153,8 +233,6 @@ test_that("PR - same class prob, different prediction value", {
     0.572222222222222
   )
 })
-
-# ------------------------------------------------------------------------------
 
 test_that("PR - zero row data frame works", {
   df <- data.frame(y = factor(levels = c("a", "b")), x = double())
@@ -187,92 +265,11 @@ test_that("PR - No `truth` gives `NaN` recall values", {
   expect_identical(curve$recall, c(0, NaN, NaN))
 })
 
-# ------------------------------------------------------------------------------
-
-test_that("grouped multiclass (one-vs-all) weighted example matches expanded equivalent", {
-  hpc_cv$weight <- rep(1, times = nrow(hpc_cv))
-  hpc_cv$weight[c(100, 200, 150, 2)] <- 5
-
-  hpc_cv <- dplyr::group_by(hpc_cv, Resample)
-
-  hpc_cv_expanded <- hpc_cv[
-    vec_rep_each(seq_len(nrow(hpc_cv)), times = hpc_cv$weight),
-  ]
-
-  expect_identical(
-    pr_curve(hpc_cv, obs, VF:L, case_weights = weight),
-    pr_curve(hpc_cv_expanded, obs, VF:L)
-  )
-})
-
-# ------------------------------------------------------------------------------
-
-test_that("zero weights don't affect the curve", {
-  # If they weren't removed, we'd get a `NaN` from a division by zero issue
-  df <- dplyr::tibble(
-    truth = factor(c("b", "a", "b", "a", "a"), levels = c("a", "b")),
-    a = c(0.75, 0.7, 0.4, 0.9, 0.8),
-    weight = c(0, 1, 3, 0, 5)
-  )
-
-  expect_identical(
-    pr_curve(df, truth, a, case_weights = weight),
-    pr_curve(df[df$weight != 0, ], truth, a, case_weights = weight)
-  )
-})
-
-test_that("errors with class_pred input", {
-  skip_if_not_installed("probably")
-
-  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
-  fct_truth <- two_class_example$truth
-  fct_truth[1] <- NA
-
-  estimate <- two_class_example$Class1
-
-  expect_snapshot(
-    error = TRUE,
-    pr_curve_vec(cp_truth, estimate)
-  )
-})
-
-# ------------------------------------------------------------------------------
-
-test_that("Binary results are the same as scikit-learn", {
+test_that("sklearn equivalent", {
   curve <- pr_curve(two_class_example, truth, Class1)
 
   expect_identical(
     curve,
     read_pydata("py-pr-curve")$binary
-  )
-})
-
-test_that("Binary weighted results are the same as scikit-learn", {
-  two_class_example$weight <- read_weights_two_class_example()
-
-  curve <- pr_curve(two_class_example, truth, Class1, case_weights = weight)
-
-  expect_identical(
-    curve,
-    read_pydata("py-pr-curve")$case_weight$binary
-  )
-})
-
-# na_rm ------------------------------------------------------------------------
-
-test_that("na_rm = FALSE errors if missing values are present", {
-  df <- two_class_example
-  df$Class1[1] <- NA
-
-  expect_snapshot(
-    error = TRUE,
-    pr_curve_vec(df$truth, df$Class1, na_rm = FALSE)
-  )
-})
-
-test_that("na_rm argument check", {
-  expect_snapshot(
-    error = TRUE,
-    pr_curve_vec(1, 1, na_rm = "yes")
   )
 })

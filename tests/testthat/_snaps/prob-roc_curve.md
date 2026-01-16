@@ -1,3 +1,28 @@
+# na_rm = FALSE errors if missing values are present
+
+    Code
+      roc_curve_vec(df$truth, df$Class1, na_rm = FALSE)
+    Condition
+      Error in `roc_curve_vec()`:
+      x Missing values were detected and `na_ra = FALSE`.
+      i Not able to perform calculations.
+
+# errors with class_pred input
+
+    Code
+      roc_curve_vec(cp_truth, estimate)
+    Condition
+      Error in `roc_curve_vec()`:
+      ! `truth` should not a <class_pred> object.
+
+# na_rm argument check
+
+    Code
+      roc_curve_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `roc_curve_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+
 # roc_curve() - error is thrown when missing events
 
     Code
@@ -31,20 +56,4 @@
       Warning:
       The `options` argument of `roc_curve()` was deprecated in yardstick 1.0.0.
       i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
-
-# errors with class_pred input
-
-    Code
-      roc_curve_vec(cp_truth, estimate)
-    Condition
-      Error in `roc_curve_vec()`:
-      ! `truth` should not a <class_pred> object.
-
-# na_rm argument check
-
-    Code
-      roc_curve_vec(1, 1, na_rm = "yes")
-    Condition
-      Error in `roc_curve_vec()`:
-      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
