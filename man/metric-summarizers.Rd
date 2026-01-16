@@ -157,12 +157,8 @@ generally takes \code{truth}, \code{estimate}, \code{na_rm}, and any other extra
 needed to calculate the metric.}
 
 \item{data}{The data frame with \code{truth} and \code{estimate} columns passed in from
-the data frame version of your metric function that called
-\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
-\code{prob_metric_summarizer()}, \code{curve_metric_summarizer()},
-\code{dynamic_survival_metric_summarizer()},
-\code{static_survival_metric_summarizer()}, or
-\code{quantile_metric_summarizer()}.}
+the data frame version of your metric function that called the metric
+summarizer.}
 
 \item{truth}{The unquoted column name corresponding to the \code{truth} column.}
 
@@ -199,25 +195,29 @@ value of the \code{fn} or a single string of either \code{"first"} or \code{"sec
 to pass along describing which level should be considered the "event".}
 }
 \description{
-\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
-\code{prob_metric_summarizer()}, \code{curve_metric_summarizer()},
-\code{dynamic_survival_metric_summarizer()},
-\code{static_survival_metric_summarizer()}, and \code{quantile_metric_summarizer()} are
-useful alongside \link{check_metric} and \link{yardstick_remove_missing} for
-implementing new custom metrics. These functions call the metric function
-inside \code{dplyr::summarise()} or \code{dplyr::reframe()} for
-\code{curve_metric_summarizer()}. See
+These functions are useful alongside \link{check_metric} and
+\link{yardstick_remove_missing} for implementing new custom metrics. These
+functions call the metric function inside \code{dplyr::summarise()} or
+\code{dplyr::reframe()} for \code{curve_metric_summarizer()}. See
 \href{https://www.tidymodels.org/learn/develop/metrics/}{Custom performance metrics}
 for more information.
 }
 \details{
-\code{numeric_metric_summarizer()}, \code{class_metric_summarizer()},
-\code{prob_metric_summarizer()}, \code{curve_metric_summarizer()},
-\code{dynamic_survival_metric_summarizer()},
-\code{dynamic_survival_metric_summarizer()}, and \code{quantile_metric_summarizer()}
-are generally called from the data frame version of your metric function. It
-knows how to call your metric over grouped data frames and returns a \code{tibble}
-consistent with other metrics.
+The following functions are generally called from the data frame version of
+your metric function. They know how to call your metric over grouped data
+frames and return a \code{tibble} consistent with other metrics.
+\itemize{
+\item \code{numeric_metric_summarizer()}
+\item \code{class_metric_summarizer()}
+\item \code{prob_metric_summarizer()}
+\item \code{ordered_prob_metric_summarizer()}
+\item \code{curve_metric_summarizer()}
+\item \code{dynamic_survival_metric_summarizer()}
+\item \code{static_survival_metric_summarizer()}
+\item \code{curve_survival_metric_summarizer()}
+\item \code{linear_pred_survival_metric_summarizer()}
+\item \code{quantile_metric_summarizer()}
+}
 }
 \seealso{
 \link{check_metric} \link{yardstick_remove_missing} \code{\link[=finalize_estimator]{finalize_estimator()}} \code{\link[=dots_to_estimate]{dots_to_estimate()}}
