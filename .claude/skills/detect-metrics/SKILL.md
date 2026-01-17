@@ -15,34 +15,25 @@ Yardstick metrics follow consistent patterns that make them detectable:
 2. Constructor functions that wrap metrics with class and direction.
 3. Standard structure with generic, data.frame method, and vector implementation.
 
-## Metric types and file patterns
+## Metric patterns
 
-Metrics are organized by type with filename prefixes:
+Metrics follow consistent naming patterns:
 
-| Type | File pattern | Constructor |
-|------|--------------|-------------|
-| Classification | `R/class-*.R` | `new_class_metric()` |
-| Numeric/regression | `R/num-*.R` | `new_numeric_metric()` |
-| Probability | `R/prob-*.R` | `new_prob_metric()` |
-| Survival (dynamic) | `R/surv-*.R` | `new_dynamic_survival_metric()` |
-| Survival (static) | `R/surv-*.R` | `new_static_survival_metric()` |
-| Survival (integrated) | `R/surv-*.R` | `new_integrated_survival_metric()` |
-| Fairness | `R/fair-*.R` | `new_groupwise_metric()` |
-| Quantile | `R/quant-*.R` | `new_quantile_metric()` |
-| Ordered probability | `R/orderedprob-*.R` | `new_ordered_prob_metric()` |
-| Probability curves | `R/probcurve-*.R` | `new_prob_metric()` |
+1. **Constructor functions**: All metric constructors follow the pattern `new_*_metric()` defined in `R/aaa-new.R` (and `R/fair-aaa.R` for groupwise metrics).
+
+2. **File naming**: Metric files use prefixes like `class-`, `num-`, `prob-`, `surv-`, `fair-`, `quant-`, etc. Discover current prefixes dynamically rather than relying on a fixed list.
+
+3. **Metric definition**: Metrics are defined with `<name> <- new_*_metric(...)`.
+
+To discover all current metric constructors:
+
+```bash
+grep -E "^new_.*_metric <- function" R/*.R
+```
 
 ## Detection methods
 
-### Method 1: Search by file naming convention
-
-List all metric files by prefix:
-
-```bash
-ls R/class-*.R R/num-*.R R/prob-*.R R/surv-*.R R/fair-*.R R/quant-*.R R/orderedprob-*.R R/probcurve-*.R 2>/dev/null
-```
-
-### Method 2: Search for metric constructors (simple regex)
+### Method 1: Search for metric constructors (recommended)
 
 Use this regex to find all metric definitions:
 
@@ -56,23 +47,23 @@ Example with grep:
 grep -E ".* <- new_.*_metric\(" R/*.R
 ```
 
-### Method 3: Search for specific metric constructors
+### Method 2: Find files containing metric definitions
 
-Find all uses of specific metric constructor functions:
-
-```bash
-grep -l "new_class_metric\|new_numeric_metric\|new_prob_metric\|new_quantile_metric\|new_ordered_prob_metric\|new_dynamic_survival_metric\|new_static_survival_metric\|new_integrated_survival_metric\|new_linear_pred_survival_metric\|new_groupwise_metric" R/*.R
-```
-
-### Method 4: Extract metric names from constructor calls
-
-Find the actual metric names being defined:
+Find all files that contain metric constructor calls:
 
 ```bash
-grep -E "^[a-z_]+ <- new_(class|numeric|prob|quantile|ordered_prob|dynamic_survival|static_survival|integrated_survival|linear_pred_survival)_metric" R/*.R
+grep -l "new_.*_metric(" R/*.R
 ```
 
-### Method 5: Check NAMESPACE for exported metrics
+### Method 3: Discover metric file prefixes
+
+Find all unique file prefixes used for metrics:
+
+```bash
+ls R/*.R | grep -E "R/[a-z]+-" | sed 's/R\/\([a-z]*-\).*/\1/' | sort -u
+```
+
+### Method 4: Check NAMESPACE for exported metrics
 
 Exported metrics appear in the NAMESPACE file:
 
@@ -123,7 +114,6 @@ metric_name_vec <- function(truth, estimate, ...) {
 
 When detecting metrics:
 
-- [ ] Search files by naming convention (`class-`, `num-`, `prob-`, etc.).
-- [ ] Verify with constructor pattern search.
+- [ ] Search for constructor pattern `<name> <- new_*_metric(`.
 - [ ] Cross-reference with NAMESPACE exports.
 - [ ] Note the metric direction (minimize/maximize/zero).
