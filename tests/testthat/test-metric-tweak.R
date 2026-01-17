@@ -70,7 +70,7 @@ test_that("can tweak a class prob metric that doesn't use `estimator`", {
             1 ,
     "Class2"  ,
     "Class1"  ,
-            2
+    2
   )
 
   classification_cost2 <- metric_tweak(
@@ -169,4 +169,18 @@ test_that("All `...` must be named", {
     error = TRUE,
     metric_tweak("foo", accuracy, 1)
   )
+})
+
+test_that("range attribute is preserved", {
+  metric_with_range <- new_numeric_metric(
+    function(data, truth, estimate, na_rm = TRUE, mult = 1) {
+      data[[rlang::as_name(rlang::enquo(estimate))]] * mult
+    },
+    "minimize",
+    range = c(0, 1)
+  )
+
+  tweaked <- metric_tweak("tweaked", metric_with_range, mult = 2)
+
+  expect_identical(metric_range(tweaked), c(0, 1))
 })

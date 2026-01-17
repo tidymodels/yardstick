@@ -13,23 +13,23 @@
 \alias{new_quantile_metric}
 \title{Construct a new metric function}
 \usage{
-new_class_metric(fn, direction)
+new_class_metric(fn, direction, range = NULL)
 
-new_prob_metric(fn, direction)
+new_prob_metric(fn, direction, range = NULL)
 
-new_ordered_prob_metric(fn, direction)
+new_ordered_prob_metric(fn, direction, range = NULL)
 
-new_numeric_metric(fn, direction)
+new_numeric_metric(fn, direction, range = NULL)
 
-new_dynamic_survival_metric(fn, direction)
+new_dynamic_survival_metric(fn, direction, range = NULL)
 
-new_integrated_survival_metric(fn, direction)
+new_integrated_survival_metric(fn, direction, range = NULL)
 
-new_static_survival_metric(fn, direction)
+new_static_survival_metric(fn, direction, range = NULL)
 
-new_linear_pred_survival_metric(fn, direction)
+new_linear_pred_survival_metric(fn, direction, range = NULL)
 
-new_quantile_metric(fn, direction)
+new_quantile_metric(fn, direction, range = NULL)
 }
 \arguments{
 \item{fn}{A function. The metric function to attach a metric-specific class
@@ -41,6 +41,10 @@ and \code{direction} attribute to.}
 \item \code{"minimize"}
 \item \code{"zero"}
 }}
+
+\item{range}{An optional numeric vector of length 2 giving the range of
+possible output values, e.g. \code{c(0, 1)} or \code{c(0, Inf)}. Use \code{-Inf} and
+\code{Inf} for unbounded ranges.}
 }
 \description{
 These functions provide convenient wrappers to create the three types of

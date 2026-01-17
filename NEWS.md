@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `new_metric()` and related functions gain an optional `range` argument to store the valid output range of a metric. This is a developer-facing change.
+
 * The ranked probability score for ordinal classification data was added with `ranked_prob_score()`. (#524)
 
 * `poisson_log_loss()` has been enhanced to handle 0 valued estimates, no longer returning `Inf` or `NaN`. (#513)
