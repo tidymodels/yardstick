@@ -27,7 +27,8 @@
 #'
 #' @details
 #' Specificity is a metric that should be `r attr(spec, "direction")`d. The
-#' output ranges from 0 to 1, with 1 indicating that all actual negatives were
+#' output ranges from `r metric_range(spec)[1]` to `r metric_range(spec)[2]`,
+#' with `r metric_optimal(spec)` indicating that all actual negatives were
 #' predicted as negative.
 #'
 #' @author Max Kuhn
@@ -46,7 +47,8 @@ spec <- function(data, ...) {
 }
 spec <- new_class_metric(
   spec,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -144,7 +146,8 @@ specificity <- function(data, ...) {
 }
 specificity <- new_class_metric(
   specificity,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname spec

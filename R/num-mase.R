@@ -38,7 +38,8 @@
 #'
 #' @details
 #' MASE is a metric that should be `r attr(mase, "direction")`d. The output
-#' ranges from 0 to infinity, with 0 indicating perfect predictions.
+#' ranges from `r metric_range(mase)[1]` to `r metric_range(mase)[2]`, with
+#' `r metric_optimal(mase)` indicating perfect predictions.
 #'
 #' @author Alex Hallam
 #'
@@ -56,7 +57,8 @@ mase <- function(data, ...) {
 }
 mase <- new_numeric_metric(
   mase,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname mase

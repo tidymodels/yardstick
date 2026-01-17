@@ -9,8 +9,9 @@
 #'
 #' @details
 #' J-index is a metric that should be `r attr(j_index, "direction")`d. The
-#' output ranges from 0 to 1, with 1 indicating no false positives and no false
-#' negatives.
+#' output ranges from `r metric_range(j_index)[1]` to
+#' `r metric_range(j_index)[2]`, with `r metric_optimal(j_index)` indicating no
+#' false positives and no false negatives.
 #'
 #' The binary version of J-index is equivalent to the binary concept of
 #' Informedness. Macro-weighted J-index is equivalent to multiclass informedness
@@ -42,7 +43,8 @@ j_index <- function(data, ...) {
 }
 j_index <- new_class_metric(
   j_index,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname j_index

@@ -68,7 +68,8 @@ that eliminates all predictors except for the intercept would do this.
 Another example would be a CART model that contains no splits.
 
 R squared is a metric that should be maximized. The output
-ranges from 0 to 1, with 1 indicating perfect predictions.
+ranges from -∞ to 1, with
+1 indicating perfect predictions.
 }
 \examples{
 # Supply truth and predictions as bare column names

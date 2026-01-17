@@ -21,7 +21,8 @@
 #'
 #' @details
 #' NPV is a metric that should be `r attr(npv, "direction")`d. The output
-#' ranges from 0 to 1, with 1 indicating all predicted negatives are true
+#' ranges from `r metric_range(npv)[1]` to `r metric_range(npv)[2]`, with
+#' `r metric_optimal(npv)` indicating all predicted negatives are true
 #' negatives.
 #'
 #' @author Max Kuhn
@@ -40,7 +41,8 @@ npv <- function(data, ...) {
 }
 npv <- new_class_metric(
   npv,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname npv

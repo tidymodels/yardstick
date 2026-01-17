@@ -52,9 +52,9 @@ error) computes the average differences between \code{truth} and \code{estimate}
 related metric is the mean absolute error (\code{\link[=mae]{mae()}}).
 }
 \details{
-MSD is a metric where the optimal value is zero. The
-output ranges from negative infinity to infinity, with 0 indicating
-predictions are unbiased.
+MSD is a metric where the optimal value is 0. The
+output ranges from -∞ to ∞, with
+0 indicating predictions are unbiased.
 
 Mean signed deviation is rarely used, since positive and negative errors
 cancel each other out. For example, \code{msd_vec(c(100, -100), c(0, 0))} would

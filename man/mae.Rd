@@ -52,7 +52,8 @@ original data.
 }
 \details{
 MAE is a metric that should be minimized. The output
-ranges from 0 to infinity, with 0 indicating perfect predictions.
+ranges from 0 to ∞, with
+0 indicating perfect predictions.
 }
 \examples{
 # Supply truth and predictions as bare column names

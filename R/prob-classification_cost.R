@@ -7,9 +7,11 @@
 #'
 #' @details
 #' Classification cost is a metric that should be
-#' `r attr(classification_cost, "direction")`d. The output ranges from 0 to
-#' infinity, with 0 indicating perfect predictions (when costs for correct
-#' predictions are zero).
+#' `r attr(classification_cost, "direction")`d. The output ranges from
+#' `r metric_range(classification_cost)[1]` to
+#' `r metric_range(classification_cost)[2]`, with
+#' `r metric_optimal(classification_cost)` indicating perfect predictions (when
+#' costs for correct predictions are zero).
 #'
 #' As an example, suppose that there are three classes: `"A"`, `"B"`, and `"C"`.
 #' Suppose there is a truly `"A"` observation with class probabilities `A = 0.3
@@ -110,7 +112,8 @@ classification_cost <- function(data, ...) {
 }
 classification_cost <- new_prob_metric(
   fn = classification_cost,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname classification_cost

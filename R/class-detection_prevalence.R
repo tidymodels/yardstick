@@ -13,9 +13,10 @@
 #'
 #' @details
 #' Detection prevalence is a metric that should be
-#' `r attr(detection_prevalence, "direction")`d. The output ranges from 0 to 1.
-#' The "optimal" value depends on the true prevalence of positive events in the
-#' data.
+#' `r attr(detection_prevalence, "direction")`d. The output ranges from
+#' `r metric_range(detection_prevalence)[1]` to
+#' `r metric_range(detection_prevalence)[2]`. The "optimal" value depends on the
+#' true prevalence of positive events in the data.
 #'
 #' @author Max Kuhn
 #'
@@ -27,7 +28,8 @@ detection_prevalence <- function(data, ...) {
 }
 detection_prevalence <- new_class_metric(
   detection_prevalence,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export

@@ -62,7 +62,8 @@
 #'
 #' @details
 #' Sensitivity is a metric that should be `r attr(sens, "direction")`d. The
-#' output ranges from 0 to 1, with 1 indicating that all actual positives were
+#' output ranges from `r metric_range(sens)[1]` to `r metric_range(sens)[2]`,
+#' with `r metric_optimal(sens)` indicating that all actual positives were
 #' predicted as positive.
 #'
 #' @author Max Kuhn
@@ -81,7 +82,8 @@ sens <- function(data, ...) {
 }
 sens <- new_class_metric(
   sens,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -179,7 +181,8 @@ sensitivity <- function(data, ...) {
 }
 sensitivity <- new_class_metric(
   sensitivity,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname sens

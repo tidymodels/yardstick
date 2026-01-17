@@ -6,7 +6,9 @@
 #'
 #' @details
 #' ROC AUC is a metric that should be `r attr(roc_auc, "direction")`d. The
-#' output ranges from 0 to 1, with 1 indicating perfect discrimination.
+#' output ranges from `r metric_range(roc_auc)[1]` to
+#' `r metric_range(roc_auc)[2]`, with `r metric_optimal(roc_auc)` indicating
+#' perfect discrimination.
 #'
 #' Generally, an ROC AUC value is between `0.5` and `1`, with `1` being a
 #' perfect prediction model. If your value is between `0` and `0.5`, then
@@ -77,7 +79,8 @@ roc_auc <- function(data, ...) {
 }
 roc_auc <- new_prob_metric(
   roc_auc,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export

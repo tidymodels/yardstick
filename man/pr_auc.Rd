@@ -84,7 +84,8 @@ recall curve. See \code{\link[=pr_curve]{pr_curve()}} for the full curve.
 }
 \details{
 PR AUC is a metric that should be maximized. The output
-ranges from 0 to 1, with 1 indicating perfect precision and recall at all
+ranges from 0 to 1, with
+1 indicating perfect precision and recall at all
 thresholds.
 }
 \section{Multiclass}{

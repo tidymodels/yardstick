@@ -111,7 +111,6 @@ test_that("range argument works", {
   )
 
   expect_identical(metric_range(metric_with_range), c(0, 1))
-  expect_null(metric_range(rmse))
 })
 
 test_that("range argument is not required", {

@@ -29,7 +29,8 @@
 #'
 #' @details
 #' IIC is a metric that should be `r attr(iic, "direction")`d. The output
-#' ranges from -1 to 1, with 1 indicating perfect agreement.
+#' ranges from `r metric_range(iic)[1]` to `r metric_range(iic)[2]`, with
+#' `r metric_optimal(iic)` indicating perfect agreement.
 #'
 #' @references Toropova, A. and Toropov, A. (2017). "The index of ideality
 #'   of correlation. A criterion of predictability of QSAR models for skin
@@ -45,7 +46,8 @@ iic <- function(data, ...) {
 }
 iic <- new_numeric_metric(
   iic,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname iic

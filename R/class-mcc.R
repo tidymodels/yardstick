@@ -15,7 +15,8 @@
 #'
 #' @details
 #' MCC is a metric that should be `r attr(mcc, "direction")`d. The output
-#' ranges from -1 to 1, with 1 indicating perfect predictions. A value of 0
+#' ranges from `r metric_range(mcc)[1]` to `r metric_range(mcc)[2]`, with
+#' `r metric_optimal(mcc)` indicating perfect predictions. A value of 0
 #' indicates no better than random prediction, and negative values indicate
 #' inverse prediction.
 #'
@@ -48,7 +49,8 @@ mcc <- function(data, ...) {
 }
 mcc <- new_class_metric(
   mcc,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(-1, 1)
 )
 
 #' @export

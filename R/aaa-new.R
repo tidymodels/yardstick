@@ -160,6 +160,19 @@ metric_range <- function(x) {
   x
 }
 
+metric_optimal <- function(x) {
+  direction <- metric_direction(x)
+  range <- metric_range(x)
+
+  if (direction == "maximize") {
+    range[2]
+  } else if (direction == "minimize") {
+    range[1]
+  } else {
+    0
+  }
+}
+
 #' @noRd
 #' @export
 print.metric <- function(x, ...) {

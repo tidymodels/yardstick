@@ -92,7 +92,9 @@ and \code{\link[=precision]{precision()}}.
 The measure "F" is a combination of precision and recall (see below).
 
 F measure is a metric that should be maximized. The
-output ranges from 0 to 1, with 1 indicating perfect precision and recall.
+output ranges from 0 to
+1, with 1 indicating
+perfect precision and recall.
 }
 \section{Relevant Level}{
 

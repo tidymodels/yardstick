@@ -12,7 +12,8 @@
 #'
 #' @details
 #' MAE is a metric that should be `r attr(mae, "direction")`d. The output
-#' ranges from 0 to infinity, with 0 indicating perfect predictions.
+#' ranges from `r metric_range(mae)[1]` to `r metric_range(mae)[2]`, with
+#' `r metric_optimal(mae)` indicating perfect predictions.
 #'
 #' @author Max Kuhn
 #'
@@ -24,7 +25,8 @@ mae <- function(data, ...) {
 }
 mae <- new_numeric_metric(
   mae,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname mae

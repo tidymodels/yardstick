@@ -80,8 +80,9 @@ Balanced accuracy is computed here as the average of \code{\link[=sens]{sens()}}
 }
 \details{
 Balanced accuracy is a metric that should be
-maximized. The output ranges from 0 to 1, with 1
-indicating perfect predictions.
+maximized. The output ranges from
+0 to 1, with
+1 indicating perfect predictions.
 }
 \section{Relevant Level}{
 

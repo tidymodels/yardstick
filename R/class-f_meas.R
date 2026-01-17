@@ -24,7 +24,9 @@
 #'
 #' @details
 #' F measure is a metric that should be `r attr(f_meas, "direction")`d. The
-#' output ranges from 0 to 1, with 1 indicating perfect precision and recall.
+#' output ranges from `r metric_range(f_meas)[1]` to
+#' `r metric_range(f_meas)[2]`, with `r metric_optimal(f_meas)` indicating
+#' perfect precision and recall.
 #'
 #' @references
 #'
@@ -46,7 +48,8 @@ f_meas <- function(data, ...) {
 }
 f_meas <- new_class_metric(
   f_meas,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname f_meas

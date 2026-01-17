@@ -95,8 +95,9 @@ multiclass precision, the individual \code{NA} values will be removed, and the
 computation will procede, with a warning.
 
 Precision is a metric that should be maximized. The
-output ranges from 0 to 1, with 1 indicating that all predicted positives
-were actual positives.
+output ranges from 0 to
+1, with 1 indicating
+that all predicted positives were actual positives.
 }
 \section{Relevant Level}{
 

@@ -6,9 +6,9 @@
 #' related metric is the mean absolute error ([mae()]).
 #'
 #' @details
-#' MSD is a metric where the optimal value is `r attr(msd, "direction")`. The
-#' output ranges from negative infinity to infinity, with 0 indicating
-#' predictions are unbiased.
+#' MSD is a metric where the optimal value is `r metric_optimal(msd)`. The
+#' output ranges from `r metric_range(msd)[1]` to `r metric_range(msd)[2]`, with
+#' `r metric_optimal(msd)` indicating predictions are unbiased.
 #'
 #' Mean signed deviation is rarely used, since positive and negative errors
 #' cancel each other out. For example, `msd_vec(c(100, -100), c(0, 0))` would
@@ -38,7 +38,8 @@ msd <- function(data, ...) {
 }
 msd <- new_numeric_metric(
   msd,
-  direction = "zero"
+  direction = "zero",
+  range = c(-Inf, Inf)
 )
 
 #' @rdname msd

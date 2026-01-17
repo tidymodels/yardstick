@@ -19,7 +19,8 @@
 #'
 #' @details
 #' CCC is a metric that should be `r attr(ccc, "direction")`d. The output
-#' ranges from -1 to 1, with 1 indicating perfect agreement.
+#' ranges from `r metric_range(ccc)[1]` to `r metric_range(ccc)[2]`, with
+#' `r metric_optimal(ccc)` indicating perfect agreement.
 #'
 #' @author Max Kuhn
 #'
@@ -43,7 +44,8 @@ ccc <- function(data, ...) {
 }
 ccc <- new_numeric_metric(
   ccc,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(-1, 1)
 )
 
 #' @rdname ccc

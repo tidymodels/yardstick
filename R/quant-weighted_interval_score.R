@@ -62,8 +62,10 @@
 #'
 #' @details
 #' Weighted interval score is a metric that should be
-#' `r attr(weighted_interval_score, "direction")`d. The output ranges from 0 to
-#' infinity, with 0 indicating perfect predictions.
+#' `r attr(weighted_interval_score, "direction")`d. The output ranges from
+#' `r metric_range(weighted_interval_score)[1]` to
+#' `r metric_range(weighted_interval_score)[2]`, with
+#' `r metric_optimal(weighted_interval_score)` indicating perfect predictions.
 #'
 #' @return a vector of nonnegative scores.
 #'
@@ -109,7 +111,8 @@ weighted_interval_score <- function(data, ...) {
 }
 weighted_interval_score <- new_quantile_metric(
   weighted_interval_score,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname weighted_interval_score

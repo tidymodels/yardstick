@@ -62,8 +62,10 @@ overall calculation of model performance for all values of \code{.eval_time}.
 }
 \details{
 Integrated Brier survival score is a metric that should be
-minimized. The output ranges from 0
-to 1, with 0 indicating perfect predictions.
+minimized. The output ranges from
+0 to
+1, with
+0 indicating perfect predictions.
 
 The integrated time-dependent brier score is calculated in an "area under the
 curve" fashion. The brier score is calculated for each value of \code{.eval_time}.

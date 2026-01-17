@@ -92,7 +92,8 @@ negative predictive value (\code{\link[=npv]{npv()}}) is defined as the percent 
 positives that are actually negative.
 
 PPV is a metric that should be maximized. The output
-ranges from 0 to 1, with 1 indicating all predicted positives are true
+ranges from 0 to 1, with
+1 indicating all predicted positives are true
 positives.
 }
 \section{Relevant Level}{

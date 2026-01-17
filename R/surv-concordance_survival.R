@@ -7,8 +7,10 @@
 #' @template return
 #' @details
 #' Concordance is a metric that should be
-#' `r attr(concordance_survival, "direction")`d. The output ranges from 0 to 1,
-#' with 1 indicating perfect concordance.
+#' `r attr(concordance_survival, "direction")`d. The output ranges from
+#' `r metric_range(concordance_survival)[1]` to
+#' `r metric_range(concordance_survival)[2]`, with
+#' `r metric_optimal(concordance_survival)` indicating perfect concordance.
 #'
 #' The concordance index is defined as the proportion of all comparable pairs in
 #' which the predictions and outcomes are concordant.
@@ -59,7 +61,8 @@ concordance_survival <- function(data, ...) {
 
 concordance_survival <- new_static_survival_metric(
   concordance_survival,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname concordance_survival

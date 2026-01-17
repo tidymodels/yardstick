@@ -27,7 +27,8 @@
 #'
 #' @details
 #' Kappa is a metric that should be `r attr(kap, "direction")`d. The output
-#' ranges from -1 to 1, with 1 indicating perfect agreement. Negative values
+#' ranges from `r metric_range(kap)[1]` to `r metric_range(kap)[2]`, with
+#' `r metric_optimal(kap)` indicating perfect agreement. Negative values
 #' indicate agreement worse than chance.
 #'
 #' @author Max Kuhn
@@ -65,7 +66,8 @@ kap <- function(data, ...) {
 }
 kap <- new_class_metric(
   kap,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(-1, 1)
 )
 
 #' @export

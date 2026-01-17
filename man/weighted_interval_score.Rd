@@ -98,8 +98,10 @@ the context of COVID-19 forecasting.
 }
 \details{
 Weighted interval score is a metric that should be
-minimized. The output ranges from 0 to
-infinity, with 0 indicating perfect predictions.
+minimized. The output ranges from
+0 to
+∞, with
+0 indicating perfect predictions.
 }
 \examples{
 library(hardhat)

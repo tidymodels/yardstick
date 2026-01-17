@@ -55,8 +55,8 @@ and predicted values (and not of accuracy).
 }
 \details{
 RPIQ is a metric that should be maximized. The output
-ranges from 0 to infinity, with higher values indicating better model
-performance.
+ranges from 0 to ∞, with
+higher values indicating better model performance.
 }
 \examples{
 # Supply truth and predictions as bare column names

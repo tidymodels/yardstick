@@ -52,7 +52,9 @@ Accuracy is the proportion of the data that are predicted correctly.
 }
 \details{
 Accuracy is a metric that should be maximized. The
-output ranges from 0 to 1, with 1 indicating perfect predictions.
+output ranges from 0 to
+1, with 1 indicating
+perfect predictions.
 }
 \section{Multiclass}{
 

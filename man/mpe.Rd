@@ -55,10 +55,9 @@ Note that if \emph{any} \code{truth} values are \code{0}, a value of:
 is returned for \code{mpe()}.
 }
 \details{
-MPE is a metric where the optimal value is zero. The
-output ranges from negative infinity to infinity, with 0 indicating
-predictions are
-unbiased.
+MPE is a metric where the optimal value is 0. The
+output ranges from -∞ to ∞, with
+0 indicating predictions are unbiased.
 }
 \examples{
 # `solubility_test$solubility` has zero values with corresponding
