@@ -10,6 +10,12 @@
 #'
 #' @inheritParams sens
 #'
+#' @details
+#' Balanced accuracy is a metric that should be
+#' `r attr(bal_accuracy, "direction")`d. The output ranges from
+#' `r metric_range(bal_accuracy)[1]` to `r metric_range(bal_accuracy)[2]`, with
+#' `r metric_optimal(bal_accuracy)` indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-class
@@ -20,7 +26,8 @@ bal_accuracy <- function(data, ...) {
 }
 bal_accuracy <- new_class_metric(
   bal_accuracy,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export

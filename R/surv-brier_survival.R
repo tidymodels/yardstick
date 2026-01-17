@@ -29,6 +29,10 @@
 #' model. See the details for more information regarding format.
 #'
 #' @details
+#' Brier survival score is a metric that should be
+#' `r attr(brier_survival, "direction")`d. The output ranges from
+#' `r metric_range(brier_survival)[1]` to `r metric_range(brier_survival)[2]`,
+#' with `r metric_optimal(brier_survival)` indicating perfect predictions.
 #'
 #' This formulation takes survival probability predictions at one or more
 #' specific _evaluation times_ and, for each time, computes the Brier score. To
@@ -76,7 +80,8 @@ brier_survival <- function(data, ...) {
 
 brier_survival <- new_dynamic_survival_metric(
   brier_survival,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, 1)
 )
 
 #' @rdname brier_survival

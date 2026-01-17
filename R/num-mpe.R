@@ -15,6 +15,11 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' MPE is a metric where the optimal value is `r metric_optimal(mpe)`. The
+#' output ranges from `r metric_range(mpe)[1]` to `r metric_range(mpe)[2]`, with
+#' `r metric_optimal(mpe)` indicating predictions are unbiased.
+#'
 #' @author Thomas Bierhance
 #'
 #' @export
@@ -63,7 +68,8 @@ mpe <- function(data, ...) {
 }
 mpe <- new_numeric_metric(
   mpe,
-  direction = "zero"
+  direction = "zero",
+  range = c(-Inf, Inf)
 )
 
 #' @rdname mpe

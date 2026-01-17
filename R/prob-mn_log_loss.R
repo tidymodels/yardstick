@@ -28,6 +28,12 @@
 #' @param sum A `logical`. Should the sum of the likelihood contributions be
 #' returned (instead of the mean value)?
 #'
+#' @details
+#' Log loss is a metric that should be `r attr(mn_log_loss, "direction")`d. The
+#' output ranges from `r metric_range(mn_log_loss)[1]` to
+#' `r metric_range(mn_log_loss)[2]`, with `r metric_optimal(mn_log_loss)`
+#' indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @examples
@@ -74,7 +80,8 @@ mn_log_loss <- function(data, ...) {
 }
 mn_log_loss <- new_prob_metric(
   mn_log_loss,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @export

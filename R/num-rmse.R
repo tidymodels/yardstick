@@ -32,6 +32,11 @@
 #'
 #' @param ... Not currently used.
 #'
+#' @details
+#' RMSE is a metric that should be `r attr(rmse, "direction")`d. The output
+#' ranges from `r metric_range(rmse)[1]` to `r metric_range(rmse)[2]`, with
+#' `r metric_optimal(rmse)` indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-numeric
@@ -43,7 +48,8 @@ rmse <- function(data, ...) {
 }
 rmse <- new_numeric_metric(
   rmse,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname rmse

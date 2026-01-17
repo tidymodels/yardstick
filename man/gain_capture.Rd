@@ -92,6 +92,11 @@ The \code{gain_capture()} metric is identical to the \emph{accuracy ratio (AR)},
 is also sometimes called the \emph{gini coefficient}. These two are generally
 calculated on a cumulative accuracy profile curve, but this is the same as
 a gain curve. See the Engelmann reference for more information.
+
+Gain capture is a metric that should be maximized.
+The output ranges from 0 to
+1, with 1
+indicating perfect discrimination.
 }
 \section{Relevant Level}{
 

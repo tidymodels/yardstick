@@ -68,6 +68,10 @@ For \code{roc_aunu_vec()}, a single \code{numeric} value (or \code{NA}).
 curve of each class against the rest, using the uniform class distribution.
 This is equivalent to \code{roc_auc(estimator = "macro")}.
 }
+\details{
+ROC AUNU is a metric that should be maximized. The
+output ranges from 0 to 1, with 1 indicating perfect discrimination.
+}
 \section{Relevant Level}{
 
 

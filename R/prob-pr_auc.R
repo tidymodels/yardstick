@@ -33,6 +33,12 @@
 #' multiclass metrics. The default will automatically choose `"binary"` or
 #' `"macro"` based on `truth`.
 #'
+#' @details
+#' PR AUC is a metric that should be `r attr(pr_auc, "direction")`d. The output
+#' ranges from `r metric_range(pr_auc)[1]` to `r metric_range(pr_auc)[2]`, with
+#' `r metric_optimal(pr_auc)` indicating perfect precision and recall at all
+#' thresholds.
+#'
 #' @seealso
 #'
 #' [pr_curve()] for computing the full precision recall curve.
@@ -48,7 +54,8 @@ pr_auc <- function(data, ...) {
 }
 pr_auc <- new_prob_metric(
   pr_auc,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export

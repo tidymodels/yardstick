@@ -697,7 +697,8 @@ test_that("metric_set can be coerced to a tibble", {
 })
 
 test_that("`metric_set()` errors contain env name for unknown functions (#128)", {
-  foobar <- function() {}
+  foobar <- function() {
+  }
 
   # Store env name in `name` attribute for `environmentName()` to find it
   env <- rlang::new_environment(parent = globalenv())
@@ -716,7 +717,8 @@ test_that("`metric_set()` errors contain env name for unknown functions (#128)",
 })
 
 test_that("`metric_set()` gives an informative error for a single non-metric function (#181)", {
-  foobar <- function() {}
+  foobar <- function() {
+  }
 
   # Store env name in `name` attribute for `environmentName()` to find it
   env <- rlang::new_environment(parent = globalenv())

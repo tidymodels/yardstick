@@ -50,6 +50,11 @@ For \code{rmse_vec()}, a single \code{numeric} value (or \code{NA}).
 Calculate the root mean squared error. \code{rmse()} is a metric that is in
 the same units as the original data.
 }
+\details{
+RMSE is a metric that should be minimized. The output
+ranges from 0 to ∞, with
+0 indicating perfect predictions.
+}
 \examples{
 # Supply truth and predictions as bare column names
 rmse(solubility_test, solubility, prediction)

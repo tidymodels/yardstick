@@ -96,6 +96,13 @@ user-defined costs. The costs are multiplied by the estimated class
 probabilities and the mean cost is returned.
 }
 \details{
+Classification cost is a metric that should be
+minimized. The output ranges from
+0 to
+∞, with
+0 indicating perfect predictions (when
+costs for correct predictions are zero).
+
 As an example, suppose that there are three classes: \code{"A"}, \code{"B"}, and \code{"C"}.
 Suppose there is a truly \code{"A"} observation with class probabilities \code{A = 0.3 / B = 0.3 / C = 0.4}. Suppose that, when the true result is class \code{"A"}, the
 costs for each class were \code{A = 0 / B = 5 / C = 10}, penalizing the

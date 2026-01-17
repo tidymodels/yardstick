@@ -25,65 +25,80 @@
 #'   - `"minimize"`
 #'   - `"zero"`
 #'
+#' @param range An optional numeric vector of length 2 giving the range of
+#'   possible output values, e.g. `c(0, 1)` or `c(0, Inf)`. Use `-Inf` and
+#'   `Inf` for unbounded ranges.
+#'
 #' @name new-metric
 NULL
 
 #' @rdname new-metric
 #' @export
-new_class_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "class_metric")
+new_class_metric <- function(fn, direction, range = NULL) {
+  new_metric(fn, direction, class = "class_metric", range = range)
 }
 
 #' @rdname new-metric
 #' @export
-new_prob_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "prob_metric")
+new_prob_metric <- function(fn, direction, range = NULL) {
+  new_metric(fn, direction, class = "prob_metric", range = range)
 }
 
 #' @rdname new-metric
 #' @export
-new_ordered_prob_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "ordered_prob_metric")
+new_ordered_prob_metric <- function(fn, direction, range = NULL) {
+  new_metric(fn, direction, class = "ordered_prob_metric", range = range)
 }
 
 #' @rdname new-metric
 #' @export
-new_numeric_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "numeric_metric")
+new_numeric_metric <- function(fn, direction, range = NULL) {
+  new_metric(fn, direction, class = "numeric_metric", range = range)
 }
 
 #' @rdname new-metric
 #' @export
-new_dynamic_survival_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "dynamic_survival_metric")
+new_dynamic_survival_metric <- function(fn, direction, range = NULL) {
+  new_metric(fn, direction, class = "dynamic_survival_metric", range = range)
 }
 
 #' @rdname new-metric
 #' @export
-new_integrated_survival_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "integrated_survival_metric")
+new_integrated_survival_metric <- function(fn, direction, range = NULL) {
+  new_metric(fn, direction, class = "integrated_survival_metric", range = range)
 }
 
 #' @rdname new-metric
 #' @export
-new_static_survival_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "static_survival_metric")
+new_static_survival_metric <- function(fn, direction, range = NULL) {
+  new_metric(fn, direction, class = "static_survival_metric", range = range)
 }
 
 #' @rdname new-metric
 #' @export
-new_linear_pred_survival_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "linear_pred_survival_metric")
+new_linear_pred_survival_metric <- function(fn, direction, range = NULL) {
+  new_metric(
+    fn,
+    direction,
+    class = "linear_pred_survival_metric",
+    range = range
+  )
 }
 
 #' @rdname new-metric
 #' @export
-new_quantile_metric <- function(fn, direction) {
-  new_metric(fn, direction, class = "quantile_metric")
+new_quantile_metric <- function(fn, direction, range = NULL) {
+  new_metric(fn, direction, class = "quantile_metric", range = range)
 }
 
 #' @include import-standalone-types-check.R
-new_metric <- function(fn, direction, class = NULL, call = caller_env()) {
+new_metric <- function(
+  fn,
+  direction,
+  class = NULL,
+  range = NULL,
+  call = caller_env()
+) {
   check_function(fn, call = call)
 
   direction <- arg_match(
@@ -92,11 +107,14 @@ new_metric <- function(fn, direction, class = NULL, call = caller_env()) {
     error_call = call
   )
 
+  check_range(range, call = call)
+
   class <- c(class, "metric", "function")
 
   structure(
     fn,
     direction = direction,
+    range = range,
     class = class
   )
 }
@@ -105,12 +123,54 @@ is_metric <- function(x) {
   inherits(x, "metric")
 }
 
+check_range <- function(range, call = caller_env()) {
+  if (is.null(range)) {
+    return(invisible(NULL))
+  }
+
+  if (!is.numeric(range) || length(range) != 2) {
+    cli::cli_abort(
+      "{.arg range} must be a numeric vector of length 2.",
+      call = call
+    )
+  }
+  if (range[1] > range[2]) {
+    cli::cli_abort(
+      "{.arg range} must have {.code range[1] <= range[2]}.",
+      call = call
+    )
+  }
+
+  invisible(NULL)
+}
+
 metric_direction <- function(x) {
   attr(x, "direction", exact = TRUE)
 }
 `metric_direction<-` <- function(x, value) {
   attr(x, "direction") <- value
   x
+}
+
+metric_range <- function(x) {
+  attr(x, "range", exact = TRUE)
+}
+`metric_range<-` <- function(x, value) {
+  attr(x, "range") <- value
+  x
+}
+
+metric_optimal <- function(x) {
+  direction <- metric_direction(x)
+  range <- metric_range(x)
+
+  if (direction == "maximize") {
+    range[2]
+  } else if (direction == "minimize") {
+    range[1]
+  } else {
+    0
+  }
 }
 
 #' @noRd

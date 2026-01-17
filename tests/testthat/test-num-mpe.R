@@ -82,3 +82,26 @@ test_that("mpe() - computes expected values when singular `truth` is `0`", {
     NaN
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(mpe)
+  range <- metric_range(mpe)
+  perfect <- 0
+
+  df <- tibble::tibble(
+    truth = c(5, 6, 2, 6, 4, 1, 3)
+  )
+
+  df$estimate <- df$truth
+  df$off <- df$truth + 1
+
+  expect_identical(
+    mpe_vec(df$truth, df$estimate),
+    perfect
+  )
+  if (direction == "zero") {
+    expect_true(abs(mpe_vec(df$truth, df$off)) > perfect)
+    expect_gte(mpe_vec(df$truth, df$off), range[1])
+    expect_lte(mpe_vec(df$truth, df$off), range[2])
+  }
+})

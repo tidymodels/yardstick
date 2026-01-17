@@ -14,6 +14,9 @@
 #' @templateVar fn ranked_prob_score
 #' @template return
 #' @details
+#' Ranked probability score is a metric that should be
+#' `r attr(ranked_prob_score, "direction")`d. The output ranges from 0 to 1,
+#' with 0 indicating perfect predictions.
 #'
 #' The ranked probability score is a Brier score for ordinal data that uses the
 #' _cumulative_ probability of an event (i.e. `Pr[class <= i]` for `i` = 1,

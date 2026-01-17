@@ -50,6 +50,13 @@ For \code{mcc_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Matthews correlation coefficient
 }
+\details{
+MCC is a metric that should be maximized. The output
+ranges from -1 to 1, with
+1 indicating perfect predictions. A value of 0
+indicates no better than random prediction, and negative values indicate
+inverse prediction.
+}
 \section{Relevant Level}{
 
 

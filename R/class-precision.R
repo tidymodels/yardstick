@@ -27,6 +27,12 @@
 #'
 #' @inheritParams sens
 #'
+#' @details
+#' Precision is a metric that should be `r attr(precision, "direction")`d. The
+#' output ranges from `r metric_range(precision)[1]` to
+#' `r metric_range(precision)[2]`, with `r metric_optimal(precision)` indicating
+#' that all predicted positives were actual positives.
+#'
 #' @references
 #'
 #' Buckland, M., & Gey, F. (1994). The relationship
@@ -47,7 +53,8 @@ precision <- function(data, ...) {
 }
 precision <- new_class_metric(
   precision,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname precision

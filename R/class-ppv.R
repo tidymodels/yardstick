@@ -22,6 +22,12 @@
 #' @param prevalence A numeric value for the rate of the
 #'  "positive" class of the data.
 #'
+#' @details
+#' PPV is a metric that should be `r attr(ppv, "direction")`d. The output
+#' ranges from `r metric_range(ppv)[1]` to `r metric_range(ppv)[2]`, with
+#' `r metric_optimal(ppv)` indicating all predicted positives are true
+#' positives.
+#'
 #' @author Max Kuhn
 #'
 #' @references
@@ -41,7 +47,8 @@ ppv <- function(data, ...) {
 }
 ppv <- new_class_metric(
   ppv,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname ppv

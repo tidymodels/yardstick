@@ -54,6 +54,11 @@ Note that if \emph{any} \code{truth} values are \code{0}, a value of:
 \code{-Inf} (\code{estimate > 0}), \code{Inf} (\code{estimate < 0}), or \code{NaN} (\code{estimate == 0})
 is returned for \code{mpe()}.
 }
+\details{
+MPE is a metric where the optimal value is 0. The
+output ranges from -∞ to ∞, with
+0 indicating predictions are unbiased.
+}
 \examples{
 # `solubility_test$solubility` has zero values with corresponding
 # `$prediction` values that are negative. By definition, this causes `Inf`

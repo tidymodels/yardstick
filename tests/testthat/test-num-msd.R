@@ -73,3 +73,26 @@ test_that("msd() - positive and negative errors cancel each other out", {
 test_that("msd() - differences are computed as `truth - estimate`", {
   expect_identical(msd_vec(0, 1), -1)
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(msd)
+  range <- metric_range(msd)
+  perfect <- 0
+
+  df <- tibble::tibble(
+    truth = c(5, 6, 2, 6, 4, 1, 3)
+  )
+
+  df$estimate <- df$truth
+  df$off <- df$truth + 1
+
+  expect_identical(
+    msd_vec(df$truth, df$estimate),
+    perfect
+  )
+  if (direction == "zero") {
+    expect_true(abs(msd_vec(df$truth, df$off)) > perfect)
+    expect_gte(msd_vec(df$truth, df$off), range[1])
+    expect_lte(msd_vec(df$truth, df$off), range[2])
+  }
+})

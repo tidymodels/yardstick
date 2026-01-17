@@ -22,6 +22,11 @@
 #'  the harmonic mean of the two values but other values weight
 #'  recall beta times more important than precision.
 #'
+#' @details
+#' F measure is a metric that should be `r attr(f_meas, "direction")`d. The
+#' output ranges from `r metric_range(f_meas)[1]` to
+#' `r metric_range(f_meas)[2]`, with `r metric_optimal(f_meas)` indicating
+#' perfect precision and recall.
 #'
 #' @references
 #'
@@ -43,7 +48,8 @@ f_meas <- function(data, ...) {
 }
 f_meas <- new_class_metric(
   f_meas,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname f_meas

@@ -102,3 +102,37 @@ test_that("metric print method works", {
   expect_snapshot(roc_auc)
   expect_snapshot(demographic_parity(boop))
 })
+
+test_that("range argument works", {
+  metric_with_range <- new_numeric_metric(
+    function() 1,
+    "minimize",
+    range = c(0, 1)
+  )
+
+  expect_identical(metric_range(metric_with_range), c(0, 1))
+})
+
+test_that("range argument is not required", {
+  metric_without_range <- new_numeric_metric(
+    function() 1,
+    "minimize"
+  )
+
+  expect_null(metric_range(metric_without_range))
+})
+
+test_that("`range` argument is validated", {
+  expect_snapshot(
+    error = TRUE,
+    new_numeric_metric(function() 1, "minimize", range = "bad")
+  )
+  expect_snapshot(
+    error = TRUE,
+    new_numeric_metric(function() 1, "minimize", range = c(1, 0))
+  )
+  expect_snapshot(
+    error = TRUE,
+    new_numeric_metric(function() 1, "minimize", range = 1)
+  )
+})

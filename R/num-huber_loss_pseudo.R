@@ -10,6 +10,11 @@
 #'
 #' @inheritParams huber_loss
 #'
+#' @details
+#' Pseudo-Huber loss is a metric that should be
+#' `r attr(huber_loss_pseudo, "direction")`d. The output ranges from 0 to
+#' infinity, with 0 indicating perfect predictions.
+#'
 #' @author James Blair
 #'
 #' @references

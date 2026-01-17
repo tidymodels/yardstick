@@ -27,6 +27,12 @@
 #'
 #' @inheritParams sens
 #'
+#' @details
+#' Recall is a metric that should be `r attr(recall, "direction")`d. The
+#' output ranges from `r metric_range(recall)[1]` to
+#' `r metric_range(recall)[2]`, with `r metric_optimal(recall)` indicating that
+#' all actual positives were predicted as positive.
+#'
 #' @references
 #'
 #' Buckland, M., & Gey, F. (1994). The relationship
@@ -47,7 +53,8 @@ recall <- function(data, ...) {
 }
 recall <- new_class_metric(
   recall,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname recall

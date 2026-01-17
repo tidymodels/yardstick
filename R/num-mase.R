@@ -36,6 +36,11 @@
 #' seasonality, then `m = 7L` would be a reasonable choice for a 7-day seasonal
 #' naive calculation.
 #'
+#' @details
+#' MASE is a metric that should be `r attr(mase, "direction")`d. The output
+#' ranges from `r metric_range(mase)[1]` to `r metric_range(mase)[2]`, with
+#' `r metric_optimal(mase)` indicating perfect predictions.
+#'
 #' @author Alex Hallam
 #'
 #' @references
@@ -52,7 +57,8 @@ mase <- function(data, ...) {
 }
 mase <- new_numeric_metric(
   mase,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname mase

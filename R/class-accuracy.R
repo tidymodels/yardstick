@@ -13,6 +13,12 @@
 #'
 #' @inheritParams sens
 #'
+#' @details
+#' Accuracy is a metric that should be `r attr(accuracy, "direction")`d. The
+#' output ranges from `r metric_range(accuracy)[1]` to
+#' `r metric_range(accuracy)[2]`, with `r metric_optimal(accuracy)` indicating
+#' perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @export
@@ -39,7 +45,8 @@ accuracy <- function(data, ...) {
 }
 accuracy <- new_class_metric(
   accuracy,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
