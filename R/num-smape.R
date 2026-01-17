@@ -30,7 +30,7 @@ smape <- function(data, ...) {
 smape <- new_numeric_metric(
   smape,
   direction = "minimize",
-  range = c(0, 1)
+  range = c(0, 100)
 )
 
 #' @rdname smape
