@@ -141,3 +141,30 @@ test_that("ccc() - bias argument works", {
     tolerance = 0.001
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(ccc)
+  range <- metric_range(ccc)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = c(5, 6, 2, 6, 4, 1, 3)
+  )
+
+  df$estimate <- df$truth
+  df$off <- df$truth + 1
+
+  expect_identical(
+    ccc_vec(df$truth, df$estimate),
+    perfect
+  )
+  if (direction == "minimize") {
+    expect_gt(ccc_vec(df$truth, df$off), perfect)
+    expect_lt(ccc_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(ccc_vec(df$truth, df$off), perfect)
+    expect_gt(ccc_vec(df$truth, df$off), worst)
+  }
+})

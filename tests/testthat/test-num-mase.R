@@ -135,3 +135,30 @@ test_that("mase() - mae_train argument works", {
     exp
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(mase)
+  range <- metric_range(mase)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = c(5, 6, 2, 6, 4, 1, 3)
+  )
+
+  df$estimate <- df$truth
+  df$off <- df$truth + 1
+
+  expect_identical(
+    mase_vec(df$truth, df$estimate),
+    perfect
+  )
+  if (direction == "minimize") {
+    expect_gt(mase_vec(df$truth, df$off), perfect)
+    expect_lt(mase_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(mase_vec(df$truth, df$off), perfect)
+    expect_gt(mase_vec(df$truth, df$off), worst)
+  }
+})

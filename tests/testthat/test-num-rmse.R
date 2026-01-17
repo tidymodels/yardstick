@@ -68,6 +68,33 @@ test_that("na_rm argument check", {
   )
 })
 
+test_that("range values are correct", {
+  direction <- metric_direction(rmse)
+  range <- metric_range(rmse)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = c(5, 6, 2, 6, 4, 1, 3)
+  )
+
+  df$estimate <- df$truth
+  df$off <- df$truth + 1
+
+  expect_identical(
+    rmse_vec(df$truth, df$estimate),
+    perfect
+  )
+  if (direction == "minimize") {
+    expect_gt(rmse_vec(df$truth, df$off), perfect)
+    expect_lt(rmse_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(rmse_vec(df$truth, df$off), perfect)
+    expect_gt(rmse_vec(df$truth, df$off), worst)
+  }
+})
+
 test_that("rmse() - Integer columns are allowed (#44)", {
   ex_dat <- generate_numeric_test_data()
   ex_dat$obs <- as.integer(ex_dat$obs)

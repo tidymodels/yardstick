@@ -67,3 +67,30 @@ test_that("na_rm argument check", {
     mae_vec(1, 1, na_rm = "yes")
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(mae)
+  range <- metric_range(mae)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = c(5, 6, 2, 6, 4, 1, 3)
+  )
+
+  df$estimate <- df$truth
+  df$off <- df$truth + 1
+
+  expect_identical(
+    mae_vec(df$truth, df$estimate),
+    perfect
+  )
+  if (direction == "minimize") {
+    expect_gt(mae_vec(df$truth, df$off), perfect)
+    expect_lt(mae_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(mae_vec(df$truth, df$off), perfect)
+    expect_gt(mae_vec(df$truth, df$off), worst)
+  }
+})
