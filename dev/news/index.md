@@ -2,6 +2,11 @@
 
 ## yardstick (development version)
 
+- [`classification_cost()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)
+  documentation now correctly refers to the `cost` column of the
+  data.frame that can be passed to the `costs` arguemtn.
+  ([\#343](https://github.com/tidymodels/yardstick/issues/343))
+
 - `new_metric()` and related functions gain an optional `range` argument
   to store the valid output range of a metric. This is a
   developer-facing change.

@@ -43,7 +43,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="yardstick-development-version">yardstick (development version)<a class="anchor" aria-label="anchor" href="#yardstick-development-version"></a></h2>
-<ul><li><p><code>new_metric()</code> and related functions gain an optional <code>range</code> argument to store the valid output range of a metric. This is a developer-facing change. (<a href="https://github.com/tidymodels/yardstick/issues/572" class="external-link">#572</a>)</p></li>
+<ul><li><p><code><a href="../reference/classification_cost.html">classification_cost()</a></code> documentation now correctly refers to the <code>cost</code> column of the data.frame that can be passed to the <code>costs</code> arguemtn. (<a href="https://github.com/tidymodels/yardstick/issues/343" class="external-link">#343</a>)</p></li>
+<li><p><code>new_metric()</code> and related functions gain an optional <code>range</code> argument to store the valid output range of a metric. This is a developer-facing change. (<a href="https://github.com/tidymodels/yardstick/issues/572" class="external-link">#572</a>)</p></li>
 <li><p>All metrics now have documented ranges of possible values in addition to what direction is the best. (<a href="https://github.com/tidymodels/yardstick/issues/572" class="external-link">#572</a>)</p></li>
 <li><p>The ranked probability score for ordinal classification data was added with <code><a href="../reference/ranked_prob_score.html">ranked_prob_score()</a></code>. (<a href="https://github.com/tidymodels/yardstick/issues/524" class="external-link">#524</a>)</p></li>
 <li><p><code><a href="../reference/poisson_log_loss.html">poisson_log_loss()</a></code> has been enhanced to handle 0 valued estimates, no longer returning <code>Inf</code> or <code>NaN</code>. (<a href="https://github.com/tidymodels/yardstick/issues/513" class="external-link">#513</a>)</p></li>
