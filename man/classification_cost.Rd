@@ -50,7 +50,7 @@ names). For \verb{_vec()} functions, a \code{factor} vector.}
 \code{"truth"} and \code{"estimate"} should be character columns containing unique
 combinations of the levels of the \code{truth} factor.
 
-\code{"costs"} should be a numeric column representing the cost that should
+\code{"cost"} should be a numeric column representing the cost that should
 be applied when the \code{"estimate"} is predicted, but the true result is
 \code{"truth"}.
 
