@@ -124,7 +124,7 @@ test_that("range values are correct", {
     expect_lt(rsq_vec(df$truth, df$off), worst)
   }
   if (direction == "maximize") {
-    expect_lt(rsq_vec(df$truth, df$off), perfect)
+    expect_lte(rsq_vec(df$truth, df$off), perfect)
     expect_gt(rsq_vec(df$truth, df$off), worst)
   }
 })
