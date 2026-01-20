@@ -1,6 +1,8 @@
 # yardstick (development version)
 
-* `new_metric()` and related functions gain an optional `range` argument to store the valid output range of a metric. This is a developer-facing change.
+* `new_metric()` and related functions gain an optional `range` argument to store the valid output range of a metric. This is a developer-facing change. (#572)
+
+* All metrics now have documented ranges of possible values in addition to what direction is the best. (#572)
 
 * The ranked probability score for ordinal classification data was added with `ranked_prob_score()`. (#524)
 
