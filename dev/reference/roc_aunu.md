@@ -82,6 +82,11 @@ the number of groups.
 
 For `roc_aunu_vec()`, a single `numeric` value (or `NA`).
 
+## Details
+
+ROC AUNU is a metric that should be maximized. The output ranges from 0
+to 1, with 1 indicating perfect discrimination.
+
 ## Relevant Level
 
 There is no common convention on which factor level should automatically

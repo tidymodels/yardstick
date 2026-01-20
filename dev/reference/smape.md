@@ -70,6 +70,9 @@ For `smape_vec()`, a single `numeric` value (or `NA`).
 This implementation of `smape()` is the "usual definition" where the
 denominator is divided by two.
 
+SMAPE is a metric that should be minimized. The output ranges from 0 to
+100, with 0 indicating perfect predictions.
+
 ## See also
 
 Other numeric metrics:

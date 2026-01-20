@@ -112,7 +112,10 @@ the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Mean signed deviation is rarely used, since positive and negative errors
+    <p>MSD is a metric where the optimal value is 0. The
+output ranges from -∞ to ∞, with
+0 indicating predictions are unbiased.</p>
+<p>Mean signed deviation is rarely used, since positive and negative errors
 cancel each other out. For example, <code>msd_vec(c(100, -100), c(0, 0))</code> would
 return a seemingly "perfect" value of <code>0</code>, even though <code>estimate</code> is wildly
 different from <code>truth</code>. <code><a href="mae.html">mae()</a></code> attempts to remedy this by taking the

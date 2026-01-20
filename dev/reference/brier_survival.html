@@ -113,7 +113,11 @@ the number of rows returned is the same as the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This formulation takes survival probability predictions at one or more
+    <p>Brier survival score is a metric that should be
+minimized. The output ranges from
+0 to 1,
+with 0 indicating perfect predictions.</p>
+<p>This formulation takes survival probability predictions at one or more
 specific <em>evaluation times</em> and, for each time, computes the Brier score. To
 account for censoring, inverse probability of censoring weights (IPCW) are
 used in the calculations.</p>

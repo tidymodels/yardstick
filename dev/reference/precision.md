@@ -115,6 +115,10 @@ binary precision, a `NA` value will be returned with a warning. When
 computing multiclass precision, the individual `NA` values will be
 removed, and the computation will procede, with a warning.
 
+Precision is a metric that should be maximized. The output ranges from 0
+to 1, with 1 indicating that all predicted positives were actual
+positives.
+
 ## Relevant Level
 
 There is no common convention on which factor level should automatically

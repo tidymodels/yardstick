@@ -116,6 +116,9 @@ defined as the percent of predicted positives that are actually positive
 while the negative predictive value (`npv()`) is defined as the percent
 of negative positives that are actually negative.
 
+NPV is a metric that should be maximized. The output ranges from 0 to 1,
+with 1 indicating all predicted negatives are true negatives.
+
 ## Relevant Level
 
 There is no common convention on which factor level should automatically

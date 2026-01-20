@@ -70,6 +70,9 @@ For `royston_survival_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Royston D statistic is a metric that should be maximized. The output
+ranges from 0 to 1, with 1 indicating perfect prognostic separation.
+
 Royston and Sauerbrei proposed \$R^2_D\$ as a measure of explained
 variation on the log relative hazard scale based on the authors’ D
 statistic. D measures prognostic separation of survival curves, and is

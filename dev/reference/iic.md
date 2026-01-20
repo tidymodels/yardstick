@@ -79,6 +79,11 @@ the number of groups.
 
 For `iic_vec()`, a single `numeric` value (or `NA`).
 
+## Details
+
+IIC is a metric that should be maximized. The output ranges from -1 to
+1, with 1 indicating perfect agreement.
+
 ## References
 
 Toropova, A. and Toropov, A. (2017). "The index of ideality of

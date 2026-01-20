@@ -118,6 +118,9 @@ For `roc_auc_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+ROC AUC is a metric that should be maximized. The output ranges from 0
+to 1, with 1 indicating perfect discrimination.
+
 Generally, an ROC AUC value is between `0.5` and `1`, with `1` being a
 perfect prediction model. If your value is between `0` and `0.5`, then
 this implies that you have meaningful information in your model, but it

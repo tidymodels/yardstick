@@ -116,6 +116,9 @@ predictive value
 ([`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md)) is
 defined as the percent of negative positives that are actually negative.
 
+PPV is a metric that should be maximized. The output ranges from 0 to 1,
+with 1 indicating all predicted positives are true positives.
+
 ## Relevant Level
 
 There is no common convention on which factor level should automatically

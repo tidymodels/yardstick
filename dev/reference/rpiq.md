@@ -73,16 +73,8 @@ single `numeric` value (or `NA`).
 
 ## Details
 
-In the field of spectroscopy in particular, the ratio of performance to
-deviation (RPD) has been used as the standard way to report the quality
-of a model. It is the ratio between the standard deviation of a variable
-and the standard error of prediction of that variable by a given model.
-However, its systematic use has been criticized by several authors,
-since using the standard deviation to represent the spread of a variable
-can be misleading on skewed dataset. The ratio of performance to
-inter-quartile has been introduced by Bellon-Maurel et al. (2010) to
-address some of these issues, and generalise the RPD to non-normally
-distributed variables.
+RPIQ is a metric that should be maximized. The output ranges from 0 to
+∞, with higher values indicating better model performance.
 
 ## References
 

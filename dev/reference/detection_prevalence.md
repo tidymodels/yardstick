@@ -99,6 +99,12 @@ the number of groups.
 
 For `detection_prevalence_vec()`, a single `numeric` value (or `NA`).
 
+## Details
+
+Detection prevalence is a metric that should be maximized. The output
+ranges from 0 to 1. The "optimal" value depends on the true prevalence
+of positive events in the data.
+
 ## Relevant Level
 
 There is no common convention on which factor level should automatically

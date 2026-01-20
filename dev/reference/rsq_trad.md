@@ -76,6 +76,10 @@ The two estimates for the coefficient of determination,
 non-informative (see the examples). Both are measures of
 consistency/correlation and not of accuracy.
 
+Traditional R squared is a metric that should be maximized. The output
+ranges from 0 to 1, with 1 indicating perfect predictions. Negative
+values can occur when the model is non-informative.
+
 ## References
 
 Kvalseth. Cautionary note about \\R^2\\. American Statistician (1985)

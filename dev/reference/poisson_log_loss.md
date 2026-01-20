@@ -64,6 +64,11 @@ the number of groups.
 
 For `poisson_log_loss_vec()`, a single `numeric` value (or `NA`).
 
+## Details
+
+Poisson log loss is a metric that should be minimized. The output ranges
+from 0 to ∞, with 0 indicating perfect predictions.
+
 ## See also
 
 Other numeric metrics:

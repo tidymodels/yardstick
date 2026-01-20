@@ -14,23 +14,23 @@ information about creating custom metrics.
 ## Usage
 
 ``` r
-new_class_metric(fn, direction)
+new_class_metric(fn, direction, range = NULL)
 
-new_prob_metric(fn, direction)
+new_prob_metric(fn, direction, range = NULL)
 
-new_ordered_prob_metric(fn, direction)
+new_ordered_prob_metric(fn, direction, range = NULL)
 
-new_numeric_metric(fn, direction)
+new_numeric_metric(fn, direction, range = NULL)
 
-new_dynamic_survival_metric(fn, direction)
+new_dynamic_survival_metric(fn, direction, range = NULL)
 
-new_integrated_survival_metric(fn, direction)
+new_integrated_survival_metric(fn, direction, range = NULL)
 
-new_static_survival_metric(fn, direction)
+new_static_survival_metric(fn, direction, range = NULL)
 
-new_linear_pred_survival_metric(fn, direction)
+new_linear_pred_survival_metric(fn, direction, range = NULL)
 
-new_quantile_metric(fn, direction)
+new_quantile_metric(fn, direction, range = NULL)
 ```
 
 ## Arguments
@@ -49,3 +49,9 @@ new_quantile_metric(fn, direction)
   - `"minimize"`
 
   - `"zero"`
+
+- range:
+
+  An optional numeric vector of length 2 giving the range of possible
+  output values, e.g. `c(0, 1)` or `c(0, Inf)`. Use `-Inf` and `Inf` for
+  unbounded ranges.

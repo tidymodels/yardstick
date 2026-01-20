@@ -115,6 +115,10 @@ For `class_cost_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Classification cost is a metric that should be minimized. The output
+ranges from 0 to ∞, with 0 indicating perfect predictions (when costs
+for correct predictions are zero).
+
 As an example, suppose that there are three classes: `"A"`, `"B"`, and
 `"C"`. Suppose there is a truly `"A"` observation with class
 probabilities `A = 0.3 / B = 0.3 / C = 0.4`. Suppose that, when the true

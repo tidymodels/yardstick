@@ -158,7 +158,11 @@ the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Generally, an ROC AUC value is between <code>0.5</code> and <code>1</code>, with <code>1</code> being a
+    <p>ROC AUC is a metric that should be maximized. The
+output ranges from 0 to
+1, with 1 indicating
+perfect discrimination.</p>
+<p>Generally, an ROC AUC value is between <code>0.5</code> and <code>1</code>, with <code>1</code> being a
 perfect prediction model. If your value is between <code>0</code> and <code>0.5</code>, then
 this implies that you have meaningful information in your model, but it
 is being applied incorrectly because doing the opposite of what the model

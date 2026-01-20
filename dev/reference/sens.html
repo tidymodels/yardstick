@@ -179,6 +179,10 @@ are true, which mean that there were no true events. When computing binary
 sensitivity, a <code>NA</code> value will be returned with a warning. When computing
 multiclass sensitivity, the individual <code>NA</code> values will be removed, and the
 computation will procede, with a warning.</p>
+<p>Sensitivity is a metric that should be maximized. The
+output ranges from 0 to 1,
+with 1 indicating that all actual positives were
+predicted as positive.</p>
     </div>
     <div class="section level2">
     <h2 id="relevant-level">Relevant Level<a class="anchor" aria-label="anchor" href="#relevant-level"></a></h2>

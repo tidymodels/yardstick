@@ -69,6 +69,9 @@ For `ranked_prob_score_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Ranked probability score is a metric that should be minimized. The
+output ranges from 0 to 1, with 0 indicating perfect predictions.
+
 The ranked probability score is a Brier score for ordinal data that uses
 the *cumulative* probability of an event (i.e. `Pr[class <= i]` for `i`
 = 1, 2, ..., `C` classes). These probabilities are compared to

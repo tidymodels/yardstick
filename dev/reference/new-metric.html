@@ -66,23 +66,23 @@ information about creating custom metrics.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">new_class_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">new_class_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span>, range <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">new_prob_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span><span class="op">)</span></span>
+<span><span class="fu">new_prob_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span>, range <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">new_ordered_prob_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span><span class="op">)</span></span>
+<span><span class="fu">new_ordered_prob_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span>, range <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">new_numeric_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span><span class="op">)</span></span>
+<span><span class="fu">new_numeric_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span>, range <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">new_dynamic_survival_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span><span class="op">)</span></span>
+<span><span class="fu">new_dynamic_survival_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span>, range <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">new_integrated_survival_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span><span class="op">)</span></span>
+<span><span class="fu">new_integrated_survival_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span>, range <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">new_static_survival_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span><span class="op">)</span></span>
+<span><span class="fu">new_static_survival_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span>, range <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">new_linear_pred_survival_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span><span class="op">)</span></span>
+<span><span class="fu">new_linear_pred_survival_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span>, range <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">new_quantile_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">new_quantile_metric</span><span class="op">(</span><span class="va">fn</span>, <span class="va">direction</span>, range <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -99,6 +99,12 @@ and <code>direction</code> attribute to.</p></dd>
 <li><p><code>"minimize"</code></p></li>
 <li><p><code>"zero"</code></p></li>
 </ul></dd>
+
+
+<dt id="arg-range">range<a class="anchor" aria-label="anchor" href="#arg-range"></a></dt>
+<dd><p>An optional numeric vector of length 2 giving the range of
+possible output values, e.g. <code>c(0, 1)</code> or <code>c(0, Inf)</code>. Use <code>-Inf</code> and
+<code>Inf</code> for unbounded ranges.</p></dd>
 
 </dl></div>
 

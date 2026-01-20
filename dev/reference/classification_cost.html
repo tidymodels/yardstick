@@ -155,7 +155,13 @@ the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>As an example, suppose that there are three classes: <code>"A"</code>, <code>"B"</code>, and <code>"C"</code>.
+    <p>Classification cost is a metric that should be
+minimized. The output ranges from
+0 to
+∞, with
+0 indicating perfect predictions (when
+costs for correct predictions are zero).</p>
+<p>As an example, suppose that there are three classes: <code>"A"</code>, <code>"B"</code>, and <code>"C"</code>.
 Suppose there is a truly <code>"A"</code> observation with class probabilities <code>A = 0.3 / B = 0.3 / C = 0.4</code>. Suppose that, when the true result is class <code>"A"</code>, the
 costs for each class were <code>A = 0 / B = 5 / C = 10</code>, penalizing the
 probability of incorrectly predicting <code>"C"</code> more than predicting <code>"B"</code>. The

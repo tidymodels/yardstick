@@ -112,6 +112,10 @@ For `average_precision_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Average precision is a metric that should be maximized. The output
+ranges from 0 to 1, with 1 indicating perfect precision and recall at
+all thresholds.
+
 The computation for average precision is a weighted average of the
 precision values. Assuming you have `n` rows returned from
 [`pr_curve()`](https://yardstick.tidymodels.org/dev/reference/pr_curve.md),

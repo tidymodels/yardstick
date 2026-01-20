@@ -111,6 +111,9 @@ interpret them as having the same value. If the true output is `"Yes"`,
 log loss penalizes `.6` because it is "less sure" of its result compared
 to the probability of `.9`.
 
+Log loss is a metric that should be minimized. The output ranges from 0
+to ∞, with 0 indicating perfect predictions.
+
 ## Multiclass
 
 Log loss has a known multiclass extension, and is simply the sum of the

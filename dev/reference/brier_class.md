@@ -70,6 +70,9 @@ For `brier_class_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Brier score is a metric that should be minimized. The output ranges from
+0 to 1, with 0 indicating perfect predictions.
+
 The Brier score is analogous to the mean squared error in regression
 models. The difference between a binary indicator for a class and its
 corresponding class probability are squared and averaged.

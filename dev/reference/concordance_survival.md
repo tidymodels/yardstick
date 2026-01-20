@@ -83,6 +83,9 @@ For `concordance_survival_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Concordance is a metric that should be maximized. The output ranges from
+0 to 1, with 1 indicating perfect concordance.
+
 The concordance index is defined as the proportion of all comparable
 pairs in which the predictions and outcomes are concordant.
 

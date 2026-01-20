@@ -116,6 +116,10 @@ binary recall, a `NA` value will be returned with a warning. When
 computing multiclass recall, the individual `NA` values will be removed,
 and the computation will procede, with a warning.
 
+Recall is a metric that should be maximized. The output ranges from 0 to
+1, with 1 indicating that all actual positives were predicted as
+positive.
+
 ## Relevant Level
 
 There is no common convention on which factor level should automatically

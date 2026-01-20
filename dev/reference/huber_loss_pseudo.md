@@ -89,6 +89,11 @@ the number of groups.
 
 For `huber_loss_pseudo_vec()`, a single `numeric` value (or `NA`).
 
+## Details
+
+Pseudo-Huber loss is a metric that should be minimized. The output
+ranges from 0 to ∞, with 0 indicating perfect predictions.
+
 ## References
 
 Huber, P. (1964). Robust Estimation of a Location Parameter. *Annals of

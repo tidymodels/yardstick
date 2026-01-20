@@ -115,6 +115,9 @@ passed through in the `mae_train` argument and it will be used instead.
 If the in-sample data is available, the naive mean absolute error can
 easily be computed with `mae(data, truth, lagged_truth)`.
 
+MASE is a metric that should be minimized. The output ranges from 0 to
+∞, with 0 indicating perfect predictions.
+
 ## References
 
 Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS FOR

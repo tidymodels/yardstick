@@ -119,7 +119,12 @@ the number of rows returned is the same as the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The integrated time-dependent brier score is calculated in an "area under the
+    <p>Integrated Brier survival score is a metric that should be
+minimized. The output ranges from
+0 to
+1, with
+0 indicating perfect predictions.</p>
+<p>The integrated time-dependent brier score is calculated in an "area under the
 curve" fashion. The brier score is calculated for each value of <code>.eval_time</code>.
 The area is calculated via the trapezoidal rule. The area is divided by the
 largest value of <code>.eval_time</code> to bring it into the same scale as the

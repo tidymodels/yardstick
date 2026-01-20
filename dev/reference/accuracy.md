@@ -65,6 +65,11 @@ the number of groups.
 
 For `accuracy_vec()`, a single `numeric` value (or `NA`).
 
+## Details
+
+Accuracy is a metric that should be maximized. The output ranges from 0
+to 1, with 1 indicating perfect predictions.
+
 ## Multiclass
 
 Accuracy extends naturally to multiclass scenarios. Because of this,

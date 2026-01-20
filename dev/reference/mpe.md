@@ -69,6 +69,11 @@ the number of groups.
 
 For `mpe_vec()`, a single `numeric` value (or `NA`).
 
+## Details
+
+MPE is a metric where the optimal value is 0. The output ranges from -∞
+to ∞, with 0 indicating predictions are unbiased.
+
 ## See also
 
 Other numeric metrics:

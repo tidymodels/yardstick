@@ -113,7 +113,12 @@ the number of rows returned is the same as the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This formulation takes survival probability predictions at one or more
+    <p>ROC AUC survival is a metric that should be
+maximized. The output ranges from
+0 to
+1, with
+1 indicating perfect discrimination.</p>
+<p>This formulation takes survival probability predictions at one or more
 specific <em>evaluation times</em> and, for each time, computes the area under the
 ROC curve. To account for censoring, inverse probability of censoring weights
 (IPCW) are used in the calculations. See equation 7 of section 4.3 in

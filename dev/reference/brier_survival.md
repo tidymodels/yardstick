@@ -76,6 +76,9 @@ argument `eval_time`. (or `NA`).
 
 ## Details
 
+Brier survival score is a metric that should be minimized. The output
+ranges from 0 to 1, with 0 indicating perfect predictions.
+
 This formulation takes survival probability predictions at one or more
 specific *evaluation times* and, for each time, computes the Brier
 score. To account for censoring, inverse probability of censoring

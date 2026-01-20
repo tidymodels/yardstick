@@ -69,6 +69,9 @@ For `msd_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+MSD is a metric where the optimal value is 0. The output ranges from -∞
+to ∞, with 0 indicating predictions are unbiased.
+
 Mean signed deviation is rarely used, since positive and negative errors
 cancel each other out. For example, `msd_vec(c(100, -100), c(0, 0))`
 would return a seemingly "perfect" value of `0`, even though `estimate`

@@ -119,6 +119,11 @@ weighted_interval_score_vec(
 
 a vector of nonnegative scores.
 
+## Details
+
+Weighted interval score is a metric that should be minimized. The output
+ranges from 0 to ∞, with 0 indicating perfect predictions.
+
 ## Examples
 
 ``` r

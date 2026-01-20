@@ -102,6 +102,11 @@ the number of groups.
 
 For `pr_auc_vec()`, a single `numeric` value (or `NA`).
 
+## Details
+
+PR AUC is a metric that should be maximized. The output ranges from 0 to
+1, with 1 indicating perfect precision and recall at all thresholds.
+
 ## Multiclass
 
 Macro and macro-weighted averaging is available for this metric. The

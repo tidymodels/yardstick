@@ -86,6 +86,9 @@ strictly for accuracy and metrics such as
 [`rsq()`](https://yardstick.tidymodels.org/dev/reference/rsq.md) are
 strictly for consistency/correlation
 
+CCC is a metric that should be maximized. The output ranges from -1 to
+1, with 1 indicating perfect agreement.
+
 ## References
 
 Lin, L. (1989). A concordance correlation coefficient to evaluate
