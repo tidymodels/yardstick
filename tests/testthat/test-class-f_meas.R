@@ -341,3 +341,29 @@ test_that("bad argument check", {
     f_meas_vec(1, 1, beta = "yes")
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(f_meas)
+  range <- metric_range(f_meas)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  expect_equal(
+    f_meas_vec(df$truth, df$truth),
+    perfect
+  )
+
+  if (direction == "minimize") {
+    expect_gt(f_meas_vec(df$truth, df$off), perfect)
+    expect_lte(f_meas_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(f_meas_vec(df$truth, df$off), perfect)
+    expect_gte(f_meas_vec(df$truth, df$off), worst)
+  }
+})

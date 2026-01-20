@@ -277,3 +277,29 @@ test_that("kap errors with wrong `weighting`", {
     kap(three_class, truth = "obs", estimate = "pred", weighting = "not right")
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(kap)
+  range <- metric_range(kap)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  expect_equal(
+    kap_vec(df$truth, df$truth),
+    perfect
+  )
+
+  if (direction == "minimize") {
+    expect_gt(kap_vec(df$truth, df$off), perfect)
+    expect_lt(kap_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(kap_vec(df$truth, df$off), perfect)
+    expect_gt(kap_vec(df$truth, df$off), worst)
+  }
+})

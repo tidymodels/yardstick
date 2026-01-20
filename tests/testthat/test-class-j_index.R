@@ -192,3 +192,28 @@ test_that("`NA` is still returned if there are some undefined values but `na_rm 
   expect_equal(j_index_vec(truth, estimate, na_rm = FALSE), NA_real_)
   expect_warning(j_index_vec(truth, estimate, na_rm = FALSE), NA)
 })
+
+test_that("range values are correct", {
+  # j_index = sens + spec - 1, so theoretical range is [-1, 1].
+  # Documented range is [0, 1], so we skip the worst bound check.
+  direction <- metric_direction(j_index)
+  range <- metric_range(j_index)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  expect_equal(
+    j_index_vec(df$truth, df$truth),
+    perfect
+  )
+
+  if (direction == "minimize") {
+    expect_gt(j_index_vec(df$truth, df$off), perfect)
+  }
+  if (direction == "maximize") {
+    expect_lt(j_index_vec(df$truth, df$off), perfect)
+  }
+})

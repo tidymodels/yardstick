@@ -84,7 +84,7 @@ A related metric is Informedness, see the Details section for the relationship.
 }
 \details{
 J-index is a metric that should be maximized. The
-output ranges from 0 to
+output ranges from -1 to
 1, with 1 indicating no
 false positives and no false negatives.
 

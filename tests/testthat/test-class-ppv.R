@@ -210,3 +210,29 @@ test_that("bad argument check", {
     ppv_vec(1, 1, prevalence = "yes")
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(ppv)
+  range <- metric_range(ppv)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  expect_equal(
+    ppv_vec(df$truth, df$truth),
+    perfect
+  )
+
+  if (direction == "minimize") {
+    expect_gt(ppv_vec(df$truth, df$off), perfect)
+    expect_lte(ppv_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(ppv_vec(df$truth, df$off), perfect)
+    expect_gte(ppv_vec(df$truth, df$off), worst)
+  }
+})

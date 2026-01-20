@@ -82,11 +82,8 @@ true positive and false positive) divided by the total number of predictions.
 \details{
 Detection prevalence is a metric that should be
 maximized. The output ranges from
-0 to
-\enumerate{
-\item The "optimal" value depends on the
-true prevalence of positive events in the data.
-}
+0 to 1.
+The "optimal" value depends on the true prevalence of positive events in the data.
 }
 \section{Relevant Level}{
 

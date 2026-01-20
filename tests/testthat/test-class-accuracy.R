@@ -146,3 +146,29 @@ test_that("two class produces identical results regardless of level order", {
     accuracy_vec(df_rev$pathology, df_rev$scan)
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(accuracy)
+  range <- metric_range(accuracy)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  expect_equal(
+    accuracy_vec(df$truth, df$truth),
+    perfect
+  )
+
+  if (direction == "minimize") {
+    expect_gt(accuracy_vec(df$truth, df$off), perfect)
+    expect_lte(accuracy_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(accuracy_vec(df$truth, df$off), perfect)
+    expect_gte(accuracy_vec(df$truth, df$off), worst)
+  }
+})
