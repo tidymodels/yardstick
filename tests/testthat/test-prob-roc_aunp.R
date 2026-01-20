@@ -152,3 +152,23 @@ test_that("errors on binary case", {
     roc_aunp(two_class_example, truth, Class1)
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(roc_aunp)
+  range <- metric_range(roc_aunp)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  hpc_f1 <- data_hpc_fold1()
+
+  result <- roc_aunp(hpc_f1, obs, VF:L)[[".estimate"]]
+
+  if (direction == "minimize") {
+    expect_gte(result, perfect)
+    expect_lte(result, worst)
+  }
+  if (direction == "maximize") {
+    expect_gte(result, worst)
+    expect_lte(result, perfect)
+  }
+})

@@ -31,6 +31,12 @@
 #' comparison of performance measures for classification". _Pattern Recognition
 #' Letters_. 30 (1), pp 27-38.
 #'
+#' @details
+#' ROC AUNP is a metric that should be `r attr(roc_aunp, "direction")`d. The
+#' output ranges from `r metric_range(roc_aunp)[1]` to
+#' `r metric_range(roc_aunp)[2]`, with `r metric_optimal(roc_aunp)` indicating
+#' perfect discrimination.
+#'
 #' @seealso
 #'
 #' [roc_aunu()] for computing the area under the ROC curve of each class against
@@ -83,7 +89,8 @@ roc_aunp <- function(data, ...) {
 }
 roc_aunp <- new_prob_metric(
   roc_aunp,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export

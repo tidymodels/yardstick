@@ -112,3 +112,33 @@ test_that("na_rm argument check", {
     ranked_prob_score_vec(1, 1, na_rm = "yes")
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(ranked_prob_score)
+  range <- metric_range(ranked_prob_score)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  truth <- factor(c("A", "B", "C"), levels = c("A", "B", "C"), ordered = TRUE)
+  perfect_estimate <- matrix(
+    c(1, 0, 0, 0, 1, 0, 0, 0, 1),
+    nrow = 3,
+    byrow = TRUE
+  )
+  off_estimate <- matrix(
+    c(0.5, 0.3, 0.2, 0.2, 0.5, 0.3, 0.3, 0.2, 0.5),
+    nrow = 3,
+    byrow = TRUE
+  )
+
+  expect_equal(ranked_prob_score_vec(truth, perfect_estimate), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(ranked_prob_score_vec(truth, off_estimate), perfect)
+    expect_lte(ranked_prob_score_vec(truth, off_estimate), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(ranked_prob_score_vec(truth, off_estimate), perfect)
+    expect_gte(ranked_prob_score_vec(truth, off_estimate), worst)
+  }
+})

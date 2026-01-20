@@ -89,3 +89,30 @@ test_that("yardstick correlation warnings are thrown", {
   cnd <- rlang::catch_cnd(iic_vec(c(1, 1), c(1, 2)))
   expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_truth")
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(iic)
+  range <- metric_range(iic)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = c(1, 2, 3, 4, 5, 6, 7),
+    off = c(7, 4, 6, 2, 4, 3, 1)
+  )
+
+  # Known to produce NaN for perfect predictions
+  expect_identical(
+    iic_vec(df$truth, df$truth),
+    NaN
+  )
+
+  if (direction == "minimize") {
+    expect_lte(iic_vec(df$truth, df$off), worst)
+    expect_gte(iic_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_gte(iic_vec(df$truth, df$off), worst)
+    expect_lte(iic_vec(df$truth, df$off), perfect)
+  }
+})

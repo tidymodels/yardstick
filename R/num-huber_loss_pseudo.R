@@ -10,6 +10,13 @@
 #'
 #' @inheritParams huber_loss
 #'
+#' @details
+#' Pseudo-Huber loss is a metric that should be
+#' `r attr(huber_loss_pseudo, "direction")`d. The output ranges from
+#' `r metric_range(huber_loss_pseudo)[1]` to
+#' `r metric_range(huber_loss_pseudo)[2]`, with
+#' `r metric_optimal(huber_loss_pseudo)` indicating perfect predictions.
+#'
 #' @author James Blair
 #'
 #' @references
@@ -28,7 +35,8 @@ huber_loss_pseudo <- function(data, ...) {
 }
 huber_loss_pseudo <- new_numeric_metric(
   huber_loss_pseudo,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname huber_loss_pseudo

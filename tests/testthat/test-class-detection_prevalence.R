@@ -152,3 +152,19 @@ test_that("`event_level = 'second'` works", {
       )
   )
 })
+
+test_that("range values are correct", {
+  # You don't hit best case scenario on this metric unless all levels are the
+  # first
+  range <- metric_range(detection_prevalence)
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  expect_gte(detection_prevalence_vec(df$truth, df$truth), range[1])
+  expect_lte(detection_prevalence_vec(df$truth, df$truth), range[2])
+  expect_gte(detection_prevalence_vec(df$truth, df$off), range[1])
+  expect_lte(detection_prevalence_vec(df$truth, df$off), range[2])
+})

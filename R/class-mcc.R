@@ -13,6 +13,13 @@
 #'
 #' @inheritParams sens
 #'
+#' @details
+#' MCC is a metric that should be `r attr(mcc, "direction")`d. The output
+#' ranges from `r metric_range(mcc)[1]` to `r metric_range(mcc)[2]`, with
+#' `r metric_optimal(mcc)` indicating perfect predictions. A value of 0
+#' indicates no better than random prediction, and negative values indicate
+#' inverse prediction.
+#'
 #' @author Max Kuhn
 #'
 #' @references Giuseppe, J. (2012). "A Comparison of MCC and CEN Error
@@ -42,7 +49,8 @@ mcc <- function(data, ...) {
 }
 mcc <- new_class_metric(
   mcc,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(-1, 1)
 )
 
 #' @export

@@ -14,6 +14,12 @@
 #' @param delta A single `numeric` value. Defines the boundary where the loss function
 #' transitions from quadratic to linear. Defaults to 1.
 #'
+#' @details
+#' Huber loss is a metric that should be `r attr(huber_loss, "direction")`d. The
+#' output ranges from `r metric_range(huber_loss)[1]` to
+#' `r metric_range(huber_loss)[2]`, with `r metric_optimal(huber_loss)`
+#' indicating perfect predictions.
+#'
 #' @author James Blair
 #'
 #' @references
@@ -29,7 +35,8 @@ huber_loss <- function(data, ...) {
 }
 huber_loss <- new_numeric_metric(
   huber_loss,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname huber_loss

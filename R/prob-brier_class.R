@@ -6,6 +6,10 @@
 #' @templateVar fn brier_class
 #' @template return
 #' @details
+#' Brier score is a metric that should be `r attr(brier_class, "direction")`d.
+#' The output ranges from `r metric_range(brier_class)[1]` to
+#' `r metric_range(brier_class)[2]`, with `r metric_optimal(brier_class)`
+#' indicating perfect predictions.
 #'
 #' The Brier score is analogous to the mean squared error in regression models.
 #' The difference between a binary indicator for a class and its corresponding
@@ -53,7 +57,8 @@ brier_class <- function(data, ...) {
 }
 brier_class <- new_prob_metric(
   brier_class,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, 1)
 )
 
 #' @export

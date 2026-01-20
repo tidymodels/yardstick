@@ -82,6 +82,12 @@ For \code{pr_auc_vec()}, a single \code{numeric} value (or \code{NA}).
 \code{pr_auc()} is a metric that computes the area under the precision
 recall curve. See \code{\link[=pr_curve]{pr_curve()}} for the full curve.
 }
+\details{
+PR AUC is a metric that should be maximized. The output
+ranges from 0 to 1, with
+1 indicating perfect precision and recall at all
+thresholds.
+}
 \section{Multiclass}{
 
 

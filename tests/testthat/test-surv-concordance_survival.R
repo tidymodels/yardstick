@@ -135,3 +135,24 @@ test_that("na_rm argument check", {
     concordance_survival_vec(1, 1, na_rm = "yes")
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(concordance_survival)
+  range <- metric_range(concordance_survival)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  result <- concordance_survival_vec(
+    truth = lung_surv$surv_obj,
+    estimate = lung_surv$.pred_time
+  )
+
+  if (direction == "minimize") {
+    expect_gte(result, perfect)
+    expect_lte(result, worst)
+  }
+  if (direction == "maximize") {
+    expect_gte(result, worst)
+    expect_lte(result, perfect)
+  }
+})

@@ -14,6 +14,11 @@
 #' @templateVar fn ranked_prob_score
 #' @template return
 #' @details
+#' Ranked probability score is a metric that should be
+#' `r attr(ranked_prob_score, "direction")`d. The output ranges from
+#' `r metric_range(ranked_prob_score)[1]` to
+#' `r metric_range(ranked_prob_score)[2]`, with `r metric_optimal(ranked_prob_score)`
+#' indicating perfect predictions.
 #'
 #' The ranked probability score is a Brier score for ordinal data that uses the
 #' _cumulative_ probability of an event (i.e. `Pr[class <= i]` for `i` = 1,
@@ -68,7 +73,8 @@ ranked_prob_score <- function(data, ...) {
 }
 ranked_prob_score <- new_ordered_prob_metric(
   ranked_prob_score,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, 1)
 )
 
 #' @export

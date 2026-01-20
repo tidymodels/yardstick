@@ -216,3 +216,27 @@ test_that("gain_capture() - gain_capture = 2 * ROCAUC - 1", {
     stats::weighted.mean(2 * roc_auc_unweighted - 1, w)
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(gain_capture)
+  range <- metric_range(gain_capture)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("a", "a", "a", "b", "b"), levels = c("a", "b")),
+    perfect = c(1, 1, 1, 0, 0),
+    off = c(0.5, 0.5, 0.5, 0.5, 0.5)
+  )
+
+  expect_equal(gain_capture_vec(df$truth, df$perfect), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(gain_capture_vec(df$truth, df$off), perfect)
+    expect_lte(gain_capture_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(gain_capture_vec(df$truth, df$off), perfect)
+    expect_gte(gain_capture_vec(df$truth, df$off), worst)
+  }
+})

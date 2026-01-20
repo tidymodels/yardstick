@@ -13,6 +13,11 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' MAPE is a metric that should be `r attr(mape, "direction")`d. The output
+#' ranges from `r metric_range(mape)[1]` to `r metric_range(mape)[2]`, with
+#' `r metric_optimal(mape)` indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-numeric
@@ -24,7 +29,8 @@ mape <- function(data, ...) {
 }
 mape <- new_numeric_metric(
   mape,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname mape

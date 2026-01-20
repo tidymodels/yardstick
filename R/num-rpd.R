@@ -25,6 +25,11 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' RPD is a metric that should be `r attr(rpd, "direction")`d. The output
+#' ranges from `r metric_range(rpd)[1]` to `r metric_range(rpd)[2]`, with higher
+#' values indicating better model performance.
+#'
 #' @author Pierre Roudier
 #'
 #' @seealso
@@ -52,7 +57,8 @@ rpd <- function(data, ...) {
 }
 rpd <- new_numeric_metric(
   rpd,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, Inf)
 )
 
 #' @rdname rpd

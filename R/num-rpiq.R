@@ -16,6 +16,11 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' RPIQ is a metric that should be `r attr(rpiq, "direction")`d. The output
+#' ranges from `r metric_range(rpiq)[1]` to `r metric_range(rpiq)[2]`, with
+#' higher values indicating better model performance.
+#'
 #' @author Pierre Roudier
 #'
 #' @seealso
@@ -30,7 +35,8 @@ rpiq <- function(data, ...) {
 }
 rpiq <- new_numeric_metric(
   rpiq,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, Inf)
 )
 
 #' @rdname rpiq

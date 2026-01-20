@@ -86,3 +86,30 @@ test_that("mape() - computes expected values when singular `truth` is `0` (#271)
     NaN
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(mape)
+  range <- metric_range(mape)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = c(5, 6, 2, 6, 4, 1, 3)
+  )
+
+  df$estimate <- df$truth
+  df$off <- df$truth + 1
+
+  expect_identical(
+    mape_vec(df$truth, df$estimate),
+    perfect
+  )
+  if (direction == "minimize") {
+    expect_gt(mape_vec(df$truth, df$off), perfect)
+    expect_lt(mape_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(mape_vec(df$truth, df$off), perfect)
+    expect_gt(mape_vec(df$truth, df$off), worst)
+  }
+})

@@ -12,6 +12,12 @@
 #' threshold. See [pr_curve()] for the full curve.
 #'
 #' @details
+#' Average precision is a metric that should be
+#' `r attr(average_precision, "direction")`d. The output ranges from
+#' `r metric_range(average_precision)[1]` to
+#' `r metric_range(average_precision)[2]`, with
+#' `r metric_optimal(average_precision)` indicating perfect precision and recall
+#' at all thresholds.
 #'
 #' The computation for average precision is a weighted average of the precision
 #' values. Assuming you have `n` rows returned from [pr_curve()], it is a sum
@@ -54,7 +60,8 @@ average_precision <- function(data, ...) {
 }
 average_precision <- new_prob_metric(
   average_precision,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export

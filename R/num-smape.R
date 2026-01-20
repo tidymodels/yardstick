@@ -13,6 +13,11 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' SMAPE is a metric that should be `r attr(smape, "direction")`d. The output
+#' ranges from `r metric_range(smape)[1]` to `r metric_range(smape)[2]`, with
+#' `r metric_optimal(smape)` indicating perfect predictions.
+#'
 #' @author Max Kuhn, Riaz Hedayati
 #'
 #' @template examples-numeric
@@ -24,7 +29,8 @@ smape <- function(data, ...) {
 }
 smape <- new_numeric_metric(
   smape,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, 100)
 )
 
 #' @rdname smape

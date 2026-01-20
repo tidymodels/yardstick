@@ -21,6 +21,12 @@
 #'
 #' @inheritParams pr_auc
 #'
+#' @details
+#' Gain capture is a metric that should be `r attr(gain_capture, "direction")`d.
+#' The output ranges from `r metric_range(gain_capture)[1]` to
+#' `r metric_range(gain_capture)[2]`, with `r metric_optimal(gain_capture)`
+#' indicating perfect discrimination.
+#'
 #' @author Max Kuhn
 #'
 #' @references
@@ -51,7 +57,8 @@ gain_capture <- function(data, ...) {
 }
 gain_capture <- new_prob_metric(
   gain_capture,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname gain_capture

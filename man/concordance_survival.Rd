@@ -64,6 +64,12 @@ For \code{concordance_survival_vec()}, a single \code{numeric} value (or \code{N
 Compute the Concordance index for right-censored data
 }
 \details{
+Concordance is a metric that should be
+maximized. The output ranges from
+0 to
+1, with
+1 indicating perfect concordance.
+
 The concordance index is defined as the proportion of all comparable pairs in
 which the predictions and outcomes are concordant.
 

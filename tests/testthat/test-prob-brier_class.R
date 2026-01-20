@@ -83,3 +83,27 @@ test_that("na_rm argument check", {
     brier_class_vec(1, 1, na_rm = "yes")
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(brier_class)
+  range <- metric_range(brier_class)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("a", "a", "a", "b", "b"), levels = c("a", "b")),
+    perfect = c(1, 1, 1, 0, 0),
+    off = c(0.5, 0.5, 0.5, 0.5, 0.5)
+  )
+
+  expect_equal(brier_class_vec(df$truth, df$perfect), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(brier_class_vec(df$truth, df$off), perfect)
+    expect_lte(brier_class_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(brier_class_vec(df$truth, df$off), perfect)
+    expect_gte(brier_class_vec(df$truth, df$off), worst)
+  }
+})

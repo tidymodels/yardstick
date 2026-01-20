@@ -58,6 +58,12 @@ their formula. The former guarantees a value on (0, 1) while the
 latter can generate inaccurate values when the model is
 non-informative (see the examples). Both are measures of
 consistency/correlation and not of accuracy.
+
+Traditional R squared is a metric that should be
+maximized. The output ranges from
+0 to 1, with
+1 indicating perfect predictions. Negative values
+can occur when the model is non-informative.
 }
 \examples{
 # Supply truth and predictions as bare column names

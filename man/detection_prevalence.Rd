@@ -79,6 +79,12 @@ For \code{detection_prevalence_vec()}, a single \code{numeric} value (or \code{N
 Detection prevalence is defined as the number of \emph{predicted} positive events (both
 true positive and false positive) divided by the total number of predictions.
 }
+\details{
+Detection prevalence is a metric that should be
+maximized. The output ranges from
+0 to 1.
+The "optimal" value depends on the true prevalence of positive events in the data.
+}
 \section{Relevant Level}{
 
 

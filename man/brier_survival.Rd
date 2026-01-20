@@ -55,6 +55,11 @@ Compute the time-dependent Brier score for right censored data, which is the
 mean squared error at time point \code{.eval_time}.
 }
 \details{
+Brier survival score is a metric that should be
+minimized. The output ranges from
+0 to 1,
+with 0 indicating perfect predictions.
+
 This formulation takes survival probability predictions at one or more
 specific \emph{evaluation times} and, for each time, computes the Brier score. To
 account for censoring, inverse probability of censoring weights (IPCW) are

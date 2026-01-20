@@ -26,6 +26,11 @@
 #'
 #' @inheritParams rmse
 #'
+#' @details
+#' R squared is a metric that should be `r attr(rsq, "direction")`d. The output
+#' ranges from `r metric_range(rsq)[1]` to `r metric_range(rsq)[2]`, with
+#' `r metric_optimal(rsq)` indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @references
@@ -54,7 +59,8 @@ rsq <- function(data, ...) {
 }
 rsq <- new_numeric_metric(
   rsq,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(-Inf, 1)
 )
 
 #' @rdname rsq

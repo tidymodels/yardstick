@@ -216,3 +216,29 @@ test_that("`NA` is still returned if there are some undefined values but `na.rm 
   expect_equal(recall_vec(truth, estimate, na_rm = FALSE), NA_real_)
   expect_warning(recall_vec(truth, estimate, na_rm = FALSE), NA)
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(recall)
+  range <- metric_range(recall)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  expect_equal(
+    recall_vec(df$truth, df$truth),
+    perfect
+  )
+
+  if (direction == "minimize") {
+    expect_gt(recall_vec(df$truth, df$off), perfect)
+    expect_lte(recall_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(recall_vec(df$truth, df$off), perfect)
+    expect_gte(recall_vec(df$truth, df$off), worst)
+  }
+})

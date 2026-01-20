@@ -14,6 +14,13 @@
 #'   expression and supports [quasiquotation][rlang::quasiquotation] (you can
 #'   unquote column names). For `_vec()` functions, an `integer` vector.
 #'
+#' @details
+#' Poisson log loss is a metric that should be
+#' `r attr(poisson_log_loss, "direction")`d. The output ranges from
+#' `r metric_range(poisson_log_loss)[1]` to
+#' `r metric_range(poisson_log_loss)[2]`, with
+#' `r metric_optimal(poisson_log_loss)` indicating perfect predictions.
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-counts
@@ -25,7 +32,8 @@ poisson_log_loss <- function(data, ...) {
 }
 poisson_log_loss <- new_numeric_metric(
   poisson_log_loss,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname poisson_log_loss

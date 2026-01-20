@@ -251,3 +251,29 @@ test_that("has a metric name unique to it (#232)", {
     "sensitivity"
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(sens)
+  range <- metric_range(sens)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  expect_equal(
+    sens_vec(df$truth, df$truth),
+    perfect
+  )
+
+  if (direction == "minimize") {
+    expect_gt(sens_vec(df$truth, df$off), perfect)
+    expect_lte(sens_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(sens_vec(df$truth, df$off), perfect)
+    expect_gte(sens_vec(df$truth, df$off), worst)
+  }
+})

@@ -17,6 +17,11 @@
 #' @param bias A `logical`; should the biased estimate of variance
 #' be used (as is Lin (1989))?
 #'
+#' @details
+#' CCC is a metric that should be `r attr(ccc, "direction")`d. The output
+#' ranges from `r metric_range(ccc)[1]` to `r metric_range(ccc)[2]`, with
+#' `r metric_optimal(ccc)` indicating perfect agreement.
+#'
 #' @author Max Kuhn
 #'
 #' @references
@@ -39,7 +44,8 @@ ccc <- function(data, ...) {
 }
 ccc <- new_numeric_metric(
   ccc,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(-1, 1)
 )
 
 #' @rdname ccc

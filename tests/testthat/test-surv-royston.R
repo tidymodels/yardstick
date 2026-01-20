@@ -149,3 +149,26 @@ test_that("`normal_score_blom()` works with case weights", {
   expect_length(nsb, 10)
   expect_true(all(is.na(nsb[1:2])))
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(royston_survival)
+  range <- metric_range(royston_survival)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  lung_surv <- data_lung_surv()
+
+  result <- royston_survival_vec(
+    truth = lung_surv$surv_obj,
+    estimate = lung_surv$.pred_linear_pred
+  )
+
+  if (direction == "minimize") {
+    expect_gte(result, perfect)
+    expect_lte(result, worst)
+  }
+  if (direction == "maximize") {
+    expect_gte(result, worst)
+    expect_lte(result, perfect)
+  }
+})

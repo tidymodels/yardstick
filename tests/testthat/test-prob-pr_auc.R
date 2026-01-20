@@ -141,3 +141,27 @@ test_that("grouped multiclass (one-vs-all) weighted example matches expanded equ
     pr_auc(hpc_cv_expanded, obs, VF:L, estimator = "macro_weighted")
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(pr_auc)
+  range <- metric_range(pr_auc)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("a", "a", "a", "b", "b"), levels = c("a", "b")),
+    perfect = c(1, 1, 1, 0, 0),
+    off = c(0.5, 0.5, 0.5, 0.5, 0.5)
+  )
+
+  expect_equal(pr_auc_vec(df$truth, df$perfect), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(pr_auc_vec(df$truth, df$off), perfect)
+    expect_lte(pr_auc_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(pr_auc_vec(df$truth, df$off), perfect)
+    expect_gte(pr_auc_vec(df$truth, df$off), worst)
+  }
+})

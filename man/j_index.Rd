@@ -83,8 +83,10 @@ Youden's J statistic is defined as:
 A related metric is Informedness, see the Details section for the relationship.
 }
 \details{
-The value of the J-index ranges from [0, 1] and is \code{1} when there are
-no false positives and no false negatives.
+J-index is a metric that should be maximized. The
+output ranges from -1 to
+1, with 1 indicating no
+false positives and no false negatives.
 
 The binary version of J-index is equivalent to the binary concept of
 Informedness. Macro-weighted J-index is equivalent to multiclass informedness
