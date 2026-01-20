@@ -141,3 +141,28 @@ test_that("riskRegression equivalent", {
     yardstick_res$.estimate
   )
 })
+
+test_that("range values are correct", {
+  skip_if_not_installed("tidyr")
+
+  direction <- metric_direction(brier_survival)
+  range <- metric_range(brier_survival)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  lung_surv <- data_lung_surv()
+
+  result <- brier_survival_vec(
+    truth = lung_surv$surv_obj,
+    lung_surv$.pred
+  )
+
+  if (direction == "minimize") {
+    expect_true(all(result$.estimate >= perfect))
+    expect_true(all(result$.estimate <= worst))
+  }
+  if (direction == "maximize") {
+    expect_true(all(result$.estimate >= worst))
+    expect_true(all(result$.estimate <= perfect))
+  }
+})

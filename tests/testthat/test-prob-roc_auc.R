@@ -539,3 +539,27 @@ test_that("roc_auc() - can't use case weights and hand-till method", {
     roc_auc(hpc_cv, obs, VF:L, estimator = "hand_till", case_weights = weight)
   })
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(roc_auc)
+  range <- metric_range(roc_auc)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("a", "a", "a", "b", "b"), levels = c("a", "b")),
+    perfect = c(1, 1, 1, 0, 0),
+    off = c(0.5, 0.5, 0.5, 0.5, 0.5)
+  )
+
+  expect_equal(roc_auc_vec(df$truth, df$perfect), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(roc_auc_vec(df$truth, df$off), perfect)
+    expect_lte(roc_auc_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(roc_auc_vec(df$truth, df$off), perfect)
+    expect_gte(roc_auc_vec(df$truth, df$off), worst)
+  }
+})

@@ -535,3 +535,27 @@ test_that("costs$truth and costs$estimate cannot contain duplicate pairs", {
     classification_cost(df, obs, A, costs = costs)
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(classification_cost)
+  range <- metric_range(classification_cost)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("a", "a", "a", "b", "b"), levels = c("a", "b")),
+    perfect = c(1, 1, 1, 0, 0),
+    off = c(0.5, 0.5, 0.5, 0.5, 0.5)
+  )
+
+  expect_equal(classification_cost_vec(df$truth, df$perfect), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(classification_cost_vec(df$truth, df$off), perfect)
+    expect_lte(classification_cost_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(classification_cost_vec(df$truth, df$off), perfect)
+    expect_gte(classification_cost_vec(df$truth, df$off), worst)
+  }
+})

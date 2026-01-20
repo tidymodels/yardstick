@@ -107,3 +107,28 @@ test_that("poisson_log_loss() - handles poor data", {
       poisson_log_loss(count_poor, count, pred)[[".estimate"]]
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(poisson_log_loss)
+  range <- metric_range(poisson_log_loss)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = c(1L, 2L, 3L, 4L, 5L),
+    estimate = c(1, 2, 3, 4, 5),
+    off = c(2, 3, 4, 5, 6)
+  )
+
+  # polsson_log_loss includes log(gamma(truth+1)) so perfect != 0
+  expect_gte(poisson_log_loss_vec(df$truth, df$estimate), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(poisson_log_loss_vec(df$truth, df$off), perfect)
+    expect_lte(poisson_log_loss_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(poisson_log_loss_vec(df$truth, df$off), perfect)
+    expect_gte(poisson_log_loss_vec(df$truth, df$off), worst)
+  }
+})

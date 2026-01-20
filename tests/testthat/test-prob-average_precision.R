@@ -173,3 +173,27 @@ test_that("known corner cases are correct", {
   expect_snapshot(expect <- pr_auc(df, truth, estimate)$.estimate)
   expect_identical(out, expect)
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(average_precision)
+  range <- metric_range(average_precision)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("a", "a", "a", "b", "b"), levels = c("a", "b")),
+    perfect = c(1, 1, 1, 0, 0),
+    off = c(0.5, 0.5, 0.5, 0.5, 0.5)
+  )
+
+  expect_equal(average_precision_vec(df$truth, df$perfect), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(average_precision_vec(df$truth, df$off), perfect)
+    expect_lte(average_precision_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(average_precision_vec(df$truth, df$off), perfect)
+    expect_gte(average_precision_vec(df$truth, df$off), worst)
+  }
+})

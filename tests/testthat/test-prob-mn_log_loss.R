@@ -222,3 +222,27 @@ test_that("mn_log_loss() applies the min/max rule when a 'non-event' has probabi
     tolerance = 0.0001
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(mn_log_loss)
+  range <- metric_range(mn_log_loss)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = factor(c("a", "a", "a", "b", "b"), levels = c("a", "b")),
+    perfect = c(1, 1, 1, 0, 0),
+    off = c(0.5, 0.5, 0.5, 0.5, 0.5)
+  )
+
+  expect_equal(mn_log_loss_vec(df$truth, df$perfect), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(mn_log_loss_vec(df$truth, df$off), perfect)
+    expect_lte(mn_log_loss_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(mn_log_loss_vec(df$truth, df$off), perfect)
+    expect_gte(mn_log_loss_vec(df$truth, df$off), worst)
+  }
+})

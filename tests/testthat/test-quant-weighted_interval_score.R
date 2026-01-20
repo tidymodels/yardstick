@@ -156,3 +156,32 @@ test_that("na_rm argument check", {
     weighted_interval_score_vec(1, 1, na_rm = "yes")
   )
 })
+
+test_that("range values are correct", {
+  direction <- metric_direction(weighted_interval_score)
+  range <- metric_range(weighted_interval_score)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  quantile_levels <- c(0.2, 0.4, 0.6, 0.8)
+  truth <- c(3, 7)
+  perfect_pred <- hardhat::quantile_pred(
+    rbind(rep(3, 4), rep(7, 4)),
+    quantile_levels
+  )
+  off_pred <- hardhat::quantile_pred(
+    rbind(c(1, 2, 4, 5), c(5, 6, 8, 9)),
+    quantile_levels
+  )
+
+  expect_equal(weighted_interval_score_vec(truth, perfect_pred), perfect)
+
+  if (direction == "minimize") {
+    expect_gt(weighted_interval_score_vec(truth, off_pred), perfect)
+    expect_lte(weighted_interval_score_vec(truth, off_pred), worst)
+  }
+  if (direction == "maximize") {
+    expect_lt(weighted_interval_score_vec(truth, off_pred), perfect)
+    expect_gte(weighted_interval_score_vec(truth, off_pred), worst)
+  }
+})

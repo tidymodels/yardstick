@@ -139,3 +139,28 @@ test_that("Errors on too few evaluation times", {
     )
   )
 })
+
+test_that("range values are correct", {
+  skip_if_not_installed("tidyr")
+
+  direction <- metric_direction(brier_survival_integrated)
+  range <- metric_range(brier_survival_integrated)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  lung_surv <- data_lung_surv()
+
+  result <- brier_survival_integrated_vec(
+    truth = lung_surv$surv_obj,
+    lung_surv$.pred
+  )
+
+  if (direction == "minimize") {
+    expect_gte(result, perfect)
+    expect_lte(result, worst)
+  }
+  if (direction == "maximize") {
+    expect_gte(result, worst)
+    expect_lte(result, perfect)
+  }
+})
