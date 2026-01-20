@@ -58,6 +58,15 @@ is returned for \code{mpe()}.
 MPE is a metric where the optimal value is 0. The
 output ranges from -∞ to ∞, with
 0 indicating predictions are unbiased.
+
+The formula for MPE is:
+
+\deqn{MPE = \frac{100}{n} \sum_{i=1}^{n} \frac{a_i - f_i}{a_i}}
+
+where \eqn{a_i} is the actual value (\code{truth}) and \eqn{f_i} is the forecasted
+value (\code{estimate}). Using this convention, a \emph{positive} MPE indicates
+under-prediction (on average, \code{truth > estimate}) and a \emph{negative} MPE
+indicates over-prediction (on average, \code{estimate > truth}).
 }
 \examples{
 # `solubility_test$solubility` has zero values with corresponding

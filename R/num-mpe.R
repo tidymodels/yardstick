@@ -20,6 +20,15 @@
 #' output ranges from `r metric_range(mpe)[1]` to `r metric_range(mpe)[2]`, with
 #' `r metric_optimal(mpe)` indicating predictions are unbiased.
 #'
+#' The formula for MPE is:
+#'
+#' \deqn{MPE = \frac{100}{n} \sum_{i=1}^{n} \frac{a_i - f_i}{a_i}}
+#'
+#' where \eqn{a_i} is the actual value (`truth`) and \eqn{f_i} is the forecasted
+#' value (`estimate`). Using this convention, a _positive_ MPE indicates
+#' under-prediction (on average, `truth > estimate`) and a _negative_ MPE
+#' indicates over-prediction (on average, `estimate > truth`).
+#'
 #' @author Thomas Bierhance
 #'
 #' @export
