@@ -52,8 +52,10 @@ Compute the Royston-Sauerbei D statistic
 }
 \details{
 Royston D statistic is a metric that should be
-maximized. The output ranges from 0 to 1, with
-higher values indicating better prognostic separation.
+maximized. The output ranges from
+0 to
+1, with 1
+indicating perfect prognostic separation.
 
 Royston and Sauerbrei proposed $R^2_D$ as a measure of explained variation
 on the log relative hazard scale based on the authors’ D statistic.

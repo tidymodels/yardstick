@@ -70,7 +70,9 @@ This is equivalent to \code{roc_auc(estimator = "macro")}.
 }
 \details{
 ROC AUNU is a metric that should be maximized. The
-output ranges from 0 to 1, with 1 indicating perfect discrimination.
+output ranges from 0 to
+1, with 1 indicating
+perfect discrimination.
 }
 \section{Relevant Level}{
 

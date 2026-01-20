@@ -7,8 +7,10 @@
 #' @template return
 #' @details
 #' Royston D statistic is a metric that should be
-#' `r attr(royston_survival, "direction")`d. The output ranges from 0 to 1, with
-#' higher values indicating better prognostic separation.
+#' `r attr(royston_survival, "direction")`d. The output ranges from
+#' `r metric_range(royston_survival)[1]` to
+#' `r metric_range(royston_survival)[2]`, with `r metric_optimal(royston_survival)`
+#' indicating perfect prognostic separation.
 #'
 #' Royston and Sauerbrei proposed $R^2_D$ as a measure of explained variation
 #' on the log relative hazard scale based on the authors’ D statistic.
@@ -46,7 +48,8 @@ royston_survival <- function(data, ...) {
 }
 royston_survival <- new_linear_pred_survival_metric(
   royston_survival,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname royston_survival

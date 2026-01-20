@@ -70,7 +70,9 @@ This is equivalent to \code{roc_auc(estimator = "macro_weighted")}.
 }
 \details{
 ROC AUNP is a metric that should be maximized. The
-output ranges from 0 to 1, with 1 indicating perfect discrimination.
+output ranges from 0 to
+1, with 1 indicating
+perfect discrimination.
 }
 \section{Relevant Level}{
 
