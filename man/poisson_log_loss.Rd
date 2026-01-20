@@ -50,8 +50,10 @@ Calculate the loss function for the Poisson distribution.
 }
 \details{
 Poisson log loss is a metric that should be
-minimized. The output ranges from 0 to
-infinity, with 0 indicating perfect predictions.
+minimized. The output ranges from
+0 to
+∞, with
+0 indicating perfect predictions.
 }
 \examples{
 count_truth <- c(2L,   7L,   1L,   1L,   0L,  3L)

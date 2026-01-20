@@ -70,8 +70,10 @@ Like \code{\link[=huber_loss]{huber_loss()}}, this is less sensitive to outliers
 }
 \details{
 Pseudo-Huber loss is a metric that should be
-minimized. The output ranges from 0 to
-infinity, with 0 indicating perfect predictions.
+minimized. The output ranges from
+0 to
+∞, with
+0 indicating perfect predictions.
 }
 \examples{
 # Supply truth and predictions as bare column names
