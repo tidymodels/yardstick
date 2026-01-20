@@ -47,7 +47,7 @@ iic <- function(data, ...) {
 iic <- new_numeric_metric(
   iic,
   direction = "maximize",
-  range = c(0, 1)
+  range = c(-1, 1)
 )
 
 #' @rdname iic
