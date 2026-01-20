@@ -32,7 +32,7 @@
 #' `"truth"` and `"estimate"` should be character columns containing unique
 #' combinations of the levels of the `truth` factor.
 #'
-#' `"costs"` should be a numeric column representing the cost that should
+#' `"cost"` should be a numeric column representing the cost that should
 #' be applied when the `"estimate"` is predicted, but the true result is
 #' `"truth"`.
 #'
