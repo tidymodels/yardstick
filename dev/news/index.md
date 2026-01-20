@@ -2,6 +2,11 @@
 
 ## yardstick (development version)
 
+- [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)
+  documentation now includes the formula and clarifies the
+  interpretation of positive and negative values.
+  ([\#345](https://github.com/tidymodels/yardstick/issues/345))
+
 - [`classification_cost()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)
   documentation now correctly refers to the `cost` column of the
   data.frame that can be passed to the `costs` arguemtn.

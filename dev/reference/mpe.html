@@ -121,6 +121,12 @@ the number of groups.</p>
     <p>MPE is a metric where the optimal value is 0. The
 output ranges from -∞ to ∞, with
 0 indicating predictions are unbiased.</p>
+<p>The formula for MPE is:</p>
+<p>$$MPE = \frac{100}{n} \sum_{i=1}^{n} \frac{a_i - f_i}{a_i}$$</p>
+<p>where \(a_i\) is the actual value (<code>truth</code>) and \(f_i\) is the forecasted
+value (<code>estimate</code>). Using this convention, a <em>positive</em> MPE indicates
+under-prediction (on average, <code>truth &gt; estimate</code>) and a <em>negative</em> MPE
+indicates over-prediction (on average, <code>estimate &gt; truth</code>).</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
