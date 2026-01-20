@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `mpe()` documentation now includes the formula and clarifies the interpretation of positive and negative values. (#345)
+
 * `classification_cost()` documentation now correctly refers to the `cost` column of the data.frame that can be passed to the `costs` arguemtn. (#343)
 
 * `new_metric()` and related functions gain an optional `range` argument to store the valid output range of a metric. This is a developer-facing change. (#572)
