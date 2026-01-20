@@ -44,7 +44,7 @@ j_index <- function(data, ...) {
 j_index <- new_class_metric(
   j_index,
   direction = "maximize",
-  range = c(0, 1)
+  range = c(-1, 1)
 )
 
 #' @rdname j_index
