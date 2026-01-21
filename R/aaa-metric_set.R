@@ -55,6 +55,21 @@
 #' )
 #' ```
 #'
+#' @section Naming the `estimate` argument:
+#'
+#' Note that for class/prob metric sets and survival metric sets, the
+#' `estimate` argument comes *after* `...` in the function signature. This
+#' means you must always pass `estimate` as a named argument; otherwise
+#' your column will be captured by `...` and you'll get an error.
+#'
+#' ```
+#' # Correct - estimate is named:
+#' my_metrics(two_class_example, truth, estimate = predicted)
+#'
+#' # Incorrect - estimate is not named and gets captured by `...`:
+#' my_metrics(two_class_example, truth, predicted)
+#' ```
+#'
 #' When mixing class and class prob metrics, pass in the hard predictions
 #' (the factor column) as the named argument `estimate`, and the soft
 #' predictions (the class probability columns) as bare column names or

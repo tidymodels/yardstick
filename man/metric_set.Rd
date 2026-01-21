@@ -61,6 +61,21 @@ fn(
   case_weights = NULL
 )
 }\if{html}{\out{</div>}}
+}
+\section{Naming the \code{estimate} argument}{
+
+
+Note that for class/prob metric sets and survival metric sets, the
+\code{estimate} argument comes \emph{after} \code{...} in the function signature. This
+means you must always pass \code{estimate} as a named argument; otherwise
+your column will be captured by \code{...} and you'll get an error.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{# Correct - estimate is named:
+my_metrics(two_class_example, truth, estimate = predicted)
+
+# Incorrect - estimate is not named and gets captured by `...`:
+my_metrics(two_class_example, truth, predicted)
+}\if{html}{\out{</div>}}
 
 When mixing class and class prob metrics, pass in the hard predictions
 (the factor column) as the named argument \code{estimate}, and the soft
@@ -76,6 +91,7 @@ If \code{metric_tweak()} has been used to "tweak" one of these arguments, like
 to set the estimator on a metric by metric basis and still use it in a
 \code{metric_set()}.
 }
+
 \examples{
 library(dplyr)
 
