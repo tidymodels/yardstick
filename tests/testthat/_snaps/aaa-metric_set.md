@@ -255,3 +255,23 @@
       ! Can't select columns that don't exist.
       x Column `weight` doesn't exist.
 
+# errors informatively when `estimate` is not named for class metrics
+
+    Code
+      set(two_class_example, truth, predicted)
+    Condition
+      Error in `set()`:
+      ! `estimate` is required for class metrics but was not provided.
+      i The `estimate` argument must be named because it comes after `...`.
+      i Example: `my_metrics(data, truth, estimate = my_column)`
+
+# errors informatively when `estimate` is not named for survival metrics
+
+    Code
+      set(lung_surv, surv_obj, .pred_time)
+    Condition
+      Error in `set()`:
+      ! `estimate` is required for static or linear predictor survival metrics but was not provided.
+      i The `estimate` argument must be named because it comes after `...`.
+      i Example: `my_metrics(data, truth, estimate = my_column)`
+

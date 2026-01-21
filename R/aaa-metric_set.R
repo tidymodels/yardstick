@@ -294,6 +294,20 @@ make_prob_class_metric_function <- function(fns) {
     class_fns <- fns[are_class_metrics]
     prob_fns <- fns[!are_class_metrics]
 
+    dots_not_empty <- length(match.call(expand.dots = FALSE)$...) > 0
+    if (!is_empty(class_fns) && missing(estimate) && dots_not_empty) {
+      cli::cli_abort(
+        c(
+          "!" = "{.arg estimate} is required for class metrics but was not 
+                 provided.",
+          "i" = "The {.arg estimate} argument must be named because
+                 it comes after {.arg ...}.",
+          "i" = "Example: {.code my_metrics(data, truth, estimate = my_column)}"
+        ),
+        call = current_env()
+      )
+    }
+
     metric_list <- list()
 
     # Evaluate class metrics
@@ -458,6 +472,21 @@ make_survival_metric_function <- function(fns) {
       },
       FUN.VALUE = logical(1)
     )
+
+    needs_estimate <- any(is_static) || any(is_linear_pred)
+    dots_not_empty <- length(match.call(expand.dots = FALSE)$...) > 0
+    if (needs_estimate && missing(estimate) && dots_not_empty) {
+      cli::cli_abort(
+        c(
+          "!" = "{.arg estimate} is required for static or linear predictor
+                 survival metrics but was not provided.",
+          "i" = "The {.arg estimate} argument must be named because it comes 
+                 after {.arg ...}.",
+          "i" = "Example: {.code my_metrics(data, truth, estimate = my_column)}"
+        ),
+        call = current_env()
+      )
+    }
 
     # Static and linear pred metrics both use the `estimate` argument
     # so we need route the columns to the correct metric functions
