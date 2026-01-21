@@ -215,9 +215,11 @@ Other class metrics:
 \code{\link{bal_accuracy}()},
 \code{\link{detection_prevalence}()},
 \code{\link{f_meas}()},
+\code{\link{fall_out}()},
 \code{\link{j_index}()},
 \code{\link{kap}()},
 \code{\link{mcc}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
@@ -225,6 +227,8 @@ Other class metrics:
 \code{\link{sens}()}
 
 Other sensitivity metrics: 
+\code{\link{fall_out}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{sens}()}
