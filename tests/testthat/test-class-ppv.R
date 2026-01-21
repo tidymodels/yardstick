@@ -43,7 +43,7 @@ test_that("All interfaces gives the same results", {
   lst <- data_altman()
   pathology <- lst$pathology
   path_tbl <- lst$path_tbl
-  path_mat <- as.matrix(path_tbl)
+  path_mat <- unclass(path_tbl)
 
   exp <- ppv_vec(pathology$pathology, pathology$scan)
 
@@ -84,6 +84,15 @@ test_that("Calculations handles NAs", {
           sum(0.4) +
           ((1 - sum(tn) / sum(n)) * sum((1 - 0.4))))
     )
+  )
+
+  expect_equal(
+    ppv_vec(
+      truth = pathology$pathology,
+      estimate = pathology$scan_na,
+      na_rm = FALSE
+    ),
+    NA_real_
   )
 })
 

@@ -182,19 +182,23 @@ yardstick_cov <- function(truth, estimate, ..., case_weights = NULL) {
   size <- vec_size(truth)
   if (size != vec_size(estimate)) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg truth} ({vec_size(truth)}) and
       {.arg estimate} ({vec_size(estimate)}) must be the same size.",
       .internal = TRUE
     )
+    # nocov end
   }
   if (size != vec_size(case_weights)) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg truth} ({vec_size(truth)}) and
       {.arg case_weights} ({vec_size(case_weights)}) must be the same size.",
       .internal = TRUE
     )
+    # nocov end
   }
 
   if (size == 0L || size == 1L) {
@@ -235,19 +239,23 @@ yardstick_cor <- function(truth, estimate, ..., case_weights = NULL) {
   size <- vec_size(truth)
   if (size != vec_size(estimate)) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg truth} ({vec_size(truth)}) and
       {.arg estimate} ({vec_size(estimate)}) must be the same size.",
       .internal = TRUE
     )
+    # nocov end
   }
   if (size != vec_size(case_weights)) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg truth} ({vec_size(truth)}) and
       {.arg case_weights} ({vec_size(case_weights)}) must be the same size.",
       .internal = TRUE
     )
+    # nocov end
   }
 
   if (size == 0L || size == 1L) {
@@ -414,33 +422,41 @@ yardstick_table <- function(truth, estimate, ..., case_weights = NULL) {
   }
 
   if (!is.factor(truth)) {
+    # nocov start
     cli::cli_abort(
       "{.arg truth} must be a factor, not {.obj_type_friendly {truth}}.",
       .internal = TRUE
     )
+    # nocov end
   }
   if (!is.factor(estimate)) {
+    # nocov start
     cli::cli_abort(
       "{.arg estimate} must be a factor, not {.obj_type_friendly {estimate}}.",
       .internal = TRUE
     )
+    # nocov end
   }
 
   levels <- levels(truth)
   n_levels <- length(levels)
 
   if (!identical(levels, levels(estimate))) {
+    # nocov start
     cli::cli_abort(
       "{.arg truth} and {.arg estimate} must have the same levels in the same
       order.",
       .internal = TRUE
     )
+    # nocov end
   }
   if (n_levels < 2) {
+    # nocov start
     cli::cli_abort(
       "{.arg truth} must have at least 2 factor levels.",
       .internal = TRUE
     )
+    # nocov end
   }
 
   # Supply `estimate` first to get it to correspond to the row names.
@@ -478,7 +494,12 @@ yardstick_truth_table <- function(truth, ..., case_weights = NULL) {
 
   if (!is.factor(truth)) {
     # should be unreachable
-    cli::cli_abort("{.arg truth} must be a factor.", .internal = TRUE)
+    # nocov start
+    cli::cli_abort(
+      "{.arg truth} must be a factor.",
+      .internal = TRUE
+    )
+    # nocov end
   }
 
   levels <- levels(truth)
@@ -486,10 +507,12 @@ yardstick_truth_table <- function(truth, ..., case_weights = NULL) {
 
   if (n_levels < 2) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg truth} must have at least 2 factor levels.",
       .internal = TRUE
     )
+    # nocov end
   }
 
   # Always return a double matrix for type stability

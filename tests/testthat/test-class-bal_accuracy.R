@@ -33,7 +33,7 @@ test_that("All interfaces gives the same results", {
   lst <- data_altman()
   pathology <- lst$pathology
   path_tbl <- lst$path_tbl
-  path_mat <- as.matrix(path_tbl)
+  path_mat <- unclass(path_tbl)
 
   exp <- bal_accuracy_vec(pathology$pathology, pathology$scan)
 

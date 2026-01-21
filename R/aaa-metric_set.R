@@ -168,10 +168,12 @@ metric_set <- function(...) {
     make_survival_metric_function(fns)
   } else {
     # should not be reachable
+    # nocov start
     cli::cli_abort(
       "{.fn validate_function_class} should have errored on unknown classes.",
       .internal = TRUE
     )
+    # nocov end
   }
 }
 
@@ -255,10 +257,12 @@ get_quo_label <- function(quo) {
 
   if (length(out) != 1L) {
     # should not be reachable
+    # nocov start
     cli::cli_abort(
       "{.code as_label(quo)} resulted in a character vector of length >1.",
       .internal = TRUE
     )
+    # nocov end
   }
 
   is_namespaced <- grepl("::", out, fixed = TRUE)
