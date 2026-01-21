@@ -12,10 +12,12 @@ auc <- function(x, y, na_rm = TRUE) {
 
   if (is.unsorted(x, na.rm = TRUE, strictly = FALSE)) {
     # should not be reachable
+    # nocov start
     cli::cli_abort(
       "{.arg x} must already be in weakly increasing order.",
       .internal = TRUE
     )
+    # nocov end
   }
 
   # length x = length y

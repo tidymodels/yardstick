@@ -177,10 +177,12 @@ roc_auc_estimator_impl <- function(
   } else if (estimator == "hand_till") {
     if (!is.null(case_weights)) {
       # should be unreachable
+      # nocov start
       cli::cli_abort(
         "{.arg case_weights} should be `NULL` at this point for hand-till.",
         .internal = TRUE
       )
+      # nocov end
     }
 
     roc_auc_hand_till(truth, estimate)
