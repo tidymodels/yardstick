@@ -38,6 +38,8 @@ reference:
   - npv
   - bal_accuracy
   - detection_prevalence
+  - fall_out
+  - miss_rate
 
 - title: Class Probability Metrics
   contents:

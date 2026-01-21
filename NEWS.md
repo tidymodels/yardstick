@@ -28,6 +28,8 @@
 
 * Fixed documentation to show equations correctly. (#541)
 
+* `fall_out()` and `miss_rate()` have been added to compute the false positive rate and false negative rate respectively (#336).
+
 # yardstick 1.3.2
 
 * All messages, warnings and errors has been translated to use {cli} package (#517, #522).
