@@ -85,6 +85,15 @@ test_that("Calculations handles NAs", {
           ((1 - sum(tn) / sum(n)) * sum((1 - 0.4))))
     )
   )
+
+  expect_equal(
+    ppv_vec(
+      truth = pathology$pathology,
+      estimate = pathology$scan_na,
+      na_rm = FALSE
+    ),
+    NA_real_
+  )
 })
 
 test_that("Case weights calculations are correct", {

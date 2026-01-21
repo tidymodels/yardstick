@@ -46,6 +46,19 @@ test_that("All interfaces gives the same results", {
     spec(pathology, truth = pathology, estimate = scan)[[".estimate"]],
     exp
   )
+
+  expect_identical(
+    specificity(path_tbl)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    specificity(path_mat)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    specificity(pathology, truth = pathology, estimate = scan)[[".estimate"]],
+    exp
+  )
 })
 
 test_that("Calculations handles NAs", {
