@@ -17,6 +17,11 @@
   developer-facing change.
   ([\#572](https://github.com/tidymodels/yardstick/issues/572))
 
+- [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)
+  now provides a more informative error message when `estimate` is not
+  explicitly named for class/prob or survival metric sets.
+  ([\#504](https://github.com/tidymodels/yardstick/issues/504))
+
 - All metrics now have documented ranges of possible values in addition
   to what direction is the best.
   ([\#572](https://github.com/tidymodels/yardstick/issues/572))
