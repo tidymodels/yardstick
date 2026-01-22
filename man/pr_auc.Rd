@@ -87,6 +87,13 @@ PR AUC is a metric that should be maximized. The output
 ranges from 0 to 1, with
 1 indicating perfect precision and recall at all
 thresholds.
+
+The area under the precision-recall curve is computed using the trapezoidal
+rule:
+
+\deqn{\text{PR AUC} = \sum_{i=1}^{n-1} (r_{i+1} - r_i) \cdot \frac{p_i + p_{i+1}}{2}}
+
+where \eqn{r} is recall and \eqn{p} is precision at each threshold.
 }
 \section{Multiclass}{
 

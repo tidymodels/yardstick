@@ -101,6 +101,13 @@ output ranges from 0 to
 1, with 1 indicating
 perfect discrimination.
 
+The area under the ROC curve is computed using the trapezoidal rule:
+
+\deqn{\text{AUC} = \sum_{i=1}^{n-1} (x_{i+1} - x_i) \cdot \frac{y_i + y_{i+1}}{2}}
+
+where \eqn{x} is the false positive rate (1 - specificity) and \eqn{y} is
+the true positive rate (sensitivity) at each threshold.
+
 Generally, an ROC AUC value is between \code{0.5} and \code{1}, with \code{1} being a
 perfect prediction model. If your value is between \code{0} and \code{0.5}, then
 this implies that you have meaningful information in your model, but it

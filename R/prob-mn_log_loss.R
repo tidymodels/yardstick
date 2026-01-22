@@ -34,6 +34,15 @@
 #' `r metric_range(mn_log_loss)[2]`, with `r metric_optimal(mn_log_loss)`
 #' indicating perfect predictions.
 #'
+#' The formula used here is:
+#'
+#' \deqn{\text{Log Loss} = -\frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \cdot \log(p_{ij})}
+#'
+#' where \eqn{N} is the number of observations, \eqn{K} is the number of classes,
+#' \eqn{y_{ij}} is 1 if observation \eqn{i} belongs to class \eqn{j} and 0
+#' otherwise, and \eqn{p_{ij}} is the predicted probability of observation
+#' \eqn{i} for class \eqn{j}.
+#'
 #' @author Max Kuhn
 #'
 #' @examples

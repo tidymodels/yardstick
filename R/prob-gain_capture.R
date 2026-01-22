@@ -27,6 +27,16 @@
 #' `r metric_range(gain_capture)[2]`, with `r metric_optimal(gain_capture)`
 #' indicating perfect discrimination.
 #'
+#' The formula used here is:
+#'
+#' \deqn{\text{Gain Capture} = \frac{A_{model} - A_{baseline}}{A_{perfect} - A_{baseline}}}
+#'
+#' where \eqn{A_{model}} is the area under the model's gain curve,
+#' \eqn{A_{baseline}} is the area under the baseline (random) gain curve,
+#' and \eqn{A_{perfect}} is the area under a perfect gain curve. This is
+#' equivalent to twice the ROC AUC minus one, also known as the Gini
+#' coefficient.
+#'
 #' @author Max Kuhn
 #'
 #' @references
