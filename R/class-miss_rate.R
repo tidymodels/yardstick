@@ -10,7 +10,7 @@
 #'
 #' When the denominator of the calculation is `0`, miss rate is undefined.
 #' This happens when both `# true_positive = 0` and `# false_negative = 0`
-#' are true, which mean that there were no true events. When computing binary
+#' are true, which means that there were no events. When computing binary
 #' miss rate, a `NA` value will be returned with a warning. When computing
 #' multiclass miss rate, the individual `NA` values will be removed, and the
 #' computation will proceed, with a warning.

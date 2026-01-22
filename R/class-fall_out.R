@@ -10,7 +10,7 @@
 #'
 #' When the denominator of the calculation is `0`, fall-out is undefined.
 #' This happens when both `# true_negative = 0` and `# false_positive = 0`
-#' are true, which mean that there were no true negatives. When computing binary
+#' are true, which means that there were no negatives. When computing binary
 #' fall-out, a `NA` value will be returned with a warning. When computing
 #' multiclass fall-out, the individual `NA` values will be removed, and the
 #' computation will proceed, with a warning.
