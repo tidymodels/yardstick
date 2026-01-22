@@ -177,4 +177,9 @@ library(ggplot2)
 autoplot(cm, type = "mosaic")
 
 autoplot(cm, type = "heatmap")
+
+
+# And can be modified further like normal ggplot2 objects
+autoplot(cm, type = "heatmap") +
+  geom_label(aes(label = Freq), fill = "white")
 ```
