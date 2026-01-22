@@ -15,11 +15,24 @@
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-positive
-#'
 #' @inheritParams ppv
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
+#'
+#' \deqn{\text{Specificity} = \frac{D}{B + D}}
+#'
+#' \deqn{\text{Prevalence} = \frac{A + C}{A + B + C + D}}
+#'
+#' \deqn{\text{NPV} = \frac{\text{Specificity} \cdot (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) + (\text{Specificity} \cdot (1 - \text{Prevalence}))}}
+#'
 #' NPV is a metric that should be `r attr(npv, "direction")`d. The output
 #' ranges from `r metric_range(npv)[1]` to `r metric_range(npv)[2]`, with
 #' `r metric_optimal(npv)` indicating all predicted negatives are true
