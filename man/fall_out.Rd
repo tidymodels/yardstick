@@ -179,10 +179,6 @@ fall_out_vec(
   event_level = "second"
 )
 }
-\references{
-Fawcett, T. (2006). "An introduction to ROC analysis". \emph{Pattern
-Recognition Letters}, 27(8), 861-874.
-}
 \seealso{
 Other class metrics: 
 \code{\link{accuracy}()},
@@ -206,9 +202,6 @@ Other sensitivity metrics:
 \code{\link{ppv}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
-}
-\author{
-Max Kuhn
 }
 \concept{class metrics}
 \concept{sensitivity metrics}

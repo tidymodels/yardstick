@@ -32,13 +32,6 @@
 #' that all actual negatives were correctly predicted as negative (no false
 #' positives).
 #'
-#' @author Max Kuhn
-#'
-#' @references
-#'
-#' Fawcett, T. (2006). "An introduction to ROC analysis". *Pattern
-#' Recognition Letters*, 27(8), 861-874.
-#'
 #' @template examples-class
 #'
 #' @export
