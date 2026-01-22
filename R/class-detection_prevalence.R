@@ -12,6 +12,15 @@
 #' @inheritParams sens
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Detection Prevalence} = \frac{A + B}{A + B + C + D}}
+#'
 #' Detection prevalence is a metric that should be
 #' `r attr(detection_prevalence, "direction")`d. The output ranges from
 #' `r metric_range(detection_prevalence)[1]` to `r metric_range(detection_prevalence)[2]`.

@@ -83,6 +83,19 @@ Youden's J statistic is defined as:
 A related metric is Informedness, see the Details section for the relationship.
 }
 \details{
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formulas used here are:
+
+\deqn{\text{Sensitivity} = \frac{A}{A + C}}
+
+\deqn{\text{Specificity} = \frac{D}{B + D}}
+
+\deqn{\text{J-index} = \text{Sensitivity} + \text{Specificity} - 1}
+
 J-index is a metric that should be maximized. The
 output ranges from -1 to
 1, with 1 indicating no

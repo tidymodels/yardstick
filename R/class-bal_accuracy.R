@@ -11,6 +11,19 @@
 #' @inheritParams sens
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
+#'
+#' \deqn{\text{Specificity} = \frac{D}{B + D}}
+#'
+#' \deqn{\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2}}
+#'
 #' Balanced accuracy is a metric that should be
 #' `r attr(bal_accuracy, "direction")`d. The output ranges from
 #' `r metric_range(bal_accuracy)[1]` to `r metric_range(bal_accuracy)[2]`, with

@@ -80,6 +80,15 @@ Detection prevalence is defined as the number of \emph{predicted} positive event
 true positive and false positive) divided by the total number of predictions.
 }
 \details{
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formula used here is:
+
+\deqn{\text{Detection Prevalence} = \frac{A + B}{A + B + C + D}}
+
 Detection prevalence is a metric that should be
 maximized. The output ranges from
 0 to 1.

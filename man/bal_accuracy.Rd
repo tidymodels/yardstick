@@ -79,6 +79,19 @@ For \code{bal_accuracy_vec()}, a single \code{numeric} value (or \code{NA}).
 Balanced accuracy is computed here as the average of \code{\link[=sens]{sens()}} and \code{\link[=spec]{spec()}}.
 }
 \details{
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formulas used here are:
+
+\deqn{\text{Sensitivity} = \frac{A}{A + C}}
+
+\deqn{\text{Specificity} = \frac{D}{B + D}}
+
+\deqn{\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2}}
+
 Balanced accuracy is a metric that should be
 maximized. The output ranges from
 0 to 1, with

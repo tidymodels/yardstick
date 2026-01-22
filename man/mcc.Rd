@@ -51,6 +51,15 @@ For \code{mcc_vec()}, a single \code{numeric} value (or \code{NA}).
 Matthews correlation coefficient
 }
 \details{
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formula used here is:
+
+\deqn{\text{MCC} = \frac{(A \cdot D) - (B \cdot C)}{\sqrt{(A + B)(A + C)(D + B)(D + C)}}}
+
 MCC is a metric that should be maximized. The output
 ranges from -1 to 1, with
 1 indicating perfect predictions. A value of 0
