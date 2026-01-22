@@ -54,6 +54,10 @@ the same units as the original data.
 RMSE is a metric that should be minimized. The output
 ranges from 0 to ∞, with
 0 indicating perfect predictions.
+
+The formula for RMSE is:
+
+\deqn{\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (\text{truth}_i - \text{estimate}_i)^2}}
 }
 \examples{
 # Supply truth and predictions as bare column names

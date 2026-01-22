@@ -18,6 +18,10 @@
 #' ranges from `r metric_range(mape)[1]` to `r metric_range(mape)[2]`, with
 #' `r metric_optimal(mape)` indicating perfect predictions.
 #'
+#' The formula for MAPE is:
+#'
+#' \deqn{\text{MAPE} = \frac{100}{n} \sum_{i=1}^{n} \left| \frac{\text{truth}_i - \text{estimate}_i}{\text{truth}_i} \right|}
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-numeric

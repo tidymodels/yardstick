@@ -26,6 +26,10 @@
 #' `r metric_optimal(rsq_trad)` indicating perfect predictions. Negative values
 #' can occur when the model is non-informative.
 #'
+#' The formula for traditional R squared is:
+#'
+#' \deqn{\text{rsq\_trad} = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{\sum_{i=1}^{n}(\text{truth}_i - \text{estimate}_i)^2}{\sum_{i=1}^{n}(\text{truth}_i - \bar{\text{truth}})^2}}
+#'
 #' @author Max Kuhn
 #'
 #' @references

@@ -22,6 +22,10 @@
 #' ranges from `r metric_range(ccc)[1]` to `r metric_range(ccc)[2]`, with
 #' `r metric_optimal(ccc)` indicating perfect agreement.
 #'
+#' The formula for CCC is:
+#'
+#' \deqn{\text{CCC} = \frac{2 \cdot \text{cov}(\text{truth}, \text{estimate})}{\text{var}(\text{truth}) + \text{var}(\text{estimate}) + (\bar{\text{truth}} - \bar{\text{estimate}})^2}}
+#'
 #' @author Max Kuhn
 #'
 #' @references

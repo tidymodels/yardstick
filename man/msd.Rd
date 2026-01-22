@@ -56,6 +56,10 @@ MSD is a metric where the optimal value is 0. The
 output ranges from -∞ to ∞, with
 0 indicating predictions are unbiased.
 
+The formula for MSD is:
+
+\deqn{\text{MSD} = \frac{1}{n} \sum_{i=1}^{n} (\text{truth}_i - \text{estimate}_i)}
+
 Mean signed deviation is rarely used, since positive and negative errors
 cancel each other out. For example, \code{msd_vec(c(100, -100), c(0, 0))} would
 return a seemingly "perfect" value of \code{0}, even though \code{estimate} is wildly

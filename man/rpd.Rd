@@ -69,6 +69,10 @@ generalise the RPD to non-normally distributed variables.
 RPD is a metric that should be maximized. The output
 ranges from 0 to ∞, with higher
 values indicating better model performance.
+
+The formula for RPD is:
+
+\deqn{\text{RPD} = \frac{\text{sd}(\text{truth})}{\text{RMSE}}}
 }
 \examples{
 # Supply truth and predictions as bare column names

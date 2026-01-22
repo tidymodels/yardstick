@@ -31,6 +31,10 @@
 #' ranges from `r metric_range(rsq)[1]` to `r metric_range(rsq)[2]`, with
 #' `r metric_optimal(rsq)` indicating perfect predictions.
 #'
+#' The formula for R squared is:
+#'
+#' \deqn{\text{rsq} = \frac{\text{cov}(\text{truth}, \text{estimate})^2}{\text{var}(\text{truth}) \cdot \text{var}(\text{estimate})}}
+#'
 #' @author Max Kuhn
 #'
 #' @references

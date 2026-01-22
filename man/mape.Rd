@@ -57,6 +57,10 @@ observed value is negative.
 MAPE is a metric that should be minimized. The output
 ranges from 0 to ∞, with
 0 indicating perfect predictions.
+
+The formula for MAPE is:
+
+\deqn{\text{MAPE} = \frac{100}{n} \sum_{i=1}^{n} \left| \frac{\text{truth}_i - \text{estimate}_i}{\text{truth}_i} \right|}
 }
 \examples{
 # Supply truth and predictions as bare column names

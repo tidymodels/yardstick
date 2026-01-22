@@ -97,6 +97,10 @@ naive mean absolute error can easily be computed with
 MASE is a metric that should be minimized. The output
 ranges from 0 to ∞, with
 0 indicating perfect predictions.
+
+The formula for MASE is:
+
+\deqn{\text{MASE} = \frac{1}{n} \sum_{i=1}^{n} \frac{|\text{truth}_i - \text{estimate}_i|}{\text{MAE}_{naive}}}
 }
 \examples{
 # Supply truth and predictions as bare column names
