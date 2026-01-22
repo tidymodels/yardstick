@@ -262,7 +262,7 @@
     Condition
       Error in `set()`:
       ! `estimate` is required for class metrics but was not provided.
-      i The `estimate` argument must be named because it comes after `...`.
+      i In a metric set, the `estimate` argument must be named.
       i Example: `my_metrics(data, truth, estimate = my_column)`
 
 # errors informatively when `estimate` is not named for survival metrics
@@ -272,6 +272,6 @@
     Condition
       Error in `set()`:
       ! `estimate` is required for static or linear predictor survival metrics but was not provided.
-      i The `estimate` argument must be named because it comes after `...`.
+      i In a metric set, the `estimate` argument must be named.
       i Example: `my_metrics(data, truth, estimate = my_column)`
 

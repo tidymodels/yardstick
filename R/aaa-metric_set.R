@@ -315,8 +315,7 @@ make_prob_class_metric_function <- function(fns) {
         c(
           "!" = "{.arg estimate} is required for class metrics but was not 
                  provided.",
-          "i" = "The {.arg estimate} argument must be named because
-                 it comes after {.arg ...}.",
+          "i" = "In a metric set, the {.arg estimate} argument must be named.",
           "i" = "Example: {.code my_metrics(data, truth, estimate = my_column)}"
         ),
         call = current_env()
@@ -495,8 +494,7 @@ make_survival_metric_function <- function(fns) {
         c(
           "!" = "{.arg estimate} is required for static or linear predictor
                  survival metrics but was not provided.",
-          "i" = "The {.arg estimate} argument must be named because it comes 
-                 after {.arg ...}.",
+          "i" = "In a metric set, the {.arg estimate} argument must be named.",
           "i" = "Example: {.code my_metrics(data, truth, estimate = my_column)}"
         ),
         call = current_env()
