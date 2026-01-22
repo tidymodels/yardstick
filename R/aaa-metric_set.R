@@ -55,6 +55,21 @@
 #' )
 #' ```
 #'
+#' @section Naming the `estimate` argument:
+#'
+#' Note that for class/prob metric sets and survival metric sets, the
+#' `estimate` argument comes *after* `...` in the function signature. This
+#' means you must always pass `estimate` as a named argument; otherwise
+#' your column will be captured by `...` and you'll get an error.
+#'
+#' ```
+#' # Correct - estimate is named:
+#' my_metrics(two_class_example, truth, estimate = predicted)
+#'
+#' # Incorrect - estimate is not named and gets captured by `...`:
+#' my_metrics(two_class_example, truth, predicted)
+#' ```
+#'
 #' When mixing class and class prob metrics, pass in the hard predictions
 #' (the factor column) as the named argument `estimate`, and the soft
 #' predictions (the class probability columns) as bare column names or
@@ -298,6 +313,19 @@ make_prob_class_metric_function <- function(fns) {
     class_fns <- fns[are_class_metrics]
     prob_fns <- fns[!are_class_metrics]
 
+    dots_not_empty <- length(match.call(expand.dots = FALSE)$...) > 0
+    if (!is_empty(class_fns) && missing(estimate) && dots_not_empty) {
+      cli::cli_abort(
+        c(
+          "!" = "{.arg estimate} is required for class metrics but was not 
+                 provided.",
+          "i" = "In a metric set, the {.arg estimate} argument must be named.",
+          "i" = "Example: {.code my_metrics(data, truth, estimate = my_column)}"
+        ),
+        call = current_env()
+      )
+    }
+
     metric_list <- list()
 
     # Evaluate class metrics
@@ -462,6 +490,20 @@ make_survival_metric_function <- function(fns) {
       },
       FUN.VALUE = logical(1)
     )
+
+    needs_estimate <- any(is_static) || any(is_linear_pred)
+    dots_not_empty <- length(match.call(expand.dots = FALSE)$...) > 0
+    if (needs_estimate && missing(estimate) && dots_not_empty) {
+      cli::cli_abort(
+        c(
+          "!" = "{.arg estimate} is required for static or linear predictor
+                 survival metrics but was not provided.",
+          "i" = "In a metric set, the {.arg estimate} argument must be named.",
+          "i" = "Example: {.code my_metrics(data, truth, estimate = my_column)}"
+        ),
+        call = current_env()
+      )
+    }
 
     # Static and linear pred metrics both use the `estimate` argument
     # so we need route the columns to the correct metric functions

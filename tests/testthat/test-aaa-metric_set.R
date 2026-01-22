@@ -768,6 +768,22 @@ test_that("propagates 'caused by' error message when specifying the wrong column
   })
 })
 
+test_that("errors informatively when `estimate` is not named for class metrics", {
+  set <- metric_set(accuracy, kap)
+
+  expect_snapshot(error = TRUE, {
+    set(two_class_example, truth, predicted)
+  })
+})
+
+test_that("errors informatively when `estimate` is not named for survival metrics", {
+  set <- metric_set(concordance_survival)
+
+  expect_snapshot(error = TRUE, {
+    set(lung_surv, surv_obj, .pred_time)
+  })
+})
+
 test_that("metric set functions retain class/prob metric functions", {
   fns <- attr(metric_set(accuracy, roc_auc), "metrics")
 
