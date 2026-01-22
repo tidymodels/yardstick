@@ -59,6 +59,13 @@
 - Fixed documentation to show equations correctly.
   ([\#541](https://github.com/tidymodels/yardstick/issues/541))
 
+- [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)
+  and
+  [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)
+  have been added to compute the false positive rate and false negative
+  rate respectively
+  ([\#336](https://github.com/tidymodels/yardstick/issues/336)).
+
 ## yardstick 1.3.2
 
 CRAN release: 2025-01-22

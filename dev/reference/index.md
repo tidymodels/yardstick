@@ -45,6 +45,12 @@
 - [`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md)
   [`detection_prevalence_vec()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md)
   : Detection prevalence
+- [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)
+  [`fall_out_vec()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)
+  : Fall-out (False Positive Rate)
+- [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)
+  [`miss_rate_vec()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)
+  : Miss rate (False Negative Rate)
 
 ## Class Probability Metrics
 

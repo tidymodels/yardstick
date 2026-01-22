@@ -178,9 +178,11 @@ by type.
 | class                     | [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md)                           |
 | class                     | [`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md)           |
 | class                     | [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md)                                       |
+| class                     | [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)                                   |
 | class                     | [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)                                     |
 | class                     | [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md)                                             |
 | class                     | [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md)                                             |
+| class                     | [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)                                 |
 | class                     | [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md)                                             |
 | class                     | [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md)                                             |
 | class                     | [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md)                                 |

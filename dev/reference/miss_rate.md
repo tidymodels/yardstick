@@ -1,19 +1,18 @@
-# Specificity
+# Miss rate (False Negative Rate)
 
-These functions calculate the `spec()` (specificity) of a measurement
-system compared to a reference result (the "truth" or gold standard).
-Highly related functions are
-[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
-[`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md), and
-[`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md).
+These functions calculate the miss rate (false negative rate) of a
+measurement system compared to a reference result (the "truth" or gold
+standard). Miss rate is defined as `1 - sensitivity`, or equivalently,
+the proportion of positives that are incorrectly classified as
+negatives.
 
 ## Usage
 
 ``` r
-spec(data, ...)
+miss_rate(data, ...)
 
 # S3 method for class 'data.frame'
-spec(
+miss_rate(
   data,
   truth,
   estimate,
@@ -24,31 +23,7 @@ spec(
   ...
 )
 
-spec_vec(
-  truth,
-  estimate,
-  estimator = NULL,
-  na_rm = TRUE,
-  case_weights = NULL,
-  event_level = yardstick_event_level(),
-  ...
-)
-
-specificity(data, ...)
-
-# S3 method for class 'data.frame'
-specificity(
-  data,
-  truth,
-  estimate,
-  estimator = NULL,
-  na_rm = TRUE,
-  case_weights = NULL,
-  event_level = yardstick_event_level(),
-  ...
-)
-
-specificity_vec(
+miss_rate_vec(
   truth,
   estimate,
   estimator = NULL,
@@ -124,25 +99,23 @@ row of values.
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
-For `spec_vec()`, a single `numeric` value (or `NA`).
+For `miss_rate_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
-The specificity measures the proportion of negatives that are correctly
-identified as negatives. For negative observations, the proportion of
-model predictions that correctly predicted negative.
+Miss rate is also known as the false negative rate (FNR) or the
+probability of miss.
 
-When the denominator of the calculation is `0`, specificity is
-undefined. This happens when both `# true_negative = 0` and
-`# false_positive = 0` are true, which mean that there were no true
-negatives. When computing binary specificity, a `NA` value will be
-returned with a warning. When computing multiclass specificity, the
-individual `NA` values will be removed, and the computation will
-procede, with a warning.
+When the denominator of the calculation is `0`, miss rate is undefined.
+This happens when both `# true_positive = 0` and `# false_negative = 0`
+are true, which means that there were no events. When computing binary
+miss rate, a `NA` value will be returned with a warning. When computing
+multiclass miss rate, the individual `NA` values will be removed, and
+the computation will proceed, with a warning.
 
-Specificity is a metric that should be maximized. The output ranges from
-0 to 1, with 1 indicating that all actual negatives were predicted as
-negative.
+Miss rate is a metric that should be minimized. The output ranges from 0
+to 1, with 0 indicating that all actual positives were correctly
+predicted as positive (no false negatives).
 
 ## Relevant Level
 
@@ -193,11 +166,6 @@ The formulas used here are:
 
 See the references for discussions of the statistics.
 
-## References
-
-Altman, D.G., Bland, J.M. (1994) “Diagnostic tests 1: sensitivity and
-specificity,” *British Medical Journal*, vol 308, 1552.
-
 ## See also
 
 Other class metrics:
@@ -209,34 +177,30 @@ Other class metrics:
 [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md),
 [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md),
 [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md),
-[`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md),
 [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md),
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
 [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md),
 [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md),
-[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md)
+[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
+[`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
 
 Other sensitivity metrics:
 [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
-[`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md),
 [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md),
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
-[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md)
-
-## Author
-
-Max Kuhn
+[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
+[`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
 
 ## Examples
 
 ``` r
 # Two class
 data("two_class_example")
-spec(two_class_example, truth, predicted)
+miss_rate(two_class_example, truth, predicted)
 #> # A tibble: 1 × 3
-#>   .metric .estimator .estimate
-#>   <chr>   <chr>          <dbl>
-#> 1 spec    binary         0.793
+#>   .metric   .estimator .estimate
+#>   <chr>     <chr>          <dbl>
+#> 1 miss_rate binary         0.120
 
 # Multiclass
 library(dplyr)
@@ -244,60 +208,60 @@ data(hpc_cv)
 
 hpc_cv |>
   filter(Resample == "Fold01") |>
-  spec(obs, pred)
+  miss_rate(obs, pred)
 #> # A tibble: 1 × 3
-#>   .metric .estimator .estimate
-#>   <chr>   <chr>          <dbl>
-#> 1 spec    macro          0.886
+#>   .metric   .estimator .estimate
+#>   <chr>     <chr>          <dbl>
+#> 1 miss_rate macro          0.452
 
 # Groups are respected
 hpc_cv |>
   group_by(Resample) |>
-  spec(obs, pred)
+  miss_rate(obs, pred)
 #> # A tibble: 10 × 4
-#>    Resample .metric .estimator .estimate
-#>    <chr>    <chr>   <chr>          <dbl>
-#>  1 Fold01   spec    macro          0.886
-#>  2 Fold02   spec    macro          0.882
-#>  3 Fold03   spec    macro          0.899
-#>  4 Fold04   spec    macro          0.879
-#>  5 Fold05   spec    macro          0.881
-#>  6 Fold06   spec    macro          0.873
-#>  7 Fold07   spec    macro          0.866
-#>  8 Fold08   spec    macro          0.884
-#>  9 Fold09   spec    macro          0.867
-#> 10 Fold10   spec    macro          0.875
+#>    Resample .metric   .estimator .estimate
+#>    <chr>    <chr>     <chr>          <dbl>
+#>  1 Fold01   miss_rate macro          0.452
+#>  2 Fold02   miss_rate macro          0.459
+#>  3 Fold03   miss_rate macro          0.366
+#>  4 Fold04   miss_rate macro          0.430
+#>  5 Fold05   miss_rate macro          0.450
+#>  6 Fold06   miss_rate macro          0.460
+#>  7 Fold07   miss_rate macro          0.469
+#>  8 Fold08   miss_rate macro          0.416
+#>  9 Fold09   miss_rate macro          0.432
+#> 10 Fold10   miss_rate macro          0.463
 
 # Weighted macro averaging
 hpc_cv |>
   group_by(Resample) |>
-  spec(obs, pred, estimator = "macro_weighted")
+  miss_rate(obs, pred, estimator = "macro_weighted")
 #> # A tibble: 10 × 4
-#>    Resample .metric .estimator     .estimate
-#>    <chr>    <chr>   <chr>              <dbl>
-#>  1 Fold01   spec    macro_weighted     0.816
-#>  2 Fold02   spec    macro_weighted     0.815
-#>  3 Fold03   spec    macro_weighted     0.839
-#>  4 Fold04   spec    macro_weighted     0.803
-#>  5 Fold05   spec    macro_weighted     0.812
-#>  6 Fold06   spec    macro_weighted     0.795
-#>  7 Fold07   spec    macro_weighted     0.790
-#>  8 Fold08   spec    macro_weighted     0.814
-#>  9 Fold09   spec    macro_weighted     0.795
-#> 10 Fold10   spec    macro_weighted     0.801
+#>    Resample .metric   .estimator     .estimate
+#>    <chr>    <chr>     <chr>              <dbl>
+#>  1 Fold01   miss_rate macro_weighted     0.274
+#>  2 Fold02   miss_rate macro_weighted     0.288
+#>  3 Fold03   miss_rate macro_weighted     0.242
+#>  4 Fold04   miss_rate macro_weighted     0.288
+#>  5 Fold05   miss_rate macro_weighted     0.288
+#>  6 Fold06   miss_rate macro_weighted     0.303
+#>  7 Fold07   miss_rate macro_weighted     0.325
+#>  8 Fold08   miss_rate macro_weighted     0.279
+#>  9 Fold09   miss_rate macro_weighted     0.327
+#> 10 Fold10   miss_rate macro_weighted     0.301
 
 # Vector version
-spec_vec(
+miss_rate_vec(
   two_class_example$truth,
   two_class_example$predicted
 )
-#> [1] 0.7933884
+#> [1] 0.120155
 
 # Making Class2 the "relevant" level
-spec_vec(
+miss_rate_vec(
   two_class_example$truth,
   two_class_example$predicted,
   event_level = "second"
 )
-#> [1] 0.879845
+#> [1] 0.2066116
 ```

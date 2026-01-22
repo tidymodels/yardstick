@@ -28,6 +28,7 @@
 <url><loc>https://yardstick.tidymodels.org/dev/reference/equal_opportunity.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/equalized_odds.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/f_meas.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/dev/reference/fall_out.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/gain_capture.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/gain_curve.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/hpc_cv.html</loc></url>
@@ -49,6 +50,7 @@
 <url><loc>https://yardstick.tidymodels.org/dev/reference/metric_tweak.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/metric_vec_template.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/metrics.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/dev/reference/miss_rate.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/mn_log_loss.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/mpe.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/msd.html</loc></url>

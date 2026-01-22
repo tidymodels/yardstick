@@ -1,19 +1,18 @@
-# Specificity
+# Fall-out (False Positive Rate)
 
-These functions calculate the `spec()` (specificity) of a measurement
-system compared to a reference result (the "truth" or gold standard).
-Highly related functions are
-[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
-[`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md), and
-[`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md).
+These functions calculate the fall-out (false positive rate) of a
+measurement system compared to a reference result (the "truth" or gold
+standard). Fall-out is defined as `1 - specificity`, or equivalently,
+the proportion of negatives that are incorrectly classified as
+positives.
 
 ## Usage
 
 ``` r
-spec(data, ...)
+fall_out(data, ...)
 
 # S3 method for class 'data.frame'
-spec(
+fall_out(
   data,
   truth,
   estimate,
@@ -24,31 +23,7 @@ spec(
   ...
 )
 
-spec_vec(
-  truth,
-  estimate,
-  estimator = NULL,
-  na_rm = TRUE,
-  case_weights = NULL,
-  event_level = yardstick_event_level(),
-  ...
-)
-
-specificity(data, ...)
-
-# S3 method for class 'data.frame'
-specificity(
-  data,
-  truth,
-  estimate,
-  estimator = NULL,
-  na_rm = TRUE,
-  case_weights = NULL,
-  event_level = yardstick_event_level(),
-  ...
-)
-
-specificity_vec(
+fall_out_vec(
   truth,
   estimate,
   estimator = NULL,
@@ -124,25 +99,23 @@ row of values.
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
-For `spec_vec()`, a single `numeric` value (or `NA`).
+For `fall_out_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
-The specificity measures the proportion of negatives that are correctly
-identified as negatives. For negative observations, the proportion of
-model predictions that correctly predicted negative.
+Fall-out is also known as the false positive rate (FPR) or the
+probability of false alarm.
 
-When the denominator of the calculation is `0`, specificity is
-undefined. This happens when both `# true_negative = 0` and
-`# false_positive = 0` are true, which mean that there were no true
-negatives. When computing binary specificity, a `NA` value will be
-returned with a warning. When computing multiclass specificity, the
-individual `NA` values will be removed, and the computation will
-procede, with a warning.
+When the denominator of the calculation is `0`, fall-out is undefined.
+This happens when both `# true_negative = 0` and `# false_positive = 0`
+are true, which means that there were no negatives. When computing
+binary fall-out, a `NA` value will be returned with a warning. When
+computing multiclass fall-out, the individual `NA` values will be
+removed, and the computation will proceed, with a warning.
 
-Specificity is a metric that should be maximized. The output ranges from
-0 to 1, with 1 indicating that all actual negatives were predicted as
-negative.
+Fall-out is a metric that should be minimized. The output ranges from 0
+to 1, with 0 indicating that all actual negatives were correctly
+predicted as negative (no false positives).
 
 ## Relevant Level
 
@@ -193,11 +166,6 @@ The formulas used here are:
 
 See the references for discussions of the statistics.
 
-## References
-
-Altman, D.G., Bland, J.M. (1994) “Diagnostic tests 1: sensitivity and
-specificity,” *British Medical Journal*, vol 308, 1552.
-
 ## See also
 
 Other class metrics:
@@ -205,7 +173,6 @@ Other class metrics:
 [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md),
 [`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md),
 [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md),
-[`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
 [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md),
 [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md),
 [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md),
@@ -214,29 +181,26 @@ Other class metrics:
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
 [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md),
 [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md),
-[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md)
+[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
+[`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
 
 Other sensitivity metrics:
-[`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
 [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md),
 [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md),
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
-[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md)
-
-## Author
-
-Max Kuhn
+[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
+[`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
 
 ## Examples
 
 ``` r
 # Two class
 data("two_class_example")
-spec(two_class_example, truth, predicted)
+fall_out(two_class_example, truth, predicted)
 #> # A tibble: 1 × 3
-#>   .metric .estimator .estimate
-#>   <chr>   <chr>          <dbl>
-#> 1 spec    binary         0.793
+#>   .metric  .estimator .estimate
+#>   <chr>    <chr>          <dbl>
+#> 1 fall_out binary         0.207
 
 # Multiclass
 library(dplyr)
@@ -244,60 +208,60 @@ data(hpc_cv)
 
 hpc_cv |>
   filter(Resample == "Fold01") |>
-  spec(obs, pred)
+  fall_out(obs, pred)
 #> # A tibble: 1 × 3
-#>   .metric .estimator .estimate
-#>   <chr>   <chr>          <dbl>
-#> 1 spec    macro          0.886
+#>   .metric  .estimator .estimate
+#>   <chr>    <chr>          <dbl>
+#> 1 fall_out macro          0.114
 
 # Groups are respected
 hpc_cv |>
   group_by(Resample) |>
-  spec(obs, pred)
+  fall_out(obs, pred)
 #> # A tibble: 10 × 4
-#>    Resample .metric .estimator .estimate
-#>    <chr>    <chr>   <chr>          <dbl>
-#>  1 Fold01   spec    macro          0.886
-#>  2 Fold02   spec    macro          0.882
-#>  3 Fold03   spec    macro          0.899
-#>  4 Fold04   spec    macro          0.879
-#>  5 Fold05   spec    macro          0.881
-#>  6 Fold06   spec    macro          0.873
-#>  7 Fold07   spec    macro          0.866
-#>  8 Fold08   spec    macro          0.884
-#>  9 Fold09   spec    macro          0.867
-#> 10 Fold10   spec    macro          0.875
+#>    Resample .metric  .estimator .estimate
+#>    <chr>    <chr>    <chr>          <dbl>
+#>  1 Fold01   fall_out macro          0.114
+#>  2 Fold02   fall_out macro          0.118
+#>  3 Fold03   fall_out macro          0.101
+#>  4 Fold04   fall_out macro          0.121
+#>  5 Fold05   fall_out macro          0.119
+#>  6 Fold06   fall_out macro          0.127
+#>  7 Fold07   fall_out macro          0.134
+#>  8 Fold08   fall_out macro          0.116
+#>  9 Fold09   fall_out macro          0.133
+#> 10 Fold10   fall_out macro          0.125
 
 # Weighted macro averaging
 hpc_cv |>
   group_by(Resample) |>
-  spec(obs, pred, estimator = "macro_weighted")
+  fall_out(obs, pred, estimator = "macro_weighted")
 #> # A tibble: 10 × 4
-#>    Resample .metric .estimator     .estimate
-#>    <chr>    <chr>   <chr>              <dbl>
-#>  1 Fold01   spec    macro_weighted     0.816
-#>  2 Fold02   spec    macro_weighted     0.815
-#>  3 Fold03   spec    macro_weighted     0.839
-#>  4 Fold04   spec    macro_weighted     0.803
-#>  5 Fold05   spec    macro_weighted     0.812
-#>  6 Fold06   spec    macro_weighted     0.795
-#>  7 Fold07   spec    macro_weighted     0.790
-#>  8 Fold08   spec    macro_weighted     0.814
-#>  9 Fold09   spec    macro_weighted     0.795
-#> 10 Fold10   spec    macro_weighted     0.801
+#>    Resample .metric  .estimator     .estimate
+#>    <chr>    <chr>    <chr>              <dbl>
+#>  1 Fold01   fall_out macro_weighted     0.184
+#>  2 Fold02   fall_out macro_weighted     0.185
+#>  3 Fold03   fall_out macro_weighted     0.161
+#>  4 Fold04   fall_out macro_weighted     0.197
+#>  5 Fold05   fall_out macro_weighted     0.188
+#>  6 Fold06   fall_out macro_weighted     0.205
+#>  7 Fold07   fall_out macro_weighted     0.210
+#>  8 Fold08   fall_out macro_weighted     0.186
+#>  9 Fold09   fall_out macro_weighted     0.205
+#> 10 Fold10   fall_out macro_weighted     0.199
 
 # Vector version
-spec_vec(
+fall_out_vec(
   two_class_example$truth,
   two_class_example$predicted
 )
-#> [1] 0.7933884
+#> [1] 0.2066116
 
 # Making Class2 the "relevant" level
-spec_vec(
+fall_out_vec(
   two_class_example$truth,
   two_class_example$predicted,
   event_level = "second"
 )
-#> [1] 0.879845
+#> [1] 0.120155
 ```

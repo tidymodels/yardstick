@@ -180,9 +180,11 @@ Other class metrics:
 [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md),
 [`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md),
 [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md),
+[`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
 [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md),
 [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md),
 [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md),
+[`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md),
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
 [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md),
 [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md),
@@ -190,6 +192,8 @@ Other class metrics:
 [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
 
 Other sensitivity metrics:
+[`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
+[`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md),
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
 [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
 [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
