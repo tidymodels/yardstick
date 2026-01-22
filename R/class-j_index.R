@@ -8,6 +8,19 @@
 #' A related metric is Informedness, see the Details section for the relationship.
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
+#'
+#' \deqn{\text{Specificity} = \frac{D}{B + D}}
+#'
+#' \deqn{\text{J-index} = \text{Sensitivity} + \text{Specificity} - 1}
+#'
 #' J-index is a metric that should be `r attr(j_index, "direction")`d. The
 #' output ranges from `r metric_range(j_index)[1]` to
 #' `r metric_range(j_index)[2]`, with `r metric_optimal(j_index)` indicating no

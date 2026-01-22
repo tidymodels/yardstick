@@ -73,6 +73,13 @@ ROC AUNP is a metric that should be maximized. The
 output ranges from 0 to
 1, with 1 indicating
 perfect discrimination.
+
+The formula used here is:
+
+\deqn{\text{ROC AUNP} = \sum_{k=1}^{K} p_k \cdot \text{AUC}_k}
+
+where \eqn{p_k} is the proportion of observations in class \eqn{k} and
+\eqn{\text{AUC}_k} is the binary ROC AUC for class \eqn{k} versus the rest.
 }
 \section{Relevant Level}{
 

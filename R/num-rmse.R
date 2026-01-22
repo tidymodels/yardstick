@@ -37,6 +37,10 @@
 #' ranges from `r metric_range(rmse)[1]` to `r metric_range(rmse)[2]`, with
 #' `r metric_optimal(rmse)` indicating perfect predictions.
 #'
+#' The formula for RMSE is:
+#'
+#' \deqn{\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (\text{truth}_i - \text{estimate}_i)^2}}
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-numeric

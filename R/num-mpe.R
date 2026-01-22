@@ -22,10 +22,9 @@
 #'
 #' The formula for MPE is:
 #'
-#' \deqn{MPE = \frac{100}{n} \sum_{i=1}^{n} \frac{a_i - f_i}{a_i}}
+#' \deqn{\text{MPE} = \frac{100}{n} \sum_{i=1}^{n} \frac{\text{truth}_i - \text{estimate}_i}{\text{truth}_i}}
 #'
-#' where \eqn{a_i} is the actual value (`truth`) and \eqn{f_i} is the forecasted
-#' value (`estimate`). Using this convention, a _positive_ MPE indicates
+#' Using this convention, a _positive_ MPE indicates
 #' under-prediction (on average, `truth > estimate`) and a _negative_ MPE
 #' indicates over-prediction (on average, `estimate > truth`).
 #'

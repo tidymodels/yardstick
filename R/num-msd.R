@@ -10,6 +10,10 @@
 #' output ranges from `r metric_range(msd)[1]` to `r metric_range(msd)[2]`, with
 #' `r metric_optimal(msd)` indicating predictions are unbiased.
 #'
+#' The formula for MSD is:
+#'
+#' \deqn{\text{MSD} = \frac{1}{n} \sum_{i=1}^{n} (\text{truth}_i - \text{estimate}_i)}
+#'
 #' Mean signed deviation is rarely used, since positive and negative errors
 #' cancel each other out. For example, `msd_vec(c(100, -100), c(0, 0))` would
 #' return a seemingly "perfect" value of `0`, even though `estimate` is wildly

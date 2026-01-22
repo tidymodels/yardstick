@@ -13,8 +13,6 @@
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-relevance
-#'
 #' @inheritParams sens
 #'
 #' @param beta A numeric value used to weight precision and
@@ -23,6 +21,19 @@
 #'  recall beta times more important than precision.
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
+#' Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{\text{Recall} = \frac{A}{A + C}}
+#'
+#' \deqn{\text{Precision} = \frac{A}{A + B}}
+#'
+#' \deqn{F_{meas} = \frac{(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}{(\beta^2 \cdot \text{Precision}) + \text{Recall}}}
+#'
 #' F measure is a metric that should be `r attr(f_meas, "direction")`d. The
 #' output ranges from `r metric_range(f_meas)[1]` to
 #' `r metric_range(f_meas)[2]`, with `r metric_optimal(f_meas)` indicating

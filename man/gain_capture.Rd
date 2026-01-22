@@ -97,6 +97,16 @@ Gain capture is a metric that should be maximized.
 The output ranges from 0 to
 1, with 1
 indicating perfect discrimination.
+
+The formula used here is:
+
+\deqn{\text{Gain Capture} = \frac{A_{model} - A_{baseline}}{A_{perfect} - A_{baseline}}}
+
+where \eqn{A_{model}} is the area under the model's gain curve,
+\eqn{A_{baseline}} is the area under the baseline (random) gain curve,
+and \eqn{A_{perfect}} is the area under a perfect gain curve. This is
+equivalent to twice the ROC AUC minus one, also known as the Gini
+coefficient.
 }
 \section{Relevant Level}{
 

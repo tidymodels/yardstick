@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* All class metrics and probability metrics now include mathematical formulas in their documentation. (#605)
+
 * `mpe()` documentation now includes the formula and clarifies the interpretation of positive and negative values. (#345)
 
 * `classification_cost()` documentation now correctly refers to the `cost` column of the data.frame that can be passed to the `costs` arguemtn. (#343)

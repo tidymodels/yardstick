@@ -41,6 +41,10 @@
 #' ranges from `r metric_range(mase)[1]` to `r metric_range(mase)[2]`, with
 #' `r metric_optimal(mase)` indicating perfect predictions.
 #'
+#' The formula for MASE is:
+#'
+#' \deqn{\text{MASE} = \frac{1}{n} \sum_{i=1}^{n} \frac{|\text{truth}_i - \text{estimate}_i|}{\text{MAE}_{naive}}}
+#'
 #' @author Alex Hallam
 #'
 #' @references

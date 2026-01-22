@@ -13,6 +13,15 @@
 #' `r metric_optimal(classification_cost)` indicating perfect predictions (when
 #' costs for correct predictions are zero).
 #'
+#' The formula used here is:
+#'
+#' \deqn{\text{Cost} = \frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{K} c_{t_i, j} \cdot p_{ij}}
+#'
+#' where \eqn{N} is the number of observations, \eqn{K} is the number of classes,
+#' \eqn{c_{t_i, j}} is the cost of predicting class \eqn{j} when the true class
+#' is \eqn{t_i}, and \eqn{p_{ij}} is the predicted probability of observation
+#' \eqn{i} for class \eqn{j}.
+#'
 #' As an example, suppose that there are three classes: `"A"`, `"B"`, and `"C"`.
 #' Suppose there is a truly `"A"` observation with class probabilities `A = 0.3
 #' / B = 0.3 / C = 0.4`. Suppose that, when the true result is class `"A"`, the

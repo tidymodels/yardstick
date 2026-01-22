@@ -22,8 +22,6 @@
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-positive
-#'
 #' @param data Either a `data.frame` containing the columns specified by the
 #'   `truth` and `estimate` arguments, or a `table`/`matrix` where the true
 #'   class results should be in the columns of the table.
@@ -61,6 +59,15 @@
 #' @param ... Not currently used.
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
+#'
 #' Sensitivity is a metric that should be `r attr(sens, "direction")`d. The
 #' output ranges from `r metric_range(sens)[1]` to `r metric_range(sens)[2]`,
 #' with `r metric_optimal(sens)` indicating that all actual positives were

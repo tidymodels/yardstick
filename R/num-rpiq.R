@@ -21,6 +21,10 @@
 #' ranges from `r metric_range(rpiq)[1]` to `r metric_range(rpiq)[2]`, with
 #' higher values indicating better model performance.
 #'
+#' The formula for RPIQ is:
+#'
+#' \deqn{\text{RPIQ} = \frac{\text{IQR}(\text{truth})}{\text{RMSE}}}
+#'
 #' @author Pierre Roudier
 #'
 #' @seealso

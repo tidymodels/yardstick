@@ -30,6 +30,10 @@
 #' ranges from `r metric_range(rpd)[1]` to `r metric_range(rpd)[2]`, with higher
 #' values indicating better model performance.
 #'
+#' The formula for RPD is:
+#'
+#' \deqn{\text{RPD} = \frac{\text{sd}(\text{truth})}{\text{RMSE}}}
+#'
 #' @author Pierre Roudier
 #'
 #' @seealso

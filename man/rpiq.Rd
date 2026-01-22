@@ -57,6 +57,10 @@ and predicted values (and not of accuracy).
 RPIQ is a metric that should be maximized. The output
 ranges from 0 to ∞, with
 higher values indicating better model performance.
+
+The formula for RPIQ is:
+
+\deqn{\text{RPIQ} = \frac{\text{IQR}(\text{truth})}{\text{RMSE}}}
 }
 \examples{
 # Supply truth and predictions as bare column names

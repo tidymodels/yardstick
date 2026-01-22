@@ -21,6 +21,10 @@
 #' `r metric_range(poisson_log_loss)[2]`, with
 #' `r metric_optimal(poisson_log_loss)` indicating perfect predictions.
 #'
+#' The formula for Poisson log loss is:
+#'
+#' \deqn{L = \frac{1}{n} \sum_{i=1}^{n} \left( \log(\text{truth}_i!) + \text{estimate}_i - \text{truth}_i \cdot \log(\text{estimate}_i) \right)}
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-counts

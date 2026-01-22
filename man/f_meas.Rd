@@ -91,6 +91,19 @@ and \code{\link[=precision]{precision()}}.
 \details{
 The measure "F" is a combination of precision and recall (see below).
 
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
+Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+
+The formulas used here are:
+
+\deqn{\text{Recall} = \frac{A}{A + C}}
+
+\deqn{\text{Precision} = \frac{A}{A + B}}
+
+\deqn{F_{meas} = \frac{(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}{(\beta^2 \cdot \text{Precision}) + \text{Recall}}}
+
 F measure is a metric that should be maximized. The
 output ranges from 0 to
 1, with 1 indicating
@@ -116,23 +129,6 @@ Macro, micro, and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a \code{truth} factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See \code{vignette("multiclass", "yardstick")} for more information.
-}
-
-\section{Implementation}{
-
-
-Suppose a 2x2 table with notation:
-
-\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
-Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
-
-The formulas used here are:
-
-\deqn{\text{recall} = \frac{A}{A + C}}
-\deqn{\text{precision} = \frac{A}{A + B}}
-\deqn{F_{meas} = \frac{(1 + \beta^2) \cdot \text{precision} \cdot \text{recall}}{\beta^2 \cdot \text{precision} + \text{recall}}}
-
-See the references for discussions of the statistics.
 }
 
 \examples{

@@ -21,11 +21,18 @@
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-positive
-#'
 #' @inheritParams sens
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Fall-out} = \frac{B}{B + D}}
+#'
 #' Fall-out is a metric that should be `r attr(fall_out, "direction")`d. The
 #' output ranges from `r metric_range(fall_out)[1]` to
 #' `r metric_range(fall_out)[2]`, with `r metric_optimal(fall_out)` indicating

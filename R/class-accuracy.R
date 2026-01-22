@@ -14,6 +14,15 @@
 #' @inheritParams sens
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Accuracy} = \frac{A + D}{A + B + C + D}}
+#'
 #' Accuracy is a metric that should be `r attr(accuracy, "direction")`d. The
 #' output ranges from `r metric_range(accuracy)[1]` to
 #' `r metric_range(accuracy)[2]`, with `r metric_optimal(accuracy)` indicating

@@ -26,6 +26,22 @@
 #'   only ever possible to be 1 unit away from the true value.
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{p_o = \frac{A + D}{A + B + C + D}}
+#'
+#' \deqn{p_e = \frac{(A + B)(A + C) + (C + D)(B + D)}{(A + B + C + D)^2}}
+#'
+#' \deqn{\text{Kappa} = \frac{p_o - p_e}{1 - p_e}}
+#'
+#' where \eqn{p_o} is the observed agreement and \eqn{p_e} is the
+#' expected agreement by chance.
+#'
 #' Kappa is a metric that should be `r attr(kap, "direction")`d. The output
 #' ranges from `r metric_range(kap)[1]` to `r metric_range(kap)[2]`, with
 #' `r metric_optimal(kap)` indicating perfect agreement. Negative values

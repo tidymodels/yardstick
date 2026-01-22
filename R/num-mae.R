@@ -15,6 +15,10 @@
 #' ranges from `r metric_range(mae)[1]` to `r metric_range(mae)[2]`, with
 #' `r metric_optimal(mae)` indicating perfect predictions.
 #'
+#' The formula for MAE is:
+#'
+#' \deqn{\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |\text{truth}_i - \text{estimate}_i|}
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-numeric

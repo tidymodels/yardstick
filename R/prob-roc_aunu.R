@@ -37,6 +37,13 @@
 #' `r metric_range(roc_aunu)[2]`, with `r metric_optimal(roc_aunu)` indicating
 #' perfect discrimination.
 #'
+#' The formula used here is:
+#'
+#' \deqn{\text{ROC AUNU} = \frac{1}{K} \sum_{k=1}^{K} \text{AUC}_k}
+#'
+#' where \eqn{K} is the number of classes and \eqn{\text{AUC}_k} is the
+#' binary ROC AUC for class \eqn{k} versus the rest.
+#'
 #' @seealso
 #'
 #' [roc_aunp()] for computing the area under the ROC curve of each class against

@@ -21,11 +21,18 @@
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-positive
-#'
 #' @inheritParams sens
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Miss rate} = \frac{C}{A + C}}
+#'
 #' Miss rate is a metric that should be `r attr(miss_rate, "direction")`d. The
 #' output ranges from `r metric_range(miss_rate)[1]` to
 #' `r metric_range(miss_rate)[2]`, with `r metric_optimal(miss_rate)` indicating

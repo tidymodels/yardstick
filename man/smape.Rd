@@ -57,6 +57,10 @@ denominator is divided by two.
 SMAPE is a metric that should be minimized. The output
 ranges from 0 to 100, with
 0 indicating perfect predictions.
+
+The formula for SMAPE is:
+
+\deqn{\text{SMAPE} = \frac{100}{n} \sum_{i=1}^{n} \frac{|\text{estimate}_i - \text{truth}_i|}{(|\text{truth}_i| + |\text{estimate}_i|) / 2}}
 }
 \examples{
 # Supply truth and predictions as bare column names

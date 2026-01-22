@@ -74,6 +74,10 @@ minimized. The output ranges from
 0 to
 ∞, with
 0 indicating perfect predictions.
+
+The formula for Pseudo-Huber loss is:
+
+\deqn{L_\delta = \frac{1}{n} \sum_{i=1}^{n} \delta^2 \left( \sqrt{1 + \left(\frac{\text{truth}_i - \text{estimate}_i}{\delta}\right)^2} - 1 \right)}
 }
 \examples{
 # Supply truth and predictions as bare column names

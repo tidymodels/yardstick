@@ -14,6 +14,15 @@
 #' @inheritParams sens
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{MCC} = \frac{(A \cdot D) - (B \cdot C)}{\sqrt{(A + B)(A + C)(D + B)(D + C)}}}
+#'
 #' MCC is a metric that should be `r attr(mcc, "direction")`d. The output
 #' ranges from `r metric_range(mcc)[1]` to `r metric_range(mcc)[2]`, with
 #' `r metric_optimal(mcc)` indicating perfect predictions. A value of 0

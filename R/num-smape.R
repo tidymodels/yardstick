@@ -18,6 +18,10 @@
 #' ranges from `r metric_range(smape)[1]` to `r metric_range(smape)[2]`, with
 #' `r metric_optimal(smape)` indicating perfect predictions.
 #'
+#' The formula for SMAPE is:
+#'
+#' \deqn{\text{SMAPE} = \frac{100}{n} \sum_{i=1}^{n} \frac{|\text{estimate}_i - \text{truth}_i|}{(|\text{truth}_i| + |\text{estimate}_i|) / 2}}
+#'
 #' @author Max Kuhn, Riaz Hedayati
 #'
 #' @template examples-numeric

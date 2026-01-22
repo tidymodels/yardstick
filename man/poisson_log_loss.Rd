@@ -54,6 +54,10 @@ minimized. The output ranges from
 0 to
 ∞, with
 0 indicating perfect predictions.
+
+The formula for Poisson log loss is:
+
+\deqn{L = \frac{1}{n} \sum_{i=1}^{n} \left( \log(\text{truth}_i!) + \text{estimate}_i - \text{truth}_i \cdot \log(\text{estimate}_i) \right)}
 }
 \examples{
 count_truth <- c(2L,   7L,   1L,   1L,   0L,  3L)

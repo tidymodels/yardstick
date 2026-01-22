@@ -70,6 +70,10 @@ Another example would be a CART model that contains no splits.
 R squared is a metric that should be maximized. The output
 ranges from -∞ to 1, with
 1 indicating perfect predictions.
+
+The formula for R squared is:
+
+\deqn{\text{rsq} = \frac{\text{cov}(\text{truth}, \text{estimate})^2}{\text{var}(\text{truth}) \cdot \text{var}(\text{estimate})}}
 }
 \examples{
 # Supply truth and predictions as bare column names

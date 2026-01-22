@@ -69,6 +69,13 @@ coefficient and is in the same units as the original data.
 IIC is a metric that should be maximized. The output
 ranges from -1 to 1, with
 1 indicating perfect agreement.
+
+The formula for IIC is:
+
+\deqn{\text{IIC} = \text{corr}(\text{truth}, \text{estimate}) \cdot \frac{\min(\text{MAE}^-, \text{MAE}^+)}{\max(\text{MAE}^-, \text{MAE}^+)}}
+
+where \eqn{\text{MAE}^-} and \eqn{\text{MAE}^+} are the mean absolute errors
+for negative and non-negative residuals, respectively.
 }
 \examples{
 # Supply truth and predictions as bare column names

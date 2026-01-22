@@ -92,6 +92,15 @@ miss rate, a \code{NA} value will be returned with a warning. When computing
 multiclass miss rate, the individual \code{NA} values will be removed, and the
 computation will proceed, with a warning.
 
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formula used here is:
+
+\deqn{\text{Miss rate} = \frac{C}{A + C}}
+
 Miss rate is a metric that should be minimized. The
 output ranges from 0 to
 1, with 0 indicating
@@ -118,29 +127,6 @@ Macro, micro, and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a \code{truth} factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See \code{vignette("multiclass", "yardstick")} for more information.
-}
-
-\section{Implementation}{
-
-
-Suppose a 2x2 table with notation:
-
-\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
-\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
-
-The formulas used here are:
-
-\deqn{\text{Sensitivity} = \frac{A}{A + C}}
-
-\deqn{\text{Specificity} = \frac{D}{B + D}}
-
-\deqn{\text{Prevalence} = \frac{A + C}{A + B + C + D}}
-
-\deqn{\text{PPV} = \frac{\text{Sensitivity} \cdot \text{Prevalence}}{(\text{Sensitivity} \cdot \text{Prevalence}) + ((1 - \text{Specificity}) \cdot (1 - \text{Prevalence}))}}
-
-\deqn{\text{NPV} = \frac{\text{Specificity} \cdot (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) + ((\text{Specificity}) \cdot (1-Prevalence))}}
-
-See the references for discussions of the statistics.
 }
 
 \examples{

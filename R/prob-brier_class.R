@@ -15,6 +15,15 @@
 #' The difference between a binary indicator for a class and its corresponding
 #' class probability are squared and averaged.
 #'
+#' The formula used here is:
+#'
+#' \deqn{\text{Brier} = \frac{1}{2N} \sum_{i=1}^{N} \sum_{j=1}^{K} (y_{ij} - p_{ij})^2}
+#'
+#' where \eqn{N} is the number of observations, \eqn{K} is the number of classes,
+#' \eqn{y_{ij}} is 1 if observation \eqn{i} belongs to class \eqn{j} and 0
+#' otherwise, and \eqn{p_{ij}} is the predicted probability of observation
+#' \eqn{i} for class \eqn{j}.
+#'
 #' This function uses the convention in Kruppa _et al_ (2014) and divides the
 #' result by two.
 #'

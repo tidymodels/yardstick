@@ -74,6 +74,12 @@ Huber loss is a metric that should be minimized. The
 output ranges from 0 to
 ∞, with 0
 indicating perfect predictions.
+
+The formula for Huber loss is:
+
+\deqn{L_\delta = \begin{cases} \frac{1}{2} a^2 & \text{if } |a| \le \delta \\ \delta (|a| - \frac{1}{2} \delta) & \text{otherwise} \end{cases}}
+
+where \eqn{a = \text{truth}_i - \text{estimate}_i}.
 }
 \examples{
 # Supply truth and predictions as bare column names

@@ -68,6 +68,10 @@ such as \code{\link[=rsq]{rsq()}} are strictly for consistency/correlation
 CCC is a metric that should be maximized. The output
 ranges from -1 to 1, with
 1 indicating perfect agreement.
+
+The formula for CCC is:
+
+\deqn{\text{CCC} = \frac{2 \cdot \text{cov}(\text{truth}, \text{estimate})}{\text{var}(\text{truth}) + \text{var}(\text{estimate}) + (\bar{\text{truth}} - \bar{\text{estimate}})^2}}
 }
 \examples{
 # Supply truth and predictions as bare column names

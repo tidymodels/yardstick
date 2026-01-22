@@ -51,6 +51,15 @@ For \code{accuracy_vec()}, a single \code{numeric} value (or \code{NA}).
 Accuracy is the proportion of the data that are predicted correctly.
 }
 \details{
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formula used here is:
+
+\deqn{\text{Accuracy} = \frac{A + D}{A + B + C + D}}
+
 Accuracy is a metric that should be maximized. The
 output ranges from 0 to
 1, with 1 indicating
