@@ -87,7 +87,7 @@ of false alarm.
 
 When the denominator of the calculation is \code{0}, fall-out is undefined.
 This happens when both \verb{# true_negative = 0} and \verb{# false_positive = 0}
-are true, which mean that there were no true negatives. When computing binary
+are true, which means that there were no negatives. When computing binary
 fall-out, a \code{NA} value will be returned with a warning. When computing
 multiclass fall-out, the individual \code{NA} values will be removed, and the
 computation will proceed, with a warning.
