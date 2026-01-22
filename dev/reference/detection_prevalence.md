@@ -101,6 +101,19 @@ For `detection_prevalence_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Suppose a 2x2 table with notation:
+
+|           |           |          |
+|-----------|-----------|----------|
+|           | Reference |          |
+| Predicted | Positive  | Negative |
+| Positive  | A         | B        |
+| Negative  | C         | D        |
+
+The formula used here is:
+
+\$\$\text{Detection Prevalence} = \frac{A + B}{A + B + C + D}\$\$
+
 Detection prevalence is a metric that should be maximized. The output
 ranges from 0 to 1. The "optimal" value depends on the true prevalence
 of positive events in the data.

@@ -157,6 +157,13 @@ a gain curve. See the Engelmann reference for more information.</p>
 The output ranges from 0 to
 1, with 1
 indicating perfect discrimination.</p>
+<p>The formula used here is:</p>
+<p>$$\text{Gain Capture} = \frac{A_{model} - A_{baseline}}{A_{perfect} - A_{baseline}}$$</p>
+<p>where \(A_{model}\) is the area under the model's gain curve,
+\(A_{baseline}\) is the area under the baseline (random) gain curve,
+and \(A_{perfect}\) is the area under a perfect gain curve. This is
+equivalent to twice the ROC AUC minus one, also known as the Gini
+coefficient.</p>
     </div>
     <div class="section level2">
     <h2 id="relevant-level">Relevant Level<a class="anchor" aria-label="anchor" href="#relevant-level"></a></h2>

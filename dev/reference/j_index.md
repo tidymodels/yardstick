@@ -105,6 +105,23 @@ For `j_index_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Suppose a 2x2 table with notation:
+
+|           |           |          |
+|-----------|-----------|----------|
+|           | Reference |          |
+| Predicted | Positive  | Negative |
+| Positive  | A         | B        |
+| Negative  | C         | D        |
+
+The formulas used here are:
+
+\$\$\text{Sensitivity} = \frac{A}{A + C}\$\$
+
+\$\$\text{Specificity} = \frac{D}{B + D}\$\$
+
+\$\$\text{J-index} = \text{Sensitivity} + \text{Specificity} - 1\$\$
+
 J-index is a metric that should be maximized. The output ranges from -1
 to 1, with 1 indicating no false positives and no false negatives.
 

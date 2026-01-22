@@ -67,6 +67,20 @@ For `mcc_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Suppose a 2x2 table with notation:
+
+|           |           |          |
+|-----------|-----------|----------|
+|           | Reference |          |
+| Predicted | Positive  | Negative |
+| Positive  | A         | B        |
+| Negative  | C         | D        |
+
+The formula used here is:
+
+\$\$\text{MCC} = \frac{(A \cdot D) - (B \cdot C)}{\sqrt{(A + B)(A +
+C)(D + B)(D + C)}}\$\$
+
 MCC is a metric that should be maximized. The output ranges from -1 to
 1, with 1 indicating perfect predictions. A value of 0 indicates no
 better than random prediction, and negative values indicate inverse

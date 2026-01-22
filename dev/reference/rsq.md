@@ -89,6 +89,12 @@ contains no splits.
 R squared is a metric that should be maximized. The output ranges from
 -∞ to 1, with 1 indicating perfect predictions.
 
+The formula for R squared is:
+
+\$\$\text{rsq} = \frac{\text{cov}(\text{truth},
+\text{estimate})^2}{\text{var}(\text{truth}) \cdot
+\text{var}(\text{estimate})}\$\$
+
 ## References
 
 Kvalseth. Cautionary note about \\R^2\\. American Statistician (1985)

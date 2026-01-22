@@ -87,6 +87,13 @@ For `roc_aunu_vec()`, a single `numeric` value (or `NA`).
 ROC AUNU is a metric that should be maximized. The output ranges from 0
 to 1, with 1 indicating perfect discrimination.
 
+The formula used here is:
+
+\$\$\text{ROC AUNU} = \frac{1}{K} \sum\_{k=1}^{K} \text{AUC}\_k\$\$
+
+where \\K\\ is the number of classes and \\\text{AUC}\_k\\ is the binary
+ROC AUC for class \\k\\ versus the rest.
+
 ## Relevant Level
 
 There is no common convention on which factor level should automatically

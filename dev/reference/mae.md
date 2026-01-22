@@ -70,6 +70,11 @@ For `mae_vec()`, a single `numeric` value (or `NA`).
 MAE is a metric that should be minimized. The output ranges from 0 to ∞,
 with 0 indicating perfect predictions.
 
+The formula for MAE is:
+
+\$\$\text{MAE} = \frac{1}{n} \sum\_{i=1}^{n} \|\text{truth}\_i -
+\text{estimate}\_i\|\$\$
+
 ## See also
 
 Other numeric metrics:

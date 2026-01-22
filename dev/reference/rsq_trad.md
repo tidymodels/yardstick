@@ -80,6 +80,13 @@ Traditional R squared is a metric that should be maximized. The output
 ranges from 0 to 1, with 1 indicating perfect predictions. Negative
 values can occur when the model is non-informative.
 
+The formula for traditional R squared is:
+
+\$\$\text{rsq\\trad} = 1 - \frac{SS\_{res}}{SS\_{tot}} = 1 -
+\frac{\sum\_{i=1}^{n}(\text{truth}\_i -
+\text{estimate}\_i)^2}{\sum\_{i=1}^{n}(\text{truth}\_i -
+\bar{\text{truth}})^2}\$\$
+
 ## References
 
 Kvalseth. Cautionary note about \\R^2\\. American Statistician (1985)

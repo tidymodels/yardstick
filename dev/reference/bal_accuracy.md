@@ -101,6 +101,24 @@ For `bal_accuracy_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Suppose a 2x2 table with notation:
+
+|           |           |          |
+|-----------|-----------|----------|
+|           | Reference |          |
+| Predicted | Positive  | Negative |
+| Positive  | A         | B        |
+| Negative  | C         | D        |
+
+The formulas used here are:
+
+\$\$\text{Sensitivity} = \frac{A}{A + C}\$\$
+
+\$\$\text{Specificity} = \frac{D}{B + D}\$\$
+
+\$\$\text{Balanced Accuracy} = \frac{\text{Sensitivity} +
+\text{Specificity}}{2}\$\$
+
 Balanced accuracy is a metric that should be maximized. The output
 ranges from 0 to 1, with 1 indicating perfect predictions.
 

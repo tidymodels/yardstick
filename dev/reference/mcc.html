@@ -107,7 +107,10 @@ the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>MCC is a metric that should be maximized. The output
+    <p>Suppose a 2x2 table with notation:</p>
+<table class="table table"><tr><td></td><td>Reference</td><td></td></tr><tr><td>Predicted</td><td>Positive</td><td>Negative</td></tr><tr><td>Positive</td><td>A</td><td>B</td></tr><tr><td>Negative</td><td>C</td><td>D</td></tr></table><p>The formula used here is:</p>
+<p>$$\text{MCC} = \frac{(A \cdot D) - (B \cdot C)}{\sqrt{(A + B)(A + C)(D + B)(D + C)}}$$</p>
+<p>MCC is a metric that should be maximized. The output
 ranges from -1 to 1, with
 1 indicating perfect predictions. A value of 0
 indicates no better than random prediction, and negative values indicate

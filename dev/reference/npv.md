@@ -116,6 +116,27 @@ defined as the percent of predicted positives that are actually positive
 while the negative predictive value (`npv()`) is defined as the percent
 of negative positives that are actually negative.
 
+Suppose a 2x2 table with notation:
+
+|           |           |          |
+|-----------|-----------|----------|
+|           | Reference |          |
+| Predicted | Positive  | Negative |
+| Positive  | A         | B        |
+| Negative  | C         | D        |
+
+The formulas used here are:
+
+\$\$\text{Sensitivity} = \frac{A}{A + C}\$\$
+
+\$\$\text{Specificity} = \frac{D}{B + D}\$\$
+
+\$\$\text{Prevalence} = \frac{A + C}{A + B + C + D}\$\$
+
+\$\$\text{NPV} = \frac{\text{Specificity} \cdot (1 -
+\text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) +
+(\text{Specificity} \cdot (1 - \text{Prevalence}))}\$\$
+
 NPV is a metric that should be maximized. The output ranges from 0 to 1,
 with 1 indicating all predicted negatives are true negatives.
 
@@ -138,35 +159,6 @@ than 2 levels is provided. Otherwise, a standard binary calculation is
 done. See
 [`vignette("multiclass", "yardstick")`](https://yardstick.tidymodels.org/dev/articles/multiclass.md)
 for more information.
-
-## Implementation
-
-Suppose a 2x2 table with notation:
-
-|           |           |          |
-|-----------|-----------|----------|
-|           | Reference |          |
-| Predicted | Positive  | Negative |
-| Positive  | A         | B        |
-| Negative  | C         | D        |
-
-The formulas used here are:
-
-\$\$\text{Sensitivity} = \frac{A}{A + C}\$\$
-
-\$\$\text{Specificity} = \frac{D}{B + D}\$\$
-
-\$\$\text{Prevalence} = \frac{A + C}{A + B + C + D}\$\$
-
-\$\$\text{PPV} = \frac{\text{Sensitivity} \cdot
-\text{Prevalence}}{(\text{Sensitivity} \cdot \text{Prevalence}) + ((1 -
-\text{Specificity}) \cdot (1 - \text{Prevalence}))}\$\$
-
-\$\$\text{NPV} = \frac{\text{Specificity} \cdot (1 -
-\text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) +
-((\text{Specificity}) \cdot (1-Prevalence))}\$\$
-
-See the references for discussions of the statistics.
 
 ## References
 

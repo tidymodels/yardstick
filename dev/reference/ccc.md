@@ -89,6 +89,13 @@ strictly for consistency/correlation
 CCC is a metric that should be maximized. The output ranges from -1 to
 1, with 1 indicating perfect agreement.
 
+The formula for CCC is:
+
+\$\$\text{CCC} = \frac{2 \cdot \text{cov}(\text{truth},
+\text{estimate})}{\text{var}(\text{truth}) +
+\text{var}(\text{estimate}) + (\bar{\text{truth}} -
+\bar{\text{estimate}})^2}\$\$
+
 ## References
 
 Lin, L. (1989). A concordance correlation coefficient to evaluate

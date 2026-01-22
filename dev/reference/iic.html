@@ -148,6 +148,10 @@ the number of groups.</p>
     <p>IIC is a metric that should be maximized. The output
 ranges from -1 to 1, with
 1 indicating perfect agreement.</p>
+<p>The formula for IIC is:</p>
+<p>$$\text{IIC} = \text{corr}(\text{truth}, \text{estimate}) \cdot \frac{\min(\text{MAE}^-, \text{MAE}^+)}{\max(\text{MAE}^-, \text{MAE}^+)}$$</p>
+<p>where \(\text{MAE}^-\) and \(\text{MAE}^+\) are the mean absolute errors
+for negative and non-negative residuals, respectively.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

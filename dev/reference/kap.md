@@ -99,6 +99,26 @@ For `kap_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Suppose a 2x2 table with notation:
+
+|           |           |          |
+|-----------|-----------|----------|
+|           | Reference |          |
+| Predicted | Positive  | Negative |
+| Positive  | A         | B        |
+| Negative  | C         | D        |
+
+The formulas used here are:
+
+\$\$p_o = \frac{A + D}{A + B + C + D}\$\$
+
+\$\$p_e = \frac{(A + B)(A + C) + (C + D)(B + D)}{(A + B + C + D)^2}\$\$
+
+\$\$\text{Kappa} = \frac{p_o - p_e}{1 - p_e}\$\$
+
+where \\p_o\\ is the observed agreement and \\p_e\\ is the expected
+agreement by chance.
+
 Kappa is a metric that should be maximized. The output ranges from -1 to
 1, with 1 indicating perfect agreement. Negative values indicate
 agreement worse than chance.

@@ -69,6 +69,12 @@ For `poisson_log_loss_vec()`, a single `numeric` value (or `NA`).
 Poisson log loss is a metric that should be minimized. The output ranges
 from 0 to ∞, with 0 indicating perfect predictions.
 
+The formula for Poisson log loss is:
+
+\$\$L = \frac{1}{n} \sum\_{i=1}^{n} \left( \log(\text{truth}\_i!) +
+\text{estimate}\_i - \text{truth}\_i \cdot \log(\text{estimate}\_i)
+\right)\$\$
+
 ## See also
 
 Other numeric metrics:

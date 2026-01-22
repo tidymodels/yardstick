@@ -94,6 +94,12 @@ For `huber_loss_pseudo_vec()`, a single `numeric` value (or `NA`).
 Pseudo-Huber loss is a metric that should be minimized. The output
 ranges from 0 to ∞, with 0 indicating perfect predictions.
 
+The formula for Pseudo-Huber loss is:
+
+\$\$L\_\delta = \frac{1}{n} \sum\_{i=1}^{n} \delta^2 \left( \sqrt{1 +
+\left(\frac{\text{truth}\_i - \text{estimate}\_i}{\delta}\right)^2} - 1
+\right)\$\$
+
 ## References
 
 Huber, P. (1964). Robust Estimation of a Location Parameter. *Annals of

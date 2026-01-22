@@ -118,6 +118,11 @@ easily be computed with `mae(data, truth, lagged_truth)`.
 MASE is a metric that should be minimized. The output ranges from 0 to
 ∞, with 0 indicating perfect predictions.
 
+The formula for MASE is:
+
+\$\$\text{MASE} = \frac{1}{n} \sum\_{i=1}^{n} \frac{\|\text{truth}\_i -
+\text{estimate}\_i\|}{\text{MAE}\_{naive}}\$\$
+
 ## References
 
 Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS FOR

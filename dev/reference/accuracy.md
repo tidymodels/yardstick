@@ -67,6 +67,19 @@ For `accuracy_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
+Suppose a 2x2 table with notation:
+
+|           |           |          |
+|-----------|-----------|----------|
+|           | Reference |          |
+| Predicted | Positive  | Negative |
+| Positive  | A         | B        |
+| Negative  | C         | D        |
+
+The formula used here is:
+
+\$\$\text{Accuracy} = \frac{A + D}{A + B + C + D}\$\$
+
 Accuracy is a metric that should be maximized. The output ranges from 0
 to 1, with 1 indicating perfect predictions.
 

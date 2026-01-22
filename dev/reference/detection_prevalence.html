@@ -142,7 +142,10 @@ the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Detection prevalence is a metric that should be
+    <p>Suppose a 2x2 table with notation:</p>
+<table class="table table"><tr><td></td><td>Reference</td><td></td></tr><tr><td>Predicted</td><td>Positive</td><td>Negative</td></tr><tr><td>Positive</td><td>A</td><td>B</td></tr><tr><td>Negative</td><td>C</td><td>D</td></tr></table><p>The formula used here is:</p>
+<p>$$\text{Detection Prevalence} = \frac{A + B}{A + B + C + D}$$</p>
+<p>Detection prevalence is a metric that should be
 maximized. The output ranges from
 0 to 1.
 The "optimal" value depends on the true prevalence of positive events in the data.</p>

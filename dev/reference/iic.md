@@ -84,6 +84,15 @@ For `iic_vec()`, a single `numeric` value (or `NA`).
 IIC is a metric that should be maximized. The output ranges from -1 to
 1, with 1 indicating perfect agreement.
 
+The formula for IIC is:
+
+\$\$\text{IIC} = \text{corr}(\text{truth}, \text{estimate}) \cdot
+\frac{\min(\text{MAE}^-, \text{MAE}^+)}{\max(\text{MAE}^-,
+\text{MAE}^+)}\$\$
+
+where \\\text{MAE}^-\\ and \\\text{MAE}^+\\ are the mean absolute errors
+for negative and non-negative residuals, respectively.
+
 ## References
 
 Toropova, A. and Toropov, A. (2017). "The index of ideality of

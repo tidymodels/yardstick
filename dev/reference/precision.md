@@ -115,6 +115,19 @@ binary precision, a `NA` value will be returned with a warning. When
 computing multiclass precision, the individual `NA` values will be
 removed, and the computation will procede, with a warning.
 
+Suppose a 2x2 table with notation:
+
+|            |           |            |
+|------------|-----------|------------|
+|            | Reference |            |
+| Predicted  | Relevant  | Irrelevant |
+| Relevant   | A         | B          |
+| Irrelevant | C         | D          |
+
+The formula used here is:
+
+\$\$\text{Precision} = \frac{A}{A + B}\$\$
+
 Precision is a metric that should be maximized. The output ranges from 0
 to 1, with 1 indicating that all predicted positives were actual
 positives.
@@ -138,26 +151,6 @@ than 2 levels is provided. Otherwise, a standard binary calculation is
 done. See
 [`vignette("multiclass", "yardstick")`](https://yardstick.tidymodels.org/dev/articles/multiclass.md)
 for more information.
-
-## Implementation
-
-Suppose a 2x2 table with notation:
-
-|            |           |            |
-|------------|-----------|------------|
-|            | Reference |            |
-| Predicted  | Relevant  | Irrelevant |
-| Relevant   | A         | B          |
-| Irrelevant | C         | D          |
-
-The formulas used here are:
-
-\$\$\text{recall} = \frac{A}{A + C}\$\$ \$\$\text{precision} =
-\frac{A}{A + B}\$\$ \$\$F\_{meas} = \frac{(1 + \beta^2) \cdot
-\text{precision} \cdot \text{recall}}{\beta^2 \cdot \text{precision} +
-\text{recall}}\$\$
-
-See the references for discussions of the statistics.
 
 ## References
 

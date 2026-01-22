@@ -115,6 +115,8 @@ the number of groups.</p>
     <p>MSD is a metric where the optimal value is 0. The
 output ranges from -∞ to ∞, with
 0 indicating predictions are unbiased.</p>
+<p>The formula for MSD is:</p>
+<p>$$\text{MSD} = \frac{1}{n} \sum_{i=1}^{n} (\text{truth}_i - \text{estimate}_i)$$</p>
 <p>Mean signed deviation is rarely used, since positive and negative errors
 cancel each other out. For example, <code>msd_vec(c(100, -100), c(0, 0))</code> would
 return a seemingly "perfect" value of <code>0</code>, even though <code>estimate</code> is wildly

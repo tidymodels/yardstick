@@ -119,6 +119,16 @@ Classification cost is a metric that should be minimized. The output
 ranges from 0 to ∞, with 0 indicating perfect predictions (when costs
 for correct predictions are zero).
 
+The formula used here is:
+
+\$\$\text{Cost} = \frac{1}{N} \sum\_{i=1}^{N} \sum\_{j=1}^{K} c\_{t_i,
+j} \cdot p\_{ij}\$\$
+
+where \\N\\ is the number of observations, \\K\\ is the number of
+classes, \\c\_{t_i, j}\\ is the cost of predicting class \\j\\ when the
+true class is \\t_i\\, and \\p\_{ij}\\ is the predicted probability of
+observation \\i\\ for class \\j\\.
+
 As an example, suppose that there are three classes: `"A"`, `"B"`, and
 `"C"`. Suppose there is a truly `"A"` observation with class
 probabilities `A = 0.3 / B = 0.3 / C = 0.4`. Suppose that, when the true

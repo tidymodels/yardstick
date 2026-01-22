@@ -88,6 +88,13 @@ For `roc_aunp_vec()`, a single `numeric` value (or `NA`).
 ROC AUNP is a metric that should be maximized. The output ranges from 0
 to 1, with 1 indicating perfect discrimination.
 
+The formula used here is:
+
+\$\$\text{ROC AUNP} = \sum\_{k=1}^{K} p_k \cdot \text{AUC}\_k\$\$
+
+where \\p_k\\ is the proportion of observations in class \\k\\ and
+\\\text{AUC}\_k\\ is the binary ROC AUC for class \\k\\ versus the rest.
+
 ## Relevant Level
 
 There is no common convention on which factor level should automatically

@@ -145,7 +145,12 @@ the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>J-index is a metric that should be maximized. The
+    <p>Suppose a 2x2 table with notation:</p>
+<table class="table table"><tr><td></td><td>Reference</td><td></td></tr><tr><td>Predicted</td><td>Positive</td><td>Negative</td></tr><tr><td>Positive</td><td>A</td><td>B</td></tr><tr><td>Negative</td><td>C</td><td>D</td></tr></table><p>The formulas used here are:</p>
+<p>$$\text{Sensitivity} = \frac{A}{A + C}$$</p>
+<p>$$\text{Specificity} = \frac{D}{B + D}$$</p>
+<p>$$\text{J-index} = \text{Sensitivity} + \text{Specificity} - 1$$</p>
+<p>J-index is a metric that should be maximized. The
 output ranges from -1 to
 1, with 1 indicating no
 false positives and no false negatives.</p>

@@ -156,6 +156,12 @@ the number of groups.</p>
 predicted positives that are actually positive while the
 negative predictive value (<code><a href="npv.html">npv()</a></code>) is defined as the percent of negative
 positives that are actually negative.</p>
+<p>Suppose a 2x2 table with notation:</p>
+<table class="table table"><tr><td></td><td>Reference</td><td></td></tr><tr><td>Predicted</td><td>Positive</td><td>Negative</td></tr><tr><td>Positive</td><td>A</td><td>B</td></tr><tr><td>Negative</td><td>C</td><td>D</td></tr></table><p>The formulas used here are:</p>
+<p>$$\text{Sensitivity} = \frac{A}{A + C}$$</p>
+<p>$$\text{Specificity} = \frac{D}{B + D}$$</p>
+<p>$$\text{Prevalence} = \frac{A + C}{A + B + C + D}$$</p>
+<p>$$\text{PPV} = \frac{\text{Sensitivity} \cdot \text{Prevalence}}{(\text{Sensitivity} \cdot \text{Prevalence}) + ((1 - \text{Specificity}) \cdot (1 - \text{Prevalence}))}$$</p>
 <p>PPV is a metric that should be maximized. The output
 ranges from 0 to 1, with
 1 indicating all predicted positives are true
@@ -184,20 +190,6 @@ the "one" level is always the relevant result.</p>
 The default is to select macro averaging if a <code>truth</code> factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See <code><a href="../articles/multiclass.html">vignette("multiclass", "yardstick")</a></code> for more information.</p>
-    </div>
-    <div class="section level2">
-    <h2 id="implementation">Implementation<a class="anchor" aria-label="anchor" href="#implementation"></a></h2>
-
-
-
-<p>Suppose a 2x2 table with notation:</p>
-<table class="table table"><tr><td></td><td>Reference</td><td></td></tr><tr><td>Predicted</td><td>Positive</td><td>Negative</td></tr><tr><td>Positive</td><td>A</td><td>B</td></tr><tr><td>Negative</td><td>C</td><td>D</td></tr></table><p>The formulas used here are:</p>
-<p>$$\text{Sensitivity} = \frac{A}{A + C}$$</p>
-<p>$$\text{Specificity} = \frac{D}{B + D}$$</p>
-<p>$$\text{Prevalence} = \frac{A + C}{A + B + C + D}$$</p>
-<p>$$\text{PPV} = \frac{\text{Sensitivity} \cdot \text{Prevalence}}{(\text{Sensitivity} \cdot \text{Prevalence}) + ((1 - \text{Specificity}) \cdot (1 - \text{Prevalence}))}$$</p>
-<p>$$\text{NPV} = \frac{\text{Specificity} \cdot (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) + ((\text{Specificity}) \cdot (1-Prevalence))}$$</p>
-<p>See the references for discussions of the statistics.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

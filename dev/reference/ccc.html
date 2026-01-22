@@ -125,6 +125,8 @@ such as <code><a href="rsq.html">rsq()</a></code> are strictly for consistency/c
 <p>CCC is a metric that should be maximized. The output
 ranges from -1 to 1, with
 1 indicating perfect agreement.</p>
+<p>The formula for CCC is:</p>
+<p>$$\text{CCC} = \frac{2 \cdot \text{cov}(\text{truth}, \text{estimate})}{\text{var}(\text{truth}) + \text{var}(\text{estimate}) + (\bar{\text{truth}} - \bar{\text{estimate}})^2}$$</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

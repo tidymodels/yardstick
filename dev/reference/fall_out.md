@@ -113,6 +113,19 @@ binary fall-out, a `NA` value will be returned with a warning. When
 computing multiclass fall-out, the individual `NA` values will be
 removed, and the computation will proceed, with a warning.
 
+Suppose a 2x2 table with notation:
+
+|           |           |          |
+|-----------|-----------|----------|
+|           | Reference |          |
+| Predicted | Positive  | Negative |
+| Positive  | A         | B        |
+| Negative  | C         | D        |
+
+The formula used here is:
+
+\$\$\text{Fall-out} = \frac{B}{B + D}\$\$
+
 Fall-out is a metric that should be minimized. The output ranges from 0
 to 1, with 0 indicating that all actual negatives were correctly
 predicted as negative (no false positives).
@@ -136,35 +149,6 @@ than 2 levels is provided. Otherwise, a standard binary calculation is
 done. See
 [`vignette("multiclass", "yardstick")`](https://yardstick.tidymodels.org/dev/articles/multiclass.md)
 for more information.
-
-## Implementation
-
-Suppose a 2x2 table with notation:
-
-|           |           |          |
-|-----------|-----------|----------|
-|           | Reference |          |
-| Predicted | Positive  | Negative |
-| Positive  | A         | B        |
-| Negative  | C         | D        |
-
-The formulas used here are:
-
-\$\$\text{Sensitivity} = \frac{A}{A + C}\$\$
-
-\$\$\text{Specificity} = \frac{D}{B + D}\$\$
-
-\$\$\text{Prevalence} = \frac{A + C}{A + B + C + D}\$\$
-
-\$\$\text{PPV} = \frac{\text{Sensitivity} \cdot
-\text{Prevalence}}{(\text{Sensitivity} \cdot \text{Prevalence}) + ((1 -
-\text{Specificity}) \cdot (1 - \text{Prevalence}))}\$\$
-
-\$\$\text{NPV} = \frac{\text{Specificity} \cdot (1 -
-\text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) +
-((\text{Specificity}) \cdot (1-Prevalence))}\$\$
-
-See the references for discussions of the statistics.
 
 ## See also
 

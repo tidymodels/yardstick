@@ -73,6 +73,12 @@ value is negative.
 MAPE is a metric that should be minimized. The output ranges from 0 to
 ∞, with 0 indicating perfect predictions.
 
+The formula for MAPE is:
+
+\$\$\text{MAPE} = \frac{100}{n} \sum\_{i=1}^{n} \left\|
+\frac{\text{truth}\_i - \text{estimate}\_i}{\text{truth}\_i}
+\right\|\$\$
+
 ## See also
 
 Other numeric metrics:

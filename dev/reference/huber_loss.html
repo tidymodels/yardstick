@@ -136,6 +136,9 @@ the number of groups.</p>
 output ranges from 0 to
 ∞, with 0
 indicating perfect predictions.</p>
+<p>The formula for Huber loss is:</p>
+<p>$$L_\delta = \begin{cases} \frac{1}{2} a^2 &amp; \text{if } |a| \le \delta \\ \delta (|a| - \frac{1}{2} \delta) &amp; \text{otherwise} \end{cases}$$</p>
+<p>where \(a = \text{truth}_i - \text{estimate}_i\).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

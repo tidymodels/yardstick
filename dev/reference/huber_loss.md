@@ -93,6 +93,14 @@ For `huber_loss_vec()`, a single `numeric` value (or `NA`).
 Huber loss is a metric that should be minimized. The output ranges from
 0 to ∞, with 0 indicating perfect predictions.
 
+The formula for Huber loss is:
+
+\$\$L\_\delta = \begin{cases} \frac{1}{2} a^2 & \text{if } \|a\| \le
+\delta \\ \delta (\|a\| - \frac{1}{2} \delta) & \text{otherwise}
+\end{cases}\$\$
+
+where \\a = \text{truth}\_i - \text{estimate}\_i\\.
+
 ## References
 
 Huber, P. (1964). Robust Estimation of a Location Parameter. *Annals of

@@ -121,6 +121,14 @@ For `roc_auc_vec()`, a single `numeric` value (or `NA`).
 ROC AUC is a metric that should be maximized. The output ranges from 0
 to 1, with 1 indicating perfect discrimination.
 
+The area under the ROC curve is computed using the trapezoidal rule:
+
+\$\$\text{AUC} = \sum\_{i=1}^{n-1} (x\_{i+1} - x_i) \cdot \frac{y_i +
+y\_{i+1}}{2}\$\$
+
+where \\x\\ is the false positive rate (1 - specificity) and \\y\\ is
+the true positive rate (sensitivity) at each threshold.
+
 Generally, an ROC AUC value is between `0.5` and `1`, with `1` being a
 perfect prediction model. If your value is between `0` and `0.5`, then
 this implies that you have meaningful information in your model, but it

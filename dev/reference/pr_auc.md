@@ -107,6 +107,14 @@ For `pr_auc_vec()`, a single `numeric` value (or `NA`).
 PR AUC is a metric that should be maximized. The output ranges from 0 to
 1, with 1 indicating perfect precision and recall at all thresholds.
 
+The area under the precision-recall curve is computed using the
+trapezoidal rule:
+
+\$\$\text{PR AUC} = \sum\_{i=1}^{n-1} (r\_{i+1} - r_i) \cdot \frac{p_i +
+p\_{i+1}}{2}\$\$
+
+where \\r\\ is recall and \\p\\ is precision at each threshold.
+
 ## Multiclass
 
 Macro and macro-weighted averaging is available for this metric. The

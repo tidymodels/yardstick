@@ -118,6 +118,12 @@ indicating perfect predictions.</p>
 <p>The Brier score is analogous to the mean squared error in regression models.
 The difference between a binary indicator for a class and its corresponding
 class probability are squared and averaged.</p>
+<p>The formula used here is:</p>
+<p>$$\text{Brier} = \frac{1}{2N} \sum_{i=1}^{N} \sum_{j=1}^{K} (y_{ij} - p_{ij})^2$$</p>
+<p>where \(N\) is the number of observations, \(K\) is the number of classes,
+\(y_{ij}\) is 1 if observation \(i\) belongs to class \(j\) and 0
+otherwise, and \(p_{ij}\) is the predicted probability of observation
+\(i\) for class \(j\).</p>
 <p>This function uses the convention in Kruppa <em>et al</em> (2014) and divides the
 result by two.</p>
 <p>Smaller values of the score are associated with better model performance.</p>

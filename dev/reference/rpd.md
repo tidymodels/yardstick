@@ -85,6 +85,10 @@ distributed variables.
 RPD is a metric that should be maximized. The output ranges from 0 to ∞,
 with higher values indicating better model performance.
 
+The formula for RPD is:
+
+\$\$\text{RPD} = \frac{\text{sd}(\text{truth})}{\text{RMSE}}\$\$
+
 ## References
 
 Williams, P.C. (1987) Variables affecting near-infrared reflectance

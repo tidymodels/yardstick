@@ -139,7 +139,14 @@ the number of groups.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Kappa is a metric that should be maximized. The output
+    <p>Suppose a 2x2 table with notation:</p>
+<table class="table table"><tr><td></td><td>Reference</td><td></td></tr><tr><td>Predicted</td><td>Positive</td><td>Negative</td></tr><tr><td>Positive</td><td>A</td><td>B</td></tr><tr><td>Negative</td><td>C</td><td>D</td></tr></table><p>The formulas used here are:</p>
+<p>$$p_o = \frac{A + D}{A + B + C + D}$$</p>
+<p>$$p_e = \frac{(A + B)(A + C) + (C + D)(B + D)}{(A + B + C + D)^2}$$</p>
+<p>$$\text{Kappa} = \frac{p_o - p_e}{1 - p_e}$$</p>
+<p>where \(p_o\) is the observed agreement and \(p_e\) is the
+expected agreement by chance.</p>
+<p>Kappa is a metric that should be maximized. The output
 ranges from -1 to 1, with
 1 indicating perfect agreement. Negative values
 indicate agreement worse than chance.</p>

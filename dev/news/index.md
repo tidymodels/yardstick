@@ -2,6 +2,10 @@
 
 ## yardstick (development version)
 
+- All class metrics and probability metrics now include mathematical
+  formulas in their documentation.
+  ([\#605](https://github.com/tidymodels/yardstick/issues/605))
+
 - [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)
   documentation now includes the formula and clarifies the
   interpretation of positive and negative values.

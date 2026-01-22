@@ -153,6 +153,12 @@ of <code>.9</code>.</p>
 output ranges from 0 to
 ∞, with 0
 indicating perfect predictions.</p>
+<p>The formula used here is:</p>
+<p>$$\text{Log Loss} = -\frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \cdot \log(p_{ij})$$</p>
+<p>where \(N\) is the number of observations, \(K\) is the number of classes,
+\(y_{ij}\) is 1 if observation \(i\) belongs to class \(j\) and 0
+otherwise, and \(p_{ij}\) is the predicted probability of observation
+\(i\) for class \(j\).</p>
     </div>
     <div class="section level2">
     <h2 id="multiclass">Multiclass<a class="anchor" aria-label="anchor" href="#multiclass"></a></h2>

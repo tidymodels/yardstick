@@ -76,13 +76,12 @@ to ∞, with 0 indicating predictions are unbiased.
 
 The formula for MPE is:
 
-\$\$MPE = \frac{100}{n} \sum\_{i=1}^{n} \frac{a_i - f_i}{a_i}\$\$
+\$\$\text{MPE} = \frac{100}{n} \sum\_{i=1}^{n} \frac{\text{truth}\_i -
+\text{estimate}\_i}{\text{truth}\_i}\$\$
 
-where \\a_i\\ is the actual value (`truth`) and \\f_i\\ is the
-forecasted value (`estimate`). Using this convention, a *positive* MPE
-indicates under-prediction (on average, `truth > estimate`) and a
-*negative* MPE indicates over-prediction (on average,
-`estimate > truth`).
+Using this convention, a *positive* MPE indicates under-prediction (on
+average, `truth > estimate`) and a *negative* MPE indicates
+over-prediction (on average, `estimate > truth`).
 
 ## See also
 

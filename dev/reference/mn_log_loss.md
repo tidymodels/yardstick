@@ -114,6 +114,16 @@ to the probability of `.9`.
 Log loss is a metric that should be minimized. The output ranges from 0
 to ∞, with 0 indicating perfect predictions.
 
+The formula used here is:
+
+\$\$\text{Log Loss} = -\frac{1}{N} \sum\_{i=1}^{N} \sum\_{j=1}^{K}
+y\_{ij} \cdot \log(p\_{ij})\$\$
+
+where \\N\\ is the number of observations, \\K\\ is the number of
+classes, \\y\_{ij}\\ is 1 if observation \\i\\ belongs to class \\j\\
+and 0 otherwise, and \\p\_{ij}\\ is the predicted probability of
+observation \\i\\ for class \\j\\.
+
 ## Multiclass
 
 Log loss has a known multiclass extension, and is simply the sum of the

@@ -115,6 +115,24 @@ For `f_meas_vec()`, a single `numeric` value (or `NA`).
 
 The measure "F" is a combination of precision and recall (see below).
 
+Suppose a 2x2 table with notation:
+
+|            |           |            |
+|------------|-----------|------------|
+|            | Reference |            |
+| Predicted  | Relevant  | Irrelevant |
+| Relevant   | A         | B          |
+| Irrelevant | C         | D          |
+
+The formulas used here are:
+
+\$\$\text{Recall} = \frac{A}{A + C}\$\$
+
+\$\$\text{Precision} = \frac{A}{A + B}\$\$
+
+\$\$F\_{meas} = \frac{(1 + \beta^2) \cdot \text{Precision} \cdot
+\text{Recall}}{(\beta^2 \cdot \text{Precision}) + \text{Recall}}\$\$
+
 F measure is a metric that should be maximized. The output ranges from 0
 to 1, with 1 indicating perfect precision and recall.
 
@@ -137,26 +155,6 @@ than 2 levels is provided. Otherwise, a standard binary calculation is
 done. See
 [`vignette("multiclass", "yardstick")`](https://yardstick.tidymodels.org/dev/articles/multiclass.md)
 for more information.
-
-## Implementation
-
-Suppose a 2x2 table with notation:
-
-|            |           |            |
-|------------|-----------|------------|
-|            | Reference |            |
-| Predicted  | Relevant  | Irrelevant |
-| Relevant   | A         | B          |
-| Irrelevant | C         | D          |
-
-The formulas used here are:
-
-\$\$\text{recall} = \frac{A}{A + C}\$\$ \$\$\text{precision} =
-\frac{A}{A + B}\$\$ \$\$F\_{meas} = \frac{(1 + \beta^2) \cdot
-\text{precision} \cdot \text{recall}}{\beta^2 \cdot \text{precision} +
-\text{recall}}\$\$
-
-See the references for discussions of the statistics.
 
 ## References
 
