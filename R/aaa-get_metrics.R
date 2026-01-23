@@ -38,6 +38,7 @@ get_metrics <- function(type) {
 
   type <- paste0(type, "_metric")
   metrics <- fns[vapply(fns, inherits, what = type, FUN.VALUE = logical(1))]
+  metrics <- metrics[sort(names(metrics))]
 
   metric_set(!!!metrics)
 }

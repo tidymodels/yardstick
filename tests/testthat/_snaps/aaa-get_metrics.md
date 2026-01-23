@@ -4,22 +4,22 @@
       res
     Output
       A metric set, consisting of:
-      - `rmse()`, a numeric metric              | direction: minimize
+      - `ccc()`, a numeric metric               | direction: maximize
+      - `huber_loss()`, a numeric metric        | direction: minimize
+      - `huber_loss_pseudo()`, a numeric metric | direction: minimize
+      - `iic()`, a numeric metric               | direction: maximize
+      - `mae()`, a numeric metric               | direction: minimize
+      - `mape()`, a numeric metric              | direction: minimize
+      - `mase()`, a numeric metric              | direction: minimize
       - `mpe()`, a numeric metric               | direction: zero
       - `msd()`, a numeric metric               | direction: zero
-      - `smape()`, a numeric metric             | direction: minimize
-      - `rpiq()`, a numeric metric              | direction: maximize
-      - `ccc()`, a numeric metric               | direction: maximize
-      - `rsq_trad()`, a numeric metric          | direction: maximize
       - `poisson_log_loss()`, a numeric metric  | direction: minimize
-      - `huber_loss()`, a numeric metric        | direction: minimize
-      - `mape()`, a numeric metric              | direction: minimize
-      - `mae()`, a numeric metric               | direction: minimize
-      - `mase()`, a numeric metric              | direction: minimize
+      - `rmse()`, a numeric metric              | direction: minimize
       - `rpd()`, a numeric metric               | direction: maximize
-      - `iic()`, a numeric metric               | direction: maximize
+      - `rpiq()`, a numeric metric              | direction: maximize
       - `rsq()`, a numeric metric               | direction: maximize
-      - `huber_loss_pseudo()`, a numeric metric | direction: minimize
+      - `rsq_trad()`, a numeric metric          | direction: maximize
+      - `smape()`, a numeric metric             | direction: minimize
 
 # get_metrics() errors on empty input
 
@@ -48,6 +48,6 @@
       * a mix of class metrics and class probability metrics.
       * a mix of dynamic and static survival metrics.
       i The following metric function types are being mixed:
-      - class (j_index, sensitivity, fall_out, f_meas, sens, bal_accuracy, detection_prevalence, recall, spec, accuracy, kap, npv, mcc, precision, miss_rate, specificity, ppv)
-      - numeric (rmse, mpe, msd, smape, rpiq, ccc, rsq_trad, poisson_log_loss, huber_loss, mape, mae, mase, rpd, iic, rsq, huber_loss_pseudo)
+      - class (accuracy, bal_accuracy, detection_prevalence, f_meas, fall_out, j_index, kap, mcc, miss_rate, npv, ppv, precision, recall, sens, sensitivity, spec, specificity)
+      - numeric (ccc, huber_loss, huber_loss_pseudo, iic, mae, mape, mase, mpe, msd, poisson_log_loss, rmse, rpd, rpiq, rsq, rsq_trad, smape)
 
