@@ -103,7 +103,8 @@ estimator on a metric by metric basis and still use it in a
 
 ## See also
 
-[`metrics()`](https://yardstick.tidymodels.org/dev/reference/metrics.md)
+[`metrics()`](https://yardstick.tidymodels.org/dev/reference/metrics.md),
+[`get_metrics()`](https://yardstick.tidymodels.org/dev/reference/get_metrics.md)
 
 ## Examples
 

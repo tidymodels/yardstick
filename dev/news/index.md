@@ -2,6 +2,12 @@
 
 ## yardstick (development version)
 
+- [`get_metrics()`](https://yardstick.tidymodels.org/dev/reference/get_metrics.md)
+  was added to return a
+  [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)
+  containing all metrics of a specified type.
+  ([\#534](https://github.com/tidymodels/yardstick/issues/534))
+
 - All class metrics and probability metrics now include mathematical
   formulas in their documentation.
   ([\#605](https://github.com/tidymodels/yardstick/issues/605))

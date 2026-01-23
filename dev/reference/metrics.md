@@ -90,7 +90,8 @@ A three column tibble.
 
 ## See also
 
-[`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)
+[`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md),
+[`get_metrics()`](https://yardstick.tidymodels.org/dev/reference/get_metrics.md)
 
 ## Examples
 

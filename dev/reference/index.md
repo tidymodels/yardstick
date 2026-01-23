@@ -200,6 +200,8 @@
 
 ## Other Functions
 
+- [`get_metrics()`](https://yardstick.tidymodels.org/dev/reference/get_metrics.md)
+  : Get all metrics of a given type
 - [`metrics()`](https://yardstick.tidymodels.org/dev/reference/metrics.md)
   : General Function to Estimate Performance
 - [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)
