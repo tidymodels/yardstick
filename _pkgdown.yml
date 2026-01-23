@@ -123,18 +123,11 @@ reference:
 
 - title: Development Functions
   contents:
-  - class_metric_summarizer
-  - numeric_metric_summarizer
-  - prob_metric_summarizer
-  - curve_metric_summarizer
-  - check_numeric_metric
-  - check_class_metric
-  - check_prob_metric
-  - check_dynamic_survival_metric
-  - yardstick_remove_missing
-  - yardstick_any_missing
-  - get_weights
+  - check_metric
+  - developer-helpers
+  - metric-summarizers
   - new-metric
+  - yardstick_remove_missing
 
 - title: Data Sets
   contents:
