@@ -144,7 +144,7 @@
 #'   group_by(Resample) |>
 #'   class_and_probs_metrics(obs, VF:L, estimate = pred)
 #'
-#' @seealso [metrics()]
+#' @seealso [metrics()], [get_metrics()]
 #'
 #' @export
 metric_set <- function(...) {

@@ -154,5 +154,5 @@ hpc_cv |>
 
 }
 \seealso{
-\code{\link[=metrics]{metrics()}}
+\code{\link[=metrics]{metrics()}}, \code{\link[=get_metrics]{get_metrics()}}
 }

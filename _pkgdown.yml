@@ -114,6 +114,7 @@ reference:
 
 - title: Other Functions
   contents:
+  - get_metrics
   - metrics
   - metric_set
   - metric_tweak
