@@ -34,6 +34,7 @@ get_metrics <- function(type) {
 
   metric_types <- grep("^new_.*_metric$", names(fns), value = TRUE)
   metric_types <- gsub("(new_|_metric)", "", metric_types)
+  metric_types <- sort(metric_types)
   rlang::arg_match(type, metric_types, multiple = TRUE)
 
   type <- paste0(type, "_metric")

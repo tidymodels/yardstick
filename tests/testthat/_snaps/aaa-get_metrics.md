@@ -35,7 +35,7 @@
       get_metrics("invalid")
     Condition
       Error in `get_metrics()`:
-      ! `type` must be one of "class", "integrated_survival", "linear_pred_survival", "ordered_prob", "groupwise", "dynamic_survival", "static_survival", "prob", "quantile", or "numeric", not "invalid".
+      ! `type` must be one of "class", "dynamic_survival", "groupwise", "integrated_survival", "linear_pred_survival", "numeric", "ordered_prob", "prob", "quantile", or "static_survival", not "invalid".
 
 # get_metrics() errors on incompatible metric types
 
