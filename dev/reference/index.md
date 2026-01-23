@@ -216,6 +216,21 @@
 
 ## Development Functions
 
+- [`check_numeric_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  [`check_class_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  [`check_prob_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  [`check_ordered_prob_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  [`check_dynamic_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  [`check_static_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  [`check_linear_pred_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  [`check_quantile_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
+  : Developer function for checking inputs in new metrics
+- [`dots_to_estimate()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
+  [`get_weights()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
+  [`finalize_estimator()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
+  [`finalize_estimator_internal()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
+  [`validate_estimator()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
+  : Developer helpers
 - [`numeric_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   [`class_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   [`prob_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
@@ -227,24 +242,6 @@
   [`linear_pred_survival_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   [`quantile_metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric-summarizers.md)
   : Developer function for summarizing new metrics
-- [`check_numeric_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
-  [`check_class_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
-  [`check_prob_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
-  [`check_ordered_prob_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
-  [`check_dynamic_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
-  [`check_static_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
-  [`check_linear_pred_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
-  [`check_quantile_metric()`](https://yardstick.tidymodels.org/dev/reference/check_metric.md)
-  : Developer function for checking inputs in new metrics
-- [`yardstick_remove_missing()`](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
-  [`yardstick_any_missing()`](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
-  : Developer function for handling missing values in new metrics
-- [`dots_to_estimate()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
-  [`get_weights()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
-  [`finalize_estimator()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
-  [`finalize_estimator_internal()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
-  [`validate_estimator()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md)
-  : Developer helpers
 - [`new_class_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   [`new_prob_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   [`new_ordered_prob_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
@@ -255,6 +252,9 @@
   [`new_linear_pred_survival_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   [`new_quantile_metric()`](https://yardstick.tidymodels.org/dev/reference/new-metric.md)
   : Construct a new metric function
+- [`yardstick_remove_missing()`](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
+  [`yardstick_any_missing()`](https://yardstick.tidymodels.org/dev/reference/yardstick_remove_missing.md)
+  : Developer function for handling missing values in new metrics
 
 ## Data Sets
 
