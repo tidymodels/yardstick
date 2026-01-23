@@ -39,7 +39,7 @@
 #' * When `truth` is numeric, there are rows for [rmse()], [rsq()],
 #' and [mae()].
 #'
-#' @seealso [metric_set()]
+#' @seealso [metric_set()], [get_metrics()]
 #'
 #' @examples
 #'

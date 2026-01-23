@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `get_metrics()` was added to return a `metric_set()` containing all metrics of a specified type. (#534)
+
 * All class metrics and probability metrics now include mathematical formulas in their documentation. (#605)
 
 * `mpe()` documentation now includes the formula and clarifies the interpretation of positive and negative values. (#345)

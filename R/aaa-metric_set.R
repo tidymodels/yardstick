@@ -144,7 +144,7 @@
 #'   group_by(Resample) |>
 #'   class_and_probs_metrics(obs, VF:L, estimate = pred)
 #'
-#' @seealso [metrics()]
+#' @seealso [metrics()], [get_metrics()]
 #'
 #' @export
 metric_set <- function(...) {
@@ -157,7 +157,14 @@ metric_set <- function(...) {
 
   # Add on names, and then check that
   # all fns are of the same function class
-  names(fns) <- vapply(quo_fns, get_quo_label, character(1))
+  for (i in seq_along(fns)) {
+    fn_name <- names(fns[i])
+    if (fn_name == "") {
+      names(fns)[i] <- get_quo_label(quo_fns[[i]])
+    } else {
+      names(fns)[i] <- fn_name
+    }
+  }
   validate_function_class(fns)
 
   fn_cls <- class1(fns[[1]])
