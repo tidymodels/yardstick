@@ -111,6 +111,8 @@ learning methods for dichotomous and multicategory outcome: Applications.
 Biometrical Journal, 56 (4): 564-583.
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 Other class probability metrics: 
 \code{\link{average_precision}()},
 \code{\link{classification_cost}()},

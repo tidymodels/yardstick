@@ -152,6 +152,8 @@ mn_log_loss(two_class_example, truth, !!prob_cols[1])
 
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 Other class probability metrics: 
 \code{\link{average_precision}()},
 \code{\link{brier_class}()},

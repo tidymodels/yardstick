@@ -11,6 +11,7 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn npv
 #' @template event_first
 #' @template multiclass

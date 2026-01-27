@@ -105,6 +105,8 @@ and comparison of prognostic classification schemes for survival data.
 \emph{Statist. Med.}, 18: 2529-2545.
 }
 \seealso{
+\link[=dynamic-survival-metrics]{All dynamic survival metrics}
+
 Compute the ROC survival curve with \code{\link[=roc_curve_survival]{roc_curve_survival()}}.
 
 Other dynamic survival metrics: 

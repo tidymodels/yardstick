@@ -103,6 +103,8 @@ metric_results |>
   summarise(avg_estimate = mean(.estimate))
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
 \code{\link{huber_loss}()},

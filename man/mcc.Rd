@@ -111,6 +111,8 @@ Giuseppe, J. (2012). "A Comparison of MCC and CEN Error
 Measures in Multi-Class Prediction". \emph{PLOS ONE}. Vol 7, Iss 8, e41882.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},

@@ -4,6 +4,7 @@
 #' mean squared error at time point `.eval_time`.
 #'
 #' @family dynamic survival metrics
+#' @seealso [All dynamic survival metrics][dynamic-survival-metrics]
 #' @templateVar fn brier_survival
 #' @template return-dynamic-survival
 #' @inheritParams pr_auc

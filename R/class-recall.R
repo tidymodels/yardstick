@@ -19,6 +19,7 @@
 #'
 #' @family class metrics
 #' @family relevance metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn recall
 #' @template event_first
 #' @template multiclass

@@ -37,6 +37,7 @@
 #' values are often very close to one another.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn average_precision
 #' @template return
 #' @template multiclass-prob

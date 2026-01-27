@@ -17,6 +17,7 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn miss_rate
 #' @template event_first
 #' @template multiclass

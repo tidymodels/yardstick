@@ -67,6 +67,8 @@
 #' `r metric_range(weighted_interval_score)[2]`, with
 #' `r metric_optimal(weighted_interval_score)` indicating perfect predictions.
 #'
+#' @seealso [All quantile metrics][quantile-metrics]
+#'
 #' @return a vector of nonnegative scores.
 #'
 #' @export

@@ -171,6 +171,8 @@ ROC, Informedness, Markedness and Correlation". Journal of Machine Learning
 Technologies. 2 (1): 37-63.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},

@@ -3,6 +3,7 @@
 #' Compute the Royston-Sauerbei D statistic
 #'
 #' @family linear pred survival metrics
+#' @seealso [All linear predictor survival metrics][linear-pred-survival-metrics]
 #' @templateVar fn royston_survival
 #' @template return
 #' @details

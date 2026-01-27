@@ -106,6 +106,8 @@ Lechner, M., & Okasa, G. (2019). Random forest estimation of the ordered
 choice model. arXiv preprint arXiv:1907.02436. (see Section 5)
 }
 \seealso{
+\link[=ordered-prob-metrics]{All ordered probability metrics}
+
 Other class probability metrics: 
 \code{\link{average_precision}()},
 \code{\link{brier_class}()},

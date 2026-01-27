@@ -117,6 +117,8 @@ Huber, P. (1964). Robust Estimation of a Location Parameter.
 \emph{Annals of Statistics}, 53 (1), 73-101.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
 \code{\link{huber_loss_pseudo}()},

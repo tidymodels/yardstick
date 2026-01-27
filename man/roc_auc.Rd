@@ -217,6 +217,8 @@ estimation trees", CeDER Working Paper #IS-00-04, Stern School of Business,
 New York University, NY, NY 10012.
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 \code{\link[=roc_curve]{roc_curve()}} for computing the full ROC curve.
 
 Other class probability metrics: 

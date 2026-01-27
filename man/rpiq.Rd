@@ -106,6 +106,8 @@ prediction of soil attributes by NIR spectroscopy. TrAC Trends
 in Analytical Chemistry, 29(9), pp.1073-1081.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 The closely related deviation metric: \code{\link[=rpd]{rpd()}}
 
 Other numeric metrics: 

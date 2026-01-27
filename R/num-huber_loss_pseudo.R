@@ -5,6 +5,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn huber_loss_pseudo
 #' @template return
 #'

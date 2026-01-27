@@ -114,6 +114,8 @@ coefficient to evaluate reproducibility". \emph{Biometrics}, 53(4),
 1503-1507.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},

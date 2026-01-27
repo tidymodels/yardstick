@@ -118,6 +118,8 @@ Hartley, Richard (2004). Multiple View Geometry in Computer Vision.
 (Second Edition). Page 619.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
 \code{\link{huber_loss}()},

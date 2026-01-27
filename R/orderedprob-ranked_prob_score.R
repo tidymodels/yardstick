@@ -11,6 +11,7 @@
 #' @param estimate A matrix with as many columns as factor levels of `truth`. _It
 #' is assumed that these are in the same order as the levels of `truth`._
 #' @family class probability metrics
+#' @seealso [All ordered probability metrics][ordered-prob-metrics]
 #' @templateVar fn ranked_prob_score
 #' @template return
 #' @details

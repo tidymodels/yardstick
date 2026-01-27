@@ -11,6 +11,7 @@
 #'
 #' @family numeric metrics
 #' @family consistency metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn rpd
 #' @template return
 #'

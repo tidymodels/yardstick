@@ -138,6 +138,8 @@ Rob J. Hyndman (2006). ANOTHER LOOK AT FORECAST-ACCURACY METRICS FOR
 INTERMITTENT DEMAND. \emph{Foresight}, 4, 46.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
 \code{\link{huber_loss}()},

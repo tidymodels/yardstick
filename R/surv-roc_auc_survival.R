@@ -4,6 +4,7 @@
 #' probabilities that corresponds to different time points.
 #'
 #' @family dynamic survival metrics
+#' @seealso [All dynamic survival metrics][dynamic-survival-metrics]
 #' @templateVar fn roc_auc_survival
 #' @template return-dynamic-survival
 #' @details

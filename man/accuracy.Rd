@@ -92,6 +92,8 @@ hpc_cv |>
   accuracy(obs, pred)
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{bal_accuracy}()},
 \code{\link{detection_prevalence}()},

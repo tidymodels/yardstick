@@ -196,6 +196,8 @@ sensitivity and specificity,'' \emph{British Medical Journal},
 vol 308, 1552.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},

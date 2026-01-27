@@ -147,6 +147,8 @@ comparison of performance measures for classification". \emph{Pattern Recognitio
 Letters}. 30 (1), pp 27-38.
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 \code{\link[=roc_aunu]{roc_aunu()}} for computing the area under the ROC curve of each class against
 the rest, using the uniform class distribution.
 

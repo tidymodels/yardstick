@@ -3,6 +3,7 @@
 #' Balanced accuracy is computed here as the average of [sens()] and [spec()].
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn bal_accuracy
 #' @template event_first
 #' @template multiclass

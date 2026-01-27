@@ -3,6 +3,7 @@
 #' Compute the Concordance index for right-censored data
 #'
 #' @family static survival metrics
+#' @seealso [All static survival metrics][static-survival-metrics]
 #' @templateVar fn concordance_survival
 #' @template return
 #' @details

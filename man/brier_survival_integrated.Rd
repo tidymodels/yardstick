@@ -112,6 +112,8 @@ and comparison of prognostic classification schemes for survival data,”
 Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 }
 \seealso{
+\link[=integrated-survival-metrics]{All integrated survival metrics}
+
 Other dynamic survival metrics: 
 \code{\link{brier_survival}()},
 \code{\link{roc_auc_survival}()}

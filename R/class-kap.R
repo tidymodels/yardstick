@@ -5,6 +5,7 @@
 #' when one or more classes have large frequency distributions.
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn kap
 #' @template return
 #'

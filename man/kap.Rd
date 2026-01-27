@@ -134,6 +134,8 @@ scaled disagreement or partial credit". \emph{Psychological
 Bulletin}. 70 (4): 213-220.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},

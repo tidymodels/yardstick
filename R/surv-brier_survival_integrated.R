@@ -4,6 +4,7 @@
 #' overall calculation of model performance for all values of `.eval_time`.
 #'
 #' @family dynamic survival metrics
+#' @seealso [All integrated survival metrics][integrated-survival-metrics]
 #' @templateVar fn brier_survival_integrated
 #' @template return-dynamic-survival
 #' @details

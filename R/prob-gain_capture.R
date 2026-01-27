@@ -14,6 +14,7 @@
 #' a gain curve. See the Engelmann reference for more information.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn gain_capture
 #' @template event_first
 #' @template return

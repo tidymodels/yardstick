@@ -197,6 +197,8 @@ average_precision_vec(
 
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 \code{\link[=pr_curve]{pr_curve()}} for computing the full precision recall curve.
 
 \code{\link[=pr_auc]{pr_auc()}} for computing the area under the precision recall curve using

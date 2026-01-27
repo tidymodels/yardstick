@@ -5,6 +5,7 @@
 #'
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn pr_auc
 #' @template return
 #' @template multiclass-prob

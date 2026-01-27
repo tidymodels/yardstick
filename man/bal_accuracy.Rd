@@ -156,6 +156,8 @@ bal_accuracy_vec(
 )
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{detection_prevalence}()},
