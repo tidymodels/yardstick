@@ -85,6 +85,7 @@ Collate:
     'import-standalone-obj-type.R'
     'import-standalone-survival.R'
     'metric-tweak.R'
+    'metric-type-docs.R'
     'misc.R'
     'missings.R'
     'num-ccc.R'
