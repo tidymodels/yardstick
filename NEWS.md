@@ -1,6 +1,6 @@
 # yardstick (development version)
 
-* Added documentation pages for each metric type (e.g., `?class-metrics`, `?numeric-metrics`) that list all available metrics with their direction and range. (#547)
+* Added documentation pages for each metric type (e.g., `?class-metrics`, `?numeric-metrics`) that list all available metrics with their direction and range. (#547, #540)
 
 * `get_metrics()` was added to return a `metric_set()` containing all metrics of a specified type. (#534)
 
