@@ -207,6 +207,8 @@ Discussion Paper Series 2: Banking and Financial Studies 2003,01,
 Deutsche Bundesbank.
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 \code{\link[=gain_curve]{gain_curve()}} to compute the full gain curve.
 
 Other class probability metrics: 

@@ -1,6 +1,7 @@
 #' Matthews correlation coefficient
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn mcc
 #' @template event_first
 #' @template return

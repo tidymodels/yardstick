@@ -140,3 +140,6 @@ weighted_interval_score_vec(
 )
 
 }
+\seealso{
+\link[=quantile-metrics]{All quantile metrics}
+}

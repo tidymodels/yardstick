@@ -9,6 +9,7 @@
 #'
 #' @family class metrics
 #' @family relevance metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn f_meas
 #' @template event_first
 #' @template multiclass

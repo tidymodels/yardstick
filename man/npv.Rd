@@ -175,6 +175,8 @@ predictive values,'' \emph{British Medical Journal}, vol 309,
 102.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},

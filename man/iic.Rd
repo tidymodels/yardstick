@@ -114,6 +114,8 @@ of correlation. A criterion of predictability of QSAR models for skin
 permeability?" \emph{Science of the Total Environment}. 586: 466-472.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
 \code{\link{huber_loss}()},

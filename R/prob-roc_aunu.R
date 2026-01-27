@@ -6,6 +6,7 @@
 #' This is equivalent to `roc_auc(estimator = "macro")`.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn roc_aunu
 #' @template return
 #' @template event_first

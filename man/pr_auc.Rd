@@ -179,6 +179,8 @@ pr_auc_vec(
 
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 \code{\link[=pr_curve]{pr_curve()}} for computing the full precision recall curve.
 
 Other class probability metrics: 

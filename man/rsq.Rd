@@ -124,6 +124,8 @@ Kvalseth. Cautionary note about \eqn{R^2}.
 American Statistician (1985) vol. 39 (4) pp. 279-285.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
 \code{\link{huber_loss}()},

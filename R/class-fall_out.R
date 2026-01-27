@@ -17,6 +17,7 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn fall_out
 #' @template event_first
 #' @template multiclass

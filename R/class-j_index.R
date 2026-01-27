@@ -31,6 +31,7 @@
 #' as defined in Powers, David M W (2011), equation (42).
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn j_index
 #' @template event_first
 #' @template multiclass

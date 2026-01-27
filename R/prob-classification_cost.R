@@ -31,6 +31,7 @@
 #' calculation is done for each sample and the individual costs are averaged.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn class_cost
 #' @template return
 #'

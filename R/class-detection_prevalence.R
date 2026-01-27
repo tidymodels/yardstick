@@ -4,6 +4,7 @@
 #' true positive and false positive) divided by the total number of predictions.
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn detection_prevalence
 #' @template event_first
 #' @template multiclass

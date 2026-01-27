@@ -26,6 +26,7 @@
 #' Note that you can't combine `estimator = "hand_till"` with `case_weights`.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn roc_auc
 #' @template return
 #' @template event_first

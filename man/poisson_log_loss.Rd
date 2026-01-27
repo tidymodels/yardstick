@@ -69,6 +69,8 @@ poisson_log_loss(count_results, count, pred)
 
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
 \code{\link{huber_loss}()},

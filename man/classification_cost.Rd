@@ -180,6 +180,8 @@ hpc_cv |>
   classification_cost(obs, VF:L, costs = hpc_costs)
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 Other class probability metrics: 
 \code{\link{average_precision}()},
 \code{\link{brier_class}()},

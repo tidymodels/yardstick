@@ -3,6 +3,7 @@
 #' Accuracy is the proportion of the data that are predicted correctly.
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn accuracy
 #' @template return
 #'

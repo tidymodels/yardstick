@@ -15,6 +15,7 @@
 #' of `.9`.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn mn_log_loss
 #' @template return
 #'

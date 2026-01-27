@@ -18,6 +18,7 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn sens
 #' @template event_first
 #' @template multiclass

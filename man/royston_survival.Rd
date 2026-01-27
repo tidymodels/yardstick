@@ -75,6 +75,9 @@ royston_survival(
 Royston, P., Sauerbrei, W., "A new measure of prognostic separation in
 survival data", Statistics in Medicine, 23, 723-748, 2004.
 }
+\seealso{
+\link[=linear-pred-survival-metrics]{All linear predictor survival metrics}
+}
 \author{
 Hannah Frick
 }
