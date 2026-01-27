@@ -160,6 +160,11 @@ brier_ind <- function(truth, estimate, case_weights = NULL) {
   case_weights <- case_weights[not_missing]
 
   # Normalize weights (in case negative weights)
+  # subtracting max to avoid Inf in calculations
+  #  exp(x - max(x)) / sum(exp(x - max(x)))
+  #  = (exp(x) / exp(max(x))) / (sum(exp(x)) / exp(max(x)))
+  #  = exp(x) / sum(exp(x))
+  case_weights <- case_weights - max(case_weights)
   case_weights <- exp(case_weights) / sum(exp(case_weights))
 
   res <- sum(resids * case_weights) / (2 * sum(case_weights))
