@@ -124,6 +124,11 @@ a vector of nonnegative scores.
 Weighted interval score is a metric that should be minimized. The output
 ranges from 0 to ∞, with 0 indicating perfect predictions.
 
+## See also
+
+[All quantile
+metrics](https://yardstick.tidymodels.org/dev/reference/quantile-metrics.md)
+
 ## Examples
 
 ``` r

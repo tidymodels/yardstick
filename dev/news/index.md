@@ -2,6 +2,12 @@
 
 ## yardstick (development version)
 
+- Added documentation pages for each metric type (e.g.,
+  `?class-metrics`, `?numeric-metrics`) that list all available metrics
+  with their direction and range.
+  ([\#547](https://github.com/tidymodels/yardstick/issues/547),
+  [\#540](https://github.com/tidymodels/yardstick/issues/540))
+
 - [`get_metrics()`](https://yardstick.tidymodels.org/dev/reference/get_metrics.md)
   was added to return a
   [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)

@@ -140,6 +140,9 @@ done for each sample and the individual costs are averaged.
 
 ## See also
 
+[All probability
+metrics](https://yardstick.tidymodels.org/dev/reference/prob-metrics.md)
+
 Other class probability metrics:
 [`average_precision()`](https://yardstick.tidymodels.org/dev/reference/average_precision.md),
 [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md),

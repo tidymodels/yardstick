@@ -179,6 +179,9 @@ School of Business, New York University, NY, NY 10012.
 
 ## See also
 
+[All probability
+metrics](https://yardstick.tidymodels.org/dev/reference/prob-metrics.md)
+
 [`roc_curve()`](https://yardstick.tidymodels.org/dev/reference/roc_curve.md)
 for computing the full ROC curve.
 

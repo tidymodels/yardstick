@@ -103,6 +103,9 @@ choice model. arXiv preprint arXiv:1907.02436. (see Section 5)
 
 ## See also
 
+[All ordered probability
+metrics](https://yardstick.tidymodels.org/dev/reference/ordered-prob-metrics.md)
+
 Other class probability metrics:
 [`average_precision()`](https://yardstick.tidymodels.org/dev/reference/average_precision.md),
 [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md),

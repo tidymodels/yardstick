@@ -101,6 +101,9 @@ permeability?" *Science of the Total Environment*. 586: 466-472.
 
 ## See also
 
+[All numeric
+metrics](https://yardstick.tidymodels.org/dev/reference/numeric-metrics.md)
+
 Other numeric metrics:
 [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md),
 [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md),

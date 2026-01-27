@@ -108,6 +108,9 @@ Statistics*, 53 (1), 73-101.
 
 ## See also
 
+[All numeric
+metrics](https://yardstick.tidymodels.org/dev/reference/numeric-metrics.md)
+
 Other numeric metrics:
 [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md),
 [`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md),

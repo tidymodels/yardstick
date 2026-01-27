@@ -106,6 +106,9 @@ to evaluate reproducibility". *Biometrics*, 53(4), 1503-1507.
 
 ## See also
 
+[All numeric
+metrics](https://yardstick.tidymodels.org/dev/reference/numeric-metrics.md)
+
 Other numeric metrics:
 [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md),
 [`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md),

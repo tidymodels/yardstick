@@ -107,6 +107,9 @@ Biometrical Journal, 56 (4): 564-583.
 
 ## See also
 
+[All probability
+metrics](https://yardstick.tidymodels.org/dev/reference/prob-metrics.md)
+
 Other class probability metrics:
 [`average_precision()`](https://yardstick.tidymodels.org/dev/reference/average_precision.md),
 [`classification_cost()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md),

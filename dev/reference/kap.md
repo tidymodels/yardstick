@@ -139,6 +139,9 @@ scaled disagreement or partial credit". *Psychological Bulletin*. 70
 
 ## See also
 
+[All class
+metrics](https://yardstick.tidymodels.org/dev/reference/class-metrics.md)
+
 Other class metrics:
 [`accuracy()`](https://yardstick.tidymodels.org/dev/reference/accuracy.md),
 [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md),

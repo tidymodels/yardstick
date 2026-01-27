@@ -159,6 +159,9 @@ always the relevant result.
 
 ## See also
 
+[All probability
+metrics](https://yardstick.tidymodels.org/dev/reference/prob-metrics.md)
+
 [`pr_curve()`](https://yardstick.tidymodels.org/dev/reference/pr_curve.md)
 for computing the full precision recall curve.
 

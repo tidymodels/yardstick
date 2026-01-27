@@ -155,6 +155,9 @@ Banking and Financial Studies 2003,01, Deutsche Bundesbank.
 
 ## See also
 
+[All probability
+metrics](https://yardstick.tidymodels.org/dev/reference/prob-metrics.md)
+
 [`gain_curve()`](https://yardstick.tidymodels.org/dev/reference/gain_curve.md)
 to compute the full gain curve.
 

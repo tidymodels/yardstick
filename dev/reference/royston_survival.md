@@ -85,6 +85,11 @@ Larger values of the score are associated with better model performance.
 Royston, P., Sauerbrei, W., "A new measure of prognostic separation in
 survival data", Statistics in Medicine, 23, 723-748, 2004.
 
+## See also
+
+[All linear predictor survival
+metrics](https://yardstick.tidymodels.org/dev/reference/linear-pred-survival-metrics.md)
+
 ## Author
 
 Hannah Frick

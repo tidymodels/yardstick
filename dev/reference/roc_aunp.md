@@ -120,6 +120,9 @@ Recognition Letters*. 30 (1), pp 27-38.
 
 ## See also
 
+[All probability
+metrics](https://yardstick.tidymodels.org/dev/reference/prob-metrics.md)
+
 [`roc_aunu()`](https://yardstick.tidymodels.org/dev/reference/roc_aunu.md)
 for computing the area under the ROC curve of each class against the
 rest, using the uniform class distribution.

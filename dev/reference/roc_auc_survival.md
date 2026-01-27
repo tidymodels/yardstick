@@ -118,6 +118,9 @@ survival data. *Statist. Med.*, 18: 2529-2545.
 
 ## See also
 
+[All dynamic survival
+metrics](https://yardstick.tidymodels.org/dev/reference/dynamic-survival-metrics.md)
+
 Compute the ROC survival curve with
 [`roc_curve_survival()`](https://yardstick.tidymodels.org/dev/reference/roc_curve_survival.md).
 

@@ -126,6 +126,9 @@ Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 
 ## See also
 
+[All integrated survival
+metrics](https://yardstick.tidymodels.org/dev/reference/integrated-survival-metrics.md)
+
 Other dynamic survival metrics:
 [`brier_survival()`](https://yardstick.tidymodels.org/dev/reference/brier_survival.md),
 [`roc_auc_survival()`](https://yardstick.tidymodels.org/dev/reference/roc_auc_survival.md)

@@ -95,6 +95,9 @@ attributes by NIR spectroscopy. TrAC Trends in Analytical Chemistry,
 
 ## See also
 
+[All numeric
+metrics](https://yardstick.tidymodels.org/dev/reference/numeric-metrics.md)
+
 The closely related deviation metric:
 [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md)
 

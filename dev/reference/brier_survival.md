@@ -114,6 +114,9 @@ comparison of prognostic classification schemes for survival data,”
 
 ## See also
 
+[All dynamic survival
+metrics](https://yardstick.tidymodels.org/dev/reference/dynamic-survival-metrics.md)
+
 Other dynamic survival metrics:
 [`brier_survival_integrated()`](https://yardstick.tidymodels.org/dev/reference/brier_survival_integrated.md),
 [`roc_auc_survival()`](https://yardstick.tidymodels.org/dev/reference/roc_auc_survival.md)

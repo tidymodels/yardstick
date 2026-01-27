@@ -104,6 +104,9 @@ attributes by NIR spectroscopy. TrAC Trends in Analytical Chemistry,
 
 ## See also
 
+[All numeric
+metrics](https://yardstick.tidymodels.org/dev/reference/numeric-metrics.md)
+
 The closely related inter-quartile metric:
 [`rpiq()`](https://yardstick.tidymodels.org/dev/reference/rpiq.md)
 

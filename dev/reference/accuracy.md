@@ -90,6 +90,9 @@ macro and micro averaging are not implemented.
 
 ## See also
 
+[All class
+metrics](https://yardstick.tidymodels.org/dev/reference/class-metrics.md)
+
 Other class metrics:
 [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md),
 [`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md),
