@@ -47,6 +47,11 @@
   [`ranked_prob_score()`](https://yardstick.tidymodels.org/dev/reference/ranked_prob_score.md).
   ([\#524](https://github.com/tidymodels/yardstick/issues/524))
 
+- Fixed bug where
+  [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
+  returns NaN with extreme value case weights.
+  ([\#614](https://github.com/tidymodels/yardstick/issues/614))
+
 - [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md)
   has been enhanced to handle 0 valued estimates, no longer returning
   `Inf` or `NaN`.
