@@ -18,6 +18,8 @@
 
 * The ranked probability score for ordinal classification data was added with `ranked_prob_score()`. (#524)
 
+* Fixed bug where `brier_class()` returns NaN with extreme value case weights. (#614)
+
 * `poisson_log_loss()` has been enhanced to handle 0 valued estimates, no longer returning `Inf` or `NaN`. (#513)
 
 * Fixed bug where ranked probability metrics didn't work in combination with other classification metrics in `metric_set()`. (#539)

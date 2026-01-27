@@ -107,3 +107,15 @@ test_that("range values are correct", {
     expect_gte(brier_class_vec(df$truth, df$off), worst)
   }
 })
+
+test_that("doesn't produce NaN with high valued case weights (#614)", {
+  df <- two_class_example
+
+  wts <- rep(1, (nrow(df)))
+  wts_high <- wts * 5000
+
+  expect_identical(
+    brier_class_vec(df$truth, df$Class1, case_weights = wts),
+    brier_class_vec(df$truth, df$Class1, case_weights = wts_high)
+  )
+})
