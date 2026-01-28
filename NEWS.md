@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `roc_dist()` was added to compute the Euclidean distance from (sensitivity, specificity) to the ideal point (1, 1) in ROC space. (#148)
+
 * `rmse_relative()` was added to compute relative root mean squared error, which normalizes RMSE by the range of the true values. (#527)
 
 * Added documentation pages for each metric type (e.g., `?class-metrics`, `?numeric-metrics`) that list all available metrics with their direction and range. (#547, #540)
