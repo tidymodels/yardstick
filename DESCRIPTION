@@ -70,6 +70,7 @@ Collate:
     'class-ppv.R'
     'class-precision.R'
     'class-recall.R'
+    'class-roc_dist.R'
     'class-sens.R'
     'class-spec.R'
     'conf_mat.R'
