@@ -91,6 +91,9 @@ metric_results |>
   summarise(avg_estimate = mean(.estimate))
 }
 \seealso{
+\code{\link[=mse]{mse()}} for the mean squared error, which is RMSE without the
+square root.
+
 \link[=numeric-metrics]{All numeric metrics}
 
 Other numeric metrics: 
@@ -103,6 +106,7 @@ Other numeric metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse_relative}()},
 \code{\link{rpd}()},
@@ -121,6 +125,7 @@ Other accuracy metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse_relative}()},
 \code{\link{smape}()}

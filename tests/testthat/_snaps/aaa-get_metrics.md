@@ -13,6 +13,7 @@
       - `mase()`, a numeric metric              | direction: minimize
       - `mpe()`, a numeric metric               | direction: zero
       - `msd()`, a numeric metric               | direction: zero
+      - `mse()`, a numeric metric               | direction: minimize
       - `poisson_log_loss()`, a numeric metric  | direction: minimize
       - `rmse()`, a numeric metric              | direction: minimize
       - `rmse_relative()`, a numeric metric     | direction: minimize
@@ -50,5 +51,5 @@
       * a mix of dynamic and static survival metrics.
       i The following metric function types are being mixed:
       - class (accuracy, bal_accuracy, detection_prevalence, f_meas, fall_out, j_index, kap, mcc, miss_rate, npv, ppv, precision, recall, sens, sensitivity, spec, specificity)
-      - numeric (ccc, huber_loss, huber_loss_pseudo, iic, mae, mape, mase, mpe, msd, poisson_log_loss, rmse, rmse_relative, rpd, rpiq, rsq, rsq_trad, smape)
+      - numeric (ccc, huber_loss, huber_loss_pseudo, iic, mae, mape, mase, mpe, msd, mse, poisson_log_loss, rmse, rmse_relative, rpd, rpiq, rsq, rsq_trad, smape)
 
