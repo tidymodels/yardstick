@@ -28,6 +28,7 @@ are to the true values.
 \item{\code{\link[=mase]{mase()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=mpe]{mpe()}}}{Direction: zero. Range: [-Inf, Inf]}
 \item{\code{\link[=msd]{msd()}}}{Direction: zero. Range: [-Inf, Inf]}
+\item{\code{\link[=mse]{mse()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=poisson_log_loss]{poisson_log_loss()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=rmse]{rmse()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=rmse_relative]{rmse_relative()}}}{Direction: minimize. Range: [0, Inf]}
