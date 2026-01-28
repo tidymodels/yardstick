@@ -98,6 +98,7 @@ Collate:
     'num-mase.R'
     'num-mpe.R'
     'num-msd.R'
+    'num-mse.R'
     'num-poisson_log_loss.R'
     'num-rmse.R'
     'num-rmse_relative.R'

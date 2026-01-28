@@ -5,7 +5,10 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @seealso [All numeric metrics][numeric-metrics]
+#' @seealso [mse()] for the mean squared error, which is RMSE without the
+#' square root.
+#'
+#' [All numeric metrics][numeric-metrics]
 #' @templateVar fn rmse
 #' @template return
 #'
