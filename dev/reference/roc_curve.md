@@ -17,7 +17,8 @@ roc_curve(
   na_rm = TRUE,
   event_level = yardstick_event_level(),
   case_weights = NULL,
-  options = list()
+  options = list(),
+  thresholds = NULL
 )
 ```
 
@@ -75,6 +76,12 @@ roc_curve(
 
   Previously, these were options passed on to `pROC::roc()`. If you need
   support for this, use the pROC package directly.
+
+- thresholds:
+
+  A numeric vector to denote what values of `estimate` we calculate the
+  curve for. Defaults to `NULL` which denotes that all unique values of
+  `estimate` are used. Duplicate values are silently removed.
 
 ## Value
 

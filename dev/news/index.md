@@ -38,6 +38,11 @@
   explicitly named for class/prob or survival metric sets.
   ([\#504](https://github.com/tidymodels/yardstick/issues/504))
 
+- Added `thresholds` argument to
+  [`roc_curve()`](https://yardstick.tidymodels.org/dev/reference/roc_curve.md)
+  to allow for custom thresholds to calculate curves for.
+  ([\#488](https://github.com/tidymodels/yardstick/issues/488))
+
 - All metrics now have documented ranges of possible values in addition
   to what direction is the best.
   ([\#572](https://github.com/tidymodels/yardstick/issues/572))

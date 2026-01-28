@@ -61,7 +61,8 @@ tibble. See <code><a href="roc_auc.html">roc_auc()</a></code> for the area under
 <span>  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  case_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  thresholds <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -116,6 +117,12 @@ in <code>data</code>. For <code>_vec()</code> functions, a numeric vector,
 will be ignored with a warning.</p>
 <p>Previously, these were options passed on to <code>pROC::roc()</code>. If you need
 support for this, use the pROC package directly.</p></dd>
+
+
+<dt id="arg-thresholds">thresholds<a class="anchor" aria-label="anchor" href="#arg-thresholds"></a></dt>
+<dd><p>A numeric vector to denote what values of <code>estimate</code> we
+calculate the curve for. Defaults to <code>NULL</code> which denotes that all unique
+values of <code>estimate</code> are used. Duplicate values are silently removed.</p></dd>
 
 </dl></div>
     <div class="section level2">
