@@ -122,6 +122,7 @@ Other numeric metrics:
 \code{\link{msd}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rsq}()},
 \code{\link{rsq_trad}()},

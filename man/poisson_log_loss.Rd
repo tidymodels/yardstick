@@ -82,6 +82,7 @@ Other numeric metrics:
 \code{\link{mpe}()},
 \code{\link{msd}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
 \code{\link{rsq}()},
@@ -99,6 +100,7 @@ Other accuracy metrics:
 \code{\link{mpe}()},
 \code{\link{msd}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{smape}()}
 }
 \author{

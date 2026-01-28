@@ -116,6 +116,7 @@ Other numeric metrics:
 \code{\link{mpe}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
 \code{\link{rsq}()},
@@ -133,6 +134,7 @@ Other accuracy metrics:
 \code{\link{mpe}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{smape}()}
 }
 \author{
