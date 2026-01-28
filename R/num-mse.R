@@ -4,7 +4,10 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
-#' @seealso [All numeric metrics][numeric-metrics]
+#' @seealso [rmse()] for the root mean squared error, which is the square root
+#' of MSE and is in the same units as the original data.
+#'
+#' [All numeric metrics][numeric-metrics]
 #' @templateVar fn mse
 #' @template return
 #'

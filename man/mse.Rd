@@ -90,6 +90,9 @@ metric_results |>
   summarise(avg_estimate = mean(.estimate))
 }
 \seealso{
+\code{\link[=rmse]{rmse()}} for the root mean squared error, which is the square root
+of MSE and is in the same units as the original data.
+
 \link[=numeric-metrics]{All numeric metrics}
 
 Other numeric metrics: 

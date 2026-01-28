@@ -91,6 +91,9 @@ metric_results |>
   summarise(avg_estimate = mean(.estimate))
 }
 \seealso{
+\code{\link[=mse]{mse()}} for the mean squared error, which is RMSE without the
+square root.
+
 \link[=numeric-metrics]{All numeric metrics}
 
 Other numeric metrics: 
