@@ -8,9 +8,23 @@
 \usage{
 brier_class(data, ...)
 
-\method{brier_class}{data.frame}(data, truth, ..., na_rm = TRUE, case_weights = NULL)
+\method{brier_class}{data.frame}(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+)
 
-brier_class_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
+brier_class_vec(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
@@ -31,6 +45,11 @@ names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
 values should be stripped before the computation proceeds.}
+
+\item{event_level}{A single string. Either \code{"first"} or \code{"second"} to specify
+which level of \code{truth} to consider as the "event". This argument is only
+applicable when \code{estimator = "binary"}. The default uses an internal helper
+that defaults to \code{"first"}.}
 
 \item{case_weights}{The optional column identifier for case weights.
 This should be an unquoted column name that evaluates to a numeric column
@@ -82,6 +101,19 @@ Smaller values of the score are associated with better model performance.
 
 Brier scores can be computed in the same way for any number of classes.
 Because of this, no averaging types are supported.
+}
+
+\section{Relevant Level}{
+
+
+There is no common convention on which factor level should
+automatically be considered the "event" or "positive" result
+when computing binary classification metrics. In \code{yardstick}, the default
+is to use the \emph{first} level. To alter this, change the argument
+\code{event_level} to \code{"second"} to consider the \emph{last} level of the factor the
+level of interest. For multiclass extensions involving one-vs-all
+comparisons (such as macro averaging), this option is ignored and
+the "one" level is always the relevant result.
 }
 
 \examples{
