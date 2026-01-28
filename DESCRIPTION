@@ -99,6 +99,7 @@ Collate:
     'num-msd.R'
     'num-poisson_log_loss.R'
     'num-rmse.R'
+    'num-rmse_relative.R'
     'num-rpd.R'
     'num-rpiq.R'
     'num-rsq.R'

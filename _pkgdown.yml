@@ -60,6 +60,7 @@ reference:
 - title: Regression Metrics
   contents:
   - rmse
+  - rmse_relative
   - rsq
   - rsq_trad
   - msd

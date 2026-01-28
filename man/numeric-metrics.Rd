@@ -30,6 +30,7 @@ are to the true values.
 \item{\code{\link[=msd]{msd()}}}{Direction: zero. Range: [-Inf, Inf]}
 \item{\code{\link[=poisson_log_loss]{poisson_log_loss()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=rmse]{rmse()}}}{Direction: minimize. Range: [0, Inf]}
+\item{\code{\link[=rmse_relative]{rmse_relative()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=rpd]{rpd()}}}{Direction: maximize. Range: [0, Inf]}
 \item{\code{\link[=rpiq]{rpiq()}}}{Direction: maximize. Range: [0, Inf]}
 \item{\code{\link[=rsq]{rsq()}}}{Direction: maximize. Range: [-Inf, 1]}
