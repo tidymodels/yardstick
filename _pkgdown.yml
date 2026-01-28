@@ -65,6 +65,7 @@ reference:
   - rsq_trad
   - msd
   - mae
+  - mse
   - mpe
   - mape
   - smape
