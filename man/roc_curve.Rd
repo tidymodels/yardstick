@@ -14,7 +14,8 @@ roc_curve(data, ...)
   na_rm = TRUE,
   event_level = yardstick_event_level(),
   case_weights = NULL,
-  options = list()
+  options = list(),
+  thresholds = NULL
 )
 }
 \arguments{
@@ -54,6 +55,10 @@ will be ignored with a warning.
 
 Previously, these were options passed on to \code{pROC::roc()}. If you need
 support for this, use the pROC package directly.}
+
+\item{thresholds}{A numeric vector to denote what values of \code{estimate} we
+calculate the curve for. Defaults to \code{NULL} which denotes that all unique
+values of \code{estimate} are used. Duplicate values are silently removed.}
 }
 \value{
 A tibble with class \code{roc_df} or \code{roc_grouped_df} having

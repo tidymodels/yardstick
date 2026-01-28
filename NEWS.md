@@ -14,6 +14,8 @@
 
 * `metric_set()` now provides a more informative error message when `estimate` is not explicitly named for class/prob or survival metric sets. (#504)
 
+* Added `thresholds` argument to `roc_curve()` to allow for custom thresholds to calculate curves for. (#488)
+
 * All metrics now have documented ranges of possible values in addition to what direction is the best. (#572)
 
 * The ranked probability score for ordinal classification data was added with `ranked_prob_score()`. (#524)
