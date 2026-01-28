@@ -107,6 +107,7 @@ Other numeric metrics:
 [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md),
 [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md),
 [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md),
+[`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md),
 [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md),
 [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
 [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md),

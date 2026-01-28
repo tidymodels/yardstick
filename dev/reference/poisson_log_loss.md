@@ -90,6 +90,7 @@ Other numeric metrics:
 [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md),
 [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md),
 [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md),
+[`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md),
 [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
 [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md),
 [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md),
@@ -108,6 +109,7 @@ Other accuracy metrics:
 [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md),
 [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md),
 [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md),
+[`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md),
 [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
 [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md),
 [`smape()`](https://yardstick.tidymodels.org/dev/reference/smape.md)

@@ -7,6 +7,10 @@
   normalizes RMSE by the range of the true values.
   ([\#527](https://github.com/tidymodels/yardstick/issues/527))
 
+- [`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md) was
+  added to compute the mean squared error.
+  ([\#560](https://github.com/tidymodels/yardstick/issues/560))
+
 - Added documentation pages for each metric type (e.g.,
   `?class-metrics`, `?numeric-metrics`) that list all available metrics
   with their direction and range.

@@ -110,6 +110,9 @@
 - [`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md)
   [`mae_vec()`](https://yardstick.tidymodels.org/dev/reference/mae.md) :
   Mean absolute error
+- [`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md)
+  [`mse_vec()`](https://yardstick.tidymodels.org/dev/reference/mse.md) :
+  Mean squared error
 - [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)
   [`mpe_vec()`](https://yardstick.tidymodels.org/dev/reference/mpe.md) :
   Mean percentage error

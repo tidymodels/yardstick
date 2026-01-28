@@ -210,6 +210,7 @@ by type.
 | numeric                   | [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md)                                           |
 | numeric                   | [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)                                             |
 | numeric                   | [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md)                                             |
+| numeric                   | [`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md)                                             |
 | numeric                   | [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md)                   |
 | numeric                   | [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)                                           |
 | numeric                   | [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)                         |

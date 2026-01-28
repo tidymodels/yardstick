@@ -48,6 +48,10 @@ are to the true values.
 
   Direction: zero. Range: \[-Inf, Inf\]
 
+- [`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md):
+
+  Direction: minimize. Range: \[0, Inf\]
+
 - [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md):
 
   Direction: minimize. Range: \[0, Inf\]

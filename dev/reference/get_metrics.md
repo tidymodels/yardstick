@@ -51,6 +51,7 @@ get_metrics("numeric")
 #> - `mase()`, a numeric metric              | direction: minimize
 #> - `mpe()`, a numeric metric               | direction: zero
 #> - `msd()`, a numeric metric               | direction: zero
+#> - `mse()`, a numeric metric               | direction: minimize
 #> - `poisson_log_loss()`, a numeric metric  | direction: minimize
 #> - `rmse()`, a numeric metric              | direction: minimize
 #> - `rmse_relative()`, a numeric metric     | direction: minimize

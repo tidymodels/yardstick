@@ -1,36 +1,16 @@
-# Psuedo-Huber Loss
+# Mean squared error
 
-Calculate the Pseudo-Huber Loss, a smooth approximation of
-[`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md).
-Like
-[`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md),
-this is less sensitive to outliers than
-[`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md).
+Calculate the mean squared error.
 
 ## Usage
 
 ``` r
-huber_loss_pseudo(data, ...)
+mse(data, ...)
 
 # S3 method for class 'data.frame'
-huber_loss_pseudo(
-  data,
-  truth,
-  estimate,
-  delta = 1,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
+mse(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 
-huber_loss_pseudo_vec(
-  truth,
-  estimate,
-  delta = 1,
-  na_rm = TRUE,
-  case_weights = NULL,
-  ...
-)
+mse_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 ```
 
 ## Arguments
@@ -60,11 +40,6 @@ huber_loss_pseudo_vec(
   the primary method is to use an unquoted variable name. For `_vec()`
   functions, a `numeric` vector.
 
-- delta:
-
-  A single `numeric` value. Defines the boundary where the loss function
-  transitions from quadratic to linear. Defaults to 1.
-
 - na_rm:
 
   A `logical` value indicating whether `NA` values should be stripped
@@ -87,28 +62,23 @@ row of values.
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
-For `huber_loss_pseudo_vec()`, a single `numeric` value (or `NA`).
+For `mse_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
-Pseudo-Huber loss is a metric that should be minimized. The output
-ranges from 0 to ∞, with 0 indicating perfect predictions.
+MSE is a metric that should be minimized. The output ranges from 0 to ∞,
+with 0 indicating perfect predictions.
 
-The formula for Pseudo-Huber loss is:
+The formula for MSE is:
 
-\$\$L\_\delta = \frac{1}{n} \sum\_{i=1}^{n} \delta^2 \left( \sqrt{1 +
-\left(\frac{\text{truth}\_i - \text{estimate}\_i}{\delta}\right)^2} - 1
-\right)\$\$
-
-## References
-
-Huber, P. (1964). Robust Estimation of a Location Parameter. *Annals of
-Statistics*, 53 (1), 73-101.
-
-Hartley, Richard (2004). Multiple View Geometry in Computer Vision.
-(Second Edition). Page 619.
+\$\$\text{MSE} = \frac{1}{n} \sum\_{i=1}^{n} (\text{truth}\_i -
+\text{estimate}\_i)^2\$\$
 
 ## See also
+
+[`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md) for
+the root mean squared error, which is the square root of MSE and is in
+the same units as the original data.
 
 [All numeric
 metrics](https://yardstick.tidymodels.org/dev/reference/numeric-metrics.md)
@@ -116,13 +86,13 @@ metrics](https://yardstick.tidymodels.org/dev/reference/numeric-metrics.md)
 Other numeric metrics:
 [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md),
 [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md),
+[`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md),
 [`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md),
 [`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md),
 [`mape()`](https://yardstick.tidymodels.org/dev/reference/mape.md),
 [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md),
 [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md),
 [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md),
-[`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md),
 [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md),
 [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
 [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md),
@@ -135,31 +105,27 @@ Other numeric metrics:
 Other accuracy metrics:
 [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md),
 [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md),
+[`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md),
 [`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md),
 [`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md),
 [`mape()`](https://yardstick.tidymodels.org/dev/reference/mape.md),
 [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md),
 [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md),
 [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md),
-[`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md),
 [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md),
 [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
 [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md),
 [`smape()`](https://yardstick.tidymodels.org/dev/reference/smape.md)
 
-## Author
-
-James Blair
-
 ## Examples
 
 ``` r
 # Supply truth and predictions as bare column names
-huber_loss_pseudo(solubility_test, solubility, prediction)
+mse(solubility_test, solubility, prediction)
 #> # A tibble: 1 × 3
-#>   .metric           .estimator .estimate
-#>   <chr>             <chr>          <dbl>
-#> 1 huber_loss_pseudo standard       0.199
+#>   .metric .estimator .estimate
+#>   <chr>   <chr>          <dbl>
+#> 1 mse     standard       0.521
 
 library(dplyr)
 
@@ -180,22 +146,22 @@ solubility_resampled <- bind_rows(
 # Compute the metric by group
 metric_results <- solubility_resampled |>
   group_by(resample) |>
-  huber_loss_pseudo(solubility, prediction)
+  mse(solubility, prediction)
 
 metric_results
 #> # A tibble: 10 × 4
-#>    resample .metric           .estimator .estimate
-#>    <chr>    <chr>             <chr>          <dbl>
-#>  1 1        huber_loss_pseudo standard       0.185
-#>  2 10       huber_loss_pseudo standard       0.179
-#>  3 2        huber_loss_pseudo standard       0.196
-#>  4 3        huber_loss_pseudo standard       0.168
-#>  5 4        huber_loss_pseudo standard       0.212
-#>  6 5        huber_loss_pseudo standard       0.177
-#>  7 6        huber_loss_pseudo standard       0.246
-#>  8 7        huber_loss_pseudo standard       0.227
-#>  9 8        huber_loss_pseudo standard       0.161
-#> 10 9        huber_loss_pseudo standard       0.188
+#>    resample .metric .estimator .estimate
+#>    <chr>    <chr>   <chr>          <dbl>
+#>  1 1        mse     standard       0.512
+#>  2 10       mse     standard       0.454
+#>  3 2        mse     standard       0.513
+#>  4 3        mse     standard       0.414
+#>  5 4        mse     standard       0.543
+#>  6 5        mse     standard       0.456
+#>  7 6        mse     standard       0.652
+#>  8 7        mse     standard       0.642
+#>  9 8        mse     standard       0.404
+#> 10 9        mse     standard       0.479
 
 # Resampled mean estimate
 metric_results |>
@@ -203,5 +169,5 @@ metric_results |>
 #> # A tibble: 1 × 1
 #>   avg_estimate
 #>          <dbl>
-#> 1        0.194
+#> 1        0.507
 ```
