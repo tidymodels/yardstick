@@ -35,6 +35,7 @@
 #' Because of this, no averaging types are supported.
 #'
 #' @inheritParams pr_auc
+#' @template event_first
 #'
 #' @author Max Kuhn
 #'
@@ -78,6 +79,7 @@ brier_class.data.frame <- function(
   truth,
   ...,
   na_rm = TRUE,
+  event_level = yardstick_event_level(),
   case_weights = NULL
 ) {
   case_weights_quo <- enquo(case_weights)
@@ -89,6 +91,7 @@ brier_class.data.frame <- function(
     truth = !!enquo(truth),
     ...,
     na_rm = na_rm,
+    event_level = event_level,
     case_weights = !!case_weights_quo
   )
 }
@@ -99,6 +102,7 @@ brier_class_vec <- function(
   truth,
   estimate,
   na_rm = TRUE,
+  event_level = yardstick_event_level(),
   case_weights = NULL,
   ...
 ) {
@@ -122,16 +126,35 @@ brier_class_vec <- function(
   brier_class_estimator_impl(
     truth = truth,
     estimate = estimate,
+    estimator = estimator,
+    event_level = event_level,
     case_weights = case_weights
   )
 }
 
-brier_class_estimator_impl <- function(truth, estimate, case_weights) {
-  brier_factor(
-    truth = truth,
-    estimate = estimate,
-    case_weights = case_weights
-  )
+brier_class_estimator_impl <- function(
+  truth,
+  estimate,
+  estimator,
+  event_level,
+  case_weights
+) {
+  if (is_binary(estimator)) {
+    brier_class_binary(truth, estimate, event_level, case_weights)
+  } else {
+    brier_factor(truth, estimate, case_weights)
+  }
+}
+
+brier_class_binary <- function(truth, estimate, event_level, case_weights) {
+  if (!is_event_first(event_level)) {
+    lvls <- levels(truth)
+    truth <- stats::relevel(truth, lvls[[2]])
+  }
+
+  estimate <- matrix(c(estimate, 1 - estimate), ncol = 2)
+
+  brier_factor(truth, estimate, case_weights)
 }
 
 # If `truth` is already a vector or matrix of binary data
