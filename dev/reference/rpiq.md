@@ -113,6 +113,7 @@ Other numeric metrics:
 [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md),
 [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md),
 [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
+[`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md),
 [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md),
 [`rsq()`](https://yardstick.tidymodels.org/dev/reference/rsq.md),
 [`rsq_trad()`](https://yardstick.tidymodels.org/dev/reference/rsq_trad.md),

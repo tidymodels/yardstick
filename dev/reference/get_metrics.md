@@ -53,6 +53,7 @@ get_metrics("numeric")
 #> - `msd()`, a numeric metric               | direction: zero
 #> - `poisson_log_loss()`, a numeric metric  | direction: minimize
 #> - `rmse()`, a numeric metric              | direction: minimize
+#> - `rmse_relative()`, a numeric metric     | direction: minimize
 #> - `rpd()`, a numeric metric               | direction: maximize
 #> - `rpiq()`, a numeric metric              | direction: maximize
 #> - `rsq()`, a numeric metric               | direction: maximize

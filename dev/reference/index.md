@@ -95,6 +95,9 @@
 - [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)
   [`rmse_vec()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)
   : Root mean squared error
+- [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)
+  [`rmse_relative_vec()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)
+  : Relative root mean squared error
 - [`rsq()`](https://yardstick.tidymodels.org/dev/reference/rsq.md)
   [`rsq_vec()`](https://yardstick.tidymodels.org/dev/reference/rsq.md) :
   R squared

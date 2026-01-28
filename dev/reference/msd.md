@@ -106,6 +106,7 @@ Other numeric metrics:
 [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md),
 [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md),
 [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
+[`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md),
 [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md),
 [`rpiq()`](https://yardstick.tidymodels.org/dev/reference/rpiq.md),
 [`rsq()`](https://yardstick.tidymodels.org/dev/reference/rsq.md),
@@ -123,6 +124,7 @@ Other accuracy metrics:
 [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md),
 [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md),
 [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
+[`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md),
 [`smape()`](https://yardstick.tidymodels.org/dev/reference/smape.md)
 
 ## Author

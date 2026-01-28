@@ -56,6 +56,10 @@ are to the true values.
 
   Direction: minimize. Range: \[0, Inf\]
 
+- [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md):
+
+  Direction: minimize. Range: \[0, Inf\]
+
 - [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md):
 
   Direction: maximize. Range: \[0, Inf\]

@@ -212,6 +212,7 @@ by type.
 | numeric                   | [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md)                                             |
 | numeric                   | [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md)                   |
 | numeric                   | [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)                                           |
+| numeric                   | [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)                         |
 | numeric                   | [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md)                                             |
 | numeric                   | [`rpiq()`](https://yardstick.tidymodels.org/dev/reference/rpiq.md)                                           |
 | numeric                   | [`rsq()`](https://yardstick.tidymodels.org/dev/reference/rsq.md)                                             |
