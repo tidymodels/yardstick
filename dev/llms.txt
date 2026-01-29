@@ -179,6 +179,48 @@ By contributing to this project, you agree to abide by its terms.
 
 ## Classification Metrics
 
+- [`accuracy()`](https://yardstick.tidymodels.org/dev/reference/accuracy.md)
+  [`accuracy_vec()`](https://yardstick.tidymodels.org/dev/reference/accuracy.md)
+  : Accuracy
+- [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md)
+  [`bal_accuracy_vec()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md)
+  : Balanced accuracy
+- [`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md)
+  [`detection_prevalence_vec()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md)
+  : Detection prevalence
+- [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md)
+  [`f_meas_vec()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md)
+  : F Measure
+- [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)
+  [`fall_out_vec()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)
+  : Fall-out (False Positive Rate)
+- [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)
+  [`j_index_vec()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)
+  : J-index
+- [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md)
+  [`kap_vec()`](https://yardstick.tidymodels.org/dev/reference/kap.md) :
+  Kappa
+- [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md)
+  [`mcc_vec()`](https://yardstick.tidymodels.org/dev/reference/mcc.md) :
+  Matthews correlation coefficient
+- [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)
+  [`miss_rate_vec()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)
+  : Miss rate (False Negative Rate)
+- [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md)
+  [`npv_vec()`](https://yardstick.tidymodels.org/dev/reference/npv.md) :
+  Negative predictive value
+- [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md)
+  [`ppv_vec()`](https://yardstick.tidymodels.org/dev/reference/ppv.md) :
+  Positive predictive value
+- [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md)
+  [`precision_vec()`](https://yardstick.tidymodels.org/dev/reference/precision.md)
+  : Precision
+- [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md)
+  [`recall_vec()`](https://yardstick.tidymodels.org/dev/reference/recall.md)
+  : Recall
+- [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
+  [`roc_dist_vec()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
+  : Distance to ROC corner
 - [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md)
   [`sens_vec()`](https://yardstick.tidymodels.org/dev/reference/sens.md)
   [`sensitivity()`](https://yardstick.tidymodels.org/dev/reference/sens.md)
@@ -189,51 +231,27 @@ By contributing to this project, you agree to abide by its terms.
   [`specificity()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
   [`specificity_vec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
   : Specificity
-- [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md)
-  [`recall_vec()`](https://yardstick.tidymodels.org/dev/reference/recall.md)
-  : Recall
-- [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md)
-  [`precision_vec()`](https://yardstick.tidymodels.org/dev/reference/precision.md)
-  : Precision
-- [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md)
-  [`mcc_vec()`](https://yardstick.tidymodels.org/dev/reference/mcc.md) :
-  Matthews correlation coefficient
-- [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)
-  [`j_index_vec()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)
-  : J-index
-- [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
-  [`roc_dist_vec()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
-  : Distance to ROC corner
-- [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md)
-  [`f_meas_vec()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md)
-  : F Measure
-- [`accuracy()`](https://yardstick.tidymodels.org/dev/reference/accuracy.md)
-  [`accuracy_vec()`](https://yardstick.tidymodels.org/dev/reference/accuracy.md)
-  : Accuracy
-- [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md)
-  [`kap_vec()`](https://yardstick.tidymodels.org/dev/reference/kap.md) :
-  Kappa
-- [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md)
-  [`ppv_vec()`](https://yardstick.tidymodels.org/dev/reference/ppv.md) :
-  Positive predictive value
-- [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md)
-  [`npv_vec()`](https://yardstick.tidymodels.org/dev/reference/npv.md) :
-  Negative predictive value
-- [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md)
-  [`bal_accuracy_vec()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md)
-  : Balanced accuracy
-- [`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md)
-  [`detection_prevalence_vec()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md)
-  : Detection prevalence
-- [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)
-  [`fall_out_vec()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)
-  : Fall-out (False Positive Rate)
-- [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)
-  [`miss_rate_vec()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)
-  : Miss rate (False Negative Rate)
 
 ## Class Probability Metrics
 
+- [`average_precision()`](https://yardstick.tidymodels.org/dev/reference/average_precision.md)
+  [`average_precision_vec()`](https://yardstick.tidymodels.org/dev/reference/average_precision.md)
+  : Area under the precision recall curve
+- [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
+  [`brier_class_vec()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
+  : Brier score for classification models
+- [`classification_cost()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)
+  [`classification_cost_vec()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)
+  : Costs function for poor classification
+- [`gain_capture()`](https://yardstick.tidymodels.org/dev/reference/gain_capture.md)
+  [`gain_capture_vec()`](https://yardstick.tidymodels.org/dev/reference/gain_capture.md)
+  : Gain capture
+- [`mn_log_loss()`](https://yardstick.tidymodels.org/dev/reference/mn_log_loss.md)
+  [`mn_log_loss_vec()`](https://yardstick.tidymodels.org/dev/reference/mn_log_loss.md)
+  : Mean log loss for multinomial data
+- [`pr_auc()`](https://yardstick.tidymodels.org/dev/reference/pr_auc.md)
+  [`pr_auc_vec()`](https://yardstick.tidymodels.org/dev/reference/pr_auc.md)
+  : Area under the precision recall curve
 - [`roc_auc()`](https://yardstick.tidymodels.org/dev/reference/roc_auc.md)
   [`roc_auc_vec()`](https://yardstick.tidymodels.org/dev/reference/roc_auc.md)
   : Area under the receiver operator curve
@@ -245,24 +263,6 @@ By contributing to this project, you agree to abide by its terms.
   [`roc_aunu_vec()`](https://yardstick.tidymodels.org/dev/reference/roc_aunu.md)
   : Area under the ROC curve of each class against the rest, using the
   uniform class distribution
-- [`pr_auc()`](https://yardstick.tidymodels.org/dev/reference/pr_auc.md)
-  [`pr_auc_vec()`](https://yardstick.tidymodels.org/dev/reference/pr_auc.md)
-  : Area under the precision recall curve
-- [`average_precision()`](https://yardstick.tidymodels.org/dev/reference/average_precision.md)
-  [`average_precision_vec()`](https://yardstick.tidymodels.org/dev/reference/average_precision.md)
-  : Area under the precision recall curve
-- [`gain_capture()`](https://yardstick.tidymodels.org/dev/reference/gain_capture.md)
-  [`gain_capture_vec()`](https://yardstick.tidymodels.org/dev/reference/gain_capture.md)
-  : Gain capture
-- [`mn_log_loss()`](https://yardstick.tidymodels.org/dev/reference/mn_log_loss.md)
-  [`mn_log_loss_vec()`](https://yardstick.tidymodels.org/dev/reference/mn_log_loss.md)
-  : Mean log loss for multinomial data
-- [`classification_cost()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)
-  [`classification_cost_vec()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)
-  : Costs function for poor classification
-- [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
-  [`brier_class_vec()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
-  : Brier score for classification models
 
 ## Ordered Probability Metrics
 
@@ -272,48 +272,9 @@ By contributing to this project, you agree to abide by its terms.
 
 ## Regression Metrics
 
-- [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)
-  [`rmse_vec()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)
-  : Root mean squared error
-- [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)
-  [`rmse_relative_vec()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)
-  : Relative root mean squared error
-- [`rsq()`](https://yardstick.tidymodels.org/dev/reference/rsq.md)
-  [`rsq_vec()`](https://yardstick.tidymodels.org/dev/reference/rsq.md) :
-  R squared
-- [`rsq_trad()`](https://yardstick.tidymodels.org/dev/reference/rsq_trad.md)
-  [`rsq_trad_vec()`](https://yardstick.tidymodels.org/dev/reference/rsq_trad.md)
-  : R squared - traditional
-- [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md)
-  [`msd_vec()`](https://yardstick.tidymodels.org/dev/reference/msd.md) :
-  Mean signed deviation
-- [`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md)
-  [`mae_vec()`](https://yardstick.tidymodels.org/dev/reference/mae.md) :
-  Mean absolute error
-- [`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md)
-  [`mse_vec()`](https://yardstick.tidymodels.org/dev/reference/mse.md) :
-  Mean squared error
-- [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)
-  [`mpe_vec()`](https://yardstick.tidymodels.org/dev/reference/mpe.md) :
-  Mean percentage error
-- [`mape()`](https://yardstick.tidymodels.org/dev/reference/mape.md)
-  [`mape_vec()`](https://yardstick.tidymodels.org/dev/reference/mape.md)
-  : Mean absolute percent error
-- [`smape()`](https://yardstick.tidymodels.org/dev/reference/smape.md)
-  [`smape_vec()`](https://yardstick.tidymodels.org/dev/reference/smape.md)
-  : Symmetric mean absolute percentage error
-- [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md)
-  [`mase_vec()`](https://yardstick.tidymodels.org/dev/reference/mase.md)
-  : Mean absolute scaled error
 - [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md)
   [`ccc_vec()`](https://yardstick.tidymodels.org/dev/reference/ccc.md) :
   Concordance correlation coefficient
-- [`rpiq()`](https://yardstick.tidymodels.org/dev/reference/rpiq.md)
-  [`rpiq_vec()`](https://yardstick.tidymodels.org/dev/reference/rpiq.md)
-  : Ratio of performance to inter-quartile
-- [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md)
-  [`rpd_vec()`](https://yardstick.tidymodels.org/dev/reference/rpd.md) :
-  Ratio of performance to deviation
 - [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md)
   [`huber_loss_vec()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md)
   : Huber loss
@@ -323,9 +284,48 @@ By contributing to this project, you agree to abide by its terms.
 - [`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md)
   [`iic_vec()`](https://yardstick.tidymodels.org/dev/reference/iic.md) :
   Index of ideality of correlation
+- [`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md)
+  [`mae_vec()`](https://yardstick.tidymodels.org/dev/reference/mae.md) :
+  Mean absolute error
+- [`mape()`](https://yardstick.tidymodels.org/dev/reference/mape.md)
+  [`mape_vec()`](https://yardstick.tidymodels.org/dev/reference/mape.md)
+  : Mean absolute percent error
+- [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md)
+  [`mase_vec()`](https://yardstick.tidymodels.org/dev/reference/mase.md)
+  : Mean absolute scaled error
+- [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)
+  [`mpe_vec()`](https://yardstick.tidymodels.org/dev/reference/mpe.md) :
+  Mean percentage error
+- [`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md)
+  [`msd_vec()`](https://yardstick.tidymodels.org/dev/reference/msd.md) :
+  Mean signed deviation
+- [`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md)
+  [`mse_vec()`](https://yardstick.tidymodels.org/dev/reference/mse.md) :
+  Mean squared error
 - [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md)
   [`poisson_log_loss_vec()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md)
   : Mean log loss for Poisson data
+- [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)
+  [`rmse_vec()`](https://yardstick.tidymodels.org/dev/reference/rmse.md)
+  : Root mean squared error
+- [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)
+  [`rmse_relative_vec()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)
+  : Relative root mean squared error
+- [`rpd()`](https://yardstick.tidymodels.org/dev/reference/rpd.md)
+  [`rpd_vec()`](https://yardstick.tidymodels.org/dev/reference/rpd.md) :
+  Ratio of performance to deviation
+- [`rpiq()`](https://yardstick.tidymodels.org/dev/reference/rpiq.md)
+  [`rpiq_vec()`](https://yardstick.tidymodels.org/dev/reference/rpiq.md)
+  : Ratio of performance to inter-quartile
+- [`rsq()`](https://yardstick.tidymodels.org/dev/reference/rsq.md)
+  [`rsq_vec()`](https://yardstick.tidymodels.org/dev/reference/rsq.md) :
+  R squared
+- [`rsq_trad()`](https://yardstick.tidymodels.org/dev/reference/rsq_trad.md)
+  [`rsq_trad_vec()`](https://yardstick.tidymodels.org/dev/reference/rsq_trad.md)
+  : R squared - traditional
+- [`smape()`](https://yardstick.tidymodels.org/dev/reference/smape.md)
+  [`smape_vec()`](https://yardstick.tidymodels.org/dev/reference/smape.md)
+  : Symmetric mean absolute percentage error
 
 ## Fairness Metrics
 
@@ -333,10 +333,10 @@ By contributing to this project, you agree to abide by its terms.
   : Create groupwise metrics
 - [`demographic_parity()`](https://yardstick.tidymodels.org/dev/reference/demographic_parity.md)
   : Demographic parity
-- [`equalized_odds()`](https://yardstick.tidymodels.org/dev/reference/equalized_odds.md)
-  : Equalized odds
 - [`equal_opportunity()`](https://yardstick.tidymodels.org/dev/reference/equal_opportunity.md)
   : Equal opportunity
+- [`equalized_odds()`](https://yardstick.tidymodels.org/dev/reference/equalized_odds.md)
+  : Equalized odds
 
 ## Dynamic Survival Metrics
 
@@ -375,14 +375,14 @@ By contributing to this project, you agree to abide by its terms.
 
 ## Curve Functions
 
-- [`roc_curve()`](https://yardstick.tidymodels.org/dev/reference/roc_curve.md)
-  : Receiver operator curve
-- [`pr_curve()`](https://yardstick.tidymodels.org/dev/reference/pr_curve.md)
-  : Precision recall curve
 - [`gain_curve()`](https://yardstick.tidymodels.org/dev/reference/gain_curve.md)
   : Gain curve
 - [`lift_curve()`](https://yardstick.tidymodels.org/dev/reference/lift_curve.md)
   : Lift curve
+- [`pr_curve()`](https://yardstick.tidymodels.org/dev/reference/pr_curve.md)
+  : Precision recall curve
+- [`roc_curve()`](https://yardstick.tidymodels.org/dev/reference/roc_curve.md)
+  : Receiver operator curve
 
 ## Other Functions
 
