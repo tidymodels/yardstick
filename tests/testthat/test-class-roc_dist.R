@@ -1,0 +1,207 @@
+test_that("Calculations are correct - two class", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+
+  sensitivity <- 231 / 258
+  specificity <- 54 / 86
+  expected <- sqrt((1 - sensitivity)^2 + (1 - specificity)^2)
+
+  expect_equal(
+    roc_dist_vec(truth = pathology$pathology, estimate = pathology$scan),
+    expected
+  )
+})
+
+test_that("Calculations are correct - three class", {
+  multi_ex <- data_three_by_three()
+  micro <- data_three_by_three_micro()
+
+  expect_equal(
+    roc_dist(multi_ex, estimator = "macro")[[".estimate"]],
+    macro_metric(roc_dist_binary)
+  )
+  expect_equal(
+    roc_dist(multi_ex, estimator = "macro_weighted")[[".estimate"]],
+    macro_weighted_metric(roc_dist_binary)
+  )
+  expect_equal(
+    roc_dist(multi_ex, estimator = "micro")[[".estimate"]],
+    with(
+      micro,
+      sqrt(
+        (1 - sum(tp) / sum(p))^2 +
+          (1 - sum(tn) / sum(n))^2
+      )
+    )
+  )
+})
+
+test_that("All interfaces gives the same results", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+  path_mat <- unclass(path_tbl)
+
+  exp <- roc_dist_vec(pathology$pathology, pathology$scan)
+
+  expect_identical(
+    roc_dist(path_tbl)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    roc_dist(path_mat)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    roc_dist(pathology, truth = pathology, estimate = scan)[[".estimate"]],
+    exp
+  )
+})
+
+test_that("Calculations handles NAs", {
+  lst <- data_altman()
+  pathology <- lst$pathology
+
+  sensitivity <- 230 / 256
+  specificity <- 53 / 85
+  expected <- sqrt((1 - sensitivity)^2 + (1 - specificity)^2)
+
+  expect_equal(
+    roc_dist_vec(truth = pathology$pathology, estimate = pathology$scan_na),
+    expected
+  )
+})
+
+test_that("Case weights calculations are correct", {
+  df <- data.frame(
+    truth = factor(c("x", "x", "y"), levels = c("x", "y")),
+    estimate = factor(c("x", "y", "x"), levels = c("x", "y")),
+    case_weights = c(1L, 10L, 2L)
+  )
+
+  sensitivity <- 1 / 11
+  specificity <- 0 / 2
+  expected <- sqrt((1 - sensitivity)^2 + (1 - specificity)^2)
+
+  expect_identical(
+    roc_dist(df, truth, estimate, case_weights = case_weights)[[".estimate"]],
+    expected
+  )
+})
+
+test_that("work with class_pred input", {
+  skip_if_not_installed("probably")
+
+  cp_truth <- probably::as_class_pred(two_class_example$truth, which = 1)
+  cp_estimate <- probably::as_class_pred(two_class_example$predicted, which = 2)
+
+  fct_truth <- two_class_example$truth
+  fct_truth[1] <- NA
+
+  fct_estimate <- two_class_example$predicted
+  fct_estimate[2] <- NA
+
+  expect_identical(
+    roc_dist_vec(fct_truth, cp_estimate),
+    roc_dist_vec(fct_truth, fct_estimate)
+  )
+
+  expect_identical(
+    roc_dist_vec(fct_truth, cp_estimate, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    roc_dist_vec(cp_truth, cp_estimate)
+  )
+})
+
+test_that("works with hardhat case weights", {
+  lst <- data_altman()
+  df <- lst$pathology
+  imp_wgt <- hardhat::importance_weights(seq_len(nrow(df)))
+  freq_wgt <- hardhat::frequency_weights(seq_len(nrow(df)))
+
+  expect_no_error(
+    roc_dist_vec(df$pathology, df$scan, case_weights = imp_wgt)
+  )
+
+  expect_no_error(
+    roc_dist_vec(df$pathology, df$scan, case_weights = freq_wgt)
+  )
+})
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    roc_dist_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("`event_level = 'second'` works", {
+  lst <- data_altman()
+  df <- lst$pathology
+
+  df_rev <- df
+  df_rev$pathology <- stats::relevel(df_rev$pathology, "norm")
+  df_rev$scan <- stats::relevel(df_rev$scan, "norm")
+
+  expect_equal(
+    roc_dist_vec(df$pathology, df$scan),
+    roc_dist_vec(df_rev$pathology, df_rev$scan, event_level = "second")
+  )
+})
+
+test_that("Binary returns `NA` with a warning when results are undefined (#98)", {
+  # sensitivity - (tp + fn = 0)
+  levels <- c("a", "b")
+  truth <- factor(c("b", "b"), levels = levels)
+  estimate <- factor(c("a", "b"), levels = levels)
+
+  expect_snapshot(
+    out <- roc_dist_vec(truth, estimate)
+  )
+  expect_identical(out, NA_real_)
+
+  # specificity - (tn + fp = 0)
+  levels <- c("a", "b")
+  truth <- factor("a", levels = levels)
+  estimate <- factor("b", levels = levels)
+
+  expect_snapshot(
+    out <- roc_dist_vec(truth, estimate)
+  )
+  expect_identical(out, NA_real_)
+})
+
+test_that("`NA` is still returned if there are some undefined values but `na_rm = FALSE`", {
+  levels <- c("a", "b", "c")
+  truth <- factor(c("a", "b", "b"), levels = levels)
+  estimate <- factor(c("a", NA, "c"), levels = levels)
+  expect_equal(roc_dist_vec(truth, estimate, na_rm = FALSE), NA_real_)
+  expect_warning(roc_dist_vec(truth, estimate, na_rm = FALSE), NA)
+})
+
+test_that("range values are correct", {
+  direction <- metric_direction(roc_dist)
+  range <- metric_range(roc_dist)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  expect_equal(
+    roc_dist_vec(df$truth, df$truth),
+    perfect
+  )
+
+  if (direction == "minimize") {
+    expect_gt(roc_dist_vec(df$truth, df$off), perfect)
+  }
+  if (direction == "maximize") {
+    expect_lt(roc_dist_vec(df$truth, df$off), perfect)
+  }
+})
