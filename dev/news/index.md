@@ -57,6 +57,10 @@
   to allow for custom thresholds to calculate curves for.
   ([\#488](https://github.com/tidymodels/yardstick/issues/488))
 
+- Speed up survival metrics performance. Some of this performance comes
+  from slightly less strict input checking.
+  ([\#576](https://github.com/tidymodels/yardstick/issues/576))
+
 - All metrics now have documented ranges of possible values in addition
   to what direction is the best.
   ([\#572](https://github.com/tidymodels/yardstick/issues/572))
