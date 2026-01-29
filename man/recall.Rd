@@ -191,6 +191,7 @@ Other class metrics:
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
+\code{\link{roc_dist}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
 

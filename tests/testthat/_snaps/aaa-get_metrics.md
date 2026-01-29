@@ -50,6 +50,6 @@
       * a mix of class metrics and class probability metrics.
       * a mix of dynamic and static survival metrics.
       i The following metric function types are being mixed:
-      - class (accuracy, bal_accuracy, detection_prevalence, f_meas, fall_out, j_index, kap, mcc, miss_rate, npv, ppv, precision, recall, sens, sensitivity, spec, specificity)
+      - class (accuracy, bal_accuracy, detection_prevalence, f_meas, fall_out, j_index, kap, mcc, miss_rate, npv, ppv, precision, recall, roc_dist, sens, sensitivity, spec, specificity)
       - numeric (ccc, huber_loss, huber_loss_pseudo, iic, mae, mape, mase, mpe, msd, mse, poisson_log_loss, rmse, rmse_relative, rpd, rpiq, rsq, rsq_trad, smape)
 

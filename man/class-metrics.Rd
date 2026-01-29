@@ -32,6 +32,7 @@ against the true classes.
 \item{\code{\link[=ppv]{ppv()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=precision]{precision()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=recall]{recall()}}}{Direction: maximize. Range: [0, 1]}
+\item{\code{\link[=roc_dist]{roc_dist()}}}{Direction: minimize. Range: [0, 1.4142135623731]}
 \item{\code{\link[=sens]{sens()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=sensitivity]{sensitivity()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=spec]{spec()}}}{Direction: maximize. Range: [0, 1]}
