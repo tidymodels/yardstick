@@ -141,8 +141,7 @@ brier_survival_vec <- function(
     }
   }
 
-  dplyr::tibble(estimate) |>
-    tidyr::unnest(estimate) |>
+  dplyr::bind_rows(estimate) |>
     dplyr::group_by(.eval_time) |>
     dplyr::summarize(
       .estimate = brier_survival_impl(
