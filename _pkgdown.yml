@@ -25,34 +25,34 @@ navbar:
 reference:
 - title: Classification Metrics
   contents:
-  - sens
-  - spec
-  - recall
-  - precision
-  - mcc
-  - j_index
-  - roc_dist
-  - f_meas
   - accuracy
-  - kap
-  - ppv
-  - npv
   - bal_accuracy
   - detection_prevalence
+  - f_meas
   - fall_out
+  - j_index
+  - kap
+  - mcc
   - miss_rate
+  - npv
+  - ppv
+  - precision
+  - recall
+  - roc_dist
+  - sens
+  - spec
 
 - title: Class Probability Metrics
   contents:
+  - average_precision
+  - brier_class
+  - classification_cost
+  - gain_capture
+  - mn_log_loss
+  - pr_auc
   - roc_auc
   - roc_aunp
   - roc_aunu
-  - pr_auc
-  - average_precision
-  - gain_capture
-  - mn_log_loss
-  - classification_cost
-  - brier_class
 
 - title: Ordered Probability Metrics
   contents:
@@ -60,31 +60,31 @@ reference:
 
 - title: Regression Metrics
   contents:
-  - rmse
-  - rmse_relative
-  - rsq
-  - rsq_trad
-  - msd
-  - mae
-  - mse
-  - mpe
-  - mape
-  - smape
-  - mase
   - ccc
-  - rpiq
-  - rpd
   - huber_loss
   - huber_loss_pseudo
   - iic
+  - mae
+  - mape
+  - mase
+  - mpe
+  - msd
+  - mse
   - poisson_log_loss
+  - rmse
+  - rmse_relative
+  - rpd
+  - rpiq
+  - rsq
+  - rsq_trad
+  - smape
 
 - title: Fairness Metrics
   contents:
   - new_groupwise_metric
   - demographic_parity
-  - equalized_odds
   - equal_opportunity
+  - equalized_odds
 
 - title: Dynamic Survival Metrics
   contents:
@@ -110,10 +110,10 @@ reference:
 
 - title: Curve Functions
   contents:
-  - roc_curve
-  - pr_curve
   - gain_curve
   - lift_curve
+  - pr_curve
+  - roc_curve
 
 - title: Other Functions
   contents:
