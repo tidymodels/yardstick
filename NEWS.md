@@ -22,6 +22,8 @@
 
 * Added `thresholds` argument to `roc_curve()` to allow for custom thresholds to calculate curves for. (#488)
 
+* Speed up survival metrics performance. Some of this performance comes from slightly less strict input checking. (#576)
+
 * All metrics now have documented ranges of possible values in addition to what direction is the best. (#572)
 
 * The ranked probability score for ordinal classification data was added with `ranked_prob_score()`. (#524)
