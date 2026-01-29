@@ -2,6 +2,11 @@
 
 ## yardstick (development version)
 
+- [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
+  was added to compute the Euclidean distance from (sensitivity,
+  specificity) to the ideal point (1, 1) in ROC space.
+  ([\#148](https://github.com/tidymodels/yardstick/issues/148))
+
 - [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)
   was added to compute relative root mean squared error, which
   normalizes RMSE by the range of the true values.

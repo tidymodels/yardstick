@@ -202,6 +202,7 @@ Other class metrics:
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
 [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md),
 [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md),
+[`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md),
 [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
 
 Other sensitivity metrics:

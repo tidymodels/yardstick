@@ -24,6 +24,9 @@
 - [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)
   [`j_index_vec()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)
   : J-index
+- [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
+  [`roc_dist_vec()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
+  : Distance to ROC corner
 - [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md)
   [`f_meas_vec()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md)
   : F Measure

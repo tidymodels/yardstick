@@ -64,6 +64,10 @@ classes directly against the true classes.
 
   Direction: maximize. Range: \[0, 1\]
 
+- [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md):
+
+  Direction: minimize. Range: \[0, 1.4142135623731\]
+
 - [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md):
 
   Direction: maximize. Range: \[0, 1\]

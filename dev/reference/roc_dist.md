@@ -1,16 +1,21 @@
-# Detection prevalence
+# Distance to ROC corner
 
-Detection prevalence is defined as the number of *predicted* positive
-events (both true positive and false positive) divided by the total
-number of predictions.
+`roc_dist()` calculates the Euclidean distance from the observed
+(sensitivity, specificity) point to the ideal corner (1, 1) in ROC
+space. This is equivalent to the distance from (FPR, TPR) to (0, 1).
+
+This metric is sometimes called "closest to top-left" in ROC analysis
+and provides an alternative to
+[`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)
+for finding optimal classification thresholds.
 
 ## Usage
 
 ``` r
-detection_prevalence(data, ...)
+roc_dist(data, ...)
 
 # S3 method for class 'data.frame'
-detection_prevalence(
+roc_dist(
   data,
   truth,
   estimate,
@@ -21,7 +26,7 @@ detection_prevalence(
   ...
 )
 
-detection_prevalence_vec(
+roc_dist_vec(
   truth,
   estimate,
   estimator = NULL,
@@ -97,7 +102,7 @@ row of values.
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
-For `detection_prevalence_vec()`, a single `numeric` value (or `NA`).
+For `roc_dist_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
@@ -110,13 +115,17 @@ Suppose a 2x2 table with notation:
 | Positive  | A         | B        |
 | Negative  | C         | D        |
 
-The formula used here is:
+The formulas used here are:
 
-\$\$\text{Detection Prevalence} = \frac{A + B}{A + B + C + D}\$\$
+\$\$\text{Sensitivity} = \frac{A}{A + C}\$\$
 
-Detection prevalence is a metric that should be maximized. The output
-ranges from 0 to 1. The "optimal" value depends on the true prevalence
-of positive events in the data.
+\$\$\text{Specificity} = \frac{D}{B + D}\$\$
+
+\$\$\text{roc\\dist} = \sqrt{(1 - \text{Sensitivity})^2 + (1 -
+\text{Specificity})^2}\$\$
+
+`roc_dist` is a metric that should be minimized. The output ranges from
+0 to 1.4142136, with 0 indicating perfect sensitivity and specificity.
 
 ## Relevant Level
 
@@ -143,9 +152,14 @@ for more information.
 [All class
 metrics](https://yardstick.tidymodels.org/dev/reference/class-metrics.md)
 
+[`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)
+for Youden's J statistic, another metric for measuring closeness to the
+ideal classification point.
+
 Other class metrics:
 [`accuracy()`](https://yardstick.tidymodels.org/dev/reference/accuracy.md),
 [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md),
+[`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md),
 [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md),
 [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
 [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md),
@@ -156,24 +170,19 @@ Other class metrics:
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
 [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md),
 [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md),
-[`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md),
 [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
 [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
-
-## Author
-
-Max Kuhn
 
 ## Examples
 
 ``` r
 # Two class
 data("two_class_example")
-detection_prevalence(two_class_example, truth, predicted)
+roc_dist(two_class_example, truth, predicted)
 #> # A tibble: 1 × 3
-#>   .metric              .estimator .estimate
-#>   <chr>                <chr>          <dbl>
-#> 1 detection_prevalence binary         0.554
+#>   .metric  .estimator .estimate
+#>   <chr>    <chr>          <dbl>
+#> 1 roc_dist binary         0.239
 
 # Multiclass
 library(dplyr)
@@ -181,60 +190,60 @@ data(hpc_cv)
 
 hpc_cv |>
   filter(Resample == "Fold01") |>
-  detection_prevalence(obs, pred)
+  roc_dist(obs, pred)
 #> # A tibble: 1 × 3
-#>   .metric              .estimator .estimate
-#>   <chr>                <chr>          <dbl>
-#> 1 detection_prevalence macro           0.25
+#>   .metric  .estimator .estimate
+#>   <chr>    <chr>          <dbl>
+#> 1 roc_dist macro          0.511
 
 # Groups are respected
 hpc_cv |>
   group_by(Resample) |>
-  detection_prevalence(obs, pred)
+  roc_dist(obs, pred)
 #> # A tibble: 10 × 4
-#>    Resample .metric              .estimator .estimate
-#>    <chr>    <chr>                <chr>          <dbl>
-#>  1 Fold01   detection_prevalence macro           0.25
-#>  2 Fold02   detection_prevalence macro           0.25
-#>  3 Fold03   detection_prevalence macro           0.25
-#>  4 Fold04   detection_prevalence macro           0.25
-#>  5 Fold05   detection_prevalence macro           0.25
-#>  6 Fold06   detection_prevalence macro           0.25
-#>  7 Fold07   detection_prevalence macro           0.25
-#>  8 Fold08   detection_prevalence macro           0.25
-#>  9 Fold09   detection_prevalence macro           0.25
-#> 10 Fold10   detection_prevalence macro           0.25
+#>    Resample .metric  .estimator .estimate
+#>    <chr>    <chr>    <chr>          <dbl>
+#>  1 Fold01   roc_dist macro          0.511
+#>  2 Fold02   roc_dist macro          0.518
+#>  3 Fold03   roc_dist macro          0.417
+#>  4 Fold04   roc_dist macro          0.490
+#>  5 Fold05   roc_dist macro          0.505
+#>  6 Fold06   roc_dist macro          0.523
+#>  7 Fold07   roc_dist macro          0.528
+#>  8 Fold08   roc_dist macro          0.473
+#>  9 Fold09   roc_dist macro          0.487
+#> 10 Fold10   roc_dist macro          0.519
 
 # Weighted macro averaging
 hpc_cv |>
   group_by(Resample) |>
-  detection_prevalence(obs, pred, estimator = "macro_weighted")
+  roc_dist(obs, pred, estimator = "macro_weighted")
 #> # A tibble: 10 × 4
-#>    Resample .metric              .estimator     .estimate
-#>    <chr>    <chr>                <chr>              <dbl>
-#>  1 Fold01   detection_prevalence macro_weighted     0.413
-#>  2 Fold02   detection_prevalence macro_weighted     0.409
-#>  3 Fold03   detection_prevalence macro_weighted     0.404
-#>  4 Fold04   detection_prevalence macro_weighted     0.411
-#>  5 Fold05   detection_prevalence macro_weighted     0.407
-#>  6 Fold06   detection_prevalence macro_weighted     0.411
-#>  7 Fold07   detection_prevalence macro_weighted     0.405
-#>  8 Fold08   detection_prevalence macro_weighted     0.406
-#>  9 Fold09   detection_prevalence macro_weighted     0.402
-#> 10 Fold10   detection_prevalence macro_weighted     0.408
+#>    Resample .metric  .estimator     .estimate
+#>    <chr>    <chr>    <chr>              <dbl>
+#>  1 Fold01   roc_dist macro_weighted     0.385
+#>  2 Fold02   roc_dist macro_weighted     0.400
+#>  3 Fold03   roc_dist macro_weighted     0.341
+#>  4 Fold04   roc_dist macro_weighted     0.403
+#>  5 Fold05   roc_dist macro_weighted     0.392
+#>  6 Fold06   roc_dist macro_weighted     0.424
+#>  7 Fold07   roc_dist macro_weighted     0.437
+#>  8 Fold08   roc_dist macro_weighted     0.389
+#>  9 Fold09   roc_dist macro_weighted     0.427
+#> 10 Fold10   roc_dist macro_weighted     0.406
 
 # Vector version
-detection_prevalence_vec(
+roc_dist_vec(
   two_class_example$truth,
   two_class_example$predicted
 )
-#> [1] 0.554
+#> [1] 0.2390096
 
 # Making Class2 the "relevant" level
-detection_prevalence_vec(
+roc_dist_vec(
   two_class_example$truth,
   two_class_example$predicted,
   event_level = "second"
 )
-#> [1] 0.446
+#> [1] 0.2390096
 ```
