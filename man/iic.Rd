@@ -118,6 +118,7 @@ permeability?" \emph{Science of the Total Environment}. 586: 466-472.
 
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{mae}()},

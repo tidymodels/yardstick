@@ -20,6 +20,7 @@ are to the true values.
 
 \describe{
 \item{\code{\link[=ccc]{ccc()}}}{Direction: maximize. Range: [-1, 1]}
+\item{\code{\link[=gini_coef]{gini_coef()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=huber_loss]{huber_loss()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=huber_loss_pseudo]{huber_loss_pseudo()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=iic]{iic()}}}{Direction: maximize. Range: [-1, 1]}

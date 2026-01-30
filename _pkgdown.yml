@@ -62,6 +62,7 @@ reference:
 - title: Regression Metrics
   contents:
   - ccc
+  - gini_coef
   - huber_loss
   - huber_loss_pseudo
   - iic

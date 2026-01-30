@@ -116,6 +116,7 @@ American Statistician (1985) vol. 39 (4) pp. 279-285.
 
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},

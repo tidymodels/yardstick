@@ -91,6 +91,7 @@ Collate:
     'misc.R'
     'missings.R'
     'num-ccc.R'
+    'num-gini_coef.R'
     'num-huber_loss.R'
     'num-huber_loss_pseudo.R'
     'num-iic.R'

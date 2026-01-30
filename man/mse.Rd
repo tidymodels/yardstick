@@ -97,6 +97,7 @@ of MSE and is in the same units as the original data.
 
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},

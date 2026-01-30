@@ -124,6 +124,7 @@ The closely related inter-quartile metric: \code{\link[=rpiq]{rpiq()}}
 
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},

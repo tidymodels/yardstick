@@ -5,6 +5,7 @@
     Output
       A metric set, consisting of:
       - `ccc()`, a numeric metric               | direction: maximize
+      - `gini_coef()`, a numeric metric         | direction: maximize
       - `huber_loss()`, a numeric metric        | direction: minimize
       - `huber_loss_pseudo()`, a numeric metric | direction: minimize
       - `iic()`, a numeric metric               | direction: maximize
@@ -51,5 +52,5 @@
       * a mix of dynamic and static survival metrics.
       i The following metric function types are being mixed:
       - class (accuracy, bal_accuracy, detection_prevalence, f_meas, fall_out, j_index, kap, markedness, mcc, miss_rate, npv, ppv, precision, recall, roc_dist, sens, sensitivity, spec, specificity)
-      - numeric (ccc, huber_loss, huber_loss_pseudo, iic, mae, mape, mase, mpe, msd, mse, poisson_log_loss, rmse, rmse_relative, rpd, rpiq, rsq, rsq_trad, smape)
+      - numeric (ccc, gini_coef, huber_loss, huber_loss_pseudo, iic, mae, mape, mase, mpe, msd, mse, poisson_log_loss, rmse, rmse_relative, rpd, rpiq, rsq, rsq_trad, smape)
 

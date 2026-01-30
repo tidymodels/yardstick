@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `gini_coef()` was added to compute the normalized Gini coefficient for regression, which measures ranking ability based on the Lorenz curve. This is useful for evaluating loss cost models and risk predictions. (#147)
+
 * `roc_dist()` was added to compute the Euclidean distance from (sensitivity, specificity) to the ideal point (1, 1) in ROC space. (#148)
 
 * `rmse_relative()` was added to compute relative root mean squared error, which normalizes RMSE by the range of the true values. (#527)

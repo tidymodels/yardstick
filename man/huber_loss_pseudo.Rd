@@ -122,6 +122,7 @@ Hartley, Richard (2004). Multiple View Geometry in Computer Vision.
 
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{iic}()},
 \code{\link{mae}()},
