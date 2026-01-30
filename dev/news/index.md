@@ -2,6 +2,12 @@
 
 ## yardstick (development version)
 
+- [`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md)
+  was added to compute the normalized Gini coefficient for regression,
+  which measures ranking ability based on the Lorenz curve. This is
+  useful for evaluating loss cost models and risk predictions.
+  ([\#147](https://github.com/tidymodels/yardstick/issues/147))
+
 - [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
   was added to compute the Euclidean distance from (sensitivity,
   specificity) to the ideal point (1, 1) in ROC space.

@@ -115,6 +115,7 @@ metrics](https://yardstick.tidymodels.org/dev/reference/numeric-metrics.md)
 
 Other numeric metrics:
 [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md),
+[`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md),
 [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md),
 [`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md),
 [`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md),

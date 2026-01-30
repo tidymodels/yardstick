@@ -43,6 +43,7 @@ containing all metrics of the specified type(s).
 get_metrics("numeric")
 #> A metric set, consisting of:
 #> - `ccc()`, a numeric metric               | direction: maximize
+#> - `gini_coef()`, a numeric metric         | direction: maximize
 #> - `huber_loss()`, a numeric metric        | direction: minimize
 #> - `huber_loss_pseudo()`, a numeric metric | direction: minimize
 #> - `iic()`, a numeric metric               | direction: maximize

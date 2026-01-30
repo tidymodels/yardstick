@@ -103,6 +103,7 @@ The closely related deviation metric:
 
 Other numeric metrics:
 [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md),
+[`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md),
 [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md),
 [`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md),
 [`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md),

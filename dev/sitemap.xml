@@ -34,6 +34,7 @@
 <url><loc>https://yardstick.tidymodels.org/dev/reference/gain_capture.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/gain_curve.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/get_metrics.html</loc></url>
+<url><loc>https://yardstick.tidymodels.org/dev/reference/gini_coef.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/hpc_cv.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/huber_loss.html</loc></url>
 <url><loc>https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.html</loc></url>

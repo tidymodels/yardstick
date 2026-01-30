@@ -278,6 +278,9 @@ By contributing to this project, you agree to abide by its terms.
 - [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md)
   [`ccc_vec()`](https://yardstick.tidymodels.org/dev/reference/ccc.md) :
   Concordance correlation coefficient
+- [`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md)
+  [`gini_coef_vec()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md)
+  : Normalized Gini coefficient
 - [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md)
   [`huber_loss_vec()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md)
   : Huber loss

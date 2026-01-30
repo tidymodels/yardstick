@@ -1,19 +1,19 @@
-# Mean signed deviation
+# Normalized Gini coefficient
 
-Mean signed deviation (also known as mean signed difference, or mean
-signed error) computes the average differences between `truth` and
-`estimate`. A related metric is the mean absolute error
-([`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md)).
+Compute the normalized Gini coefficient, which measures the ranking
+ability of a regression model based on the Lorenz curve. This metric is
+useful for evaluating models that predict risk or loss costs, such as
+insurance pricing models.
 
 ## Usage
 
 ``` r
-msd(data, ...)
+gini_coef(data, ...)
 
 # S3 method for class 'data.frame'
-msd(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
+gini_coef(data, truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 
-msd_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
+gini_coef_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 ```
 
 ## Arguments
@@ -65,30 +65,40 @@ row of values.
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
-For `msd_vec()`, a single `numeric` value (or `NA`).
+For `gini_coef_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
-MSD is a metric where the optimal value is 0. The output ranges from -∞
-to ∞, with 0 indicating predictions are unbiased.
+The normalized Gini coefficient is a metric that should be maximized.
+The output ranges from 0 to 1, with 1 indicating perfect ranking ability
+where predicted values perfectly rank the true values.
 
-The formula for MSD is:
+The Gini coefficient is calculated from the Lorenz curve, which plots
+the cumulative proportion of the total truth values against the
+cumulative proportion of observations when sorted by predicted values.
+The raw Gini is the area between the Lorenz curve and the diagonal line
+of equality. The normalized Gini divides this by the maximum possible
+Gini (achieved when observations are sorted by the true values).
 
-\$\$\text{MSD} = \frac{1}{n} \sum\_{i=1}^{n} (\text{truth}\_i -
-\text{estimate}\_i)\$\$
+The formula is:
 
-Mean signed deviation is rarely used, since positive and negative errors
-cancel each other out. For example, `msd_vec(c(100, -100), c(0, 0))`
-would return a seemingly "perfect" value of `0`, even though `estimate`
-is wildly different from `truth`.
-[`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md)
-attempts to remedy this by taking the absolute value of the differences
-before computing the mean.
+\$\$\text{Normalized Gini} =
+\frac{G(\text{estimate})}{G(\text{truth})}\$\$
 
-This metric is computed as `mean(truth - estimate)`, following the
-convention that an "error" is computed as `observed - predicted`. If you
-expected this metric to be computed as `mean(estimate - truth)`, reverse
-the sign of the result.
+where \\G(x)\\ is the Gini coefficient when sorting by \\x\\.
+
+Note that `gini_coef()` is a regression metric based on ranking,
+distinct from
+[`gain_capture()`](https://yardstick.tidymodels.org/dev/reference/gain_capture.md)
+which is a classification metric.
+
+Unlike many other metrics, `gini_coef()` is not symmetric with respect
+to `truth` and `estimate`. The `estimate` values determine the sorting
+order, while the `truth` values are accumulated along the Lorenz curve.
+Swapping them will produce different results.
+
+When the true values are constant (zero variance), the Gini coefficient
+is undefined and `NA` is returned with a warning.
 
 ## See also
 
@@ -97,7 +107,6 @@ metrics](https://yardstick.tidymodels.org/dev/reference/numeric-metrics.md)
 
 Other numeric metrics:
 [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md),
-[`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md),
 [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md),
 [`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md),
 [`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md),
@@ -105,6 +114,7 @@ Other numeric metrics:
 [`mape()`](https://yardstick.tidymodels.org/dev/reference/mape.md),
 [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md),
 [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md),
+[`msd()`](https://yardstick.tidymodels.org/dev/reference/msd.md),
 [`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md),
 [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md),
 [`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
@@ -115,34 +125,15 @@ Other numeric metrics:
 [`rsq_trad()`](https://yardstick.tidymodels.org/dev/reference/rsq_trad.md),
 [`smape()`](https://yardstick.tidymodels.org/dev/reference/smape.md)
 
-Other accuracy metrics:
-[`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md),
-[`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md),
-[`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md),
-[`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md),
-[`mae()`](https://yardstick.tidymodels.org/dev/reference/mae.md),
-[`mape()`](https://yardstick.tidymodels.org/dev/reference/mape.md),
-[`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md),
-[`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md),
-[`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md),
-[`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md),
-[`rmse()`](https://yardstick.tidymodels.org/dev/reference/rmse.md),
-[`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md),
-[`smape()`](https://yardstick.tidymodels.org/dev/reference/smape.md)
-
-## Author
-
-Thomas Bierhance
-
 ## Examples
 
 ``` r
 # Supply truth and predictions as bare column names
-msd(solubility_test, solubility, prediction)
+gini_coef(solubility_test, solubility, prediction)
 #> # A tibble: 1 × 3
-#>   .metric .estimator .estimate
-#>   <chr>   <chr>          <dbl>
-#> 1 msd     standard     -0.0143
+#>   .metric   .estimator .estimate
+#>   <chr>     <chr>          <dbl>
+#> 1 gini_coef standard       0.935
 
 library(dplyr)
 
@@ -163,22 +154,22 @@ solubility_resampled <- bind_rows(
 # Compute the metric by group
 metric_results <- solubility_resampled |>
   group_by(resample) |>
-  msd(solubility, prediction)
+  gini_coef(solubility, prediction)
 
 metric_results
 #> # A tibble: 10 × 4
-#>    resample .metric .estimator .estimate
-#>    <chr>    <chr>   <chr>          <dbl>
-#>  1 1        msd     standard   -0.0119  
-#>  2 10       msd     standard   -0.0424  
-#>  3 2        msd     standard    0.0111  
-#>  4 3        msd     standard   -0.0906  
-#>  5 4        msd     standard   -0.0859  
-#>  6 5        msd     standard   -0.0301  
-#>  7 6        msd     standard   -0.0132  
-#>  8 7        msd     standard   -0.00640 
-#>  9 8        msd     standard   -0.000697
-#> 10 9        msd     standard   -0.0399  
+#>    resample .metric   .estimator .estimate
+#>    <chr>    <chr>     <chr>          <dbl>
+#>  1 1        gini_coef standard       0.929
+#>  2 10       gini_coef standard       0.946
+#>  3 2        gini_coef standard       0.940
+#>  4 3        gini_coef standard       0.945
+#>  5 4        gini_coef standard       0.946
+#>  6 5        gini_coef standard       0.923
+#>  7 6        gini_coef standard       0.931
+#>  8 7        gini_coef standard       0.921
+#>  9 8        gini_coef standard       0.951
+#> 10 9        gini_coef standard       0.936
 
 # Resampled mean estimate
 metric_results |>
@@ -186,5 +177,5 @@ metric_results |>
 #> # A tibble: 1 × 1
 #>   avg_estimate
 #>          <dbl>
-#> 1      -0.0310
+#> 1        0.937
 ```

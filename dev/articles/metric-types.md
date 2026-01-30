@@ -204,6 +204,7 @@ by type.
 | class prob                | [`roc_aunu()`](https://yardstick.tidymodels.org/dev/reference/roc_aunu.md)                                   |
 | ordered prob              | [`ranked_prob_score()`](https://yardstick.tidymodels.org/dev/reference/ranked_prob_score.md)                 |
 | numeric                   | [`ccc()`](https://yardstick.tidymodels.org/dev/reference/ccc.md)                                             |
+| numeric                   | [`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md)                                 |
 | numeric                   | [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md)                               |
 | numeric                   | [`huber_loss_pseudo()`](https://yardstick.tidymodels.org/dev/reference/huber_loss_pseudo.md)                 |
 | numeric                   | [`iic()`](https://yardstick.tidymodels.org/dev/reference/iic.md)                                             |

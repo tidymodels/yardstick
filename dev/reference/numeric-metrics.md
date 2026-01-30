@@ -16,6 +16,10 @@ are to the true values.
 
   Direction: maximize. Range: \[-1, 1\]
 
+- [`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md):
+
+  Direction: maximize. Range: \[0, 1\]
+
 - [`huber_loss()`](https://yardstick.tidymodels.org/dev/reference/huber_loss.md):
 
   Direction: minimize. Range: \[0, Inf\]
