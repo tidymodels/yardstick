@@ -40,6 +40,10 @@ classes directly against the true classes.
 
   Direction: maximize. Range: \[-1, 1\]
 
+- [`markedness()`](https://yardstick.tidymodels.org/dev/reference/markedness.md):
+
+  Direction: maximize. Range: \[-1, 1\]
+
 - [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md):
 
   Direction: maximize. Range: \[-1, 1\]

@@ -47,6 +47,11 @@
   developer-facing change.
   ([\#572](https://github.com/tidymodels/yardstick/issues/572))
 
+- [`markedness()`](https://yardstick.tidymodels.org/dev/reference/markedness.md)
+  calculates the markedness metric (PPV + NPV - 1), which is the
+  predictive power analog of informedness/j_index
+  ([\#27](https://github.com/tidymodels/yardstick/issues/27)).
+
 - [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)
   now provides a more informative error message when `estimate` is not
   explicitly named for class/prob or survival metric sets.

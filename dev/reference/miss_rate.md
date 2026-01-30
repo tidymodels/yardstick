@@ -163,6 +163,7 @@ Other class metrics:
 [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
 [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md),
 [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md),
+[`markedness()`](https://yardstick.tidymodels.org/dev/reference/markedness.md),
 [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md),
 [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md),
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),

@@ -23,6 +23,9 @@
 - [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md)
   [`kap_vec()`](https://yardstick.tidymodels.org/dev/reference/kap.md) :
   Kappa
+- [`markedness()`](https://yardstick.tidymodels.org/dev/reference/markedness.md)
+  [`markedness_vec()`](https://yardstick.tidymodels.org/dev/reference/markedness.md)
+  : Markedness
 - [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md)
   [`mcc_vec()`](https://yardstick.tidymodels.org/dev/reference/mcc.md) :
   Matthews correlation coefficient

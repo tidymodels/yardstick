@@ -70,6 +70,7 @@ get_metrics("class")
 #> - `fall_out()`, a class metric             | direction: minimize
 #> - `j_index()`, a class metric              | direction: maximize
 #> - `kap()`, a class metric                  | direction: maximize
+#> - `markedness()`, a class metric           | direction: maximize
 #> - `mcc()`, a class metric                  | direction: maximize
 #> - `miss_rate()`, a class metric            | direction: minimize
 #> - `npv()`, a class metric                  | direction: maximize
@@ -96,6 +97,7 @@ get_metrics(c("class", "prob"))
 #> - `gain_capture()`, a probability metric        | direction: maximize
 #> - `j_index()`, a class metric                   | direction: maximize
 #> - `kap()`, a class metric                       | direction: maximize
+#> - `markedness()`, a class metric                | direction: maximize
 #> - `mcc()`, a class metric                       | direction: maximize
 #> - `miss_rate()`, a class metric                 | direction: minimize
 #> - `mn_log_loss()`, a probability metric         | direction: minimize

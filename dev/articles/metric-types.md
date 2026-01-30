@@ -181,6 +181,7 @@ by type.
 | class                     | [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)                                   |
 | class                     | [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)                                     |
 | class                     | [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md)                                             |
+| class                     | [`markedness()`](https://yardstick.tidymodels.org/dev/reference/markedness.md)                               |
 | class                     | [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md)                                             |
 | class                     | [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)                                 |
 | class                     | [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md)                                             |

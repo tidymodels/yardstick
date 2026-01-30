@@ -1,23 +1,24 @@
-# Positive predictive value
+# Markedness
 
-These functions calculate the `ppv()` (positive predictive value) of a
-measurement system compared to a reference result (the "truth" or gold
-standard). Highly related functions are
-[`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md),
-[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md), and
-[`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md).
+Markedness is defined as:
+
+[`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md) +
+"inverse precision" - 1
+
+where "inverse precision" is the proportion of true negatives among all
+predicted negatives. A related metric is Informedness, see the Details
+section for the relationship.
 
 ## Usage
 
 ``` r
-ppv(data, ...)
+markedness(data, ...)
 
 # S3 method for class 'data.frame'
-ppv(
+markedness(
   data,
   truth,
   estimate,
-  prevalence = NULL,
   estimator = NULL,
   na_rm = TRUE,
   case_weights = NULL,
@@ -25,10 +26,9 @@ ppv(
   ...
 )
 
-ppv_vec(
+markedness_vec(
   truth,
   estimate,
-  prevalence = NULL,
   estimator = NULL,
   na_rm = TRUE,
   case_weights = NULL,
@@ -64,10 +64,6 @@ ppv_vec(
   `factor`). As with `truth` this can be specified different ways but
   the primary method is to use an unquoted variable name. For `_vec()`
   functions, a `factor` vector.
-
-- prevalence:
-
-  A numeric value for the rate of the "positive" class of the data.
 
 - estimator:
 
@@ -106,15 +102,9 @@ row of values.
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
-For `ppv_vec()`, a single `numeric` value (or `NA`).
+For `markedness_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
-
-The positive predictive value (`ppv()`) is defined as the percent of
-predicted positives that are actually positive while the negative
-predictive value
-([`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md)) is
-defined as the percent of negative positives that are actually negative.
 
 Suppose a 2x2 table with notation:
 
@@ -127,18 +117,20 @@ Suppose a 2x2 table with notation:
 
 The formulas used here are:
 
-\$\$\text{Sensitivity} = \frac{A}{A + C}\$\$
+\$\$\text{Precision} = \frac{A}{A + B}\$\$
 
-\$\$\text{Specificity} = \frac{D}{B + D}\$\$
+\$\$\text{Inverse Precision} = \frac{D}{C + D}\$\$
 
-\$\$\text{Prevalence} = \frac{A + C}{A + B + C + D}\$\$
+\$\$\text{Markedness} = \text{Precision} + \text{Inverse Precision} -
+1\$\$
 
-\$\$\text{PPV} = \frac{\text{Sensitivity} \cdot
-\text{Prevalence}}{(\text{Sensitivity} \cdot \text{Prevalence}) + ((1 -
-\text{Specificity}) \cdot (1 - \text{Prevalence}))}\$\$
+Markedness is a metric that should be maximized. The output ranges from
+-1 to 1, with 1 indicating perfect predictions.
 
-PPV is a metric that should be maximized. The output ranges from 0 to 1,
-with 1 indicating all predicted positives are true positives.
+Markedness is to the predicted condition (precision and inverse
+precision) what Informedness
+([`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md))
+is to the actual condition (sensitivity and specificity).
 
 ## Relevant Level
 
@@ -162,8 +154,9 @@ for more information.
 
 ## References
 
-Altman, D.G., Bland, J.M. (1994) “Diagnostic tests 2: predictive
-values,” *British Medical Journal*, vol 309, 102.
+Powers, David M W (2011). "Evaluation: From Precision, Recall and
+F-Score to ROC, Informedness, Markedness and Correlation". Journal of
+Machine Learning Technologies. 2 (1): 37-63.
 
 ## See also
 
@@ -178,37 +171,26 @@ Other class metrics:
 [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
 [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md),
 [`kap()`](https://yardstick.tidymodels.org/dev/reference/kap.md),
-[`markedness()`](https://yardstick.tidymodels.org/dev/reference/markedness.md),
 [`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md),
 [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md),
 [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md),
+[`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
 [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md),
 [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md),
 [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md),
 [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
 [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
 
-Other sensitivity metrics:
-[`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
-[`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md),
-[`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md),
-[`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
-[`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
-
-## Author
-
-Max Kuhn
-
 ## Examples
 
 ``` r
 # Two class
 data("two_class_example")
-ppv(two_class_example, truth, predicted)
+markedness(two_class_example, truth, predicted)
 #> # A tibble: 1 × 3
-#>   .metric .estimator .estimate
-#>   <chr>   <chr>          <dbl>
-#> 1 ppv     binary         0.819
+#>   .metric    .estimator .estimate
+#>   <chr>      <chr>          <dbl>
+#> 1 markedness binary         0.680
 
 # Multiclass
 library(dplyr)
@@ -216,66 +198,60 @@ data(hpc_cv)
 
 hpc_cv |>
   filter(Resample == "Fold01") |>
-  ppv(obs, pred)
+  markedness(obs, pred)
 #> # A tibble: 1 × 3
-#>   .metric .estimator .estimate
-#>   <chr>   <chr>          <dbl>
-#> 1 ppv     macro          0.637
+#>   .metric    .estimator .estimate
+#>   <chr>      <chr>          <dbl>
+#> 1 markedness macro          0.543
 
 # Groups are respected
 hpc_cv |>
   group_by(Resample) |>
-  ppv(obs, pred)
+  markedness(obs, pred)
 #> # A tibble: 10 × 4
-#>    Resample .metric .estimator .estimate
-#>    <chr>    <chr>   <chr>          <dbl>
-#>  1 Fold01   ppv     macro          0.637
-#>  2 Fold02   ppv     macro          0.603
-#>  3 Fold03   ppv     macro          0.706
-#>  4 Fold04   ppv     macro          0.658
-#>  5 Fold05   ppv     macro          0.651
-#>  6 Fold06   ppv     macro          0.626
-#>  7 Fold07   ppv     macro          0.562
-#>  8 Fold08   ppv     macro          0.652
-#>  9 Fold09   ppv     macro          0.605
-#> 10 Fold10   ppv     macro          0.625
+#>    Resample .metric    .estimator .estimate
+#>    <chr>    <chr>      <chr>          <dbl>
+#>  1 Fold01   markedness macro          0.543
+#>  2 Fold02   markedness macro          0.504
+#>  3 Fold03   markedness macro          0.622
+#>  4 Fold04   markedness macro          0.556
+#>  5 Fold05   markedness macro          0.548
+#>  6 Fold06   markedness macro          0.518
+#>  7 Fold07   markedness macro          0.444
+#>  8 Fold08   markedness macro          0.554
+#>  9 Fold09   markedness macro          0.484
+#> 10 Fold10   markedness macro          0.515
 
 # Weighted macro averaging
 hpc_cv |>
   group_by(Resample) |>
-  ppv(obs, pred, estimator = "macro_weighted")
+  markedness(obs, pred, estimator = "macro_weighted")
 #> # A tibble: 10 × 4
-#>    Resample .metric .estimator     .estimate
-#>    <chr>    <chr>   <chr>              <dbl>
-#>  1 Fold01   ppv     macro_weighted     0.697
-#>  2 Fold02   ppv     macro_weighted     0.690
-#>  3 Fold03   ppv     macro_weighted     0.752
-#>  4 Fold04   ppv     macro_weighted     0.690
-#>  5 Fold05   ppv     macro_weighted     0.705
-#>  6 Fold06   ppv     macro_weighted     0.682
-#>  7 Fold07   ppv     macro_weighted     0.649
-#>  8 Fold08   ppv     macro_weighted     0.702
-#>  9 Fold09   ppv     macro_weighted     0.661
-#> 10 Fold10   ppv     macro_weighted     0.683
+#>    Resample .metric    .estimator     .estimate
+#>    <chr>    <chr>      <chr>              <dbl>
+#>  1 Fold01   markedness macro_weighted     0.592
+#>  2 Fold02   markedness macro_weighted     0.579
+#>  3 Fold03   markedness macro_weighted     0.657
+#>  4 Fold04   markedness macro_weighted     0.568
+#>  5 Fold05   markedness macro_weighted     0.583
+#>  6 Fold06   markedness macro_weighted     0.553
+#>  7 Fold07   markedness macro_weighted     0.502
+#>  8 Fold08   markedness macro_weighted     0.587
+#>  9 Fold09   markedness macro_weighted     0.506
+#> 10 Fold10   markedness macro_weighted     0.547
 
 # Vector version
-ppv_vec(
+markedness_vec(
   two_class_example$truth,
   two_class_example$predicted
 )
-#> [1] 0.8194946
+#> [1] 0.6804811
 
 # Making Class2 the "relevant" level
-ppv_vec(
+markedness_vec(
   two_class_example$truth,
   two_class_example$predicted,
   event_level = "second"
 )
-#> [1] 0.8609865
-# But what if we think that Class 1 only occurs 40% of the time?
-ppv(two_class_example, truth, predicted, prevalence = 0.40)
-#> # A tibble: 1 × 3
-#>   .metric .estimator .estimate
-#>   <chr>   <chr>          <dbl>
-#> 1 ppv     binary         0.740
+#> [1] 0.6804811
 ```
