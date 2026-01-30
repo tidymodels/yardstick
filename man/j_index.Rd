@@ -180,6 +180,7 @@ Other class metrics:
 \code{\link{f_meas}()},
 \code{\link{fall_out}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
 \code{\link{miss_rate}()},
 \code{\link{npv}()},

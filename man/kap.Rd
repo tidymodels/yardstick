@@ -143,6 +143,7 @@ Other class metrics:
 \code{\link{f_meas}()},
 \code{\link{fall_out}()},
 \code{\link{j_index}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
 \code{\link{miss_rate}()},
 \code{\link{npv}()},

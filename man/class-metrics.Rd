@@ -26,6 +26,7 @@ against the true classes.
 \item{\code{\link[=fall_out]{fall_out()}}}{Direction: minimize. Range: [0, 1]}
 \item{\code{\link[=j_index]{j_index()}}}{Direction: maximize. Range: [-1, 1]}
 \item{\code{\link[=kap]{kap()}}}{Direction: maximize. Range: [-1, 1]}
+\item{\code{\link[=markedness]{markedness()}}}{Direction: maximize. Range: [-1, 1]}
 \item{\code{\link[=mcc]{mcc()}}}{Direction: maximize. Range: [-1, 1]}
 \item{\code{\link[=miss_rate]{miss_rate()}}}{Direction: minimize. Range: [0, 1]}
 \item{\code{\link[=npv]{npv()}}}{Direction: maximize. Range: [0, 1]}
