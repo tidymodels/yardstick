@@ -175,6 +175,7 @@ Other class metrics:
 \code{\link{f_meas}()},
 \code{\link{j_index}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
 \code{\link{miss_rate}()},
 \code{\link{npv}()},

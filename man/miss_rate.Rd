@@ -176,6 +176,7 @@ Other class metrics:
 \code{\link{fall_out}()},
 \code{\link{j_index}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},

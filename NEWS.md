@@ -18,6 +18,8 @@
 
 * `new_metric()` and related functions gain an optional `range` argument to store the valid output range of a metric. This is a developer-facing change. (#572)
 
+* `markedness()` calculates the markedness metric (PPV + NPV - 1), which is the predictive power analog of informedness/j_index (#27).
+
 * `metric_set()` now provides a more informative error message when `estimate` is not explicitly named for class/prob or survival metric sets. (#504)
 
 * Added `thresholds` argument to `roc_curve()` to allow for custom thresholds to calculate curves for. (#488)
