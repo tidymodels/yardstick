@@ -64,6 +64,7 @@ Collate:
     'class-fall_out.R'
     'class-j_index.R'
     'class-kap.R'
+    'class-markedness.R'
     'class-mcc.R'
     'class-miss_rate.R'
     'class-npv.R'
