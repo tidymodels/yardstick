@@ -41,6 +41,14 @@
 #'
 #'
 #' @template examples-numeric
+#' @examples
+#' # Using a different value of 'bias'... if you are adding the metric to a
+#' # metric set, you can create a new metric function with the updated argument
+#' # value:
+#'
+#' ccc_bias <- metric_tweak("ccc_bias", ccc, bias = TRUE)
+#' multi_metrics <- metric_set(ccc, ccc_bias)
+#' multi_metrics(solubility_test, solubility, prediction)
 #'
 #' @export
 #'

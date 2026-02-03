@@ -53,6 +53,15 @@
 #'
 #' @template examples-class
 #' @examples
+#' # Using a different value of 'prevalence'... if you are adding the metric to a
+#' # metric set, you can create a new metric function with the updated argument
+#' # value:
+#'
+#' ppv_alt_prev  <- metric_tweak("ppv_alt_prev", ppv, prevalence = 0.40)
+#' multi_metrics <- metric_set(ppv, ppv_alt_prev)
+#' multi_metrics(two_class_example, truth, estimate = predicted)
+#'
+#' @examples
 #' # But what if we think that Class 1 only occurs 40% of the time?
 #' ppv(two_class_example, truth, predicted, prevalence = 0.40)
 #'

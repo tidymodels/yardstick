@@ -117,6 +117,14 @@
 #' hpc_cv |>
 #'   group_by(Resample) |>
 #'   classification_cost(obs, VF:L, costs = hpc_costs)
+#'
+#' # If this metric will be used in a metric set, you can create a new metric
+#' # function with the updated argument value:
+#'
+#' class_costs  <- metric_tweak("class_costs", classification_cost, costs = hpc_costs)
+#' multi_metrics <- metric_set(class_costs, roc_auc)
+#' multi_metrics(hpc_cv, obs, VF:L)
+#'
 classification_cost <- function(data, ...) {
   UseMethod("classification_cost")
 }

@@ -111,25 +111,10 @@ hpc_cv |>
 
 # ---------------------------------------------------------------------------
 
-# If you need to set options for certain metrics,
-# do so by wrapping the metric and setting the options inside the wrapper,
-# passing along truth and estimate as quoted arguments.
-# Then add on the function class of the underlying wrapped function,
-# and the direction of optimization.
-ccc_with_bias <- function(data, truth, estimate, na_rm = TRUE, ...) {
-  ccc(
-    data = data,
-    truth = !!rlang::enquo(truth),
-    estimate = !!rlang::enquo(estimate),
-    # set bias = TRUE
-    bias = TRUE,
-    na_rm = na_rm,
-    ...
-  )
-}
-
-# Use `new_numeric_metric()` to formalize this new metric function
-ccc_with_bias <- new_numeric_metric(ccc_with_bias, "maximize")
+# If you need to set options for certain metrics, do so by using
+# `metric_tweak()`. Here's an example where we use the `bias` option to the
+# `ccc()` metric
+ccc_with_bias <- metric_tweak("ccc_with_bias", ccc, bias = TRUE)
 
 multi_metric2 <- metric_set(rmse, rsq, ccc_with_bias)
 

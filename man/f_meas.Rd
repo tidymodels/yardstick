@@ -166,6 +166,15 @@ f_meas_vec(
   two_class_example$predicted,
   event_level = "second"
 )
+
+# Using a different value of 'beta'... if you are adding the metric to a
+# metric set, you can create a new metric function with the updated argument
+# value:
+
+f2_meas <- metric_tweak("f2_meas", f_meas, beta = 2)
+multi_metrics <- metric_set(f_meas, f2_meas)
+multi_metrics(two_class_example, truth, estimate = predicted)
+
 }
 \references{
 Buckland, M., & Gey, F. (1994). The relationship

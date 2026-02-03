@@ -168,6 +168,13 @@ npv_vec(
   two_class_example$predicted,
   event_level = "second"
 )
+# Using a different value of 'prevalence'... if you are adding the metric to a
+# metric set, you can create a new metric function with the updated argument
+# value:
+
+npv_alt_prev  <- metric_tweak("npv_alt_prev", npv, prevalence = 0.40)
+multi_metrics <- metric_set(npv, npv_alt_prev)
+multi_metrics(two_class_example, truth, estimate = predicted)
 }
 \references{
 Altman, D.G., Bland, J.M. (1994) ``Diagnostic tests 2:

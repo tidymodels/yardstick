@@ -109,6 +109,13 @@ metric_results
 # Resampled mean estimate
 metric_results |>
   summarise(avg_estimate = mean(.estimate))
+# Using a different value of 'delta'... if you are adding the metric to a
+# metric set, you can create a new metric function with the updated argument
+# value:
+
+huber_loss_pseudo_2 <- metric_tweak("huber_loss_pseudo_2", huber_loss_pseudo, delta = 2)
+multi_metrics <- metric_set(huber_loss_pseudo, huber_loss_pseudo_2)
+multi_metrics(solubility_test, solubility, prediction)
 }
 \references{
 Huber, P. (1964). Robust Estimation of a Location Parameter.
