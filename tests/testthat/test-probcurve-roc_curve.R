@@ -199,3 +199,66 @@ test_that("roc_curve() - `options` is deprecated", {
     roc_curve(two_class_example, truth, Class1)
   )
 })
+
+test_that("thresholds argument works", {
+  two_class_example0 <- two_class_example
+  two_class_example0$Class1 <- floor(two_class_example0$Class1 * 10) / 10
+  exp <- roc_curve(two_class_example0, truth, Class1)
+
+  res <- roc_curve(
+    two_class_example,
+    truth,
+    Class1,
+    thresholds = seq(0, 0.9, by = 0.1)
+  )
+
+  expect_equal(res, exp)
+
+  reverse <- roc_curve(
+    two_class_example,
+    truth,
+    Class1,
+    thresholds = seq(0.9, 0, by = -0.1)
+  )
+  expect_equal(reverse, exp)
+
+  duplicated <- roc_curve(
+    two_class_example,
+    truth,
+    Class1,
+    thresholds = c(seq(0, 0.9, by = 0.1), seq(0, 0.9, by = 0.1))
+  )
+  expect_equal(duplicated, exp)
+})
+
+test_that("thresholds argument throws errors when wrongly specied", {
+  expect_snapshot(
+    error = TRUE,
+    roc_curve(
+      two_class_example,
+      truth,
+      Class1,
+      thresholds = TRUE
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    roc_curve(
+      two_class_example,
+      truth,
+      Class1,
+      thresholds = -4
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    roc_curve(
+      two_class_example,
+      truth,
+      Class1,
+      thresholds = seq(-1, 2, by = 0.2)
+    )
+  )
+})

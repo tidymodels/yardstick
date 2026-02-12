@@ -8,7 +8,8 @@ binary_threshold_curve <- function(
   estimate,
   ...,
   event_level = yardstick_event_level(),
-  case_weights = NULL
+  case_weights = NULL,
+  thresholds = NULL
 ) {
   check_dots_empty()
 
@@ -91,11 +92,17 @@ binary_threshold_curve <- function(
   estimate <- estimate[order]
   case_weights <- case_weights[order]
 
-  # Skip repeated probabilities.
-  # We want the last duplicate to ensure that we capture all the events from the
-  # `cumsum()`, so we use `fromLast`.
-  loc_unique <- which(!duplicated(estimate, fromLast = TRUE))
-  thresholds <- estimate[loc_unique]
+  if (is.null(thresholds)) {
+    # Skip repeated probabilities.
+    # We want the last duplicate to ensure that we capture all the events from the
+    # `cumsum()`, so we use `fromLast`.
+    loc_unique <- which(!duplicated(estimate, fromLast = TRUE))
+    thresholds <- estimate[loc_unique]
+  } else {
+    thresholds <- unique(thresholds)
+    thresholds <- sort(thresholds, decreasing = TRUE)
+    loc_unique <- findInterval(-thresholds, -estimate)
+  }
 
   case_weights_events <- truth * case_weights
   case_weights_non_events <- (1 - truth) * case_weights

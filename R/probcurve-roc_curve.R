@@ -19,6 +19,9 @@
 #' @template event_first
 #'
 #' @inheritParams roc_auc
+#' @param thresholds A numeric vector to denote what values of `estimate` we
+#'   calculate the curve for. Defaults to `NULL` which denotes that all unique
+#'   values of `estimate` are used. Duplicate values are silently removed.
 #'
 #' @return
 #' A tibble with class `roc_df` or `roc_grouped_df` having
@@ -76,7 +79,8 @@ roc_curve.data.frame <- function(
   na_rm = TRUE,
   event_level = yardstick_event_level(),
   case_weights = NULL,
-  options = list()
+  options = list(),
+  thresholds = NULL
 ) {
   check_roc_options_deprecated("roc_curve", options)
 
@@ -88,7 +92,8 @@ roc_curve.data.frame <- function(
     ...,
     na_rm = na_rm,
     event_level = event_level,
-    case_weights = !!enquo(case_weights)
+    case_weights = !!enquo(case_weights),
+    fn_options = list(thresholds = thresholds)
   )
 
   curve_finalize(result, data, "roc_df", "grouped_roc_df")
@@ -100,10 +105,28 @@ roc_curve_vec <- function(
   na_rm = TRUE,
   event_level = yardstick_event_level(),
   case_weights = NULL,
+  thresholds = NULL,
   ...
 ) {
   check_bool(na_rm)
   abort_if_class_pred(truth)
+
+  if (!is.null(thresholds)) {
+    if (!is.numeric(thresholds)) {
+      cli::cli_abort(
+        "{.arg thresholds} must be a numeric vector,
+        not {.obj_type_friendly {thresholds}}."
+      )
+    }
+    if (any(thresholds < 0) || any(thresholds > 1)) {
+      offenders <- which(thresholds < 0 | thresholds > 1)
+      cli::cli_abort(c(
+        "{.arg thresholds} must only take values between 0 and 1.",
+        "The following {length(offenders)} {?index/indices} {?falls/fall} 
+        outside the range: {offenders}."
+      ))
+    }
+  }
 
   estimator <- finalize_estimator(truth, metric_class = "roc_curve")
 
@@ -130,7 +153,8 @@ roc_curve_vec <- function(
     estimate = estimate,
     estimator = estimator,
     event_level = event_level,
-    case_weights = case_weights
+    case_weights = case_weights,
+    thresholds = thresholds
   )
 }
 
@@ -140,16 +164,31 @@ roc_curve_estimator_impl <- function(
   estimator,
   event_level,
   case_weights,
+  thresholds,
   call = caller_env()
 ) {
   if (is_binary(estimator)) {
-    roc_curve_binary(truth, estimate, event_level, case_weights, call)
+    roc_curve_binary(
+      truth,
+      estimate,
+      event_level,
+      case_weights,
+      thresholds,
+      call
+    )
   } else {
-    roc_curve_multiclass(truth, estimate, case_weights, call)
+    roc_curve_multiclass(truth, estimate, case_weights, thresholds, call)
   }
 }
 
-roc_curve_binary <- function(truth, estimate, event_level, case_weights, call) {
+roc_curve_binary <- function(
+  truth,
+  estimate,
+  event_level,
+  case_weights,
+  thresholds,
+  call
+) {
   lvls <- levels(truth)
 
   if (!is_event_first(event_level)) {
@@ -170,7 +209,8 @@ roc_curve_binary <- function(truth, estimate, event_level, case_weights, call) {
     truth = truth,
     estimate = estimate,
     event_level = event_level,
-    case_weights = case_weights
+    case_weights = case_weights,
+    thresholds = thresholds
   )
 
   threshold <- curve$threshold
@@ -202,12 +242,19 @@ roc_curve_binary <- function(truth, estimate, event_level, case_weights, call) {
 }
 
 # One-VS-All approach
-roc_curve_multiclass <- function(truth, estimate, case_weights, call) {
+roc_curve_multiclass <- function(
+  truth,
+  estimate,
+  case_weights,
+  thresholds,
+  call
+) {
   one_vs_all_with_level(
     fn = roc_curve_binary,
     truth = truth,
     estimate = estimate,
-    case_weights = case_weights
+    case_weights = case_weights,
+    thresholds = thresholds
   )
 }
 

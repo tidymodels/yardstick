@@ -635,7 +635,7 @@ dynamic_survival_metric_summarizer <- function(
   out <- vec_cbind(group_keys, out)
 
   if (inherits(out$.estimate, "tbl_df")) {
-    out <- tidyr::unnest(out, .estimate)
+    out <- vctrs::vec_cbind(out[names(out) != ".estimate"], out$.estimate)
   }
 
   out

@@ -20,6 +20,7 @@ are to the true values.
 
 \describe{
 \item{\code{\link[=ccc]{ccc()}}}{Direction: maximize. Range: [-1, 1]}
+\item{\code{\link[=gini_coef]{gini_coef()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=huber_loss]{huber_loss()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=huber_loss_pseudo]{huber_loss_pseudo()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=iic]{iic()}}}{Direction: maximize. Range: [-1, 1]}
@@ -28,8 +29,10 @@ are to the true values.
 \item{\code{\link[=mase]{mase()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=mpe]{mpe()}}}{Direction: zero. Range: [-Inf, Inf]}
 \item{\code{\link[=msd]{msd()}}}{Direction: zero. Range: [-Inf, Inf]}
+\item{\code{\link[=mse]{mse()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=poisson_log_loss]{poisson_log_loss()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=rmse]{rmse()}}}{Direction: minimize. Range: [0, Inf]}
+\item{\code{\link[=rmse_relative]{rmse_relative()}}}{Direction: minimize. Range: [0, Inf]}
 \item{\code{\link[=rpd]{rpd()}}}{Direction: maximize. Range: [0, Inf]}
 \item{\code{\link[=rpiq]{rpiq()}}}{Direction: maximize. Range: [0, Inf]}
 \item{\code{\link[=rsq]{rsq()}}}{Direction: maximize. Range: [-Inf, 1]}

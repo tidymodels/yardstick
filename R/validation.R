@@ -245,7 +245,7 @@ validate_surv_truth_list_estimate <- function(
     )
   }
 
-  if (!all(vapply(estimate, is.data.frame, FUN.VALUE = logical(1)))) {
+  if (!is.data.frame(estimate[[1]])) {
     cli::cli_abort(
       "All elements of {.arg estimate} should be data.frames.",
       call = call
@@ -253,13 +253,8 @@ validate_surv_truth_list_estimate <- function(
   }
 
   valid_names <- c(".eval_time", ".pred_survival", ".weight_censored")
-  has_names <- vapply(
-    estimate,
-    function(x) all(valid_names %in% names(x)),
-    FUN.VALUE = logical(1)
-  )
-
-  if (!all(has_names)) {
+  has_names <- all(valid_names %in% names(estimate[[1]]))
+  if (!has_names) {
     cli::cli_abort(
       "All data.frames of {.arg estimate} should include column names:
       {.field (.eval_time)}, {.field (.pred_survival)}, and
@@ -279,27 +274,7 @@ validate_surv_truth_list_estimate <- function(
     )
   }
 
-  eval_time_cols <- lapply(estimate, function(x) x$.eval_time)
-
-  if (length(unique(eval_time_cols)) > 1) {
-    offenders <- vapply(
-      eval_time_cols,
-      function(x) !identical(x, eval_time_cols[[1]]),
-      logical(1)
-    )
-    offenders <- which(offenders)
-
-    cli::cli_abort(
-      c(
-        x = "All the {.field .eval_time} columns of {.arg estimate} must be
-            identical.",
-        i = "The folllowing index differed from the first: {.val {offenders}}."
-      ),
-      call = call
-    )
-  }
-
-  eval_time <- eval_time_cols[[1]]
+  eval_time <- estimate[[1]]$.eval_time
 
   if (anyNA(eval_time)) {
     cli::cli_abort(

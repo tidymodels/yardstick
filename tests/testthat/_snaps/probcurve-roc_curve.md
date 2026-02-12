@@ -57,3 +57,29 @@
       The `options` argument of `roc_curve()` was deprecated in yardstick 1.0.0.
       i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 
+# thresholds argument throws errors when wrongly specied
+
+    Code
+      roc_curve(two_class_example, truth, Class1, thresholds = TRUE)
+    Condition
+      Error in `roc_curve()`:
+      ! `thresholds` must be a numeric vector, not `TRUE`.
+
+---
+
+    Code
+      roc_curve(two_class_example, truth, Class1, thresholds = -4)
+    Condition
+      Error in `roc_curve()`:
+      ! `thresholds` must only take values between 0 and 1.
+      The following 1 index falls outside the range: 1.
+
+---
+
+    Code
+      roc_curve(two_class_example, truth, Class1, thresholds = seq(-1, 2, by = 0.2))
+    Condition
+      Error in `roc_curve()`:
+      ! `thresholds` must only take values between 0 and 1.
+      The following 10 indices fall outside the range: 1, 2, 3, 4, 5, 12, 13, 14, 15, and 16.
+
