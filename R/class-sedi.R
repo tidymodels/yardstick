@@ -1,7 +1,7 @@
 #' Symmetric Extremal Dependence Index (SEDI)
 #'
 #' @description
-#' SEDI is a skill metric for binary classification that remains reliable at
+#' SEDI is a skill metric for classification that remains reliable at
 #' extreme prevalence levels where traditional metrics (TSS, MCC, Kappa)
 #' degrade. It is defined using the hit rate (sensitivity) and false alarm rate
 #' (1 - specificity):
@@ -39,13 +39,25 @@
 #' undefined. A small constant (`1e-9`) is used to clamp values away from
 #' these boundaries.
 #'
-#' SEDI is only defined for the binary classification case. For multiclass
-#' problems, use a one-vs-all strategy or a different metric.
-#'
 #' @section Prevalence guidance:
 #' - **Prevalence >= 10%**: MCC, TSS, and SEDI all perform well.
 #' - **Prevalence 2.5-10%**: SEDI preferred; MCC and TSS still usable.
 #' - **Prevalence < 2.5%**: SEDI strongly recommended; MCC and TSS unreliable.
+#'
+#' @section Multiclass:
+#'
+#' Macro, micro, and macro-weighted averaging is available for this metric.
+#' The default is to select macro averaging if a `truth` factor with more
+#' than 2 levels is provided. Otherwise, a standard binary calculation is done.
+#' See `vignette("multiclass", "yardstick")` for more information.
+#'
+#' For multiclass problems, SEDI is computed via one-vs-all decomposition:
+#' each class is treated as a binary problem against all other classes, and a
+#' per-class SEDI is calculated. Macro averaging (the default) weights all
+#' classes equally, which is recommended since SEDI's log transform already
+#' handles class imbalance internally. Macro-weighted averaging weights by
+#' class prevalence. Micro averaging pools counts across classes before
+#' computing a single SEDI value.
 #'
 #' @family class metrics
 #' @seealso [All class metrics][class-metrics]
@@ -114,13 +126,6 @@ sedi.table <- function(
   check_table(data)
   estimator <- finalize_estimator(data, estimator)
 
-  if (!is_binary(estimator)) {
-    cli::cli_abort(
-      "{.fn sedi} is only defined for binary classification.",
-      call = NULL
-    )
-  }
-
   metric_tibbler(
     .metric = "sedi",
     .estimator = estimator,
@@ -156,13 +161,6 @@ sedi_vec <- function(
 
   estimator <- finalize_estimator(truth, estimator)
 
-  if (!is_binary(estimator)) {
-    cli::cli_abort(
-      "{.fn sedi} is only defined for binary classification.",
-      call = NULL
-    )
-  }
-
   check_class_metric(truth, estimate, case_weights, estimator)
 
   if (na_rm) {
@@ -180,7 +178,13 @@ sedi_vec <- function(
 }
 
 sedi_table_impl <- function(data, estimator, event_level) {
-  sedi_binary(data, event_level)
+  if (is_binary(estimator)) {
+    sedi_binary(data, event_level)
+  } else {
+    w <- get_weights(data, estimator)
+    out_vec <- sedi_multiclass(data, estimator)
+    stats::weighted.mean(out_vec, w, na.rm = TRUE)
+  }
 }
 
 sedi_binary <- function(data, event_level) {
@@ -193,4 +197,47 @@ sedi_binary <- function(data, event_level) {
 
   (log(Fa) - log(H) - log(1 - Fa) + log(1 - H)) /
     (log(Fa) + log(H) + log(1 - Fa) + log(1 - H))
+}
+
+sedi_multiclass <- function(data, estimator) {
+  n <- sum(data)
+  tp <- diag(data)
+  tpfp <- rowSums(data)  # predicted as class k
+  tpfn <- colSums(data)  # actual class k
+  fn <- tpfn - tp
+  fp <- tpfp - tp
+  tn <- n - (tpfp + tpfn - tp)
+
+  if (is_micro(estimator)) {
+    # Pool counts across classes, then compute single SEDI
+    H <- sum(tp) / sum(tp + fn)
+    Fa <- sum(fp) / sum(fp + tn)
+
+    small <- 1e-9
+    H <- max(min(H, 1 - small), small)
+    Fa <- max(min(Fa, 1 - small), small)
+
+    return(
+      (log(Fa) - log(H) - log(1 - Fa) + log(1 - H)) /
+        (log(Fa) + log(H) + log(1 - Fa) + log(1 - H))
+    )
+  }
+
+  # Per-class SEDI for macro / macro_weighted
+  H_vec <- tp / (tp + fn)
+  Fa_vec <- fp / (fp + tn)
+
+  # Handle undefined (class with no actual positives or no actual negatives)
+  undefined <- (tp + fn) <= 0 | (fp + tn) <= 0
+  if (any(undefined)) {
+    H_vec[undefined] <- NA_real_
+    Fa_vec[undefined] <- NA_real_
+  }
+
+  small <- 1e-9
+  H_vec <- pmax(pmin(H_vec, 1 - small), small)
+  Fa_vec <- pmax(pmin(Fa_vec, 1 - small), small)
+
+  (log(Fa_vec) - log(H_vec) - log(1 - Fa_vec) + log(1 - H_vec)) /
+    (log(Fa_vec) + log(H_vec) + log(1 - Fa_vec) + log(1 - H_vec))
 }

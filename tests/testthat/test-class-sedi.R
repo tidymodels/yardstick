@@ -31,13 +31,71 @@ test_that("Random predictions yield SEDI near 0", {
   expect_true(abs(result) < 0.1)
 })
 
-test_that("SEDI rejects multiclass input", {
-  truth <- factor(c("a", "b", "c"), levels = c("a", "b", "c"))
-  estimate <- factor(c("a", "b", "a"), levels = c("a", "b", "c"))
-  expect_error(
-    sedi_vec(truth, estimate),
-    "binary"
+test_that("Calculations are correct - three class (macro)", {
+  multi_ex <- data_three_by_three()
+
+  expect_equal(
+    sedi(multi_ex, estimator = "macro")[[".estimate"]],
+    macro_metric(sedi_binary)
   )
+})
+
+test_that("Calculations are correct - three class (macro_weighted)", {
+  multi_ex <- data_three_by_three()
+
+  expect_equal(
+    sedi(multi_ex, estimator = "macro_weighted")[[".estimate"]],
+    macro_weighted_metric(sedi_binary)
+  )
+})
+
+test_that("Calculations are correct - three class (micro)", {
+  multi_ex <- data_three_by_three()
+  micro <- data_three_by_three_micro()
+
+  # Micro: pool counts, compute single SEDI
+  H <- sum(micro$tp) / sum(micro$p)
+  Fa <- sum(micro$fp) / (sum(micro$fp) + sum(micro$tn))
+
+  small <- 1e-9
+  H <- max(min(H, 1 - small), small)
+  Fa <- max(min(Fa, 1 - small), small)
+
+  expected <- (log(Fa) - log(H) - log(1 - Fa) + log(1 - H)) /
+    (log(Fa) + log(H) + log(1 - Fa) + log(1 - H))
+
+  expect_equal(
+    sedi(multi_ex, estimator = "micro")[[".estimate"]],
+    expected
+  )
+})
+
+test_that("Multiclass auto-selects macro estimator", {
+  truth <- factor(c("a", "b", "c", "a", "b", "c"), levels = c("a", "b", "c"))
+  estimate <- factor(c("a", "b", "a", "a", "c", "c"), levels = c("a", "b", "c"))
+
+  result <- sedi(
+    data.frame(truth = truth, estimate = estimate),
+    truth, estimate
+  )
+
+  expect_identical(result$.estimator, "macro")
+})
+
+test_that("Multiclass SEDI is bounded [-1, 1]", {
+  truth <- factor(c("a", "b", "c", "a", "b", "c", "a", "b", "c"),
+                  levels = c("a", "b", "c"))
+  estimate <- factor(c("a", "c", "b", "b", "a", "c", "c", "b", "a"),
+                     levels = c("a", "b", "c"))
+
+  result <- sedi_vec(truth, estimate)
+  expect_true(result >= -1 && result <= 1)
+})
+
+test_that("Perfect multiclass predictions yield SEDI of 1", {
+  truth <- factor(c("a", "a", "b", "b", "c", "c"), levels = c("a", "b", "c"))
+  estimate <- truth
+  expect_equal(sedi_vec(truth, estimate), 1, tolerance = 1e-6)
 })
 
 test_that("All interfaces give the same results", {
@@ -173,6 +231,39 @@ test_that("SEDI is prevalence-independent", {
     sedi_vec(truth1, est1),
     sedi_vec(truth2, est2),
     tolerance = 0.01
+  )
+})
+
+test_that("Multiclass SEDI is prevalence-independent per class", {
+  # Three-class problem: class "a" is rare in both, same per-class rates
+  # 5:45:50 prevalence
+  truth1 <- factor(
+    c(rep("a", 5), rep("b", 45), rep("c", 50)),
+    levels = c("a", "b", "c")
+  )
+  est1 <- factor(
+    c(rep("a", 4), "b",
+      rep("b", 40), rep("c", 3), rep("a", 2),
+      rep("c", 45), rep("b", 3), rep("a", 2)),
+    levels = c("a", "b", "c")
+  )
+
+  # 50:450:500 prevalence (same rates, 10x more data)
+  truth2 <- factor(
+    c(rep("a", 50), rep("b", 450), rep("c", 500)),
+    levels = c("a", "b", "c")
+  )
+  est2 <- factor(
+    c(rep("a", 40), rep("b", 10),
+      rep("b", 400), rep("c", 30), rep("a", 20),
+      rep("c", 450), rep("b", 30), rep("a", 20)),
+    levels = c("a", "b", "c")
+  )
+
+  expect_equal(
+    sedi_vec(truth1, est1),
+    sedi_vec(truth2, est2),
+    tolerance = 0.02
   )
 })
 
