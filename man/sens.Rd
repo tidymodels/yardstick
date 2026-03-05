@@ -215,6 +215,7 @@ Other class metrics:
 \code{\link{precision}()},
 \code{\link{recall}()},
 \code{\link{roc_dist}()},
+\code{\link{sedi}()},
 \code{\link{spec}()}
 
 Other sensitivity metrics: 

@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `sedi()` was added to compute the Symmetric Extremal Dependence Index, a prevalence-independent skill metric for binary classification. SEDI remains reliable at extreme class imbalance (prevalence < 2.5%) where TSS and MCC degrade. Based on Ferro & Stephenson (2011) and recommended by Wunderlich et al. (2019) for species distribution models with rare events.
+
 * `gini_coef()` was added to compute the normalized Gini coefficient for regression, which measures ranking ability based on the Lorenz curve. This is useful for evaluating loss cost models and risk predictions. (#147)
 
 * `roc_dist()` was added to compute the Euclidean distance from (sensitivity, specificity) to the ideal point (1, 1) in ROC space. (#148)
