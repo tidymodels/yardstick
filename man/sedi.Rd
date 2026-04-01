@@ -76,7 +76,7 @@ the number of groups.
 For \code{sedi_vec()}, a single \code{numeric} value (or \code{NA}).
 }
 \description{
-SEDI is a skill metric for binary classification that remains reliable at
+SEDI is a skill metric for classification that remains reliable at
 extreme prevalence levels where traditional metrics (TSS, MCC, Kappa)
 degrade. It is defined using the hit rate (sensitivity) and false alarm rate
 (1 - specificity):
@@ -113,9 +113,6 @@ suppression.
 When sensitivity or specificity is exactly 0 or 1, the logarithm is
 undefined. A small constant (\code{1e-9}) is used to clamp values away from
 these boundaries.
-
-SEDI is only defined for the binary classification case. For multiclass
-problems, use a one-vs-all strategy or a different metric.
 }
 \section{Prevalence guidance}{
 
@@ -124,6 +121,23 @@ problems, use a one-vs-all strategy or a different metric.
 \item \strong{Prevalence 2.5-10\%}: SEDI preferred; MCC and TSS still usable.
 \item \strong{Prevalence < 2.5\%}: SEDI strongly recommended; MCC and TSS unreliable.
 }
+}
+
+\section{Multiclass}{
+
+
+Macro, micro, and macro-weighted averaging is available for this metric.
+The default is to select macro averaging if a \code{truth} factor with more
+than 2 levels is provided. Otherwise, a standard binary calculation is done.
+See \code{vignette("multiclass", "yardstick")} for more information.
+
+For multiclass problems, SEDI is computed via one-vs-all decomposition:
+each class is treated as a binary problem against all other classes, and a
+per-class SEDI is calculated. Macro averaging (the default) weights all
+classes equally, which is recommended since SEDI's log transform already
+handles class imbalance internally. Macro-weighted averaging weights by
+class prevalence. Micro averaging pools counts across classes before
+computing a single SEDI value.
 }
 
 \section{Relevant Level}{
