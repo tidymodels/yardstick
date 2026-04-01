@@ -119,3 +119,20 @@ test_that("doesn't produce NaN with high valued case weights (#614)", {
     brier_class_vec(df$truth, df$Class1, case_weights = wts_high)
   )
 })
+
+test_that("`event_level = 'second'` works", {
+  df <- two_class_example
+
+  df_rev <- df
+  df_rev$truth <- stats::relevel(df_rev$truth, "Class2")
+
+  expect_equal(
+    brier_class_vec(df$truth, df$Class1),
+    brier_class_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+  )
+
+  expect_true(
+    brier_class_vec(df_rev$truth, df_rev$Class1, event_level = "first") !=
+      brier_class_vec(df_rev$truth, df_rev$Class1, event_level = "second")
+  )
+})

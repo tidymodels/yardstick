@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `brier_class()` has gained the `event_level` argument. (#515)
+* 
 * `gini_coef()` was added to compute the normalized Gini coefficient for regression, which measures ranking ability based on the Lorenz curve. This is useful for evaluating loss cost models and risk predictions. (#147)
 
 * `roc_dist()` was added to compute the Euclidean distance from (sensitivity, specificity) to the ideal point (1, 1) in ROC space. (#148)
