@@ -30,7 +30,7 @@
 #'
 #' @inheritParams roc_auc
 dots_to_estimate <- function(data, ...) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     when = "1.2.0",
     what = "dots_to_estimate()",
     details = I(

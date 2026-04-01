@@ -1,5 +1,17 @@
 # yardstick (development version)
 
+* `conf_mat()` hard-deprecated the `...` argument (deprecated in 1.0.0); passing `...` now throws an error.
+
+* `dots_to_estimate()` deprecation warning has been upgraded from soft to full (deprecated in 1.2.0).
+
+* `metric_summarizer()` deprecation warning has been upgraded from soft to full (deprecated in 1.2.0).
+
+* `metric_vec_template()` deprecation warning has been upgraded from soft to full (deprecated in 1.2.0).
+
+* `roc_auc()`, `roc_curve()`, `roc_aunp()`, and `roc_aunu()` hard-deprecated the `options` argument (deprecated in 1.0.0); passing a non-empty `options` list now throws an error.
+
+* The global option `yardstick.event_first` has been hard-deprecated (deprecated in 0.0.7); setting it now throws an error.
+
 * `sedi()` was added to compute the Symmetric Extremal Dependence Index, a prevalence-independent skill metric for classification. SEDI remains reliable at extreme class imbalance (prevalence < 2.5%) where TSS and MCC degrade. Supports binary and multiclass (macro, macro-weighted, micro averaging via one-vs-all decomposition). Based on Ferro & Stephenson (2011) and recommended by Wunderlich et al. (2019) for species distribution models with rare events.
 
 * `brier_class()` has gained the `event_level` argument. (#515)

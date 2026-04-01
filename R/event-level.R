@@ -9,7 +9,7 @@ yardstick_event_level <- function() {
   opt <- getOption("yardstick.event_first")
 
   if (!is.null(opt)) {
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_stop(
       when = "0.0.7",
       what = I("The global option `yardstick.event_first`"),
       with = I("the metric function argument `event_level`"),

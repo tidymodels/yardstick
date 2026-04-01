@@ -264,7 +264,7 @@ check_roc_options_deprecated <- function(what, options) {
   }
 }
 warn_roc_options_deprecated <- function(what) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     when = "1.0.0",
     what = I(sprintf("The `options` argument of `%s()`", what)),
     details = paste(
