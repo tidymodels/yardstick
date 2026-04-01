@@ -207,4 +207,16 @@ metric_results |>
 #>   avg_estimate
 #>          <dbl>
 #> 1        0.939
+# Using a different value of 'bias'... if you are adding the metric to a
+# metric set, you can create a new metric function with the updated argument
+# value:
+
+ccc_bias <- metric_tweak("ccc_bias", ccc, bias = TRUE)
+multi_metrics <- metric_set(ccc, ccc_bias)
+multi_metrics(solubility_test, solubility, prediction)
+#> # A tibble: 2 × 3
+#>   .metric  .estimator .estimate
+#>   <chr>    <chr>          <dbl>
+#> 1 ccc      standard       0.937
+#> 2 ccc_bias standard       0.937
 ```

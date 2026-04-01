@@ -34,6 +34,11 @@
   ([\#547](https://github.com/tidymodels/yardstick/issues/547),
   [\#540](https://github.com/tidymodels/yardstick/issues/540))
 
+- For metrics with alternate argument values that will be used in a
+  metric set, the documentation pages emphasize doing this via
+  [`metric_tweak()`](https://yardstick.tidymodels.org/dev/reference/metric_tweak.md)
+  [\#626](https://github.com/tidymodels/yardstick/issues/626)
+
 - [`get_metrics()`](https://yardstick.tidymodels.org/dev/reference/get_metrics.md)
   was added to return a
   [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)

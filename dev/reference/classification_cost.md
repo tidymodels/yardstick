@@ -244,4 +244,16 @@ hpc_cv |>
 #>  8 Fold08   classification_cost multiclass     0.749
 #>  9 Fold09   classification_cost multiclass     0.760
 #> 10 Fold10   classification_cost multiclass     0.771
+
+# If this metric will be used in a metric set, you can create a new metric
+# function with the updated argument value:
+
+class_costs  <- metric_tweak("class_costs", classification_cost, costs = hpc_costs)
+multi_metrics <- metric_set(class_costs, roc_auc)
+multi_metrics(hpc_cv, obs, VF:L)
+#> # A tibble: 2 × 3
+#>   .metric     .estimator .estimate
+#>   <chr>       <chr>          <dbl>
+#> 1 class_costs multiclass     0.746
+#> 2 roc_auc     hand_till      0.829
 ```

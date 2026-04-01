@@ -205,4 +205,16 @@ metric_results |>
 #>   avg_estimate
 #>          <dbl>
 #> 1        0.194
+# Using a different value of 'delta'... if you are adding the metric to a
+# metric set, you can create a new metric function with the updated argument
+# value:
+
+huber_loss_pseudo_2 <- metric_tweak("huber_loss_pseudo_2", huber_loss_pseudo, delta = 2)
+multi_metrics <- metric_set(huber_loss_pseudo, huber_loss_pseudo_2)
+multi_metrics(solubility_test, solubility, prediction)
+#> # A tibble: 2 × 3
+#>   .metric             .estimator .estimate
+#>   <chr>               <chr>          <dbl>
+#> 1 huber_loss_pseudo   standard       0.199
+#> 2 huber_loss_pseudo_2 standard       0.235
 ```

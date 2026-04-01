@@ -185,35 +185,20 @@ to set the estimator on a metric by metric basis and still use it in a
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ---------------------------------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># If you need to set options for certain metrics,</span></span></span>
-<span class="r-in"><span><span class="co"># do so by wrapping the metric and setting the options inside the wrapper,</span></span></span>
-<span class="r-in"><span><span class="co"># passing along truth and estimate as quoted arguments.</span></span></span>
-<span class="r-in"><span><span class="co"># Then add on the function class of the underlying wrapped function,</span></span></span>
-<span class="r-in"><span><span class="co"># and the direction of optimization.</span></span></span>
-<span class="r-in"><span><span class="va">ccc_with_bias</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">estimate</span>, <span class="va">na_rm</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="ccc.html">ccc</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    data <span class="op">=</span> <span class="va">data</span>,</span></span>
-<span class="r-in"><span>    truth <span class="op">=</span> <span class="op">!</span><span class="op">!</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/enquo.html" class="external-link">enquo</a></span><span class="op">(</span><span class="va">truth</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    estimate <span class="op">=</span> <span class="op">!</span><span class="op">!</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/enquo.html" class="external-link">enquo</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="co"># set bias = TRUE</span></span></span>
-<span class="r-in"><span>    bias <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>    na_rm <span class="op">=</span> <span class="va">na_rm</span>,</span></span>
-<span class="r-in"><span>    <span class="va">...</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Use `new_numeric_metric()` to formalize this new metric function</span></span></span>
-<span class="r-in"><span><span class="va">ccc_with_bias</span> <span class="op">&lt;-</span> <span class="fu"><a href="new-metric.html">new_numeric_metric</a></span><span class="op">(</span><span class="va">ccc_with_bias</span>, <span class="st">"maximize"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># If you need to set options for certain metrics, do so by using</span></span></span>
+<span class="r-in"><span><span class="co"># `metric_tweak()`. Here's an example where we use the `bias` option to the</span></span></span>
+<span class="r-in"><span><span class="co"># `ccc()` metric</span></span></span>
+<span class="r-in"><span><span class="va">ccc_with_bias</span> <span class="op">&lt;-</span> <span class="fu"><a href="metric_tweak.html">metric_tweak</a></span><span class="op">(</span><span class="st">"ccc_with_bias"</span>, <span class="va">ccc</span>, bias <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">multi_metric2</span> <span class="op">&lt;-</span> <span class="fu">metric_set</span><span class="op">(</span><span class="va">rmse</span>, <span class="va">rsq</span>, <span class="va">ccc_with_bias</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">multi_metric2</span><span class="op">(</span><span class="va">solubility_test</span>, truth <span class="op">=</span> <span class="va">solubility</span>, estimate <span class="op">=</span> <span class="va">prediction</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .metric .estimator .estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> rmse    standard       0.722</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> rsq     standard       0.879</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> ccc     standard       0.937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .metric       .estimator .estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> rmse          standard       0.722</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> rsq           standard       0.879</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> ccc_with_bias standard       0.937</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ---------------------------------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># A class probability example:</span></span></span>

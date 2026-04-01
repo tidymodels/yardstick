@@ -270,4 +270,17 @@ f_meas_vec(
   event_level = "second"
 )
 #> [1] 0.8258065
+
+# Using a different value of 'beta'... if you are adding the metric to a
+# metric set, you can create a new metric function with the updated argument
+# value:
+
+f2_meas <- metric_tweak("f2_meas", f_meas, beta = 2)
+multi_metrics <- metric_set(f_meas, f2_meas)
+multi_metrics(two_class_example, truth, estimate = predicted)
+#> # A tibble: 2 × 3
+#>   .metric .estimator .estimate
+#>   <chr>   <chr>          <dbl>
+#> 1 f_meas  binary         0.849
+#> 2 f2_meas binary         0.867
 ```

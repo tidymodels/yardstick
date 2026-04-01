@@ -272,6 +272,19 @@ ppv_vec(
   event_level = "second"
 )
 #> [1] 0.8609865
+# Using a different value of 'prevalence'... if you are adding the metric to a
+# metric set, you can create a new metric function with the updated argument
+# value:
+
+ppv_alt_prev  <- metric_tweak("ppv_alt_prev", ppv, prevalence = 0.40)
+multi_metrics <- metric_set(ppv, ppv_alt_prev)
+multi_metrics(two_class_example, truth, estimate = predicted)
+#> # A tibble: 2 × 3
+#>   .metric      .estimator .estimate
+#>   <chr>        <chr>          <dbl>
+#> 1 ppv          binary         0.819
+#> 2 ppv_alt_prev binary         0.740
+
 # But what if we think that Class 1 only occurs 40% of the time?
 ppv(two_class_example, truth, predicted, prevalence = 0.40)
 #> # A tibble: 1 × 3

@@ -301,6 +301,19 @@ predictive values,” <em>British Medical Journal</em>, vol 309,
 <span class="r-in"><span>  event_level <span class="op">=</span> <span class="st">"second"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8609865</span>
+<span class="r-in"><span><span class="co"># Using a different value of 'prevalence'... if you are adding the metric to a</span></span></span>
+<span class="r-in"><span><span class="co"># metric set, you can create a new metric function with the updated argument</span></span></span>
+<span class="r-in"><span><span class="co"># value:</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ppv_alt_prev</span>  <span class="op">&lt;-</span> <span class="fu"><a href="metric_tweak.html">metric_tweak</a></span><span class="op">(</span><span class="st">"ppv_alt_prev"</span>, <span class="va">ppv</span>, prevalence <span class="op">=</span> <span class="fl">0.40</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">multi_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="metric_set.html">metric_set</a></span><span class="op">(</span><span class="va">ppv</span>, <span class="va">ppv_alt_prev</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">multi_metrics</span><span class="op">(</span><span class="va">two_class_example</span>, <span class="va">truth</span>, estimate <span class="op">=</span> <span class="va">predicted</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .metric      .estimator .estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> ppv          binary         0.819</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> ppv_alt_prev binary         0.740</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># But what if we think that Class 1 only occurs 40% of the time?</span></span></span>
 <span class="r-in"><span><span class="fu">ppv</span><span class="op">(</span><span class="va">two_class_example</span>, <span class="va">truth</span>, <span class="va">predicted</span>, prevalence <span class="op">=</span> <span class="fl">0.40</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>

@@ -207,4 +207,19 @@ hpc_cv |>
 #>  8 Fold08   kap     multiclass     0.531
 #>  9 Fold09   kap     multiclass     0.454
 #> 10 Fold10   kap     multiclass     0.492
+
+# Using a different value of 'weighting'... if you are adding the metric to a
+# metric set, you can create a new metric function with the updated argument
+# value:
+
+kap_lin  <- metric_tweak("kap_lin",  kap, weighting = "linear")
+kap_quad <- metric_tweak("kap_quad", kap, weighting = "quadratic")
+multi_metrics <- metric_set(kap, kap_lin, kap_quad)
+multi_metrics(hpc_cv, obs, estimate = pred)
+#> # A tibble: 3 × 3
+#>   .metric  .estimator .estimate
+#>   <chr>    <chr>          <dbl>
+#> 1 kap      multiclass     0.508
+#> 2 kap_lin  multiclass     0.593
+#> 3 kap_quad multiclass     0.692
 ```

@@ -234,6 +234,21 @@ Bulletin</em>. 70 (4): 213-220.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Fold08   kap     multiclass     0.531</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Fold09   kap     multiclass     0.454</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Fold10   kap     multiclass     0.492</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Using a different value of 'weighting'... if you are adding the metric to a</span></span></span>
+<span class="r-in"><span><span class="co"># metric set, you can create a new metric function with the updated argument</span></span></span>
+<span class="r-in"><span><span class="co"># value:</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">kap_lin</span>  <span class="op">&lt;-</span> <span class="fu"><a href="metric_tweak.html">metric_tweak</a></span><span class="op">(</span><span class="st">"kap_lin"</span>,  <span class="va">kap</span>, weighting <span class="op">=</span> <span class="st">"linear"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">kap_quad</span> <span class="op">&lt;-</span> <span class="fu"><a href="metric_tweak.html">metric_tweak</a></span><span class="op">(</span><span class="st">"kap_quad"</span>, <span class="va">kap</span>, weighting <span class="op">=</span> <span class="st">"quadratic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">multi_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="metric_set.html">metric_set</a></span><span class="op">(</span><span class="va">kap</span>, <span class="va">kap_lin</span>, <span class="va">kap_quad</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">multi_metrics</span><span class="op">(</span><span class="va">hpc_cv</span>, <span class="va">obs</span>, estimate <span class="op">=</span> <span class="va">pred</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .metric  .estimator .estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> kap      multiclass     0.508</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> kap_lin  multiclass     0.593</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> kap_quad multiclass     0.692</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

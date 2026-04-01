@@ -302,6 +302,20 @@ Technical Report SIE-07-001, Flinders University</p>
 <span class="r-in"><span>  event_level <span class="op">=</span> <span class="st">"second"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8258065</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Using a different value of 'beta'... if you are adding the metric to a</span></span></span>
+<span class="r-in"><span><span class="co"># metric set, you can create a new metric function with the updated argument</span></span></span>
+<span class="r-in"><span><span class="co"># value:</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">f2_meas</span> <span class="op">&lt;-</span> <span class="fu"><a href="metric_tweak.html">metric_tweak</a></span><span class="op">(</span><span class="st">"f2_meas"</span>, <span class="va">f_meas</span>, beta <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">multi_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="metric_set.html">metric_set</a></span><span class="op">(</span><span class="va">f_meas</span>, <span class="va">f2_meas</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">multi_metrics</span><span class="op">(</span><span class="va">two_class_example</span>, <span class="va">truth</span>, estimate <span class="op">=</span> <span class="va">predicted</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .metric .estimator .estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> f_meas  binary         0.849</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> f2_meas binary         0.867</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
