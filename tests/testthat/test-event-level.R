@@ -2,26 +2,14 @@ test_that("`yardstick_event_level()` defaults to 'first'", {
   expect_identical(yardstick_event_level(), "first")
 })
 
-test_that("`yardstick_event_level()` ignores option - TRUE, with a warning", {
-  skip_if(
-    getRversion() <= "3.5.3",
-    "Base R used a different deprecated warning class."
-  )
-  rlang::local_options(lifecycle_verbosity = "warning")
+test_that("`yardstick_event_level()` errors when option is set - TRUE", {
   rlang::local_options(yardstick.event_first = TRUE)
-  expect_snapshot(out <- yardstick_event_level())
-  expect_identical(out, "first")
+  expect_snapshot(error = TRUE, yardstick_event_level())
 })
 
-test_that("`yardstick_event_level()` ignores option - FALSE, with a warning", {
-  skip_if(
-    getRversion() <= "3.5.3",
-    "Base R used a different deprecated warning class."
-  )
-  rlang::local_options(lifecycle_verbosity = "warning")
+test_that("`yardstick_event_level()` errors when option is set - FALSE", {
   rlang::local_options(yardstick.event_first = FALSE)
-  expect_snapshot(out <- yardstick_event_level())
-  expect_identical(out, "first")
+  expect_snapshot(error = TRUE, yardstick_event_level())
 })
 
 test_that("validate_event_level() works", {

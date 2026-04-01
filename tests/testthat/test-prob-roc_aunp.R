@@ -104,35 +104,18 @@ test_that("na_rm argument check", {
   )
 })
 
-test_that("`options` is deprecated", {
-  skip_if(
-    getRversion() <= "3.5.3",
-    "Base R used a different deprecated warning class."
-  )
-  rlang::local_options(lifecycle_verbosity = "warning")
-
-  expect_snapshot({
-    out <- roc_aunp(two_class_example, truth, Class1, Class2, options = 1)
-  })
-
-  expect_identical(
-    out,
-    roc_aunp(two_class_example, truth, Class1, Class2)
+test_that("`options` is defunct", {
+  expect_snapshot(
+    error = TRUE,
+    roc_aunp(two_class_example, truth, Class1, Class2, options = 1)
   )
 
-  expect_snapshot({
-    out <- roc_aunp_vec(
+  expect_snapshot(
+    error = TRUE,
+    roc_aunp_vec(
       truth = two_class_example$truth,
       estimate = as.matrix(two_class_example[c("Class1", "Class2")]),
       options = 1
-    )
-  })
-
-  expect_identical(
-    out,
-    roc_aunp_vec(
-      truth = two_class_example$truth,
-      estimate = as.matrix(two_class_example[c("Class1", "Class2")])
     )
   )
 })

@@ -177,35 +177,18 @@ test_that("`event_level = 'second'` works", {
   )
 })
 
-test_that("`options` is deprecated", {
-  skip_if(
-    getRversion() <= "3.5.3",
-    "Base R used a different deprecated warning class."
-  )
-  rlang::local_options(lifecycle_verbosity = "warning")
-
-  expect_snapshot({
-    out <- roc_auc(two_class_example, truth, Class1, options = 1)
-  })
-
-  expect_identical(
-    out,
-    roc_auc(two_class_example, truth, Class1)
+test_that("`options` is defunct", {
+  expect_snapshot(
+    error = TRUE,
+    roc_auc(two_class_example, truth, Class1, options = 1)
   )
 
-  expect_snapshot({
-    out <- roc_auc_vec(
+  expect_snapshot(
+    error = TRUE,
+    roc_auc_vec(
       truth = two_class_example$truth,
       estimate = two_class_example$Class1,
       options = 1
-    )
-  })
-
-  expect_identical(
-    out,
-    roc_auc_vec(
-      truth = two_class_example$truth,
-      estimate = two_class_example$Class1
     )
   )
 })
