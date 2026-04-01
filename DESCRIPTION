@@ -72,6 +72,7 @@ Collate:
     'class-precision.R'
     'class-recall.R'
     'class-roc_dist.R'
+    'class-sedi.R'
     'class-sens.R'
     'class-spec.R'
     'conf_mat.R'

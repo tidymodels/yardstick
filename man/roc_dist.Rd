@@ -183,6 +183,7 @@ Other class metrics:
 \code{\link{ppv}()},
 \code{\link{precision}()},
 \code{\link{recall}()},
+\code{\link{sedi}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
 }
