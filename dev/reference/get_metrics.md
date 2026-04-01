@@ -79,6 +79,7 @@ get_metrics("class")
 #> - `precision()`, a class metric            | direction: maximize
 #> - `recall()`, a class metric               | direction: maximize
 #> - `roc_dist()`, a class metric             | direction: minimize
+#> - `sedi()`, a class metric                 | direction: maximize
 #> - `sens()`, a class metric                 | direction: maximize
 #> - `sensitivity()`, a class metric          | direction: maximize
 #> - `spec()`, a class metric                 | direction: maximize
@@ -111,6 +112,7 @@ get_metrics(c("class", "prob"))
 #> - `roc_aunp()`, a probability metric            | direction: maximize
 #> - `roc_aunu()`, a probability metric            | direction: maximize
 #> - `roc_dist()`, a class metric                  | direction: minimize
+#> - `sedi()`, a class metric                      | direction: maximize
 #> - `sens()`, a class metric                      | direction: maximize
 #> - `sensitivity()`, a class metric               | direction: maximize
 #> - `spec()`, a class metric                      | direction: maximize

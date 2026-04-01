@@ -72,6 +72,10 @@ classes directly against the true classes.
 
   Direction: minimize. Range: \[0, 1.4142135623731\]
 
+- [`sedi()`](https://yardstick.tidymodels.org/dev/reference/sedi.md):
+
+  Direction: maximize. Range: \[-1, 1\]
+
 - [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md):
 
   Direction: maximize. Range: \[0, 1\]

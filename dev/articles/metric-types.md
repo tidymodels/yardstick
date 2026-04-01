@@ -189,6 +189,7 @@ by type.
 | class                     | [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md)                                 |
 | class                     | [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md)                                       |
 | class                     | [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)                                   |
+| class                     | [`sedi()`](https://yardstick.tidymodels.org/dev/reference/sedi.md)                                           |
 | class                     | [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md)                                           |
 | class                     | [`sensitivity()`](https://yardstick.tidymodels.org/dev/reference/sens.md)                                    |
 | class                     | [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)                                           |

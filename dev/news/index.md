@@ -2,11 +2,18 @@
 
 ## yardstick (development version)
 
+- [`sedi()`](https://yardstick.tidymodels.org/dev/reference/sedi.md) was
+  added to compute the Symmetric Extremal Dependence Index, a
+  prevalence-independent skill metric for classification. SEDI remains
+  reliable at extreme class imbalance (prevalence \< 2.5%) where TSS and
+  MCC degrade. Supports binary and multiclass (macro, macro-weighted,
+  micro averaging via one-vs-all decomposition). Based on Ferro &
+  Stephenson (2011) and recommended by Wunderlich et al. (2019) for
+  species distribution models with rare events.
+
 - [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
   has gained the `event_level` argument.
   ([\#515](https://github.com/tidymodels/yardstick/issues/515))
-
-- 
 
 - [`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md)
   was added to compute the normalized Gini coefficient for regression,

@@ -47,6 +47,9 @@
 - [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
   [`roc_dist_vec()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
   : Distance to ROC corner
+- [`sedi()`](https://yardstick.tidymodels.org/dev/reference/sedi.md)
+  [`sedi_vec()`](https://yardstick.tidymodels.org/dev/reference/sedi.md)
+  : Symmetric Extremal Dependence Index
 - [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md)
   [`sens_vec()`](https://yardstick.tidymodels.org/dev/reference/sens.md)
   [`sensitivity()`](https://yardstick.tidymodels.org/dev/reference/sens.md)

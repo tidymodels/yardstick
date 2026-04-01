@@ -171,6 +171,7 @@ Other class metrics:
 [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md),
 [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md),
 [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md),
+[`sedi()`](https://yardstick.tidymodels.org/dev/reference/sedi.md),
 [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
 [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
 

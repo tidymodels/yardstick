@@ -1,16 +1,23 @@
-# Detection prevalence
+# Symmetric Extremal Dependence Index
 
-Detection prevalence is defined as the number of *predicted* positive
-events (both true positive and false positive) divided by the total
-number of predictions.
+Symmetric Extremal Dependence Index (SEDI) is a skill metric for
+classification that remains reliable at extreme prevalence levels where
+traditional metrics (TSS, MCC, Kappa) degrade. It is defined using the
+hit rate (sensitivity) and false alarm rate (1 - specificity):
+
+\$\$\text{SEDI} = \frac{\ln F - \ln H - \ln(1-F) + \ln(1-H)} {\ln F +
+\ln H + \ln(1-F) + \ln(1-H)}\$\$
+
+where \\H\\ is sensitivity (hit rate) and \\F\\ is the false alarm rate
+(1 - specificity).
 
 ## Usage
 
 ``` r
-detection_prevalence(data, ...)
+sedi(data, ...)
 
 # S3 method for class 'data.frame'
-detection_prevalence(
+sedi(
   data,
   truth,
   estimate,
@@ -21,7 +28,7 @@ detection_prevalence(
   ...
 )
 
-detection_prevalence_vec(
+sedi_vec(
   truth,
   estimate,
   estimator = NULL,
@@ -97,7 +104,7 @@ row of values.
 For grouped data frames, the number of rows returned will be the same as
 the number of groups.
 
-For `detection_prevalence_vec()`, a single `numeric` value (or `NA`).
+For `sedi_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
@@ -110,13 +117,53 @@ Suppose a 2x2 table with notation:
 | Positive  | A         | B        |
 | Negative  | C         | D        |
 
-The formula used here is:
+The formulas used here are:
 
-\$\$\text{Detection Prevalence} = \frac{A + B}{A + B + C + D}\$\$
+\$\$H = \text{Sensitivity} = \frac{A}{A + C}\$\$
 
-Detection prevalence is a metric that should be maximized. The output
-ranges from 0 to 1. The "optimal" value depends on the true prevalence
-of positive events in the data.
+\$\$F = 1 - \text{Specificity} = \frac{B}{B + D}\$\$
+
+SEDI is a metric that should be maximized. The output ranges from -1 to
+1, with 1 indicating perfect discrimination.
+
+SEDI is **base-rate independent**: its value depends only on sensitivity
+and specificity (class-conditional rates), not on prevalence. The
+logarithmic transformation ensures the metric remains discriminating
+even when events are extremely rare (prevalence \< 2.5%), where
+[`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md)
+(TSS) converges to the hit rate alone and
+[`mcc()`](https://yardstick.tidymodels.org/dev/reference/mcc.md)
+exhibits denominator suppression.
+
+When sensitivity or specificity is exactly 0 or 1, the logarithm is
+undefined. A small constant (`1e-9`) is used to clamp values away from
+these boundaries.
+
+## Prevalence guidance
+
+- **Prevalence \>= 10%**: MCC, TSS, and SEDI all perform well.
+
+- **Prevalence 2.5-10%**: SEDI preferred; MCC and TSS still usable.
+
+- **Prevalence \< 2.5%**: SEDI strongly recommended; MCC and TSS
+  unreliable.
+
+## Multiclass
+
+Macro, micro, and macro-weighted averaging is available for this metric.
+The default is to select macro averaging if a `truth` factor with more
+than 2 levels is provided. Otherwise, a standard binary calculation is
+done. See
+[`vignette("multiclass", "yardstick")`](https://yardstick.tidymodels.org/dev/articles/multiclass.md)
+for more information.
+
+For multiclass problems, SEDI is computed via one-vs-all decomposition:
+each class is treated as a binary problem against all other classes, and
+a per-class SEDI is calculated. Macro averaging (the default) weights
+all classes equally, which is recommended since SEDI's log transform
+already handles class imbalance internally. Macro-weighted averaging
+weights by class prevalence. Micro averaging pools counts across classes
+before computing a single SEDI value.
 
 ## Relevant Level
 
@@ -129,14 +176,16 @@ interest. For multiclass extensions involving one-vs-all comparisons
 (such as macro averaging), this option is ignored and the "one" level is
 always the relevant result.
 
-## Multiclass
+## References
 
-Macro, micro, and macro-weighted averaging is available for this metric.
-The default is to select macro averaging if a `truth` factor with more
-than 2 levels is provided. Otherwise, a standard binary calculation is
-done. See
-[`vignette("multiclass", "yardstick")`](https://yardstick.tidymodels.org/dev/articles/multiclass.md)
-for more information.
+Ferro, C.A.T. and Stephenson, D.B. (2011). "Extremal Dependence Indices:
+Improved Verification Measures for Deterministic Forecasts of Rare
+Binary Events". Weather and Forecasting. 26 (5): 699-713.
+
+Wunderlich, R.F., Lin, Y.-P., Anthony, J. and Petway, J.R. (2019). "Two
+alternative evaluation metrics to replace the true skill statistic in
+the assessment of species distribution models". Nature Conservation. 35:
+97-116.
 
 ## See also
 
@@ -146,6 +195,7 @@ metrics](https://yardstick.tidymodels.org/dev/reference/class-metrics.md)
 Other class metrics:
 [`accuracy()`](https://yardstick.tidymodels.org/dev/reference/accuracy.md),
 [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md),
+[`detection_prevalence()`](https://yardstick.tidymodels.org/dev/reference/detection_prevalence.md),
 [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md),
 [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md),
 [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md),
@@ -158,24 +208,23 @@ Other class metrics:
 [`precision()`](https://yardstick.tidymodels.org/dev/reference/precision.md),
 [`recall()`](https://yardstick.tidymodels.org/dev/reference/recall.md),
 [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md),
-[`sedi()`](https://yardstick.tidymodels.org/dev/reference/sedi.md),
 [`sens()`](https://yardstick.tidymodels.org/dev/reference/sens.md),
 [`spec()`](https://yardstick.tidymodels.org/dev/reference/spec.md)
 
 ## Author
 
-Max Kuhn
+Simon Dedman
 
 ## Examples
 
 ``` r
 # Two class
 data("two_class_example")
-detection_prevalence(two_class_example, truth, predicted)
+sedi(two_class_example, truth, predicted)
 #> # A tibble: 1 × 3
-#>   .metric              .estimator .estimate
-#>   <chr>                <chr>          <dbl>
-#> 1 detection_prevalence binary         0.554
+#>   .metric .estimator .estimate
+#>   <chr>   <chr>          <dbl>
+#> 1 sedi    binary         0.823
 
 # Multiclass
 library(dplyr)
@@ -183,60 +232,60 @@ data(hpc_cv)
 
 hpc_cv |>
   filter(Resample == "Fold01") |>
-  detection_prevalence(obs, pred)
+  sedi(obs, pred)
 #> # A tibble: 1 × 3
-#>   .metric              .estimator .estimate
-#>   <chr>                <chr>          <dbl>
-#> 1 detection_prevalence macro           0.25
+#>   .metric .estimator .estimate
+#>   <chr>   <chr>          <dbl>
+#> 1 sedi    macro          0.633
 
 # Groups are respected
 hpc_cv |>
   group_by(Resample) |>
-  detection_prevalence(obs, pred)
+  sedi(obs, pred)
 #> # A tibble: 10 × 4
-#>    Resample .metric              .estimator .estimate
-#>    <chr>    <chr>                <chr>          <dbl>
-#>  1 Fold01   detection_prevalence macro           0.25
-#>  2 Fold02   detection_prevalence macro           0.25
-#>  3 Fold03   detection_prevalence macro           0.25
-#>  4 Fold04   detection_prevalence macro           0.25
-#>  5 Fold05   detection_prevalence macro           0.25
-#>  6 Fold06   detection_prevalence macro           0.25
-#>  7 Fold07   detection_prevalence macro           0.25
-#>  8 Fold08   detection_prevalence macro           0.25
-#>  9 Fold09   detection_prevalence macro           0.25
-#> 10 Fold10   detection_prevalence macro           0.25
+#>    Resample .metric .estimator .estimate
+#>    <chr>    <chr>   <chr>          <dbl>
+#>  1 Fold01   sedi    macro          0.633
+#>  2 Fold02   sedi    macro          0.620
+#>  3 Fold03   sedi    macro          0.735
+#>  4 Fold04   sedi    macro          0.647
+#>  5 Fold05   sedi    macro          0.645
+#>  6 Fold06   sedi    macro          0.621
+#>  7 Fold07   sedi    macro          0.580
+#>  8 Fold08   sedi    macro          0.667
+#>  9 Fold09   sedi    macro          0.615
+#> 10 Fold10   sedi    macro          0.621
 
 # Weighted macro averaging
 hpc_cv |>
   group_by(Resample) |>
-  detection_prevalence(obs, pred, estimator = "macro_weighted")
+  sedi(obs, pred, estimator = "macro_weighted")
 #> # A tibble: 10 × 4
-#>    Resample .metric              .estimator     .estimate
-#>    <chr>    <chr>                <chr>              <dbl>
-#>  1 Fold01   detection_prevalence macro_weighted     0.413
-#>  2 Fold02   detection_prevalence macro_weighted     0.409
-#>  3 Fold03   detection_prevalence macro_weighted     0.404
-#>  4 Fold04   detection_prevalence macro_weighted     0.411
-#>  5 Fold05   detection_prevalence macro_weighted     0.407
-#>  6 Fold06   detection_prevalence macro_weighted     0.411
-#>  7 Fold07   detection_prevalence macro_weighted     0.405
-#>  8 Fold08   detection_prevalence macro_weighted     0.406
-#>  9 Fold09   detection_prevalence macro_weighted     0.402
-#> 10 Fold10   detection_prevalence macro_weighted     0.408
+#>    Resample .metric .estimator     .estimate
+#>    <chr>    <chr>   <chr>              <dbl>
+#>  1 Fold01   sedi    macro_weighted     0.713
+#>  2 Fold02   sedi    macro_weighted     0.699
+#>  3 Fold03   sedi    macro_weighted     0.773
+#>  4 Fold04   sedi    macro_weighted     0.688
+#>  5 Fold05   sedi    macro_weighted     0.702
+#>  6 Fold06   sedi    macro_weighted     0.671
+#>  7 Fold07   sedi    macro_weighted     0.633
+#>  8 Fold08   sedi    macro_weighted     0.710
+#>  9 Fold09   sedi    macro_weighted     0.630
+#> 10 Fold10   sedi    macro_weighted     0.676
 
 # Vector version
-detection_prevalence_vec(
+sedi_vec(
   two_class_example$truth,
   two_class_example$predicted
 )
-#> [1] 0.554
+#> [1] 0.8227266
 
 # Making Class2 the "relevant" level
-detection_prevalence_vec(
+sedi_vec(
   two_class_example$truth,
   two_class_example$predicted,
   event_level = "second"
 )
-#> [1] 0.446
+#> [1] 0.8227266
 ```
