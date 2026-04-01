@@ -51,9 +51,23 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">brier_class</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'data.frame'</span></span>
-<span><span class="fu">brier_class</span><span class="op">(</span><span class="va">data</span>, <span class="va">truth</span>, <span class="va">...</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, case_weights <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu">brier_class</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">truth</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  case_weights <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">brier_class_vec</span><span class="op">(</span><span class="va">truth</span>, <span class="va">estimate</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span>, case_weights <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">brier_class_vec</span><span class="op">(</span></span>
+<span>  <span class="va">truth</span>,</span>
+<span>  <span class="va">estimate</span>,</span>
+<span>  na_rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  event_level <span class="op">=</span> <span class="fu">yardstick_event_level</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  case_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -85,6 +99,13 @@ names). For <code>_vec()</code> functions, a <code>factor</code> vector.</p></dd
 <dt id="arg-na-rm">na_rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
 <dd><p>A <code>logical</code> value indicating whether <code>NA</code>
 values should be stripped before the computation proceeds.</p></dd>
+
+
+<dt id="arg-event-level">event_level<a class="anchor" aria-label="anchor" href="#arg-event-level"></a></dt>
+<dd><p>A single string. Either <code>"first"</code> or <code>"second"</code> to specify
+which level of <code>truth</code> to consider as the "event". This argument is only
+applicable when <code>estimator = "binary"</code>. The default uses an internal helper
+that defaults to <code>"first"</code>.</p></dd>
 
 
 <dt id="arg-case-weights">case_weights<a class="anchor" aria-label="anchor" href="#arg-case-weights"></a></dt>
@@ -134,6 +155,20 @@ result by two.</p>
 
 <p>Brier scores can be computed in the same way for any number of classes.
 Because of this, no averaging types are supported.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="relevant-level">Relevant Level<a class="anchor" aria-label="anchor" href="#relevant-level"></a></h2>
+
+
+
+<p>There is no common convention on which factor level should
+automatically be considered the "event" or "positive" result
+when computing binary classification metrics. In <code>yardstick</code>, the default
+is to use the <em>first</em> level. To alter this, change the argument
+<code>event_level</code> to <code>"second"</code> to consider the <em>last</em> level of the factor the
+level of interest. For multiclass extensions involving one-vs-all
+comparisons (such as macro averaging), this option is ignored and
+the "one" level is always the relevant result.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

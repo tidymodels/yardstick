@@ -8,9 +8,23 @@ Compute the Brier score for a classification model.
 brier_class(data, ...)
 
 # S3 method for class 'data.frame'
-brier_class(data, truth, ..., na_rm = TRUE, case_weights = NULL)
+brier_class(
+  data,
+  truth,
+  ...,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL
+)
 
-brier_class_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
+brier_class_vec(
+  truth,
+  estimate,
+  na_rm = TRUE,
+  event_level = yardstick_event_level(),
+  case_weights = NULL,
+  ...
+)
 ```
 
 ## Arguments
@@ -41,6 +55,13 @@ brier_class_vec(truth, estimate, na_rm = TRUE, case_weights = NULL, ...)
 
   A `logical` value indicating whether `NA` values should be stripped
   before the computation proceeds.
+
+- event_level:
+
+  A single string. Either `"first"` or `"second"` to specify which level
+  of `truth` to consider as the "event". This argument is only
+  applicable when `estimator = "binary"`. The default uses an internal
+  helper that defaults to `"first"`.
 
 - case_weights:
 
@@ -97,6 +118,17 @@ performance.
 
 Brier scores can be computed in the same way for any number of classes.
 Because of this, no averaging types are supported.
+
+## Relevant Level
+
+There is no common convention on which factor level should automatically
+be considered the "event" or "positive" result when computing binary
+classification metrics. In `yardstick`, the default is to use the
+*first* level. To alter this, change the argument `event_level` to
+`"second"` to consider the *last* level of the factor the level of
+interest. For multiclass extensions involving one-vs-all comparisons
+(such as macro averaging), this option is ignored and the "one" level is
+always the relevant result.
 
 ## References
 

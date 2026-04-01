@@ -2,6 +2,12 @@
 
 ## yardstick (development version)
 
+- [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
+  has gained the `event_level` argument.
+  ([\#515](https://github.com/tidymodels/yardstick/issues/515))
+
+- 
+
 - [`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md)
   was added to compute the normalized Gini coefficient for regression,
   which measures ranking ability based on the Lorenz curve. This is
