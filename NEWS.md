@@ -1,76 +1,84 @@
 # yardstick (development version)
 
-* `conf_mat()` hard-deprecated the `...` argument (deprecated in 1.0.0); passing `...` now throws an error.
+## Breaking Changes
 
-* `dots_to_estimate()` deprecation warning has been upgraded from soft to full (deprecated in 1.2.0).
+* The global option `yardstick.event_first` (deprecated in 0.0.7) now throws an error. Use the `event_level` argument of individual metric functions instead. (#632)
 
-* `metric_summarizer()` deprecation warning has been upgraded from soft to full (deprecated in 1.2.0).
+* `conf_mat()` now throws an error if anything is passed to `...` (deprecated in 1.0.0). This argument has had no effect since case weight support was added. (#632)
 
-* `metric_vec_template()` deprecation warning has been upgraded from soft to full (deprecated in 1.2.0).
+* `roc_auc()`, `roc_aunp()`, `roc_aunu()`, and `roc_curve()` now throw an error if a non-empty list is passed to `options` (deprecated in 1.0.0). Use the pROC package directly if you need these features. (#632)
 
-* `roc_auc()`, `roc_curve()`, `roc_aunp()`, and `roc_aunu()` hard-deprecated the `options` argument (deprecated in 1.0.0); passing a non-empty `options` list now throws an error.
+## Deprecations
 
-* The global option `yardstick.event_first` has been hard-deprecated (deprecated in 0.0.7); setting it now throws an error.
+* `dots_to_estimate()`, `metric_summarizer()`, and `metric_vec_template()` (soft-deprecated in 1.2.0) now warn for all users. See the yardstick 1.2.0 release notes for recommended replacements. (#632)
 
-* `sedi()` was added to compute the Symmetric Extremal Dependence Index, a prevalence-independent skill metric for classification. SEDI remains reliable at extreme class imbalance (prevalence < 2.5%) where TSS and MCC degrade. Supports binary and multiclass (macro, macro-weighted, micro averaging via one-vs-all decomposition). Based on Ferro & Stephenson (2011) and recommended by Wunderlich et al. (2019) for species distribution models with rare events.
+## New Metrics
 
-* `brier_class()` has gained the `event_level` argument. (#515)
+* `gini_coef()` computes the normalized Gini coefficient for regression, which measures ranking ability based on the Lorenz curve. (#147)
 
-* `gini_coef()` was added to compute the normalized Gini coefficient for regression, which measures ranking ability based on the Lorenz curve. This is useful for evaluating loss cost models and risk predictions. (#147)
+* `mse()` computes the mean squared error. (#560)
 
-* `roc_dist()` was added to compute the Euclidean distance from (sensitivity, specificity) to the ideal point (1, 1) in ROC space. (#148)
+* `rmse_relative()` computes the relative root mean squared error, normalizing RMSE by the range of the true values. (#527)
 
-* `rmse_relative()` was added to compute relative root mean squared error, which normalizes RMSE by the range of the true values. (#527)
+* `fall_out()` and `miss_rate()` compute the false positive rate and false negative rate respectively. (#336)
 
-* `mse()` was added to compute the mean squared error. (#560)
+* `markedness()` computes the markedness metric (PPV + NPV - 1), the predictive power analog of `j_index()`. (#27)
 
-* Added documentation pages for each metric type (e.g., `?class-metrics`, `?numeric-metrics`) that list all available metrics with their direction and range. (#547, #540)
+* `roc_dist()` computes the Euclidean distance from the (sensitivity, specificity) point to the ideal point (1, 1) in ROC space. (#148)
 
-* For metrics with alternate argument values that will be used in a metric set, the documentation pages emphasize doing this via `metric_tweak()` #626   
+* `sedi()` computes the Symmetric Extremal Dependence Index, a prevalence-independent skill metric for binary classification that remains reliable at extreme class imbalance. (#630)
 
-* `get_metrics()` was added to return a `metric_set()` containing all metrics of a specified type. (#534)
+* `ranked_prob_score()` computes the ranked probability score for ordinal classification data. (#524)
 
-* All class metrics and probability metrics now include mathematical formulas in their documentation. (#605)
+* `weighted_interval_score()` is a new quantile metric. (#569)
 
-* `mpe()` documentation now includes the formula and clarifies the interpretation of positive and negative values. (#345)
+## Improvements
 
-* `classification_cost()` documentation now correctly refers to the `cost` column of the data.frame that can be passed to the `costs` arguemtn. (#343)
-
-* `new_metric()` and related functions gain an optional `range` argument to store the valid output range of a metric. This is a developer-facing change. (#572)
-
-* `markedness()` calculates the markedness metric (PPV + NPV - 1), which is the predictive power analog of informedness/j_index (#27).
-
-* `metric_set()` now provides a more informative error message when `estimate` is not explicitly named for class/prob or survival metric sets. (#504)
-
-* Added `thresholds` argument to `roc_curve()` to allow for custom thresholds to calculate curves for. (#488)
-
-* Speed up survival metrics performance. Some of this performance comes from slightly less strict input checking. (#576)
-
-* All metrics now have documented ranges of possible values in addition to what direction is the best. (#572)
-
-* The ranked probability score for ordinal classification data was added with `ranked_prob_score()`. (#524)
-
-* Fixed bug where `brier_class()` returns NaN with extreme value case weights. (#614)
-
-* `poisson_log_loss()` has been enhanced to handle 0 valued estimates, no longer returning `Inf` or `NaN`. (#513)
-
-* Fixed bug where ranked probability metrics didn't work in combination with other classification metrics in `metric_set()`. (#539)
-
-* Added infrastructure for survival metrics on the linear predictor. (#551)
-
-* Added infrastructure for quantile metrics. (#569)
-
-* Added quantile metric `weighted_interval_score()`. (#569)
-
-* Added checks to all metrics for `na_rm` argument. (#349)
-
-* Removed crayon as a suggested package. (#574)
+* Added checks to all metrics for the `na_rm` argument. (#349)
 
 * Added improved argument checking for metrics with additional arguments. (#519)
 
+* Added documentation pages for each metric type (e.g., `?class-metrics`, `?numeric-metrics`) listing all available metrics with their direction and range. (#547, #540)
+
+* All class metrics and probability metrics now include mathematical formulas in their documentation. (#605)
+
+* All metrics now document their valid range of output values. (#572)
+
+* Documentation pages for metrics with alternate argument values now emphasize using `metric_tweak()` when building metric sets. (#626)
+
+* Survival metrics performance has been improved. (#576)
+
+* `brier_class()` has gained the `event_level` argument. (#515)
+
+* `get_metrics()` has been added to return a `metric_set()` containing all metrics of a specified type. (#534)
+
+* `metric_set()` now provides a more informative error message when `estimate` is not explicitly named for class/prob or survival metric sets. (#504)
+
+* `roc_curve()` has gained a `thresholds` argument for specifying custom thresholds at which the curve is evaluated. (#488)
+
+## Bug Fixes
+
+* `brier_class()` no longer returns `NaN` with extreme value case weights. (#614)
+
+* `classification_cost()` documentation now correctly refers to the `cost` column of the costs data frame. (#343)
+
+* `mpe()` documentation now includes the formula and clarifies the interpretation of positive and negative values. (#345)
+
+* `poisson_log_loss()` now handles 0-valued estimates without returning `Inf` or `NaN`. (#513)
+
+* Fixed a bug where ranked probability metrics didn't work in combination with other classification metrics in `metric_set()`. (#539)
+
 * Fixed documentation to show equations correctly. (#541)
 
-* `fall_out()` and `miss_rate()` have been added to compute the false positive rate and false negative rate respectively (#336).
+## Developer
+
+* Added infrastructure for quantile metrics. (#569)
+
+* Added infrastructure for survival metrics on the linear predictor. (#551)
+
+* `new_metric()` and related functions gain an optional `range` argument to store the valid output range of a metric. (#572)
+
+* Removed crayon as a suggested package. (#574)
 
 # yardstick 1.3.2
 
