@@ -1,10 +1,10 @@
-#' Symmetric Extremal Dependence Index (SEDI)
+#' Symmetric Extremal Dependence Index
 #'
 #' @description
-#' SEDI is a skill metric for classification that remains reliable at
-#' extreme prevalence levels where traditional metrics (TSS, MCC, Kappa)
-#' degrade. It is defined using the hit rate (sensitivity) and false alarm rate
-#' (1 - specificity):
+#' Symmetric Extremal Dependence Index (SEDI) is a skill metric for
+#' classification that remains reliable at extreme prevalence levels where
+#' traditional metrics (TSS, MCC, Kappa) degrade. It is defined using the hit
+#' rate (sensitivity) and false alarm rate (1 - specificity):
 #'
 #' \deqn{\text{SEDI} = \frac{\ln F - \ln H - \ln(1-F) + \ln(1-H)}
 #' {\ln F + \ln H + \ln(1-F) + \ln(1-H)}}
@@ -202,8 +202,8 @@ sedi_binary <- function(data, event_level) {
 sedi_multiclass <- function(data, estimator) {
   n <- sum(data)
   tp <- diag(data)
-  tpfp <- rowSums(data)  # predicted as class k
-  tpfn <- colSums(data)  # actual class k
+  tpfp <- rowSums(data) # predicted as class k
+  tpfn <- colSums(data) # actual class k
   fn <- tpfn - tp
   fp <- tpfp - tp
   tn <- n - (tpfp + tpfn - tp)

@@ -4,7 +4,7 @@
 \alias{sedi}
 \alias{sedi.data.frame}
 \alias{sedi_vec}
-\title{Symmetric Extremal Dependence Index (SEDI)}
+\title{Symmetric Extremal Dependence Index}
 \usage{
 sedi(data, ...)
 
@@ -76,10 +76,10 @@ the number of groups.
 For \code{sedi_vec()}, a single \code{numeric} value (or \code{NA}).
 }
 \description{
-SEDI is a skill metric for classification that remains reliable at
-extreme prevalence levels where traditional metrics (TSS, MCC, Kappa)
-degrade. It is defined using the hit rate (sensitivity) and false alarm rate
-(1 - specificity):
+Symmetric Extremal Dependence Index (SEDI) is a skill metric for
+classification that remains reliable at extreme prevalence levels where
+traditional metrics (TSS, MCC, Kappa) degrade. It is defined using the hit
+rate (sensitivity) and false alarm rate (1 - specificity):
 
 \deqn{\text{SEDI} = \frac{\ln F - \ln H - \ln(1-F) + \ln(1-H)}
 {\ln F + \ln H + \ln(1-F) + \ln(1-H)}}
