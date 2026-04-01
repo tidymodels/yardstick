@@ -12,6 +12,8 @@
 
 * Added documentation pages for each metric type (e.g., `?class-metrics`, `?numeric-metrics`) that list all available metrics with their direction and range. (#547, #540)
 
+* For metrics with alternate argument values that will be used in a metric set, the documentation pages emphasize doing this via `metric_tweak()` #626   
+
 * `get_metrics()` was added to return a `metric_set()` containing all metrics of a specified type. (#534)
 
 * All class metrics and probability metrics now include mathematical formulas in their documentation. (#605)

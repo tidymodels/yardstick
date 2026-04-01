@@ -78,6 +78,16 @@
 #' hpc_cv |>
 #'   group_by(Resample) |>
 #'   kap(obs, pred)
+#'
+#' # Using a different value of 'weighting'... if you are adding the metric to a
+#' # metric set, you can create a new metric function with the updated argument
+#' # value:
+#'
+#' kap_lin  <- metric_tweak("kap_lin",  kap, weighting = "linear")
+#' kap_quad <- metric_tweak("kap_quad", kap, weighting = "quadratic")
+#' multi_metrics <- metric_set(kap, kap_lin, kap_quad)
+#' multi_metrics(hpc_cv, obs, estimate = pred)
+
 kap <- function(data, ...) {
   UseMethod("kap")
 }

@@ -35,6 +35,14 @@
 #' _Annals of Statistics_, 53 (1), 73-101.
 #'
 #' @template examples-numeric
+#' @examples
+#' # Using a different value of 'delta'... if you are adding the metric to a
+#' # metric set, you can create a new metric function with the updated argument
+#' # value:
+#'
+#' huber_loss_2 <- metric_tweak("huber_loss_2", huber_loss, delta = 2)
+#' multi_metrics <- metric_set(huber_loss, huber_loss_2)
+#' multi_metrics(solubility_test, solubility, prediction)
 #'
 #' @export
 huber_loss <- function(data, ...) {

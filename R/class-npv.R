@@ -48,7 +48,14 @@
 #' 102.
 #'
 #' @template examples-class
+#' @examples
+#' # Using a different value of 'prevalence'... if you are adding the metric to a
+#' # metric set, you can create a new metric function with the updated argument
+#' # value:
 #'
+#' npv_alt_prev  <- metric_tweak("npv_alt_prev", npv, prevalence = 0.40)
+#' multi_metrics <- metric_set(npv, npv_alt_prev)
+#' multi_metrics(two_class_example, truth, estimate = predicted)
 #' @export
 npv <- function(data, ...) {
   UseMethod("npv")
