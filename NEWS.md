@@ -1,4 +1,4 @@
-# yardstick (development version)
+# yardstick 1.4.0
 
 ## Breaking Changes
 
