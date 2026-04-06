@@ -23,7 +23,7 @@ Imports:
     cli,
     dplyr (>= 1.1.0),
     generics (>= 0.1.2),
-    hardhat (>= 1.4.2.9000),
+    hardhat (>= 1.4.3),
     lifecycle (>= 1.0.3),
     rlang (>= 1.1.4),
     tibble,
@@ -137,5 +137,3 @@ Collate:
     'template.R'
     'validation.R'
     'yardstick-package.R'
-Remotes:
-    tidymodels/hardhat
