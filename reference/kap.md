@@ -1,0 +1,226 @@
+# Kappa
+
+Kappa is a similar measure to
+[`accuracy()`](https://yardstick.tidymodels.org/reference/accuracy.md),
+but is normalized by the accuracy that would be expected by chance alone
+and is very useful when one or more classes have large frequency
+distributions.
+
+## Usage
+
+``` r
+kap(data, ...)
+
+# S3 method for class 'data.frame'
+kap(
+  data,
+  truth,
+  estimate,
+  weighting = "none",
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
+
+kap_vec(
+  truth,
+  estimate,
+  weighting = "none",
+  na_rm = TRUE,
+  case_weights = NULL,
+  ...
+)
+```
+
+## Arguments
+
+- data:
+
+  Either a `data.frame` containing the columns specified by the `truth`
+  and `estimate` arguments, or a `table`/`matrix` where the true class
+  results should be in the columns of the table.
+
+- ...:
+
+  Not currently used.
+
+- truth:
+
+  The column identifier for the true class results (that is a `factor`).
+  This should be an unquoted column name although this argument is
+  passed by expression and supports
+  [quasiquotation](https://rlang.r-lib.org/reference/topic-inject.html)
+  (you can unquote column names). For `_vec()` functions, a `factor`
+  vector.
+
+- estimate:
+
+  The column identifier for the predicted class results (that is also
+  `factor`). As with `truth` this can be specified different ways but
+  the primary method is to use an unquoted variable name. For `_vec()`
+  functions, a `factor` vector.
+
+- weighting:
+
+  A weighting to apply when computing the scores. One of: `"none"`,
+  `"linear"`, or `"quadratic"`. Linear and quadratic weighting penalizes
+  mis-predictions that are "far away" from the true value. Note that
+  distance is judged based on the ordering of the levels in `truth` and
+  `estimate`. It is recommended to provide ordered factors for `truth`
+  and `estimate` to explicitly code the ordering, but this is not
+  required.
+
+  In the binary case, all 3 weightings produce the same value, since it
+  is only ever possible to be 1 unit away from the true value.
+
+- na_rm:
+
+  A `logical` value indicating whether `NA` values should be stripped
+  before the computation proceeds.
+
+- case_weights:
+
+  The optional column identifier for case weights. This should be an
+  unquoted column name that evaluates to a numeric column in `data`. For
+  `_vec()` functions, a numeric vector,
+  [`hardhat::importance_weights()`](https://hardhat.tidymodels.org/reference/importance_weights.html),
+  or
+  [`hardhat::frequency_weights()`](https://hardhat.tidymodels.org/reference/frequency_weights.html).
+
+## Value
+
+A `tibble` with columns `.metric`, `.estimator`, and `.estimate` and 1
+row of values.
+
+For grouped data frames, the number of rows returned will be the same as
+the number of groups.
+
+For `kap_vec()`, a single `numeric` value (or `NA`).
+
+## Details
+
+Suppose a 2x2 table with notation:
+
+|           |           |          |
+|-----------|-----------|----------|
+|           | Reference |          |
+| Predicted | Positive  | Negative |
+| Positive  | A         | B        |
+| Negative  | C         | D        |
+
+The formulas used here are:
+
+\$\$p_o = \frac{A + D}{A + B + C + D}\$\$
+
+\$\$p_e = \frac{(A + B)(A + C) + (C + D)(B + D)}{(A + B + C + D)^2}\$\$
+
+\$\$\text{Kappa} = \frac{p_o - p_e}{1 - p_e}\$\$
+
+where \\p_o\\ is the observed agreement and \\p_e\\ is the expected
+agreement by chance.
+
+Kappa is a metric that should be maximized. The output ranges from -1 to
+1, with 1 indicating perfect agreement. Negative values indicate
+agreement worse than chance.
+
+## Multiclass
+
+Kappa extends naturally to multiclass scenarios. Because of this, macro
+and micro averaging are not implemented.
+
+## References
+
+Cohen, J. (1960). "A coefficient of agreement for nominal scales".
+*Educational and Psychological Measurement*. 20 (1): 37-46.
+
+Cohen, J. (1968). "Weighted kappa: Nominal scale agreement provision for
+scaled disagreement or partial credit". *Psychological Bulletin*. 70
+(4): 213-220.
+
+## See also
+
+[All class
+metrics](https://yardstick.tidymodels.org/reference/class-metrics.md)
+
+Other class metrics:
+[`accuracy()`](https://yardstick.tidymodels.org/reference/accuracy.md),
+[`bal_accuracy()`](https://yardstick.tidymodels.org/reference/bal_accuracy.md),
+[`detection_prevalence()`](https://yardstick.tidymodels.org/reference/detection_prevalence.md),
+[`f_meas()`](https://yardstick.tidymodels.org/reference/f_meas.md),
+[`fall_out()`](https://yardstick.tidymodels.org/reference/fall_out.md),
+[`j_index()`](https://yardstick.tidymodels.org/reference/j_index.md),
+[`markedness()`](https://yardstick.tidymodels.org/reference/markedness.md),
+[`mcc()`](https://yardstick.tidymodels.org/reference/mcc.md),
+[`miss_rate()`](https://yardstick.tidymodels.org/reference/miss_rate.md),
+[`npv()`](https://yardstick.tidymodels.org/reference/npv.md),
+[`ppv()`](https://yardstick.tidymodels.org/reference/ppv.md),
+[`precision()`](https://yardstick.tidymodels.org/reference/precision.md),
+[`recall()`](https://yardstick.tidymodels.org/reference/recall.md),
+[`roc_dist()`](https://yardstick.tidymodels.org/reference/roc_dist.md),
+[`sedi()`](https://yardstick.tidymodels.org/reference/sedi.md),
+[`sens()`](https://yardstick.tidymodels.org/reference/sens.md),
+[`spec()`](https://yardstick.tidymodels.org/reference/spec.md)
+
+## Author
+
+Max Kuhn
+
+Jon Harmon
+
+## Examples
+
+``` r
+library(dplyr)
+data("two_class_example")
+data("hpc_cv")
+
+# Two class
+kap(two_class_example, truth, predicted)
+#> # A tibble: 1 × 3
+#>   .metric .estimator .estimate
+#>   <chr>   <chr>          <dbl>
+#> 1 kap     binary         0.675
+
+# Multiclass
+# kap() has a natural multiclass extension
+hpc_cv |>
+  filter(Resample == "Fold01") |>
+  kap(obs, pred)
+#> # A tibble: 1 × 3
+#>   .metric .estimator .estimate
+#>   <chr>   <chr>          <dbl>
+#> 1 kap     multiclass     0.533
+
+# Groups are respected
+hpc_cv |>
+  group_by(Resample) |>
+  kap(obs, pred)
+#> # A tibble: 10 × 4
+#>    Resample .metric .estimator .estimate
+#>    <chr>    <chr>   <chr>          <dbl>
+#>  1 Fold01   kap     multiclass     0.533
+#>  2 Fold02   kap     multiclass     0.512
+#>  3 Fold03   kap     multiclass     0.594
+#>  4 Fold04   kap     multiclass     0.511
+#>  5 Fold05   kap     multiclass     0.514
+#>  6 Fold06   kap     multiclass     0.486
+#>  7 Fold07   kap     multiclass     0.454
+#>  8 Fold08   kap     multiclass     0.531
+#>  9 Fold09   kap     multiclass     0.454
+#> 10 Fold10   kap     multiclass     0.492
+
+# Using a different value of 'weighting'... if you are adding the metric to a
+# metric set, you can create a new metric function with the updated argument
+# value:
+
+kap_lin  <- metric_tweak("kap_lin",  kap, weighting = "linear")
+kap_quad <- metric_tweak("kap_quad", kap, weighting = "quadratic")
+multi_metrics <- metric_set(kap, kap_lin, kap_quad)
+multi_metrics(hpc_cv, obs, estimate = pred)
+#> # A tibble: 3 × 3
+#>   .metric  .estimator .estimate
+#>   <chr>    <chr>          <dbl>
+#> 1 kap      multiclass     0.508
+#> 2 kap_lin  multiclass     0.593
+#> 3 kap_quad multiclass     0.692
+```

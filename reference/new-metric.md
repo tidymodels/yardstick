@@ -1,0 +1,57 @@
+# Construct a new metric function
+
+These functions provide convenient wrappers to create the three types of
+metric functions in yardstick: numeric metrics, class metrics, and class
+probability metrics. They add a metric-specific class to `fn` and attach
+a `direction` attribute. These features are used by
+[`metric_set()`](https://yardstick.tidymodels.org/reference/metric_set.md)
+and by [tune](https://tune.tidymodels.org/) when model tuning.
+
+See [Custom performance
+metrics](https://www.tidymodels.org/learn/develop/metrics/) for more
+information about creating custom metrics.
+
+## Usage
+
+``` r
+new_class_metric(fn, direction, range = NULL)
+
+new_prob_metric(fn, direction, range = NULL)
+
+new_ordered_prob_metric(fn, direction, range = NULL)
+
+new_numeric_metric(fn, direction, range = NULL)
+
+new_dynamic_survival_metric(fn, direction, range = NULL)
+
+new_integrated_survival_metric(fn, direction, range = NULL)
+
+new_static_survival_metric(fn, direction, range = NULL)
+
+new_linear_pred_survival_metric(fn, direction, range = NULL)
+
+new_quantile_metric(fn, direction, range = NULL)
+```
+
+## Arguments
+
+- fn:
+
+  A function. The metric function to attach a metric-specific class and
+  `direction` attribute to.
+
+- direction:
+
+  A string. One of:
+
+  - `"maximize"`
+
+  - `"minimize"`
+
+  - `"zero"`
+
+- range:
+
+  An optional numeric vector of length 2 giving the range of possible
+  output values, e.g. `c(0, 1)` or `c(0, Inf)`. Use `-Inf` and `Inf` for
+  unbounded ranges.
