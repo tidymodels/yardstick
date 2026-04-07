@@ -39,7 +39,7 @@
 #'
 #' @details
 #' MASE is a metric that should be `r attr(mase, "direction")`d. The output
-#' ranges from `r metric_range(mase)[1]` to `r metric_range(mase)[2]`, with
+#' ranges from `r metric_range_chr(mase, 1)` to `r metric_range_chr(mase, 2)`, with
 #' `r metric_optimal(mase)` indicating perfect predictions.
 #'
 #' The formula for MASE is:

@@ -16,7 +16,7 @@
 #'
 #' @details
 #' MAPE is a metric that should be `r attr(mape, "direction")`d. The output
-#' ranges from `r metric_range(mape)[1]` to `r metric_range(mape)[2]`, with
+#' ranges from `r metric_range_chr(mape, 1)` to `r metric_range_chr(mape, 2)`, with
 #' `r metric_optimal(mape)` indicating perfect predictions.
 #'
 #' The formula for MAPE is:

@@ -56,7 +56,7 @@ is returned for \code{mpe()}.
 }
 \details{
 MPE is a metric where the optimal value is 0. The
-output ranges from -∞ to ∞, with
+output ranges from -Inf to Inf, with
 0 indicating predictions are unbiased.
 
 The formula for MPE is:

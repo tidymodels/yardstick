@@ -16,7 +16,7 @@
 #'
 #' @details
 #' SMAPE is a metric that should be `r attr(smape, "direction")`d. The output
-#' ranges from `r metric_range(smape)[1]` to `r metric_range(smape)[2]`, with
+#' ranges from `r metric_range_chr(smape, 1)` to `r metric_range_chr(smape, 2)`, with
 #' `r metric_optimal(smape)` indicating perfect predictions.
 #'
 #' The formula for SMAPE is:

@@ -28,7 +28,7 @@
 #'
 #' @details
 #' RPD is a metric that should be `r attr(rpd, "direction")`d. The output
-#' ranges from `r metric_range(rpd)[1]` to `r metric_range(rpd)[2]`, with higher
+#' ranges from `r metric_range_chr(rpd, 1)` to `r metric_range_chr(rpd, 2)`, with higher
 #' values indicating better model performance.
 #'
 #' The formula for RPD is:

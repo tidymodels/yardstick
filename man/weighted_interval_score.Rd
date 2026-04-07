@@ -100,7 +100,7 @@ the context of COVID-19 forecasting.
 Weighted interval score is a metric that should be
 minimized. The output ranges from
 0 to
-∞, with
+Inf, with
 0 indicating perfect predictions.
 }
 \examples{

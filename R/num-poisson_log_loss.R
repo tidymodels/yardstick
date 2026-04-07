@@ -18,8 +18,8 @@
 #' @details
 #' Poisson log loss is a metric that should be
 #' `r attr(poisson_log_loss, "direction")`d. The output ranges from
-#' `r metric_range(poisson_log_loss)[1]` to
-#' `r metric_range(poisson_log_loss)[2]`, with
+#' `r metric_range_chr(poisson_log_loss, 1)` to
+#' `r metric_range_chr(poisson_log_loss, 2)`, with
 #' `r metric_optimal(poisson_log_loss)` indicating perfect predictions.
 #'
 #' The formula for Poisson log loss is:

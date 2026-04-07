@@ -27,7 +27,7 @@
 #'
 #' Balanced accuracy is a metric that should be
 #' `r attr(bal_accuracy, "direction")`d. The output ranges from
-#' `r metric_range(bal_accuracy)[1]` to `r metric_range(bal_accuracy)[2]`, with
+#' `r metric_range_chr(bal_accuracy, 1)` to `r metric_range_chr(bal_accuracy, 2)`, with
 #' `r metric_optimal(bal_accuracy)` indicating perfect predictions.
 #'
 #' @author Max Kuhn

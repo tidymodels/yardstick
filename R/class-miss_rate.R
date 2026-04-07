@@ -35,8 +35,8 @@
 #' \deqn{\text{Miss rate} = \frac{C}{A + C}}
 #'
 #' Miss rate is a metric that should be `r attr(miss_rate, "direction")`d. The
-#' output ranges from `r metric_range(miss_rate)[1]` to
-#' `r metric_range(miss_rate)[2]`, with `r metric_optimal(miss_rate)` indicating
+#' output ranges from `r metric_range_chr(miss_rate, 1)` to
+#' `r metric_range_chr(miss_rate, 2)`, with `r metric_optimal(miss_rate)` indicating
 #' that all actual positives were correctly predicted as positive (no false
 #' negatives).
 #'

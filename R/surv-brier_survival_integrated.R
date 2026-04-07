@@ -10,8 +10,8 @@
 #' @details
 #' Integrated Brier survival score is a metric that should be
 #' `r attr(brier_survival_integrated, "direction")`d. The output ranges from
-#' `r metric_range(brier_survival_integrated)[1]` to
-#' `r metric_range(brier_survival_integrated)[2]`, with
+#' `r metric_range_chr(brier_survival_integrated, 1)` to
+#' `r metric_range_chr(brier_survival_integrated, 2)`, with
 #' `r metric_optimal(brier_survival_integrated)` indicating perfect predictions.
 #'
 #' The integrated time-dependent brier score is calculated in an "area under the

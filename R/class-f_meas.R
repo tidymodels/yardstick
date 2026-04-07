@@ -36,8 +36,8 @@
 #' \deqn{F_{meas} = \frac{(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}{(\beta^2 \cdot \text{Precision}) + \text{Recall}}}
 #'
 #' F measure is a metric that should be `r attr(f_meas, "direction")`d. The
-#' output ranges from `r metric_range(f_meas)[1]` to
-#' `r metric_range(f_meas)[2]`, with `r metric_optimal(f_meas)` indicating
+#' output ranges from `r metric_range_chr(f_meas, 1)` to
+#' `r metric_range_chr(f_meas, 2)`, with `r metric_optimal(f_meas)` indicating
 #' perfect precision and recall.
 #'
 #' @references

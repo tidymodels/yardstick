@@ -35,7 +35,7 @@
 #' \deqn{\text{Specificity} = \frac{D}{B + D}}
 #'
 #' Specificity is a metric that should be `r attr(spec, "direction")`d. The
-#' output ranges from `r metric_range(spec)[1]` to `r metric_range(spec)[2]`,
+#' output ranges from `r metric_range_chr(spec, 1)` to `r metric_range_chr(spec, 2)`,
 #' with `r metric_optimal(spec)` indicating that all actual negatives were
 #' predicted as negative.
 #'

@@ -38,7 +38,7 @@
 #'
 #' @details
 #' RMSE is a metric that should be `r attr(rmse, "direction")`d. The output
-#' ranges from `r metric_range(rmse)[1]` to `r metric_range(rmse)[2]`, with
+#' ranges from `r metric_range_chr(rmse, 1)` to `r metric_range_chr(rmse, 2)`, with
 #' `r metric_optimal(rmse)` indicating perfect predictions.
 #'
 #' The formula for RMSE is:

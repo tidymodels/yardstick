@@ -35,7 +35,7 @@
 #' \deqn{\text{NPV} = \frac{\text{Specificity} \cdot (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) + (\text{Specificity} \cdot (1 - \text{Prevalence}))}}
 #'
 #' NPV is a metric that should be `r attr(npv, "direction")`d. The output
-#' ranges from `r metric_range(npv)[1]` to `r metric_range(npv)[2]`, with
+#' ranges from `r metric_range_chr(npv, 1)` to `r metric_range_chr(npv, 2)`, with
 #' `r metric_optimal(npv)` indicating all predicted negatives are true
 #' negatives.
 #'

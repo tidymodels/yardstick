@@ -36,7 +36,7 @@
 #'
 #' @details
 #' PR AUC is a metric that should be `r attr(pr_auc, "direction")`d. The output
-#' ranges from `r metric_range(pr_auc)[1]` to `r metric_range(pr_auc)[2]`, with
+#' ranges from `r metric_range_chr(pr_auc, 1)` to `r metric_range_chr(pr_auc, 2)`, with
 #' `r metric_optimal(pr_auc)` indicating perfect precision and recall at all
 #' thresholds.
 #'

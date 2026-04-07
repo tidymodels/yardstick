@@ -34,8 +34,8 @@
 #'
 #' @details
 #' ROC AUNU is a metric that should be `r attr(roc_aunu, "direction")`d. The
-#' output ranges from `r metric_range(roc_aunu)[1]` to
-#' `r metric_range(roc_aunu)[2]`, with `r metric_optimal(roc_aunu)` indicating
+#' output ranges from `r metric_range_chr(roc_aunu, 1)` to
+#' `r metric_range_chr(roc_aunu, 2)`, with `r metric_optimal(roc_aunu)` indicating
 #' perfect discrimination.
 #'
 #' The formula used here is:

@@ -26,7 +26,10 @@ test_that("Random predictions yield SEDI near 0", {
   set.seed(42)
   n <- 10000
   truth <- factor(sample(c("a", "b"), n, replace = TRUE), levels = c("a", "b"))
-  estimate <- factor(sample(c("a", "b"), n, replace = TRUE), levels = c("a", "b"))
+  estimate <- factor(
+    sample(c("a", "b"), n, replace = TRUE),
+    levels = c("a", "b")
+  )
   result <- sedi_vec(truth, estimate)
   expect_true(abs(result) < 0.1)
 })
@@ -76,17 +79,22 @@ test_that("Multiclass auto-selects macro estimator", {
 
   result <- sedi(
     data.frame(truth = truth, estimate = estimate),
-    truth, estimate
+    truth,
+    estimate
   )
 
   expect_identical(result$.estimator, "macro")
 })
 
 test_that("Multiclass SEDI is bounded [-1, 1]", {
-  truth <- factor(c("a", "b", "c", "a", "b", "c", "a", "b", "c"),
-                  levels = c("a", "b", "c"))
-  estimate <- factor(c("a", "c", "b", "b", "a", "c", "c", "b", "a"),
-                     levels = c("a", "b", "c"))
+  truth <- factor(
+    c("a", "b", "c", "a", "b", "c", "a", "b", "c"),
+    levels = c("a", "b", "c")
+  )
+  estimate <- factor(
+    c("a", "c", "b", "b", "a", "c", "c", "b", "a"),
+    levels = c("a", "b", "c")
+  )
 
   result <- sedi_vec(truth, estimate)
   expect_true(result >= -1 && result <= 1)
@@ -144,7 +152,9 @@ test_that("Case weights calculations are correct", {
     case_weights = c(1L, 10L, 2L)
   )
 
-  result <- sedi(df, truth, estimate, case_weights = case_weights)[[".estimate"]]
+  result <- sedi(df, truth, estimate, case_weights = case_weights)[[
+    ".estimate"
+  ]]
   expect_type(result, "double")
   expect_true(result >= -1 && result <= 1)
 })
@@ -217,14 +227,17 @@ test_that("SEDI is prevalence-independent", {
   # Same sens and spec should give same SEDI regardless of sample size
   # 10:90 prevalence
   truth1 <- factor(c(rep("a", 10), rep("b", 90)), levels = c("a", "b"))
-  est1 <- factor(c(rep("a", 8), rep("b", 2), rep("b", 85), rep("a", 5)),
-                 levels = c("a", "b"))
-
+  est1 <- factor(
+    c(rep("a", 8), rep("b", 2), rep("b", 85), rep("a", 5)),
+    levels = c("a", "b")
+  )
 
   # 1:999 prevalence (same rates, different N)
   truth2 <- factor(c(rep("a", 100), rep("b", 9000)), levels = c("a", "b"))
-  est2 <- factor(c(rep("a", 80), rep("b", 20), rep("b", 8500), rep("a", 500)),
-                 levels = c("a", "b"))
+  est2 <- factor(
+    c(rep("a", 80), rep("b", 20), rep("b", 8500), rep("a", 500)),
+    levels = c("a", "b")
+  )
 
   # sens = 0.8, spec ≈ 0.944 for both
   expect_equal(
@@ -242,9 +255,16 @@ test_that("Multiclass SEDI is prevalence-independent per class", {
     levels = c("a", "b", "c")
   )
   est1 <- factor(
-    c(rep("a", 4), "b",
-      rep("b", 40), rep("c", 3), rep("a", 2),
-      rep("c", 45), rep("b", 3), rep("a", 2)),
+    c(
+      rep("a", 4),
+      "b",
+      rep("b", 40),
+      rep("c", 3),
+      rep("a", 2),
+      rep("c", 45),
+      rep("b", 3),
+      rep("a", 2)
+    ),
     levels = c("a", "b", "c")
   )
 
@@ -254,9 +274,16 @@ test_that("Multiclass SEDI is prevalence-independent per class", {
     levels = c("a", "b", "c")
   )
   est2 <- factor(
-    c(rep("a", 40), rep("b", 10),
-      rep("b", 400), rep("c", 30), rep("a", 20),
-      rep("c", 450), rep("b", 30), rep("a", 20)),
+    c(
+      rep("a", 40),
+      rep("b", 10),
+      rep("b", 400),
+      rep("c", 30),
+      rep("a", 20),
+      rep("c", 450),
+      rep("b", 30),
+      rep("a", 20)
+    ),
     levels = c("a", "b", "c")
   )
 

@@ -34,8 +34,8 @@
 #'
 #' @details
 #' ROC AUNP is a metric that should be `r attr(roc_aunp, "direction")`d. The
-#' output ranges from `r metric_range(roc_aunp)[1]` to
-#' `r metric_range(roc_aunp)[2]`, with `r metric_optimal(roc_aunp)` indicating
+#' output ranges from `r metric_range_chr(roc_aunp, 1)` to
+#' `r metric_range_chr(roc_aunp, 2)`, with `r metric_optimal(roc_aunp)` indicating
 #' perfect discrimination.
 #'
 #' The formula used here is:

@@ -18,7 +18,7 @@
 #'
 #' @details
 #' MPE is a metric where the optimal value is `r metric_optimal(mpe)`. The
-#' output ranges from `r metric_range(mpe)[1]` to `r metric_range(mpe)[2]`, with
+#' output ranges from `r metric_range_chr(mpe, 1)` to `r metric_range_chr(mpe, 2)`, with
 #' `r metric_optimal(mpe)` indicating predictions are unbiased.
 #'
 #' The formula for MPE is:

@@ -99,7 +99,7 @@ probabilities and the mean cost is returned.
 Classification cost is a metric that should be
 minimized. The output ranges from
 0 to
-∞, with
+Inf, with
 0 indicating perfect predictions (when
 costs for correct predictions are zero).
 

@@ -10,8 +10,8 @@
 #' @details
 #' ROC AUC survival is a metric that should be
 #' `r attr(roc_auc_survival, "direction")`d. The output ranges from
-#' `r metric_range(roc_auc_survival)[1]` to
-#' `r metric_range(roc_auc_survival)[2]`, with
+#' `r metric_range_chr(roc_auc_survival, 1)` to
+#' `r metric_range_chr(roc_auc_survival, 2)`, with
 #' `r metric_optimal(roc_auc_survival)` indicating perfect discrimination.
 #'
 #' This formulation takes survival probability predictions at one or more

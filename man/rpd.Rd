@@ -67,7 +67,7 @@ Bellon-Maurel et al. (2010) to address some of these issues, and
 generalise the RPD to non-normally distributed variables.
 
 RPD is a metric that should be maximized. The output
-ranges from 0 to ∞, with higher
+ranges from 0 to Inf, with higher
 values indicating better model performance.
 
 The formula for RPD is:

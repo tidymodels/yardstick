@@ -72,7 +72,7 @@ quadratic for small residual values and linear for large residual values.
 \details{
 Huber loss is a metric that should be minimized. The
 output ranges from 0 to
-∞, with 0
+Inf, with 0
 indicating perfect predictions.
 
 The formula for Huber loss is:

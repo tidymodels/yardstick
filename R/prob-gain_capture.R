@@ -24,8 +24,8 @@
 #'
 #' @details
 #' Gain capture is a metric that should be `r attr(gain_capture, "direction")`d.
-#' The output ranges from `r metric_range(gain_capture)[1]` to
-#' `r metric_range(gain_capture)[2]`, with `r metric_optimal(gain_capture)`
+#' The output ranges from `r metric_range_chr(gain_capture, 1)` to
+#' `r metric_range_chr(gain_capture, 2)`, with `r metric_optimal(gain_capture)`
 #' indicating perfect discrimination.
 #'
 #' The formula used here is:

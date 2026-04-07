@@ -9,8 +9,8 @@
 #' @details
 #' Royston D statistic is a metric that should be
 #' `r attr(royston_survival, "direction")`d. The output ranges from
-#' `r metric_range(royston_survival)[1]` to
-#' `r metric_range(royston_survival)[2]`, with `r metric_optimal(royston_survival)`
+#' `r metric_range_chr(royston_survival, 1)` to
+#' `r metric_range_chr(royston_survival, 2)`, with `r metric_optimal(royston_survival)`
 #' indicating perfect prognostic separation.
 #'
 #' Royston and Sauerbrei proposed $R^2_D$ as a measure of explained variation

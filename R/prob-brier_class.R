@@ -8,8 +8,8 @@
 #' @template return
 #' @details
 #' Brier score is a metric that should be `r attr(brier_class, "direction")`d.
-#' The output ranges from `r metric_range(brier_class)[1]` to
-#' `r metric_range(brier_class)[2]`, with `r metric_optimal(brier_class)`
+#' The output ranges from `r metric_range_chr(brier_class, 1)` to
+#' `r metric_range_chr(brier_class, 2)`, with `r metric_optimal(brier_class)`
 #' indicating perfect predictions.
 #'
 #' The Brier score is analogous to the mean squared error in regression models.

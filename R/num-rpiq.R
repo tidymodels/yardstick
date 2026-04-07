@@ -19,7 +19,7 @@
 #'
 #' @details
 #' RPIQ is a metric that should be `r attr(rpiq, "direction")`d. The output
-#' ranges from `r metric_range(rpiq)[1]` to `r metric_range(rpiq)[2]`, with
+#' ranges from `r metric_range_chr(rpiq, 1)` to `r metric_range_chr(rpiq, 2)`, with
 #' higher values indicating better model performance.
 #'
 #' The formula for RPIQ is:

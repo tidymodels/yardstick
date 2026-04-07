@@ -256,7 +256,10 @@ test_that("`as.data.frame.table()` method is run on the underlying `table` objec
 })
 
 test_that("`...` is defunct", {
-  expect_snapshot(error = TRUE, conf_mat(two_class_example, truth, predicted, foo = 1))
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(two_class_example, truth, predicted, foo = 1)
+  )
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
   expect_snapshot(error = TRUE, conf_mat(hpc_cv, obs, pred, foo = 1))

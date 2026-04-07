@@ -25,8 +25,8 @@
 #'   (1 - \text{Specificity})^2}}
 #'
 #' `roc_dist` is a metric that should be `r attr(roc_dist, "direction")`d. The
-#' output ranges from `r metric_range(roc_dist)[1]` to
-#' `r metric_range(roc_dist)[2]`, with `r metric_optimal(roc_dist)` indicating
+#' output ranges from `r metric_range_chr(roc_dist, 1)` to
+#' `r metric_range_chr(roc_dist, 2)`, with `r metric_optimal(roc_dist)` indicating
 #' perfect sensitivity and specificity.
 #'
 #' @family class metrics

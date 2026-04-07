@@ -7,7 +7,7 @@
 #'
 #' @details
 #' MSD is a metric where the optimal value is `r metric_optimal(msd)`. The
-#' output ranges from `r metric_range(msd)[1]` to `r metric_range(msd)[2]`, with
+#' output ranges from `r metric_range_chr(msd, 1)` to `r metric_range_chr(msd, 2)`, with
 #' `r metric_optimal(msd)` indicating predictions are unbiased.
 #'
 #' The formula for MSD is:

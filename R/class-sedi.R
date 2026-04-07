@@ -25,7 +25,7 @@
 #' \deqn{F = 1 - \text{Specificity} = \frac{B}{B + D}}
 #'
 #' SEDI is a metric that should be `r attr(sedi, "direction")`d. The output
-#' ranges from `r metric_range(sedi)[1]` to `r metric_range(sedi)[2]`, with
+#' ranges from `r metric_range_chr(sedi, 1)` to `r metric_range_chr(sedi, 2)`, with
 #' `r metric_optimal(sedi)` indicating perfect discrimination.
 #'
 #' SEDI is **base-rate independent**: its value depends only on sensitivity

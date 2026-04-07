@@ -72,7 +72,7 @@ Like \code{\link[=huber_loss]{huber_loss()}}, this is less sensitive to outliers
 Pseudo-Huber loss is a metric that should be
 minimized. The output ranges from
 0 to
-∞, with
+Inf, with
 0 indicating perfect predictions.
 
 The formula for Pseudo-Huber loss is:

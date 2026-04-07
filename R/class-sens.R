@@ -70,7 +70,7 @@
 #' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
 #'
 #' Sensitivity is a metric that should be `r attr(sens, "direction")`d. The
-#' output ranges from `r metric_range(sens)[1]` to `r metric_range(sens)[2]`,
+#' output ranges from `r metric_range_chr(sens, 1)` to `r metric_range_chr(sens, 2)`,
 #' with `r metric_optimal(sens)` indicating that all actual positives were
 #' predicted as positive.
 #'

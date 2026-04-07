@@ -55,7 +55,7 @@ and predicted values (and not of accuracy).
 }
 \details{
 RPIQ is a metric that should be maximized. The output
-ranges from 0 to ∞, with
+ranges from 0 to Inf, with
 higher values indicating better model performance.
 
 The formula for RPIQ is:

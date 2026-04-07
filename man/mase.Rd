@@ -95,7 +95,7 @@ naive mean absolute error can easily be computed with
 \code{mae(data, truth, lagged_truth)}.
 
 MASE is a metric that should be minimized. The output
-ranges from 0 to ∞, with
+ranges from 0 to Inf, with
 0 indicating perfect predictions.
 
 The formula for MASE is:

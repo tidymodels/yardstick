@@ -23,7 +23,7 @@
 #' @details
 #' Traditional R squared is a metric that should be
 #' `r attr(rsq_trad, "direction")`d. The output ranges from
-#' `r metric_range(rsq_trad)[1]` to `r metric_range(rsq_trad)[2]`, with
+#' `r metric_range_chr(rsq_trad, 1)` to `r metric_range_chr(rsq_trad, 2)`, with
 #' `r metric_optimal(rsq_trad)` indicating perfect predictions. Negative values
 #' can occur when the model is non-informative.
 #'
