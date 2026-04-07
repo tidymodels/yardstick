@@ -125,7 +125,8 @@ The formulas used here are:
 \text{Specificity})^2}\$\$
 
 `roc_dist` is a metric that should be minimized. The output ranges from
-0 to 1.4142136, with 0 indicating perfect sensitivity and specificity.
+0 to 1.4142135623731, with 0 indicating perfect sensitivity and
+specificity.
 
 ## Relevant Level
 

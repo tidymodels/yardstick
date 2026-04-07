@@ -68,7 +68,7 @@ For `rmse_vec()`, a single `numeric` value (or `NA`).
 ## Details
 
 RMSE is a metric that should be minimized. The output ranges from 0 to
-∞, with 0 indicating perfect predictions.
+Inf, with 0 indicating perfect predictions.
 
 The formula for RMSE is:
 

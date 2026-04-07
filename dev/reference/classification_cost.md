@@ -116,7 +116,7 @@ For `class_cost_vec()`, a single `numeric` value (or `NA`).
 ## Details
 
 Classification cost is a metric that should be minimized. The output
-ranges from 0 to ∞, with 0 indicating perfect predictions (when costs
+ranges from 0 to Inf, with 0 indicating perfect predictions (when costs
 for correct predictions are zero).
 
 The formula used here is:

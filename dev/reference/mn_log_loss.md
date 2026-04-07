@@ -112,7 +112,7 @@ log loss penalizes `.6` because it is "less sure" of its result compared
 to the probability of `.9`.
 
 Log loss is a metric that should be minimized. The output ranges from 0
-to ∞, with 0 indicating perfect predictions.
+to Inf, with 0 indicating perfect predictions.
 
 The formula used here is:
 

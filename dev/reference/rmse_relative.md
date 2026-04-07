@@ -70,7 +70,7 @@ For `rmse_relative_vec()`, a single `numeric` value (or `NA`).
 ## Details
 
 Relative RMSE is a metric that should be minimized. The output ranges
-from 0 to ∞, with 0 indicating perfect predictions.
+from 0 to Inf, with 0 indicating perfect predictions.
 
 The formula for relative RMSE is:
 

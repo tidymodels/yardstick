@@ -74,7 +74,7 @@ single `numeric` value (or `NA`).
 ## Details
 
 RPIQ is a metric that should be maximized. The output ranges from 0 to
-∞, with higher values indicating better model performance.
+Inf, with higher values indicating better model performance.
 
 The formula for RPIQ is:
 

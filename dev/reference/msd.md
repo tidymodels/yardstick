@@ -69,8 +69,8 @@ For `msd_vec()`, a single `numeric` value (or `NA`).
 
 ## Details
 
-MSD is a metric where the optimal value is 0. The output ranges from -∞
-to ∞, with 0 indicating predictions are unbiased.
+MSD is a metric where the optimal value is 0. The output ranges from
+-Inf to Inf, with 0 indicating predictions are unbiased.
 
 The formula for MSD is:
 

@@ -2,147 +2,182 @@
 
 ## yardstick (development version)
 
-- [`sedi()`](https://yardstick.tidymodels.org/dev/reference/sedi.md) was
-  added to compute the Symmetric Extremal Dependence Index, a
-  prevalence-independent skill metric for classification. SEDI remains
-  reliable at extreme class imbalance (prevalence \< 2.5%) where TSS and
-  MCC degrade. Supports binary and multiclass (macro, macro-weighted,
-  micro averaging via one-vs-all decomposition). Based on Ferro &
-  Stephenson (2011) and recommended by Wunderlich et al. (2019) for
-  species distribution models with rare events.
+## yardstick 1.4.0
 
-- [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
-  has gained the `event_level` argument.
-  ([\#515](https://github.com/tidymodels/yardstick/issues/515))
+CRAN release: 2026-04-07
+
+### Breaking Changes
+
+- The global option `yardstick.event_first` (deprecated in 0.0.7) now
+  throws an error. Use the `event_level` argument of individual metric
+  functions instead.
+  ([\#632](https://github.com/tidymodels/yardstick/issues/632))
+
+- [`conf_mat()`](https://yardstick.tidymodels.org/dev/reference/conf_mat.md)
+  now throws an error if anything is passed to `...` (deprecated in
+  1.0.0). This argument has had no effect since case weight support was
+  added. ([\#632](https://github.com/tidymodels/yardstick/issues/632))
+
+- [`roc_auc()`](https://yardstick.tidymodels.org/dev/reference/roc_auc.md),
+  [`roc_aunp()`](https://yardstick.tidymodels.org/dev/reference/roc_aunp.md),
+  [`roc_aunu()`](https://yardstick.tidymodels.org/dev/reference/roc_aunu.md),
+  and
+  [`roc_curve()`](https://yardstick.tidymodels.org/dev/reference/roc_curve.md)
+  now throw an error if a non-empty list is passed to `options`
+  (deprecated in 1.0.0). Use the pROC package directly if you need these
+  features.
+  ([\#632](https://github.com/tidymodels/yardstick/issues/632))
+
+### Deprecations
+
+- [`dots_to_estimate()`](https://yardstick.tidymodels.org/dev/reference/developer-helpers.md),
+  [`metric_summarizer()`](https://yardstick.tidymodels.org/dev/reference/metric_summarizer.md),
+  and
+  [`metric_vec_template()`](https://yardstick.tidymodels.org/dev/reference/metric_vec_template.md)
+  (soft-deprecated in 1.2.0) now warn for all users. See the yardstick
+  1.2.0 release notes for recommended replacements.
+  ([\#632](https://github.com/tidymodels/yardstick/issues/632))
+
+### New Metrics
 
 - [`gini_coef()`](https://yardstick.tidymodels.org/dev/reference/gini_coef.md)
-  was added to compute the normalized Gini coefficient for regression,
-  which measures ranking ability based on the Lorenz curve. This is
-  useful for evaluating loss cost models and risk predictions.
+  computes the normalized Gini coefficient for regression, which
+  measures ranking ability based on the Lorenz curve.
   ([\#147](https://github.com/tidymodels/yardstick/issues/147))
 
-- [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
-  was added to compute the Euclidean distance from (sensitivity,
-  specificity) to the ideal point (1, 1) in ROC space.
-  ([\#148](https://github.com/tidymodels/yardstick/issues/148))
-
-- [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)
-  was added to compute relative root mean squared error, which
-  normalizes RMSE by the range of the true values.
-  ([\#527](https://github.com/tidymodels/yardstick/issues/527))
-
-- [`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md) was
-  added to compute the mean squared error.
+- [`mse()`](https://yardstick.tidymodels.org/dev/reference/mse.md)
+  computes the mean squared error.
   ([\#560](https://github.com/tidymodels/yardstick/issues/560))
 
+- [`rmse_relative()`](https://yardstick.tidymodels.org/dev/reference/rmse_relative.md)
+  computes the relative root mean squared error, normalizing RMSE by the
+  range of the true values.
+  ([\#527](https://github.com/tidymodels/yardstick/issues/527))
+
+- [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)
+  and
+  [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)
+  compute the false positive rate and false negative rate respectively.
+  ([\#336](https://github.com/tidymodels/yardstick/issues/336))
+
+- [`markedness()`](https://yardstick.tidymodels.org/dev/reference/markedness.md)
+  computes the markedness metric (PPV + NPV - 1), the predictive power
+  analog of
+  [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md).
+  ([\#27](https://github.com/tidymodels/yardstick/issues/27))
+
+- [`roc_dist()`](https://yardstick.tidymodels.org/dev/reference/roc_dist.md)
+  computes the Euclidean distance from the (sensitivity, specificity)
+  point to the ideal point (1, 1) in ROC space.
+  ([\#148](https://github.com/tidymodels/yardstick/issues/148))
+
+- [`sedi()`](https://yardstick.tidymodels.org/dev/reference/sedi.md)
+  computes the Symmetric Extremal Dependence Index, a
+  prevalence-independent skill metric for binary classification that
+  remains reliable at extreme class imbalance.
+  ([\#630](https://github.com/tidymodels/yardstick/issues/630))
+
+- [`ranked_prob_score()`](https://yardstick.tidymodels.org/dev/reference/ranked_prob_score.md)
+  computes the ranked probability score for ordinal classification data.
+  ([\#524](https://github.com/tidymodels/yardstick/issues/524))
+
+- [`weighted_interval_score()`](https://yardstick.tidymodels.org/dev/reference/weighted_interval_score.md)
+  is a new quantile metric.
+  ([\#569](https://github.com/tidymodels/yardstick/issues/569))
+
+### Improvements
+
+- Added checks to all metrics for the `na_rm` argument.
+  ([\#349](https://github.com/tidymodels/yardstick/issues/349))
+
+- Added improved argument checking for metrics with additional
+  arguments.
+  ([\#519](https://github.com/tidymodels/yardstick/issues/519))
+
 - Added documentation pages for each metric type (e.g.,
-  `?class-metrics`, `?numeric-metrics`) that list all available metrics
+  `?class-metrics`, `?numeric-metrics`) listing all available metrics
   with their direction and range.
   ([\#547](https://github.com/tidymodels/yardstick/issues/547),
   [\#540](https://github.com/tidymodels/yardstick/issues/540))
-
-- For metrics with alternate argument values that will be used in a
-  metric set, the documentation pages emphasize doing this via
-  [`metric_tweak()`](https://yardstick.tidymodels.org/dev/reference/metric_tweak.md)
-  [\#626](https://github.com/tidymodels/yardstick/issues/626)
-
-- [`get_metrics()`](https://yardstick.tidymodels.org/dev/reference/get_metrics.md)
-  was added to return a
-  [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)
-  containing all metrics of a specified type.
-  ([\#534](https://github.com/tidymodels/yardstick/issues/534))
 
 - All class metrics and probability metrics now include mathematical
   formulas in their documentation.
   ([\#605](https://github.com/tidymodels/yardstick/issues/605))
 
-- [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)
-  documentation now includes the formula and clarifies the
-  interpretation of positive and negative values.
-  ([\#345](https://github.com/tidymodels/yardstick/issues/345))
-
-- [`classification_cost()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)
-  documentation now correctly refers to the `cost` column of the
-  data.frame that can be passed to the `costs` arguemtn.
-  ([\#343](https://github.com/tidymodels/yardstick/issues/343))
-
-- `new_metric()` and related functions gain an optional `range` argument
-  to store the valid output range of a metric. This is a
-  developer-facing change.
+- All metrics now document their valid range of output values.
   ([\#572](https://github.com/tidymodels/yardstick/issues/572))
 
-- [`markedness()`](https://yardstick.tidymodels.org/dev/reference/markedness.md)
-  calculates the markedness metric (PPV + NPV - 1), which is the
-  predictive power analog of informedness/j_index
-  ([\#27](https://github.com/tidymodels/yardstick/issues/27)).
+- Documentation pages for metrics with alternate argument values now
+  emphasize using
+  [`metric_tweak()`](https://yardstick.tidymodels.org/dev/reference/metric_tweak.md)
+  when building metric sets.
+  ([\#626](https://github.com/tidymodels/yardstick/issues/626))
+
+- Survival metrics performance has been improved.
+  ([\#576](https://github.com/tidymodels/yardstick/issues/576))
+
+- [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
+  has gained the `event_level` argument.
+  ([\#515](https://github.com/tidymodels/yardstick/issues/515))
+
+- [`get_metrics()`](https://yardstick.tidymodels.org/dev/reference/get_metrics.md)
+  has been added to return a
+  [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)
+  containing all metrics of a specified type.
+  ([\#534](https://github.com/tidymodels/yardstick/issues/534))
 
 - [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md)
   now provides a more informative error message when `estimate` is not
   explicitly named for class/prob or survival metric sets.
   ([\#504](https://github.com/tidymodels/yardstick/issues/504))
 
-- Added `thresholds` argument to
-  [`roc_curve()`](https://yardstick.tidymodels.org/dev/reference/roc_curve.md)
-  to allow for custom thresholds to calculate curves for.
+- [`roc_curve()`](https://yardstick.tidymodels.org/dev/reference/roc_curve.md)
+  has gained a `thresholds` argument for specifying custom thresholds at
+  which the curve is evaluated.
   ([\#488](https://github.com/tidymodels/yardstick/issues/488))
 
-- Speed up survival metrics performance. Some of this performance comes
-  from slightly less strict input checking.
-  ([\#576](https://github.com/tidymodels/yardstick/issues/576))
+### Bug Fixes
 
-- All metrics now have documented ranges of possible values in addition
-  to what direction is the best.
-  ([\#572](https://github.com/tidymodels/yardstick/issues/572))
-
-- The ranked probability score for ordinal classification data was added
-  with
-  [`ranked_prob_score()`](https://yardstick.tidymodels.org/dev/reference/ranked_prob_score.md).
-  ([\#524](https://github.com/tidymodels/yardstick/issues/524))
-
-- Fixed bug where
-  [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
-  returns NaN with extreme value case weights.
+- [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
+  no longer returns `NaN` with extreme value case weights.
   ([\#614](https://github.com/tidymodels/yardstick/issues/614))
 
+- [`classification_cost()`](https://yardstick.tidymodels.org/dev/reference/classification_cost.md)
+  documentation now correctly refers to the `cost` column of the costs
+  data frame.
+  ([\#343](https://github.com/tidymodels/yardstick/issues/343))
+
+- [`mpe()`](https://yardstick.tidymodels.org/dev/reference/mpe.md)
+  documentation now includes the formula and clarifies the
+  interpretation of positive and negative values.
+  ([\#345](https://github.com/tidymodels/yardstick/issues/345))
+
 - [`poisson_log_loss()`](https://yardstick.tidymodels.org/dev/reference/poisson_log_loss.md)
-  has been enhanced to handle 0 valued estimates, no longer returning
-  `Inf` or `NaN`.
+  now handles 0-valued estimates without returning `Inf` or `NaN`.
   ([\#513](https://github.com/tidymodels/yardstick/issues/513))
 
-- Fixed bug where ranked probability metrics didn’t work in combination
-  with other classification metrics in
+- Fixed a bug where ranked probability metrics didn’t work in
+  combination with other classification metrics in
   [`metric_set()`](https://yardstick.tidymodels.org/dev/reference/metric_set.md).
   ([\#539](https://github.com/tidymodels/yardstick/issues/539))
-
-- Added infrastructure for survival metrics on the linear predictor.
-  ([\#551](https://github.com/tidymodels/yardstick/issues/551))
-
-- Added infrastructure for quantile metrics.
-  ([\#569](https://github.com/tidymodels/yardstick/issues/569))
-
-- Added quantile metric
-  [`weighted_interval_score()`](https://yardstick.tidymodels.org/dev/reference/weighted_interval_score.md).
-  ([\#569](https://github.com/tidymodels/yardstick/issues/569))
-
-- Added checks to all metrics for `na_rm` argument.
-  ([\#349](https://github.com/tidymodels/yardstick/issues/349))
-
-- Removed crayon as a suggested package.
-  ([\#574](https://github.com/tidymodels/yardstick/issues/574))
-
-- Added improved argument checking for metrics with additional
-  arguments.
-  ([\#519](https://github.com/tidymodels/yardstick/issues/519))
 
 - Fixed documentation to show equations correctly.
   ([\#541](https://github.com/tidymodels/yardstick/issues/541))
 
-- [`fall_out()`](https://yardstick.tidymodels.org/dev/reference/fall_out.md)
-  and
-  [`miss_rate()`](https://yardstick.tidymodels.org/dev/reference/miss_rate.md)
-  have been added to compute the false positive rate and false negative
-  rate respectively
-  ([\#336](https://github.com/tidymodels/yardstick/issues/336)).
+### Developer
+
+- Added infrastructure for quantile metrics.
+  ([\#569](https://github.com/tidymodels/yardstick/issues/569))
+
+- Added infrastructure for survival metrics on the linear predictor.
+  ([\#551](https://github.com/tidymodels/yardstick/issues/551))
+
+- `new_metric()` and related functions gain an optional `range` argument
+  to store the valid output range of a metric.
+  ([\#572](https://github.com/tidymodels/yardstick/issues/572))
+
+- Removed crayon as a suggested package.
+  ([\#574](https://github.com/tidymodels/yardstick/issues/574))
 
 ## yardstick 1.3.2
 

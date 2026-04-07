@@ -116,7 +116,7 @@ If the in-sample data is available, the naive mean absolute error can
 easily be computed with `mae(data, truth, lagged_truth)`.
 
 MASE is a metric that should be minimized. The output ranges from 0 to
-∞, with 0 indicating perfect predictions.
+Inf, with 0 indicating perfect predictions.
 
 The formula for MASE is:
 
