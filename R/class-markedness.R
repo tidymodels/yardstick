@@ -24,8 +24,8 @@
 #' \deqn{\text{Markedness} = \text{Precision} + \text{Inverse Precision} - 1}
 #'
 #' Markedness is a metric that should be `r attr(markedness, "direction")`d. The
-#' output ranges from `r metric_range(markedness)[1]` to
-#' `r metric_range(markedness)[2]`, with `r metric_optimal(markedness)` indicating
+#' output ranges from `r metric_range_chr(markedness, 1)` to
+#' `r metric_range_chr(markedness, 2)`, with `r metric_optimal(markedness)` indicating
 #' perfect predictions.
 #'
 #' Markedness is to the predicted condition (precision and inverse precision)

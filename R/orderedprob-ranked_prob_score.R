@@ -17,8 +17,8 @@
 #' @details
 #' Ranked probability score is a metric that should be
 #' `r attr(ranked_prob_score, "direction")`d. The output ranges from
-#' `r metric_range(ranked_prob_score)[1]` to
-#' `r metric_range(ranked_prob_score)[2]`, with `r metric_optimal(ranked_prob_score)`
+#' `r metric_range_chr(ranked_prob_score, 1)` to
+#' `r metric_range_chr(ranked_prob_score, 2)`, with `r metric_optimal(ranked_prob_score)`
 #' indicating perfect predictions.
 #'
 #' The ranked probability score is a Brier score for ordinal data that uses the

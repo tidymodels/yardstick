@@ -29,7 +29,7 @@
 #'
 #' @details
 #' R squared is a metric that should be `r attr(rsq, "direction")`d. The output
-#' ranges from `r metric_range(rsq)[1]` to `r metric_range(rsq)[2]`, with
+#' ranges from `r metric_range_chr(rsq, 1)` to `r metric_range_chr(rsq, 2)`, with
 #' `r metric_optimal(rsq)` indicating perfect predictions.
 #'
 #' The formula for R squared is:

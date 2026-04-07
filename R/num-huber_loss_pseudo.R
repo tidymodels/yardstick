@@ -14,8 +14,8 @@
 #' @details
 #' Pseudo-Huber loss is a metric that should be
 #' `r attr(huber_loss_pseudo, "direction")`d. The output ranges from
-#' `r metric_range(huber_loss_pseudo)[1]` to
-#' `r metric_range(huber_loss_pseudo)[2]`, with
+#' `r metric_range_chr(huber_loss_pseudo, 1)` to
+#' `r metric_range_chr(huber_loss_pseudo, 2)`, with
 #' `r metric_optimal(huber_loss_pseudo)` indicating perfect predictions.
 #'
 #' The formula for Pseudo-Huber loss is:

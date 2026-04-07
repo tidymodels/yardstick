@@ -31,8 +31,8 @@
 #'
 #' @details
 #' Log loss is a metric that should be `r attr(mn_log_loss, "direction")`d. The
-#' output ranges from `r metric_range(mn_log_loss)[1]` to
-#' `r metric_range(mn_log_loss)[2]`, with `r metric_optimal(mn_log_loss)`
+#' output ranges from `r metric_range_chr(mn_log_loss, 1)` to
+#' `r metric_range_chr(mn_log_loss, 2)`, with `r metric_optimal(mn_log_loss)`
 #' indicating perfect predictions.
 #'
 #' The formula used here is:

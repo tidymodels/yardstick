@@ -277,7 +277,7 @@ conf_mat.matrix <- function(data, ...) {
 }
 
 warn_conf_mat_dots_deprecated <- function() {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     when = "1.0.0",
     what = I("The `...` argument of `conf_mat()`"),
     details = "This argument no longer has any effect, and is being ignored."

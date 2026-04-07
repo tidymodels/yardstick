@@ -48,13 +48,13 @@
       Error in `roc_curve()`:
       ! No control observations were detected in `truth` with control level '..other'.
 
-# roc_curve() - `options` is deprecated
+# roc_curve() - `options` is defunct
 
     Code
-      out <- roc_curve(two_class_example, truth, Class1, options = 1)
+      roc_curve(two_class_example, truth, Class1, options = 1)
     Condition
-      Warning:
-      The `options` argument of `roc_curve()` was deprecated in yardstick 1.0.0.
+      Error:
+      ! The `options` argument of `roc_curve()` was deprecated in yardstick 1.0.0 and is now defunct.
       i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 
 # thresholds argument throws errors when wrongly specied

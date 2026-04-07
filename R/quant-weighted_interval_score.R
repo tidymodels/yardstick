@@ -63,8 +63,8 @@
 #' @details
 #' Weighted interval score is a metric that should be
 #' `r attr(weighted_interval_score, "direction")`d. The output ranges from
-#' `r metric_range(weighted_interval_score)[1]` to
-#' `r metric_range(weighted_interval_score)[2]`, with
+#' `r metric_range_chr(weighted_interval_score, 1)` to
+#' `r metric_range_chr(weighted_interval_score, 2)`, with
 #' `r metric_optimal(weighted_interval_score)` indicating perfect predictions.
 #'
 #' @seealso [All quantile metrics][quantile-metrics]

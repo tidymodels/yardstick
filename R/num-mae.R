@@ -13,7 +13,7 @@
 #'
 #' @details
 #' MAE is a metric that should be `r attr(mae, "direction")`d. The output
-#' ranges from `r metric_range(mae)[1]` to `r metric_range(mae)[2]`, with
+#' ranges from `r metric_range_chr(mae, 1)` to `r metric_range_chr(mae, 2)`, with
 #' `r metric_optimal(mae)` indicating perfect predictions.
 #'
 #' The formula for MAE is:

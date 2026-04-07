@@ -66,18 +66,8 @@ test_that("metrics() produces correct results", {
 })
 
 test_that("metrics() - `options` is deprecated", {
-  skip_if(
-    getRversion() <= "3.5.3",
-    "Base R used a different deprecated warning class."
-  )
-  rlang::local_options(lifecycle_verbosity = "warning")
-
-  expect_snapshot({
-    out <- metrics(two_class_example, truth, predicted, Class1, options = 1)
-  })
-
-  expect_identical(
-    out,
-    metrics(two_class_example, truth, predicted, Class1)
+  expect_snapshot(
+    error = TRUE,
+    metrics(two_class_example, truth, predicted, Class1, options = 1)
   )
 })

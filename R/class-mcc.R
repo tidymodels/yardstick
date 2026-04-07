@@ -25,7 +25,7 @@
 #' \deqn{\text{MCC} = \frac{(A \cdot D) - (B \cdot C)}{\sqrt{(A + B)(A + C)(D + B)(D + C)}}}
 #'
 #' MCC is a metric that should be `r attr(mcc, "direction")`d. The output
-#' ranges from `r metric_range(mcc)[1]` to `r metric_range(mcc)[2]`, with
+#' ranges from `r metric_range_chr(mcc, 1)` to `r metric_range_chr(mcc, 2)`, with
 #' `r metric_optimal(mcc)` indicating perfect predictions. A value of 0
 #' indicates no better than random prediction, and negative values indicate
 #' inverse prediction.

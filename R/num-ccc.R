@@ -20,7 +20,7 @@
 #'
 #' @details
 #' CCC is a metric that should be `r attr(ccc, "direction")`d. The output
-#' ranges from `r metric_range(ccc)[1]` to `r metric_range(ccc)[2]`, with
+#' ranges from `r metric_range_chr(ccc, 1)` to `r metric_range_chr(ccc, 2)`, with
 #' `r metric_optimal(ccc)` indicating perfect agreement.
 #'
 #' The formula for CCC is:

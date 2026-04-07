@@ -53,7 +53,7 @@ related metric is the mean absolute error (\code{\link[=mae]{mae()}}).
 }
 \details{
 MSD is a metric where the optimal value is 0. The
-output ranges from -∞ to ∞, with
+output ranges from -Inf to Inf, with
 0 indicating predictions are unbiased.
 
 The formula for MSD is:

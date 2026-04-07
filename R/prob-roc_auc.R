@@ -6,8 +6,8 @@
 #'
 #' @details
 #' ROC AUC is a metric that should be `r attr(roc_auc, "direction")`d. The
-#' output ranges from `r metric_range(roc_auc)[1]` to
-#' `r metric_range(roc_auc)[2]`, with `r metric_optimal(roc_auc)` indicating
+#' output ranges from `r metric_range_chr(roc_auc, 1)` to
+#' `r metric_range_chr(roc_auc, 2)`, with `r metric_optimal(roc_auc)` indicating
 #' perfect discrimination.
 #'
 #' The area under the ROC curve is computed using the trapezoidal rule:

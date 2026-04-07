@@ -15,7 +15,7 @@
 #' @details
 #' The normalized Gini coefficient is a metric that should be
 #' `r attr(gini_coef, "direction")`d. The output ranges from
-#' `r metric_range(gini_coef)[1]` to `r metric_range(gini_coef)[2]`, with
+#' `r metric_range_chr(gini_coef, 1)` to `r metric_range_chr(gini_coef, 2)`, with
 #' `r metric_optimal(gini_coef)` indicating perfect ranking ability where
 #' predicted values perfectly rank the true values.
 #'

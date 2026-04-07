@@ -14,23 +14,23 @@
       Error in `roc_aunp_vec()`:
       ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
-# `options` is deprecated
+# `options` is defunct
 
     Code
-      out <- roc_aunp(two_class_example, truth, Class1, Class2, options = 1)
+      roc_aunp(two_class_example, truth, Class1, Class2, options = 1)
     Condition
-      Warning:
-      The `options` argument of `roc_aunp()` was deprecated in yardstick 1.0.0.
+      Error:
+      ! The `options` argument of `roc_aunp()` was deprecated in yardstick 1.0.0 and is now defunct.
       i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 
 ---
 
     Code
-      out <- roc_aunp_vec(truth = two_class_example$truth, estimate = as.matrix(
+      roc_aunp_vec(truth = two_class_example$truth, estimate = as.matrix(
         two_class_example[c("Class1", "Class2")]), options = 1)
     Condition
-      Warning:
-      The `options` argument of `roc_aunp_vec()` was deprecated in yardstick 1.0.0.
+      Error:
+      ! The `options` argument of `roc_aunp_vec()` was deprecated in yardstick 1.0.0 and is now defunct.
       i This argument no longer has any effect, and is being ignored. Use the pROC package directly if you need these features.
 
 # errors on binary case

@@ -71,7 +71,7 @@ metric_summarizer <- function(
   ...,
   metric_fn_options = list()
 ) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     when = "1.2.0",
     what = "metric_summarizer()",
     with = I(
@@ -215,7 +215,7 @@ metric_vec_template <- function(
   case_weights = NULL,
   ...
 ) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     when = "1.2.0",
     what = "metric_vec_template()",
     with = I(

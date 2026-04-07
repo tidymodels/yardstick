@@ -68,7 +68,7 @@ that eliminates all predictors except for the intercept would do this.
 Another example would be a CART model that contains no splits.
 
 R squared is a metric that should be maximized. The output
-ranges from -∞ to 1, with
+ranges from -Inf to 1, with
 1 indicating perfect predictions.
 
 The formula for R squared is:

@@ -35,8 +35,8 @@
 #' \deqn{\text{Fall-out} = \frac{B}{B + D}}
 #'
 #' Fall-out is a metric that should be `r attr(fall_out, "direction")`d. The
-#' output ranges from `r metric_range(fall_out)[1]` to
-#' `r metric_range(fall_out)[2]`, with `r metric_optimal(fall_out)` indicating
+#' output ranges from `r metric_range_chr(fall_out, 1)` to
+#' `r metric_range_chr(fall_out, 2)`, with `r metric_optimal(fall_out)` indicating
 #' that all actual negatives were correctly predicted as negative (no false
 #' positives).
 #'

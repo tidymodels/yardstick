@@ -17,8 +17,8 @@
 #'
 #' @details
 #' Huber loss is a metric that should be `r attr(huber_loss, "direction")`d. The
-#' output ranges from `r metric_range(huber_loss)[1]` to
-#' `r metric_range(huber_loss)[2]`, with `r metric_optimal(huber_loss)`
+#' output ranges from `r metric_range_chr(huber_loss, 1)` to
+#' `r metric_range_chr(huber_loss, 2)`, with `r metric_optimal(huber_loss)`
 #' indicating perfect predictions.
 #'
 #' The formula for Huber loss is:

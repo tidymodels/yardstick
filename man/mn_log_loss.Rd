@@ -93,7 +93,7 @@ of \code{.9}.
 
 Log loss is a metric that should be minimized. The
 output ranges from 0 to
-∞, with 0
+Inf, with 0
 indicating perfect predictions.
 
 The formula used here is:

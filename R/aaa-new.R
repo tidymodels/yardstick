@@ -155,6 +155,10 @@ metric_direction <- function(x) {
 metric_range <- function(x) {
   attr(x, "range", exact = TRUE)
 }
+metric_range_chr <- function(x, i) {
+  val <- metric_range(x)[[i]]
+  if (is.infinite(val)) paste0(if (val < 0) "-", "Inf") else as.character(val)
+}
 `metric_range<-` <- function(x, value) {
   attr(x, "range") <- value
   x

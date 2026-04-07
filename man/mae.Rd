@@ -52,7 +52,7 @@ original data.
 }
 \details{
 MAE is a metric that should be minimized. The output
-ranges from 0 to ∞, with
+ranges from 0 to Inf, with
 0 indicating perfect predictions.
 
 The formula for MAE is:

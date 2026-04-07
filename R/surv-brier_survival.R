@@ -32,7 +32,7 @@
 #' @details
 #' Brier survival score is a metric that should be
 #' `r attr(brier_survival, "direction")`d. The output ranges from
-#' `r metric_range(brier_survival)[1]` to `r metric_range(brier_survival)[2]`,
+#' `r metric_range_chr(brier_survival, 1)` to `r metric_range_chr(brier_survival, 2)`,
 #' with `r metric_optimal(brier_survival)` indicating perfect predictions.
 #'
 #' This formulation takes survival probability predictions at one or more

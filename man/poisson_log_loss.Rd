@@ -52,7 +52,7 @@ Calculate the loss function for the Poisson distribution.
 Poisson log loss is a metric that should be
 minimized. The output ranges from
 0 to
-∞, with
+Inf, with
 0 indicating perfect predictions.
 
 The formula for Poisson log loss is:

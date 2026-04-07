@@ -30,7 +30,7 @@
 #'
 #' @details
 #' IIC is a metric that should be `r attr(iic, "direction")`d. The output
-#' ranges from `r metric_range(iic)[1]` to `r metric_range(iic)[2]`, with
+#' ranges from `r metric_range_chr(iic, 1)` to `r metric_range_chr(iic, 2)`, with
 #' `r metric_optimal(iic)` indicating perfect agreement.
 #'
 #' The formula for IIC is:

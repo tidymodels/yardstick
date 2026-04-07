@@ -22,8 +22,8 @@
 #' \deqn{\text{J-index} = \text{Sensitivity} + \text{Specificity} - 1}
 #'
 #' J-index is a metric that should be `r attr(j_index, "direction")`d. The
-#' output ranges from `r metric_range(j_index)[1]` to
-#' `r metric_range(j_index)[2]`, with `r metric_optimal(j_index)` indicating no
+#' output ranges from `r metric_range_chr(j_index, 1)` to
+#' `r metric_range_chr(j_index, 2)`, with `r metric_optimal(j_index)` indicating no
 #' false positives and no false negatives.
 #'
 #' The binary version of J-index is equivalent to the binary concept of

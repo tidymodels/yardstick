@@ -25,8 +25,8 @@
 #' \deqn{\text{Accuracy} = \frac{A + D}{A + B + C + D}}
 #'
 #' Accuracy is a metric that should be `r attr(accuracy, "direction")`d. The
-#' output ranges from `r metric_range(accuracy)[1]` to
-#' `r metric_range(accuracy)[2]`, with `r metric_optimal(accuracy)` indicating
+#' output ranges from `r metric_range_chr(accuracy, 1)` to
+#' `r metric_range_chr(accuracy, 2)`, with `r metric_optimal(accuracy)` indicating
 #' perfect predictions.
 #'
 #' @author Max Kuhn

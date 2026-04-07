@@ -37,8 +37,8 @@
 #' \deqn{\text{Precision} = \frac{A}{A + B}}
 #'
 #' Precision is a metric that should be `r attr(precision, "direction")`d. The
-#' output ranges from `r metric_range(precision)[1]` to
-#' `r metric_range(precision)[2]`, with `r metric_optimal(precision)` indicating
+#' output ranges from `r metric_range_chr(precision, 1)` to
+#' `r metric_range_chr(precision, 2)`, with `r metric_optimal(precision)` indicating
 #' that all predicted positives were actual positives.
 #'
 #' @references

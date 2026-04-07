@@ -8,8 +8,8 @@
 #' @details
 #' Classification cost is a metric that should be
 #' `r attr(classification_cost, "direction")`d. The output ranges from
-#' `r metric_range(classification_cost)[1]` to
-#' `r metric_range(classification_cost)[2]`, with
+#' `r metric_range_chr(classification_cost, 1)` to
+#' `r metric_range_chr(classification_cost, 2)`, with
 #' `r metric_optimal(classification_cost)` indicating perfect predictions (when
 #' costs for correct predictions are zero).
 #'

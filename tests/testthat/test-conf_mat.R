@@ -255,17 +255,14 @@ test_that("`as.data.frame.table()` method is run on the underlying `table` objec
   expect_named(as.data.frame(out$table), c("Prediction", "Truth", "Freq"))
 })
 
-test_that("`...` is deprecated with a warning", {
-  skip_if(
-    getRversion() <= "3.5.3",
-    "Base R used a different deprecated warning class."
+test_that("`...` is defunct", {
+  expect_snapshot(
+    error = TRUE,
+    conf_mat(two_class_example, truth, predicted, foo = 1)
   )
-  rlang::local_options(lifecycle_verbosity = "warning")
-
-  expect_snapshot(conf_mat(two_class_example, truth, predicted, foo = 1))
 
   hpc_cv <- dplyr::group_by(hpc_cv, Resample)
-  expect_snapshot(conf_mat(hpc_cv, obs, pred, foo = 1))
+  expect_snapshot(error = TRUE, conf_mat(hpc_cv, obs, pred, foo = 1))
 })
 
 test_that("Errors are thrown correctly", {

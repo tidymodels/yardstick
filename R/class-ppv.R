@@ -39,7 +39,7 @@
 #' \deqn{\text{PPV} = \frac{\text{Sensitivity} \cdot \text{Prevalence}}{(\text{Sensitivity} \cdot \text{Prevalence}) + ((1 - \text{Specificity}) \cdot (1 - \text{Prevalence}))}}
 #'
 #' PPV is a metric that should be `r attr(ppv, "direction")`d. The output
-#' ranges from `r metric_range(ppv)[1]` to `r metric_range(ppv)[2]`, with
+#' ranges from `r metric_range_chr(ppv, 1)` to `r metric_range_chr(ppv, 2)`, with
 #' `r metric_optimal(ppv)` indicating all predicted positives are true
 #' positives.
 #'

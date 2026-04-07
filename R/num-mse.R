@@ -15,7 +15,7 @@
 #'
 #' @details
 #' MSE is a metric that should be `r attr(mse, "direction")`d. The output
-#' ranges from `r metric_range(mse)[1]` to `r metric_range(mse)[2]`, with
+#' ranges from `r metric_range_chr(mse, 1)` to `r metric_range_chr(mse, 2)`, with
 #' `r metric_optimal(mse)` indicating perfect predictions.
 #'
 #' The formula for MSE is:

@@ -16,7 +16,7 @@
 #' @details
 #' Relative RMSE is a metric that should be
 #' `r attr(rmse_relative, "direction")`d. The output ranges from
-#' `r metric_range(rmse_relative)[1]` to `r metric_range(rmse_relative)[2]`,
+#' `r metric_range_chr(rmse_relative, 1)` to `r metric_range_chr(rmse_relative, 2)`,
 #' with `r metric_optimal(rmse_relative)` indicating perfect predictions.
 #'
 #' The formula for relative RMSE is:

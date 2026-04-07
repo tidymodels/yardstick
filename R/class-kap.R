@@ -44,7 +44,7 @@
 #' expected agreement by chance.
 #'
 #' Kappa is a metric that should be `r attr(kap, "direction")`d. The output
-#' ranges from `r metric_range(kap)[1]` to `r metric_range(kap)[2]`, with
+#' ranges from `r metric_range_chr(kap, 1)` to `r metric_range_chr(kap, 2)`, with
 #' `r metric_optimal(kap)` indicating perfect agreement. Negative values
 #' indicate agreement worse than chance.
 #'
