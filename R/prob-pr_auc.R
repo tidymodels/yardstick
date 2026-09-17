@@ -5,6 +5,7 @@
 #'
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn pr_auc
 #' @template return
 #' @template multiclass-prob
@@ -33,6 +34,19 @@
 #' multiclass metrics. The default will automatically choose `"binary"` or
 #' `"macro"` based on `truth`.
 #'
+#' @details
+#' PR AUC is a metric that should be `r attr(pr_auc, "direction")`d. The output
+#' ranges from `r metric_range(pr_auc)[1]` to `r metric_range(pr_auc)[2]`, with
+#' `r metric_optimal(pr_auc)` indicating perfect precision and recall at all
+#' thresholds.
+#'
+#' The area under the precision-recall curve is computed using the trapezoidal
+#' rule:
+#'
+#' \deqn{\text{PR AUC} = \sum_{i=1}^{n-1} (r_{i+1} - r_i) \cdot \frac{p_i + p_{i+1}}{2}}
+#'
+#' where \eqn{r} is recall and \eqn{p} is precision at each threshold.
+#'
 #' @seealso
 #'
 #' [pr_curve()] for computing the full precision recall curve.
@@ -48,7 +62,8 @@ pr_auc <- function(data, ...) {
 }
 pr_auc <- new_prob_metric(
   pr_auc,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -86,6 +101,7 @@ pr_auc_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, estimator, "pr_auc")

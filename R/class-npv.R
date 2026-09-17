@@ -11,13 +11,33 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn npv
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-positive
-#'
 #' @inheritParams ppv
+#'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
+#'
+#' \deqn{\text{Specificity} = \frac{D}{B + D}}
+#'
+#' \deqn{\text{Prevalence} = \frac{A + C}{A + B + C + D}}
+#'
+#' \deqn{\text{NPV} = \frac{\text{Specificity} \cdot (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) + (\text{Specificity} \cdot (1 - \text{Prevalence}))}}
+#'
+#' NPV is a metric that should be `r attr(npv, "direction")`d. The output
+#' ranges from `r metric_range(npv)[1]` to `r metric_range(npv)[2]`, with
+#' `r metric_optimal(npv)` indicating all predicted negatives are true
+#' negatives.
 #'
 #' @author Max Kuhn
 #'
@@ -35,7 +55,8 @@ npv <- function(data, ...) {
 }
 npv <- new_class_metric(
   npv,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname npv
@@ -112,6 +133,8 @@ npv_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
+  check_number_decimal(prevalence, min = 0, max = 1, allow_null = TRUE)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

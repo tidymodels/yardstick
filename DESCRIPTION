@@ -23,7 +23,7 @@ Imports:
     cli,
     dplyr (>= 1.1.0),
     generics (>= 0.1.2),
-    hardhat (>= 1.3.0),
+    hardhat (>= 1.4.2.9000),
     lifecycle (>= 1.0.3),
     rlang (>= 1.1.4),
     tibble,
@@ -33,7 +33,6 @@ Imports:
     withr
 Suggests: 
     covr,
-    crayon,
     ggplot2,
     probably (>= 1.0.0),
     quarto,
@@ -48,8 +47,10 @@ Config/usethis/last-upkeep: 2025-04-24
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Collate: 
+    'aaa-get_metrics.R'
+    'aaa-metric_set.R'
     'aaa-metrics.R'
     'import-standalone-types-check.R'
     'aaa-new.R'
@@ -59,13 +60,17 @@ Collate:
     'class-bal_accuracy.R'
     'class-detection_prevalence.R'
     'class-f_meas.R'
+    'class-fall_out.R'
     'class-j_index.R'
     'class-kap.R'
+    'class-markedness.R'
     'class-mcc.R'
+    'class-miss_rate.R'
     'class-npv.R'
     'class-ppv.R'
     'class-precision.R'
     'class-recall.R'
+    'class-roc_dist.R'
     'class-sens.R'
     'class-spec.R'
     'conf_mat.R'
@@ -81,19 +86,23 @@ Collate:
     'import-standalone-obj-type.R'
     'import-standalone-survival.R'
     'metric-tweak.R'
+    'metric-type-docs.R'
     'misc.R'
     'missings.R'
     'num-ccc.R'
+    'num-gini_coef.R'
     'num-huber_loss.R'
+    'num-huber_loss_pseudo.R'
     'num-iic.R'
     'num-mae.R'
     'num-mape.R'
     'num-mase.R'
     'num-mpe.R'
     'num-msd.R'
+    'num-mse.R'
     'num-poisson_log_loss.R'
-    'num-pseudo_huber_loss.R'
     'num-rmse.R'
+    'num-rmse_relative.R'
     'num-rpd.R'
     'num-rpiq.R'
     'num-rsq.R'
@@ -105,22 +114,26 @@ Collate:
     'prob-brier_class.R'
     'prob-classification_cost.R'
     'prob-gain_capture.R'
-    'prob-gain_curve.R'
     'prob-helpers.R'
-    'prob-lift_curve.R'
     'prob-mn_log_loss.R'
     'prob-pr_auc.R'
-    'prob-pr_curve.R'
     'prob-roc_auc.R'
     'prob-roc_aunp.R'
     'prob-roc_aunu.R'
-    'prob-roc_curve.R'
+    'probcurve-gain_curve.R'
+    'probcurve-lift_curve.R'
+    'probcurve-pr_curve.R'
+    'probcurve-roc_curve.R'
+    'quant-weighted_interval_score.R'
     'reexports.R'
     'surv-brier_survival.R'
     'surv-brier_survival_integrated.R'
     'surv-concordance_survival.R'
     'surv-roc_auc_survival.R'
     'surv-roc_curve_survival.R'
+    'surv-royston.R'
     'template.R'
     'validation.R'
     'yardstick-package.R'
+Remotes:
+    tidymodels/hardhat

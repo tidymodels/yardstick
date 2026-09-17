@@ -5,10 +5,20 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn mae
 #' @template return
 #'
 #' @inheritParams rmse
+#'
+#' @details
+#' MAE is a metric that should be `r attr(mae, "direction")`d. The output
+#' ranges from `r metric_range(mae)[1]` to `r metric_range(mae)[2]`, with
+#' `r metric_optimal(mae)` indicating perfect predictions.
+#'
+#' The formula for MAE is:
+#'
+#' \deqn{\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |\text{truth}_i - \text{estimate}_i|}
 #'
 #' @author Max Kuhn
 #'
@@ -20,7 +30,8 @@ mae <- function(data, ...) {
 }
 mae <- new_numeric_metric(
   mae,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname mae
@@ -47,6 +58,7 @@ mae.data.frame <- function(
 #' @export
 #' @rdname mae
 mae_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

@@ -54,17 +54,13 @@ are both measures of consistency/correlation between observed
 and predicted values (and not of accuracy).
 }
 \details{
-In the field of spectroscopy in particular, the ratio
-of performance to deviation (RPD) has been used as the standard
-way to report the quality of a model. It is the ratio between
-the standard deviation of a variable and the standard error of
-prediction of that variable by a given model. However, its
-systematic use has been criticized by several authors, since
-using the standard deviation to represent the spread of a
-variable can be misleading on skewed dataset. The ratio of
-performance to inter-quartile has been introduced by
-Bellon-Maurel et al. (2010) to address some of these issues, and
-generalise the RPD to non-normally distributed variables.
+RPIQ is a metric that should be maximized. The output
+ranges from 0 to ∞, with
+higher values indicating better model performance.
+
+The formula for RPIQ is:
+
+\deqn{\text{RPIQ} = \frac{\text{IQR}(\text{truth})}{\text{RMSE}}}
 }
 \examples{
 # Supply truth and predictions as bare column names
@@ -110,10 +106,13 @@ prediction of soil attributes by NIR spectroscopy. TrAC Trends
 in Analytical Chemistry, 29(9), pp.1073-1081.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 The closely related deviation metric: \code{\link[=rpd]{rpd()}}
 
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
@@ -122,8 +121,10 @@ Other numeric metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rsq}()},
 \code{\link{rsq_trad}()},

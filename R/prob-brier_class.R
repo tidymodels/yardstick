@@ -3,13 +3,27 @@
 #' Compute the Brier score for a classification model.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn brier_class
 #' @template return
 #' @details
+#' Brier score is a metric that should be `r attr(brier_class, "direction")`d.
+#' The output ranges from `r metric_range(brier_class)[1]` to
+#' `r metric_range(brier_class)[2]`, with `r metric_optimal(brier_class)`
+#' indicating perfect predictions.
 #'
 #' The Brier score is analogous to the mean squared error in regression models.
 #' The difference between a binary indicator for a class and its corresponding
 #' class probability are squared and averaged.
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Brier} = \frac{1}{2N} \sum_{i=1}^{N} \sum_{j=1}^{K} (y_{ij} - p_{ij})^2}
+#'
+#' where \eqn{N} is the number of observations, \eqn{K} is the number of classes,
+#' \eqn{y_{ij}} is 1 if observation \eqn{i} belongs to class \eqn{j} and 0
+#' otherwise, and \eqn{p_{ij}} is the predicted probability of observation
+#' \eqn{i} for class \eqn{j}.
 #'
 #' This function uses the convention in Kruppa _et al_ (2014) and divides the
 #' result by two.
@@ -53,7 +67,8 @@ brier_class <- function(data, ...) {
 }
 brier_class <- new_prob_metric(
   brier_class,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -87,6 +102,7 @@ brier_class_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "brier_class")
@@ -144,6 +160,11 @@ brier_ind <- function(truth, estimate, case_weights = NULL) {
   case_weights <- case_weights[not_missing]
 
   # Normalize weights (in case negative weights)
+  # subtracting max to avoid Inf in calculations
+  #  exp(x - max(x)) / sum(exp(x - max(x)))
+  #  = (exp(x) / exp(max(x))) / (sum(exp(x)) / exp(max(x)))
+  #  = exp(x) / sum(exp(x))
+  case_weights <- case_weights - max(case_weights)
   case_weights <- exp(case_weights) / sum(exp(case_weights))
 
   res <- sum(resids * case_weights) / (2 * sum(case_weights))

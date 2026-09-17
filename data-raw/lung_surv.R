@@ -11,7 +11,7 @@ options(pillar.advice = FALSE, pillar.min_title_chars = Inf)
 
 lung_data <-
   survival::lung |>
-  select(time, status, age, sex, ph.ecog)
+  dplyr::select(time, status, age, sex, ph.ecog)
 
 model_fit <-
   survival_reg() |>
@@ -30,7 +30,11 @@ lung_surv <-
     predict(model_fit, lung_data, type = "time"),
     # We'll need the surv object
     lung_data |> transmute(surv_obj = Surv(time, status))
-  ) |>
-  .censoring_weights_graf(model_fit, .)
+  )
+lung_surv <- .censoring_weights_graf(model_fit, lung_surv)
+lung_surv <- lung_surv |>
+  bind_cols(
+    predict(model_fit, lung_data, type = "linear_pred")
+  )
 
 usethis::use_data(lung_surv, overwrite = TRUE)

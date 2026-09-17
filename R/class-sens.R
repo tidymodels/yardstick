@@ -6,7 +6,8 @@
 #'
 #' The sensitivity (`sens()`) is defined as the proportion of positive
 #' results out of the number of samples which were actually
-#' positive.
+#' positive. For positive observations, the proportion of model predictions
+#' that correctly predicted positive.
 #'
 #' When the denominator of the calculation is `0`, sensitivity is undefined.
 #' This happens when both `# true_positive = 0` and `# false_negative = 0`
@@ -17,12 +18,11 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn sens
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-positive
-#'
 #' @param data Either a `data.frame` containing the columns specified by the
 #'   `truth` and `estimate` arguments, or a `table`/`matrix` where the true
 #'   class results should be in the columns of the table.
@@ -59,6 +59,20 @@
 #'
 #' @param ... Not currently used.
 #'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
+#'
+#' Sensitivity is a metric that should be `r attr(sens, "direction")`d. The
+#' output ranges from `r metric_range(sens)[1]` to `r metric_range(sens)[2]`,
+#' with `r metric_optimal(sens)` indicating that all actual positives were
+#' predicted as positive.
 #'
 #' @author Max Kuhn
 #'
@@ -76,7 +90,8 @@ sens <- function(data, ...) {
 }
 sens <- new_class_metric(
   sens,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -143,6 +158,7 @@ sens_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 
@@ -173,7 +189,8 @@ sensitivity <- function(data, ...) {
 }
 sensitivity <- new_class_metric(
   sensitivity,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname sens

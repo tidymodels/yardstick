@@ -3,6 +3,7 @@
 #' Accuracy is the proportion of the data that are predicted correctly.
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn accuracy
 #' @template return
 #'
@@ -12,6 +13,21 @@
 #' of this, macro and micro averaging are not implemented.
 #'
 #' @inheritParams sens
+#'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Accuracy} = \frac{A + D}{A + B + C + D}}
+#'
+#' Accuracy is a metric that should be `r attr(accuracy, "direction")`d. The
+#' output ranges from `r metric_range(accuracy)[1]` to
+#' `r metric_range(accuracy)[2]`, with `r metric_optimal(accuracy)` indicating
+#' perfect predictions.
 #'
 #' @author Max Kuhn
 #'
@@ -39,7 +55,8 @@ accuracy <- function(data, ...) {
 }
 accuracy <- new_class_metric(
   accuracy,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -90,6 +107,7 @@ accuracy_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

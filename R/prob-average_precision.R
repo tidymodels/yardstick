@@ -12,13 +12,19 @@
 #' threshold. See [pr_curve()] for the full curve.
 #'
 #' @details
+#' Average precision is a metric that should be
+#' `r attr(average_precision, "direction")`d. The output ranges from
+#' `r metric_range(average_precision)[1]` to
+#' `r metric_range(average_precision)[2]`, with
+#' `r metric_optimal(average_precision)` indicating perfect precision and recall
+#' at all thresholds.
 #'
 #' The computation for average precision is a weighted average of the precision
 #' values. Assuming you have `n` rows returned from [pr_curve()], it is a sum
 #' from `2` to `n`, multiplying the precision value `p_i` by the increase in
 #' recall over the previous threshold, `r_i - r_(i-1)`.
 #'
-#' \deqn{AP = \sum (r_{i} - r_{i-1}) * p_i}
+#' \deqn{AP = \sum (r_{i} - r_{i-1}) \cdot p_i}
 #'
 #' By summing from `2` to `n`, the precision value `p_1` is never used. While
 #' [pr_curve()] returns a value for `p_1`, it is technically undefined as
@@ -31,6 +37,7 @@
 #' values are often very close to one another.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn average_precision
 #' @template return
 #' @template multiclass-prob
@@ -54,7 +61,8 @@ average_precision <- function(data, ...) {
 }
 average_precision <- new_prob_metric(
   average_precision,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -92,6 +100,7 @@ average_precision_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, estimator, "average_precision")

@@ -9,6 +9,7 @@
 #' @family numeric metrics
 #' @family consistency metrics
 #' @family accuracy metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn ccc
 #' @template return
 #'
@@ -16,6 +17,15 @@
 #'
 #' @param bias A `logical`; should the biased estimate of variance
 #' be used (as is Lin (1989))?
+#'
+#' @details
+#' CCC is a metric that should be `r attr(ccc, "direction")`d. The output
+#' ranges from `r metric_range(ccc)[1]` to `r metric_range(ccc)[2]`, with
+#' `r metric_optimal(ccc)` indicating perfect agreement.
+#'
+#' The formula for CCC is:
+#'
+#' \deqn{\text{CCC} = \frac{2 \cdot \text{cov}(\text{truth}, \text{estimate})}{\text{var}(\text{truth}) + \text{var}(\text{estimate}) + (\bar{\text{truth}} - \bar{\text{estimate}})^2}}
 #'
 #' @author Max Kuhn
 #'
@@ -39,7 +49,8 @@ ccc <- function(data, ...) {
 }
 ccc <- new_numeric_metric(
   ccc,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(-1, 1)
 )
 
 #' @rdname ccc
@@ -76,6 +87,8 @@ ccc_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
+  check_bool(bias)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

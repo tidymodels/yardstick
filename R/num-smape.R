@@ -8,10 +8,20 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn smape
 #' @template return
 #'
 #' @inheritParams rmse
+#'
+#' @details
+#' SMAPE is a metric that should be `r attr(smape, "direction")`d. The output
+#' ranges from `r metric_range(smape)[1]` to `r metric_range(smape)[2]`, with
+#' `r metric_optimal(smape)` indicating perfect predictions.
+#'
+#' The formula for SMAPE is:
+#'
+#' \deqn{\text{SMAPE} = \frac{100}{n} \sum_{i=1}^{n} \frac{|\text{estimate}_i - \text{truth}_i|}{(|\text{truth}_i| + |\text{estimate}_i|) / 2}}
 #'
 #' @author Max Kuhn, Riaz Hedayati
 #'
@@ -24,7 +34,8 @@ smape <- function(data, ...) {
 }
 smape <- new_numeric_metric(
   smape,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, 100)
 )
 
 #' @rdname smape
@@ -51,6 +62,7 @@ smape.data.frame <- function(
 #' @export
 #' @rdname smape
 smape_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

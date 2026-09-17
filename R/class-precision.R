@@ -19,13 +19,27 @@
 #'
 #' @family class metrics
 #' @family relevance metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn precision
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-relevance
-#'
 #' @inheritParams sens
+#'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
+#' Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Precision} = \frac{A}{A + B}}
+#'
+#' Precision is a metric that should be `r attr(precision, "direction")`d. The
+#' output ranges from `r metric_range(precision)[1]` to
+#' `r metric_range(precision)[2]`, with `r metric_optimal(precision)` indicating
+#' that all predicted positives were actual positives.
 #'
 #' @references
 #'
@@ -47,7 +61,8 @@ precision <- function(data, ...) {
 }
 precision <- new_class_metric(
   precision,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname precision
@@ -114,6 +129,7 @@ precision_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

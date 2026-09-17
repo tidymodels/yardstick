@@ -116,6 +116,37 @@
       x This metric doesn't use the `estimate` argument.
       i Specify the columns without `estimate = `.
 
+# quantile_metric_summarizer()'s errors when wrong things are passes
+
+    Code
+      quantile_metric_summarizer(name = "weighted_interval_score", fn = weighted_interval_score_vec,
+        data = example, truth = not_a_real_column_name, estimate = preds)
+    Condition
+      Error:
+      ! Can't select columns that don't exist.
+      x Column `not_a_real_column_name` doesn't exist.
+
+---
+
+    Code
+      quantile_metric_summarizer(name = "weighted_interval_score", fn = weighted_interval_score_vec,
+        data = example, truth = truth, estimate = not_a_real_column_name)
+    Condition
+      Error:
+      ! Can't select columns that don't exist.
+      x Column `not_a_real_column_name` doesn't exist.
+
+---
+
+    Code
+      quantile_metric_summarizer(name = "weighted_interval_score", fn = weighted_interval_score_vec,
+        data = example, truth = truth, estimate = preds, obviouslywrong = TRUE)
+    Condition
+      Error:
+      ! `...` must be empty.
+      x Problematic argument:
+      * obviouslywrong = TRUE
+
 # curve_metric_summarizer()'s na_rm argument work
 
     Code

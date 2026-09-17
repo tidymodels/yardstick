@@ -12,10 +12,12 @@ auc <- function(x, y, na_rm = TRUE) {
 
   if (is.unsorted(x, na.rm = TRUE, strictly = FALSE)) {
     # should not be reachable
+    # nocov start
     cli::cli_abort(
       "{.arg x} must already be in weakly increasing order.",
       .internal = TRUE
     )
+    # nocov end
   }
 
   # length x = length y
@@ -34,7 +36,15 @@ auc <- function(x, y, na_rm = TRUE) {
 
 # One vs all helper ------------------------------------------------------------
 
-one_vs_all_impl <- function(fn, truth, estimate, case_weights, call, ...) {
+one_vs_all_impl <- function(
+  fn,
+  truth,
+  estimate,
+  case_weights,
+  thresholds = NULL,
+  call,
+  ...
+) {
   lvls <- levels(truth)
   other <- "..other"
 
@@ -57,13 +67,24 @@ one_vs_all_impl <- function(fn, truth, estimate, case_weights, call, ...) {
 
     # `one_vs_all_impl()` always ignores the event level ordering when
     # computing each individual binary metric
-    metric_lst[[i]] <- fn(
-      truth_temp,
-      estimate_temp,
-      case_weights = case_weights,
-      event_level = "first",
-      ...
-    )
+    if ("thresholds" %in% names(formals(fn))) {
+      metric_lst[[i]] <- fn(
+        truth_temp,
+        estimate_temp,
+        case_weights = case_weights,
+        event_level = "first",
+        thresholds = thresholds,
+        ...
+      )
+    } else {
+      metric_lst[[i]] <- fn(
+        truth_temp,
+        estimate_temp,
+        case_weights = case_weights,
+        event_level = "first",
+        ...
+      )
+    }
   }
 
   metric_lst
@@ -74,6 +95,7 @@ one_vs_all_with_level <- function(
   truth,
   estimate,
   case_weights,
+  thresholds = NULL,
   call,
   ...
 ) {
@@ -82,6 +104,7 @@ one_vs_all_with_level <- function(
     truth = truth,
     estimate = estimate,
     case_weights = case_weights,
+    thresholds = thresholds,
     call = call,
     ...
   )

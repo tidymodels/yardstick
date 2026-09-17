@@ -8,15 +8,30 @@
 #' A related metric is Informedness, see the Details section for the relationship.
 #'
 #' @details
+#' Suppose a 2x2 table with notation:
 #'
-#' The value of the J-index ranges from \[0, 1\] and is `1` when there are
-#' no false positives and no false negatives.
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
+#'
+#' \deqn{\text{Specificity} = \frac{D}{B + D}}
+#'
+#' \deqn{\text{J-index} = \text{Sensitivity} + \text{Specificity} - 1}
+#'
+#' J-index is a metric that should be `r attr(j_index, "direction")`d. The
+#' output ranges from `r metric_range(j_index)[1]` to
+#' `r metric_range(j_index)[2]`, with `r metric_optimal(j_index)` indicating no
+#' false positives and no false negatives.
 #'
 #' The binary version of J-index is equivalent to the binary concept of
 #' Informedness. Macro-weighted J-index is equivalent to multiclass informedness
 #' as defined in Powers, David M W (2011), equation (42).
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn j_index
 #' @template event_first
 #' @template multiclass
@@ -42,7 +57,8 @@ j_index <- function(data, ...) {
 }
 j_index <- new_class_metric(
   j_index,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(-1, 1)
 )
 
 #' @rdname j_index
@@ -109,6 +125,7 @@ j_index_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

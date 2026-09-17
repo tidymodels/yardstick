@@ -90,6 +90,20 @@ a positive value, say, \code{"Yes"}, the accuracy metric would interpret them
 as having the same value. If the true output is \code{"Yes"}, log loss penalizes
 \code{.6} because it is "less sure" of its result compared to the probability
 of \code{.9}.
+
+Log loss is a metric that should be minimized. The
+output ranges from 0 to
+∞, with 0
+indicating perfect predictions.
+
+The formula used here is:
+
+\deqn{\text{Log Loss} = -\frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \cdot \log(p_{ij})}
+
+where \eqn{N} is the number of observations, \eqn{K} is the number of classes,
+\eqn{y_{ij}} is 1 if observation \eqn{i} belongs to class \eqn{j} and 0
+otherwise, and \eqn{p_{ij}} is the predicted probability of observation
+\eqn{i} for class \eqn{j}.
 }
 \section{Multiclass}{
 
@@ -138,6 +152,8 @@ mn_log_loss(two_class_example, truth, !!prob_cols[1])
 
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 Other class probability metrics: 
 \code{\link{average_precision}()},
 \code{\link{brier_class}()},

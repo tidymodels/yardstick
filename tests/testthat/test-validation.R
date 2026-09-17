@@ -373,7 +373,7 @@ test_that("validate_ordered_truth_matrix_estimate errors as expected for non-bin
   )
 })
 
-test_that("validate_numeric_truth_numeric_estimate errors as expected", {
+test_that("validate_binary_estimator errors as expected", {
   expect_no_error(
     validate_binary_estimator(
       factor(c("a", "b", "a"), levels = c("a", "b", "c")),
@@ -526,18 +526,6 @@ test_that("validate_surv_truth_list_estimate errors as expected", {
     )
   )
 
-  lung_surv_not_all_same <- lung_surv
-  lung_surv_not_all_same$.pred[[5]]$.eval_time[1] <- 350
-  lung_surv_not_all_same$.pred[[10]]$.eval_time[1] <- 350
-  lung_surv_not_all_same$.pred[[14]]$.eval_time[1] <- 350
-  expect_snapshot(
-    error = TRUE,
-    validate_surv_truth_list_estimate(
-      lung_surv_not_all_same$surv_obj,
-      lung_surv_not_all_same$.pred
-    )
-  )
-
   lung_surv_neg <- lung_surv[1, ]
   lung_surv_neg$.pred[[1]]$.eval_time[1] <- -100
   rep()
@@ -592,5 +580,59 @@ test_that("validate_case_weights errors as expected", {
   expect_snapshot(
     error = TRUE,
     validate_case_weights(1:10, 11)
+  )
+})
+
+test_that("validate_numeric_truth_quantile_estimate errors as expected", {
+  expect_no_error(
+    validate_numeric_truth_quantile_estimate(
+      c(3.3, 7.1),
+      hardhat::quantile_pred(rbind(1:4, 8:11), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_no_error(
+    validate_numeric_truth_quantile_estimate(
+      3.3,
+      hardhat::quantile_pred(rbind(1:4), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_no_error(
+    validate_numeric_truth_quantile_estimate(
+      3L,
+      hardhat::quantile_pred(rbind(1:4), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_no_error(
+    validate_numeric_truth_quantile_estimate(
+      numeric(),
+      hardhat::quantile_pred(matrix(nrow = 0, ncol = 4), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_numeric_truth_quantile_estimate(
+      "4",
+      hardhat::quantile_pred(rbind(1:4), c(0.2, 0.4, 0.6, 0.8))
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_numeric_truth_quantile_estimate(
+      3.3,
+      3.4
+    )
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    validate_numeric_truth_quantile_estimate(
+      c(3.3, 7.1, 1),
+      hardhat::quantile_pred(rbind(1:4, 8:11), c(0.2, 0.4, 0.6, 0.8))
+    )
   )
 })

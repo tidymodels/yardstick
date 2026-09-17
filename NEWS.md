@@ -1,10 +1,58 @@
 # yardstick (development version)
 
+* `gini_coef()` was added to compute the normalized Gini coefficient for regression, which measures ranking ability based on the Lorenz curve. This is useful for evaluating loss cost models and risk predictions. (#147)
+
+* `roc_dist()` was added to compute the Euclidean distance from (sensitivity, specificity) to the ideal point (1, 1) in ROC space. (#148)
+
+* `rmse_relative()` was added to compute relative root mean squared error, which normalizes RMSE by the range of the true values. (#527)
+
+* `mse()` was added to compute the mean squared error. (#560)
+
+* Added documentation pages for each metric type (e.g., `?class-metrics`, `?numeric-metrics`) that list all available metrics with their direction and range. (#547, #540)
+
+* `get_metrics()` was added to return a `metric_set()` containing all metrics of a specified type. (#534)
+
+* All class metrics and probability metrics now include mathematical formulas in their documentation. (#605)
+
+* `mpe()` documentation now includes the formula and clarifies the interpretation of positive and negative values. (#345)
+
+* `classification_cost()` documentation now correctly refers to the `cost` column of the data.frame that can be passed to the `costs` arguemtn. (#343)
+
+* `new_metric()` and related functions gain an optional `range` argument to store the valid output range of a metric. This is a developer-facing change. (#572)
+
+* `markedness()` calculates the markedness metric (PPV + NPV - 1), which is the predictive power analog of informedness/j_index (#27).
+
+* `metric_set()` now provides a more informative error message when `estimate` is not explicitly named for class/prob or survival metric sets. (#504)
+
+* Added `thresholds` argument to `roc_curve()` to allow for custom thresholds to calculate curves for. (#488)
+
+* Speed up survival metrics performance. Some of this performance comes from slightly less strict input checking. (#576)
+
+* All metrics now have documented ranges of possible values in addition to what direction is the best. (#572)
+
 * The ranked probability score for ordinal classification data was added with `ranked_prob_score()`. (#524)
+
+* Fixed bug where `brier_class()` returns NaN with extreme value case weights. (#614)
 
 * `poisson_log_loss()` has been enhanced to handle 0 valued estimates, no longer returning `Inf` or `NaN`. (#513)
 
-* Fixed bug where ranked probability metrics didn't work in combination with other classificiation metrics in `metric_set()`. (#539)
+* Fixed bug where ranked probability metrics didn't work in combination with other classification metrics in `metric_set()`. (#539)
+
+* Added infrastructure for survival metrics on the linear predictor. (#551)
+
+* Added infrastructure for quantile metrics. (#569)
+
+* Added quantile metric `weighted_interval_score()`. (#569)
+
+* Added checks to all metrics for `na_rm` argument. (#349)
+
+* Removed crayon as a suggested package. (#574)
+
+* Added improved argument checking for metrics with additional arguments. (#519)
+
+* Fixed documentation to show equations correctly. (#541)
+
+* `fall_out()` and `miss_rate()` have been added to compute the false positive rate and false negative rate respectively (#336).
 
 # yardstick 1.3.2
 

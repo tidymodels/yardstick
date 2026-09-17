@@ -4,12 +4,28 @@
 #' true positive and false positive) divided by the total number of predictions.
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn detection_prevalence
 #' @template event_first
 #' @template multiclass
 #' @template return
 #'
 #' @inheritParams sens
+#'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Detection Prevalence} = \frac{A + B}{A + B + C + D}}
+#'
+#' Detection prevalence is a metric that should be
+#' `r attr(detection_prevalence, "direction")`d. The output ranges from
+#' `r metric_range(detection_prevalence)[1]` to `r metric_range(detection_prevalence)[2]`.
+#' The "optimal" value depends on the true prevalence of positive events in the data.
 #'
 #' @author Max Kuhn
 #'
@@ -21,7 +37,8 @@ detection_prevalence <- function(data, ...) {
 }
 detection_prevalence <- new_class_metric(
   detection_prevalence,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -88,6 +105,7 @@ detection_prevalence_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

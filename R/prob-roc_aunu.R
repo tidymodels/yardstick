@@ -6,6 +6,7 @@
 #' This is equivalent to `roc_auc(estimator = "macro")`.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn roc_aunu
 #' @template return
 #' @template event_first
@@ -30,6 +31,19 @@
 #' Ferri, C., Hernández-Orallo, J., & Modroiu, R. (2009). "An experimental
 #' comparison of performance measures for classification". _Pattern Recognition
 #' Letters_. 30 (1), pp 27-38.
+#'
+#' @details
+#' ROC AUNU is a metric that should be `r attr(roc_aunu, "direction")`d. The
+#' output ranges from `r metric_range(roc_aunu)[1]` to
+#' `r metric_range(roc_aunu)[2]`, with `r metric_optimal(roc_aunu)` indicating
+#' perfect discrimination.
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{ROC AUNU} = \frac{1}{K} \sum_{k=1}^{K} \text{AUC}_k}
+#'
+#' where \eqn{K} is the number of classes and \eqn{\text{AUC}_k} is the
+#' binary ROC AUC for class \eqn{k} versus the rest.
 #'
 #' @seealso
 #'
@@ -83,7 +97,8 @@ roc_aunu <- function(data, ...) {
 }
 roc_aunu <- new_prob_metric(
   roc_aunu,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -121,6 +136,7 @@ roc_aunu_vec <- function(
   options = list(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   check_roc_options_deprecated("roc_aunu_vec", options)

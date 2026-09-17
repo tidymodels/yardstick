@@ -50,6 +50,21 @@ For \code{accuracy_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Accuracy is the proportion of the data that are predicted correctly.
 }
+\details{
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formula used here is:
+
+\deqn{\text{Accuracy} = \frac{A + D}{A + B + C + D}}
+
+Accuracy is a metric that should be maximized. The
+output ranges from 0 to
+1, with 1 indicating
+perfect predictions.
+}
 \section{Multiclass}{
 
 
@@ -77,17 +92,23 @@ hpc_cv |>
   accuracy(obs, pred)
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{bal_accuracy}()},
 \code{\link{detection_prevalence}()},
 \code{\link{f_meas}()},
+\code{\link{fall_out}()},
 \code{\link{j_index}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
 \code{\link{recall}()},
+\code{\link{roc_dist}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
 }

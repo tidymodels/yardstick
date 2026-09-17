@@ -11,9 +11,15 @@
 #' @param estimate A matrix with as many columns as factor levels of `truth`. _It
 #' is assumed that these are in the same order as the levels of `truth`._
 #' @family class probability metrics
+#' @seealso [All ordered probability metrics][ordered-prob-metrics]
 #' @templateVar fn ranked_prob_score
 #' @template return
 #' @details
+#' Ranked probability score is a metric that should be
+#' `r attr(ranked_prob_score, "direction")`d. The output ranges from
+#' `r metric_range(ranked_prob_score)[1]` to
+#' `r metric_range(ranked_prob_score)[2]`, with `r metric_optimal(ranked_prob_score)`
+#' indicating perfect predictions.
 #'
 #' The ranked probability score is a Brier score for ordinal data that uses the
 #' _cumulative_ probability of an event (i.e. `Pr[class <= i]` for `i` = 1,
@@ -68,7 +74,8 @@ ranked_prob_score <- function(data, ...) {
 }
 ranked_prob_score <- new_ordered_prob_metric(
   ranked_prob_score,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -102,6 +109,7 @@ ranked_prob_score_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "ranked_prob_score")
@@ -139,7 +147,7 @@ cumulative_rows <- function(x) {
 
 # When `truth` is a factor
 rps_factor <- function(truth, estimate, case_weights = NULL) {
-  num_class <- length(levels(truth))
+  num_class <- nlevels(truth)
   inds <- hardhat::fct_encode_one_hot(truth)
   cum_ind <- cumulative_rows(inds)
   cum_estimate <- cumulative_rows(estimate)

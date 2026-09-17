@@ -1,4 +1,20 @@
-# Binary `ppv()` returns `NA` with a warning when `sens()` is undefined (tp + fn = 0) (#101)
+# work with class_pred input
+
+    Code
+      ppv_vec(cp_truth, cp_estimate)
+    Condition
+      Error in `ppv_vec()`:
+      ! `truth` should not a <class_pred> object.
+
+# na_rm argument check
+
+    Code
+      ppv_vec(1, 1, na_rm = "yes")
+    Condition
+      Error in `ppv_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
+
+# Binary returns `NA` with a warning when results are undefined (#98)
 
     Code
       out <- ppv_vec(truth, estimate)
@@ -8,11 +24,11 @@
       Sensitivity is undefined in this case, and `NA` will be returned.
       Note that 1 predicted event(s) actually occurred for the problematic event level, a
 
-# work with class_pred input
+# bad argument check
 
     Code
-      ppv_vec(cp_truth, cp_estimate)
+      ppv_vec(1, 1, prevalence = "yes")
     Condition
       Error in `ppv_vec()`:
-      ! `truth` should not a <class_pred> object.
+      ! `prevalence` must be a number or `NULL`, not the string "yes".
 

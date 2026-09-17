@@ -92,6 +92,21 @@ The \code{gain_capture()} metric is identical to the \emph{accuracy ratio (AR)},
 is also sometimes called the \emph{gini coefficient}. These two are generally
 calculated on a cumulative accuracy profile curve, but this is the same as
 a gain curve. See the Engelmann reference for more information.
+
+Gain capture is a metric that should be maximized.
+The output ranges from 0 to
+1, with 1
+indicating perfect discrimination.
+
+The formula used here is:
+
+\deqn{\text{Gain Capture} = \frac{A_{model} - A_{baseline}}{A_{perfect} - A_{baseline}}}
+
+where \eqn{A_{model}} is the area under the model's gain curve,
+\eqn{A_{baseline}} is the area under the baseline (random) gain curve,
+and \eqn{A_{perfect}} is the area under a perfect gain curve. This is
+equivalent to twice the ROC AUC minus one, also known as the Gini
+coefficient.
 }
 \section{Relevant Level}{
 
@@ -175,7 +190,7 @@ gain_capture_vec(
    )
 )
 
-\dontshow{if (rlang::is_installed(c("ggplot2"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("ggplot2"))) withAutoprint(\{ # examplesIf}
 # ---------------------------------------------------------------------------
 # Visualize gain_capture()
 
@@ -192,6 +207,8 @@ Discussion Paper Series 2: Banking and Financial Studies 2003,01,
 Deutsche Bundesbank.
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 \code{\link[=gain_curve]{gain_curve()}} to compute the full gain curve.
 
 Other class probability metrics: 

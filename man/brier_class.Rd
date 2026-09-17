@@ -55,9 +55,23 @@ For \code{brier_class_vec()}, a single \code{numeric} value (or \code{NA}).
 Compute the Brier score for a classification model.
 }
 \details{
+Brier score is a metric that should be minimized.
+The output ranges from 0 to
+1, with 0
+indicating perfect predictions.
+
 The Brier score is analogous to the mean squared error in regression models.
 The difference between a binary indicator for a class and its corresponding
 class probability are squared and averaged.
+
+The formula used here is:
+
+\deqn{\text{Brier} = \frac{1}{2N} \sum_{i=1}^{N} \sum_{j=1}^{K} (y_{ij} - p_{ij})^2}
+
+where \eqn{N} is the number of observations, \eqn{K} is the number of classes,
+\eqn{y_{ij}} is 1 if observation \eqn{i} belongs to class \eqn{j} and 0
+otherwise, and \eqn{p_{ij}} is the predicted probability of observation
+\eqn{i} for class \eqn{j}.
 
 This function uses the convention in Kruppa \emph{et al} (2014) and divides the
 result by two.
@@ -97,6 +111,8 @@ learning methods for dichotomous and multicategory outcome: Applications.
 Biometrical Journal, 56 (4): 564-583.
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 Other class probability metrics: 
 \code{\link{average_precision}()},
 \code{\link{classification_cost}()},

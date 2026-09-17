@@ -6,6 +6,14 @@
 #' related metric is the mean absolute error ([mae()]).
 #'
 #' @details
+#' MSD is a metric where the optimal value is `r metric_optimal(msd)`. The
+#' output ranges from `r metric_range(msd)[1]` to `r metric_range(msd)[2]`, with
+#' `r metric_optimal(msd)` indicating predictions are unbiased.
+#'
+#' The formula for MSD is:
+#'
+#' \deqn{\text{MSD} = \frac{1}{n} \sum_{i=1}^{n} (\text{truth}_i - \text{estimate}_i)}
+#'
 #' Mean signed deviation is rarely used, since positive and negative errors
 #' cancel each other out. For example, `msd_vec(c(100, -100), c(0, 0))` would
 #' return a seemingly "perfect" value of `0`, even though `estimate` is wildly
@@ -19,6 +27,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn msd
 #' @template return
 #'
@@ -34,7 +43,8 @@ msd <- function(data, ...) {
 }
 msd <- new_numeric_metric(
   msd,
-  direction = "zero"
+  direction = "zero",
+  range = c(-Inf, Inf)
 )
 
 #' @rdname msd
@@ -61,6 +71,7 @@ msd.data.frame <- function(
 #' @export
 #' @rdname msd
 msd_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

@@ -14,12 +14,29 @@
 #' a gain curve. See the Engelmann reference for more information.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn gain_capture
 #' @template event_first
 #' @template return
 #' @template multiclass-prob
 #'
 #' @inheritParams pr_auc
+#'
+#' @details
+#' Gain capture is a metric that should be `r attr(gain_capture, "direction")`d.
+#' The output ranges from `r metric_range(gain_capture)[1]` to
+#' `r metric_range(gain_capture)[2]`, with `r metric_optimal(gain_capture)`
+#' indicating perfect discrimination.
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Gain Capture} = \frac{A_{model} - A_{baseline}}{A_{perfect} - A_{baseline}}}
+#'
+#' where \eqn{A_{model}} is the area under the model's gain curve,
+#' \eqn{A_{baseline}} is the area under the baseline (random) gain curve,
+#' and \eqn{A_{perfect}} is the area under a perfect gain curve. This is
+#' equivalent to twice the ROC AUC minus one, also known as the Gini
+#' coefficient.
 #'
 #' @author Max Kuhn
 #'
@@ -51,7 +68,8 @@ gain_capture <- function(data, ...) {
 }
 gain_capture <- new_prob_metric(
   gain_capture,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname gain_capture
@@ -89,6 +107,7 @@ gain_capture_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, estimator, "gain_capture")

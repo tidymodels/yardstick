@@ -5,6 +5,18 @@
 #' [roc_curve()] for the full curve.
 #'
 #' @details
+#' ROC AUC is a metric that should be `r attr(roc_auc, "direction")`d. The
+#' output ranges from `r metric_range(roc_auc)[1]` to
+#' `r metric_range(roc_auc)[2]`, with `r metric_optimal(roc_auc)` indicating
+#' perfect discrimination.
+#'
+#' The area under the ROC curve is computed using the trapezoidal rule:
+#'
+#' \deqn{\text{AUC} = \sum_{i=1}^{n-1} (x_{i+1} - x_i) \cdot \frac{y_i + y_{i+1}}{2}}
+#'
+#' where \eqn{x} is the false positive rate (1 - specificity) and \eqn{y} is
+#' the true positive rate (sensitivity) at each threshold.
+#'
 #' Generally, an ROC AUC value is between `0.5` and `1`, with `1` being a
 #' perfect prediction model. If your value is between `0` and `0.5`, then
 #' this implies that you have meaningful information in your model, but it
@@ -14,6 +26,7 @@
 #' Note that you can't combine `estimator = "hand_till"` with `case_weights`.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn roc_auc
 #' @template return
 #' @template event_first
@@ -74,7 +87,8 @@ roc_auc <- function(data, ...) {
 }
 roc_auc <- new_prob_metric(
   roc_auc,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -126,6 +140,7 @@ roc_auc_vec <- function(
   options = list(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   check_roc_options_deprecated("roc_auc_vec", options)
@@ -170,10 +185,12 @@ roc_auc_estimator_impl <- function(
   } else if (estimator == "hand_till") {
     if (!is.null(case_weights)) {
       # should be unreachable
+      # nocov start
       cli::cli_abort(
         "{.arg case_weights} should be `NULL` at this point for hand-till.",
         .internal = TRUE
       )
+      # nocov end
     }
 
     roc_auc_hand_till(truth, estimate)

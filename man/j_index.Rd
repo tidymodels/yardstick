@@ -83,8 +83,23 @@ Youden's J statistic is defined as:
 A related metric is Informedness, see the Details section for the relationship.
 }
 \details{
-The value of the J-index ranges from [0, 1] and is \code{1} when there are
-no false positives and no false negatives.
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formulas used here are:
+
+\deqn{\text{Sensitivity} = \frac{A}{A + C}}
+
+\deqn{\text{Specificity} = \frac{D}{B + D}}
+
+\deqn{\text{J-index} = \text{Sensitivity} + \text{Specificity} - 1}
+
+J-index is a metric that should be maximized. The
+output ranges from -1 to
+1, with 1 indicating no
+false positives and no false negatives.
 
 The binary version of J-index is equivalent to the binary concept of
 Informedness. Macro-weighted J-index is equivalent to multiclass informedness
@@ -156,17 +171,23 @@ ROC, Informedness, Markedness and Correlation". Journal of Machine Learning
 Technologies. 2 (1): 37-63.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},
 \code{\link{detection_prevalence}()},
 \code{\link{f_meas}()},
+\code{\link{fall_out}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
 \code{\link{recall}()},
+\code{\link{roc_dist}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
 }

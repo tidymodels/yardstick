@@ -73,7 +73,7 @@ is implemented.
 The function requires that the factors have exactly the same levels.
 }
 \examples{
-\dontshow{if (rlang::is_installed(c("tidyr", "ggplot2"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("tidyr", "ggplot2"))) withAutoprint(\{ # examplesIf}
 library(dplyr)
 data("hpc_cv")
 
@@ -119,6 +119,10 @@ library(ggplot2)
 
 autoplot(cm, type = "mosaic")
 autoplot(cm, type = "heatmap")
+
+# And can be modified further like normal ggplot2 objects
+autoplot(cm, type = "heatmap") +
+  geom_label(aes(label = Freq), fill = "white")
 \dontshow{\}) # examplesIf}
 }
 \seealso{

@@ -5,6 +5,10 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
+#' @seealso [mse()] for the mean squared error, which is RMSE without the
+#' square root.
+#'
+#' [All numeric metrics][numeric-metrics]
 #' @templateVar fn rmse
 #' @template return
 #'
@@ -32,6 +36,15 @@
 #'
 #' @param ... Not currently used.
 #'
+#' @details
+#' RMSE is a metric that should be `r attr(rmse, "direction")`d. The output
+#' ranges from `r metric_range(rmse)[1]` to `r metric_range(rmse)[2]`, with
+#' `r metric_optimal(rmse)` indicating perfect predictions.
+#'
+#' The formula for RMSE is:
+#'
+#' \deqn{\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (\text{truth}_i - \text{estimate}_i)^2}}
+#'
 #' @author Max Kuhn
 #'
 #' @template examples-numeric
@@ -43,7 +56,8 @@ rmse <- function(data, ...) {
 }
 rmse <- new_numeric_metric(
   rmse,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname rmse
@@ -70,6 +84,7 @@ rmse.data.frame <- function(
 #' @export
 #' @rdname rmse
 rmse_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

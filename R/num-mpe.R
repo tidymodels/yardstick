@@ -10,10 +10,24 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn mpe
 #' @template return
 #'
 #' @inheritParams rmse
+#'
+#' @details
+#' MPE is a metric where the optimal value is `r metric_optimal(mpe)`. The
+#' output ranges from `r metric_range(mpe)[1]` to `r metric_range(mpe)[2]`, with
+#' `r metric_optimal(mpe)` indicating predictions are unbiased.
+#'
+#' The formula for MPE is:
+#'
+#' \deqn{\text{MPE} = \frac{100}{n} \sum_{i=1}^{n} \frac{\text{truth}_i - \text{estimate}_i}{\text{truth}_i}}
+#'
+#' Using this convention, a _positive_ MPE indicates
+#' under-prediction (on average, `truth > estimate`) and a _negative_ MPE
+#' indicates over-prediction (on average, `estimate > truth`).
 #'
 #' @author Thomas Bierhance
 #'
@@ -63,7 +77,8 @@ mpe <- function(data, ...) {
 }
 mpe <- new_numeric_metric(
   mpe,
-  direction = "zero"
+  direction = "zero",
+  range = c(-Inf, Inf)
 )
 
 #' @rdname mpe
@@ -90,6 +105,7 @@ mpe.data.frame <- function(
 #' @export
 #' @rdname mpe
 mpe_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

@@ -65,6 +65,18 @@ interpretative value.
 The IIC is seen as an alternative to the traditional correlation
 coefficient and is in the same units as the original data.
 }
+\details{
+IIC is a metric that should be maximized. The output
+ranges from -1 to 1, with
+1 indicating perfect agreement.
+
+The formula for IIC is:
+
+\deqn{\text{IIC} = \text{corr}(\text{truth}, \text{estimate}) \cdot \frac{\min(\text{MAE}^-, \text{MAE}^+)}{\max(\text{MAE}^-, \text{MAE}^+)}}
+
+where \eqn{\text{MAE}^-} and \eqn{\text{MAE}^+} are the mean absolute errors
+for negative and non-negative residuals, respectively.
+}
 \examples{
 # Supply truth and predictions as bare column names
 iic(solubility_test, solubility, prediction)
@@ -102,8 +114,11 @@ of correlation. A criterion of predictability of QSAR models for skin
 permeability?" \emph{Science of the Total Environment}. 586: 466-472.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{mae}()},
@@ -111,8 +126,10 @@ Other numeric metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
 \code{\link{rsq}()},
@@ -128,8 +145,10 @@ Other accuracy metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{smape}()}
 }
 \author{

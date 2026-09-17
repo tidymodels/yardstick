@@ -109,7 +109,8 @@ Highly related functions are \code{\link[=spec]{spec()}}, \code{\link[=ppv]{ppv(
 \details{
 The sensitivity (\code{sens()}) is defined as the proportion of positive
 results out of the number of samples which were actually
-positive.
+positive. For positive observations, the proportion of model predictions
+that correctly predicted positive.
 
 When the denominator of the calculation is \code{0}, sensitivity is undefined.
 This happens when both \verb{# true_positive = 0} and \verb{# false_negative = 0}
@@ -117,6 +118,20 @@ are true, which mean that there were no true events. When computing binary
 sensitivity, a \code{NA} value will be returned with a warning. When computing
 multiclass sensitivity, the individual \code{NA} values will be removed, and the
 computation will procede, with a warning.
+
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formula used here is:
+
+\deqn{\text{Sensitivity} = \frac{A}{A + C}}
+
+Sensitivity is a metric that should be maximized. The
+output ranges from 0 to 1,
+with 1 indicating that all actual positives were
+predicted as positive.
 }
 \section{Relevant Level}{
 
@@ -138,25 +153,6 @@ Macro, micro, and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a \code{truth} factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See \code{vignette("multiclass", "yardstick")} for more information.
-}
-
-\section{Implementation}{
-
-
-Suppose a 2x2 table with notation:
-
-\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
-\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
-
-The formulas used here are:
-
-\deqn{Sensitivity = A/(A+C)}
-\deqn{Specificity = D/(B+D)}
-\deqn{Prevalence = (A+C)/(A+B+C+D)}
-\deqn{PPV = (Sensitivity * Prevalence) / ((Sensitivity * Prevalence) + ((1-Specificity) * (1-Prevalence)))}
-\deqn{NPV = (Specificity * (1-Prevalence)) / (((1-Sensitivity) * Prevalence) + ((Specificity) * (1-Prevalence)))}
-
-See the references for discussions of the statistics.
 }
 
 \examples{
@@ -201,21 +197,29 @@ sensitivity and specificity,'' \emph{British Medical Journal},
 vol 308, 1552.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},
 \code{\link{detection_prevalence}()},
 \code{\link{f_meas}()},
+\code{\link{fall_out}()},
 \code{\link{j_index}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
 \code{\link{recall}()},
+\code{\link{roc_dist}()},
 \code{\link{spec}()}
 
 Other sensitivity metrics: 
+\code{\link{fall_out}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{spec}()}

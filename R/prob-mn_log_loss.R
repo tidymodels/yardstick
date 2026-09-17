@@ -15,6 +15,7 @@
 #' of `.9`.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn mn_log_loss
 #' @template return
 #'
@@ -27,6 +28,21 @@
 #'
 #' @param sum A `logical`. Should the sum of the likelihood contributions be
 #' returned (instead of the mean value)?
+#'
+#' @details
+#' Log loss is a metric that should be `r attr(mn_log_loss, "direction")`d. The
+#' output ranges from `r metric_range(mn_log_loss)[1]` to
+#' `r metric_range(mn_log_loss)[2]`, with `r metric_optimal(mn_log_loss)`
+#' indicating perfect predictions.
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Log Loss} = -\frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \cdot \log(p_{ij})}
+#'
+#' where \eqn{N} is the number of observations, \eqn{K} is the number of classes,
+#' \eqn{y_{ij}} is 1 if observation \eqn{i} belongs to class \eqn{j} and 0
+#' otherwise, and \eqn{p_{ij}} is the predicted probability of observation
+#' \eqn{i} for class \eqn{j}.
 #'
 #' @author Max Kuhn
 #'
@@ -74,7 +90,8 @@ mn_log_loss <- function(data, ...) {
 }
 mn_log_loss <- new_prob_metric(
   mn_log_loss,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @export
@@ -113,6 +130,8 @@ mn_log_loss_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
+  check_bool(sum)
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "mn_log_loss")

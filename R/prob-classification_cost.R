@@ -6,6 +6,22 @@
 #' probabilities and the mean cost is returned.
 #'
 #' @details
+#' Classification cost is a metric that should be
+#' `r attr(classification_cost, "direction")`d. The output ranges from
+#' `r metric_range(classification_cost)[1]` to
+#' `r metric_range(classification_cost)[2]`, with
+#' `r metric_optimal(classification_cost)` indicating perfect predictions (when
+#' costs for correct predictions are zero).
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Cost} = \frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{K} c_{t_i, j} \cdot p_{ij}}
+#'
+#' where \eqn{N} is the number of observations, \eqn{K} is the number of classes,
+#' \eqn{c_{t_i, j}} is the cost of predicting class \eqn{j} when the true class
+#' is \eqn{t_i}, and \eqn{p_{ij}} is the predicted probability of observation
+#' \eqn{i} for class \eqn{j}.
+#'
 #' As an example, suppose that there are three classes: `"A"`, `"B"`, and `"C"`.
 #' Suppose there is a truly `"A"` observation with class probabilities `A = 0.3
 #' / B = 0.3 / C = 0.4`. Suppose that, when the true result is class `"A"`, the
@@ -15,6 +31,7 @@
 #' calculation is done for each sample and the individual costs are averaged.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn class_cost
 #' @template return
 #'
@@ -25,7 +42,7 @@
 #' `"truth"` and `"estimate"` should be character columns containing unique
 #' combinations of the levels of the `truth` factor.
 #'
-#' `"costs"` should be a numeric column representing the cost that should
+#' `"cost"` should be a numeric column representing the cost that should
 #' be applied when the `"estimate"` is predicted, but the true result is
 #' `"truth"`.
 #'
@@ -105,7 +122,8 @@ classification_cost <- function(data, ...) {
 }
 classification_cost <- new_prob_metric(
   fn = classification_cost,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname classification_cost
@@ -144,6 +162,7 @@ classification_cost_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   estimator <- finalize_estimator(truth, metric_class = "classification_cost")

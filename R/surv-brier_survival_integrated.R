@@ -4,9 +4,15 @@
 #' overall calculation of model performance for all values of `.eval_time`.
 #'
 #' @family dynamic survival metrics
+#' @seealso [All integrated survival metrics][integrated-survival-metrics]
 #' @templateVar fn brier_survival_integrated
 #' @template return-dynamic-survival
 #' @details
+#' Integrated Brier survival score is a metric that should be
+#' `r attr(brier_survival_integrated, "direction")`d. The output ranges from
+#' `r metric_range(brier_survival_integrated)[1]` to
+#' `r metric_range(brier_survival_integrated)[2]`, with
+#' `r metric_optimal(brier_survival_integrated)` indicating perfect predictions.
 #'
 #' The integrated time-dependent brier score is calculated in an "area under the
 #' curve" fashion. The brier score is calculated for each value of `.eval_time`.
@@ -58,7 +64,8 @@ brier_survival_integrated <- function(data, ...) {
 
 brier_survival_integrated <- new_integrated_survival_metric(
   brier_survival_integrated,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, 1)
 )
 
 #' @rdname brier_survival_integrated
@@ -90,6 +97,7 @@ brier_survival_integrated_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   check_dynamic_survival_metric(
     truth,
     estimate,

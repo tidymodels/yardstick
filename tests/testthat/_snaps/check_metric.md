@@ -93,3 +93,12 @@
       Error:
       ! `truth` (228) and `case_weights` (150) must be the same length.
 
+# check_quantile_metric() validates inputs
+
+    Code
+      check_quantile_metric(truth = as.character(example$truth), estimate = example$
+        preds, case_weights = 1:2)
+    Condition
+      Error:
+      ! `truth` should be a numeric vector, not a character vector.
+

@@ -36,3 +36,27 @@
     Output
       A class metric | direction: minimize, group-wise on: boop
 
+# `range` argument is validated
+
+    Code
+      new_numeric_metric(function() 1, "minimize", range = "bad")
+    Condition
+      Error in `new_numeric_metric()`:
+      ! `range` must be a numeric vector of length 2.
+
+---
+
+    Code
+      new_numeric_metric(function() 1, "minimize", range = c(1, 0))
+    Condition
+      Error in `new_numeric_metric()`:
+      ! `range` must have `range[1] <= range[2]`.
+
+---
+
+    Code
+      new_numeric_metric(function() 1, "minimize", range = 1)
+    Condition
+      Error in `new_numeric_metric()`:
+      ! `range` must be a numeric vector of length 2.
+

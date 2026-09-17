@@ -1,40 +1,38 @@
-test_that("`mpe()` works", {
-  set.seed(1812)
-  df <- data.frame(obs = rnorm(50))
-  df$pred <- .2 + 1.1 * df$obs + rnorm(50, sd = 0.5)
+test_that("Calculations are correct", {
+  ex_dat <- generate_numeric_test_data()
 
   expect_identical(
-    mpe(df, truth = "obs", estimate = "pred")[[".estimate"]],
-    mean((df$obs - df$pred) / df$obs) * 100
-  )
-
-  ind <- c(10, 20, 30, 40, 50)
-  df$pred[ind] <- NA
-
-  expect_identical(
-    mpe(df, obs, pred)[[".estimate"]],
-    mean((df$obs[-ind] - df$pred[-ind]) / df$obs[-ind]) * 100
+    mpe_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    mean((ex_dat$obs - ex_dat$pred) / ex_dat$obs) * 100
   )
 })
 
-test_that("`mpe()` computes expected values when singular `truth` is `0`", {
-  expect_identical(
-    mpe_vec(truth = 0, estimate = 1),
-    -Inf
-  )
+test_that("both interfaces gives the same results", {
+  ex_dat <- generate_numeric_test_data()
 
   expect_identical(
-    mpe_vec(truth = 0, estimate = -1),
-    Inf
-  )
-
-  expect_identical(
-    mpe_vec(truth = 0, estimate = 0),
-    NaN
+    mpe_vec(ex_dat$obs, ex_dat$pred),
+    mpe(ex_dat, obs, pred)[[".estimate"]],
   )
 })
 
-test_that("Weighted results are working", {
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  expect_identical(
+    mpe_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_identical(
+    mpe_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    mean((ex_dat$obs - ex_dat$pred) / ex_dat$obs, na.rm = TRUE) * 100
+  )
+})
+
+test_that("Case weights calculations are correct", {
   truth <- c(1, 2, 3)
   estimate <- c(2, 4, 3)
   weights <- c(1, 2, 1)
@@ -59,4 +57,51 @@ test_that("works with hardhat case weights", {
   expect_no_error(
     mpe_vec(df$solubility, df$prediction, case_weights = freq_wgt)
   )
+})
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    mpe_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("mpe() - computes expected values when singular `truth` is `0`", {
+  expect_identical(
+    mpe_vec(truth = 0, estimate = 1),
+    -Inf
+  )
+
+  expect_identical(
+    mpe_vec(truth = 0, estimate = -1),
+    Inf
+  )
+
+  expect_identical(
+    mpe_vec(truth = 0, estimate = 0),
+    NaN
+  )
+})
+
+test_that("range values are correct", {
+  direction <- metric_direction(mpe)
+  range <- metric_range(mpe)
+  perfect <- 0
+
+  df <- tibble::tibble(
+    truth = c(5, 6, 2, 6, 4, 1, 3)
+  )
+
+  df$estimate <- df$truth
+  df$off <- df$truth + 1
+
+  expect_identical(
+    mpe_vec(df$truth, df$estimate),
+    perfect
+  )
+  if (direction == "zero") {
+    expect_true(abs(mpe_vec(df$truth, df$off)) > perfect)
+    expect_gte(mpe_vec(df$truth, df$off), range[1])
+    expect_lte(mpe_vec(df$truth, df$off), range[2])
+  }
 })

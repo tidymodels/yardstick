@@ -48,6 +48,17 @@ For \code{poisson_log_loss_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Calculate the loss function for the Poisson distribution.
 }
+\details{
+Poisson log loss is a metric that should be
+minimized. The output ranges from
+0 to
+∞, with
+0 indicating perfect predictions.
+
+The formula for Poisson log loss is:
+
+\deqn{L = \frac{1}{n} \sum_{i=1}^{n} \left( \log(\text{truth}_i!) + \text{estimate}_i - \text{truth}_i \cdot \log(\text{estimate}_i) \right)}
+}
 \examples{
 count_truth <- c(2L,   7L,   1L,   1L,   0L,  3L)
 count_pred  <- c(2.14, 5.35, 1.65, 1.56, 1.3, 2.71)
@@ -58,8 +69,11 @@ poisson_log_loss(count_results, count, pred)
 
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
@@ -68,7 +82,9 @@ Other numeric metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
 \code{\link{rsq}()},
@@ -85,7 +101,9 @@ Other accuracy metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{smape}()}
 }
 \author{

@@ -60,7 +60,7 @@ save_metric_results <- function(
   # Multiclass weighted metrics
   case_weight2 <- lapply(
     average,
-    function(.x)
+    function(.x) {
       fn(
         hpc_cv$obs,
         hpc_cv$pred,
@@ -68,6 +68,7 @@ save_metric_results <- function(
         average = .x,
         sample_weight = weights_hpc_cv
       )
+    }
   )
 
   case_weight <- c(case_weight, case_weight2)
@@ -119,7 +120,7 @@ py_multiclass_weighted_TN <- sum(py_multiclass_weighted_confusion) -
 save_metric_results("precision", skmetrics$precision_score)
 save_metric_results("recall", skmetrics$recall_score)
 save_metric_results("f_meas", skmetrics$f1_score)
-save_metric_results("f_meas_beta_.5", skmetrics$fbeta_score, beta = .5)
+save_metric_results("f_meas_beta_.5", skmetrics$fbeta_score, beta = 0.5)
 
 # MCC
 py_mcc <- list(

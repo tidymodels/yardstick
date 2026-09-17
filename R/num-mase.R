@@ -20,6 +20,7 @@
 #'
 #' @family numeric metrics
 #' @family accuracy metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn mase
 #' @template return
 #'
@@ -35,6 +36,15 @@
 #' series. If each observation was at the daily level and the data showed weekly
 #' seasonality, then `m = 7L` would be a reasonable choice for a 7-day seasonal
 #' naive calculation.
+#'
+#' @details
+#' MASE is a metric that should be `r attr(mase, "direction")`d. The output
+#' ranges from `r metric_range(mase)[1]` to `r metric_range(mase)[2]`, with
+#' `r metric_optimal(mase)` indicating perfect predictions.
+#'
+#' The formula for MASE is:
+#'
+#' \deqn{\text{MASE} = \frac{1}{n} \sum_{i=1}^{n} \frac{|\text{truth}_i - \text{estimate}_i|}{\text{MAE}_{naive}}}
 #'
 #' @author Alex Hallam
 #'
@@ -52,7 +62,8 @@ mase <- function(data, ...) {
 }
 mase <- new_numeric_metric(
   mase,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, Inf)
 )
 
 #' @rdname mase
@@ -91,6 +102,8 @@ mase_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
+  #check_number_whole(m, min = 1)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

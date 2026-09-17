@@ -46,7 +46,7 @@ corresponds to different time points.
 This formulation takes survival probability predictions at one or more
 specific \emph{evaluation times} and, for each time, computes the ROC curve. To
 account for censoring, inverse probability of censoring weights (IPCW) are
-used in the calculations. See equation 7 of section 4.3 in Blanche \emph{at al}
+used in the calculations. See equation 7 of section 4.3 in Blanche \emph{et al}
 (2013) for the details.
 
 The column passed to \code{...} should be a list column with one element per
@@ -65,7 +65,7 @@ internal data set \code{lung_surv} shows an example of the format.
 This method automatically groups by the \code{.eval_time} argument.
 }
 \examples{
-\dontshow{if (rlang::is_installed(c("ggplot2"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("ggplot2"))) withAutoprint(\{ # examplesIf}
 result <- roc_curve_survival(
   lung_surv,
   truth = surv_obj,

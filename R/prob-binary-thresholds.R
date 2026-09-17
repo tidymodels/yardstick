@@ -8,7 +8,8 @@ binary_threshold_curve <- function(
   estimate,
   ...,
   event_level = yardstick_event_level(),
-  case_weights = NULL
+  case_weights = NULL,
+  thresholds = NULL
 ) {
   check_dots_empty()
 
@@ -19,40 +20,50 @@ binary_threshold_curve <- function(
 
   if (!is.factor(truth)) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg truth} must be a factor, not {.obj_type_friendly {truth}}.",
       .internal = TRUE
     )
+    # nocov end
   }
-  if (length(levels(truth)) != 2L) {
+  if (nlevels(truth) != 2L) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg truth} must have two levels, not {length(levels(truth))}.",
       .internal = TRUE
     )
+    # nocov end
   }
   if (!is.numeric(estimate)) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg estimate} must be numeric vector, not {.obj_type_friendly {estimate}}.",
       .internal = TRUE
     )
+    # nocov end
   }
   if (length(truth) != length(estimate)) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg truth} ({length(truth)}) and
       {.arg estimate} ({length(estimate)}) must be the same length.",
       .internal = TRUE
     )
+    # nocov end
   }
   if (length(truth) != length(case_weights)) {
     # should be unreachable
+    # nocov start
     cli::cli_abort(
       "{.arg truth} ({length(truth)}) and
       {.arg case_weights} ({length(case_weights)}) must be the same length.",
       .internal = TRUE
     )
+    # nocov end
   }
 
   truth <- unclass(truth)
@@ -81,11 +92,17 @@ binary_threshold_curve <- function(
   estimate <- estimate[order]
   case_weights <- case_weights[order]
 
-  # Skip repeated probabilities.
-  # We want the last duplicate to ensure that we capture all the events from the
-  # `cumsum()`, so we use `fromLast`.
-  loc_unique <- which(!duplicated(estimate, fromLast = TRUE))
-  thresholds <- estimate[loc_unique]
+  if (is.null(thresholds)) {
+    # Skip repeated probabilities.
+    # We want the last duplicate to ensure that we capture all the events from the
+    # `cumsum()`, so we use `fromLast`.
+    loc_unique <- which(!duplicated(estimate, fromLast = TRUE))
+    thresholds <- estimate[loc_unique]
+  } else {
+    thresholds <- unique(thresholds)
+    thresholds <- sort(thresholds, decreasing = TRUE)
+    loc_unique <- findInterval(-thresholds, -estimate)
+  }
 
   case_weights_events <- truth * case_weights
   case_weights_non_events <- (1 - truth) * case_weights

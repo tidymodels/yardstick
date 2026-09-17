@@ -68,6 +68,19 @@ For \code{roc_aunp_vec()}, a single \code{numeric} value (or \code{NA}).
 curve of each class against the rest, using the a priori class distribution.
 This is equivalent to \code{roc_auc(estimator = "macro_weighted")}.
 }
+\details{
+ROC AUNP is a metric that should be maximized. The
+output ranges from 0 to
+1, with 1 indicating
+perfect discrimination.
+
+The formula used here is:
+
+\deqn{\text{ROC AUNP} = \sum_{k=1}^{K} p_k \cdot \text{AUC}_k}
+
+where \eqn{p_k} is the proportion of observations in class \eqn{k} and
+\eqn{\text{AUC}_k} is the binary ROC AUC for class \eqn{k} versus the rest.
+}
 \section{Relevant Level}{
 
 
@@ -134,6 +147,8 @@ comparison of performance measures for classification". \emph{Pattern Recognitio
 Letters}. 30 (1), pp 27-38.
 }
 \seealso{
+\link[=prob-metrics]{All probability metrics}
+
 \code{\link[=roc_aunu]{roc_aunu()}} for computing the area under the ROC curve of each class against
 the rest, using the uniform class distribution.
 

@@ -29,7 +29,7 @@ concordance_survival_vec(
 \item{data}{A \code{data.frame} containing the columns specified by \code{truth} and
 \code{...}.}
 
-\item{...}{Currently not used.}
+\item{...}{Not currently used.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
@@ -64,6 +64,12 @@ For \code{concordance_survival_vec()}, a single \code{numeric} value (or \code{N
 Compute the Concordance index for right-censored data
 }
 \details{
+Concordance is a metric that should be
+maximized. The output ranges from
+0 to
+1, with
+1 indicating perfect concordance.
+
 The concordance index is defined as the proportion of all comparable pairs in
 which the predictions and outcomes are concordant.
 
@@ -94,6 +100,9 @@ Harrell, F.E., Califf, R.M., Pryor, D.B., Lee, K.L., Rosati, R.A,
 “Multivariable prognostic models: issues in developing models, evaluating
 assumptions and adequacy, and measuring and reducing errors”, Statistics in
 Medicine, 15(4), 361-87, 1996.
+}
+\seealso{
+\link[=static-survival-metrics]{All static survival metrics}
 }
 \author{
 Emil Hvitfeldt

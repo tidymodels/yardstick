@@ -111,3 +111,19 @@ test_that("check_static_survival_metric() validates inputs", {
     )
   )
 })
+
+test_that("check_quantile_metric() validates inputs", {
+  example <- dplyr::tibble(
+    preds = hardhat::quantile_pred(rbind(1:4, 8:11), c(0.2, 0.4, 0.6, 0.8)),
+    truth = c(3.3, 7.1)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    check_quantile_metric(
+      truth = as.character(example$truth),
+      estimate = example$preds,
+      case_weights = 1:2
+    )
+  )
+})

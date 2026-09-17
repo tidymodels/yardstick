@@ -52,6 +52,14 @@ error) computes the average differences between \code{truth} and \code{estimate}
 related metric is the mean absolute error (\code{\link[=mae]{mae()}}).
 }
 \details{
+MSD is a metric where the optimal value is 0. The
+output ranges from -∞ to ∞, with
+0 indicating predictions are unbiased.
+
+The formula for MSD is:
+
+\deqn{\text{MSD} = \frac{1}{n} \sum_{i=1}^{n} (\text{truth}_i - \text{estimate}_i)}
+
 Mean signed deviation is rarely used, since positive and negative errors
 cancel each other out. For example, \code{msd_vec(c(100, -100), c(0, 0))} would
 return a seemingly "perfect" value of \code{0}, even though \code{estimate} is wildly
@@ -95,8 +103,11 @@ metric_results |>
   summarise(avg_estimate = mean(.estimate))
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
@@ -104,8 +115,10 @@ Other numeric metrics:
 \code{\link{mape}()},
 \code{\link{mase}()},
 \code{\link{mpe}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
 \code{\link{rsq}()},
@@ -121,8 +134,10 @@ Other accuracy metrics:
 \code{\link{mape}()},
 \code{\link{mase}()},
 \code{\link{mpe}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{smape}()}
 }
 \author{

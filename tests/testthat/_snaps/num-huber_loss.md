@@ -1,16 +1,16 @@
-# Huber Loss
+# na_rm argument check
 
     Code
-      huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = -1)
+      huber_loss_vec(1, 1, na_rm = "yes")
     Condition
-      Error in `huber_loss()`:
-      ! `delta` must be a number larger than or equal to 0, not the number -1.
+      Error in `huber_loss_vec()`:
+      ! `na_rm` must be `TRUE` or `FALSE`, not the string "yes".
 
----
+# bad argument check
 
     Code
-      huber_loss(ex_dat, truth = "obs", estimate = "pred_na", delta = c(1, 2))
+      huber_loss_vec(1, 1, delta = "yes")
     Condition
-      Error in `huber_loss()`:
-      ! `delta` must be a number, not a double vector.
+      Error in `huber_loss_vec()`:
+      ! `delta` must be a number, not the string "yes".
 

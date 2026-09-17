@@ -11,16 +11,37 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn ppv
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-positive
 #'
 #' @inheritParams sens
 #'
 #' @param prevalence A numeric value for the rate of the
 #'  "positive" class of the data.
+#'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
+#'
+#' \deqn{\text{Specificity} = \frac{D}{B + D}}
+#'
+#' \deqn{\text{Prevalence} = \frac{A + C}{A + B + C + D}}
+#'
+#' \deqn{\text{PPV} = \frac{\text{Sensitivity} \cdot \text{Prevalence}}{(\text{Sensitivity} \cdot \text{Prevalence}) + ((1 - \text{Specificity}) \cdot (1 - \text{Prevalence}))}}
+#'
+#' PPV is a metric that should be `r attr(ppv, "direction")`d. The output
+#' ranges from `r metric_range(ppv)[1]` to `r metric_range(ppv)[2]`, with
+#' `r metric_optimal(ppv)` indicating all predicted positives are true
+#' positives.
 #'
 #' @author Max Kuhn
 #'
@@ -41,7 +62,8 @@ ppv <- function(data, ...) {
 }
 ppv <- new_class_metric(
   ppv,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname ppv
@@ -124,6 +146,8 @@ ppv_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
+  check_number_decimal(prevalence, min = 0, max = 1, allow_null = TRUE)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

@@ -5,7 +5,8 @@
 #' Highly related functions are [sens()], [ppv()], and [npv()].
 #'
 #' The specificity measures the proportion of negatives that are correctly
-#' identified as negatives.
+#' identified as negatives. For negative observations, the proportion of model
+#' predictions that correctly predicted negative.
 #'
 #' When the denominator of the calculation is `0`, specificity is undefined.
 #' This happens when both `# true_negative = 0` and `# false_positive = 0`
@@ -16,14 +17,27 @@
 #'
 #' @family class metrics
 #' @family sensitivity metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn spec
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-positive
-#'
 #' @inheritParams sens
 #'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Specificity} = \frac{D}{B + D}}
+#'
+#' Specificity is a metric that should be `r attr(spec, "direction")`d. The
+#' output ranges from `r metric_range(spec)[1]` to `r metric_range(spec)[2]`,
+#' with `r metric_optimal(spec)` indicating that all actual negatives were
+#' predicted as negative.
 #'
 #' @author Max Kuhn
 #'
@@ -41,7 +55,8 @@ spec <- function(data, ...) {
 }
 spec <- new_class_metric(
   spec,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -108,6 +123,7 @@ spec_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 
@@ -138,7 +154,8 @@ specificity <- function(data, ...) {
 }
 specificity <- new_class_metric(
   specificity,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname spec

@@ -65,6 +65,14 @@ variable can be misleading on skewed dataset. The ratio of
 performance to inter-quartile has been introduced by
 Bellon-Maurel et al. (2010) to address some of these issues, and
 generalise the RPD to non-normally distributed variables.
+
+RPD is a metric that should be maximized. The output
+ranges from 0 to ∞, with higher
+values indicating better model performance.
+
+The formula for RPD is:
+
+\deqn{\text{RPD} = \frac{\text{sd}(\text{truth})}{\text{RMSE}}}
 }
 \examples{
 # Supply truth and predictions as bare column names
@@ -110,10 +118,13 @@ prediction of soil attributes by NIR spectroscopy. TrAC Trends
 in Analytical Chemistry, 29(9), pp.1073-1081.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 The closely related inter-quartile metric: \code{\link[=rpiq]{rpiq()}}
 
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
@@ -122,8 +133,10 @@ Other numeric metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpiq}()},
 \code{\link{rsq}()},
 \code{\link{rsq_trad}()},

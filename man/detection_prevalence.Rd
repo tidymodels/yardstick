@@ -79,6 +79,21 @@ For \code{detection_prevalence_vec()}, a single \code{numeric} value (or \code{N
 Detection prevalence is defined as the number of \emph{predicted} positive events (both
 true positive and false positive) divided by the total number of predictions.
 }
+\details{
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formula used here is:
+
+\deqn{\text{Detection Prevalence} = \frac{A + B}{A + B + C + D}}
+
+Detection prevalence is a metric that should be
+maximized. The output ranges from
+0 to 1.
+The "optimal" value depends on the true prevalence of positive events in the data.
+}
 \section{Relevant Level}{
 
 
@@ -138,17 +153,23 @@ detection_prevalence_vec(
 )
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},
 \code{\link{f_meas}()},
+\code{\link{fall_out}()},
 \code{\link{j_index}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
 \code{\link{recall}()},
+\code{\link{roc_dist}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
 }

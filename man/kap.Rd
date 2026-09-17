@@ -77,6 +77,28 @@ Kappa is a similar measure to \code{\link[=accuracy]{accuracy()}}, but is normal
 the accuracy that would be expected by chance alone and is very useful
 when one or more classes have large frequency distributions.
 }
+\details{
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formulas used here are:
+
+\deqn{p_o = \frac{A + D}{A + B + C + D}}
+
+\deqn{p_e = \frac{(A + B)(A + C) + (C + D)(B + D)}{(A + B + C + D)^2}}
+
+\deqn{\text{Kappa} = \frac{p_o - p_e}{1 - p_e}}
+
+where \eqn{p_o} is the observed agreement and \eqn{p_e} is the
+expected agreement by chance.
+
+Kappa is a metric that should be maximized. The output
+ranges from -1 to 1, with
+1 indicating perfect agreement. Negative values
+indicate agreement worse than chance.
+}
 \section{Multiclass}{
 
 
@@ -112,17 +134,23 @@ scaled disagreement or partial credit". \emph{Psychological
 Bulletin}. 70 (4): 213-220.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},
 \code{\link{detection_prevalence}()},
 \code{\link{f_meas}()},
+\code{\link{fall_out}()},
 \code{\link{j_index}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
 \code{\link{recall}()},
+\code{\link{roc_dist}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
 }

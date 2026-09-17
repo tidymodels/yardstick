@@ -55,6 +55,11 @@ Compute the time-dependent Brier score for right censored data, which is the
 mean squared error at time point \code{.eval_time}.
 }
 \details{
+Brier survival score is a metric that should be
+minimized. The output ranges from
+0 to 1,
+with 0 indicating perfect predictions.
+
 This formulation takes survival probability predictions at one or more
 specific \emph{evaluation times} and, for each time, computes the Brier score. To
 account for censoring, inverse probability of censoring weights (IPCW) are
@@ -78,7 +83,7 @@ This method automatically groups by the \code{.eval_time} argument.
 Smaller values of the score are associated with better model performance.
 }
 \examples{
-\dontshow{if (rlang::is_installed(c("tidyr"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("tidyr"))) withAutoprint(\{ # examplesIf}
 # example code
 
 library(dplyr)
@@ -96,6 +101,8 @@ comparison of prognostic classification schemes for survival data,”
 \emph{Statistics in Medicine}, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 }
 \seealso{
+\link[=dynamic-survival-metrics]{All dynamic survival metrics}
+
 Other dynamic survival metrics: 
 \code{\link{brier_survival_integrated}()},
 \code{\link{roc_auc_survival}()}

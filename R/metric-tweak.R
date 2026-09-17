@@ -79,6 +79,7 @@ metric_tweak <- function(.name, .fn, ...) {
 
   class(out) <- class(.fn)
   metric_direction(out) <- metric_direction(.fn)
+  metric_range(out) <- metric_range(.fn)
 
   out
 }

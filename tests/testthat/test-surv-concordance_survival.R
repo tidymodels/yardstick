@@ -1,17 +1,49 @@
-test_that("comparison test with survival", {
-  res <- concordance_survival(
-    data = lung_surv,
-    truth = surv_obj,
-    estimate = .pred_time
-  )
+test_that("Calculations are correct", {
+  exp <- survival::concordance(
+    surv_obj ~ .pred_time,
+    data = lung_surv
+  )$concordance
 
   expect_equal(
-    res[[".estimate"]],
-    survival::concordance(surv_obj ~ .pred_time, data = lung_surv)$concordance
+    concordance_survival_vec(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_time
+    ),
+    exp
   )
 })
 
-test_that("case weights works", {
+test_that("All interfaces gives the same results", {
+  expect_identical(
+    concordance_survival_vec(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_time
+    ),
+    concordance_survival(
+      lung_surv,
+      truth = surv_obj,
+      estimate = .pred_time
+    )[[".estimate"]]
+  )
+})
+
+test_that("Calculations handles NAs", {
+  lung_surv$.pred_time[1:10] <- NA
+  exp <- survival::concordance(
+    surv_obj ~ .pred_time,
+    data = lung_surv
+  )$concordance
+
+  expect_equal(
+    concordance_survival_vec(
+      truth = lung_surv$surv_obj,
+      estimate = lung_surv$.pred_time
+    ),
+    exp
+  )
+})
+
+test_that("Case weights calculations are correct", {
   lung_surv$wts <- seq_len(nrow(lung_surv))
 
   res <- concordance_survival(
@@ -95,4 +127,32 @@ test_that("works with hardhat case weights", {
       case_weights = freq_wgt
     )
   )
+})
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    concordance_survival_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("range values are correct", {
+  direction <- metric_direction(concordance_survival)
+  range <- metric_range(concordance_survival)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  result <- concordance_survival_vec(
+    truth = lung_surv$surv_obj,
+    estimate = lung_surv$.pred_time
+  )
+
+  if (direction == "minimize") {
+    expect_gte(result, perfect)
+    expect_lte(result, worst)
+  }
+  if (direction == "maximize") {
+    expect_gte(result, worst)
+    expect_lte(result, perfect)
+  }
 })

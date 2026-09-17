@@ -9,12 +9,11 @@
 #'
 #' @family class metrics
 #' @family relevance metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn f_meas
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-relevance
-#'
 #' @inheritParams sens
 #'
 #' @param beta A numeric value used to weight precision and
@@ -22,6 +21,24 @@
 #'  the harmonic mean of the two values but other values weight
 #'  recall beta times more important than precision.
 #'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
+#' Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{\text{Recall} = \frac{A}{A + C}}
+#'
+#' \deqn{\text{Precision} = \frac{A}{A + B}}
+#'
+#' \deqn{F_{meas} = \frac{(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}{(\beta^2 \cdot \text{Precision}) + \text{Recall}}}
+#'
+#' F measure is a metric that should be `r attr(f_meas, "direction")`d. The
+#' output ranges from `r metric_range(f_meas)[1]` to
+#' `r metric_range(f_meas)[2]`, with `r metric_optimal(f_meas)` indicating
+#' perfect precision and recall.
 #'
 #' @references
 #'
@@ -43,7 +60,8 @@ f_meas <- function(data, ...) {
 }
 f_meas <- new_class_metric(
   f_meas,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname f_meas
@@ -115,6 +133,8 @@ f_meas_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
+  check_number_decimal(beta, min = 0)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

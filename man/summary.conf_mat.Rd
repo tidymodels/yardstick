@@ -58,7 +58,7 @@ the "one" level is always the relevant result.
 }
 
 \examples{
-\dontshow{if (rlang::is_installed(c("tidyr"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("tidyr"))) withAutoprint(\{ # examplesIf}
 data("two_class_example")
 
 cmat <- conf_mat(two_class_example, truth = "truth", estimate = "predicted")

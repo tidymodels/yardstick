@@ -2,8 +2,8 @@ test_that("result matches reference implementation (fairlearn)", {
   data("hpc_cv")
   py_res <- read_pydata("py-equal_opportunity")
 
-  hpc_cv$obs_vf = as.factor(hpc_cv$obs == "VF")
-  hpc_cv$pred_vf = as.factor(hpc_cv$pred == "VF")
+  hpc_cv$obs_vf <- as.factor(hpc_cv$obs == "VF")
+  hpc_cv$pred_vf <- as.factor(hpc_cv$pred == "VF")
   hpc_cv$case_weights <- read_weights_hpc_cv()
 
   eo <- equal_opportunity(Resample)

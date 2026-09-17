@@ -6,6 +6,7 @@
 #' This is equivalent to `roc_auc(estimator = "macro_weighted")`.
 #'
 #' @family class probability metrics
+#' @seealso [All probability metrics][prob-metrics]
 #' @templateVar fn roc_aunp
 #' @template return
 #' @template event_first
@@ -30,6 +31,19 @@
 #' Ferri, C., Hernández-Orallo, J., & Modroiu, R. (2009). "An experimental
 #' comparison of performance measures for classification". _Pattern Recognition
 #' Letters_. 30 (1), pp 27-38.
+#'
+#' @details
+#' ROC AUNP is a metric that should be `r attr(roc_aunp, "direction")`d. The
+#' output ranges from `r metric_range(roc_aunp)[1]` to
+#' `r metric_range(roc_aunp)[2]`, with `r metric_optimal(roc_aunp)` indicating
+#' perfect discrimination.
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{ROC AUNP} = \sum_{k=1}^{K} p_k \cdot \text{AUC}_k}
+#'
+#' where \eqn{p_k} is the proportion of observations in class \eqn{k} and
+#' \eqn{\text{AUC}_k} is the binary ROC AUC for class \eqn{k} versus the rest.
 #'
 #' @seealso
 #'
@@ -83,7 +97,8 @@ roc_aunp <- function(data, ...) {
 }
 roc_aunp <- new_prob_metric(
   roc_aunp,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -121,6 +136,7 @@ roc_aunp_vec <- function(
   options = list(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
 
   check_roc_options_deprecated("roc_aunp_vec", options)

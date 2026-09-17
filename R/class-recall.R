@@ -19,13 +19,27 @@
 #'
 #' @family class metrics
 #' @family relevance metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn recall
 #' @template event_first
 #' @template multiclass
 #' @template return
-#' @template table-relevance
-#'
 #' @inheritParams sens
+#'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
+#' Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+#'
+#' The formula used here is:
+#'
+#' \deqn{\text{Recall} = \frac{A}{A + C}}
+#'
+#' Recall is a metric that should be `r attr(recall, "direction")`d. The
+#' output ranges from `r metric_range(recall)[1]` to
+#' `r metric_range(recall)[2]`, with `r metric_optimal(recall)` indicating that
+#' all actual positives were predicted as positive.
 #'
 #' @references
 #'
@@ -47,7 +61,8 @@ recall <- function(data, ...) {
 }
 recall <- new_class_metric(
   recall,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname recall
@@ -114,6 +129,7 @@ recall_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

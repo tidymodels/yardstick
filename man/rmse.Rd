@@ -50,6 +50,15 @@ For \code{rmse_vec()}, a single \code{numeric} value (or \code{NA}).
 Calculate the root mean squared error. \code{rmse()} is a metric that is in
 the same units as the original data.
 }
+\details{
+RMSE is a metric that should be minimized. The output
+ranges from 0 to ∞, with
+0 indicating perfect predictions.
+
+The formula for RMSE is:
+
+\deqn{\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (\text{truth}_i - \text{estimate}_i)^2}}
+}
 \examples{
 # Supply truth and predictions as bare column names
 rmse(solubility_test, solubility, prediction)
@@ -82,8 +91,14 @@ metric_results |>
   summarise(avg_estimate = mean(.estimate))
 }
 \seealso{
+\code{\link[=mse]{mse()}} for the mean squared error, which is RMSE without the
+square root.
+
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
@@ -92,7 +107,9 @@ Other numeric metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
 \code{\link{rsq}()},
@@ -109,7 +126,9 @@ Other accuracy metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
+\code{\link{rmse_relative}()},
 \code{\link{smape}()}
 }
 \author{

@@ -123,7 +123,7 @@ validate_factor_truth_matrix_estimate <- function(
       )
     }
 
-    n_lvls <- length(levels(truth))
+    n_lvls <- nlevels(truth)
     if (n_lvls != 2) {
       cli::cli_abort(
         "{.arg estimator} is binary, only two class {.arg truth} factors are
@@ -132,7 +132,7 @@ validate_factor_truth_matrix_estimate <- function(
       )
     }
   } else {
-    n_lvls <- length(levels(truth))
+    n_lvls <- nlevels(truth)
     if (is.matrix(estimate)) {
       n_cols <- ncol(estimate)
     } else {
@@ -189,7 +189,7 @@ validate_ordered_truth_matrix_estimate <- function(
       )
     }
 
-    n_lvls <- length(levels(truth))
+    n_lvls <- nlevels(truth)
     if (n_lvls != 2) {
       cli::cli_abort(
         "{.arg estimator} is binary, only two class {.arg truth} factors are
@@ -198,7 +198,7 @@ validate_ordered_truth_matrix_estimate <- function(
       )
     }
   } else {
-    n_lvls <- length(levels(truth))
+    n_lvls <- nlevels(truth)
     if (is.matrix(estimate)) {
       n_cols <- ncol(estimate)
     } else {
@@ -245,7 +245,7 @@ validate_surv_truth_list_estimate <- function(
     )
   }
 
-  if (!all(vapply(estimate, is.data.frame, FUN.VALUE = logical(1)))) {
+  if (!is.data.frame(estimate[[1]])) {
     cli::cli_abort(
       "All elements of {.arg estimate} should be data.frames.",
       call = call
@@ -253,13 +253,8 @@ validate_surv_truth_list_estimate <- function(
   }
 
   valid_names <- c(".eval_time", ".pred_survival", ".weight_censored")
-  has_names <- vapply(
-    estimate,
-    function(x) all(valid_names %in% names(x)),
-    FUN.VALUE = logical(1)
-  )
-
-  if (!all(has_names)) {
+  has_names <- all(valid_names %in% names(estimate[[1]]))
+  if (!has_names) {
     cli::cli_abort(
       "All data.frames of {.arg estimate} should include column names:
       {.field (.eval_time)}, {.field (.pred_survival)}, and
@@ -279,29 +274,9 @@ validate_surv_truth_list_estimate <- function(
     )
   }
 
-  eval_time_cols <- lapply(estimate, function(x) x$.eval_time)
+  eval_time <- estimate[[1]]$.eval_time
 
-  if (length(unique(eval_time_cols)) > 1) {
-    offenders <- vapply(
-      eval_time_cols,
-      function(x) !identical(x, eval_time_cols[[1]]),
-      logical(1)
-    )
-    offenders <- which(offenders)
-
-    cli::cli_abort(
-      c(
-        x = "All the {.field .eval_time} columns of {.arg estimate} must be
-            identical.",
-        i = "The folllowing index differed from the first: {.val {offenders}}."
-      ),
-      call = call
-    )
-  }
-
-  eval_time <- eval_time_cols[[1]]
-
-  if (any(is.na(eval_time))) {
+  if (anyNA(eval_time)) {
     cli::cli_abort(
       c(
         x = "Missing values in {.field .eval_time} are not allowed."
@@ -331,7 +306,7 @@ validate_surv_truth_list_estimate <- function(
     )
   }
 
-  if (any(duplicated(eval_time))) {
+  if (anyDuplicated(eval_time) > 0) {
     cli::cli_abort(
       c(
         x = "Duplicate values of {.field .eval_time} are not allowed."
@@ -442,4 +417,44 @@ validate_case_weights <- function(case_weights, size, call = caller_env()) {
   }
 
   invisible(NULL)
+}
+
+validate_numeric_truth_quantile_estimate <- function(
+  truth,
+  estimate,
+  call = caller_env()
+) {
+  if (!is.numeric(truth)) {
+    cli::cli_abort(
+      "{.arg truth} should be a numeric vector,
+      not {.obj_type_friendly {truth}}.",
+      call = call
+    )
+  }
+
+  if (!inherits(estimate, "quantile_pred")) {
+    cli::cli_abort(
+      "{.arg estimate} should be a {.cls quantile_pred} object,
+      not {.obj_type_friendly {estimate}}.",
+      call = call
+    )
+  }
+
+  if (is.matrix(truth)) {
+    cli::cli_abort(
+      "{.arg truth} should be a numeric vector, not a numeric matrix.",
+      call = call
+    )
+  }
+
+  n_truth <- length(truth)
+  n_estimate <- vctrs::vec_size(estimate)
+
+  if (n_truth != n_estimate) {
+    cli::cli_abort(
+      "{.arg truth} ({n_truth}) and
+      {.arg estimate} ({n_estimate}) must be the same length.",
+      call = call
+    )
+  }
 }

@@ -61,6 +61,12 @@ Compute the integrated Brier score for right censored data, which is an
 overall calculation of model performance for all values of \code{.eval_time}.
 }
 \details{
+Integrated Brier survival score is a metric that should be
+minimized. The output ranges from
+0 to
+1, with
+0 indicating perfect predictions.
+
 The integrated time-dependent brier score is calculated in an "area under the
 curve" fashion. The brier score is calculated for each value of \code{.eval_time}.
 The area is calculated via the trapezoidal rule. The area is divided by the
@@ -90,7 +96,7 @@ internal data set \code{lung_surv} shows an example of the format.
 This method automatically groups by the \code{.eval_time} argument.
 }
 \examples{
-\dontshow{if (rlang::is_installed(c("tidyr"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("tidyr"))) withAutoprint(\{ # examplesIf}
 library(dplyr)
 
 lung_surv |>
@@ -106,6 +112,8 @@ and comparison of prognostic classification schemes for survival data,”
 Statistics in Medicine, vol. 18, no. 17-18, pp. 2529–2545, 1999.
 }
 \seealso{
+\link[=integrated-survival-metrics]{All integrated survival metrics}
+
 Other dynamic survival metrics: 
 \code{\link{brier_survival}()},
 \code{\link{roc_auc_survival}()}

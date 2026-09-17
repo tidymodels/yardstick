@@ -54,6 +54,19 @@ Note that if \emph{any} \code{truth} values are \code{0}, a value of:
 \code{-Inf} (\code{estimate > 0}), \code{Inf} (\code{estimate < 0}), or \code{NaN} (\code{estimate == 0})
 is returned for \code{mpe()}.
 }
+\details{
+MPE is a metric where the optimal value is 0. The
+output ranges from -∞ to ∞, with
+0 indicating predictions are unbiased.
+
+The formula for MPE is:
+
+\deqn{\text{MPE} = \frac{100}{n} \sum_{i=1}^{n} \frac{\text{truth}_i - \text{estimate}_i}{\text{truth}_i}}
+
+Using this convention, a \emph{positive} MPE indicates
+under-prediction (on average, \code{truth > estimate}) and a \emph{negative} MPE
+indicates over-prediction (on average, \code{estimate > truth}).
+}
 \examples{
 # `solubility_test$solubility` has zero values with corresponding
 # `$prediction` values that are negative. By definition, this causes `Inf`
@@ -96,8 +109,11 @@ metric_results |>
   summarise(avg_estimate = mean(.estimate))
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
@@ -105,8 +121,10 @@ Other numeric metrics:
 \code{\link{mape}()},
 \code{\link{mase}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
 \code{\link{rsq}()},
@@ -122,8 +140,10 @@ Other accuracy metrics:
 \code{\link{mape}()},
 \code{\link{mase}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{smape}()}
 }
 \author{

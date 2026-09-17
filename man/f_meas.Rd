@@ -90,6 +90,24 @@ and \code{\link[=precision]{precision()}}.
 }
 \details{
 The measure "F" is a combination of precision and recall (see below).
+
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
+Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
+
+The formulas used here are:
+
+\deqn{\text{Recall} = \frac{A}{A + C}}
+
+\deqn{\text{Precision} = \frac{A}{A + B}}
+
+\deqn{F_{meas} = \frac{(1 + \beta^2) \cdot \text{Precision} \cdot \text{Recall}}{(\beta^2 \cdot \text{Precision}) + \text{Recall}}}
+
+F measure is a metric that should be maximized. The
+output ranges from 0 to
+1, with 1 indicating
+perfect precision and recall.
 }
 \section{Relevant Level}{
 
@@ -111,23 +129,6 @@ Macro, micro, and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a \code{truth} factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See \code{vignette("multiclass", "yardstick")} for more information.
-}
-
-\section{Implementation}{
-
-
-Suppose a 2x2 table with notation:
-
-\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Relevant \tab
-Irrelevant \cr Relevant \tab A \tab B \cr Irrelevant \tab C \tab D \cr }
-
-The formulas used here are:
-
-\deqn{recall = A/(A+C)}
-\deqn{precision = A/(A+B)}
-\deqn{F_{meas} = (1+\beta^2) * precision * recall/((\beta^2 * precision)+recall)}
-
-See the references for discussions of the statistics.
 }
 
 \examples{
@@ -176,17 +177,23 @@ Factor to ROC, Informedness, Markedness and Correlation.
 Technical Report SIE-07-001, Flinders University
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},
 \code{\link{detection_prevalence}()},
+\code{\link{fall_out}()},
 \code{\link{j_index}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
 \code{\link{recall}()},
+\code{\link{roc_dist}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
 

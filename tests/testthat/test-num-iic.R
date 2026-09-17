@@ -1,21 +1,41 @@
 # All tests (excepted weighted ones) confirmed against the software:
 # http://www.insilico.eu/coral/SOFTWARECORAL.html
 
-test_that("iic() returns known correct results", {
+test_that("Calculations are correct", {
   ex_dat <- generate_numeric_test_data()
 
-  expect_equal(iic(ex_dat, obs, pred)[[".estimate"]], 0.43306222006167)
+  expect_equal(
+    iic_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    0.43306222006167
+  )
 })
 
-test_that("iic() can be negative", {
-  expect_equal(iic_vec(c(1, 2, 3), c(2, 1, 1)), -0.577350269189626)
+test_that("both interfaces gives the same results", {
+  ex_dat <- generate_numeric_test_data()
+
+  expect_identical(
+    iic_vec(ex_dat$obs, ex_dat$pred),
+    iic(ex_dat, obs, pred)[[".estimate"]],
+  )
 })
 
-test_that("iic() is NaN if truth/estimate are equivalent", {
-  expect_equal(iic_vec(c(1, 2), c(1, 2)), NaN)
+test_that("Calculations handles NAs", {
+  ex_dat <- generate_numeric_test_data()
+  na_ind <- 1:10
+  ex_dat$pred[na_ind] <- NA
+
+  expect_identical(
+    iic_vec(ex_dat$obs, ex_dat$pred, na_rm = FALSE),
+    NA_real_
+  )
+
+  expect_equal(
+    iic_vec(truth = ex_dat$obs, estimate = ex_dat$pred),
+    0.34628428506905
+  )
 })
 
-test_that("case weights are applied", {
+test_that("Case weights calculations are correct", {
   df <- dplyr::tibble(
     truth = c(1, 2, 3, 4, 5),
     estimate = c(1, 3, 1, 3, 2),
@@ -23,20 +43,9 @@ test_that("case weights are applied", {
   )
 
   expect_equal(
-    iic(df, truth, estimate, case_weights = weight)[[".estimate"]],
+    iic_vec(truth = df$truth, estimate = df$estimate, case_weights = df$weight),
     0.4264014327112208846415
   )
-})
-
-test_that("yardstick correlation warnings are thrown", {
-  cnd <- rlang::catch_cnd(iic_vec(c(1, 2), c(1, 1)))
-  expect_s3_class(
-    cnd,
-    "yardstick_warning_correlation_undefined_constant_estimate"
-  )
-
-  cnd <- rlang::catch_cnd(iic_vec(c(1, 1), c(1, 2)))
-  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_truth")
 })
 
 test_that("works with hardhat case weights", {
@@ -53,4 +62,57 @@ test_that("works with hardhat case weights", {
   expect_no_error(
     iic_vec(df$solubility, df$prediction, case_weights = freq_wgt)
   )
+})
+
+test_that("na_rm argument check", {
+  expect_snapshot(
+    error = TRUE,
+    iic_vec(1, 1, na_rm = "yes")
+  )
+})
+
+test_that("iic() - result can be negative", {
+  expect_equal(iic_vec(c(1, 2, 3), c(2, 1, 1)), -0.577350269189626)
+})
+
+test_that("iic() - result is NaN if truth/estimate are equivalent", {
+  expect_equal(iic_vec(c(1, 2), c(1, 2)), NaN)
+})
+
+test_that("yardstick correlation warnings are thrown", {
+  cnd <- rlang::catch_cnd(iic_vec(c(1, 2), c(1, 1)))
+  expect_s3_class(
+    cnd,
+    "yardstick_warning_correlation_undefined_constant_estimate"
+  )
+
+  cnd <- rlang::catch_cnd(iic_vec(c(1, 1), c(1, 2)))
+  expect_s3_class(cnd, "yardstick_warning_correlation_undefined_constant_truth")
+})
+
+test_that("range values are correct", {
+  direction <- metric_direction(iic)
+  range <- metric_range(iic)
+  perfect <- ifelse(direction == "minimize", range[1], range[2])
+  worst <- ifelse(direction == "minimize", range[2], range[1])
+
+  df <- tibble::tibble(
+    truth = c(1, 2, 3, 4, 5, 6, 7),
+    off = c(7, 4, 6, 2, 4, 3, 1)
+  )
+
+  # Known to produce NaN for perfect predictions
+  expect_identical(
+    iic_vec(df$truth, df$truth),
+    NaN
+  )
+
+  if (direction == "minimize") {
+    expect_lte(iic_vec(df$truth, df$off), worst)
+    expect_gte(iic_vec(df$truth, df$off), worst)
+  }
+  if (direction == "maximize") {
+    expect_gte(iic_vec(df$truth, df$off), worst)
+    expect_lte(iic_vec(df$truth, df$off), perfect)
+  }
 })

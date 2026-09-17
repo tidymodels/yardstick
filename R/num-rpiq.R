@@ -11,10 +11,20 @@
 #'
 #' @family numeric metrics
 #' @family consistency metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn rpd
 #' @template return
 #'
 #' @inheritParams rmse
+#'
+#' @details
+#' RPIQ is a metric that should be `r attr(rpiq, "direction")`d. The output
+#' ranges from `r metric_range(rpiq)[1]` to `r metric_range(rpiq)[2]`, with
+#' higher values indicating better model performance.
+#'
+#' The formula for RPIQ is:
+#'
+#' \deqn{\text{RPIQ} = \frac{\text{IQR}(\text{truth})}{\text{RMSE}}}
 #'
 #' @author Pierre Roudier
 #'
@@ -30,7 +40,8 @@ rpiq <- function(data, ...) {
 }
 rpiq <- new_numeric_metric(
   rpiq,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, Inf)
 )
 
 #' @rdname rpiq
@@ -57,6 +68,7 @@ rpiq.data.frame <- function(
 #' @export
 #' @rdname rpiq
 rpiq_vec <- function(truth, estimate, na_rm = TRUE, case_weights = NULL, ...) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

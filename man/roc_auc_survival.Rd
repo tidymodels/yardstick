@@ -55,11 +55,17 @@ Compute the area under the ROC survival curve using predicted survival
 probabilities that corresponds to different time points.
 }
 \details{
+ROC AUC survival is a metric that should be
+maximized. The output ranges from
+0 to
+1, with
+1 indicating perfect discrimination.
+
 This formulation takes survival probability predictions at one or more
 specific \emph{evaluation times} and, for each time, computes the area under the
 ROC curve. To account for censoring, inverse probability of censoring weights
 (IPCW) are used in the calculations. See equation 7 of section 4.3 in
-Blanche \emph{at al} (2013) for the details.
+Blanche \emph{et al} (2013) for the details.
 
 The column passed to \code{...} should be a list column with one element per
 independent experiential unit (e.g. patient). The list column should contain
@@ -79,7 +85,7 @@ This method automatically groups by the \code{.eval_time} argument.
 Larger values of the score are associated with better model performance.
 }
 \examples{
-\dontshow{if (rlang::is_installed(c("tidyr"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("tidyr"))) withAutoprint(\{ # examplesIf}
 library(dplyr)
 
 lung_surv |>
@@ -99,6 +105,8 @@ and comparison of prognostic classification schemes for survival data.
 \emph{Statist. Med.}, 18: 2529-2545.
 }
 \seealso{
+\link[=dynamic-survival-metrics]{All dynamic survival metrics}
+
 Compute the ROC survival curve with \code{\link[=roc_curve_survival]{roc_curve_survival()}}.
 
 Other dynamic survival metrics: 

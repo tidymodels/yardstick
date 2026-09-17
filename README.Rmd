@@ -21,7 +21,7 @@ library(dplyr)
 options(width = 100, digits = 3)
 ```
 
-# yardstick <img src="man/figures/logo.png" align="right"/> 
+# yardstick <a href="https://yardstick.tidymodels.org"><img src="man/figures/logo.png" align="right" height="138" alt="yardstick website" /></a>
 
 <!-- badges: start -->
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/yardstick)](https://CRAN.R-project.org/package=yardstick)

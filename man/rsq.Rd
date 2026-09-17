@@ -66,6 +66,14 @@ cases, a warning is thrown and \code{NA} is returned. This can occur when a mode
 predicts a single value for all samples. For example, a regularized model
 that eliminates all predictors except for the intercept would do this.
 Another example would be a CART model that contains no splits.
+
+R squared is a metric that should be maximized. The output
+ranges from -∞ to 1, with
+1 indicating perfect predictions.
+
+The formula for R squared is:
+
+\deqn{\text{rsq} = \frac{\text{cov}(\text{truth}, \text{estimate})^2}{\text{var}(\text{truth}) \cdot \text{var}(\text{estimate})}}
 }
 \examples{
 # Supply truth and predictions as bare column names
@@ -116,8 +124,11 @@ Kvalseth. Cautionary note about \eqn{R^2}.
 American Statistician (1985) vol. 39 (4) pp. 279-285.
 }
 \seealso{
+\link[=numeric-metrics]{All numeric metrics}
+
 Other numeric metrics: 
 \code{\link{ccc}()},
+\code{\link{gini_coef}()},
 \code{\link{huber_loss}()},
 \code{\link{huber_loss_pseudo}()},
 \code{\link{iic}()},
@@ -126,8 +137,10 @@ Other numeric metrics:
 \code{\link{mase}()},
 \code{\link{mpe}()},
 \code{\link{msd}()},
+\code{\link{mse}()},
 \code{\link{poisson_log_loss}()},
 \code{\link{rmse}()},
+\code{\link{rmse_relative}()},
 \code{\link{rpd}()},
 \code{\link{rpiq}()},
 \code{\link{rsq_trad}()},

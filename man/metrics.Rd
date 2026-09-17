@@ -86,5 +86,5 @@ hpc_cv |>
 
 }
 \seealso{
-\code{\link[=metric_set]{metric_set()}}
+\code{\link[=metric_set]{metric_set()}}, \code{\link[=get_metrics]{get_metrics()}}
 }

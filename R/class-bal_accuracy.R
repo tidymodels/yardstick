@@ -3,12 +3,32 @@
 #' Balanced accuracy is computed here as the average of [sens()] and [spec()].
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn bal_accuracy
 #' @template event_first
 #' @template multiclass
 #' @template return
 #'
 #' @inheritParams sens
+#'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{\text{Sensitivity} = \frac{A}{A + C}}
+#'
+#' \deqn{\text{Specificity} = \frac{D}{B + D}}
+#'
+#' \deqn{\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2}}
+#'
+#' Balanced accuracy is a metric that should be
+#' `r attr(bal_accuracy, "direction")`d. The output ranges from
+#' `r metric_range(bal_accuracy)[1]` to `r metric_range(bal_accuracy)[2]`, with
+#' `r metric_optimal(bal_accuracy)` indicating perfect predictions.
 #'
 #' @author Max Kuhn
 #'
@@ -20,7 +40,8 @@ bal_accuracy <- function(data, ...) {
 }
 bal_accuracy <- new_class_metric(
   bal_accuracy,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @export
@@ -87,6 +108,7 @@ bal_accuracy_vec <- function(
   event_level = yardstick_event_level(),
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

@@ -4,6 +4,7 @@
 #' mean squared error at time point `.eval_time`.
 #'
 #' @family dynamic survival metrics
+#' @seealso [All dynamic survival metrics][dynamic-survival-metrics]
 #' @templateVar fn brier_survival
 #' @template return-dynamic-survival
 #' @inheritParams pr_auc
@@ -29,6 +30,10 @@
 #' model. See the details for more information regarding format.
 #'
 #' @details
+#' Brier survival score is a metric that should be
+#' `r attr(brier_survival, "direction")`d. The output ranges from
+#' `r metric_range(brier_survival)[1]` to `r metric_range(brier_survival)[2]`,
+#' with `r metric_optimal(brier_survival)` indicating perfect predictions.
 #'
 #' This formulation takes survival probability predictions at one or more
 #' specific _evaluation times_ and, for each time, computes the Brier score. To
@@ -76,7 +81,8 @@ brier_survival <- function(data, ...) {
 
 brier_survival <- new_dynamic_survival_metric(
   brier_survival,
-  direction = "minimize"
+  direction = "minimize",
+  range = c(0, 1)
 )
 
 #' @rdname brier_survival
@@ -108,6 +114,7 @@ brier_survival_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   check_dynamic_survival_metric(
     truth,
     estimate,
@@ -134,8 +141,7 @@ brier_survival_vec <- function(
     }
   }
 
-  dplyr::tibble(estimate) |>
-    tidyr::unnest(estimate) |>
+  dplyr::bind_rows(estimate) |>
     dplyr::group_by(.eval_time) |>
     dplyr::summarize(
       .estimate = brier_survival_impl(

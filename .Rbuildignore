@@ -22,3 +22,4 @@ contributors.md
 ^\.vscode$
 ^vignettes/\.quarto$
 ^vignettes/*_files$
+^\.claude$

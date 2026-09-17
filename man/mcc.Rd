@@ -50,6 +50,22 @@ For \code{mcc_vec()}, a single \code{numeric} value (or \code{NA}).
 \description{
 Matthews correlation coefficient
 }
+\details{
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formula used here is:
+
+\deqn{\text{MCC} = \frac{(A \cdot D) - (B \cdot C)}{\sqrt{(A + B)(A + C)(D + B)(D + C)}}}
+
+MCC is a metric that should be maximized. The output
+ranges from -1 to 1, with
+1 indicating perfect predictions. A value of 0
+indicates no better than random prediction, and negative values indicate
+inverse prediction.
+}
 \section{Relevant Level}{
 
 
@@ -95,17 +111,23 @@ Giuseppe, J. (2012). "A Comparison of MCC and CEN Error
 Measures in Multi-Class Prediction". \emph{PLOS ONE}. Vol 7, Iss 8, e41882.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},
 \code{\link{detection_prevalence}()},
 \code{\link{f_meas}()},
+\code{\link{fall_out}()},
 \code{\link{j_index}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
+\code{\link{miss_rate}()},
 \code{\link{npv}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
 \code{\link{recall}()},
+\code{\link{roc_dist}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
 }

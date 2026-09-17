@@ -14,10 +14,22 @@
 #'
 #' @family numeric metrics
 #' @family consistency metrics
+#' @seealso [All numeric metrics][numeric-metrics]
 #' @templateVar fn rsq_trad
 #' @template return
 #'
 #' @inheritParams rmse
+#'
+#' @details
+#' Traditional R squared is a metric that should be
+#' `r attr(rsq_trad, "direction")`d. The output ranges from
+#' `r metric_range(rsq_trad)[1]` to `r metric_range(rsq_trad)[2]`, with
+#' `r metric_optimal(rsq_trad)` indicating perfect predictions. Negative values
+#' can occur when the model is non-informative.
+#'
+#' The formula for traditional R squared is:
+#'
+#' \deqn{\text{rsq\_trad} = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{\sum_{i=1}^{n}(\text{truth}_i - \text{estimate}_i)^2}{\sum_{i=1}^{n}(\text{truth}_i - \bar{\text{truth}})^2}}
 #'
 #' @author Max Kuhn
 #'
@@ -42,7 +54,8 @@ rsq_trad <- function(data, ...) {
 }
 rsq_trad <- new_numeric_metric(
   rsq_trad,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname rsq_trad
@@ -75,6 +88,7 @@ rsq_trad_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   check_numeric_metric(truth, estimate, case_weights)
 
   if (na_rm) {

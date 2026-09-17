@@ -90,6 +90,26 @@ The positive predictive value (\code{\link[=ppv]{ppv()}}) is defined as the perc
 predicted positives that are actually positive while the
 negative predictive value (\code{\link[=npv]{npv()}}) is defined as the percent of negative
 positives that are actually negative.
+
+Suppose a 2x2 table with notation:
+
+\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+
+The formulas used here are:
+
+\deqn{\text{Sensitivity} = \frac{A}{A + C}}
+
+\deqn{\text{Specificity} = \frac{D}{B + D}}
+
+\deqn{\text{Prevalence} = \frac{A + C}{A + B + C + D}}
+
+\deqn{\text{NPV} = \frac{\text{Specificity} \cdot (1 - \text{Prevalence})}{((1 - \text{Sensitivity}) \cdot \text{Prevalence}) + (\text{Specificity} \cdot (1 - \text{Prevalence}))}}
+
+NPV is a metric that should be maximized. The output
+ranges from 0 to 1, with
+1 indicating all predicted negatives are true
+negatives.
 }
 \section{Relevant Level}{
 
@@ -111,25 +131,6 @@ Macro, micro, and macro-weighted averaging is available for this metric.
 The default is to select macro averaging if a \code{truth} factor with more
 than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See \code{vignette("multiclass", "yardstick")} for more information.
-}
-
-\section{Implementation}{
-
-
-Suppose a 2x2 table with notation:
-
-\tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
-\cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
-
-The formulas used here are:
-
-\deqn{Sensitivity = A/(A+C)}
-\deqn{Specificity = D/(B+D)}
-\deqn{Prevalence = (A+C)/(A+B+C+D)}
-\deqn{PPV = (Sensitivity * Prevalence) / ((Sensitivity * Prevalence) + ((1-Specificity) * (1-Prevalence)))}
-\deqn{NPV = (Specificity * (1-Prevalence)) / (((1-Sensitivity) * Prevalence) + ((Specificity) * (1-Prevalence)))}
-
-See the references for discussions of the statistics.
 }
 
 \examples{
@@ -174,21 +175,29 @@ predictive values,'' \emph{British Medical Journal}, vol 309,
 102.
 }
 \seealso{
+\link[=class-metrics]{All class metrics}
+
 Other class metrics: 
 \code{\link{accuracy}()},
 \code{\link{bal_accuracy}()},
 \code{\link{detection_prevalence}()},
 \code{\link{f_meas}()},
+\code{\link{fall_out}()},
 \code{\link{j_index}()},
 \code{\link{kap}()},
+\code{\link{markedness}()},
 \code{\link{mcc}()},
+\code{\link{miss_rate}()},
 \code{\link{ppv}()},
 \code{\link{precision}()},
 \code{\link{recall}()},
+\code{\link{roc_dist}()},
 \code{\link{sens}()},
 \code{\link{spec}()}
 
 Other sensitivity metrics: 
+\code{\link{fall_out}()},
+\code{\link{miss_rate}()},
 \code{\link{ppv}()},
 \code{\link{sens}()},
 \code{\link{spec}()}

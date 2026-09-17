@@ -5,6 +5,7 @@
 #' when one or more classes have large frequency distributions.
 #'
 #' @family class metrics
+#' @seealso [All class metrics][class-metrics]
 #' @templateVar fn kap
 #' @template return
 #'
@@ -24,6 +25,28 @@
 #'
 #'   In the binary case, all 3 weightings produce the same value, since it is
 #'   only ever possible to be 1 unit away from the true value.
+#'
+#' @details
+#' Suppose a 2x2 table with notation:
+#'
+#' \tabular{rcc}{ \tab Reference \tab \cr Predicted \tab Positive \tab Negative
+#' \cr Positive \tab A \tab B \cr Negative \tab C \tab D \cr }
+#'
+#' The formulas used here are:
+#'
+#' \deqn{p_o = \frac{A + D}{A + B + C + D}}
+#'
+#' \deqn{p_e = \frac{(A + B)(A + C) + (C + D)(B + D)}{(A + B + C + D)^2}}
+#'
+#' \deqn{\text{Kappa} = \frac{p_o - p_e}{1 - p_e}}
+#'
+#' where \eqn{p_o} is the observed agreement and \eqn{p_e} is the
+#' expected agreement by chance.
+#'
+#' Kappa is a metric that should be `r attr(kap, "direction")`d. The output
+#' ranges from `r metric_range(kap)[1]` to `r metric_range(kap)[2]`, with
+#' `r metric_optimal(kap)` indicating perfect agreement. Negative values
+#' indicate agreement worse than chance.
 #'
 #' @author Max Kuhn
 #' @author Jon Harmon
@@ -60,7 +83,8 @@ kap <- function(data, ...) {
 }
 kap <- new_class_metric(
   kap,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(-1, 1)
 )
 
 #' @export
@@ -112,6 +136,7 @@ kap_vec <- function(
   case_weights = NULL,
   ...
 ) {
+  check_bool(na_rm)
   abort_if_class_pred(truth)
   estimate <- as_factor_from_class_pred(estimate)
 

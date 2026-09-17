@@ -4,15 +4,21 @@
 #' probabilities that corresponds to different time points.
 #'
 #' @family dynamic survival metrics
+#' @seealso [All dynamic survival metrics][dynamic-survival-metrics]
 #' @templateVar fn roc_auc_survival
 #' @template return-dynamic-survival
 #' @details
+#' ROC AUC survival is a metric that should be
+#' `r attr(roc_auc_survival, "direction")`d. The output ranges from
+#' `r metric_range(roc_auc_survival)[1]` to
+#' `r metric_range(roc_auc_survival)[2]`, with
+#' `r metric_optimal(roc_auc_survival)` indicating perfect discrimination.
 #'
 #' This formulation takes survival probability predictions at one or more
 #' specific _evaluation times_ and, for each time, computes the area under the
 #' ROC curve. To account for censoring, inverse probability of censoring weights
 #' (IPCW) are used in the calculations. See equation 7 of section 4.3 in
-#' Blanche _at al_ (2013) for the details.
+#' Blanche _et al_ (2013) for the details.
 #'
 #' The column passed to `...` should be a list column with one element per
 #' independent experiential unit (e.g. patient). The list column should contain
@@ -62,7 +68,8 @@ roc_auc_survival <- function(data, ...) {
 
 roc_auc_survival <- new_dynamic_survival_metric(
   roc_auc_survival,
-  direction = "maximize"
+  direction = "maximize",
+  range = c(0, 1)
 )
 
 #' @rdname roc_auc_survival
