@@ -278,7 +278,7 @@ hpc |>
 #> # A tibble: 2 × 4
 #>   .metric       .estimator .estimate .by  
 #>   <chr>         <chr>          <dbl> <chr>
-#> 1 accuracy      multiclass    0.726  NA   
+#> 1 accuracy      multiclass    0.726  <NA> 
 #> 2 accuracy_diff multiclass   -0.0252 batch
 ```
 
