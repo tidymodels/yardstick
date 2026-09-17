@@ -11,6 +11,7 @@ metrics generally, clarifying the meaning of “groupwise” and
 demonstrating functionality with an example dataset.
 
 ``` r
+
 library(yardstick)
 library(dplyr)
 
@@ -31,6 +32,7 @@ is evaluated via 10-fold cross-validation, and the predictions for all
 folds are included.
 
 ``` r
+
 tibble(hpc_cv)
 #> # A tibble: 3,467 × 7
 #>    obs   pred     VF      F       M          L Resample
@@ -53,6 +55,7 @@ the data and select off the columns for the class probabilities, which
 we don’t need.
 
 ``` r
+
 set.seed(1)
 
 hpc <-
@@ -81,6 +84,7 @@ If we wanted to compute the accuracy of the first resampled model, we
 could write:
 
 ``` r
+
 hpc |> 
   filter(Resample == "Fold01") |>
   accuracy(obs, pred)
@@ -98,6 +102,7 @@ will know to compute values for each group; in the output, each row will
 correspond to a Resample.
 
 ``` r
+
 hpc |> 
   group_by(Resample) |>
   accuracy(obs, pred)
@@ -137,6 +142,7 @@ grouping in the data. Consider the portion of the HPC data pertaining to
 the first resample:
 
 ``` r
+
 hpc |> 
   filter(Resample == "Fold01")
 #> # A tibble: 347 × 4
@@ -162,6 +168,7 @@ accuracy values for either group separately, and then take their
 difference. First, computing accuracies:
 
 ``` r
+
 acc_by_group <- 
   hpc |> 
   filter(Resample == "Fold01") |>
@@ -179,6 +186,7 @@ acc_by_group
 Now, taking the difference:
 
 ``` r
+
 diff(c(acc_by_group$.estimate[2], acc_by_group$.estimate[1]))
 #> [1] -0.02518607
 ```
@@ -191,6 +199,7 @@ yardstick metric. We can define a new groupwise metric with the
 function:
 
 ``` r
+
 accuracy_diff <-
   new_groupwise_metric(
     fn = accuracy,
@@ -212,6 +221,7 @@ The output, `accuracy_diff`, is a function subclass called a
 `metric_factory`:
 
 ``` r
+
 class(accuracy_diff)
 #> [1] "metric_factory" "function"
 ```
@@ -224,6 +234,7 @@ the name of the grouping variable to pass to
 can pass that variable name to `accuracy_diff` to do so:
 
 ``` r
+
 accuracy_diff_by_batch <- accuracy_diff(batch)
 ```
 
@@ -231,6 +242,7 @@ The output, `accuracy_diff_by_batch`, is a yardstick metric function
 like any other:
 
 ``` r
+
 class(accuracy)
 #> [1] "class_metric" "metric"       "function"
 
@@ -244,6 +256,7 @@ would use
 On its own:
 
 ``` r
+
 hpc |> 
   filter(Resample == "Fold01") |>
   accuracy_diff_by_batch(obs, pred)
@@ -256,6 +269,7 @@ hpc |>
 We can also add `accuracy_diff_by_batch()` to metric sets:
 
 ``` r
+
 acc_ms <- metric_set(accuracy, accuracy_diff_by_batch)
 
 hpc |> 
@@ -274,6 +288,7 @@ variables other than the column passed as the first argument to
 behave like any other yardstick metric. For example:
 
 ``` r
+
 hpc |> 
   group_by(Resample) |>
   accuracy_diff_by_batch(obs, pred)

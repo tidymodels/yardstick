@@ -12,6 +12,7 @@ information.
 To install the package:
 
 ``` r
+
 install.packages("yardstick")
 
 # Development version:
@@ -25,6 +26,7 @@ For example, suppose you create a classification model and predict on a
 new data set. You might have data that looks like this:
 
 ``` r
+
 library(yardstick)
 library(dplyr)
 
@@ -42,6 +44,7 @@ You can use a `dplyr`-like syntax to compute common performance
 characteristics of the model and get them back in a data frame:
 
 ``` r
+
 metrics(two_class_example, truth, predicted)
 #> # A tibble: 2 × 3
 #>   .metric  .estimator .estimate
@@ -65,6 +68,7 @@ All classification metrics have at least one multiclass extension, with
 many of them having multiple ways to calculate multiclass metrics.
 
 ``` r
+
 data("hpc_cv")
 hpc_cv <- as_tibble(hpc_cv)
 hpc_cv
@@ -85,6 +89,7 @@ hpc_cv
 ```
 
 ``` r
+
 # Macro averaged multiclass precision
 precision(hpc_cv, obs, pred)
 #> # A tibble: 1 × 3
@@ -109,6 +114,7 @@ This calculates multiclass ROC AUC using the method described in Hand,
 Till (2001), and does it across all 10 resamples at once.
 
 ``` r
+
 hpc_cv |>
   group_by(Resample) |>
   roc_auc(obs, VF:L)
@@ -139,6 +145,7 @@ all have
 methods that allow for powerful and easy visualization.
 
 ``` r
+
 library(ggplot2)
 
 hpc_cv |>

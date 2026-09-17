@@ -96,6 +96,7 @@ A three column tibble.
 ## Examples
 
 ``` r
+
 # Accuracy and kappa
 metrics(two_class_example, truth, predicted)
 #> # A tibble: 2 × 3

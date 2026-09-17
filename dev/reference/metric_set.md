@@ -15,6 +15,12 @@ metric_set(...)
 
   The bare names of the functions to be included in the metric set.
 
+## Value
+
+An object with classes:`"numeric_metric_set"`,`"metric_set"`, and
+`"function"`. This consolidates metric functions into a singular
+function that can compute them simultaneously.
+
 ## Details
 
 All functions must be either:
