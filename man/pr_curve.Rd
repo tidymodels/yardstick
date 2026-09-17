@@ -30,7 +30,7 @@ the columns should be the same as the factor levels of \code{truth}.}
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
@@ -133,10 +133,10 @@ hpc_cv |>
 \seealso{
 Compute the area under the precision recall curve with \code{\link[=pr_auc]{pr_auc()}}.
 
-Other curve metrics: 
-\code{\link{gain_curve}()},
-\code{\link{lift_curve}()},
-\code{\link{roc_curve}()}
+Other curve metrics:
+\code{\link[=gain_curve]{gain_curve()}},
+\code{\link[=lift_curve]{lift_curve()}},
+\code{\link[=roc_curve]{roc_curve()}}
 }
 \author{
 Max Kuhn

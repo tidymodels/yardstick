@@ -65,7 +65,7 @@ class results should be in the columns of the table.}
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class
@@ -199,31 +199,31 @@ vol 308, 1552.
 \seealso{
 \link[=class-metrics]{All class metrics}
 
-Other class metrics: 
-\code{\link{accuracy}()},
-\code{\link{bal_accuracy}()},
-\code{\link{detection_prevalence}()},
-\code{\link{f_meas}()},
-\code{\link{fall_out}()},
-\code{\link{j_index}()},
-\code{\link{kap}()},
-\code{\link{markedness}()},
-\code{\link{mcc}()},
-\code{\link{miss_rate}()},
-\code{\link{npv}()},
-\code{\link{ppv}()},
-\code{\link{precision}()},
-\code{\link{recall}()},
-\code{\link{roc_dist}()},
-\code{\link{sedi}()},
-\code{\link{spec}()}
+Other class metrics:
+\code{\link[=accuracy]{accuracy()}},
+\code{\link[=bal_accuracy]{bal_accuracy()}},
+\code{\link[=detection_prevalence]{detection_prevalence()}},
+\code{\link[=f_meas]{f_meas()}},
+\code{\link[=fall_out]{fall_out()}},
+\code{\link[=j_index]{j_index()}},
+\code{\link[=kap]{kap()}},
+\code{\link[=markedness]{markedness()}},
+\code{\link[=mcc]{mcc()}},
+\code{\link[=miss_rate]{miss_rate()}},
+\code{\link[=npv]{npv()}},
+\code{\link[=ppv]{ppv()}},
+\code{\link[=precision]{precision()}},
+\code{\link[=recall]{recall()}},
+\code{\link[=roc_dist]{roc_dist()}},
+\code{\link[=sedi]{sedi()}},
+\code{\link[=spec]{spec()}}
 
-Other sensitivity metrics: 
-\code{\link{fall_out}()},
-\code{\link{miss_rate}()},
-\code{\link{npv}()},
-\code{\link{ppv}()},
-\code{\link{spec}()}
+Other sensitivity metrics:
+\code{\link[=fall_out]{fall_out()}},
+\code{\link[=miss_rate]{miss_rate()}},
+\code{\link[=npv]{npv()}},
+\code{\link[=ppv]{ppv()}},
+\code{\link[=spec]{spec()}}
 }
 \author{
 Max Kuhn

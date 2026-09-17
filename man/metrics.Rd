@@ -23,7 +23,7 @@ the columns should be the same as the factor levels of \code{truth}.}
 \item{truth}{The column identifier for the true results (that
 is \code{numeric} or \code{factor}). This should be an unquoted column name
 although this argument is passed by expression and support
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names).}
 
 \item{estimate}{The column identifier for the predicted results

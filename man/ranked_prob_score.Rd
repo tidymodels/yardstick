@@ -26,7 +26,7 @@ the columns should be the same as the factor levels of \code{truth}.}
 \item{truth}{The column identifier for the true class results
 (that is an \emph{ordered} \code{factor}). This should be an unquoted column name
 although this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names).
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column names).
 For \verb{_vec()} functions, a factor vector with class \code{ordered}.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
@@ -108,16 +108,16 @@ choice model. arXiv preprint arXiv:1907.02436. (see Section 5)
 \seealso{
 \link[=ordered-prob-metrics]{All ordered probability metrics}
 
-Other class probability metrics: 
-\code{\link{average_precision}()},
-\code{\link{brier_class}()},
-\code{\link{classification_cost}()},
-\code{\link{gain_capture}()},
-\code{\link{mn_log_loss}()},
-\code{\link{pr_auc}()},
-\code{\link{roc_auc}()},
-\code{\link{roc_aunp}()},
-\code{\link{roc_aunu}()}
+Other class probability metrics:
+\code{\link[=average_precision]{average_precision()}},
+\code{\link[=brier_class]{brier_class()}},
+\code{\link[=classification_cost]{classification_cost()}},
+\code{\link[=gain_capture]{gain_capture()}},
+\code{\link[=mn_log_loss]{mn_log_loss()}},
+\code{\link[=pr_auc]{pr_auc()}},
+\code{\link[=roc_auc]{roc_auc()}},
+\code{\link[=roc_aunp]{roc_aunp()}},
+\code{\link[=roc_aunu]{roc_aunu()}}
 }
 \author{
 Max Kuhn

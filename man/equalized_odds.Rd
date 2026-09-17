@@ -93,8 +93,8 @@ K. (2020). "Fairlearn: A toolkit for assessing and improving fairness in AI".
 Microsoft, Tech. Rep. MSR-TR-2020-32.
 }
 \seealso{
-Other fairness metrics: 
-\code{\link{demographic_parity}()},
-\code{\link{equal_opportunity}()}
+Other fairness metrics:
+\code{\link[=demographic_parity]{demographic_parity()}},
+\code{\link[=equal_opportunity]{equal_opportunity()}}
 }
 \concept{fairness metrics}

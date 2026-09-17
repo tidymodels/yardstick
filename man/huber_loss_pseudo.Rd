@@ -36,7 +36,7 @@ and \code{estimate} arguments.}
 \item{truth}{The column identifier for the true results
 (that is \code{numeric}). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{numeric} vector.}
 
 \item{estimate}{The column identifier for the predicted
@@ -127,40 +127,40 @@ Hartley, Richard (2004). Multiple View Geometry in Computer Vision.
 \seealso{
 \link[=numeric-metrics]{All numeric metrics}
 
-Other numeric metrics: 
-\code{\link{ccc}()},
-\code{\link{gini_coef}()},
-\code{\link{huber_loss}()},
-\code{\link{iic}()},
-\code{\link{mae}()},
-\code{\link{mape}()},
-\code{\link{mase}()},
-\code{\link{mpe}()},
-\code{\link{msd}()},
-\code{\link{mse}()},
-\code{\link{poisson_log_loss}()},
-\code{\link{rmse}()},
-\code{\link{rmse_relative}()},
-\code{\link{rpd}()},
-\code{\link{rpiq}()},
-\code{\link{rsq}()},
-\code{\link{rsq_trad}()},
-\code{\link{smape}()}
+Other numeric metrics:
+\code{\link[=ccc]{ccc()}},
+\code{\link[=gini_coef]{gini_coef()}},
+\code{\link[=huber_loss]{huber_loss()}},
+\code{\link[=iic]{iic()}},
+\code{\link[=mae]{mae()}},
+\code{\link[=mape]{mape()}},
+\code{\link[=mase]{mase()}},
+\code{\link[=mpe]{mpe()}},
+\code{\link[=msd]{msd()}},
+\code{\link[=mse]{mse()}},
+\code{\link[=poisson_log_loss]{poisson_log_loss()}},
+\code{\link[=rmse]{rmse()}},
+\code{\link[=rmse_relative]{rmse_relative()}},
+\code{\link[=rpd]{rpd()}},
+\code{\link[=rpiq]{rpiq()}},
+\code{\link[=rsq]{rsq()}},
+\code{\link[=rsq_trad]{rsq_trad()}},
+\code{\link[=smape]{smape()}}
 
-Other accuracy metrics: 
-\code{\link{ccc}()},
-\code{\link{huber_loss}()},
-\code{\link{iic}()},
-\code{\link{mae}()},
-\code{\link{mape}()},
-\code{\link{mase}()},
-\code{\link{mpe}()},
-\code{\link{msd}()},
-\code{\link{mse}()},
-\code{\link{poisson_log_loss}()},
-\code{\link{rmse}()},
-\code{\link{rmse_relative}()},
-\code{\link{smape}()}
+Other accuracy metrics:
+\code{\link[=ccc]{ccc()}},
+\code{\link[=huber_loss]{huber_loss()}},
+\code{\link[=iic]{iic()}},
+\code{\link[=mae]{mae()}},
+\code{\link[=mape]{mape()}},
+\code{\link[=mase]{mase()}},
+\code{\link[=mpe]{mpe()}},
+\code{\link[=msd]{msd()}},
+\code{\link[=mse]{mse()}},
+\code{\link[=poisson_log_loss]{poisson_log_loss()}},
+\code{\link[=rmse]{rmse()}},
+\code{\link[=rmse_relative]{rmse_relative()}},
+\code{\link[=smape]{smape()}}
 }
 \author{
 James Blair

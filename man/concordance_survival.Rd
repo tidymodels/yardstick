@@ -34,13 +34,13 @@ concordance_survival_vec(
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
 although this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
 
 \item{estimate}{The column identifier for the predicted time, this should be
 a numeric variables. This should be an unquoted column name although this
 argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, a numeric vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}

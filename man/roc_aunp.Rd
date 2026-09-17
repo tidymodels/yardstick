@@ -31,7 +31,7 @@ should be as many columns as factor levels of \code{truth}.}
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
@@ -152,16 +152,16 @@ Letters}. 30 (1), pp 27-38.
 \code{\link[=roc_aunu]{roc_aunu()}} for computing the area under the ROC curve of each class against
 the rest, using the uniform class distribution.
 
-Other class probability metrics: 
-\code{\link{average_precision}()},
-\code{\link{brier_class}()},
-\code{\link{classification_cost}()},
-\code{\link{gain_capture}()},
-\code{\link{mn_log_loss}()},
-\code{\link{pr_auc}()},
-\code{\link{ranked_prob_score}()},
-\code{\link{roc_auc}()},
-\code{\link{roc_aunu}()}
+Other class probability metrics:
+\code{\link[=average_precision]{average_precision()}},
+\code{\link[=brier_class]{brier_class()}},
+\code{\link[=classification_cost]{classification_cost()}},
+\code{\link[=gain_capture]{gain_capture()}},
+\code{\link[=mn_log_loss]{mn_log_loss()}},
+\code{\link[=pr_auc]{pr_auc()}},
+\code{\link[=ranked_prob_score]{ranked_prob_score()}},
+\code{\link[=roc_auc]{roc_auc()}},
+\code{\link[=roc_aunu]{roc_aunu()}}
 }
 \author{
 Julia Silge

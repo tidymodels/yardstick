@@ -9,6 +9,11 @@ metric_set(...)
 \arguments{
 \item{...}{The bare names of the functions to be included in the metric set.}
 }
+\value{
+An object with classes:\code{"numeric_metric_set"},\code{"metric_set"}, and \code{"function"}.
+This consolidates metric functions into a singular function that can compute
+them simultaneously.
+}
 \description{
 \code{metric_set()} allows you to combine multiple metric functions together
 into a new function that calculates all of them at once.
