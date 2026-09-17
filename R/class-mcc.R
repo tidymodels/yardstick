@@ -161,7 +161,7 @@ mcc_binary <- function(data) {
   d4 <- tn + fn
 
   if (d1 == 0 || d2 == 0 || d3 == 0 || d4 == 0) {
-    return(NA)
+    return(NA_real_)
   }
 
   ((tp * tn) - (fp * fn)) / sqrt(prod(d1, d2, d3, d4))
