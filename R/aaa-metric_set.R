@@ -83,7 +83,10 @@
 #' `estimator` or `event_level`, then the tweaked version wins. This allows you
 #' to set the estimator on a metric by metric basis and still use it in a
 #' `metric_set()`.
-#'
+#' @return
+#' An object with classes:`"numeric_metric_set"`,`"metric_set"`, and `"function"`.
+#'  This consolidates metric functions into a singular function that can compute
+#'   them simultaneously.
 #' @examples
 #' library(dplyr)
 #'

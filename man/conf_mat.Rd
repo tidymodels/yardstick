@@ -29,7 +29,7 @@ conf_mat(data, ...)
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{estimate}{The column identifier for the predicted class

@@ -17,13 +17,13 @@ roc_curve_survival(data, ...)
 should be a list column of data.frames corresponding to the output given when
 predicting with \href{https://censored.tidymodels.org/}{censored} model. This
 should be an unquoted column name although this argument is passed by
-expression and supports \link[rlang:topic-inject]{quasiquotation} (you can
+expression and supports \link[rlang:quasiquotation]{quasiquotation} (you can
 unquote column names). For \verb{_vec()} functions, the dots are not used.}
 
 \item{truth}{The column identifier for the true survival result (that
 is created using \code{\link[survival:Surv]{survival::Surv()}}.). This should be an unquoted column name
 although this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column names). For
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column names). For
 \verb{_vec()} functions, an \code{\link[survival:Surv]{survival::Surv()}} object.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
@@ -58,7 +58,7 @@ data frames with several columns:
 \item \code{.weight_censored}: The case weight for the inverse probability of censoring.
 }
 
-The last column can be produced using \code{\link[parsnip:censoring_weights]{parsnip::.censoring_weights_graf()}}.
+The last column can be produced using \code{\link[parsnip:.censoring_weights_graf]{parsnip::.censoring_weights_graf()}}.
 This corresponds to the weighting scheme of  Graf \emph{et al} (1999). The
 internal data set \code{lung_surv} shows an example of the format.
 

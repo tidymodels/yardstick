@@ -30,7 +30,7 @@ the columns should be the same as the factor levels of \code{truth}.}
 \item{truth}{The column identifier for the true class results
 (that is a \code{factor}). This should be an unquoted column name although
 this argument is passed by expression and supports
-\link[rlang:topic-inject]{quasiquotation} (you can unquote column
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names). For \verb{_vec()} functions, a \code{factor} vector.}
 
 \item{na_rm}{A \code{logical} value indicating whether \code{NA}
@@ -160,10 +160,10 @@ hpc_cv |>
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other curve metrics: 
-\code{\link{gain_curve}()},
-\code{\link{pr_curve}()},
-\code{\link{roc_curve}()}
+Other curve metrics:
+\code{\link[=gain_curve]{gain_curve()}},
+\code{\link[=pr_curve]{pr_curve()}},
+\code{\link[=roc_curve]{roc_curve()}}
 }
 \author{
 Max Kuhn

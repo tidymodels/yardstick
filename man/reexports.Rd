@@ -11,6 +11,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{generics}{\code{\link[generics]{tidy}}}
+  \item{generics}{\code{\link[generics:tidy]{tidy()}}}
 }}
 
