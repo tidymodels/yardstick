@@ -14,6 +14,14 @@
       Error in `mase_vec()`:
       ! `m` must be a whole number, not the string "yes".
 
+# m argument check - errors if m is less than 1
+
+    Code
+      mase_vec(1, 1, m = 0)
+    Condition
+      Error in `mase_vec()`:
+      ! `m` must be a whole number larger than or equal to 1, not the number 0.
+
 # mase() - errors if m is larger than number of observations
 
     Code

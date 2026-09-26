@@ -91,6 +91,13 @@ test_that("bad argument check", {
   )
 })
 
+test_that("m argument check - errors if m is less than 1", {
+  expect_snapshot(
+    error = TRUE,
+    mase_vec(1, 1, m = 0)
+  )
+})
+
 test_that("mase() - errors if m is larger than number of observations", {
   expect_snapshot(
     error = TRUE,

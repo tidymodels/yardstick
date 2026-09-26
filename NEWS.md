@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `mase()` now errors informatively if `m` is less than `1` rather than silently returning `Inf`/`NaN`. (#637)
+
 # yardstick 1.4.0
 
 ## Breaking Changes
