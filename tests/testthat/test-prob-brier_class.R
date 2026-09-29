@@ -114,9 +114,19 @@ test_that("doesn't produce NaN with high valued case weights (#614)", {
   wts <- rep(1, (nrow(df)))
   wts_high <- wts * 5000
 
-  expect_identical(
+  expect_equal(
     brier_class_vec(df$truth, df$Class1, case_weights = wts),
     brier_class_vec(df$truth, df$Class1, case_weights = wts_high)
+  )
+})
+
+test_that("case weights match uncounted data with widely spread weights (#633)", {
+  hpc_wts <- hpc_cv
+  hpc_wts$wts <- rep(1:10, length.out = nrow(hpc_wts))
+
+  expect_equal(
+    brier_class(hpc_wts, obs, VF:L, case_weights = wts)[[".estimate"]],
+    brier_class(tidyr::uncount(hpc_wts, wts), obs, VF:L)[[".estimate"]]
   )
 })
 

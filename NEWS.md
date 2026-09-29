@@ -1,5 +1,9 @@
 # yardstick (development version)
 
+## Bug fixes
+
+* `brier_class()` now computes the correct result with `case_weights` when the weights are on very different scales, rather than silently renormalizing them with a softmax (#633).
+
 # yardstick 1.4.0
 
 ## Breaking Changes

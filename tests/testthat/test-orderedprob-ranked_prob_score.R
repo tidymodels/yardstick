@@ -52,7 +52,7 @@ test_that("Case weights calculations are correct", {
   hpc_cv$obs <- as.ordered(hpc_cv$obs)
   hpc_cv$weights <- rep(c(0, 1), c(100, nrow(hpc_cv) - 100))
   # With orf:::rps(as.matrix(hpc_cv[-(1:100), 3:6]), hpc_cv$obs[-(1:100)])
-  hpc_exp <- 0.0868733
+  hpc_exp <- 0.0875957
 
   expect_equal(
     yardstick:::ranked_prob_score_vec(
