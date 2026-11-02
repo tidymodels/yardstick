@@ -28,6 +28,7 @@ reference:
   - accuracy
   - bal_accuracy
   - detection_prevalence
+  - detection_rate
   - f_meas
   - fall_out
   - j_index

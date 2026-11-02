@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `detection_rate()` computes the proportion of all observations that are true positives, with binary and multiclass averaging and case weight support (@algoria-contributions, #646).
+
 # yardstick 1.4.0
 
 ## Breaking Changes

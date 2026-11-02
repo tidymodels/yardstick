@@ -22,6 +22,7 @@ against the true classes.
 \item{\code{\link[=accuracy]{accuracy()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=bal_accuracy]{bal_accuracy()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=detection_prevalence]{detection_prevalence()}}}{Direction: maximize. Range: [0, 1]}
+\item{\code{\link[=detection_rate]{detection_rate()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=f_meas]{f_meas()}}}{Direction: maximize. Range: [0, 1]}
 \item{\code{\link[=fall_out]{fall_out()}}}{Direction: minimize. Range: [0, 1]}
 \item{\code{\link[=j_index]{j_index()}}}{Direction: maximize. Range: [-1, 1]}

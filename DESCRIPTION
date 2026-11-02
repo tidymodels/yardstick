@@ -58,6 +58,7 @@ Collate:
     'class-accuracy.R'
     'class-bal_accuracy.R'
     'class-detection_prevalence.R'
+    'class-detection_rate.R'
     'class-f_meas.R'
     'class-fall_out.R'
     'class-j_index.R'
