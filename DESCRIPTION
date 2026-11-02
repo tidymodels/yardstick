@@ -34,6 +34,7 @@ Imports:
 Suggests: 
     covr,
     ggplot2,
+    knitr,
     probably (>= 1.0.0),
     quarto,
     rmarkdown,
