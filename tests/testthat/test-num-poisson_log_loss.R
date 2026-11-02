@@ -7,13 +7,12 @@ test_that("Calculations are correct", {
   )
 })
 
-test_that("both interfaces gives the same results", {
-  ex_dat <- generate_numeric_test_data()
+test_that("Interfaces agree on finite count loss", {
+  ex_dat <- data_counts()$basic
 
-  expect_identical(
-    poisson_log_loss_vec(ex_dat$obs, ex_dat$pred),
-    poisson_log_loss(ex_dat, obs, pred)[[".estimate"]],
-  )
+  value <- poisson_log_loss_vec(ex_dat$count, ex_dat$pred)
+  expect_true(is.finite(value))
+  expect_identical(value, poisson_log_loss(ex_dat, count, pred)[[".estimate"]])
 })
 
 test_that("Calculations handles NAs", {
