@@ -1,4 +1,4 @@
-test_that("Detection rate counts true positives over all observations", {
+test_that("Binary detection rate is TP/N", {
   df <- data_altman()$pathology
 
   expect_equal(detection_rate_vec(df$pathology, df$scan), 231 / 344)
@@ -8,7 +8,7 @@ test_that("Detection rate counts true positives over all observations", {
   )
 })
 
-test_that("Multiclass averaging uses one-vs-all detection rates", {
+test_that("Multiclass averaging", {
   tbl <- data_three_by_three()
 
   expect_equal(detection_rate(tbl)[[".estimate"]], 12 / 60)
@@ -30,7 +30,7 @@ test_that("Multiclass averaging uses one-vs-all detection rates", {
   )
 })
 
-test_that("All interfaces return the same detection rate", {
+test_that("Interfaces agree", {
   lst <- data_altman()
   df <- lst$pathology
   tbl <- lst$path_tbl
@@ -50,7 +50,7 @@ test_that("All interfaces return the same detection rate", {
   )
 })
 
-test_that("Grouped data and metric sets preserve the metric contract", {
+test_that("Grouped data and metric sets", {
   df <- tibble::tibble(
     group = c(1, 1, 2, 2),
     truth = factor(c("a", "b", "a", "b")),
@@ -76,7 +76,7 @@ test_that("Grouped data and metric sets preserve the metric contract", {
   expect_equal(metric_range(detection_rate), c(0, 1))
 })
 
-test_that("Case weights apply to true positives and the total", {
+test_that("Case weights", {
   df <- tibble::tibble(
     truth = factor(c("a", "a", "b", "b")),
     estimate = factor(c("a", "b", "a", "b")),
@@ -106,7 +106,7 @@ test_that("Case weights apply to true positives and the total", {
   }
 })
 
-test_that("Multiclass case weights also determine class prevalence", {
+test_that("Multiclass case weights", {
   df <- tibble::tibble(
     truth = factor(c("a", "b", "b", "c", "c", "c")),
     estimate = factor(c("a", "a", "b", "b", "c", "c")),
@@ -139,7 +139,7 @@ test_that("Multiclass case weights also determine class prevalence", {
   )
 })
 
-test_that("Missing truth, estimate and weights are removed together", {
+test_that("Missing truth, estimate and weights", {
   df <- tibble::tibble(
     truth = factor(c("a", "a", NA, "b", "b", "a")),
     estimate = factor(c("a", NA, "a", "b", "a", "a")),
@@ -173,7 +173,7 @@ test_that("Missing truth, estimate and weights are removed together", {
   )
 })
 
-test_that("Unused levels contribute zero detection rate", {
+test_that("Unused levels contribute zero", {
   truth <- factor(c("a", "a"), levels = c("a", "b", "c"))
   estimate <- truth
 
@@ -192,7 +192,7 @@ test_that("Unused levels contribute zero detection rate", {
   expect_equal(detection_rate_vec(truth, truth, event_level = "second"), 1)
 })
 
-test_that("Empty input and zero total weight have undefined detection rate", {
+test_that("Empty input and zero weights return missing values", {
   for (levels in list(c("a", "b"), c("a", "b", "c"))) {
     empty <- factor(character(), levels = levels)
     truth <- factor("a", levels = levels)
@@ -203,7 +203,7 @@ test_that("Empty input and zero total weight have undefined detection rate", {
   }
 })
 
-test_that("Class predictions handle equivocal results like missing estimates", {
+test_that("Equivocal class predictions are missing", {
   skip_if_not_installed("probably")
 
   truth <- factor(c("a", "a", "b", "b"))
@@ -220,7 +220,7 @@ test_that("Class predictions handle equivocal results like missing estimates", {
   )
 })
 
-test_that("Invalid inputs are rejected by the usual class metric checks", {
+test_that("Invalid inputs are rejected", {
   truth <- factor(c("a", "b"))
   estimate <- truth
 

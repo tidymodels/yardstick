@@ -21,10 +21,6 @@
 #'
 #' \deqn{\text{Detection Rate} = \frac{A}{A + B + C + D}}
 #'
-#' Unlike [sens()], the denominator includes all observations, not just the
-#' true positive class. Unlike [detection_prevalence()], the numerator excludes
-#' false positives.
-#'
 #' Detection rate is a metric that should be
 #' `r attr(detection_rate, "direction")`d. The output ranges from
 #' `r metric_range_chr(detection_rate, 1)` to
@@ -32,11 +28,9 @@
 #' For binary data, its maximum is the prevalence of the positive class.
 #'
 #' @section Multiclass:
-#' Each class is treated as the positive class in a one-vs-all comparison.
-#' Macro and micro averaging both equal overall accuracy divided by the number
-#' of class levels. Macro-weighted averaging weights the per-class detection
-#' rates by the observed class frequencies. Case weights, when supplied, are
-#' used in both the detection rates and these class frequencies.
+#' Macro and micro averaging equal accuracy divided by the number of class
+#' levels. Macro-weighted averaging weights per-class detection rates by observed
+#' class frequencies. Case weights apply to both rates and frequencies.
 #'
 #' @template examples-class
 #'

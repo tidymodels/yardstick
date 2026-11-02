@@ -88,10 +88,6 @@ The formula used here is:
 
 \deqn{\text{Detection Rate} = \frac{A}{A + B + C + D}}
 
-Unlike \code{\link[=sens]{sens()}}, the denominator includes all observations, not just the
-true positive class. Unlike \code{\link[=detection_prevalence]{detection_prevalence()}}, the numerator excludes
-false positives.
-
 Detection rate is a metric that should be
 maximized. The output ranges from
 0 to
@@ -120,11 +116,9 @@ than 2 levels is provided. Otherwise, a standard binary calculation is done.
 See \code{vignette("multiclass", "yardstick")} for more information.
 
 
-Each class is treated as the positive class in a one-vs-all comparison.
-Macro and micro averaging both equal overall accuracy divided by the number
-of class levels. Macro-weighted averaging weights the per-class detection
-rates by the observed class frequencies. Case weights, when supplied, are
-used in both the detection rates and these class frequencies.
+Macro and micro averaging equal accuracy divided by the number of class
+levels. Macro-weighted averaging weights per-class detection rates by observed
+class frequencies. Case weights apply to both rates and frequencies.
 }
 
 \examples{

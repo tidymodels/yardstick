@@ -7,7 +7,7 @@ test_that("Calculations are correct", {
   )
 })
 
-test_that("both interfaces return the same finite loss for count data", {
+test_that("Interfaces agree on finite count loss", {
   ex_dat <- data_counts()$basic
 
   value <- poisson_log_loss_vec(ex_dat$count, ex_dat$pred)
