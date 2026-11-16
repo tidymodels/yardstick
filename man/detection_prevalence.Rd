@@ -158,6 +158,7 @@ detection_prevalence_vec(
 Other class metrics:
 \code{\link[=accuracy]{accuracy()}},
 \code{\link[=bal_accuracy]{bal_accuracy()}},
+\code{\link[=detection_rate]{detection_rate()}},
 \code{\link[=f_meas]{f_meas()}},
 \code{\link[=fall_out]{fall_out()}},
 \code{\link[=j_index]{j_index()}},
