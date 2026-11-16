@@ -121,6 +121,8 @@ test_that("doesn't produce NaN with high valued case weights (#614)", {
 })
 
 test_that("case weights match uncounted data with widely spread weights (#633)", {
+  skip_if_not_installed("tidyr")
+
   hpc_wts <- hpc_cv
   hpc_wts$wts <- rep(1:10, length.out = nrow(hpc_wts))
 
