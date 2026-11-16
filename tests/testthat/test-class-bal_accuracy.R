@@ -160,6 +160,19 @@ test_that("`event_level = 'second'` should be identical to 'first'", {
   )
 })
 
+test_that("Multiclass ignores undefined levels when averaging", {
+  levels <- c("a", "b", "c")
+  truth <- factor(c("a", "a", "b", "b"), levels = levels)
+  estimate <- factor(c("a", "b", "a", "b"), levels = levels)
+
+  for (estimator in c("macro", "macro_weighted")) {
+    out <- suppressWarnings(
+      bal_accuracy_vec(truth, estimate, estimator = estimator)
+    )
+    expect_equal(out, 0.5)
+  }
+})
+
 test_that("range values are correct", {
   direction <- metric_direction(bal_accuracy)
   range <- metric_range(bal_accuracy)
