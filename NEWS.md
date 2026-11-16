@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* `bal_accuracy()`, `npv()`, and `ppv()` no longer return `NA` for macro and macro-weighted averaging when a class-level estimate is undefined, such as with an unused factor level. Undefined levels are now removed from the average, matching `j_index()`. (#636)
+
 # yardstick 1.4.0
 
 ## Breaking Changes

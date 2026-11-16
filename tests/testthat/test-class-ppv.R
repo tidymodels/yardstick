@@ -220,6 +220,19 @@ test_that("bad argument check", {
   )
 })
 
+test_that("Multiclass ignores undefined levels when averaging", {
+  levels <- c("a", "b", "c")
+  truth <- factor(c("a", "a", "b", "b"), levels = levels)
+  estimate <- factor(c("a", "b", "a", "b"), levels = levels)
+
+  for (estimator in c("macro", "macro_weighted")) {
+    out <- suppressWarnings(
+      ppv_vec(truth, estimate, estimator = estimator)
+    )
+    expect_equal(out, 0.5)
+  }
+})
+
 test_that("range values are correct", {
   direction <- metric_direction(ppv)
   range <- metric_range(ppv)
