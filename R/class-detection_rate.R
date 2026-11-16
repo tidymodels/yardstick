@@ -30,7 +30,9 @@
 #' @section Multiclass:
 #' Macro and micro averaging equal accuracy divided by the number of class
 #' levels. Macro-weighted averaging weights per-class detection rates by observed
-#' class frequencies. Case weights apply to both rates and frequencies.
+#' class frequencies. Because each per-class rate is divided by the total number
+#' of observations, the maximum of the macro and micro estimates is 1 divided by
+#' the number of class levels. Case weights apply to both rates and frequencies.
 #'
 #' @template examples-class
 #'
@@ -142,7 +144,13 @@ detection_rate_table_impl <- function(data, estimator, event_level) {
 
 detection_rate_binary <- function(data, event_level) {
   pos_level <- pos_val(data, event_level)
-  data[pos_level, pos_level] / sum(data)
+  total <- sum(data)
+
+  if (total <= 0) {
+    return(NA_real_)
+  }
+
+  data[pos_level, pos_level] / total
 }
 
 detection_rate_multiclass <- function(data, estimator) {

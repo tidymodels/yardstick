@@ -1,6 +1,6 @@
 # yardstick (development version)
 
-* New `detection_rate()` computes true positives / total observations (@algoria-contributions, #646).
+* New `detection_rate()` computes true positives / total observations. For multiclass data, macro and micro averages equal accuracy divided by the number of classes (@algoria-contributions, #646).
 
 # yardstick 1.4.0
 
