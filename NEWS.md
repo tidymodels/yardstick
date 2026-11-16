@@ -4,6 +4,8 @@
 
 * `brier_class()` now computes the correct result with `case_weights` when the weights are on very different scales, rather than silently renormalizing them with a softmax (#633).
 
+* `mase()` now errors informatively if `m` is less than `1` rather than silently returning `Inf`/`NaN`. (#637)
+
 * `bal_accuracy()`, `npv()`, and `ppv()` no longer return `NA` for macro and macro-weighted averaging when a class-level estimate is undefined, such as with an unused factor level. Undefined levels are now removed from the average, matching `j_index()`. (#636)
 
 * New `detection_rate()` computes true positives / total observations. For multiclass data, macro and micro averages equal accuracy divided by the number of classes (@algoria-contributions, #646).
