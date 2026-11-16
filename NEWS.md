@@ -2,6 +2,8 @@
 
 * `bal_accuracy()`, `npv()`, and `ppv()` no longer return `NA` for macro and macro-weighted averaging when a class-level estimate is undefined, such as with an unused factor level. Undefined levels are now removed from the average, matching `j_index()`. (#636)
 
+* New `detection_rate()` computes true positives / total observations. For multiclass data, macro and micro averages equal accuracy divided by the number of classes (@algoria-contributions, #646).
+
 # yardstick 1.4.0
 
 ## Breaking Changes

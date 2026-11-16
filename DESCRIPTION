@@ -34,6 +34,7 @@ Imports:
 Suggests: 
     covr,
     ggplot2,
+    knitr,
     probably (>= 1.0.0),
     quarto,
     rmarkdown,
@@ -58,6 +59,7 @@ Collate:
     'class-accuracy.R'
     'class-bal_accuracy.R'
     'class-detection_prevalence.R'
+    'class-detection_rate.R'
     'class-f_meas.R'
     'class-fall_out.R'
     'class-j_index.R'
