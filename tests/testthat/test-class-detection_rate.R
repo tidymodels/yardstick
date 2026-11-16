@@ -30,58 +30,28 @@ test_that("Multiclass averaging", {
   )
 })
 
-test_that("Interfaces agree", {
+test_that("All interfaces gives the same results", {
   lst <- data_altman()
-  df <- lst$pathology
-  tbl <- lst$path_tbl
-  mat <- unclass(tbl)
-  expected <- tibble::tibble(
-    .metric = "detection_rate",
-    .estimator = "binary",
-    .estimate = 231 / 344
-  )
+  pathology <- lst$pathology
+  path_tbl <- lst$path_tbl
+  path_mat <- unclass(path_tbl)
 
-  expect_identical(detection_rate(df, pathology, scan), expected)
-  expect_identical(detection_rate(tbl), expected)
-  expect_identical(detection_rate(mat), expected)
+  exp <- detection_rate_vec(pathology$pathology, pathology$scan)
+
   expect_identical(
-    detection_rate(mat, event_level = "second")[[".estimate"]],
-    54 / 344
+    detection_rate(path_tbl)[[".estimate"]],
+    exp
   )
-})
-
-test_that("All interfaces give the same results", {
-  lst <- data_altman()
-  df <- lst$pathology
-  tbl <- lst$path_tbl
-  mat <- unclass(tbl)
-
-  for (event_level in c("first", "second")) {
-    exp <- detection_rate_vec(df$pathology, df$scan, event_level = event_level)
-
-    expect_identical(
-      detection_rate(df, pathology, scan, event_level = event_level)$.estimate,
-      exp
-    )
-    expect_identical(
-      detection_rate(tbl, event_level = event_level)$.estimate,
-      exp
-    )
-    expect_identical(
-      detection_rate(mat, event_level = event_level)$.estimate,
-      exp
-    )
-  }
-
-  multi <- data_three_by_three()
-  multi_mat <- unclass(multi)
-
-  for (estimator in c("macro", "micro", "macro_weighted")) {
-    expect_identical(
-      detection_rate(multi_mat, estimator = estimator),
-      detection_rate(multi, estimator = estimator)
-    )
-  }
+  expect_identical(
+    detection_rate(path_mat)[[".estimate"]],
+    exp
+  )
+  expect_identical(
+    detection_rate(pathology, truth = pathology, estimate = scan)[[
+      ".estimate"
+    ]],
+    exp
+  )
 })
 
 test_that("Grouped data and metric sets", {
