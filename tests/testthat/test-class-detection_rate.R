@@ -215,7 +215,8 @@ test_that("Equivocal class predictions are missing", {
     detection_rate_vec(truth, class_estimate, na_rm = FALSE),
     NA_real_
   )
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
     detection_rate_vec(probably::as_class_pred(truth, which = 1), estimate)
   )
 })
@@ -224,13 +225,29 @@ test_that("Invalid inputs are rejected", {
   truth <- factor(c("a", "b"))
   estimate <- truth
 
-  expect_error(detection_rate_vec(truth, estimate, na_rm = "yes"))
-  expect_error(detection_rate_vec(as.character(truth), estimate))
-  expect_error(
+  expect_snapshot(
+    error = TRUE,
+    detection_rate_vec(truth, estimate, na_rm = "yes")
+  )
+  expect_snapshot(
+    error = TRUE,
+    detection_rate_vec(as.character(truth), estimate)
+  )
+  expect_snapshot(
+    error = TRUE,
     detection_rate_vec(truth, factor(c("a", "c"), levels = c("a", "c")))
   )
-  expect_error(detection_rate_vec(truth, estimate, case_weights = 1))
-  expect_error(detection_rate_vec(truth, estimate, estimator = "unknown"))
-  expect_error(detection_rate_vec(truth, estimate, event_level = "unknown"))
-  expect_error(detection_rate(matrix(1, nrow = 2, ncol = 3)))
+  expect_snapshot(
+    error = TRUE,
+    detection_rate_vec(truth, estimate, case_weights = 1)
+  )
+  expect_snapshot(
+    error = TRUE,
+    detection_rate_vec(truth, estimate, estimator = "unknown")
+  )
+  expect_snapshot(
+    error = TRUE,
+    detection_rate_vec(truth, estimate, event_level = "unknown")
+  )
+  expect_snapshot(error = TRUE, detection_rate(matrix(1, nrow = 2, ncol = 3)))
 })
