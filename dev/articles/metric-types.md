@@ -181,6 +181,7 @@ by type.
 | class                     | \`accuracy()\`                  |
 | class                     | \`bal_accuracy()\`              |
 | class                     | \`detection_prevalence()\`      |
+| class                     | \`detection_rate()\`            |
 | class                     | \`f_meas()\`                    |
 | class                     | \`fall_out()\`                  |
 | class                     | \`j_index()\`                   |

@@ -2,6 +2,12 @@
 
 ## yardstick (development version)
 
+- New
+  [`detection_rate()`](https://yardstick.tidymodels.org/dev/reference/detection_rate.md)
+  computes true positives / total observations
+  ([@algoria-contributions](https://github.com/algoria-contributions),
+  [\#646](https://github.com/tidymodels/yardstick/issues/646)).
+
 ## yardstick 1.4.0
 
 CRAN release: 2026-04-07

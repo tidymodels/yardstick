@@ -24,6 +24,10 @@ classes directly against the true classes.
 
   Direction: maximize. Range: \[0, 1\]
 
+- [`detection_rate()`](https://yardstick.tidymodels.org/dev/reference/detection_rate.md):
+
+  Direction: maximize. Range: \[0, 1\]
+
 - [`f_meas()`](https://yardstick.tidymodels.org/dev/reference/f_meas.md):
 
   Direction: maximize. Range: \[0, 1\]

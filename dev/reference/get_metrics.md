@@ -67,6 +67,7 @@ get_metrics("class")
 #> - `accuracy()`, a class metric             | direction: maximize
 #> - `bal_accuracy()`, a class metric         | direction: maximize
 #> - `detection_prevalence()`, a class metric | direction: maximize
+#> - `detection_rate()`, a class metric       | direction: maximize
 #> - `f_meas()`, a class metric               | direction: maximize
 #> - `fall_out()`, a class metric             | direction: minimize
 #> - `j_index()`, a class metric              | direction: maximize
@@ -94,6 +95,7 @@ get_metrics(c("class", "prob"))
 #> - `brier_class()`, a probability metric         | direction: minimize
 #> - `classification_cost()`, a probability metric | direction: minimize
 #> - `detection_prevalence()`, a class metric      | direction: maximize
+#> - `detection_rate()`, a class metric            | direction: maximize
 #> - `f_meas()`, a class metric                    | direction: maximize
 #> - `fall_out()`, a class metric                  | direction: minimize
 #> - `gain_capture()`, a probability metric        | direction: maximize
