@@ -1,4 +1,4 @@
-# Equivocal class predictions are missing
+# work with class_pred input
 
     Code
       detection_rate_vec(probably::as_class_pred(truth, which = 1), estimate)
@@ -6,7 +6,7 @@
       Error in `detection_rate_vec()`:
       ! `truth` should not a <class_pred> object.
 
-# Invalid inputs are rejected
+# bad argument check
 
     Code
       detection_rate_vec(truth, estimate, na_rm = "yes")

@@ -1,4 +1,4 @@
-test_that("Binary detection rate is TP/N", {
+test_that("Calculations are correct - two class", {
   df <- data_altman()$pathology
 
   expect_identical(detection_rate_vec(df$pathology, df$scan), 231 / 344)
@@ -8,7 +8,7 @@ test_that("Binary detection rate is TP/N", {
   )
 })
 
-test_that("Multiclass averaging", {
+test_that("Calculations are correct - three class", {
   tbl <- data_three_by_three()
 
   expect_identical(detection_rate(tbl)[[".estimate"]], 12 / 60)
@@ -80,7 +80,7 @@ test_that("Grouped data and metric sets", {
   expect_identical(metric_range(detection_rate), c(0, 1))
 })
 
-test_that("Case weights", {
+test_that("Case weights calculations are correct", {
   df <- tibble::tibble(
     truth = factor(c("a", "a", "b", "b")),
     estimate = factor(c("a", "b", "a", "b")),
@@ -110,7 +110,7 @@ test_that("Case weights", {
   }
 })
 
-test_that("Multiclass case weights", {
+test_that("Case weights calculations are correct - three class", {
   df <- tibble::tibble(
     truth = factor(c("a", "b", "b", "c", "c", "c")),
     estimate = factor(c("a", "a", "b", "b", "c", "c")),
@@ -143,7 +143,7 @@ test_that("Multiclass case weights", {
   )
 })
 
-test_that("Missing truth, estimate and weights", {
+test_that("Calculations handles NAs", {
   df <- tibble::tibble(
     truth = factor(c("a", "a", NA, "b", "b", "a")),
     estimate = factor(c("a", NA, "a", "b", "a", "a")),
@@ -207,7 +207,7 @@ test_that("Empty input and zero weights return missing values", {
   }
 })
 
-test_that("Equivocal class predictions are missing", {
+test_that("work with class_pred input", {
   skip_if_not_installed("probably")
 
   truth <- factor(c("a", "a", "b", "b"))
@@ -225,7 +225,7 @@ test_that("Equivocal class predictions are missing", {
   )
 })
 
-test_that("Invalid inputs are rejected", {
+test_that("bad argument check", {
   truth <- factor(c("a", "b"))
   estimate <- truth
 
