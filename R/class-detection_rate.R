@@ -30,7 +30,9 @@
 #' @section Multiclass:
 #' Macro and micro averaging equal accuracy divided by the number of class
 #' levels. Macro-weighted averaging weights per-class detection rates by observed
-#' class frequencies. Case weights apply to both rates and frequencies.
+#' class frequencies. Because each per-class rate is divided by the total number
+#' of observations, the maximum of the macro and micro estimates is 1 divided by
+#' the number of class levels. Case weights apply to both rates and frequencies.
 #'
 #' @template examples-class
 #'
