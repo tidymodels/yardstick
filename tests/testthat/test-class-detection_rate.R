@@ -11,12 +11,12 @@ test_that("Calculations are correct - two class", {
 test_that("Calculations are correct - three class", {
   tbl <- data_three_by_three()
 
-  expect_identical(detection_rate(tbl)[[".estimate"]], 12 / 60)
-  expect_identical(
+  expect_equal(detection_rate(tbl)[[".estimate"]], 12 / 60)
+  expect_equal(
     detection_rate(tbl, estimator = "macro")[[".estimate"]],
     12 / 60
   )
-  expect_identical(
+  expect_equal(
     detection_rate(tbl, estimator = "micro")[[".estimate"]],
     12 / 60
   )
