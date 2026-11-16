@@ -142,7 +142,13 @@ detection_rate_table_impl <- function(data, estimator, event_level) {
 
 detection_rate_binary <- function(data, event_level) {
   pos_level <- pos_val(data, event_level)
-  data[pos_level, pos_level] / sum(data)
+  total <- sum(data)
+
+  if (total <= 0) {
+    return(NA_real_)
+  }
+
+  data[pos_level, pos_level] / total
 }
 
 detection_rate_multiclass <- function(data, estimator) {

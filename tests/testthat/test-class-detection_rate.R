@@ -197,7 +197,7 @@ test_that("Empty input and zero weights return missing values", {
     empty <- factor(character(), levels = levels)
     truth <- factor("a", levels = levels)
 
-    expect_true(is.na(detection_rate_vec(empty, empty)))
+    expect_identical(detection_rate_vec(empty, empty), NA_real_)
     expect_true(is.na(detection_rate_vec(truth, truth, case_weights = 0)))
     expect_true(is.na(detection_rate_vec(truth, truth[NA_integer_])))
   }
