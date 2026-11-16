@@ -2,6 +2,15 @@
 
 ## yardstick (development version)
 
+- [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md),
+  [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md), and
+  [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md) no
+  longer return `NA` for macro and macro-weighted averaging when a
+  class-level estimate is undefined, such as with an unused factor
+  level. Undefined levels are now removed from the average, matching
+  [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md).
+  ([\#636](https://github.com/tidymodels/yardstick/issues/636))
+
 - New
   [`detection_rate()`](https://yardstick.tidymodels.org/dev/reference/detection_rate.md)
   computes true positives / total observations. For multiclass data,
