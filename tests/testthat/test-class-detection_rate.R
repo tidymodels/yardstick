@@ -50,6 +50,40 @@ test_that("Interfaces agree", {
   )
 })
 
+test_that("All interfaces give the same results", {
+  lst <- data_altman()
+  df <- lst$pathology
+  tbl <- lst$path_tbl
+  mat <- unclass(tbl)
+
+  for (event_level in c("first", "second")) {
+    exp <- detection_rate_vec(df$pathology, df$scan, event_level = event_level)
+
+    expect_identical(
+      detection_rate(df, pathology, scan, event_level = event_level)$.estimate,
+      exp
+    )
+    expect_identical(
+      detection_rate(tbl, event_level = event_level)$.estimate,
+      exp
+    )
+    expect_identical(
+      detection_rate(mat, event_level = event_level)$.estimate,
+      exp
+    )
+  }
+
+  multi <- data_three_by_three()
+  multi_mat <- unclass(multi)
+
+  for (estimator in c("macro", "micro", "macro_weighted")) {
+    expect_identical(
+      detection_rate(multi_mat, estimator = estimator),
+      detection_rate(multi, estimator = estimator)
+    )
+  }
+})
+
 test_that("Grouped data and metric sets", {
   df <- tibble::tibble(
     group = c(1, 1, 2, 2),
