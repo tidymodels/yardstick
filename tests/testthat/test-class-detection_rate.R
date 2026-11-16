@@ -285,3 +285,25 @@ test_that("Invalid inputs are rejected", {
   )
   expect_snapshot(error = TRUE, detection_rate(matrix(1, nrow = 2, ncol = 3)))
 })
+
+test_that("range values are correct", {
+  range <- metric_range(detection_rate)
+
+  df <- tibble::tibble(
+    truth = factor(c("A", "A", "B", "B", "B")),
+    off = factor(c("B", "B", "A", "A", "A"))
+  )
+
+  for (estimator in c("macro", "micro", "macro_weighted")) {
+    perfect <- detection_rate_vec(df$truth, df$truth, estimator = estimator)
+    worst <- detection_rate_vec(df$truth, df$off, estimator = estimator)
+
+    expect_gte(perfect, range[1])
+    expect_lte(perfect, range[2])
+    expect_gte(worst, range[1])
+    expect_lte(worst, range[2])
+  }
+
+  expect_equal(detection_rate_vec(df$truth, df$truth), 2 / 5)
+  expect_equal(detection_rate_vec(df$truth, df$off), 0)
+})
