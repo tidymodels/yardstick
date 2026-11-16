@@ -2,6 +2,11 @@
 
 ## yardstick (development version)
 
+- [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md) now
+  errors informatively if `m` is less than `1` rather than silently
+  returning `Inf`/`NaN`.
+  ([\#637](https://github.com/tidymodels/yardstick/issues/637))
+
 - [`bal_accuracy()`](https://yardstick.tidymodels.org/dev/reference/bal_accuracy.md),
   [`npv()`](https://yardstick.tidymodels.org/dev/reference/npv.md), and
   [`ppv()`](https://yardstick.tidymodels.org/dev/reference/ppv.md) no
