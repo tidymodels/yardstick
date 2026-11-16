@@ -1,5 +1,7 @@
 # yardstick (development version)
 
+* New `detection_rate()` computes true positives / total observations (@algoria-contributions, #646).
+
 # yardstick 1.4.0
 
 ## Breaking Changes

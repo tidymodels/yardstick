@@ -161,6 +161,7 @@ bal_accuracy_vec(
 Other class metrics:
 \code{\link[=accuracy]{accuracy()}},
 \code{\link[=detection_prevalence]{detection_prevalence()}},
+\code{\link[=detection_rate]{detection_rate()}},
 \code{\link[=f_meas]{f_meas()}},
 \code{\link[=fall_out]{fall_out()}},
 \code{\link[=j_index]{j_index()}},
