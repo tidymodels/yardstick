@@ -169,7 +169,7 @@ npv_table_impl <- function(data, estimator, event_level, prevalence = NULL) {
   } else {
     w <- get_weights(data, estimator)
     out_vec <- npv_multiclass(data, estimator, prevalence)
-    stats::weighted.mean(out_vec, w)
+    stats::weighted.mean(out_vec, w, na.rm = TRUE)
   }
 }
 
