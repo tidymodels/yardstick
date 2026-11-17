@@ -2,6 +2,14 @@
 
 ## yardstick (development version)
 
+### Bug fixes
+
+- [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
+  now computes the correct result with `case_weights` when the weights
+  are on very different scales, rather than silently renormalizing them
+  with a softmax
+  ([\#633](https://github.com/tidymodels/yardstick/issues/633)).
+
 - [`mase()`](https://yardstick.tidymodels.org/dev/reference/mase.md) now
   errors informatively if `m` is less than `1` rather than silently
   returning `Inf`/`NaN`.
