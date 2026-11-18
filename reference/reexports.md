@@ -5,4 +5,4 @@ to see their documentation.
 
 - generics:
 
-  [`tidy`](https://generics.r-lib.org/reference/tidy.html)
+  [`tidy()`](https://generics.r-lib.org/reference/tidy.html)

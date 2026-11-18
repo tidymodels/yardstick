@@ -1,5 +1,39 @@
 # Changelog
 
+## yardstick 1.5.0
+
+### New Metrics
+
+- New
+  [`detection_rate()`](https://yardstick.tidymodels.org/reference/detection_rate.md)
+  computes true positives / total observations. For multiclass data,
+  macro and micro averages equal accuracy divided by the number of
+  classes
+  ([@algoria-contributions](https://github.com/algoria-contributions),
+  [\#646](https://github.com/tidymodels/yardstick/issues/646)).
+
+### Bug fixes
+
+- [`brier_class()`](https://yardstick.tidymodels.org/reference/brier_class.md)
+  now computes the correct result with `case_weights` when the weights
+  are on very different scales, rather than silently renormalizing them
+  with a softmax
+  ([\#633](https://github.com/tidymodels/yardstick/issues/633)).
+
+- [`mase()`](https://yardstick.tidymodels.org/reference/mase.md) now
+  errors informatively if `m` is less than `1` rather than silently
+  returning `Inf`/`NaN`.
+  ([\#637](https://github.com/tidymodels/yardstick/issues/637))
+
+- [`bal_accuracy()`](https://yardstick.tidymodels.org/reference/bal_accuracy.md),
+  [`npv()`](https://yardstick.tidymodels.org/reference/npv.md), and
+  [`ppv()`](https://yardstick.tidymodels.org/reference/ppv.md) no longer
+  return `NA` for macro and macro-weighted averaging when a class-level
+  estimate is undefined, such as with an unused factor level. Undefined
+  levels are now removed from the average, matching
+  [`j_index()`](https://yardstick.tidymodels.org/reference/j_index.md).
+  ([\#636](https://github.com/tidymodels/yardstick/issues/636))
+
 ## yardstick 1.4.0
 
 CRAN release: 2026-04-07

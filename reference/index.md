@@ -11,6 +11,9 @@
 - [`detection_prevalence()`](https://yardstick.tidymodels.org/reference/detection_prevalence.md)
   [`detection_prevalence_vec()`](https://yardstick.tidymodels.org/reference/detection_prevalence.md)
   : Detection prevalence
+- [`detection_rate()`](https://yardstick.tidymodels.org/reference/detection_rate.md)
+  [`detection_rate_vec()`](https://yardstick.tidymodels.org/reference/detection_rate.md)
+  : Detection rate
 - [`f_meas()`](https://yardstick.tidymodels.org/reference/f_meas.md)
   [`f_meas_vec()`](https://yardstick.tidymodels.org/reference/f_meas.md)
   : F Measure

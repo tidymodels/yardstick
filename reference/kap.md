@@ -146,6 +146,7 @@ Other class metrics:
 [`accuracy()`](https://yardstick.tidymodels.org/reference/accuracy.md),
 [`bal_accuracy()`](https://yardstick.tidymodels.org/reference/bal_accuracy.md),
 [`detection_prevalence()`](https://yardstick.tidymodels.org/reference/detection_prevalence.md),
+[`detection_rate()`](https://yardstick.tidymodels.org/reference/detection_rate.md),
 [`f_meas()`](https://yardstick.tidymodels.org/reference/f_meas.md),
 [`fall_out()`](https://yardstick.tidymodels.org/reference/fall_out.md),
 [`j_index()`](https://yardstick.tidymodels.org/reference/j_index.md),
