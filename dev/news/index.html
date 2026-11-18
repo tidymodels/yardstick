@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">yardstick</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.4.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.5.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,12 +43,18 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="yardstick-development-version">yardstick (development version)<a class="anchor" aria-label="anchor" href="#yardstick-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.5.0" id="yardstick-150">yardstick 1.5.0<a class="anchor" aria-label="anchor" href="#yardstick-150"></a></h2>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="new-metrics-1-5-0">New Metrics<a class="anchor" aria-label="anchor" href="#new-metrics-1-5-0"></a></h3>
+<ul><li>New <code><a href="../reference/detection_rate.html">detection_rate()</a></code> computes true positives / total observations. For multiclass data, macro and micro averages equal accuracy divided by the number of classes (<a href="https://github.com/algoria-contributions" class="external-link">@algoria-contributions</a>, <a href="https://github.com/tidymodels/yardstick/issues/646" class="external-link">#646</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-5-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-5-0"></a></h3>
 <ul><li><p><code><a href="../reference/brier_class.html">brier_class()</a></code> now computes the correct result with <code>case_weights</code> when the weights are on very different scales, rather than silently renormalizing them with a softmax (<a href="https://github.com/tidymodels/yardstick/issues/633" class="external-link">#633</a>).</p></li>
 <li><p><code><a href="../reference/mase.html">mase()</a></code> now errors informatively if <code>m</code> is less than <code>1</code> rather than silently returning <code>Inf</code>/<code>NaN</code>. (<a href="https://github.com/tidymodels/yardstick/issues/637" class="external-link">#637</a>)</p></li>
 <li><p><code><a href="../reference/bal_accuracy.html">bal_accuracy()</a></code>, <code><a href="../reference/npv.html">npv()</a></code>, and <code><a href="../reference/ppv.html">ppv()</a></code> no longer return <code>NA</code> for macro and macro-weighted averaging when a class-level estimate is undefined, such as with an unused factor level. Undefined levels are now removed from the average, matching <code><a href="../reference/j_index.html">j_index()</a></code>. (<a href="https://github.com/tidymodels/yardstick/issues/636" class="external-link">#636</a>)</p></li>
-<li><p>New <code><a href="../reference/detection_rate.html">detection_rate()</a></code> computes true positives / total observations. For multiclass data, macro and micro averages equal accuracy divided by the number of classes (<a href="https://github.com/algoria-contributions" class="external-link">@algoria-contributions</a>, <a href="https://github.com/tidymodels/yardstick/issues/646" class="external-link">#646</a>).</p></li>
 </ul></div>
 </div>
     <div class="section level2">

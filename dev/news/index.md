@@ -2,6 +2,18 @@
 
 ## yardstick (development version)
 
+## yardstick 1.5.0
+
+### New Metrics
+
+- New
+  [`detection_rate()`](https://yardstick.tidymodels.org/dev/reference/detection_rate.md)
+  computes true positives / total observations. For multiclass data,
+  macro and micro averages equal accuracy divided by the number of
+  classes
+  ([@algoria-contributions](https://github.com/algoria-contributions),
+  [\#646](https://github.com/tidymodels/yardstick/issues/646)).
+
 ### Bug fixes
 
 - [`brier_class()`](https://yardstick.tidymodels.org/dev/reference/brier_class.md)
@@ -23,14 +35,6 @@
   level. Undefined levels are now removed from the average, matching
   [`j_index()`](https://yardstick.tidymodels.org/dev/reference/j_index.md).
   ([\#636](https://github.com/tidymodels/yardstick/issues/636))
-
-- New
-  [`detection_rate()`](https://yardstick.tidymodels.org/dev/reference/detection_rate.md)
-  computes true positives / total observations. For multiclass data,
-  macro and micro averages equal accuracy divided by the number of
-  classes
-  ([@algoria-contributions](https://github.com/algoria-contributions),
-  [\#646](https://github.com/tidymodels/yardstick/issues/646)).
 
 ## yardstick 1.4.0
 
